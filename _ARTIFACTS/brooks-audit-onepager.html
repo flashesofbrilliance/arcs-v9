@@ -7,7 +7,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Outside Audit: AI Build</title>
+<title>Second Opinion: AI Tools</title>
 <script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('brooksTheme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t);}catch(e){}})();</script>
 <style>
 /* ARCS Recoil Report — Design Tokens */
@@ -195,29 +195,17 @@ footer p{color:var(--secondary);text-align:center;}
 .seg-wrap .panel p:not(.case){color:var(--text-secondary);}
 .seg-wrap b{font-weight:600;}
 .seg label{font-size:var(--fs-body);}
-#c1:checked ~ .panels .p1,#c2:checked ~ .panels .p2,#c3:checked ~ .panels .p3{display:block;}
+#c1:checked ~ .panels .p1,#c2:checked ~ .panels .p2{display:block;}
 .seg-wrap .seg{position:relative;}
 .vh{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;}
-#c1:checked ~ .seg label[for=c1],#c2:checked ~ .seg label[for=c2],#c3:checked ~ .seg label[for=c3]{background:var(--cyan-bg);color:var(--text);box-shadow:inset 0 -2px 0 var(--cyan);}
-#c1:focus-visible ~ .seg label[for=c1],#c2:focus-visible ~ .seg label[for=c2],#c3:focus-visible ~ .seg label[for=c3]{outline:2px solid var(--cyan);outline-offset:-2px;}
+#c1:checked ~ .seg label[for=c1],#c2:checked ~ .seg label[for=c2]{background:var(--cyan-bg);color:var(--text);box-shadow:inset 0 -2px 0 var(--cyan);}
+#c1:focus-visible ~ .seg label[for=c1],#c2:focus-visible ~ .seg label[for=c2]{outline:2px solid var(--cyan);outline-offset:-2px;}
 @media (max-width:640px){
   .seg label{font-size:0.85rem;padding:10px 4px;white-space:nowrap;}
 }
-/* candidate: sans-value receipt table (08-receipt-table organism, adapted: sans values for reading, Three-Voice Rule) */
-.receipt-table{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);overflow:hidden;border-collapse:collapse;}
-.receipt-table tr{border-bottom:1px solid rgba(30,41,59,0.6);}
-.receipt-table tr:last-child{border-bottom:none;}
-.receipt-table td{padding:14px 18px;vertical-align:top;}
-.td-key{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--secondary);width:28%;border-right:1px solid var(--border);line-height:1.5;}
-.td-val{font-family:var(--sans);font-size:var(--fs-body);color:var(--text);line-height:1.6;text-wrap:pretty;}
-.td-val ul{margin:0 0 0 1.1rem;display:flex;flex-direction:column;gap:6px;}
-.proofrow{display:flex;align-items:center;gap:12px;margin-top:10px;flex-wrap:wrap;}
-.prooflink{display:inline-block;padding:10px 0;color:var(--cyan);font-family:var(--mono);font-size:var(--fs-body);text-underline-offset:2px;}
-@media (max-width:640px){
-  .receipt-table tr{display:block;padding:14px 16px;}
-  .receipt-table td{display:block;padding:0;border-right:none;width:auto;}
-  .td-key{margin-bottom:6px;}
-}
+/* candidate: question-and-answer card */
+.qa{display:flex;flex-direction:column;gap:var(--sp-2);}
+.qa h3{font-family:var(--sans);font-size:var(--fs-title);font-weight:600;line-height:1.35;color:var(--text);margin-bottom:6px;}
 /* candidate: depth checklist */
 details.depth{border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
 details.depth summary{cursor:pointer;list-style:none;padding:var(--sp-2) 0;font-family:var(--sans);font-size:var(--fs-title);font-weight:600;color:var(--secondary);display:flex;justify-content:space-between;gap:12px;}
@@ -243,90 +231,127 @@ ol.crit b{font-weight:600;}
 .themebtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
 @media print{:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;} .themebtn{display:none!important;} body{background:#fff!important;}}
 /* @prim:end 39-theme-toggle */
+/* candidate: icon theme button over kit 39 */
+.themebtn{justify-content:center;width:44px;height:44px;color:var(--secondary);border:1px solid var(--border);border-radius:999px;}
+.themebtn[hidden]{display:none;}
+.themebtn[data-next="light"] .i-moon,.themebtn[data-next="dark"] .i-sun{display:none;}
+.themebtn:hover,.themebtn:focus-visible{color:var(--cyan);border-color:var(--cyan);text-decoration:none;}
+/* Print: US Letter, two pages (one sheet, both sides). Light tokens, every case panel shown, the checklist opened. */
+@page{size:Letter;margin:0.5in 0.6in;}
+@media print{
+:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}
+html{font-size:9.5pt;}
+body{background:#fff!important;padding:0;line-height:1.45;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.themebtn,.seg,.vh,details.depth summary::after{display:none!important;}
+.page{max-width:none;gap:11pt;}
+section{gap:6pt;}
+h1{font-size:2.1rem;line-height:1.15;}
+.verdict{font-size:12.5pt;margin-top:6pt;}
+.aside{margin-top:4pt;}
+.slabel{font-size:12.5pt;}
+.tiles{margin-top:10pt;gap:8pt;}
+.tile{padding:8pt 10pt;}
+.tile .v{font-size:15pt;}
+.scorebar{margin-top:6pt;}
+.card{padding:10pt 12pt;box-shadow:none;}
+.seg-wrap .panels{display:grid;grid-template-columns:repeat(2,1fr);gap:12pt;padding-top:0;min-height:0;}
+.seg-wrap .panel{display:block!important;}
+.hrow > div{padding:5pt 0;}
+.receipt-table td{padding:5pt 10pt;}
+.td-key{width:20%;}
+.td-val{line-height:1.45;}
+.td-val ul{gap:2pt;}
+.proofrow{margin-top:3pt;}
+.receipt-table tr,.hrow > div,ol.crit li,.callout,.card,.tile{break-inside:avoid;}
+.lockup,.slabel,.hhead,details.depth summary{break-after:avoid;}
+.receipt-table section,.receipt-table{break-inside:auto;}
+.callout{padding:8pt 12pt;}
+.callout p{font-size:12pt;}
+.prooflink{padding:0;}
+details.depth::details-content{content-visibility:visible;display:block;}
+details.depth summary{padding:6pt 0 2pt;color:var(--text);}
+.depth-body{padding-bottom:4pt;gap:4pt;}
+ol.crit{display:grid;grid-template-columns:1fr 1fr;column-gap:16pt;}
+ol.crit li{padding:4pt 0;grid-template-columns:1.6rem 1fr;}
+ol.crit li + li{border-top:none;}
+ol.crit li{border-top:1px solid var(--border);}
+footer{margin-top:-4pt;break-before:avoid;}
+a{color:var(--cyan);}
+}
 </style>
 </head>
 <body>
 <main class="page">
 
 <header>
-  <button type="button" class="themebtn" id="themebtn" hidden>Light mode</button>
-  <h1>An outside audit of your AI build</h1>
-  <p class="verdict">Where your AI build is today, where it's least efficient, and which of its hypotheses aren't holding up, tested on one real product decision.</p>
-  <p class="aside">You said your team could run this audit yourselves, but checking your own work invites confirmation and recency bias. This is the outside check.</p>
+  <button type="button" class="themebtn" id="themebtn" aria-label="Switch to light mode" title="Switch to light mode" hidden><svg class="i-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="i-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
+  <h1>A second opinion on your AI tools</h1>
+  <p class="verdict">I check what your AI tools actually do against what you expect from them, try it on one real product decision, and give you a one-page answer.</p>
+  <p class="aside">You said your team can build these tools themselves. This is an outside check on them.</p>
   <div class="tiles">
     <div class="tile"><div class="v cyan">$5,000</div><div class="k">Fixed price</div></div>
     <div class="tile"><div class="v">2 weeks</div><div class="k">Start to finish</div></div>
-    <div class="tile"><div class="v">~3 hours</div><div class="k">Of your team's time</div></div>
+    <div class="tile"><div class="v">~3 hours</div><div class="k">Your team's time</div></div>
   </div>
-  <div class="scorebar"><span class="chip green">Stop anytime · keep everything</span></div>
+  <div class="scorebar"><span class="chip green">Stop after · keep it all</span></div>
 </header>
 
 <section>
-  <div class="lockup"><h2 class="slabel">The adobo flavor you mentioned</h2><p class="deck">The real decision to test it on. Which one is it? Tell me, and I'll send two start dates.</p></div>
+  <div class="lockup"><h2 class="slabel" data-voice="joint">What I heard on our call</h2></div>
+  <div class="hgrid">
+    <div class="hhead">You said</div><div class="hhead c">What I'd check</div>
+    <div class="hrow"><div class="hh">You don't want to get stuck with $20,000 of bags you had to order to meet a minimum order.</div><div class="hc">Run one upcoming drop through the check before you place the order.</div></div>
+    <div class="hrow"><div class="hh">Sales and search volume can miss a trend that's still growing, and waiting too long costs you time to market.</div><div class="hc">Whether your tools can tell a flavor that has peaked from one that's still growing.</div></div>
+    <div class="hrow"><div class="hh">A collab can go wrong after the deal is signed. You've built early warnings for that by hand before.</div><div class="hc">A warning before you sign, and a clause in the deal that triggers a review if a partner underdelivers.</div></div>
+    <div class="hrow"><div class="hh" data-voice="joint"><b>We agreed:</b> keeping a project going because of what's already been spent on it wastes the most time.</div><div class="hc">A stop rule for each project, agreed before it starts: the number that means it's time to stop. And for what's already running, what it's costing you.</div></div>
+    <div class="hrow"><div class="hh">When a forecast is wrong, it's either bad data or a wrong guess.</div><div class="hc">Which numbers are hard facts and which are estimates, so you know which one failed.</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="lockup"><h2 class="slabel">The real decision to test it on</h2><p class="deck">The adobo flavor you mentioned.</p></div>
   <div class="card seg-wrap">
-    <input type="radio" name="adobo" id="c1" checked class="vh"><input type="radio" name="adobo" id="c2" class="vh"><input type="radio" name="adobo" id="c3" class="vh">
-    <div class="seg" role="radiogroup" aria-label="Where adobo stands"><label for="c1">Not launched</label><label for="c2">Launched</label><label for="c3">Shelved</label></div>
+    <input type="radio" name="adobo" id="c1" checked class="vh"><input type="radio" name="adobo" id="c2" class="vh">
+    <div class="seg" role="radiogroup" aria-label="Where adobo stands"><label for="c1">Not launched yet</label><label for="c2">Launched</label></div>
     <div class="panels">
-      <div class="panel p1"><p class="case">If it hasn't launched</p><p>Your criteria scores adobo with me watching. I write down what it says, what it relies on, and the date <span data-voice="joint">we'll</span> know, before you place the order.</p></div>
-      <div class="panel p2"><p class="case">If it has launched</p><p>I put your criteria's call next to how it actually sold.</p></div>
-      <div class="panel p3"><p class="case">If it got shelved</p><p>I use the next drop on your calendar instead, and run the same check on it.</p></div>
+      <div class="panel p1"><p class="case">If it hasn't launched yet</p><p>I check whether the trend is still growing or has peaked, before you commit to the minimum order.</p></div>
+      <div class="panel p2"><p class="case">If it has launched</p><p>I compare what the early signs said with how it actually sold, so you can see whether the check would have called it.</p></div>
     </div>
   </div>
 </section>
 
 <section>
-  <div class="lockup"><h2 class="slabel">What I heard, and what I'd check</h2><p class="deck" data-voice="joint">From our Sep 15 call, as I understood it, and mine to confirm with you at kickoff.</p></div>
-  <div class="hgrid">
-    <div class="hhead">You said</div><div class="hhead c">What I'd check</div>
-    <div class="hrow"><div class="hh">You don't want to get stuck with a 20,000-bag minimum order because you didn't see an early indicator.</div><div class="hc">Run one upcoming drop through the check before the order is placed.</div></div>
-    <div class="hrow"><div class="hh">Volume-based indicators can miss a signal that's still rising, and every day without a decision costs time to market.</div><div class="hc">Whether your tools can tell a flavor that has peaked from one that's still rising.</div></div>
-    <div class="hrow"><div class="hh">A collab can go wrong after the deal is done. You've built early warnings for that by hand before.</div><div class="hc">Whether your current partner screening would have flagged the last collab that went wrong, and whether any partner deal has a written point that triggers a review.</div></div>
-    <div class="hrow"><div class="hh">When a customer simulation misses, either the data was bad or the hypothesis was wrong.</div><div class="hc">For one simulation that missed, which one broke, and whether your setup can tell the two apart next time.</div></div>
-    <div class="hrow"><div class="hh">You asked where you are on your AI build, where it's least efficient, and where your hypotheses are failing.</div><div class="hc">That's the one-page answer, plus a stop rule for anything running without one: the number that means it's time to stop.</div></div>
+  <div class="lockup"><h2 class="slabel">Three questions you'd ask</h2></div>
+  <div class="card qa">
+    <div><h3 data-voice="joint">What do you need from us?</h3><p>Three short meetings: a kickoff with you, a screen-share of your tools with whoever built them, and a final review. Your plans and docs, and the sales numbers for the adobo flavor. No customer data. Both sides sign an NDA first.</p></div>
+    <div><h3 data-voice="joint">What do we get?</h3><p>One page: where what you expect and what you actually get line up, where they don't, and what to stop. Plus three recommended next steps, each with a clear number for success and a date to check it. It's yours to keep.</p></div>
+    <div><h3>What happens after?</h3><p>Nothing, unless you want help with one of the next steps. Each is priced on its own, and the $5,000 is credited toward the first. Each step is checked on its date, so every round builds on what the last one showed.</p></div>
   </div>
 </section>
 
-<section>
-  <div class="lockup"><h2 class="slabel">Getting started</h2><p class="deck">What it takes from your side, what you get, and what comes after.</p></div>
-  <table class="receipt-table">
-    <tbody>
-      <tr><td class="td-key">Your time</td><td class="td-val">Three meetings, about three hours in total: a kickoff with you, a screen-share of your tools with whoever built them, and a final review. If they can't make it, the screen-share moves inside the two weeks, or a teammate walks me through it.</td></tr>
-      <tr><td class="td-key">What I need</td><td class="td-val">A few docs, what you pay to run the tools, the inputs your criteria uses for adobo, and total sales numbers if it has shipped.</td></tr>
-      <tr><td class="td-key">Your data</td><td class="td-val">Total sales, not customer-level records. I don't take a copy of customer data, and anything that comes up on the screen-share stays on your screen. Both sides sign an NDA first.</td></tr>
-      <tr><td class="td-key">What you get</td><td class="td-val">One page: where you are on the build, what's least efficient, which hypotheses aren't holding up, and what to stop. Plus three next steps, each with a number for success and a date to check it, and a pressure test of one plan: how each person who signs off would argue against it, and what still holds up. I go deep on the two areas you pick at kickoff and give the rest a first pass, marked as first pass. Anything I'm unsure about is marked as unsure, and if you disagree with a finding, your pushback goes on the page at the final review. All of it is yours.</td></tr>
-      <tr><td class="td-key">Payment</td><td class="td-val">$5,000 fixed. Half at kickoff, half at the final review. You can stop anytime and keep everything.</td></tr>
-      <tr><td class="td-key">After</td><td class="td-val">Nothing, unless you want help with a next step. Each is priced on its own, and the $5,000 is credited toward the first. Each step has its own check date, and your team can run that check; what it shows makes the next step sharper, whoever runs it.</td></tr>
-      <tr><td class="td-key">Next steps I can take on</td><td class="td-val"><ul>
-        <li>Rules for your AI tools: what they always do, what needs a check first, what they never do.</li>
-        <li>A small test your team can rerun: past decisions with known outcomes that the tools have to get right.</li>
-        <li>Pulling every number a partner contract commits to, tied to its clause, next to what the partner actually delivered. The gaps are findings to review with whoever owns the deal, not legal or financial advice. New for contracts, and run without sending the text to an outside model.</li>
-      </ul></td></tr>
-      <tr><td class="td-key">Who I am</td><td class="td-val">Something I built that works the same way: a tool that answers questions about contract documents with the exact clause behind each answer, or says "not covered."<span class="proofrow"><span class="led on">Live</span><a class="prooflink" href="https://good.arcs.care/rfp-engine">good.arcs.care/rfp-engine</a></span></td></tr>
-    </tbody>
-  </table>
-</section>
-
-<div class="callout"><b>One question</b><p>Has adobo gone out yet, or is the minimum order still ahead? Either way works. Tell me which, and I'll send two start dates, one this month and one in January.</p></div>
+<div class="callout"><b>The one question</b><p>Do you have a big AI decision coming up in the next two months, like a new tool, a vendor or a launch? This check is most useful before it. I can start the week of [YOUR START DATE].</p></div>
 
 <details class="depth">
 <summary>The full checklist</summary>
 <div class="depth-body">
-  <p>The five results you said you expect, plus two I'd add. In two weeks I go deep on the two you pick at kickoff and give the rest a first pass, marked as first pass.</p>
+  <p>The five things you said you expect from the tools, and whether they actually deliver them, plus two I'd add:</p>
   <ol class="crit">
-  <li><span class="n">01</span><span><b>Accuracy.</b> Where the data warehouse, the MCP environment and your foundational datasets meet the outside world, and which outputs get trusted without anyone checking them.</span></li>
+  <li><span class="n">01</span><span><b>Accuracy.</b> Where your own data (the data warehouse and the MCP tools) meets outside data, and which results get trusted without anyone checking them.</span></li>
   <li><span class="n">02</span><span><b>Efficiency.</b> Steps that are still done by hand, or automated when they don't need to be.</span></li>
   <li><span class="n">03</span><span><b>Speed.</b> How long it takes to get from a question to a decision you can act on.</span></li>
-  <li><span class="n">04</span><span><b>Cost savings.</b> Whether moving it on-prem would actually be cheaper, and what you pay for but don't use.</span></li>
-  <li><span class="n">05</span><span><b>One source of truth.</b> Whether it builds on one record, or grows data bloat and tech debt.</span></li>
-  <li class="add"><span class="n">06</span><span><b>What reaches an AI model.</b> Where data goes, as your builders walk me through it: which customer data, personal details and partner terms reach an AI model or an outside service, and whether they need to.</span></li>
-  <li class="add"><span class="n">07</span><span><b>Facts or estimates.</b> Which numbers are hard facts and which are estimates (customer simulations, trend calls, partner-risk warnings), whether each estimate says how sure it is, and whether anyone checks it against what actually happened.</span></li>
+  <li><span class="n">04</span><span><b>Cost savings.</b> Whether running it on your own servers is actually cheaper, and what you're paying for but not using.</span></li>
+  <li><span class="n">05</span><span><b>One source of truth.</b> Whether everything builds on one shared record, or piles up duplicate data and messy fixes.</span></li>
+  <li class="add"><span class="n">06</span><span><b>What gets sent to AI models.</b> Which customer data, personal details and partner terms get sent to an AI model or an outside service, and whether they need to be. Keeping things on your own servers only protects what stays there. I map where the data goes; I never handle it.</span></li>
+  <li class="add"><span class="n">07</span><span><b>Facts or estimates.</b> Which numbers are hard facts and which are estimates (customer simulations, trend forecasts, partner-risk warnings), whether each estimate says how sure it is, and whether anyone checks it against what actually happened.</span></li>
   </ol>
+  <p><b>The two weeks:</b> week 1, a 60-minute kickoff with you, then a 60 to 90-minute screen-share with whoever built the tools. Week 2, a few follow-up questions by email, the write-up, and a 30-minute final review. Anything I'm unsure about is marked as unsure, not smoothed over.</p>
 </div>
 </details>
 
 <footer><p>Zach Harris · zach.harris@gmail.com</p></footer>
 
 </main>
-<script>(function(){var d=document.documentElement,b=document.getElementById('themebtn');if(!b)return;var mq=window.matchMedia?matchMedia('(prefers-color-scheme: light)'):null;function cur(){var t=d.getAttribute('data-theme');if(t)return t;return mq&&mq.matches?'light':'dark';}function label(){b.textContent=cur()==='light'?'Dark mode':'Light mode';b.setAttribute('aria-label','Switch to '+b.textContent.toLowerCase());}b.hidden=false;label();b.addEventListener('click',function(){var n=cur()==='light'?'dark':'light';d.setAttribute('data-theme',n);try{localStorage.setItem('brooksTheme',n);}catch(e){}label();});if(mq&&mq.addEventListener)mq.addEventListener('change',label);})();</script>
+<script>(function(){var d=document.documentElement,b=document.getElementById('themebtn');if(!b)return;var mq=window.matchMedia?matchMedia('(prefers-color-scheme: light)'):null;function cur(){var t=d.getAttribute('data-theme');if(t)return t;return mq&&mq.matches?'light':'dark';}function label(){var n=cur()==='light'?'dark':'light';b.setAttribute('data-next',n);b.setAttribute('aria-label','Switch to '+n+' mode');b.title='Switch to '+n+' mode';}b.hidden=false;label();b.addEventListener('click',function(){var n=cur()==='light'?'dark':'light';d.setAttribute('data-theme',n);try{localStorage.setItem('brooksTheme',n);}catch(e){}label();});if(mq&&mq.addEventListener)mq.addEventListener('change',label);})();</script>
+<script>(function(){var d=document.querySelector("details.depth");if(!d)return;var was;addEventListener("beforeprint",function(){was=d.open;d.open=true;});addEventListener("afterprint",function(){d.open=was;});if(matchMedia)matchMedia("print").addListener(function(m){if(m.matches)d.open=true;});})();</script>
 </body>
 </html>

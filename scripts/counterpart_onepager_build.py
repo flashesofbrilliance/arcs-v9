@@ -151,15 +151,81 @@ ol.crit li.add .n{color:var(--gold);}
 ol.crit b{font-weight:600;}
 """
 
+# Candidate: question-and-answer card (three questions the counterpart would ask, each an h3 and a paragraph).
+QA = """/* candidate: question-and-answer card */
+.qa{display:flex;flex-direction:column;gap:var(--sp-2);}
+.qa h3{font-family:var(--sans);font-size:var(--fs-title);font-weight:600;line-height:1.35;color:var(--text);margin-bottom:6px;}
+"""
 
-def theme_js(key):
+# Candidate: icon theme button (sun and moon over kit 39's text button). Kit 39's toggle logic, its own label and markup.
+ICON_BTN = """/* candidate: icon theme button over kit 39 */
+.themebtn{justify-content:center;width:44px;height:44px;color:var(--secondary);border:1px solid var(--border);border-radius:999px;}
+.themebtn[hidden]{display:none;}
+.themebtn[data-next="light"] .i-moon,.themebtn[data-next="dark"] .i-sun{display:none;}
+.themebtn:hover,.themebtn:focus-visible{color:var(--cyan);border-color:var(--cyan);text-decoration:none;}
+"""
+ICONS = '<svg class="i-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="i-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg>'
+ICON_JS = """<script>(function(){var d=document.documentElement,b=document.getElementById('themebtn');if(!b)return;var mq=window.matchMedia?matchMedia('(prefers-color-scheme: light)'):null;function cur(){var t=d.getAttribute('data-theme');if(t)return t;return mq&&mq.matches?'light':'dark';}function label(){var n=cur()==='light'?'dark':'light';b.setAttribute('data-next',n);b.setAttribute('aria-label','Switch to '+n+' mode');b.title='Switch to '+n+' mode';}b.hidden=false;label();b.addEventListener('click',function(){var n=cur()==='light'?'dark':'light';d.setAttribute('data-theme',n);try{localStorage.setItem('{key}',n);}catch(e){}label();});if(mq&&mq.addEventListener)mq.addEventListener('change',label);})();</script>"""
+
+# Candidate: US Letter print. Light tokens, every case panel shown, the checklist opened (the script opens it for print).
+PRINT = """/* Print: US Letter, two pages (one sheet, both sides). Light tokens, every case panel shown, the checklist opened. */
+@page{size:Letter;margin:0.5in 0.6in;}
+@media print{
+:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}
+html{font-size:9.5pt;}
+body{background:#fff!important;padding:0;line-height:1.45;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.themebtn,.seg,.vh,details.depth summary::after{display:none!important;}
+.page{max-width:none;gap:11pt;}
+section{gap:6pt;}
+h1{font-size:2.1rem;line-height:1.15;}
+.verdict{font-size:12.5pt;margin-top:6pt;}
+.aside{margin-top:4pt;}
+.slabel{font-size:12.5pt;}
+.tiles{margin-top:10pt;gap:8pt;}
+.tile{padding:8pt 10pt;}
+.tile .v{font-size:15pt;}
+.scorebar{margin-top:6pt;}
+.card{padding:10pt 12pt;box-shadow:none;}
+.seg-wrap .panels{display:grid;grid-template-columns:repeat(2,1fr);gap:12pt;padding-top:0;min-height:0;}
+.seg-wrap .panel{display:block!important;}
+.hrow > div{padding:5pt 0;}
+.receipt-table td{padding:5pt 10pt;}
+.td-key{width:20%;}
+.td-val{line-height:1.45;}
+.td-val ul{gap:2pt;}
+.proofrow{margin-top:3pt;}
+.receipt-table tr,.hrow > div,ol.crit li,.callout,.card,.tile{break-inside:avoid;}
+.lockup,.slabel,.hhead,details.depth summary{break-after:avoid;}
+.receipt-table section,.receipt-table{break-inside:auto;}
+.callout{padding:8pt 12pt;}
+.callout p{font-size:12pt;}
+.prooflink{padding:0;}
+details.depth::details-content{content-visibility:visible;display:block;}
+details.depth summary{padding:6pt 0 2pt;color:var(--text);}
+.depth-body{padding-bottom:4pt;gap:4pt;}
+ol.crit{display:grid;grid-template-columns:1fr 1fr;column-gap:16pt;}
+ol.crit li{padding:4pt 0;grid-template-columns:1.6rem 1fr;}
+ol.crit li + li{border-top:none;}
+ol.crit li{border-top:1px solid var(--border);}
+footer{margin-top:-4pt;break-before:avoid;}
+a{color:var(--cyan);}
+}
+"""
+PRINT_JS = """<script>(function(){var d=document.querySelector("details.depth");if(!d)return;var was;addEventListener("beforeprint",function(){was=d.open;d.open=true;});addEventListener("afterprint",function(){d.open=was;});if(matchMedia)matchMedia("print").addListener(function(m){if(m.matches)d.open=true;});})();</script>"""
+
+
+def theme_js(key, icon=False):
     spec = json.load(open(os.path.join(SPECS, "theme-toggle.json"), encoding="utf-8"))
-    return spec["head_js"].replace("{key}", key), spec["tail_js"].replace("{key}", key)
+    return spec["head_js"].replace("{key}", key), (ICON_JS if icon else spec["tail_js"]).replace("{key}", key)
+
+
+def voice(v):
+    return f' data-voice="{v}"' if v else ""
 
 
 def lockup(s):
-    voice = f' data-voice="{s["deck_voice"]}"' if s.get("deck_voice") else ""
-    return f'  <div class="lockup"><h2 class="slabel">{s["heading"]}</h2><p class="deck"{voice}>{s["deck"]}</p></div>\n'
+    deck = f'<p class="deck"{voice(s.get("deck_voice"))}>{s["deck"]}</p>' if s.get("deck") else ""
+    return f'  <div class="lockup"><h2 class="slabel"{voice(s.get("heading_voice"))}>{s["heading"]}</h2>{deck}</div>\n'
 
 
 def case_switcher(s):
@@ -174,7 +240,7 @@ def case_switcher(s):
 
 
 def heard_check(s):
-    rows = "".join(f'    <div class="hrow"><div class="hh">{r["heard"]}</div><div class="hc">{r["check"]}</div></div>\n' for r in s["rows"])
+    rows = "".join(f'    <div class="hrow"><div class="hh"{voice(r.get("heard_voice"))}>{r["heard"]}</div><div class="hc">{r["check"]}</div></div>\n' for r in s["rows"])
     return (lockup(s) + '  <div class="hgrid">\n'
             f'    <div class="hhead">{s["left_head"]}</div><div class="hhead c">{s["right_head"]}</div>\n' + rows + "  </div>\n")
 
@@ -184,22 +250,32 @@ def receipt(s):
     return lockup(s) + '  <table class="receipt-table">\n    <tbody>\n' + rows + "    </tbody>\n  </table>\n"
 
 
-SECTIONS = {"case-switcher": case_switcher, "heard-check": heard_check, "receipt": receipt}
+def qa(s):
+    qs = "".join(f'    <div><h3{voice(q.get("voice"))}>{q["q"]}</h3><p>{q["a"]}</p></div>\n' for q in s["questions"])
+    return lockup(s) + '  <div class="card qa">\n' + qs + "  </div>\n"
+
+
+SECTIONS = {"case-switcher": case_switcher, "heard-check": heard_check, "receipt": receipt, "qa": qa}
 
 
 def build(d):
     kinds = [s["kind"] for s in d["sections"]]
+    icon = d.get("theme_button") == "icon"
     cases = next((len(s["cases"]) for s in d["sections"] if s["kind"] == "case-switcher"), 0)
     prefix = next((s["mobile_prefix"] for s in d["sections"] if s["kind"] == "heard-check"), "")
     css = (tokens() + "\n" + LAYOUT + "/* kit primitives, verbatim */\n" + "".join(prim(p) for p in PRIMS) + ROLES + LOCKUP
            + (HEARD % prefix if "heard-check" in kinds else "") + (case_css(cases) if cases else "")
-           + (RECEIPT if "receipt" in kinds else "") + (DEPTH if d.get("depth") else "")
+           + (RECEIPT if "receipt" in kinds else "") + (QA if "qa" in kinds else "") + (DEPTH if d.get("depth") else "")
            + "/* Light mode: kit 39 theme toggle. Follows the OS unless the reader picks; kit tokens remap, kit primitives stay verbatim. */\n"
-           + prim("39-theme-toggle"))
-    head_js, tail_js = theme_js(d["theme_key"])
+           + prim("39-theme-toggle") + (ICON_BTN if icon else "") + (PRINT if d.get("print") else ""))
+    head_js, tail_js = theme_js(d["theme_key"], icon)
+    if d.get("print") and d.get("depth"):
+        tail_js += "\n" + PRINT_JS
     h = d["hero"]
     tiles = "".join(f'    <div class="tile"><div class="v{" " + t["tone"] if t.get("tone") else ""}">{t["value"]}</div><div class="k">{t["key"]}</div></div>\n' for t in h["tiles"])
-    body = ('<header>\n  <button type="button" class="themebtn" id="themebtn" hidden>Light mode</button>\n'
+    btn = (f'<button type="button" class="themebtn" id="themebtn" aria-label="Switch to light mode" title="Switch to light mode" hidden>{ICONS}</button>'
+           if icon else '<button type="button" class="themebtn" id="themebtn" hidden>Light mode</button>')
+    body = (f'<header>\n  {btn}\n'
             f'  <h1>{h["title"]}</h1>\n  <p class="verdict">{h["verdict"]}</p>\n  <p class="aside">{h["aside"]}</p>\n'
             '  <div class="tiles">\n' + tiles + "  </div>\n"
             f'  <div class="scorebar"><span class="chip {h["chip"]["tone"]}">{h["chip"]["text"]}</span></div>\n</header>\n\n')
@@ -212,7 +288,7 @@ def build(d):
         add = ' class="add"'
         items = "".join(f'  <li{add if i.get("added") else ""}><span class="n">{i["n"]}</span><span><b>{i["title"]}</b> {i["body"]}</span></li>\n' for i in dp["items"])
         body += (f'<details class="depth">\n<summary>{dp["summary"]}</summary>\n<div class="depth-body">\n  <p>{dp["intro"]}</p>\n'
-                 '  <ol class="crit">\n' + items + "  </ol>\n</div>\n</details>\n\n")
+                 '  <ol class="crit">\n' + items + "  </ol>\n" + (f'  <p>{dp["outro"]}</p>\n' if dp.get("outro") else "") + "</div>\n</details>\n\n")
     body += f'<footer><p>{d["footer"]}</p></footer>\n'
     return f"""<!DOCTYPE html>
 <!-- @arcs-template: counterpart-onepager -->

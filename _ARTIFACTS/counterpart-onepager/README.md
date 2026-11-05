@@ -20,9 +20,12 @@ dropped (`.scoremeta`, `.qa` and its children, `.proof`, `.hrow .ref`).
 | Every section head | none | Headline-plus-deck lockup | None (`.deck` elsewhere is a sticky nav bar) | Candidate |
 | What I heard | none | Heard/check paired-row grid, phone prefix | None (no other "You said" grid) | Candidate |
 | Getting started | 08 receipt table, adapted; 33 led; 32 evidence ref | Sans-value receipt rows | Partial: postmortem-manufactured-role has `.td-val.prose`, but at 12.5px in `#94a3b8`, not body size in `text` | Candidate; promoting it means choosing which values win |
+| Three questions | none | Question-and-answer card (h3 and a paragraph each) | None searched | Candidate (added 2026-11-05 with the Nov 5 copy; the Getting started table above left the page then, its CSS stays for the next page) |
 | One question | 31 callout | Callout with a step-size paragraph | n/a | Page override |
 | Full checklist | none | Depth checklist (details + numbered criteria, added items in gold) | Not searched beyond this page family | Candidate |
 | Header button | none | Theme toggle | Yes: the myally family (public/myally*.html), same button, saved choice, light remap | **Promoted: 39** |
+| Header button, icon form | 39 theme toggle | Sun and moon icon button over 39's toggle logic | None (Brooks only) | Candidate (2026-11-05) |
+| Print | none | US Letter print block, 2 pages, checklist opened for print | None searched | Candidate (2026-11-05); sizes and gaps derive from the screen tokens |
 | Storyboard sign-off | none | ARCS Field OS wordmark | Yes: public/honest.html, identical markup | **Promoted: 38** |
 
 Promoted as specimen pages (spec in `src/ui-kit/specimens/`, built by `scripts/kit_specimen.py`):
