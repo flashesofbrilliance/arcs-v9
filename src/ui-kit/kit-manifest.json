@@ -3327,6 +3327,44 @@
    "near_duplicates": []
   },
   {
+   "id": "41-offer-close",
+   "number": "41",
+   "name": "Offer Close",
+   "group": "Molecules",
+   "subtitle": "One locked-up close: offer and terms, a proof link, then the ask. Both themes and US Letter print",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/41-offer-close.html",
+   "data_shape": [
+    "state"
+   ],
+   "fidelity": [],
+   "classes": [
+    "offer",
+    "offer-ask",
+    "offer-fig",
+    "offer-head",
+    "offer-keep",
+    "offer-link",
+    "offer-price",
+    "offer-proof"
+   ],
+   "prim_blocks": [
+    "41-offer-close"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [
+    "public/myally-debrief.html"
+   ],
+   "reuse": 1,
+   "near_duplicates": []
+  },
+  {
    "id": "grammar-chips",
    "number": "",
    "name": "Grammar Chips",
