@@ -5,6 +5,11 @@
   "title": "Second Opinion: AI Tools",
   "robots": "noindex, nofollow",
   "theme_key": "brooksTheme",
+  "tokens": {
+    "--sp-5": "50px",
+    "--fs-step": "1.325rem",
+    "--fs-body": "0.9125rem"
+  },
   "hero": {
     "title": "A second opinion on your AI tools",
     "verdict": "I check what your AI tools actually do against what you expect from them, try it on one real product decision, and give you a one-page answer.",

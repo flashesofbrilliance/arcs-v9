@@ -37,9 +37,9 @@ def tokens():
 
 
 LAYOUT = """/* Page layer: non-signal aliases and spacing only. Palette and fonts inherit verbatim above. */
-:root{--secondary:var(--text-secondary);--mono:var(--ds-font-mono);--sans:var(--ds-font-sans);--serif:var(--ds-font-display);--measure:640px;--fs-step:1.25rem;--fs-title:0.95rem;--sp-1:8px;--sp-2:16px;--sp-3:24px;--sp-4:40px;--sp-5:64px;}
+:root{--secondary:var(--text-secondary);--mono:var(--ds-font-mono);--sans:var(--ds-font-sans);--serif:var(--ds-font-display);--measure:640px;--fs-step:1.25rem;--fs-title:0.95rem;--sp-1:8px;--sp-2:16px;--sp-3:24px;--sp-4:40px;--sp-5:64px;--lh:1.6;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:var(--fs-body);line-height:1.6;padding:var(--sp-5) 20px 96px;-webkit-font-smoothing:antialiased;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:var(--fs-body);line-height:var(--lh);padding:var(--sp-5) 20px 96px;-webkit-font-smoothing:antialiased;}
 .page{max-width:var(--measure);margin:0 auto;display:flex;flex-direction:column;gap:var(--sp-5);}
 section{display:flex;flex-direction:column;gap:var(--sp-2);}
 p,li{max-width:none;text-wrap:pretty;}
@@ -168,19 +168,22 @@ ICONS = '<svg class="i-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidd
 ICON_JS = """<script>(function(){var d=document.documentElement,b=document.getElementById('themebtn');if(!b)return;var mq=window.matchMedia?matchMedia('(prefers-color-scheme: light)'):null;function cur(){var t=d.getAttribute('data-theme');if(t)return t;return mq&&mq.matches?'light':'dark';}function label(){var n=cur()==='light'?'dark':'light';b.setAttribute('data-next',n);b.setAttribute('aria-label','Switch to '+n+' mode');b.title='Switch to '+n+' mode';}b.hidden=false;label();b.addEventListener('click',function(){var n=cur()==='light'?'dark':'light';d.setAttribute('data-theme',n);try{localStorage.setItem('{key}',n);}catch(e){}label();});if(mq&&mq.addEventListener)mq.addEventListener('change',label);})();</script>"""
 
 # Candidate: US Letter print. Light tokens, every case panel shown, the checklist opened (the script opens it for print).
+# Step sizes, the page gap and the leading derive from the screen tokens, so a tuned token moves print too. The factors
+# reproduce the 2026-11-05 PDF at the shipped tokens: rem is 9.5pt in print, so --fs-step 1.25rem x 20/19 = 12.5pt,
+# x 96/95 = 12pt; --sp-5 64px x 11/48 = 11pt; --lh 1.6 - 0.15 = 1.45. Body padding stays 0 (the @page margin is the gutter).
 PRINT = """/* Print: US Letter, two pages (one sheet, both sides). Light tokens, every case panel shown, the checklist opened. */
 @page{size:Letter;margin:0.5in 0.6in;}
 @media print{
 :root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}
 html{font-size:9.5pt;}
-body{background:#fff!important;padding:0;line-height:1.45;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+body{background:#fff!important;padding:0;line-height:calc(var(--lh) - 0.15);-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 .themebtn,.seg,.vh,details.depth summary::after{display:none!important;}
-.page{max-width:none;gap:11pt;}
+.page{max-width:none;gap:calc(var(--sp-5) * 11 / 48);}
 section{gap:6pt;}
 h1{font-size:2.1rem;line-height:1.15;}
-.verdict{font-size:12.5pt;margin-top:6pt;}
+.verdict{font-size:calc(var(--fs-step) * 20 / 19);margin-top:6pt;}
 .aside{margin-top:4pt;}
-.slabel{font-size:12.5pt;}
+.slabel{font-size:calc(var(--fs-step) * 20 / 19);}
 .tiles{margin-top:10pt;gap:8pt;}
 .tile{padding:8pt 10pt;}
 .tile .v{font-size:15pt;}
@@ -198,7 +201,7 @@ h1{font-size:2.1rem;line-height:1.15;}
 .lockup,.slabel,.hhead,details.depth summary{break-after:avoid;}
 .receipt-table section,.receipt-table{break-inside:auto;}
 .callout{padding:8pt 12pt;}
-.callout p{font-size:12pt;}
+.callout p{font-size:calc(var(--fs-step) * 96 / 95);}
 .prooflink{padding:0;}
 details.depth::details-content{content-visibility:visible;display:block;}
 details.depth summary{padding:6pt 0 2pt;color:var(--text);}
@@ -263,7 +266,9 @@ def build(d):
     icon = d.get("theme_button") == "icon"
     cases = next((len(s["cases"]) for s in d["sections"] if s["kind"] == "case-switcher"), 0)
     prefix = next((s["mobile_prefix"] for s in d["sections"] if s["kind"] == "heard-check"), "")
-    css = (tokens() + "\n" + LAYOUT + "/* kit primitives, verbatim */\n" + "".join(prim(p) for p in PRIMS) + ROLES + LOCKUP
+    tuned = "".join(f"{k}:{v};" for k, v in d.get("tokens", {}).items())
+    css = (tokens() + "\n" + LAYOUT + (f"/* page tokens, tuned (src/ui-kit/token-tuner.js) */\n:root{{{tuned}}}\n" if tuned else "")
+           + "/* kit primitives, verbatim */\n" + "".join(prim(p) for p in PRIMS) + ROLES + LOCKUP
            + (HEARD % prefix if "heard-check" in kinds else "") + (case_css(cases) if cases else "")
            + (RECEIPT if "receipt" in kinds else "") + (QA if "qa" in kinds else "") + (DEPTH if d.get("depth") else "")
            + "/* Light mode: kit 39 theme toggle. Follows the OS unless the reader picks; kit tokens remap, kit primitives stay verbatim. */\n"

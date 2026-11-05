@@ -830,7 +830,7 @@
           "_ARTIFACTS/brooks-audit-onepager.html"
         ],
         "createdAt": "2026-11-04T21:40:00.000Z",
-        "reason": "Carried from the hand-built Brooks page, not new: tile values 1.6rem (1rem on a phone) so $5,000 fits one line, and phone segment labels 0.85rem. Kept for pixel parity when the page became generated; repair is the owning session's call (seam booked in _ARTIFACTS/counterpart-onepager/README.md)."
+        "reason": "Carried from the hand-built Brooks page, not new: tile values 1.6rem (1rem on a phone) so $5,000 fits one line, and phone segment labels 0.85rem. Kept for pixel parity when the page became generated; repair is the owning session's call (seam booked in _ARTIFACTS/counterpart-onepager/README.md). Plus the US Letter print block (9.5pt root; sizes and gaps as calc() of the screen tokens), which the static detector reads as screen sizes since it does not scope @media print."
       },
       {
         "rule": "tight-leading",
