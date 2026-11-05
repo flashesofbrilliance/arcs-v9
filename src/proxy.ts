@@ -98,7 +98,15 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
 const SHARED_ICON_PATH = /^\/(icon(-\d+)?\.(svg|png)|apple-icon\.png|manifest\.webmanifest|opengraph-image\.png)$/
 
 export default async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl
+  // Decode once before any gate check. The platform decodes the path before it
+  // serves a public/ file, so a raw startsWith on the encoded path let
+  // /%63ia-brief.html past the cia gate (found 2026-11-05, every prefix gate).
+  let pathname: string
+  try {
+    pathname = decodeURIComponent(request.nextUrl.pathname)
+  } catch {
+    return new NextResponse('Bad request', { status: 400, headers: { 'content-type': 'text/plain; charset=utf-8' } })
+  }
 
   // --- Recruiter ammo-tier gate (host-independent) ---------------------------
   // Any /recruithaus-ammo* asset (the gated viewer + PDFs holding comp logic and
