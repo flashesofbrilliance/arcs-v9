@@ -1,0 +1,160 @@
+{
+  "_comment": "Content for the counterpart-onepager template. Copy is data: scripts/counterpart_onepager_build.py renders it; edit here, then rebuild.",
+  "template": "counterpart-onepager",
+  "out": "_ARTIFACTS/brooks-audit-onepager.html",
+  "title": "Second Opinion: AI Tools",
+  "robots": "noindex, nofollow",
+  "theme_key": "brooksTheme",
+  "tokens": {
+    "--sp-5": "50px",
+    "--fs-step": "1.325rem",
+    "--fs-body": "0.9125rem"
+  },
+  "hero": {
+    "title": "A second opinion on your AI tools",
+    "verdict": "I check what your AI tools actually do against what you expect from them, try it on one real product decision, and give you a one-page answer.",
+    "aside": "You said your team can build these tools themselves. This is an outside check on them.",
+    "tiles": [
+      {
+        "value": "$5,000",
+        "key": "Fixed price",
+        "tone": "cyan"
+      },
+      {
+        "value": "2 weeks",
+        "key": "Start to finish"
+      },
+      {
+        "value": "~3 hours",
+        "key": "Your team's time"
+      }
+    ],
+    "chip": {
+      "tone": "green",
+      "text": "Stop after · keep it all"
+    }
+  },
+  "sections": [
+    {
+      "kind": "heard-check",
+      "heading": "What I heard on our call",
+      "heading_voice": "joint",
+      "left_head": "You said",
+      "right_head": "What I'd check",
+      "mobile_prefix": "I'd check: ",
+      "rows": [
+        {
+          "heard": "You don't want to get stuck with $20,000 of bags you had to order to meet a minimum order.",
+          "check": "Run one upcoming drop through the check before you place the order."
+        },
+        {
+          "heard": "Sales and search volume can miss a trend that's still growing, and waiting too long costs you time to market.",
+          "check": "Whether your tools can tell a flavor that has peaked from one that's still growing."
+        },
+        {
+          "heard": "A collab can go wrong after the deal is signed. You've built early warnings for that by hand before.",
+          "check": "A warning before you sign, and a clause in the deal that triggers a review if a partner underdelivers."
+        },
+        {
+          "heard": "<b>We agreed:</b> keeping a project going because of what's already been spent on it wastes the most time.",
+          "check": "A stop rule for each project, agreed before it starts: the number that means it's time to stop. And for what's already running, what it's costing you.",
+          "heard_voice": "joint"
+        },
+        {
+          "heard": "When a forecast is wrong, it's either bad data or a wrong guess.",
+          "check": "Which numbers are hard facts and which are estimates, so you know which one failed."
+        }
+      ]
+    },
+    {
+      "kind": "case-switcher",
+      "heading": "The real decision to test it on",
+      "deck": "The adobo flavor you mentioned.",
+      "group": "adobo",
+      "aria_label": "Where adobo stands",
+      "cases": [
+        {
+          "label": "Not launched yet",
+          "case": "If it hasn't launched yet",
+          "body": "I check whether the trend is still growing or has peaked, before you commit to the minimum order."
+        },
+        {
+          "label": "Launched",
+          "case": "If it has launched",
+          "body": "I compare what the early signs said with how it actually sold, so you can see whether the check would have called it."
+        }
+      ]
+    },
+    {
+      "kind": "qa",
+      "heading": "Three questions you'd ask",
+      "questions": [
+        {
+          "q": "What do you need from us?",
+          "a": "Three short meetings: a kickoff with you, a screen-share of your tools with whoever built them, and a final review. Your plans and docs, and the sales numbers for the adobo flavor. No customer data. Both sides sign an NDA first.",
+          "voice": "joint"
+        },
+        {
+          "q": "What do we get?",
+          "a": "One page: where what you expect and what you actually get line up, where they don't, and what to stop. Plus three recommended next steps, each with a clear number for success and a date to check it. It's yours to keep.",
+          "voice": "joint"
+        },
+        {
+          "q": "What happens after?",
+          "a": "Nothing, unless you want help with one of the next steps. Each is priced on its own, and the $5,000 is credited toward the first. Each step is checked on its date, so every round builds on what the last one showed."
+        }
+      ]
+    }
+  ],
+  "ask": {
+    "label": "The one question",
+    "body": "Do you have a big AI decision coming up in the next two months, like a new tool, a vendor or a launch? This check is most useful before it. Start date TBD."
+  },
+  "depth": {
+    "summary": "The full checklist",
+    "intro": "The five things you said you expect from the tools, and whether they actually deliver them, plus two I'd add:",
+    "items": [
+      {
+        "n": "01",
+        "title": "Accuracy.",
+        "body": "Where your own data (the data warehouse and the MCP tools) meets outside data, and which results get trusted without anyone checking them."
+      },
+      {
+        "n": "02",
+        "title": "Efficiency.",
+        "body": "Steps that are still done by hand, or automated when they don't need to be."
+      },
+      {
+        "n": "03",
+        "title": "Speed.",
+        "body": "How long it takes to get from a question to a decision you can act on."
+      },
+      {
+        "n": "04",
+        "title": "Cost savings.",
+        "body": "Whether running it on your own servers is actually cheaper, and what you're paying for but not using."
+      },
+      {
+        "n": "05",
+        "title": "One source of truth.",
+        "body": "Whether everything builds on one shared record, or piles up duplicate data and messy fixes."
+      },
+      {
+        "n": "06",
+        "title": "What gets sent to AI models.",
+        "body": "Which customer data, personal details and partner terms get sent to an AI model or an outside service, and whether they need to be. Keeping things on your own servers only protects what stays there. I map where the data goes; I never handle it.",
+        "added": true
+      },
+      {
+        "n": "07",
+        "title": "Facts or estimates.",
+        "body": "Which numbers are hard facts and which are estimates (customer simulations, trend forecasts, partner-risk warnings), whether each estimate says how sure it is, and whether anyone checks it against what actually happened.",
+        "added": true
+      }
+    ],
+    "outro": "<b>The two weeks:</b> week 1, a 60-minute kickoff with you, then a 60 to 90-minute screen-share with whoever built the tools. Week 2, a few follow-up questions by email, the write-up, and a 30-minute final review. Anything I'm unsure about is marked as unsure, not smoothed over."
+  },
+  "footer": "Zach Harris · zach.harris@gmail.com",
+  "theme_button": "icon",
+  "print": true
+}

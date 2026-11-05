@@ -485,15 +485,17 @@
    },
    "templates": [
     "recoil-report",
-    "recoil-player"
+    "recoil-player",
+    "counterpart-onepager"
    ],
    "jobs": [],
    "pages": [
     "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html",
     "_ARTIFACTS/postmortem-manufactured-role.html",
-    "_ARTIFACTS/til-01-warmth-routes-you.html"
+    "_ARTIFACTS/til-01-warmth-routes-you.html",
+    "scripts/counterpart_onepager_build.py"
    ],
-   "reuse": 3,
+   "reuse": 4,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -1846,8 +1848,10 @@
    "jobs": [
     "state-of-union-dashboard-ahmed-impeccable-pass"
    ],
-   "pages": [],
-   "reuse": 0,
+   "pages": [
+    "scripts/counterpart_onepager_build.py"
+   ],
+   "reuse": 1,
    "near_duplicates": [
     {
      "rule": ".seg",
@@ -2096,6 +2100,7 @@
     "_ARTIFACTS/atlas/2026-09-08-adr-077-ziggurat.html",
     "_ARTIFACTS/atlas/atlas.html",
     "_ARTIFACTS/brooks-audit-onepager.html",
+    "_ARTIFACTS/brooks-pitch-storyboard.html",
     "_ARTIFACTS/eightfold-scaffold.html",
     "_ARTIFACTS/forge-aircall-fde/page.html",
     "_ARTIFACTS/forge-morgan-stanley-devgen/page.html",
@@ -2130,9 +2135,10 @@
     "public/sentilink.html",
     "public/status.html",
     "public/todd-logictree.html",
-    "public/yuri-profile.html"
+    "public/yuri-profile.html",
+    "scripts/counterpart_onepager_build.py"
    ],
-   "reuse": 45,
+   "reuse": 47,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2246,22 +2252,25 @@
    },
    "templates": [
     "recoil-report",
-    "recoil-player"
+    "recoil-player",
+    "counterpart-onepager"
    ],
    "jobs": [],
    "pages": [
     "_ARTIFACTS/audit-report/cold-1.html",
     "_ARTIFACTS/audit-report/readme-cold-1.html",
     "_ARTIFACTS/brooks-audit-onepager.html",
+    "_ARTIFACTS/brooks-pitch-storyboard.html",
     "_ARTIFACTS/docs-reconciliation.html",
     "public/cia-brief.html",
     "public/good-audit-check.html",
     "public/good-audit-sample.html",
     "public/prl-status-receipt.html",
     "scripts/audit_report_build.py",
+    "scripts/counterpart_onepager_build.py",
     "scripts/kit_pull.py"
    ],
-   "reuse": 10,
+   "reuse": 12,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2484,13 +2493,15 @@
    },
    "templates": [
     "recoil-report",
-    "recoil-player"
+    "recoil-player",
+    "counterpart-onepager"
    ],
    "jobs": [],
    "pages": [
     "_ARTIFACTS/audit-report/cold-1.html",
     "_ARTIFACTS/audit-report/readme-cold-1.html",
     "_ARTIFACTS/brooks-audit-onepager.html",
+    "_ARTIFACTS/brooks-pitch-storyboard.html",
     "public/blog-til-a-draft-is-not-a-verb.html",
     "public/blog-til-apple-openai.html",
     "public/blog-til-closing-the-loop.html",
@@ -2500,9 +2511,10 @@
     "public/good-audit-sample.html",
     "public/prl-status-tidio.html",
     "scripts/audit_report_build.py",
+    "scripts/counterpart_onepager_build.py",
     "scripts/kit_pull.py"
    ],
-   "reuse": 13,
+   "reuse": 15,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2621,9 +2633,10 @@
     "_ARTIFACTS/terrain-atlas.html",
     "_ARTIFACTS/ticket-zach-north-star-resonance-gradient-field.html",
     "public/cia-brief.html",
-    "public/proof.html"
+    "public/proof.html",
+    "scripts/counterpart_onepager_build.py"
    ],
-   "reuse": 6,
+   "reuse": 7,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2744,9 +2757,10 @@
     "public/good-agent-receipts-audit.html",
     "public/good-audit-sample.html",
     "scripts/audit_report_build.py",
+    "scripts/counterpart_onepager_build.py",
     "scripts/kit_pull.py"
    ],
-   "reuse": 6,
+   "reuse": 7,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -3281,6 +3295,78 @@
    "near_duplicates": []
   },
   {
+   "id": "38-wordmark",
+   "number": "38",
+   "name": "Wordmark",
+   "group": "Specimens",
+   "subtitle": "Atom 38 · Sign a surface as ARCS Field OS in one line of mono type that scales with whatever size its context sets.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/38-wordmark.html",
+   "data_shape": [],
+   "fidelity": [],
+   "classes": [
+    "wa",
+    "wf",
+    "wordmark"
+   ],
+   "prim_blocks": [
+    "38-wordmark"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/brooks-pitch-storyboard.html",
+    "_ARTIFACTS/sow-scaffold-2026-10-08/primer-view.html",
+    "_ARTIFACTS/sow-scaffold-2026-10-08/proposal-view.html",
+    "public/honest.html",
+    "public/myally-mnda-edits.html",
+    "public/myally-primer.html",
+    "public/myally-proposal.html",
+    "public/myally.html"
+   ],
+   "reuse": 8,
+   "near_duplicates": []
+  },
+  {
+   "id": "39-theme-toggle",
+   "number": "39",
+   "name": "Theme Toggle",
+   "group": "Specimens",
+   "subtitle": "Molecule 39 · Let a reader switch a dark kit page to light and back, follow the system setting until they choose, and print on paper colours.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/39-theme-toggle.html",
+   "data_shape": [
+    "control"
+   ],
+   "fidelity": [],
+   "classes": [
+    "themebtn"
+   ],
+   "prim_blocks": [
+    "39-theme-toggle"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "counterpart-onepager"
+   ],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/brooks-audit-onepager.html",
+    "scripts/counterpart_onepager_build.py"
+   ],
+   "reuse": 2,
+   "near_duplicates": []
+  },
+  {
    "id": "40-token-tuner",
    "number": "40",
    "name": "Token Tuner",
@@ -3324,6 +3410,44 @@
     "public/playground.html"
    ],
    "reuse": 16,
+   "near_duplicates": []
+  },
+  {
+   "id": "41-offer-close",
+   "number": "41",
+   "name": "Offer Close",
+   "group": "Molecules",
+   "subtitle": "One locked-up close: offer and terms, a proof link, then the ask. Both themes and US Letter print",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/41-offer-close.html",
+   "data_shape": [
+    "state"
+   ],
+   "fidelity": [],
+   "classes": [
+    "offer",
+    "offer-ask",
+    "offer-fig",
+    "offer-head",
+    "offer-keep",
+    "offer-link",
+    "offer-price",
+    "offer-proof"
+   ],
+   "prim_blocks": [
+    "41-offer-close"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [
+    "public/myally-debrief.html"
+   ],
+   "reuse": 1,
    "near_duplicates": []
   },
   {
