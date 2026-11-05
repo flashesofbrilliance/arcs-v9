@@ -72,10 +72,9 @@
     "compass-anti-distillation-build"
    ],
    "pages": [
-    "_ARTIFACTS/postmortem-manufactured-role.html",
-    "public/julia.html"
+    "_ARTIFACTS/postmortem-manufactured-role.html"
    ],
-   "reuse": 2,
+   "reuse": 1,
    "near_duplicates": [
     {
      "rule": ".nci-label",
@@ -781,10 +780,9 @@
    "jobs": [],
    "pages": [
     "public/cia-brief.html",
-    "public/todd-teardown.html",
-    "public/vishal-combined.html"
+    "public/todd-teardown.html"
    ],
-   "reuse": 3,
+   "reuse": 2,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -1182,14 +1180,15 @@
    "jobs": [],
    "pages": [
     "_ARTIFACTS/audit-report/cold-1.html",
+    "_ARTIFACTS/audit-report/readme-cold-1.html",
     "_ARTIFACTS/phosphor.html",
     "_ARTIFACTS/raw-capture.html",
-    "public/ahmed-seed.html",
     "public/dj.html",
+    "public/good-audit-sample.html",
     "scripts/audit_report_build.py",
     "scripts/kit_pull.py"
    ],
-   "reuse": 7,
+   "reuse": 8,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -1934,12 +1933,9 @@
     "_ARTIFACTS/phosphor.html",
     "_ARTIFACTS/resume-blacksmith/tear-sheet-amy.html",
     "public/dj.html",
-    "public/julia-ext.html",
-    "public/julia.html",
-    "public/monstro-full.html",
     "public/myally-hub.html"
    ],
-   "reuse": 8,
+   "reuse": 5,
    "near_duplicates": []
   },
   {
@@ -2118,7 +2114,6 @@
     "public/good-instruments.html",
     "public/good.html",
     "public/growth-ai-observatory.html",
-    "public/joe.html",
     "public/mercury.html",
     "public/monolith.html",
     "public/myally-hub.html",
@@ -2134,10 +2129,9 @@
     "public/sentilink.html",
     "public/status.html",
     "public/todd-logictree.html",
-    "public/wing.html",
     "public/yuri-profile.html"
    ],
-   "reuse": 46,
+   "reuse": 44,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2256,14 +2250,16 @@
    "jobs": [],
    "pages": [
     "_ARTIFACTS/audit-report/cold-1.html",
+    "_ARTIFACTS/audit-report/readme-cold-1.html",
     "_ARTIFACTS/docs-reconciliation.html",
     "public/cia-brief.html",
     "public/good-audit-check.html",
+    "public/good-audit-sample.html",
     "public/prl-status-receipt.html",
     "scripts/audit_report_build.py",
     "scripts/kit_pull.py"
    ],
-   "reuse": 7,
+   "reuse": 9,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2491,16 +2487,19 @@
    "jobs": [],
    "pages": [
     "_ARTIFACTS/audit-report/cold-1.html",
+    "_ARTIFACTS/audit-report/readme-cold-1.html",
     "public/blog-til-a-draft-is-not-a-verb.html",
     "public/blog-til-apple-openai.html",
     "public/blog-til-closing-the-loop.html",
     "public/blog-til-one-day-99-merges.html",
     "public/blog-til-zim.html",
+    "public/good-agent-receipts-audit.html",
+    "public/good-audit-sample.html",
     "public/prl-status-tidio.html",
     "scripts/audit_report_build.py",
     "scripts/kit_pull.py"
    ],
-   "reuse": 9,
+   "reuse": 12,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2738,10 +2737,13 @@
    "jobs": [],
    "pages": [
     "_ARTIFACTS/audit-report/cold-1.html",
+    "_ARTIFACTS/audit-report/readme-cold-1.html",
+    "public/good-agent-receipts-audit.html",
+    "public/good-audit-sample.html",
     "scripts/audit_report_build.py",
     "scripts/kit_pull.py"
    ],
-   "reuse": 3,
+   "reuse": 6,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -3362,7 +3364,6 @@
    "jobs": [],
    "pages": [
     "src/app/admin/leads/page.tsx",
-    "src/app/brief/[receiptId]/page.tsx",
     "src/app/brief/reflect/[receiptId]/[[...layers]]/page.tsx",
     "src/app/design-test/page.tsx",
     "src/app/history/page.tsx",
@@ -3370,7 +3371,7 @@
     "src/molecules/TerrainPaths.tsx",
     "src/organisms/Home.tsx"
    ],
-   "reuse": 8,
+   "reuse": 7,
    "near_duplicates": []
   },
   {
@@ -3484,7 +3485,6 @@
     "src/app/recoil/RecoilIndex.tsx",
     "src/molecules/CompassError.tsx",
     "src/molecules/ConvictionSidebar.tsx",
-    "src/molecules/DebriefCard.tsx",
     "src/molecules/FatedGrid.tsx",
     "src/molecules/ProvenanceTag.tsx",
     "src/molecules/ShelfSlot.tsx",
@@ -3493,7 +3493,7 @@
     "src/organisms/Home.tsx",
     "src/organisms/Landing.tsx"
    ],
-   "reuse": 19,
+   "reuse": 18,
    "near_duplicates": []
   },
   {
@@ -3633,9 +3633,10 @@
    "pages": [
     "src/app/design-test/page.tsx",
     "src/molecules/InstrumentCluster.tsx",
-    "src/organisms/Home.tsx"
+    "src/organisms/Home.tsx",
+    "src/organisms/hud/WidgetFace.tsx"
    ],
-   "reuse": 3,
+   "reuse": 4,
    "near_duplicates": []
   },
   {
@@ -3690,7 +3691,6 @@
     "src/app/brief/reflect/[receiptId]/[[...layers]]/page.tsx",
     "src/app/design-test/page.tsx",
     "src/molecules/ConvictionSidebar.tsx",
-    "src/molecules/DebriefCard.tsx",
     "src/molecules/FatedGrid.tsx",
     "src/molecules/ProvenanceTag.tsx",
     "src/molecules/TerrainPaths.tsx",
@@ -3698,7 +3698,7 @@
     "src/organisms/Home.tsx",
     "src/organisms/ResultView.tsx"
    ],
-   "reuse": 11,
+   "reuse": 10,
    "near_duplicates": []
   },
   {

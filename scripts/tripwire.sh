@@ -28,7 +28,7 @@ for f in "${TARGETS[@]}"; do
     kind="${label%%:*}"; pat="${label#*:}"
     hits=$(grep -oiE "$pat" "$f" | sort -u | tr '\n' ',' || true)
     # Counterpart-facing exception (2026-08-26): a page whose FILENAME is the
-    # counterpart's name (ahmed*.html, wing.html, ...) is their own artifact —
+    # counterpart's name (louisville.html, yuri*.html, ...) is their own artifact —
     # their own name belongs on it. Any OTHER counterpart's name still fails.
     if [ "$kind" = "real-name" ] && [ -n "$hits" ]; then
       base=$(basename "$f" | tr '[:upper:]' '[:lower:]')

@@ -82,7 +82,7 @@ with a stop-loss condition. Register per Step 0 — if it's a friend, the questi
 ### 3b. External-facing gift teardown (addressed directly to them)
 
 Single-file HTML, same token palette, password-gated with their first name. Structure
-(mirrors `public/kiko.html` / `public/daniel.html`):
+(mirrors `_ARCHIVE/retired-surfaces/2026-11-04/public/kiko.html` / `_ARCHIVE/retired-surfaces/2026-11-04/public/daniel.html`):
 
 ```
 00 · The favor       — one cheap, real fix (usually the header/security finding from Step 2.3)
@@ -224,7 +224,7 @@ regression test.)
 --text:#e2e8f0  --muted:#8b9bb0  --dim:#64748b
 --cyan:#00F0FF  --green:#00FF9D  --gold:#FFD700  --red:#FF4D6D  --steel:#94a3b8
 ```
-Full CSS reference implementation: `public/kiko.html`.
+Full CSS reference implementation: `_ARCHIVE/retired-surfaces/2026-11-04/public/kiko.html`.
 
 ## What this skill is not
 

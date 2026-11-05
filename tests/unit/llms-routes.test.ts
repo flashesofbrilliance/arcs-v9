@@ -16,7 +16,7 @@ const rewritten = (res: Response) => {
 const MACHINE = ["/llms.txt", "/index.md", "/robots.txt", "/sitemap.xml"]
 
 test("proxy: open catch-all hosts never rewrite a machine path to HTML", async () => {
-  for (const host of ["good.arcs.care", "resume.arcs.care", "claritai.arcs.care", "saul.arcs.care", "honest.arcs.care"]) {
+  for (const host of ["good.arcs.care", "resume.arcs.care", "squad.arcs.care", "success-academy.arcs.care", "honest.arcs.care"]) {
     for (const path of MACHINE) {
       const dest = rewritten(await proxy(req(host, path)))
       assert.ok(!dest?.endsWith(".html"), `${host}${path} -> ${dest}`)
