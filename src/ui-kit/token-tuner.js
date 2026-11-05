@@ -84,10 +84,10 @@
     var orig = declared(name);
     var n = parse(orig, unit);
     var row = document.createElement('div');
-    row.className = 'r';
+    row.classList.add('r');
     var id = 'tt' + name.replace(/[^a-z0-9]/g, '');
     if (n === null) {
-      row.className += ' off';
+      row.classList.add('off');
       row.innerHTML = '<label>' + name + '</label><output>' + (orig ? 'not a ' + (unit || 'number') + ' value' : 'not declared') + '</output>';
       body.appendChild(row);
       return;
