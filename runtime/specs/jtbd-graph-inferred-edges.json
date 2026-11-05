@@ -165,6 +165,17 @@
    "match": "impeccable-finish-reviewer",
    "by": "claude-opus-5-5 orphan triage 2026-11-03 (bare tool name in route.tool, no path or /invoke)",
    "rule": "residue-bare-name"
+  },
+  {
+   "from": "tool:package:cold-recon",
+   "to": "job:backlog:agent-receipts-audit-offer",
+   "type": "serves",
+   "evidence": [
+    "route.tool:agent-receipts-audit-offer"
+   ],
+   "match": "tools/cold-recon",
+   "by": "claude-opus-5-5 orphan audit 2026-11-05 (route.tool names the package dir; the row's jtbd productizes cold-recon itself)",
+   "rule": "residue-bare-name"
   }
  ],
  "retype": [
