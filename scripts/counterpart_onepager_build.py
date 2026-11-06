@@ -181,7 +181,8 @@ html{font-size:11.5pt;}
 body{padding:0;font-size:var(--fs-body);line-height:calc(var(--lh) - 0.27);-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 :root{--g:var(--sp-3);--gap:var(--sp-2);--half:calc(var(--sp-1) / 2);--third:calc((100% - 2 * var(--g)) / 3 + var(--g));}
 .themebtn,.seg,.vh,footer,details.depth summary::after{display:none!important;}
-p,li,h3,ol.crit .d{orphans:2;widows:2;text-wrap:pretty;}
+p,li,h3,ol.crit .d{orphans:2;widows:2;}
+.qa p,.panel p,ol.crit .d,.depth-body > p{text-wrap:wrap;}
 .page{max-width:none;gap:var(--gap);}
 section{gap:var(--sp-1);break-inside:avoid;}
 h1{font-size:var(--fs-display);line-height:1.15;letter-spacing:-0.015em;}
@@ -209,11 +210,12 @@ h1{font-size:var(--fs-display);line-height:1.15;letter-spacing:-0.015em;}
 .qa > div{display:grid;grid-template-columns:repeat(3,1fr);column-gap:var(--g);}
 .qa h3{font-size:var(--fs-body);font-weight:700;line-height:inherit;margin:0;text-wrap:balance;}
 .qa p{grid-column:2 / 4;}
-.callout{break-before:page;margin-top:calc(-1 * var(--gap));display:grid;grid-template-columns:repeat(3,1fr);column-gap:var(--g);align-items:baseline;position:relative;background:none;border-width:0;border-radius:0;padding:var(--sp-1) 0 0;color:var(--text);}
+.callout{break-before:page;margin-top:calc(-1 * var(--gap));display:grid;grid-template-columns:repeat(3,1fr);column-gap:var(--g);align-items:baseline;position:relative;background:none;border-width:0;border-radius:0;padding:var(--sp-2) 0 var(--sp-2);color:var(--text);}
 .callout::before{content:"";position:absolute;inset:0 0 auto;height:1.5pt;background:var(--cyan);}
 .callout b{font-family:var(--sans);font-size:var(--fs-body);font-weight:700;letter-spacing:0;text-transform:none;color:var(--cyan);margin:0;}
 .callout p{grid-column:2 / 4;font-size:var(--fs-headline);line-height:1.4;margin:0;}
-details.depth{border-width:0;}
+details.depth{border-width:0;margin-top:var(--sp-2);}
+ol.crit b .p{display:none;}
 details.depth::details-content{content-visibility:visible;display:block;}
 details.depth summary{padding:0 0 var(--sp-1);display:block;}
 .depth-body{padding:0;gap:var(--sp-1);}
@@ -228,7 +230,7 @@ ol.crit b{grid-area:1 / 1;padding-left:2.2em;font-weight:700;}
 ol.crit .d{grid-area:1 / 2 / 2 / 4;}
 .hrow > div,.callout,.tile{break-inside:avoid;}
 .lockup,.slabel,.hhead,details.depth summary,.depth-body > p:first-child{break-after:avoid;}
-h1,.slabel,details.depth summary,.depth-body > p:first-child{text-wrap:balance;}
+h1,.slabel,details.depth summary{text-wrap:balance;}
 a{color:var(--cyan);}
 }
 """
@@ -244,6 +246,11 @@ def widont(t):
     """Bind the last two words with a no-break space so a block never ends on a one-word line."""
     head, sep, tail = t.rpartition(" ")
     return head + "\u00a0" + tail if sep and "<" not in tail and len(tail) < 16 else t
+
+
+def dot(t):
+    """Wrap a label's closing period so print, where the label sits in its own column, can drop it."""
+    return t[:-1] + '<span class="p">.</span>' if t.endswith(".") else t
 
 
 def voice(v):
@@ -278,7 +285,7 @@ def receipt(s):
 
 
 def qa(s):
-    qs = "".join(f'    <div><h3{voice(q.get("voice"))}>{q["q"]}</h3><p>{q["a"]}</p></div>\n' for q in s["questions"])
+    qs = "".join(f'    <div><h3{voice(q.get("voice"))}>{q["q"]}</h3><p>{widont(q["a"])}</p></div>\n' for q in s["questions"])
     return lockup(s) + '  <div class="card qa">\n' + qs + "  </div>\n"
 
 
@@ -315,7 +322,7 @@ def build(d):
     if d.get("depth"):
         dp = d["depth"]
         add = ' class="add"'
-        items = "".join(f'  <li{add if i.get("added") else ""}><span class="n">{i["n"]}</span><span class="t"><b>{i["title"]}</b> <span class="d">{widont(i["body"])}</span></span></li>\n' for i in dp["items"])
+        items = "".join(f'  <li{add if i.get("added") else ""}><span class="n">{i["n"]}</span><span class="t"><b>{dot(i["title"])}</b> <span class="d">{widont(i["body"])}</span></span></li>\n' for i in dp["items"])
         body += (f'<details class="depth">\n<summary>{dp["summary"]}</summary>\n<div class="depth-body">\n  <p>{dp["intro"]}</p>\n'
                  '  <ol class="crit">\n' + items + "  </ol>\n" + (f'  <p>{dp["outro"]}</p>\n' if dp.get("outro") else "") + "</div>\n</details>\n\n")
     body += f'<footer><p>{d["footer"]}</p></footer>\n'

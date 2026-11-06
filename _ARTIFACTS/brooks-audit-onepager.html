@@ -246,7 +246,8 @@ html{font-size:11.5pt;}
 body{padding:0;font-size:var(--fs-body);line-height:calc(var(--lh) - 0.27);-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 :root{--g:var(--sp-3);--gap:var(--sp-2);--half:calc(var(--sp-1) / 2);--third:calc((100% - 2 * var(--g)) / 3 + var(--g));}
 .themebtn,.seg,.vh,footer,details.depth summary::after{display:none!important;}
-p,li,h3,ol.crit .d{orphans:2;widows:2;text-wrap:pretty;}
+p,li,h3,ol.crit .d{orphans:2;widows:2;}
+.qa p,.panel p,ol.crit .d,.depth-body > p{text-wrap:wrap;}
 .page{max-width:none;gap:var(--gap);}
 section{gap:var(--sp-1);break-inside:avoid;}
 h1{font-size:var(--fs-display);line-height:1.15;letter-spacing:-0.015em;}
@@ -274,11 +275,12 @@ h1{font-size:var(--fs-display);line-height:1.15;letter-spacing:-0.015em;}
 .qa > div{display:grid;grid-template-columns:repeat(3,1fr);column-gap:var(--g);}
 .qa h3{font-size:var(--fs-body);font-weight:700;line-height:inherit;margin:0;text-wrap:balance;}
 .qa p{grid-column:2 / 4;}
-.callout{break-before:page;margin-top:calc(-1 * var(--gap));display:grid;grid-template-columns:repeat(3,1fr);column-gap:var(--g);align-items:baseline;position:relative;background:none;border-width:0;border-radius:0;padding:var(--sp-1) 0 0;color:var(--text);}
+.callout{break-before:page;margin-top:calc(-1 * var(--gap));display:grid;grid-template-columns:repeat(3,1fr);column-gap:var(--g);align-items:baseline;position:relative;background:none;border-width:0;border-radius:0;padding:var(--sp-2) 0 var(--sp-2);color:var(--text);}
 .callout::before{content:"";position:absolute;inset:0 0 auto;height:1.5pt;background:var(--cyan);}
 .callout b{font-family:var(--sans);font-size:var(--fs-body);font-weight:700;letter-spacing:0;text-transform:none;color:var(--cyan);margin:0;}
 .callout p{grid-column:2 / 4;font-size:var(--fs-headline);line-height:1.4;margin:0;}
-details.depth{border-width:0;}
+details.depth{border-width:0;margin-top:var(--sp-2);}
+ol.crit b .p{display:none;}
 details.depth::details-content{content-visibility:visible;display:block;}
 details.depth summary{padding:0 0 var(--sp-1);display:block;}
 .depth-body{padding:0;gap:var(--sp-1);}
@@ -293,7 +295,7 @@ ol.crit b{grid-area:1 / 1;padding-left:2.2em;font-weight:700;}
 ol.crit .d{grid-area:1 / 2 / 2 / 4;}
 .hrow > div,.callout,.tile{break-inside:avoid;}
 .lockup,.slabel,.hhead,details.depth summary,.depth-body > p:first-child{break-after:avoid;}
-h1,.slabel,details.depth summary,.depth-body > p:first-child{text-wrap:balance;}
+h1,.slabel,details.depth summary{text-wrap:balance;}
 a{color:var(--cyan);}
 }
 </style>
@@ -341,9 +343,9 @@ a{color:var(--cyan);}
 <section>
   <div class="lockup"><h2 class="slabel">Three questions you'd ask</h2></div>
   <div class="card qa">
-    <div><h3 data-voice="joint">What do you need from us?</h3><p>Three short meetings: a kickoff with you, a screen‑share of your tools with whoever built them, and a final review. Your plans and docs, and the sales numbers for the adobo flavor. No customer data. Both sides sign an NDA first.</p></div>
-    <div><h3 data-voice="joint">What do we get?</h3><p>One page: where what you expect and what you actually get line up, where they don't, and what to stop. Plus three recommended next steps, each with a clear number for success and a date to check it. It's yours to keep.</p></div>
-    <div><h3>What happens after?</h3><p>Nothing, unless you want help with one of the next steps. Each is priced on its own, and the $5,000 is credited toward the first. Each step is checked on its date, so every round builds on what the last one showed.</p></div>
+    <div><h3 data-voice="joint">What do you need from us?</h3><p>Three short meetings: a kickoff with you, a screen‑share of your tools with whoever built them, and a final review. Your plans and docs, and the sales numbers for the adobo flavor. No customer data. Both sides sign an NDA first.</p></div>
+    <div><h3 data-voice="joint">What do we get?</h3><p>One page: where what you expect and what you actually get line up, where they don't, and what to stop. Plus three recommended next steps, each with a clear number for success and a date to check it. It's yours to keep.</p></div>
+    <div><h3>What happens after?</h3><p>Nothing, unless you want help with one of the next steps. Each is priced on its own, and the $5,000 is credited toward the first. Each step is checked on its date, so every round builds on what the last one showed.</p></div>
   </div>
 </section>
 
@@ -354,13 +356,13 @@ a{color:var(--cyan);}
 <div class="depth-body">
   <p>The five things you said you expect from the tools, and whether they actually deliver them, plus two I'd add:</p>
   <ol class="crit">
-  <li><span class="n">01</span><span class="t"><b>Accuracy.</b> <span class="d">Where your own data (the data warehouse and the MCP tools) meets outside data, and which results get trusted without anyone checking them.</span></span></li>
-  <li><span class="n">02</span><span class="t"><b>Efficiency.</b> <span class="d">Steps that are still done by hand, or automated when they don't need to be.</span></span></li>
-  <li><span class="n">03</span><span class="t"><b>Speed.</b> <span class="d">How long it takes to get from a question to a decision you can act on.</span></span></li>
-  <li><span class="n">04</span><span class="t"><b>Cost savings.</b> <span class="d">Whether running it on your own servers is actually cheaper, and what you're paying for but not using.</span></span></li>
-  <li><span class="n">05</span><span class="t"><b>One source of truth.</b> <span class="d">Whether everything builds on one shared record, or piles up duplicate data and messy fixes.</span></span></li>
-  <li class="add"><span class="n">06</span><span class="t"><b>What gets sent to AI models.</b> <span class="d">Which customer data, personal details and partner terms get sent to an AI model or an outside service, and whether they need to be. Keeping things on your own servers only protects what stays there. I map where the data goes; I never handle it.</span></span></li>
-  <li class="add"><span class="n">07</span><span class="t"><b>Facts or estimates.</b> <span class="d">Which numbers are hard facts and which are estimates (customer simulations, trend forecasts, partner‑risk warnings), whether each estimate says how sure it is, and whether anyone checks it against what actually happened.</span></span></li>
+  <li><span class="n">01</span><span class="t"><b>Accuracy<span class="p">.</span></b> <span class="d">Where your own data (the data warehouse and the MCP tools) meets outside data, and which results get trusted without anyone checking them.</span></span></li>
+  <li><span class="n">02</span><span class="t"><b>Efficiency<span class="p">.</span></b> <span class="d">Steps that are still done by hand, or automated when they don't need to be.</span></span></li>
+  <li><span class="n">03</span><span class="t"><b>Speed<span class="p">.</span></b> <span class="d">How long it takes to get from a question to a decision you can act on.</span></span></li>
+  <li><span class="n">04</span><span class="t"><b>Cost savings<span class="p">.</span></b> <span class="d">Whether running it on your own servers is actually cheaper, and what you're paying for but not using.</span></span></li>
+  <li><span class="n">05</span><span class="t"><b>One source of truth<span class="p">.</span></b> <span class="d">Whether everything builds on one shared record, or piles up duplicate data and messy fixes.</span></span></li>
+  <li class="add"><span class="n">06</span><span class="t"><b>What gets sent to AI models<span class="p">.</span></b> <span class="d">Which customer data, personal details and partner terms get sent to an AI model or an outside service, and whether they need to be. Keeping things on your own servers only protects what stays there. I map where the data goes; I never handle it.</span></span></li>
+  <li class="add"><span class="n">07</span><span class="t"><b>Facts or estimates<span class="p">.</span></b> <span class="d">Which numbers are hard facts and which are estimates (customer simulations, trend forecasts, partner‑risk warnings), whether each estimate says how sure it is, and whether anyone checks it against what actually happened.</span></span></li>
   </ol>
   <p><b>The two weeks:</b> week 1, a 60‑minute kickoff with you, then a 60 to 90‑minute screen‑share with whoever built the tools. Week 2, a few follow‑up questions by email, the write-up, and a 30‑minute final review. Anything I'm unsure about is marked as unsure, not smoothed over.</p>
 </div>
