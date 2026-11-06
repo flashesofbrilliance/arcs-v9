@@ -105,7 +105,7 @@
       "filed": "2026-08-07",
       "severity": "low",
       "summary": "Receipt Studio (/api/receipts/studio/[tenant]): the sessionId bearer now grants WRITE (PATCH close/score), not just READ, and travels in the GET query string (?sessionId=), so a Referer/proxy-log/history leak is a write capability. Accepted for the robin tenant (Zach's own demo receipts, non-attributable). CISO review finding B, 2026-08-07.",
-      "exit": { "type": "waiver", "reason": "Blast radius is one non-sensitive demo tenant. MUST NOT generalize to a user-attributable/sensitive tenant without moving the token to a header/cookie or a POST body. Re-review before onboarding any such tenant.", "expires": "2026-11-05" }
+      "exit": { "type": "waiver", "reason": "Blast radius is one non-sensitive demo tenant. MUST NOT generalize to a user-attributable/sensitive tenant without moving the token to a header/cookie or a POST body. Re-review before onboarding any such tenant. Extended 2026-11-06 by Zach for 30 days, same scope (robin demo tenant only); the original 2026-11-05 expiry turned main CI red.", "expires": "2026-12-05" }
     },
     {
       "id": "STU-016",
