@@ -12,6 +12,9 @@ description: Pre-meeting brief: find the counterpart inputs from the calendar, t
 > onward. Run manually before a specific meeting, or on a recurring poll via `/schedule` (see
 > bottom).
 
+> For an interview or any call where identity needs checking before you perform, the cockpit page is
+> **/precall-page** (template `src/ui-kit/precall-brief/`); this command stays the founder-meeting teardown path.
+
 **Usage:** `/precall-brief` (polls calendar for the next unbrief­ed external meeting) or
 `/precall-brief <attendee name or email>` (target one specific upcoming meeting directly).
 

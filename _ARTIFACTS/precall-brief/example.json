@@ -1,0 +1,118 @@
+{
+  "id": "example-larkspur-round1",
+  "title": "Larkspur round one",
+  "eyebrow": "ARCS Field OS · Pre-call · Product lead, payments, 1 of 3",
+  "sub": "Thu 12 Nov, 2:00 to 2:45 ET. Interviewer billed as Morgan Reyes (VP Product, unverified). Fictional example. Two jobs, in order: confirm this is real, then win the round.",
+  "when": "Thu 12 Nov · 2:00 to 2:45 ET · Zoom via the recruiter's invite",
+  "start": "2026-11-12T14:00:00-05:00",
+  "end": "2026-11-12T14:45:00-05:00",
+  "openingMinutes": 5,
+  "meet": "https://example.zoom.us/j/00000000000",
+  "pinned": {
+    "label": "Frozen · 11:40 PM ET Wed",
+    "text": "Past this point, more polishing is soothing, not preparing. Tomorrow: say the three cockpit lines out loud once, and check Gmail for Dana's reply at 1:30."
+  },
+  "cockpit": {
+    "sections": [
+      {"id": "trip", "title": "1 · Tripwires: always on, leave the call", "items": [
+        {"h": "Install or fix", "lede": "Any request to install, update or fix your camera, mic or meeting app.", "bullets": ["Join in the browser only.", "The link must land on zoom.us."], "link": "Checks you can still run"},
+        {"h": "Personal data or money", "lede": "ID, SSN, bank or wallet details, or any payment.", "bullets": ["A first-round interview needs none of these."], "link": "How to read the answers"},
+        {"h": "Channel or code", "lede": "A move to Telegram or WhatsApp, or a repo or tool to open.", "bullets": ["Fake-interview campaigns use a take-home repo to deliver malware."], "link": "How to read the answers"}
+      ]},
+      {"id": "ask", "title": "2 · Ask first: minutes 0 to 4, proof it's real", "items": [
+        {"h": "The team", "lede": "Which product line is this, and who leads it today?", "bullets": ["This is the identity check. A specific, checkable answer is a pass.", "Generic or \"confidential for now\": re-ask once, plainly.", "Strongest proof: ask for a work email to send a thank-you. A company-domain address settles identity."], "link": "How to read the answers"},
+        {"h": "Reporting line", "lede": "Who does the role report to? How big is the team?", "bullets": ["A real org chart is hard to fake.", "Tells you whether the job is the right shape for you."], "link": "Your questions 4 to 7"},
+        {"h": "On-call", "lede": "Is there a pager rotation for product leads?", "bullets": ["The likely deal-breaker. Settle it before investing more rounds."], "link": "Your questions 4 to 7"}
+      ]},
+      {"id": "rule", "title": "3 · Decide: go or stop by minute 20", "items": [
+        {"h": "Go", "lede": "The team is named with specifics, or a company-domain address arrived.", "bullets": ["Run the interview lane."], "link": "Run of show"},
+        {"h": "Stop", "lede": "Neither by minute 20, or the answers are scripted deflection.", "bullets": ["Finish politely.", "Send nothing further.", "Ask the recruiter in writing who you met."], "link": "How to read the answers"}
+      ]},
+      {"id": "say", "title": "4 · Say: once the person checks out", "items": [
+        {"h": "Opener", "lede": "Payments product lead. Moving money safely is the work.", "bullets": ["Two launches under a money-transmitter license, zero regulator findings.", "Bridge: that is the core problem a payouts product has to get right."], "link": "What they test"},
+        {"h": "If scale comes up", "lede": "Owned the payouts roadmap from pilot to general availability.", "bullets": ["Say the volume you can source; skip the ones you cannot.", "Product person, not a payments engineer."], "link": "Roadmap method"}
+      ]}
+    ]
+  },
+  "lanes": [
+    {"id": "before", "title": "Before", "when": "now to 2:00", "job": "Settle who you're meeting. Nothing here is for saying out loud.", "cards": [
+      {"type": "kv", "title": "Status", "chip": "stated", "wide": true, "stamp": "Checked in Gmail 11:30 PM ET Wed. Re-check at 1:30.", "rows": [
+        ["Your note", "Sent 4:10 PM ET Wed: asks Morgan's title and work address, and the team name."],
+        ["Reply", "None yet."],
+        ["Invite", "No reschedule or cancellation."]
+      ]},
+      {"type": "kv", "title": "Who is Morgan Reyes", "chip": "unverified", "rows": [
+        ["Public record", "A Morgan Reyes lists VP Product at Larkspur on a professional profile; no company page names them."],
+        ["Claim", "The recruiter named the title; nothing first-party confirms it."]
+      ]},
+      {"type": "kv", "title": "Recruiter", "chip": "stated", "rows": [
+        ["For", "Agency domain resolves, long posting history, asked you to run nothing."],
+        ["Against", "First contact came from a personal address."]
+      ]},
+      {"type": "kv", "title": "Odds", "chip": "judgment", "wide": true, "rows": [
+        ["Now", "~70% legit as described, ~20% legit with wrong details, ~10% impersonation. Error bars about ±15."],
+        ["Moves it", "A company-domain address drops impersonation under 5%. A dodge on the team name pushes it past 30%."]
+      ]},
+      {"type": "list", "title": "Checks you can still run", "chip": "stated", "wide": true, "items": [
+        "Reverse-image the interviewer's profile photo (Google Lens, TinEye).",
+        "Confirm the invite link lands on zoom.us before joining. Join in the browser."
+      ]}
+    ]},
+    {"id": "opening", "title": "Opening", "when": "0 to 5 min", "job": "Confirm the person before you perform.", "cards": [
+      {"type": "kv", "title": "First five minutes", "chip": "stated", "wide": true, "rows": [
+        ["0 to 2", "Hellos. Ask open: how long have you been at Larkspur, and which team are you on?"],
+        ["2 to 4", "Ask the product line and who leads it today."],
+        ["4 to 5", "Your 60-second opener (cockpit, line 1)."]
+      ]},
+      {"type": "list", "title": "How to read the answers", "chip": "judgment", "wide": true, "items": [
+        "Pass: specific texture you could check later, or an honest \"I'm not sure, I'll find out\".",
+        "Soft flag: fluent but generic on the team's name. Re-ask once, plainly.",
+        "Fail: agreeing with whatever you suggest, camera off with a looping script, or any push toward a tripwire. Apply the stop rule."
+      ]}
+    ]},
+    {"id": "interview", "title": "Interview", "when": "5 to 45 min", "job": "Show product leadership on regulated payments, with examples.", "cards": [
+      {"type": "kv", "title": "Run of show", "chip": "judgment", "wide": true, "rows": [
+        ["5 to 30", "Their questions: roadmap, cross-functional delivery, risk and compliance, examples."],
+        ["30 to 38", "Case, if it comes: a payouts failure and how you would find it."],
+        ["38 to 45", "Your questions 4 to 7 below. Close on round two."]
+      ]},
+      {"type": "kv", "title": "What they test", "chip": "stated", "rows": [
+        ["1", "Product strategy and roadmaps"],
+        ["2", "Requirements into product across design, engineering, risk"],
+        ["3", "Concrete launch examples"]
+      ]},
+      {"type": "kv", "title": "Roadmap method", "chip": "stated", "rows": [
+        ["Start", "Business outcome first, work backward."],
+        ["Upstream", "Compliance as co-designer at sprint planning."],
+        ["Done", "Acceptance criteria before build."]
+      ]},
+      {"type": "say", "title": "Delivery story", "chip": "stated", "wide": true, "text": "We mapped dependencies before committing to dates, and the same team shipped the second launch in half the time of the first."},
+      {"type": "asks", "title": "Your questions 4 to 7", "chip": "judgment", "wide": true, "numberFrom": 4, "items": [
+        "Live with customers, or pre-launch? Which markets first?",
+        "Who owns compliance, and how early are they in planning?",
+        "What does round two cover, and who runs it?",
+        "What does success look like at six months?"
+      ]},
+      {"type": "list", "title": "Don't", "chip": "judgment", "wide": true, "items": [
+        "Claim numbers you cannot source.",
+        "Renegotiate comp in round one, or mention other roles or candidates.",
+        "Supply the answer to your own check (\"you're on the payments team, right?\")."
+      ]}
+    ]},
+    {"id": "debrief", "title": "Debrief", "when": "after 2:45", "job": "Score before memory rewrites it, then close the loop.", "cards": [
+      {"type": "exante", "title": "Predictions", "chip": "judgment", "wide": true, "after": "Subjective priors, not calculations: treat these as calibration practice.", "items": [
+        {"text": "The recruiter replies before the call with a company-domain address for Morgan", "p": 0.6, "basis": "Judgment. Agency replied within a day twice before."},
+        {"text": "The team is named on the call", "p": 0.8, "basis": "Judgment. Nothing so far suggests it is withheld."},
+        {"text": "Asked to install, run or fix anything", "p": 0.05, "basis": "Judgment. Nothing asked at stage one."},
+        {"text": "They ask for a concrete launch example", "p": 0.85, "basis": "Stated: the recruiter said bring launch examples."},
+        {"text": "Two interviewers on the call", "p": 0.5, "basis": "Stated: the invite lists two guests."},
+        {"text": "Advance to round two", "p": 0.5, "basis": "Measured: 3 of 6 first rounds advanced this quarter."}
+      ]},
+      {"type": "list", "title": "Close the loop", "chip": "stated", "wide": true, "items": [
+        "Mark each prediction Hit or Miss above.",
+        "Run /recoil-close: transcript, belief updates, decision receipt."
+      ]}
+    ]}
+  ],
+  "footer": "Fictional example for the precall-brief template. Every name, company and link here is invented. Ticks and results stay in this browser only."
+}

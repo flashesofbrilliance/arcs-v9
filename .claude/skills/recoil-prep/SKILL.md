@@ -48,5 +48,9 @@ with the non-guessable internal password. Commit on the main worktree, push, ver
 - **Active listening > magical thinking** ([[active-listening-over-magical-thinking]]): if the gathered
   record contains a disqualifying signal, log it now; don't build a pursuit that ignores it.
 
+## Cockpit page
+For the page you hold open during the call (tripwires, identity check, go/stop rule, lines, labeled predictions),
+run **/precall-page** (template `src/ui-kit/precall-brief/`). Carry this SSOT's ex-ante predictions into it.
+
 ## Next
 Have the call. Then run **/recoil-close** to score the ex-ante and fill the back four tabs.
