@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { AMMO_COOKIE, ammoUnlocked } from '@/lib/ammo-gate'
-import { CIA_GATE, DIOPTRA_GATE, MONDAY_GATE, MYALLY_GATE, gateUnlocked } from '@/lib/passcode-gate'
+import { CIA_GATE, DIOPTRA_GATE, LOUISVILLE_GATE, LOUISVILLE_PROPOSAL_GATE, MONDAY_GATE, MYALLY_GATE, gateUnlocked } from '@/lib/passcode-gate'
 
 const SUBDOMAIN_MAP: Record<string, string> = {
   'resume':       '/resume.html',
@@ -98,7 +98,69 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
 const SHARED_ICON_PATH = /^\/(icon(-\d+)?\.(svg|png)|apple-icon\.png|manifest\.webmanifest|opengraph-image\.png)$/
 
 export default async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl
+  // Decode once before any gate check. The platform decodes the path before it
+  // serves a public/ file, so a raw startsWith on the encoded path let
+  // /%63ia-brief.html past the cia gate (found 2026-11-05, every prefix gate).
+  let pathname: string
+  try {
+    pathname = decodeURIComponent(request.nextUrl.pathname)
+  } catch {
+    return new NextResponse('Bad request', { status: 400, headers: { 'content-type': 'text/plain; charset=utf-8' } })
+  }
+
+  const hostname = request.headers.get('host') || ''
+  const sub = hostname.split('.')[0]
+
+  // --- louisville.arcs.care: two gates on one host (2026-11-05) -------------
+  // The proxy owns ALL routing on this host (no next.config.ts rule), and runs
+  // before the other gates, so no earlier passthrough can fall into a catch-all.
+  //   /proposal (the Louisville Brands audit proposal) has its OWN passcode, and
+  //   that passcode opens nothing else.
+  //   Everything else on the host (the root pitch suite and the /omakase copy,
+  //   both built for Justin) sits behind LOUISVILLE_PASSCODE.
+  // The proposal files and louisville.html are locked on EVERY host, because
+  // public/ files are directly fetchable at app.arcs.care/<file>. Still open by
+  // decision (Zach, 2026-11-05): omakase.arcs.care and app.arcs.care/omakase/*.
+  const LV_PROPOSAL_GATE_PAGE = '/louisville-proposal-gate.html'
+  const LV_GATE_PAGE = '/louisville-gate.html'
+  const lvProposalFile = pathname.startsWith('/louisville-proposal') && pathname !== LV_PROPOSAL_GATE_PAGE
+  const lvProposalPath = sub === 'louisville' && (pathname === '/proposal' || pathname.startsWith('/proposal/'))
+  if (lvProposalFile || lvProposalPath) {
+    const ok = await gateUnlocked(
+      LOUISVILLE_PROPOSAL_GATE.ns,
+      request.cookies.get(LOUISVILLE_PROPOSAL_GATE.cookie)?.value,
+      process.env[LOUISVILLE_PROPOSAL_GATE.env],
+    )
+    const url = request.nextUrl.clone()
+    if (!ok) {
+      url.pathname = LV_PROPOSAL_GATE_PAGE
+      return NextResponse.rewrite(url)
+    }
+    if (lvProposalPath) {
+      url.pathname = pathname.endsWith('.pdf') ? '/louisville-proposal.pdf' : '/louisville-proposal.html'
+      return NextResponse.rewrite(url)
+    }
+    return NextResponse.next()
+  }
+  if (pathname === '/louisville.html' || sub === 'louisville') {
+    if (pathname === LV_GATE_PAGE || pathname === LV_PROPOSAL_GATE_PAGE) return NextResponse.next()
+    if (sub === 'louisville' && (pathname.startsWith('/api/') || pathname.startsWith('/_next/') || pathname.startsWith('/_vercel/') || pathname === '/robots.txt' || SHARED_ICON_PATH.test(pathname))) {
+      return NextResponse.next()
+    }
+    const ok = await gateUnlocked(
+      LOUISVILLE_GATE.ns,
+      request.cookies.get(LOUISVILLE_GATE.cookie)?.value,
+      process.env[LOUISVILLE_GATE.env],
+    )
+    const url = request.nextUrl.clone()
+    if (!ok) {
+      url.pathname = LV_GATE_PAGE
+      return NextResponse.rewrite(url)
+    }
+    if (pathname === '/louisville.html' || pathname.startsWith('/omakase/') || pathname === '/omakase') return NextResponse.next()
+    url.pathname = '/louisville.html'
+    return NextResponse.rewrite(url)
+  }
 
   // --- Recruiter ammo-tier gate (host-independent) ---------------------------
   // Any /recruithaus-ammo* asset (the gated viewer + PDFs holding comp logic and
@@ -129,9 +191,6 @@ export default async function proxy(request: NextRequest) {
   //   second lock (and sat disclosed in git history), so it was removed here,
   //   along with the now-dead /recoil/unlock + /api/recoil/unlock endpoints.
   //   Gates are fail-closed (NODE_ENV !== "development"), matching /warroom.
-
-  const hostname = request.headers.get('host') || ''
-  const sub = hostname.split('.')[0]
 
   // --- lewoof.arcs.care: whole host behind the shared passcode ----------------
   // The playbook holds partner deal terms and the intake page holds a

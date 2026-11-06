@@ -630,6 +630,15 @@ if [ -f scripts/kit_specimen.py ] && git diff --cached --name-only -- 'src/ui-ki
   fi
 fi
 
+# Counterpart one-pagers are generated (2026-11-04): each page must match its data file in _ARTIFACTS/counterpart-onepager/
+# rendered through the counterpart-onepager template, so a hand edit or a kit change that moves the page is caught.
+if [ -f scripts/counterpart_onepager_build.py ] && git diff --cached --name-only -- '_ARTIFACTS/counterpart-onepager/*' '_ARTIFACTS/brooks-audit-onepager.html' 'src/ui-kit/recoil-report/*' 'src/ui-kit/specimens/*' 'scripts/counterpart_onepager_build.py' | grep -q .; then
+  if ! python3 scripts/counterpart_onepager_build.py --check; then
+    echo "✖ commit blocked: a counterpart one-pager differs from its data. Edit the data JSON and run python3 scripts/counterpart_onepager_build.py." >&2
+    exit 1
+  fi
+fi
+
 # Kit manifest is generated (2026-10-31): the parts, classes, fidelity states and gate flags in
 # src/ui-kit/kit-manifest.json must match the kit files. Jobs and page usage may lag; kit fields may not.
 if [ -f scripts/kit_pull.py ] && git diff --cached --name-only -- 'src/ui-kit/*' 'src/ui/*' 'scripts/kit_pull.py' | grep -q .; then

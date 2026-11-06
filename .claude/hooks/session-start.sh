@@ -66,6 +66,8 @@ fi
 # runs the pulse<->oracle mutual check, and ALARMS on flatline. This is the fix for the
 # drift-sentry that went stale 5 days silently — a quiet operational layer now surfaces at
 # pickup instead of rotting. Guarded to never fail the hook.
+# scrum master: one line only when the weekly groom is overdue (.claude/skills/scrum/SKILL.md)
+python3 "$CLAUDE_PROJECT_DIR/scripts/scrum.py" nudge 2>/dev/null || true
 python3 "$CLAUDE_PROJECT_DIR/scripts/pulse.py" check 2>/dev/null || true
 
 # Inchworm auditor — OPEN end (orient / red thread). Check the orphaned knowledge

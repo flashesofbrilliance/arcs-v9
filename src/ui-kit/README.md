@@ -49,6 +49,7 @@ drives composition).
 | `resume-print` | `resume` | print / paper | `public/vico-resume.html` |
 | `instrument-lab` | `operate` | instrument explainer | `_ARTIFACTS/raw-capture.html` |
 | `tool-getting-started` | `read` | tool explainer, one swatch per tool | `public/good-rfp-engine.html` |
+| `counterpart-onepager` | `persuade` | counterpart proposal one-pager, built from a data file | `_ARTIFACTS/brooks-audit-onepager.html` |
 
 Modes are defined in `scripts/slop_lint.py` `MODE_SPEC` (specificity floors; burstiness is
 mode-independent). `essay`/`reflective`/`longform` carry the low 0.10 floor for evidence-dense prose;
@@ -146,3 +147,7 @@ generator can pull, paints no raw signal hex). Separation is near-duplicate shap
 - `python3 scripts/kit_pull.py harvest` writes `kit-harvest.json`: rule shapes, flocks of rules that travel together,
   and textures repeated across at least two page families outside the kit. A one-off earns no mold; promote on the
   second real case. Part 37 was the first promotion (the audit report and the good-case pages share the grain).
+
+Parts 38 (wordmark) and 39 (theme toggle) were promoted on 2026-11-04 from the Brooks one-pager and storyboard, each on its
+second real case (public/honest.html; the myally pages). The shapes with one case so far are listed as candidates in
+`_ARTIFACTS/counterpart-onepager/README.md`.
