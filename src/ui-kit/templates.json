@@ -199,6 +199,30 @@
         ".cfoot"
       ],
       "min_signatures": 4
+    },
+    "precall-brief": {
+      "mode": "operate",
+      "kind": "instrument-dashboard",
+      "description": "Private pre-call prep page for one call: pinned freeze note, a one-column cockpit in stop-loss order (Tripwires, Ask first, Decide go/stop, Say; each item a headline, lede, bullets and a Details jump to a card), four lanes in call order (Before, Opening, Interview, Debrief; the current phase opens first), foldable cards with paired-row unfold, evidence-only chips (STATED, JUDGMENT, UNVERIFIED), an ex-ante predictions table with a Basis column and a Brier score, one disclosure component (.disc), dark-first with a light toggle. The tripwire, ask-first and go/stop sections are the identity-verification layer and are required by the schema. Built only by scripts/precall_brief_build.py from page.tpl plus a data file valid against brief.schema.json; never hand-edited. Real briefs name real people and stay private (data in _ARTIFACTS/precall-brief/private/, gitignored).",
+      "canonical_examples": [
+        "_ARTIFACTS/precall-brief/example.html"
+      ],
+      "data_example": "_ARTIFACTS/precall-brief/example.json",
+      "schema": "src/ui-kit/precall-brief/brief.schema.json",
+      "generator": "scripts/precall_brief_build.py",
+      "skill": ".claude/skills/precall-page/SKILL.md",
+      "signature_selectors": [
+        ".cockpit",
+        ".csec",
+        ".citem",
+        ".disc",
+        ".lane-head",
+        ".card-sum",
+        ".chip",
+        ".pinned",
+        "#brief-data"
+      ],
+      "min_signatures": 6
     }
   }
 }

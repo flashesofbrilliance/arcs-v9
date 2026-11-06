@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 277,
-  "skill": 26,
+  "script": 278,
+  "skill": 27,
   "workflow": 2
  },
- "total": 404,
+ "total": 406,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 561,
+   "WIRED": 564,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
@@ -192,6 +192,14 @@
    "path": ".claude/skills/page-gate/SKILL.md",
    "jtbd": "Gate any standalone HTML page (public/, _ARTIFACTS/, _PROPOSALS/ drafts, any page family) before it is shown to anyone or committed - doctype, utf-8 charset in the first 1024 bytes, viewport, baked-in mojibake, the wrap lint, and a headless",
    "invoke": "/page-gate",
+   "state": "WIRED"
+  },
+  {
+   "kind": "skill",
+   "name": "precall-page",
+   "path": ".claude/skills/precall-page/SKILL.md",
+   "jtbd": "Build the private pre-call prep page for one upcoming call (interview, intro, sales call) from the precall-brief template. Gathers calendar, Gmail, Granola and the JD, fills the brief JSON (identity checks, tripwires, go/stop rule, lines to",
+   "invoke": "/precall-page",
    "state": "WIRED"
   },
   {
@@ -2104,6 +2112,14 @@
    "path": "scripts/pre_prep_gate.py",
    "jtbd": "pre_prep_gate — the INPUT end of the legibility clean room (ADR-075, amendment A).",
    "invoke": "python3 scripts/pre_prep_gate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "precall_brief_build.py",
+   "path": "scripts/precall_brief_build.py",
+   "jtbd": "precall_brief_build: render a pre-call brief page from the precall-brief template plus a data file.",
+   "invoke": "python3 scripts/precall_brief_build.py",
    "state": "WIRED"
   },
   {

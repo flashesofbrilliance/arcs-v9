@@ -6,6 +6,15 @@
     "ignoreFiles": [],
     "ignoreValues": [
       {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          "_ARTIFACTS/precall-brief/example.html"
+        ],
+        "createdAt": "2026-11-06T06:00:00.000Z",
+        "reason": "precall-brief template example: a private prep page read on a phone in daylight, so it carries the light palette Zach specified (the kit's own token names, AA accents), which DESIGN.md (dark only) does not define. Same light-world scope as the Brooks and Louisville waivers. Scoped to this one file; real briefs are never committed. Seam booked 2026-11-06 in _PATTERNS/kintsugi-visual-grammar-seams.md"
+      },
+      {
         "rule": "design-system-font-size",
         "value": "*",
         "files": [
