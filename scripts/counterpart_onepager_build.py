@@ -168,49 +168,60 @@ ICONS = '<svg class="i-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidd
 ICON_JS = """<script>(function(){var d=document.documentElement,b=document.getElementById('themebtn');if(!b)return;var mq=window.matchMedia?matchMedia('(prefers-color-scheme: light)'):null;function cur(){var t=d.getAttribute('data-theme');if(t)return t;return mq&&mq.matches?'light':'dark';}function label(){var n=cur()==='light'?'dark':'light';b.setAttribute('data-next',n);b.setAttribute('aria-label','Switch to '+n+' mode');b.title='Switch to '+n+' mode';}b.hidden=false;label();b.addEventListener('click',function(){var n=cur()==='light'?'dark':'light';d.setAttribute('data-theme',n);try{localStorage.setItem('{key}',n);}catch(e){}label();});if(mq&&mq.addEventListener)mq.addEventListener('change',label);})();</script>"""
 
 # Candidate: US Letter print. Light tokens, every case panel shown, the checklist opened (the script opens it for print).
-# Step sizes, the page gap and the leading derive from the screen tokens, so a tuned token moves print too. The factors
-# reproduce the 2026-11-05 PDF at the shipped tokens: rem is 9.5pt in print, so --fs-step 1.25rem x 20/19 = 12.5pt,
-# x 96/95 = 12pt; --sp-5 64px x 11/48 = 11pt; --lh 1.6 - 0.15 = 1.45. Body padding stays 0 (the @page margin is the gutter).
-PRINT = """/* Print: US Letter, two pages (one sheet, both sides). Light tokens, every case panel shown, the checklist opened. */
-@page{size:Letter;margin:0.5in 0.6in;}
+# Paper is not a screen: one family (sans) with teal as the only accent, near-black text at 10.5pt, no boxes or
+# mono labels. Page 1 holds the hero through the three questions; the ask opens page 2, and the footer is a page 2
+# bottom margin box so it sits at the foot of the sheet. Sizes are rem (1rem = 10pt in print).
+PRINT = """/* Print: US Letter, two pages (one sheet, both sides). One family, near-black text, the ask opens page 2. */
+@page{size:Letter;margin:0.5in 0.65in 0.55in;@bottom-left{content:"{footer}";font-family:var(--ds-font-sans),sans-serif;font-size:9pt;color:#3d4552;vertical-align:top;border-top:0.75pt solid #c9d0d9;padding-top:6pt;}}
+@page:first{margin-top:0.45in;margin-bottom:0.4in;@bottom-left{content:none;}}
 @media print{
-:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}
-html{font-size:9.5pt;}
-body{background:#fff!important;padding:0;line-height:calc(var(--lh) - 0.15);-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-.themebtn,.seg,.vh,details.depth summary::after{display:none!important;}
-.page{max-width:none;gap:calc(var(--sp-5) * 11 / 48);}
-section{gap:6pt;}
-h1{font-size:2.1rem;line-height:1.15;}
-.verdict{font-size:calc(var(--fs-step) * 20 / 19);margin-top:6pt;}
-.aside{margin-top:4pt;}
-.slabel{font-size:calc(var(--fs-step) * 20 / 19);}
-.tiles{margin-top:10pt;gap:8pt;}
-.tile{padding:8pt 10pt;}
-.tile .v{font-size:15pt;}
-.scorebar{margin-top:6pt;}
-.card{padding:10pt 12pt;box-shadow:none;}
-.seg-wrap .panels{display:grid;grid-template-columns:repeat(2,1fr);gap:12pt;padding-top:0;min-height:0;}
+:root:root{--bg:#ffffff;--surface:#ffffff;--surface-2:#f3f5f8;--elevated:#f3f5f8;--border:#c9d0d9;--text:#14181f;--text-secondary:#3d4552;--secondary:#3d4552;--muted:#3d4552;--dimmed:#3d4552;--cyan:#00606b;--cyan-bg:transparent;--green:#00606b;--green-bg:transparent;--gold:#8a6d00;--gold-bg:#fbf7e8;--red:#b42344;--red-bg:transparent;color-scheme:light;}
+html{font-size:10pt;}
+body{background:#fff!important;color:var(--text);padding:0;font-size:1.05rem;line-height:1.36;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.themebtn,.seg,.vh,footer,details.depth summary::after{display:none!important;}
+.page{max-width:none;gap:1.15rem;}
+section{gap:0.45rem;break-inside:avoid;}
+h1{font-size:2rem;line-height:1.15;letter-spacing:-0.015em;}
+.verdict{font-family:var(--sans);font-size:1.25rem;font-weight:400;line-height:1.4;margin-top:0.6rem;}
+.aside{color:var(--secondary);margin-top:0.3rem;}
+.slabel,details.depth summary{font-size:1.3rem;font-weight:700;letter-spacing:-0.01em;color:var(--text);}
+.lockup .deck{color:var(--secondary);}
+.tiles{margin-top:0.75rem;gap:1.6rem;grid-template-columns:repeat(3,1fr);}
+.tile{background:linear-gradient(var(--text),var(--text)) top left / 100% 1.5pt no-repeat;border-width:0;border-radius:0;padding:0.7rem 0 0;}
+.tile .v{font-family:var(--sans);font-size:1.6rem;font-weight:700;line-height:1.1;color:var(--text);}
+.tile .v.cyan{color:var(--cyan);}
+.tile .k{font-family:var(--sans);font-size:0.95rem;letter-spacing:0;text-transform:none;color:var(--secondary);margin-top:0.2rem;}
+.scorebar{margin-top:0.5rem;}
+.chip{font-family:var(--sans);font-size:1.05rem;font-weight:600;letter-spacing:0;text-transform:none;border:none;background:none;padding:0;border-radius:0;}
+.card{background:none;border-width:0;border-radius:0;padding:0;box-shadow:none;}
+.chip.green{background:none;color:var(--cyan);}
+.hgrid{column-gap:1.8rem;}
+.hhead{font-size:1.05rem;font-weight:700;color:var(--text);padding-bottom:0.3rem;}
+.hhead.c{color:var(--cyan);}
+.hrow > div{padding:0.3rem 0;border-top:0.75pt solid var(--border);}
+.seg-wrap .panels{display:grid;grid-template-columns:1fr 1fr;column-gap:1.8rem;padding-top:0;min-height:0;}
 .seg-wrap .panel{display:block!important;}
-.hrow > div{padding:5pt 0;}
-.receipt-table td{padding:5pt 10pt;}
-.td-key{width:20%;}
-.td-val{line-height:1.45;}
-.td-val ul{gap:2pt;}
-.proofrow{margin-top:3pt;}
-.receipt-table tr,.hrow > div,ol.crit li,.callout,.card,.tile{break-inside:avoid;}
-.lockup,.slabel,.hhead,details.depth summary{break-after:avoid;}
-.receipt-table section,.receipt-table{break-inside:auto;}
-.callout{padding:8pt 12pt;}
-.callout p{font-size:calc(var(--fs-step) * 96 / 95);}
-.prooflink{padding:0;}
+.seg-wrap .case{font-size:1.05rem;font-weight:700;margin-bottom:0.15rem;}
+.seg-wrap .panel p:not(.case){color:var(--text);}
+.qa{gap:0.45rem;}
+.qa h3{font-size:1.05rem;font-weight:700;margin-bottom:0.1rem;}
+.callout{break-before:page;background:var(--gold-bg);border:none;border-left:2.5pt solid var(--gold);border-radius:0;padding:0.7rem 1rem;color:var(--text);}
+.callout b{font-family:var(--sans);font-size:1.05rem;font-weight:700;letter-spacing:0;text-transform:none;color:var(--text);margin:0;}
+.callout p{font-size:1.25rem;line-height:1.4;margin-top:0.2rem;}
+details.depth{border-width:0;margin-top:0.9rem;}
 details.depth::details-content{content-visibility:visible;display:block;}
-details.depth summary{padding:6pt 0 2pt;color:var(--text);}
-.depth-body{padding-bottom:4pt;gap:4pt;}
-ol.crit{display:grid;grid-template-columns:1fr 1fr;column-gap:16pt;}
-ol.crit li{padding:4pt 0;grid-template-columns:1.6rem 1fr;}
-ol.crit li + li{border-top:none;}
-ol.crit li{border-top:1px solid var(--border);}
-footer{margin-top:-4pt;break-before:avoid;}
+details.depth summary{padding:0 0 0.4rem;display:block;}
+.depth-body{padding:0;gap:0.8rem;}
+.depth-body > p{color:var(--text);}
+.depth-body > p:first-child{text-wrap:balance;}
+ol.crit{display:block;border-top:0.75pt solid var(--border);border-bottom:0.75pt solid var(--border);}
+ol.crit li{grid-template-columns:1.8rem 1fr;gap:0 0.6rem;padding:0.6rem 0;break-inside:avoid;}
+ol.crit li + li{border-top:0.75pt solid var(--border);}
+ol.crit .n,ol.crit li.add .n{font-family:var(--sans);font-weight:700;color:var(--cyan);}
+ol.crit b{font-weight:700;}
+.hrow > div,.callout,.tile{break-inside:avoid;}
+.lockup,.slabel,.hhead,details.depth summary,.depth-body > p:first-child{break-after:avoid;}
+.prooflink{padding:0;}
 a{color:var(--cyan);}
 }
 """
@@ -272,7 +283,7 @@ def build(d):
            + (HEARD % prefix if "heard-check" in kinds else "") + (case_css(cases) if cases else "")
            + (RECEIPT if "receipt" in kinds else "") + (QA if "qa" in kinds else "") + (DEPTH if d.get("depth") else "")
            + "/* Light mode: kit 39 theme toggle. Follows the OS unless the reader picks; kit tokens remap, kit primitives stay verbatim. */\n"
-           + prim("39-theme-toggle") + (ICON_BTN if icon else "") + (PRINT if d.get("print") else ""))
+           + prim("39-theme-toggle") + (ICON_BTN if icon else "") + (PRINT.replace("{footer}", d["footer"].replace('"', '\\"')) if d.get("print") else ""))
     head_js, tail_js = theme_js(d["theme_key"], icon)
     if d.get("print") and d.get("depth"):
         tail_js += "\n" + PRINT_JS
