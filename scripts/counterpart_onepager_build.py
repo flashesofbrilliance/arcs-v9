@@ -167,50 +167,70 @@ ICON_BTN = """/* candidate: icon theme button over kit 39 */
 ICONS = '<svg class="i-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="i-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg>'
 ICON_JS = """<script>(function(){var d=document.documentElement,b=document.getElementById('themebtn');if(!b)return;var mq=window.matchMedia?matchMedia('(prefers-color-scheme: light)'):null;function cur(){var t=d.getAttribute('data-theme');if(t)return t;return mq&&mq.matches?'light':'dark';}function label(){var n=cur()==='light'?'dark':'light';b.setAttribute('data-next',n);b.setAttribute('aria-label','Switch to '+n+' mode');b.title='Switch to '+n+' mode';}b.hidden=false;label();b.addEventListener('click',function(){var n=cur()==='light'?'dark':'light';d.setAttribute('data-theme',n);try{localStorage.setItem('{key}',n);}catch(e){}label();});if(mq&&mq.addEventListener)mq.addEventListener('change',label);})();</script>"""
 
-# Candidate: US Letter print. Light tokens, every case panel shown, the checklist opened (the script opens it for print).
-# Step sizes, the page gap and the leading derive from the screen tokens, so a tuned token moves print too. The factors
-# reproduce the 2026-11-05 PDF at the shipped tokens: rem is 9.5pt in print, so --fs-step 1.25rem x 20/19 = 12.5pt,
-# x 96/95 = 12pt; --sp-5 64px x 11/48 = 11pt; --lh 1.6 - 0.15 = 1.45. Body padding stays 0 (the @page margin is the gutter).
-PRINT = """/* Print: US Letter, two pages (one sheet, both sides). Light tokens, every case panel shown, the checklist opened. */
-@page{size:Letter;margin:0.5in 0.6in;}
+# Candidate: US Letter print. Kit 39's print palette (light tokens), every case panel shown, the checklist opened.
+# Paper is not a screen. Every size and gap is a kit token: in print 1rem = 11.5pt, so --fs-body is 10.5pt and the
+# scale runs display, step, headline, body; gaps are --sp-1 (half and whole) and --sp-3. One family (sans), one
+# accent (teal). One 6-column grid: halves for paired rows, thirds (label left, text across two) for the stats, the
+# three questions, the ask and the checklist. Page 1 holds the hero through the three questions; the ask opens
+# page 2; the footer is page 2's bottom margin box. Both pages share one set of margins.
+PRINT = """/* Print: US Letter, two pages (one sheet, both sides). Kit tokens only, one family, one accent, one grid. */
+@page{size:Letter;margin:0.45in 0.5in 0.6in;@bottom-left{content:"{footer}";font-family:var(--ds-font-sans);font-size:var(--fs-label);color:var(--text-secondary);vertical-align:top;padding-top:var(--sp-1);}}
+@page:first{@bottom-left{content:none;}}
 @media print{
-:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}
-html{font-size:9.5pt;}
-body{background:#fff!important;padding:0;line-height:calc(var(--lh) - 0.15);-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-.themebtn,.seg,.vh,details.depth summary::after{display:none!important;}
-.page{max-width:none;gap:calc(var(--sp-5) * 11 / 48);}
-section{gap:6pt;}
-h1{font-size:2.1rem;line-height:1.15;}
-.verdict{font-size:calc(var(--fs-step) * 20 / 19);margin-top:6pt;}
-.aside{margin-top:4pt;}
-.slabel{font-size:calc(var(--fs-step) * 20 / 19);}
-.tiles{margin-top:10pt;gap:8pt;}
-.tile{padding:8pt 10pt;}
-.tile .v{font-size:15pt;}
-.scorebar{margin-top:6pt;}
-.card{padding:10pt 12pt;box-shadow:none;}
-.seg-wrap .panels{display:grid;grid-template-columns:repeat(2,1fr);gap:12pt;padding-top:0;min-height:0;}
+html{font-size:11.5pt;}
+body{padding:0;font-size:var(--fs-body);line-height:calc(var(--lh) - 0.27);-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+:root{--g:var(--sp-3);--gap:var(--sp-2);--half:calc(var(--sp-1) / 2);--third:calc((100% - 2 * var(--g)) / 3 + var(--g));}
+.themebtn,.seg,.vh,footer,details.depth summary::after{display:none!important;}
+p,li,h3,ol.crit .d{orphans:2;widows:2;}
+.qa p,.panel p,ol.crit .d,.depth-body > p{text-wrap:wrap;}
+.page{max-width:none;gap:var(--gap);}
+section{gap:var(--sp-1);break-inside:avoid;}
+h1{font-size:var(--fs-display);line-height:1.15;letter-spacing:-0.015em;}
+.verdict{font-family:var(--sans);font-size:var(--fs-headline);font-weight:400;line-height:1.4;margin-top:var(--sp-1);}
+.aside{color:var(--secondary);margin-top:var(--half);}
+.slabel,details.depth summary{font-size:var(--fs-headline);font-weight:700;letter-spacing:-0.01em;line-height:1.25;color:var(--text);}
+.lockup{gap:var(--half);}
+.tiles{margin-top:var(--sp-1);gap:var(--g);grid-template-columns:repeat(3,1fr);}
+.tile{background:linear-gradient(var(--text),var(--text)) top left / 100% 1.5pt no-repeat;border-width:0;border-radius:0;padding:var(--sp-1) 0 0;}
+.tile .v{font-family:var(--sans);font-size:var(--fs-step);font-weight:700;line-height:1.2;color:var(--text);}
+.tile .v.cyan{color:var(--cyan);}
+.tile .k{font-family:var(--sans);font-size:var(--fs-body);letter-spacing:0;text-transform:none;color:var(--secondary);margin-top:0;}
+.scorebar{margin-top:var(--sp-1);}
+.chip,.chip.green{font-family:var(--sans);font-size:var(--fs-body);font-weight:700;letter-spacing:0;text-transform:none;color:var(--cyan);background:none;border-width:0;padding:0;border-radius:0;}
+.card{background:none;border-width:0;border-radius:0;padding:0;box-shadow:none;}
+.hgrid{column-gap:var(--g);}
+.hhead{font-size:var(--fs-body);font-weight:700;color:var(--text);padding-bottom:var(--half);}
+.hhead.c{color:var(--cyan);}
+.hrow > div{padding:var(--half) 0;border-top:0.75pt solid var(--border);}
+.seg-wrap .panels{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--g);padding-top:0;min-height:0;}
 .seg-wrap .panel{display:block!important;}
-.hrow > div{padding:5pt 0;}
-.receipt-table td{padding:5pt 10pt;}
-.td-key{width:20%;}
-.td-val{line-height:1.45;}
-.td-val ul{gap:2pt;}
-.proofrow{margin-top:3pt;}
-.receipt-table tr,.hrow > div,ol.crit li,.callout,.card,.tile{break-inside:avoid;}
-.lockup,.slabel,.hhead,details.depth summary{break-after:avoid;}
-.receipt-table section,.receipt-table{break-inside:auto;}
-.callout{padding:8pt 12pt;}
-.callout p{font-size:calc(var(--fs-step) * 96 / 95);}
-.prooflink{padding:0;}
+.seg-wrap .case{font-size:var(--fs-body);font-weight:700;margin-bottom:0;}
+.seg-wrap .panel p:not(.case){color:var(--text);}
+.qa{gap:var(--sp-1);}
+.qa > div{display:grid;grid-template-columns:repeat(3,1fr);column-gap:var(--g);}
+.qa h3{font-size:var(--fs-body);font-weight:700;line-height:inherit;margin:0;text-wrap:balance;}
+.qa p{grid-column:2 / 4;}
+.callout{break-before:page;margin-top:calc(-1 * var(--gap));display:grid;grid-template-columns:repeat(3,1fr);column-gap:var(--g);align-items:baseline;position:relative;background:none;border-width:0;border-radius:0;padding:var(--sp-2) 0 var(--sp-2);color:var(--text);}
+.callout::before{content:"";position:absolute;inset:0 0 auto;height:1.5pt;background:var(--cyan);}
+.callout b{font-family:var(--sans);font-size:var(--fs-body);font-weight:700;letter-spacing:0;text-transform:none;color:var(--cyan);margin:0;}
+.callout p{grid-column:2 / 4;font-size:var(--fs-headline);line-height:1.4;margin:0;}
+details.depth{border-width:0;margin-top:var(--sp-2);}
+ol.crit b .p{display:none;}
 details.depth::details-content{content-visibility:visible;display:block;}
-details.depth summary{padding:6pt 0 2pt;color:var(--text);}
-.depth-body{padding-bottom:4pt;gap:4pt;}
-ol.crit{display:grid;grid-template-columns:1fr 1fr;column-gap:16pt;}
-ol.crit li{padding:4pt 0;grid-template-columns:1.6rem 1fr;}
-ol.crit li + li{border-top:none;}
-ol.crit li{border-top:1px solid var(--border);}
-footer{margin-top:-4pt;break-before:avoid;}
+details.depth summary{padding:0 0 var(--sp-1);display:block;}
+.depth-body{padding:0;gap:var(--sp-1);}
+.depth-body > p{color:var(--text);margin-left:var(--third);}
+ol.crit{display:block;border-top:0.75pt solid var(--border);border-bottom:0.75pt solid var(--border);}
+ol.crit li{grid-template-columns:repeat(3,1fr);column-gap:var(--g);padding:var(--sp-1) 0;break-inside:avoid;}
+ol.crit li + li{border-top:0.75pt solid var(--border);}
+ol.crit .t{display:contents;}
+ol.crit .n{grid-area:1 / 1;font-family:var(--sans);font-weight:700;color:var(--cyan);font-variant-numeric:tabular-nums;}
+ol.crit li.add .n{color:var(--cyan);}
+ol.crit b{grid-area:1 / 1;padding-left:2.2em;font-weight:700;}
+ol.crit .d{grid-area:1 / 2 / 2 / 4;}
+.hrow > div,.callout,.tile{break-inside:avoid;}
+.lockup,.slabel,.hhead,details.depth summary,.depth-body > p:first-child{break-after:avoid;}
+h1,.slabel,details.depth summary{text-wrap:balance;}
 a{color:var(--cyan);}
 }
 """
@@ -220,6 +240,17 @@ PRINT_JS = """<script>(function(){var d=document.querySelector("details.depth");
 def theme_js(key, icon=False):
     spec = json.load(open(os.path.join(SPECS, "theme-toggle.json"), encoding="utf-8"))
     return spec["head_js"].replace("{key}", key), (ICON_JS if icon else spec["tail_js"]).replace("{key}", key)
+
+
+def widont(t):
+    """Bind the last two words with a no-break space so a block never ends on a one-word line."""
+    head, sep, tail = t.rpartition(" ")
+    return head + "\u00a0" + tail if sep and "<" not in tail and len(tail) < 16 else t
+
+
+def dot(t):
+    """Wrap a label's closing period so print, where the label sits in its own column, can drop it."""
+    return t[:-1] + '<span class="p">.</span>' if t.endswith(".") else t
 
 
 def voice(v):
@@ -235,7 +266,7 @@ def case_switcher(s):
     g, cs = s["group"], s["cases"]
     radios = "".join(f'<input type="radio" name="{g}" id="c{i}"{" checked" if i == 1 else ""} class="vh">' for i in range(1, len(cs) + 1))
     labels = "".join(f'<label for="c{i}">{c["label"]}</label>' for i, c in enumerate(cs, 1))
-    panels = "".join(f'      <div class="panel p{i}"><p class="case">{c["case"]}</p><p>{c["body"]}</p></div>\n' for i, c in enumerate(cs, 1))
+    panels = "".join(f'      <div class="panel p{i}"><p class="case">{c["case"]}</p><p>{widont(c["body"])}</p></div>\n' for i, c in enumerate(cs, 1))
     return (lockup(s) + '  <div class="card seg-wrap">\n'
             f"    {radios}\n"
             f'    <div class="seg" role="radiogroup" aria-label="{s["aria_label"]}">{labels}</div>\n'
@@ -243,7 +274,7 @@ def case_switcher(s):
 
 
 def heard_check(s):
-    rows = "".join(f'    <div class="hrow"><div class="hh"{voice(r.get("heard_voice"))}>{r["heard"]}</div><div class="hc">{r["check"]}</div></div>\n' for r in s["rows"])
+    rows = "".join(f'    <div class="hrow"><div class="hh"{voice(r.get("heard_voice"))}>{widont(r["heard"])}</div><div class="hc">{widont(r["check"])}</div></div>\n' for r in s["rows"])
     return (lockup(s) + '  <div class="hgrid">\n'
             f'    <div class="hhead">{s["left_head"]}</div><div class="hhead c">{s["right_head"]}</div>\n' + rows + "  </div>\n")
 
@@ -254,7 +285,7 @@ def receipt(s):
 
 
 def qa(s):
-    qs = "".join(f'    <div><h3{voice(q.get("voice"))}>{q["q"]}</h3><p>{q["a"]}</p></div>\n' for q in s["questions"])
+    qs = "".join(f'    <div><h3{voice(q.get("voice"))}>{q["q"]}</h3><p>{widont(q["a"])}</p></div>\n' for q in s["questions"])
     return lockup(s) + '  <div class="card qa">\n' + qs + "  </div>\n"
 
 
@@ -272,7 +303,7 @@ def build(d):
            + (HEARD % prefix if "heard-check" in kinds else "") + (case_css(cases) if cases else "")
            + (RECEIPT if "receipt" in kinds else "") + (QA if "qa" in kinds else "") + (DEPTH if d.get("depth") else "")
            + "/* Light mode: kit 39 theme toggle. Follows the OS unless the reader picks; kit tokens remap, kit primitives stay verbatim. */\n"
-           + prim("39-theme-toggle") + (ICON_BTN if icon else "") + (PRINT if d.get("print") else ""))
+           + prim("39-theme-toggle") + (ICON_BTN if icon else "") + (PRINT.replace("{footer}", d["footer"].replace('"', '\\"')) if d.get("print") else ""))
     head_js, tail_js = theme_js(d["theme_key"], icon)
     if d.get("print") and d.get("depth"):
         tail_js += "\n" + PRINT_JS
@@ -291,7 +322,7 @@ def build(d):
     if d.get("depth"):
         dp = d["depth"]
         add = ' class="add"'
-        items = "".join(f'  <li{add if i.get("added") else ""}><span class="n">{i["n"]}</span><span><b>{i["title"]}</b> {i["body"]}</span></li>\n' for i in dp["items"])
+        items = "".join(f'  <li{add if i.get("added") else ""}><span class="n">{i["n"]}</span><span class="t"><b>{dot(i["title"])}</b> <span class="d">{widont(i["body"])}</span></span></li>\n' for i in dp["items"])
         body += (f'<details class="depth">\n<summary>{dp["summary"]}</summary>\n<div class="depth-body">\n  <p>{dp["intro"]}</p>\n'
                  '  <ol class="crit">\n' + items + "  </ol>\n" + (f'  <p>{dp["outro"]}</p>\n' if dp.get("outro") else "") + "</div>\n</details>\n\n")
     body += f'<footer><p>{d["footer"]}</p></footer>\n'
