@@ -167,61 +167,68 @@ ICON_BTN = """/* candidate: icon theme button over kit 39 */
 ICONS = '<svg class="i-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="i-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg>'
 ICON_JS = """<script>(function(){var d=document.documentElement,b=document.getElementById('themebtn');if(!b)return;var mq=window.matchMedia?matchMedia('(prefers-color-scheme: light)'):null;function cur(){var t=d.getAttribute('data-theme');if(t)return t;return mq&&mq.matches?'light':'dark';}function label(){var n=cur()==='light'?'dark':'light';b.setAttribute('data-next',n);b.setAttribute('aria-label','Switch to '+n+' mode');b.title='Switch to '+n+' mode';}b.hidden=false;label();b.addEventListener('click',function(){var n=cur()==='light'?'dark':'light';d.setAttribute('data-theme',n);try{localStorage.setItem('{key}',n);}catch(e){}label();});if(mq&&mq.addEventListener)mq.addEventListener('change',label);})();</script>"""
 
-# Candidate: US Letter print. Light tokens, every case panel shown, the checklist opened (the script opens it for print).
-# Paper is not a screen: one family (sans) with teal as the only accent, near-black text at 10.5pt, no boxes or
-# mono labels. Page 1 holds the hero through the three questions; the ask opens page 2, and the footer is a page 2
-# bottom margin box so it sits at the foot of the sheet. Sizes are rem (1rem = 10pt in print).
-PRINT = """/* Print: US Letter, two pages (one sheet, both sides). One family, near-black text, the ask opens page 2. */
-@page{size:Letter;margin:0.5in 0.65in 0.55in;@bottom-left{content:"{footer}";font-family:var(--ds-font-sans),sans-serif;font-size:9pt;color:#3d4552;vertical-align:top;border-top:0.75pt solid #c9d0d9;padding-top:6pt;}}
-@page:first{margin-top:0.45in;margin-bottom:0.4in;@bottom-left{content:none;}}
+# Candidate: US Letter print. Kit 39's print palette (light tokens), every case panel shown, the checklist opened.
+# Paper is not a screen. Every size and gap is a kit token: in print 1rem = 11.5pt, so --fs-body is 10.5pt and the
+# scale runs display, step, headline, body; gaps are --sp-1 (half and whole) and --sp-3. One family (sans), one
+# accent (teal). One 6-column grid: halves for paired rows, thirds (label left, text across two) for the stats, the
+# three questions, the ask and the checklist. Page 1 holds the hero through the three questions; the ask opens
+# page 2; the footer is page 2's bottom margin box. Both pages share one set of margins.
+PRINT = """/* Print: US Letter, two pages (one sheet, both sides). Kit tokens only, one family, one accent, one grid. */
+@page{size:Letter;margin:0.45in 0.5in 0.6in;@bottom-left{content:"{footer}";font-family:var(--ds-font-sans);font-size:var(--fs-label);color:var(--text-secondary);vertical-align:top;padding-top:var(--sp-1);}}
+@page:first{@bottom-left{content:none;}}
 @media print{
-:root:root{--bg:#ffffff;--surface:#ffffff;--surface-2:#f3f5f8;--elevated:#f3f5f8;--border:#c9d0d9;--text:#14181f;--text-secondary:#3d4552;--secondary:#3d4552;--muted:#3d4552;--dimmed:#3d4552;--cyan:#00606b;--cyan-bg:transparent;--green:#00606b;--green-bg:transparent;--gold:#8a6d00;--gold-bg:#fbf7e8;--red:#b42344;--red-bg:transparent;color-scheme:light;}
-html{font-size:10pt;}
-body{background:#fff!important;color:var(--text);padding:0;font-size:1.05rem;line-height:1.36;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html{font-size:11.5pt;}
+body{padding:0;font-size:var(--fs-body);line-height:calc(var(--lh) - 0.27);-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+:root{--g:var(--sp-3);--gap:var(--sp-2);--half:calc(var(--sp-1) / 2);--third:calc((100% - 2 * var(--g)) / 3 + var(--g));}
 .themebtn,.seg,.vh,footer,details.depth summary::after{display:none!important;}
-.page{max-width:none;gap:1.15rem;}
-section{gap:0.45rem;break-inside:avoid;}
-h1{font-size:2rem;line-height:1.15;letter-spacing:-0.015em;}
-.verdict{font-family:var(--sans);font-size:1.25rem;font-weight:400;line-height:1.4;margin-top:0.6rem;}
-.aside{color:var(--secondary);margin-top:0.3rem;}
-.slabel,details.depth summary{font-size:1.3rem;font-weight:700;letter-spacing:-0.01em;color:var(--text);}
-.lockup .deck{color:var(--secondary);}
-.tiles{margin-top:0.75rem;gap:1.6rem;grid-template-columns:repeat(3,1fr);}
-.tile{background:linear-gradient(var(--text),var(--text)) top left / 100% 1.5pt no-repeat;border-width:0;border-radius:0;padding:0.7rem 0 0;}
-.tile .v{font-family:var(--sans);font-size:1.6rem;font-weight:700;line-height:1.1;color:var(--text);}
+p,li,h3,ol.crit .d{orphans:2;widows:2;text-wrap:pretty;}
+.page{max-width:none;gap:var(--gap);}
+section{gap:var(--sp-1);break-inside:avoid;}
+h1{font-size:var(--fs-display);line-height:1.15;letter-spacing:-0.015em;}
+.verdict{font-family:var(--sans);font-size:var(--fs-headline);font-weight:400;line-height:1.4;margin-top:var(--sp-1);}
+.aside{color:var(--secondary);margin-top:var(--half);}
+.slabel,details.depth summary{font-size:var(--fs-headline);font-weight:700;letter-spacing:-0.01em;line-height:1.25;color:var(--text);}
+.lockup{gap:var(--half);}
+.tiles{margin-top:var(--sp-1);gap:var(--g);grid-template-columns:repeat(3,1fr);}
+.tile{background:linear-gradient(var(--text),var(--text)) top left / 100% 1.5pt no-repeat;border-width:0;border-radius:0;padding:var(--sp-1) 0 0;}
+.tile .v{font-family:var(--sans);font-size:var(--fs-step);font-weight:700;line-height:1.2;color:var(--text);}
 .tile .v.cyan{color:var(--cyan);}
-.tile .k{font-family:var(--sans);font-size:0.95rem;letter-spacing:0;text-transform:none;color:var(--secondary);margin-top:0.2rem;}
-.scorebar{margin-top:0.5rem;}
-.chip{font-family:var(--sans);font-size:1.05rem;font-weight:600;letter-spacing:0;text-transform:none;border:none;background:none;padding:0;border-radius:0;}
+.tile .k{font-family:var(--sans);font-size:var(--fs-body);letter-spacing:0;text-transform:none;color:var(--secondary);margin-top:0;}
+.scorebar{margin-top:var(--sp-1);}
+.chip,.chip.green{font-family:var(--sans);font-size:var(--fs-body);font-weight:700;letter-spacing:0;text-transform:none;color:var(--cyan);background:none;border-width:0;padding:0;border-radius:0;}
 .card{background:none;border-width:0;border-radius:0;padding:0;box-shadow:none;}
-.chip.green{background:none;color:var(--cyan);}
-.hgrid{column-gap:1.8rem;}
-.hhead{font-size:1.05rem;font-weight:700;color:var(--text);padding-bottom:0.3rem;}
+.hgrid{column-gap:var(--g);}
+.hhead{font-size:var(--fs-body);font-weight:700;color:var(--text);padding-bottom:var(--half);}
 .hhead.c{color:var(--cyan);}
-.hrow > div{padding:0.3rem 0;border-top:0.75pt solid var(--border);}
-.seg-wrap .panels{display:grid;grid-template-columns:1fr 1fr;column-gap:1.8rem;padding-top:0;min-height:0;}
+.hrow > div{padding:var(--half) 0;border-top:0.75pt solid var(--border);}
+.seg-wrap .panels{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--g);padding-top:0;min-height:0;}
 .seg-wrap .panel{display:block!important;}
-.seg-wrap .case{font-size:1.05rem;font-weight:700;margin-bottom:0.15rem;}
+.seg-wrap .case{font-size:var(--fs-body);font-weight:700;margin-bottom:0;}
 .seg-wrap .panel p:not(.case){color:var(--text);}
-.qa{gap:0.45rem;}
-.qa h3{font-size:1.05rem;font-weight:700;margin-bottom:0.1rem;}
-.callout{break-before:page;background:var(--gold-bg);border:none;border-left:2.5pt solid var(--gold);border-radius:0;padding:0.7rem 1rem;color:var(--text);}
-.callout b{font-family:var(--sans);font-size:1.05rem;font-weight:700;letter-spacing:0;text-transform:none;color:var(--text);margin:0;}
-.callout p{font-size:1.25rem;line-height:1.4;margin-top:0.2rem;}
-details.depth{border-width:0;margin-top:0.9rem;}
+.qa{gap:var(--sp-1);}
+.qa > div{display:grid;grid-template-columns:repeat(3,1fr);column-gap:var(--g);}
+.qa h3{font-size:var(--fs-body);font-weight:700;line-height:inherit;margin:0;text-wrap:balance;}
+.qa p{grid-column:2 / 4;}
+.callout{break-before:page;margin-top:calc(-1 * var(--gap));display:grid;grid-template-columns:repeat(3,1fr);column-gap:var(--g);align-items:baseline;position:relative;background:none;border-width:0;border-radius:0;padding:var(--sp-1) 0 0;color:var(--text);}
+.callout::before{content:"";position:absolute;inset:0 0 auto;height:1.5pt;background:var(--cyan);}
+.callout b{font-family:var(--sans);font-size:var(--fs-body);font-weight:700;letter-spacing:0;text-transform:none;color:var(--cyan);margin:0;}
+.callout p{grid-column:2 / 4;font-size:var(--fs-headline);line-height:1.4;margin:0;}
+details.depth{border-width:0;}
 details.depth::details-content{content-visibility:visible;display:block;}
-details.depth summary{padding:0 0 0.4rem;display:block;}
-.depth-body{padding:0;gap:0.8rem;}
-.depth-body > p{color:var(--text);}
-.depth-body > p:first-child{text-wrap:balance;}
+details.depth summary{padding:0 0 var(--sp-1);display:block;}
+.depth-body{padding:0;gap:var(--sp-1);}
+.depth-body > p{color:var(--text);margin-left:var(--third);}
 ol.crit{display:block;border-top:0.75pt solid var(--border);border-bottom:0.75pt solid var(--border);}
-ol.crit li{grid-template-columns:1.8rem 1fr;gap:0 0.6rem;padding:0.6rem 0;break-inside:avoid;}
+ol.crit li{grid-template-columns:repeat(3,1fr);column-gap:var(--g);padding:var(--sp-1) 0;break-inside:avoid;}
 ol.crit li + li{border-top:0.75pt solid var(--border);}
-ol.crit .n,ol.crit li.add .n{font-family:var(--sans);font-weight:700;color:var(--cyan);}
-ol.crit b{font-weight:700;}
+ol.crit .t{display:contents;}
+ol.crit .n{grid-area:1 / 1;font-family:var(--sans);font-weight:700;color:var(--cyan);font-variant-numeric:tabular-nums;}
+ol.crit li.add .n{color:var(--cyan);}
+ol.crit b{grid-area:1 / 1;padding-left:2.2em;font-weight:700;}
+ol.crit .d{grid-area:1 / 2 / 2 / 4;}
 .hrow > div,.callout,.tile{break-inside:avoid;}
 .lockup,.slabel,.hhead,details.depth summary,.depth-body > p:first-child{break-after:avoid;}
-.prooflink{padding:0;}
+h1,.slabel,details.depth summary,.depth-body > p:first-child{text-wrap:balance;}
 a{color:var(--cyan);}
 }
 """
@@ -231,6 +238,12 @@ PRINT_JS = """<script>(function(){var d=document.querySelector("details.depth");
 def theme_js(key, icon=False):
     spec = json.load(open(os.path.join(SPECS, "theme-toggle.json"), encoding="utf-8"))
     return spec["head_js"].replace("{key}", key), (ICON_JS if icon else spec["tail_js"]).replace("{key}", key)
+
+
+def widont(t):
+    """Bind the last two words with a no-break space so a block never ends on a one-word line."""
+    head, sep, tail = t.rpartition(" ")
+    return head + "\u00a0" + tail if sep and "<" not in tail and len(tail) < 16 else t
 
 
 def voice(v):
@@ -246,7 +259,7 @@ def case_switcher(s):
     g, cs = s["group"], s["cases"]
     radios = "".join(f'<input type="radio" name="{g}" id="c{i}"{" checked" if i == 1 else ""} class="vh">' for i in range(1, len(cs) + 1))
     labels = "".join(f'<label for="c{i}">{c["label"]}</label>' for i, c in enumerate(cs, 1))
-    panels = "".join(f'      <div class="panel p{i}"><p class="case">{c["case"]}</p><p>{c["body"]}</p></div>\n' for i, c in enumerate(cs, 1))
+    panels = "".join(f'      <div class="panel p{i}"><p class="case">{c["case"]}</p><p>{widont(c["body"])}</p></div>\n' for i, c in enumerate(cs, 1))
     return (lockup(s) + '  <div class="card seg-wrap">\n'
             f"    {radios}\n"
             f'    <div class="seg" role="radiogroup" aria-label="{s["aria_label"]}">{labels}</div>\n'
@@ -254,7 +267,7 @@ def case_switcher(s):
 
 
 def heard_check(s):
-    rows = "".join(f'    <div class="hrow"><div class="hh"{voice(r.get("heard_voice"))}>{r["heard"]}</div><div class="hc">{r["check"]}</div></div>\n' for r in s["rows"])
+    rows = "".join(f'    <div class="hrow"><div class="hh"{voice(r.get("heard_voice"))}>{widont(r["heard"])}</div><div class="hc">{widont(r["check"])}</div></div>\n' for r in s["rows"])
     return (lockup(s) + '  <div class="hgrid">\n'
             f'    <div class="hhead">{s["left_head"]}</div><div class="hhead c">{s["right_head"]}</div>\n' + rows + "  </div>\n")
 
@@ -302,7 +315,7 @@ def build(d):
     if d.get("depth"):
         dp = d["depth"]
         add = ' class="add"'
-        items = "".join(f'  <li{add if i.get("added") else ""}><span class="n">{i["n"]}</span><span><b>{i["title"]}</b> {i["body"]}</span></li>\n' for i in dp["items"])
+        items = "".join(f'  <li{add if i.get("added") else ""}><span class="n">{i["n"]}</span><span class="t"><b>{i["title"]}</b> <span class="d">{widont(i["body"])}</span></span></li>\n' for i in dp["items"])
         body += (f'<details class="depth">\n<summary>{dp["summary"]}</summary>\n<div class="depth-body">\n  <p>{dp["intro"]}</p>\n'
                  '  <ol class="crit">\n' + items + "  </ol>\n" + (f'  <p>{dp["outro"]}</p>\n' if dp.get("outro") else "") + "</div>\n</details>\n\n")
     body += f'<footer><p>{d["footer"]}</p></footer>\n'

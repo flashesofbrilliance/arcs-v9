@@ -238,57 +238,62 @@ ol.crit b{font-weight:600;}
 .themebtn[hidden]{display:none;}
 .themebtn[data-next="light"] .i-moon,.themebtn[data-next="dark"] .i-sun{display:none;}
 .themebtn:hover,.themebtn:focus-visible{color:var(--cyan);border-color:var(--cyan);text-decoration:none;}
-/* Print: US Letter, two pages (one sheet, both sides). One family, near-black text, the ask opens page 2. */
-@page{size:Letter;margin:0.5in 0.65in 0.55in;@bottom-left{content:"Zach Harris · zach.harris@gmail.com";font-family:var(--ds-font-sans),sans-serif;font-size:9pt;color:#3d4552;vertical-align:top;border-top:0.75pt solid #c9d0d9;padding-top:6pt;}}
-@page:first{margin-top:0.45in;margin-bottom:0.4in;@bottom-left{content:none;}}
+/* Print: US Letter, two pages (one sheet, both sides). Kit tokens only, one family, one accent, one grid. */
+@page{size:Letter;margin:0.45in 0.5in 0.6in;@bottom-left{content:"Zach Harris · zach.harris@gmail.com";font-family:var(--ds-font-sans);font-size:var(--fs-label);color:var(--text-secondary);vertical-align:top;padding-top:var(--sp-1);}}
+@page:first{@bottom-left{content:none;}}
 @media print{
-:root:root{--bg:#ffffff;--surface:#ffffff;--surface-2:#f3f5f8;--elevated:#f3f5f8;--border:#c9d0d9;--text:#14181f;--text-secondary:#3d4552;--secondary:#3d4552;--muted:#3d4552;--dimmed:#3d4552;--cyan:#00606b;--cyan-bg:transparent;--green:#00606b;--green-bg:transparent;--gold:#8a6d00;--gold-bg:#fbf7e8;--red:#b42344;--red-bg:transparent;color-scheme:light;}
-html{font-size:10pt;}
-body{background:#fff!important;color:var(--text);padding:0;font-size:1.05rem;line-height:1.36;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html{font-size:11.5pt;}
+body{padding:0;font-size:var(--fs-body);line-height:calc(var(--lh) - 0.27);-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+:root{--g:var(--sp-3);--gap:var(--sp-2);--half:calc(var(--sp-1) / 2);--third:calc((100% - 2 * var(--g)) / 3 + var(--g));}
 .themebtn,.seg,.vh,footer,details.depth summary::after{display:none!important;}
-.page{max-width:none;gap:1.15rem;}
-section{gap:0.45rem;break-inside:avoid;}
-h1{font-size:2rem;line-height:1.15;letter-spacing:-0.015em;}
-.verdict{font-family:var(--sans);font-size:1.25rem;font-weight:400;line-height:1.4;margin-top:0.6rem;}
-.aside{color:var(--secondary);margin-top:0.3rem;}
-.slabel,details.depth summary{font-size:1.3rem;font-weight:700;letter-spacing:-0.01em;color:var(--text);}
-.lockup .deck{color:var(--secondary);}
-.tiles{margin-top:0.75rem;gap:1.6rem;grid-template-columns:repeat(3,1fr);}
-.tile{background:linear-gradient(var(--text),var(--text)) top left / 100% 1.5pt no-repeat;border-width:0;border-radius:0;padding:0.7rem 0 0;}
-.tile .v{font-family:var(--sans);font-size:1.6rem;font-weight:700;line-height:1.1;color:var(--text);}
+p,li,h3,ol.crit .d{orphans:2;widows:2;text-wrap:pretty;}
+.page{max-width:none;gap:var(--gap);}
+section{gap:var(--sp-1);break-inside:avoid;}
+h1{font-size:var(--fs-display);line-height:1.15;letter-spacing:-0.015em;}
+.verdict{font-family:var(--sans);font-size:var(--fs-headline);font-weight:400;line-height:1.4;margin-top:var(--sp-1);}
+.aside{color:var(--secondary);margin-top:var(--half);}
+.slabel,details.depth summary{font-size:var(--fs-headline);font-weight:700;letter-spacing:-0.01em;line-height:1.25;color:var(--text);}
+.lockup{gap:var(--half);}
+.tiles{margin-top:var(--sp-1);gap:var(--g);grid-template-columns:repeat(3,1fr);}
+.tile{background:linear-gradient(var(--text),var(--text)) top left / 100% 1.5pt no-repeat;border-width:0;border-radius:0;padding:var(--sp-1) 0 0;}
+.tile .v{font-family:var(--sans);font-size:var(--fs-step);font-weight:700;line-height:1.2;color:var(--text);}
 .tile .v.cyan{color:var(--cyan);}
-.tile .k{font-family:var(--sans);font-size:0.95rem;letter-spacing:0;text-transform:none;color:var(--secondary);margin-top:0.2rem;}
-.scorebar{margin-top:0.5rem;}
-.chip{font-family:var(--sans);font-size:1.05rem;font-weight:600;letter-spacing:0;text-transform:none;border:none;background:none;padding:0;border-radius:0;}
+.tile .k{font-family:var(--sans);font-size:var(--fs-body);letter-spacing:0;text-transform:none;color:var(--secondary);margin-top:0;}
+.scorebar{margin-top:var(--sp-1);}
+.chip,.chip.green{font-family:var(--sans);font-size:var(--fs-body);font-weight:700;letter-spacing:0;text-transform:none;color:var(--cyan);background:none;border-width:0;padding:0;border-radius:0;}
 .card{background:none;border-width:0;border-radius:0;padding:0;box-shadow:none;}
-.chip.green{background:none;color:var(--cyan);}
-.hgrid{column-gap:1.8rem;}
-.hhead{font-size:1.05rem;font-weight:700;color:var(--text);padding-bottom:0.3rem;}
+.hgrid{column-gap:var(--g);}
+.hhead{font-size:var(--fs-body);font-weight:700;color:var(--text);padding-bottom:var(--half);}
 .hhead.c{color:var(--cyan);}
-.hrow > div{padding:0.3rem 0;border-top:0.75pt solid var(--border);}
-.seg-wrap .panels{display:grid;grid-template-columns:1fr 1fr;column-gap:1.8rem;padding-top:0;min-height:0;}
+.hrow > div{padding:var(--half) 0;border-top:0.75pt solid var(--border);}
+.seg-wrap .panels{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--g);padding-top:0;min-height:0;}
 .seg-wrap .panel{display:block!important;}
-.seg-wrap .case{font-size:1.05rem;font-weight:700;margin-bottom:0.15rem;}
+.seg-wrap .case{font-size:var(--fs-body);font-weight:700;margin-bottom:0;}
 .seg-wrap .panel p:not(.case){color:var(--text);}
-.qa{gap:0.45rem;}
-.qa h3{font-size:1.05rem;font-weight:700;margin-bottom:0.1rem;}
-.callout{break-before:page;background:var(--gold-bg);border:none;border-left:2.5pt solid var(--gold);border-radius:0;padding:0.7rem 1rem;color:var(--text);}
-.callout b{font-family:var(--sans);font-size:1.05rem;font-weight:700;letter-spacing:0;text-transform:none;color:var(--text);margin:0;}
-.callout p{font-size:1.25rem;line-height:1.4;margin-top:0.2rem;}
-details.depth{border-width:0;margin-top:0.9rem;}
+.qa{gap:var(--sp-1);}
+.qa > div{display:grid;grid-template-columns:repeat(3,1fr);column-gap:var(--g);}
+.qa h3{font-size:var(--fs-body);font-weight:700;line-height:inherit;margin:0;text-wrap:balance;}
+.qa p{grid-column:2 / 4;}
+.callout{break-before:page;margin-top:calc(-1 * var(--gap));display:grid;grid-template-columns:repeat(3,1fr);column-gap:var(--g);align-items:baseline;position:relative;background:none;border-width:0;border-radius:0;padding:var(--sp-1) 0 0;color:var(--text);}
+.callout::before{content:"";position:absolute;inset:0 0 auto;height:1.5pt;background:var(--cyan);}
+.callout b{font-family:var(--sans);font-size:var(--fs-body);font-weight:700;letter-spacing:0;text-transform:none;color:var(--cyan);margin:0;}
+.callout p{grid-column:2 / 4;font-size:var(--fs-headline);line-height:1.4;margin:0;}
+details.depth{border-width:0;}
 details.depth::details-content{content-visibility:visible;display:block;}
-details.depth summary{padding:0 0 0.4rem;display:block;}
-.depth-body{padding:0;gap:0.8rem;}
-.depth-body > p{color:var(--text);}
-.depth-body > p:first-child{text-wrap:balance;}
+details.depth summary{padding:0 0 var(--sp-1);display:block;}
+.depth-body{padding:0;gap:var(--sp-1);}
+.depth-body > p{color:var(--text);margin-left:var(--third);}
 ol.crit{display:block;border-top:0.75pt solid var(--border);border-bottom:0.75pt solid var(--border);}
-ol.crit li{grid-template-columns:1.8rem 1fr;gap:0 0.6rem;padding:0.6rem 0;break-inside:avoid;}
+ol.crit li{grid-template-columns:repeat(3,1fr);column-gap:var(--g);padding:var(--sp-1) 0;break-inside:avoid;}
 ol.crit li + li{border-top:0.75pt solid var(--border);}
-ol.crit .n,ol.crit li.add .n{font-family:var(--sans);font-weight:700;color:var(--cyan);}
-ol.crit b{font-weight:700;}
+ol.crit .t{display:contents;}
+ol.crit .n{grid-area:1 / 1;font-family:var(--sans);font-weight:700;color:var(--cyan);font-variant-numeric:tabular-nums;}
+ol.crit li.add .n{color:var(--cyan);}
+ol.crit b{grid-area:1 / 1;padding-left:2.2em;font-weight:700;}
+ol.crit .d{grid-area:1 / 2 / 2 / 4;}
 .hrow > div,.callout,.tile{break-inside:avoid;}
 .lockup,.slabel,.hhead,details.depth summary,.depth-body > p:first-child{break-after:avoid;}
-.prooflink{padding:0;}
+h1,.slabel,details.depth summary,.depth-body > p:first-child{text-wrap:balance;}
 a{color:var(--cyan);}
 }
 </style>
@@ -313,11 +318,11 @@ a{color:var(--cyan);}
   <div class="lockup"><h2 class="slabel" data-voice="joint">What I heard on our call</h2></div>
   <div class="hgrid">
     <div class="hhead">You said</div><div class="hhead c">What I'd check</div>
-    <div class="hrow"><div class="hh">You don't want to get stuck with $20,000 of bags you had to order to meet a minimum order.</div><div class="hc">Run one upcoming drop through the check before you place the order.</div></div>
-    <div class="hrow"><div class="hh">Sales and search volume can miss a trend that's still growing, and waiting too long costs you time to market.</div><div class="hc">Whether your tools can tell a flavor that has peaked from one that's still growing.</div></div>
-    <div class="hrow"><div class="hh">A collab can go wrong after the deal is signed. You've built early warnings for that by hand before.</div><div class="hc">A warning before you sign, and a clause in the deal that triggers a review if a partner underdelivers.</div></div>
-    <div class="hrow"><div class="hh">Keeping a project going because of what's already been spent on it wastes the most time.</div><div class="hc">A stop rule for each project, agreed before it starts: the number that means it's time to stop. And for what's already running, what it's costing you.</div></div>
-    <div class="hrow"><div class="hh">When a forecast is wrong, it's either bad data or a wrong guess.</div><div class="hc">Which numbers are hard facts and which are estimates, so you know which one failed.</div></div>
+    <div class="hrow"><div class="hh">You don't want to get stuck with $20,000 of bags you had to order to meet a minimum order.</div><div class="hc">Run one upcoming drop through the check before you place the order.</div></div>
+    <div class="hrow"><div class="hh">Sales and search volume can miss a trend that's still growing, and waiting too long costs you time to market.</div><div class="hc">Whether your tools can tell a flavor that has peaked from one that's still growing.</div></div>
+    <div class="hrow"><div class="hh">A collab can go wrong after the deal is signed. You've built early warnings for that by hand before.</div><div class="hc">A warning before you sign, and a clause in the deal that triggers a review if a partner underdelivers.</div></div>
+    <div class="hrow"><div class="hh">Keeping a project going because of what's already been spent on it wastes the most time.</div><div class="hc">A stop rule for each project, agreed before it starts: the number that means it's time to stop. And for what's already running, what it's costing you.</div></div>
+    <div class="hrow"><div class="hh">When a forecast is wrong, it's either bad data or a wrong guess.</div><div class="hc">Which numbers are hard facts and which are estimates, so you know which one failed.</div></div>
   </div>
 </section>
 
@@ -327,8 +332,8 @@ a{color:var(--cyan);}
     <input type="radio" name="adobo" id="c1" checked class="vh"><input type="radio" name="adobo" id="c2" class="vh">
     <div class="seg" role="radiogroup" aria-label="Where adobo stands"><label for="c1">Not launched yet</label><label for="c2">Launched</label></div>
     <div class="panels">
-      <div class="panel p1"><p class="case">If it hasn't launched yet</p><p>I check whether the trend is still growing or has peaked, before you commit to the minimum order.</p></div>
-      <div class="panel p2"><p class="case">If it has launched</p><p>I compare what the early signs said with how it actually sold, so you can see whether the check would have called it.</p></div>
+      <div class="panel p1"><p class="case">If it hasn't launched yet</p><p>I check whether the trend is still growing or has peaked, before you commit to the minimum order.</p></div>
+      <div class="panel p2"><p class="case">If it has launched</p><p>I compare what the early signs said with how it actually sold, so you can see whether the check would have called it.</p></div>
     </div>
   </div>
 </section>
@@ -336,7 +341,7 @@ a{color:var(--cyan);}
 <section>
   <div class="lockup"><h2 class="slabel">Three questions you'd ask</h2></div>
   <div class="card qa">
-    <div><h3 data-voice="joint">What do you need from us?</h3><p>Three short meetings: a kickoff with you, a screen-share of your tools with whoever built them, and a final review. Your plans and docs, and the sales numbers for the adobo flavor. No customer data. Both sides sign an NDA first.</p></div>
+    <div><h3 data-voice="joint">What do you need from us?</h3><p>Three short meetings: a kickoff with you, a screen‑share of your tools with whoever built them, and a final review. Your plans and docs, and the sales numbers for the adobo flavor. No customer data. Both sides sign an NDA first.</p></div>
     <div><h3 data-voice="joint">What do we get?</h3><p>One page: where what you expect and what you actually get line up, where they don't, and what to stop. Plus three recommended next steps, each with a clear number for success and a date to check it. It's yours to keep.</p></div>
     <div><h3>What happens after?</h3><p>Nothing, unless you want help with one of the next steps. Each is priced on its own, and the $5,000 is credited toward the first. Each step is checked on its date, so every round builds on what the last one showed.</p></div>
   </div>
@@ -349,15 +354,15 @@ a{color:var(--cyan);}
 <div class="depth-body">
   <p>The five things you said you expect from the tools, and whether they actually deliver them, plus two I'd add:</p>
   <ol class="crit">
-  <li><span class="n">01</span><span><b>Accuracy.</b> Where your own data (the data warehouse and the MCP tools) meets outside data, and which results get trusted without anyone checking them.</span></li>
-  <li><span class="n">02</span><span><b>Efficiency.</b> Steps that are still done by hand, or automated when they don't need to be.</span></li>
-  <li><span class="n">03</span><span><b>Speed.</b> How long it takes to get from a question to a decision you can act on.</span></li>
-  <li><span class="n">04</span><span><b>Cost savings.</b> Whether running it on your own servers is actually cheaper, and what you're paying for but not using.</span></li>
-  <li><span class="n">05</span><span><b>One source of truth.</b> Whether everything builds on one shared record, or piles up duplicate data and messy fixes.</span></li>
-  <li class="add"><span class="n">06</span><span><b>What gets sent to AI models.</b> Which customer data, personal details and partner terms get sent to an AI model or an outside service, and whether they need to be. Keeping things on your own servers only protects what stays there. I map where the data goes; I never handle it.</span></li>
-  <li class="add"><span class="n">07</span><span><b>Facts or estimates.</b> Which numbers are hard facts and which are estimates (customer simulations, trend forecasts, partner-risk warnings), whether each estimate says how sure it is, and whether anyone checks it against what actually happened.</span></li>
+  <li><span class="n">01</span><span class="t"><b>Accuracy.</b> <span class="d">Where your own data (the data warehouse and the MCP tools) meets outside data, and which results get trusted without anyone checking them.</span></span></li>
+  <li><span class="n">02</span><span class="t"><b>Efficiency.</b> <span class="d">Steps that are still done by hand, or automated when they don't need to be.</span></span></li>
+  <li><span class="n">03</span><span class="t"><b>Speed.</b> <span class="d">How long it takes to get from a question to a decision you can act on.</span></span></li>
+  <li><span class="n">04</span><span class="t"><b>Cost savings.</b> <span class="d">Whether running it on your own servers is actually cheaper, and what you're paying for but not using.</span></span></li>
+  <li><span class="n">05</span><span class="t"><b>One source of truth.</b> <span class="d">Whether everything builds on one shared record, or piles up duplicate data and messy fixes.</span></span></li>
+  <li class="add"><span class="n">06</span><span class="t"><b>What gets sent to AI models.</b> <span class="d">Which customer data, personal details and partner terms get sent to an AI model or an outside service, and whether they need to be. Keeping things on your own servers only protects what stays there. I map where the data goes; I never handle it.</span></span></li>
+  <li class="add"><span class="n">07</span><span class="t"><b>Facts or estimates.</b> <span class="d">Which numbers are hard facts and which are estimates (customer simulations, trend forecasts, partner‑risk warnings), whether each estimate says how sure it is, and whether anyone checks it against what actually happened.</span></span></li>
   </ol>
-  <p><b>The two weeks:</b> week 1, a 60-minute kickoff with you, then a 60 to 90-minute screen-share with whoever built the tools. Week 2, a few follow-up questions by email, the write-up, and a 30-minute final review. Anything I'm unsure about is marked as unsure, not smoothed over.</p>
+  <p><b>The two weeks:</b> week 1, a 60‑minute kickoff with you, then a 60 to 90‑minute screen‑share with whoever built the tools. Week 2, a few follow‑up questions by email, the write-up, and a 30‑minute final review. Anything I'm unsure about is marked as unsure, not smoothed over.</p>
 </div>
 </details>
 

@@ -90,7 +90,7 @@
       "questions": [
         {
           "q": "What do you need from us?",
-          "a": "Three short meetings: a kickoff with you, a screen-share of your tools with whoever built them, and a final review. Your plans and docs, and the sales numbers for the adobo flavor. No customer data. Both sides sign an NDA first.",
+          "a": "Three short meetings: a kickoff with you, a screen‑share of your tools with whoever built them, and a final review. Your plans and docs, and the sales numbers for the adobo flavor. No customer data. Both sides sign an NDA first.",
           "voice": "joint"
         },
         {
@@ -147,11 +147,11 @@
       {
         "n": "07",
         "title": "Facts or estimates.",
-        "body": "Which numbers are hard facts and which are estimates (customer simulations, trend forecasts, partner-risk warnings), whether each estimate says how sure it is, and whether anyone checks it against what actually happened.",
+        "body": "Which numbers are hard facts and which are estimates (customer simulations, trend forecasts, partner‑risk warnings), whether each estimate says how sure it is, and whether anyone checks it against what actually happened.",
         "added": true
       }
     ],
-    "outro": "<b>The two weeks:</b> week 1, a 60-minute kickoff with you, then a 60 to 90-minute screen-share with whoever built the tools. Week 2, a few follow-up questions by email, the write-up, and a 30-minute final review. Anything I'm unsure about is marked as unsure, not smoothed over."
+    "outro": "<b>The two weeks:</b> week 1, a 60‑minute kickoff with you, then a 60 to 90‑minute screen‑share with whoever built the tools. Week 2, a few follow‑up questions by email, the write-up, and a 30‑minute final review. Anything I'm unsure about is marked as unsure, not smoothed over."
   },
   "footer": "Zach Harris · zach.harris@gmail.com",
   "theme_button": "icon",
