@@ -15,8 +15,8 @@
    "product page": 222,
    "gated": 28
   },
-  "next_config_hosts": 86,
-  "proxy_hosts": 23,
+  "next_config_hosts": 85,
+  "proxy_hosts": 24,
   "app_routes": 47,
   "missing_purpose": 21,
   "unlisted": 81
@@ -74,6 +74,9 @@
   "public/blacksmith-resume.html",
   "public/cia-gate.html",
   "public/dioptra-gate.html",
+  "public/louisville-gate.html",
+  "public/louisville-proposal-gate.html",
+  "public/louisville-proposal.html",
   "public/monday-gate.html",
   "public/myally-debrief.html",
   "public/myally-gate.html",
@@ -1165,7 +1168,7 @@
    "unlisted": true,
    "purpose": "ARCS: Day 0 to Today",
    "kind": "product page",
-   "last_commit": "2026-10-18"
+   "last_commit": "2026-11-04"
   },
   {
    "host": "cia.arcs.care",
@@ -1225,7 +1228,7 @@
    "unlisted": true,
    "purpose": "Zach Harris - Dioptra",
    "kind": "product page",
-   "last_commit": "2026-11-02"
+   "last_commit": "2026-11-04"
   },
   {
    "host": "dioptra.arcs.care",
@@ -1411,7 +1414,7 @@
    "unlisted": false,
    "purpose": "A fixed-price audit that tests whether a cold reader can rebuild what your AI agents did from the record alone, and maps every gap it cannot close.",
    "kind": "product page",
-   "last_commit": "2026-11-01"
+   "last_commit": "2026-11-05"
   },
   {
    "host": "good.arcs.care",
@@ -3398,7 +3401,7 @@
    "unlisted": false,
    "purpose": "Open, MIT-licensed tools built for our own work and published. The tools are open; the ARCS intelligence that orchestrates them stays private.",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-11-03"
   },
   {
    "host": "good.arcs.care",
@@ -3643,7 +3646,7 @@
    "unlisted": false,
    "purpose": "Five steps between an idea and a message. Each gets a go or stop stamp. The checks run in your browser; nothing you paste is uploaded.",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-11-03"
   },
   {
    "host": "jobs.arcs.care",
@@ -3709,14 +3712,13 @@
    "host": "louisville.arcs.care",
    "path": "/",
    "catch_all": true,
-   "source": "/:path((?!api/|omakase).*)",
    "destination": "/louisville.html",
    "pattern": false,
    "file": "public/louisville.html",
    "gate": null,
    "gate_file": null,
    "declared_in": [
-    "next.config.ts"
+    "src/proxy.ts"
    ],
    "title": "ARCS × Louisville · Home",
    "description": null,
@@ -5056,7 +5058,7 @@
    "unlisted": true,
    "purpose": "ARCS, built in the open since day zero: a live product that grades itself. Proof over promises, one commit at a time.",
    "kind": "status",
-   "last_commit": "2026-10-21"
+   "last_commit": "2026-11-04"
   },
   {
    "host": "status.arcs.care",
@@ -5076,7 +5078,7 @@
    "unlisted": false,
    "purpose": "A falsification ledger: every belief we held, the test that overturned it, and what replaced it. Corrections stay on the record.",
    "kind": "ledger",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-11-05"
   },
   {
    "host": "status.arcs.care",
@@ -5177,7 +5179,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-11-03"
+   "last_commit": "2026-11-04"
   },
   {
    "host": "todd-call.arcs.care",

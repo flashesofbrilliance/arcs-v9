@@ -2,27 +2,35 @@
  "schema": "tool-catalog-v1",
  "note": "Harvested one-line JTBDs, never inferred. Deterministic — no wall-clock. Regenerate with: python3 scripts/tool_catalog_emit.py",
  "counts": {
-  "agent": 27,
+  "agent": 28,
   "command": 18,
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 274,
-  "skill": 25,
+  "script": 277,
+  "skill": 26,
   "workflow": 2
  },
- "total": 399,
+ "total": 404,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 556,
+   "WIRED": 561,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 1,
+   "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
   "gaps": [
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "repo",
+    "kind": "script",
+    "name": "jobs_posting_liveness.mjs",
+    "why": "no hook/command/task/CI/doc references it",
+    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
+   },
    {
     "state": "INSTALLED-UNUSED",
     "surface": "user",
@@ -240,6 +248,14 @@
    "path": ".claude/skills/sbom-payload-scan/SKILL.md",
    "jtbd": ">",
    "invoke": "/sbom-payload-scan",
+   "state": "WIRED"
+  },
+  {
+   "kind": "skill",
+   "name": "scrum",
+   "path": ".claude/skills/scrum/SKILL.md",
+   "jtbd": "The scrum master ritual, an exoskeleton for cadence. `/scrum` (or `/scrum standup`) is the 2-minute daily check; `/scrum groom` is the 25-minute weekly groom (fate old rows, commit at most 5, revisit one rule). Use at the start of a work da",
+   "invoke": "/scrum",
    "state": "WIRED"
   },
   {
@@ -648,6 +664,14 @@
    "path": ".claude/agents/scenario-runner.md",
    "jtbd": "[CANDIDATE] Run ONE case (best, base or worst) with a pre-mortem, post-mortem and probability graph.",
    "invoke": "Agent subagent_type=scenario-runner",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "scrum-master",
+   "path": ".claude/agents/scrum-master.md",
+   "jtbd": "[CANDIDATE] Read-only scrum master. Runs scripts/scrum.py board (or standup) and returns the groom agenda with a proposed default for every decision: fates for the oldest rows, at most 5 rows to commit, and a keep/loosen/cut/move verdict on",
+   "invoke": "Agent subagent_type=scrum-master",
    "state": "WIRED"
   },
   {
@@ -1136,6 +1160,14 @@
    "path": "scripts/corrections_link.py",
    "jtbd": "corrections_link.py — git-ground the believability ledger's \"unlinked corrections\".",
    "invoke": "python3 scripts/corrections_link.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "counterpart_onepager_build.py",
+   "path": "scripts/counterpart_onepager_build.py",
+   "jtbd": "counterpart_onepager_build: render a counterpart one-pager from the counterpart-onepager template plus a data file.",
+   "invoke": "python3 scripts/counterpart_onepager_build.py",
    "state": "WIRED"
   },
   {
@@ -2404,6 +2436,14 @@
   },
   {
    "kind": "script",
+   "name": "scrum.py",
+   "path": "scripts/scrum.py",
+   "jtbd": "scrum.py: the scrum master's deterministic half. Stdlib, no model calls, no network except an optional `gh`.",
+   "invoke": "python3 scripts/scrum.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "security_review_gate.sh",
    "path": "scripts/security_review_gate.sh",
    "jtbd": "Fail the security-review job when the scan never actually ran.",
@@ -2688,6 +2728,14 @@
    "path": "scripts/token_source_gate.py",
    "jtbd": "token_source_gate: single-file HTML surfaces inherit the ARCS tokens, they do not re-author them.",
    "invoke": "python3 scripts/token_source_gate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "token_tuner_inline.py",
+   "path": "scripts/token_tuner_inline.py",
+   "jtbd": "token_tuner_inline: put the token tuner into a single-file page, take it out, or check the copy is current.",
+   "invoke": "python3 scripts/token_tuner_inline.py",
    "state": "WIRED"
   },
   {
