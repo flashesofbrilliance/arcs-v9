@@ -425,10 +425,67 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <h1 class="vh">Alyce for My Ally LD: proposal, timeline and primer</h1>
 <div class="toprow"><p class="sm-conf mast-conf"><span class="ctag">Confidential</span>Confidential under our mutual NDA, signed by both of us on October 26, 2026.</p><button type="button" class="themetog" id="themetog" aria-label="Theme: Auto"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><g class="sun"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></g><path class="moon" d="M15.5 12.6A6.5 6.5 0 017.4 4.5a6.5 6.5 0 108.1 8.1z"/><g class="auto"><circle cx="10" cy="10" r="6.5"/><path d="M10 3.5v13" /><path d="M10 3.5a6.5 6.5 0 010 13z" fill="currentColor" stroke="none"/></g></svg><span class="trk" aria-hidden="true"></span></button></div>
 <section class="shell" aria-label="Alyce plan, proposal and risks">
-<div class="shell-head"><div class="shell-meta"><dl><div><dt>Prepared for</dt><dd>Chelsea, Kelly and Leah, MyAlly LD</dd></div><div><dt>From</dt><dd>Zach Harris</dd></div><div><dt>Updated</dt><dd><time datetime="2026-10-27">October 27, 2026</time></dd></div><div><dt>Status</dt><dd>Draft for discussion</dd></div></dl></div>
-<div class="shell-bar"><span class="brand" aria-hidden="true"><b>ARCS</b> FIELD OS</span><button type="button" class="burger" id="burger" aria-expanded="false" aria-controls="viewtabs" aria-label="Menu"><span></span></button><div class="tabs" id="viewtabs" role="tablist" aria-label="View"><button type="button" role="tab" id="t-debrief" aria-controls="pane-debrief" aria-selected="false" tabindex="-1">Debrief<span class="pill" data-k="now">Now</span></button><button type="button" role="tab" id="t-prop" aria-controls="pane-prop" aria-selected="false" tabindex="-1">Proposal<span class="pill" data-k="next">Next</span></button><button type="button" role="tab" id="t-plan" aria-controls="pane-plan" aria-selected="true">Timeline<span class="pill" data-k="later">Later</span></button><button type="button" role="tab" id="t-primer" aria-controls="pane-primer" aria-selected="false" tabindex="-1">Primer</button></div></div></div>
+<div class="shell-head"><div class="shell-meta"><dl><div><dt>Prepared for</dt><dd>Chelsea, Kelly and Leah, MyAlly LD</dd></div><div><dt>From</dt><dd>Zach Harris</dd></div><div><dt>Updated</dt><dd><time datetime="2026-11-06">November 6, 2026</time></dd></div><div><dt>Status</dt><dd>Step 1 accepted</dd></div></dl></div>
+<div class="shell-bar"><span class="brand" aria-hidden="true"><b>ARCS</b> FIELD OS</span><button type="button" class="burger" id="burger" aria-expanded="false" aria-controls="viewtabs" aria-label="Menu"><span></span></button><div class="tabs" id="viewtabs" role="tablist" aria-label="View"><button type="button" role="tab" id="t-step1" aria-controls="pane-step1" aria-selected="false" tabindex="-1">Step 1<span class="pill" data-k="now">Now</span></button><button type="button" role="tab" id="t-debrief" aria-controls="pane-debrief" aria-selected="false" tabindex="-1">Debrief</button><button type="button" role="tab" id="t-prop" aria-controls="pane-prop" aria-selected="false" tabindex="-1">Proposal<span class="pill" data-k="next">Next</span></button><button type="button" role="tab" id="t-plan" aria-controls="pane-plan" aria-selected="true">Timeline<span class="pill" data-k="later">Later</span></button><button type="button" role="tab" id="t-primer" aria-controls="pane-primer" aria-selected="false" tabindex="-1">Primer</button></div></div></div>
 <div class="shell-body">
-<div id="pane-plan" role="tabpanel" aria-labelledby="t-plan"><div class="stamp" data-k="later" role="note"><span class="pill" data-k="later" aria-hidden="true">Later</span><p><span class="stamp-vh">Later: </span><strong>Shared before our October 27 call.</strong> A week-by-week plan for the full build, kept for later. Start on the <button type="button" class="stamp-go" data-go="t-debrief">Debrief tab</button>.</p></div>
+<div id="pane-step1" role="tabpanel" aria-labelledby="t-step1" hidden><style>
+#pane-step1 .s1{max-width:var(--measure,720px);margin:0 auto;padding:20px 20px 40px;color:var(--text);line-height:1.55}
+#pane-step1 .s1 h2{font-size:1.5em;line-height:1.25;margin:24px 0 6px}
+#pane-step1 .s1 h3{font-size:1.05em;margin:28px 0 10px}
+#pane-step1 .s1-lede{margin:0 0 18px}
+#pane-step1 .s1-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:10px;margin:18px 0 8px;padding:0;list-style:none}
+#pane-step1 .s1-facts li{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:12px 14px}
+#pane-step1 .s1-facts b{display:block;font-size:.78em;letter-spacing:.04em;text-transform:uppercase;opacity:.75;font-weight:600;margin-bottom:4px}
+#pane-step1 .s1-list{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+#pane-step1 .s1-list li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:baseline;padding:12px 14px;border-top:1px solid var(--line)}
+#pane-step1 .s1-list li:first-child{border-top:0}
+#pane-step1 .s1-n{font-weight:700;color:var(--accent)}
+#pane-step1 .s1-st{font-size:.78em;font-weight:600;border:1px solid var(--line);border-radius:999px;padding:2px 10px;white-space:nowrap;opacity:.85}
+#pane-step1 .s1-note{font-size:.92em;opacity:.8;margin:10px 0 0}
+@media (max-width:640px){#pane-step1 .s1{padding:14px 14px 32px}#pane-step1 .s1-list li{grid-template-columns:24px 1fr}#pane-step1 .s1-st{grid-column:2;justify-self:start}}
+</style><div class="stamp" data-k="now" role="note"><span class="pill" data-k="now" aria-hidden="true">Now</span><p><span class="stamp-vh">Now: </span><strong>Step 1, accepted November 6.</strong> A one-week sprint: what you send, what you get, and when.</p></div>
+<div class="s1">
+<h2>Step 1: light audit and code review</h2>
+<p class="s1-lede">One week of work that answers your four questions, so you can decide on Step 2 with the facts in hand.</p>
+<ul class="s1-facts">
+<li><b>Price</b>$1,500 fixed, invoiced at the readout</li>
+<li><b>Send by</b>Friday, November 13</li>
+<li><b>Sprint</b>Week of November 16</li>
+<li><b>Readout</b>Week of November 23, before Thanksgiving</li>
+</ul>
+<p class="s1-note">If the three items arrive later, the sprint starts the Monday after they do.</p>
+
+<h3>What you send me (under an hour of your time)</h3>
+<ol class="s1-list">
+<li><span class="s1-n">1</span><span>A copy of the code: export it from Lovable to GitHub and add me as a read-only viewer.</span><span class="s1-st">Waiting</span></li>
+<li><span class="s1-n">2</span><span>The last one or two monthly bills and usage screens for Lovable, Supabase and your AI provider.</span><span class="s1-st">Waiting</span></li>
+<li><span class="s1-n">3</span><span>A 30-minute call where you show me how a family uses the app today. I record it so you don&#x27;t have to repeat it.</span><span class="s1-st">Waiting</span></li>
+</ol>
+<p class="s1-note">I don&#x27;t need any real family data for this step.</p>
+
+<h3>What you get (your four questions)</h3>
+<ol class="s1-list">
+<li><span class="s1-n">1</span><span><strong>What you keep:</strong> a go or stop memo, and a plan for data, boundaries and security. Both are yours to keep and share.</span><span class="s1-st">At readout</span></li>
+<li><span class="s1-n">2</span><span><strong>Rough ranges</strong>, each with its assumptions written out: a 100-family test build, the path to public launch, and monthly running costs for AI, hosting and security.</span><span class="s1-st">At readout</span></li>
+<li><span class="s1-n">3</span><span><strong>Timing:</strong> a one-week sprint, with the readout before Thanksgiving if the items arrive by November 13.</span><span class="s1-st">Set</span></li>
+<li><span class="s1-n">4</span><span><strong>The agreement:</strong> one page, fixed price, sent with my email.</span><span class="s1-st">Sent by email</span></li>
+</ol>
+
+<h3>Along the way</h3>
+<ol class="s1-list">
+<li><span class="s1-n">1</span><span>Midweek, a short written note on what I&#x27;m seeing and anything I need from you.</span><span class="s1-st">Midweek</span></li>
+<li><span class="s1-n">2</span><span>Two 30-minute office-hours slots for your questions. The booking link is in my email.</span><span class="s1-st">Yours to book</span></li>
+</ol>
+
+<h3>How it ends</h3>
+<ol class="s1-list">
+<li><span class="s1-n">1</span><span>A 45-minute readout where we go through the memo together.</span><span class="s1-st">Week of Nov 23</span></li>
+<li><span class="s1-n">2</span><span>If anything in it looks wrong to you, I re-check it within 7 days.</span><span class="s1-st">7 days</span></li>
+<li><span class="s1-n">3</span><span>You decide on Step 2 by a date we set on that call.</span><span class="s1-st">Set at readout</span></li>
+</ol>
+<p class="s1-note">Confidential under our mutual NDA.</p>
+</div></div>
+<div id="pane-plan" role="tabpanel" aria-labelledby="t-plan"><div class="stamp" data-k="later" role="note"><span class="pill" data-k="later" aria-hidden="true">Later</span><p><span class="stamp-vh">Later: </span><strong>Shared before our October 27 call.</strong> A week-by-week plan for the full build, kept for later. Start on the <button type="button" class="stamp-go" data-go="t-step1">Step 1 tab</button>.</p></div>
 <p class="tabnote">Weeks from kickoff, at about 20 hours a week. Pick a point between the best and worst case to see the plan stretch. Choose a row for its details. Confidential under our mutual NDA.</p>
 <div class="sum" id="sum" role="group" aria-label="Choose a point between best and worst case">
 <button type="button" data-s="best" aria-pressed="false"><span class="cap">Best case</span><b>Lite</b><em>$36,900</em><span>13 weeks · launch-ready week 16</span></button>
@@ -463,7 +520,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <section id="detail" aria-live="polite" aria-labelledby="dh"><h2 id="dh" class="vh">Details</h2><p class="empty">Choose any row to see what is inside it, what it needs first and what it unlocks.</p></section>
 </div>
 </div>
-<div id="pane-prop" role="tabpanel" aria-labelledby="t-prop" hidden><div class="stamp" data-k="next" role="note"><span class="pill" data-k="next" aria-hidden="true">Next</span><p><span class="stamp-vh">Next: </span><strong>Shared before our October 27 call.</strong> The build that could follow the first step, sized before I knew where you are. Start on the <button type="button" class="stamp-go" data-go="t-debrief">Debrief tab</button>.</p></div><iframe title="Proposal" srcdoc="&lt;!doctype html&gt;
+<div id="pane-prop" role="tabpanel" aria-labelledby="t-prop" hidden><div class="stamp" data-k="next" role="note"><span class="pill" data-k="next" aria-hidden="true">Next</span><p><span class="stamp-vh">Next: </span><strong>Shared before our October 27 call.</strong> The build that could follow the first step, sized before I knew where you are. Start on the <button type="button" class="stamp-go" data-go="t-step1">Step 1 tab</button>.</p></div><iframe title="Proposal" srcdoc="&lt;!doctype html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;utf-8&quot;&gt;
@@ -1458,7 +1515,7 @@ addEventListener(&#x27;pagehide&#x27;,function(){t(&#x27;page_dwell&#x27;,{secon
 &lt;style&gt;html:not([data-size]){font-size:90%}body&gt;.shell{max-width:1008px;margin-left:auto!important;margin-right:auto!important;padding-left:24px!important;padding-right:24px!important;box-sizing:border-box;grid-template-columns:216px minmax(0,1fr)!important;justify-content:start!important}.shell .toc{padding-left:0!important}@media (min-width:760px){body&gt;.shell{display:grid!important;column-gap:40px;align-items:start}.shell .toc{display:block!important;max-height:none!important;overflow:visible!important}}header.top,.docmeta,.readfab,.readopts,p.back{display:none!important}.toc,nav.toc{border-bottom:0!important}html,body{overflow:hidden!important;height:auto!important;min-height:0!important}main{padding-bottom:28px!important}&lt;/style&gt;&lt;script&gt;(function(){var d=document.documentElement,M={&#x27;/&#x27;:&#x27;prop&#x27;,&#x27;/proposal&#x27;:&#x27;prop&#x27;,&#x27;/mnda-edits&#x27;:&#x27;prop&#x27;,&#x27;/primer&#x27;:&#x27;primer&#x27;,&#x27;/timeline&#x27;:&#x27;plan&#x27;,&#x27;/debrief&#x27;:&#x27;debrief&#x27;};function h(){parent.postMessage({alyceH:Math.ceil(document.body.getBoundingClientRect().height)},&#x27;*&#x27;)}addEventListener(&#x27;load&#x27;,h);new ResizeObserver(h).observe(document.body);addEventListener(&#x27;message&#x27;,function(e){if(e.data&amp;&amp;e.data.alyceView)h()});window.addEventListener(&#x27;click&#x27;,function(e){var a=e.target.closest&amp;&amp;e.target.closest(&#x27;a[href]&#x27;);if(!a)return;var hr=a.getAttribute(&#x27;href&#x27;);if(hr.charAt(0)===&#x27;#&#x27;){e.preventDefault();e.stopImmediatePropagation();var el=hr.length&gt;1&amp;&amp;document.getElementById(decodeURIComponent(hr.slice(1)));if(el){if(el.tagName===&#x27;DETAILS&#x27;)el.open=true;parent.postMessage({alyceScroll:el.getBoundingClientRect().top+scrollY},&#x27;*&#x27;)}return}var tm=/^\/timeline#(.+)$/.exec(hr);if(tm){e.preventDefault();parent.postMessage({alyceTab:&#x27;plan&#x27;,row:tm[1]},&#x27;*&#x27;);return}var pm=/^\/proposal#(.+)$/.exec(hr);if(pm){e.preventDefault();parent.postMessage({alyceTab:&#x27;prop&#x27;,anchor:pm[1]},&#x27;*&#x27;);return}var t=M[hr];if(t){e.preventDefault();parent.postMessage({alyceTab:t},&#x27;*&#x27;);return}if(hr.charAt(0)===&#x27;/&#x27;&amp;&amp;!/[.]pdf$/.test(hr)){e.preventDefault();parent.postMessage({alyceTab:&#x27;prop&#x27;},&#x27;*&#x27;);return}a.target=&#x27;_top&#x27;},true);addEventListener(&#x27;message&#x27;,function(e){var g=e.data&amp;&amp;e.data.alyceGo;if(!g)return;var el=document.getElementById(g);if(!el)return;var dt=el.closest(&#x27;details&#x27;);if(dt)dt.open=true;setTimeout(function(){parent.postMessage({alyceScroll:el.getBoundingClientRect().top+scrollY},&#x27;*&#x27;)},80)});addEventListener(&#x27;message&#x27;,function(e){var v=e.data&amp;&amp;e.data.alyceView;if(!v)return;var n=document.querySelector(&#x27;.toc&#x27;);if(!n)return;n.style.position=&#x27;relative&#x27;;n.style.top=&#x27;0&#x27;;n.style.maxHeight=(v.h-32)+&#x27;px&#x27;;var box=n.parentElement.getBoundingClientRect(),nb=n.offsetHeight;var lead=Math.max(16,Math.min(v.h/3,v.h-nb-16));var s1=document.querySelector(&#x27;main h2&#x27;);var rest=s1?Math.max(0,s1.getBoundingClientRect().top+scrollY-(box.top+scrollY)):0;var y=Math.max(rest,Math.min(v.y-(box.top+scrollY)+lead,box.height-nb));if(!matchMedia(&#x27;(prefers-reduced-motion: reduce)&#x27;).matches)n.style.transition=&#x27;transform .55s cubic-bezier(.22,1,.36,1)&#x27;;n.style.transform=&#x27;translateY(&#x27;+y+&#x27;px)&#x27;;n.style.willChange=&#x27;transform&#x27;});addEventListener(&#x27;message&#x27;,function(e){var r=e.data&amp;&amp;e.data.alyceRead;if(!r)return;[&#x27;font&#x27;,&#x27;size&#x27;,&#x27;space&#x27;,&#x27;tone&#x27;,&#x27;theme&#x27;].forEach(function(k){var v=r[k];v&amp;&amp;v!==&#x27;std&#x27;?d.setAttribute(&#x27;data-&#x27;+k,v):d.removeAttribute(&#x27;data-&#x27;+k)});setTimeout(h,50)})})();&lt;/script&gt;&lt;style&gt;html[data-theme=dark],html[data-theme=dark] body{background:#0d1117!important}@media (prefers-color-scheme:dark){html:not([data-theme=light]),html:not([data-theme=light]) body{background:#0d1117!important}}&lt;/style&gt;&lt;/body&gt;
 &lt;/html&gt;
 "></iframe></div>
-<div id="pane-debrief" class="pane-doc" role="tabpanel" aria-labelledby="t-debrief" hidden><div class="stamp" data-k="now" role="note"><span class="pill" data-k="now" aria-hidden="true">Now</span><p><span class="stamp-vh">Now: </span><strong>Start here.</strong> What I heard on our call, and one small first step.</p></div><iframe title="Debrief" srcdoc="&lt;!doctype html&gt;
+<div id="pane-debrief" class="pane-doc" role="tabpanel" aria-labelledby="t-debrief" hidden><div class="stamp" role="note"><p><strong>Shared before our October 27 call.</strong> What I heard on our call. Step 1 now lives on the <button type="button" class="stamp-go" data-go="t-step1">Step 1 tab</button>.</p></div><iframe title="Debrief" srcdoc="&lt;!doctype html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;utf-8&quot;&gt;
@@ -2285,7 +2342,7 @@ document.querySelectorAll('iframe').forEach(f=>f.addEventListener('load',functio
 addEventListener('message',e=>{if(e.data&&e.data.alyceH)setTimeout(alignMeta,0)});
 addEventListener('message',e=>{const d=e.data;if(!d||d.alyceTab!=='plan'||document.getElementById('pane-risk')===null)return;const p=document.getElementById('t-plan');if(!p||d.__h)return;showTab(p);if(d.row&&byId[d.row]){select(d.row,true);document.getElementById('r-'+d.row)?.scrollIntoView({block:'center'})}});
 addEventListener('message',e=>{const f=[...document.querySelectorAll('iframe')].find(x=>x.contentWindow===e.source);if(e.data&&typeof e.data.alyceScroll==='number'&&f){scrollTo({top:f.getBoundingClientRect().top+scrollY+e.data.alyceScroll-(innerWidth>=700?72:16),behavior:'smooth'});return}if(e.data&&e.data.alyceTab){const p=document.getElementById({prop:'t-prop',primer:'t-primer',plan:'t-plan',debrief:'t-debrief'}[e.data.alyceTab]);if(p){const was=p.getAttribute('aria-selected')==='true';showTab(p);if(!was)p.focus({focusVisible:false});scrollTo({top:0});if(e.data.row&&byId[e.data.row]){select(e.data.row,true);document.getElementById('r-'+e.data.row)?.scrollIntoView({block:'center'})}if(e.data.anchor){const pf=document.querySelector('#pane-prop iframe');setTimeout(()=>pf.contentWindow.postMessage({alyceGo:e.data.anchor},'*'),150)}}return}if(e.data&&typeof e.data.alyceScroll==='number'&&f){scrollTo({top:f.getBoundingClientRect().top+scrollY+e.data.alyceScroll-(innerWidth>=700?72:16),behavior:'smooth'});return}if(e.data&&e.data.alyceH&&f){f.style.height=e.data.alyceH+'px';return}if(e.data==='alyce:plan'){const p=document.getElementById('t-plan');showTab(p);p.focus();scrollTo({top:0})}});
-{const P={'/proposal':'t-prop','/mnda-edits':'t-prop','/timeline':'t-plan','/primer':'t-primer','/debrief':'t-debrief'};showTab(document.getElementById(P[location.pathname]||'t-debrief'))}
+{const P={'/proposal':'t-prop','/mnda-edits':'t-prop','/timeline':'t-plan','/primer':'t-primer','/debrief':'t-debrief'};showTab(document.getElementById(P[location.pathname]||'t-step1'))}
 /* reading options, shared with myally.arcs.care */
 const root=document.documentElement,RK='myAllyRead',ro=document.getElementById('readopts'),fab=document.getElementById('readfab');
 let st={};try{st=JSON.parse(localStorage.getItem(RK)||'{}')||{}}catch(e){}
