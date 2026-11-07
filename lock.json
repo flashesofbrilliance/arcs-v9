@@ -1,15 +1,14 @@
 {
-  "acquired_at": 1792372579.409995,
-  "acquired_at_iso": "2026-10-19T01:16:19Z",
-  "expires_at": 1792374379.409995,
-  "holder": "zharris@zh-m1-2020:/Users/zharris/arcs-v9/.claude/worktrees/mystifying-neumann-91d534",
+  "acquired_at": 1794014072.2763362,
+  "acquired_at_iso": "2026-11-07T01:14:32Z",
+  "expires_at": 1794015872.2763362,
+  "holder": "merge-train@zh-m1-2020:25453:/private/tmp/mt-base-20261106",
   "host": "zh-m1-2020.local",
   "name": "main",
-  "pid": 65010,
-  "reason": "",
-  "released_at_iso": "2026-10-19T01:17:46Z",
-  "seq": 90,
-  "state": "free",
+  "pid": 25479,
+  "reason": "merge train: 2054 2036",
+  "seq": 91,
+  "state": "held",
   "took_over_from": null,
   "ttl": 1800
 }
