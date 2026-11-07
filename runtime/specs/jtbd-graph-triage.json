@@ -139,14 +139,6 @@
   },
   {
    "rule": "ORPHAN-TOOL",
-   "id": "tool:script:ship_status.py",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
-   "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
    "id": "tool:script:dream_mine.py",
    "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
    "row": "jtbd-standing-tools",
@@ -180,14 +172,6 @@
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:skill:dream",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row; wrapper skill over the script",
-   "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:skill:ship-status",
    "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row; wrapper skill over the script",
    "row": "jtbd-standing-tools",
    "added": "2026-11-03",
