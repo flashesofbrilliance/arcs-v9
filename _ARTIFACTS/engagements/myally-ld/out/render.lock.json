@@ -1,0 +1,67 @@
+{
+  "outputs": {
+    "agreement.md": {
+      "cites": {
+        "arbitration_venue": "Fairfield County, Connecticut",
+        "commit_weeks": 4,
+        "duration_days": 21,
+        "fee_step1": 1500,
+        "hours_step1": 12,
+        "liability_cap": "the fees you paid me under it",
+        "nda_executed": "2026-10-26",
+        "oh_free_hours": 2,
+        "oh_sessions": 4,
+        "oh_slot_minutes": 30,
+        "rate_committed": 125,
+        "rate_ff": 125,
+        "rate_standard": 150,
+        "talk_first_days": 30
+      },
+      "sha256": "ad98f03cd928aece16aeb3c2b96e44246ebf98d8a26a541abd73cb8b0b89dbc1"
+    },
+    "exhibit-a.md": {
+      "cites": {
+        "duration_days": 21,
+        "walkthrough_minutes": 45
+      },
+      "sha256": "4afa3293b3947a3172d78715425f7588bcb37dcdd54426e1cd702520d9b08d07"
+    },
+    "proposal.html": {
+      "cites": {
+        "access_by": "2026-11-13",
+        "arbitration_venue": "Fairfield County, Connecticut",
+        "commit_weeks": 4,
+        "deliver_by": "2026-12-04",
+        "duration_days": 21,
+        "fee_offer_total": 4500,
+        "fee_step1": 1500,
+        "hours_step1": 12,
+        "liability_cap": "the fees you paid me under it",
+        "nda_anchor": "2026-10-09",
+        "nda_executed": "2026-10-26",
+        "nda_return_by": "2027-01-07",
+        "nda_return_days": 90,
+        "oh_free_hours": 2,
+        "oh_sessions": 4,
+        "oh_slot_minutes": 30,
+        "rate_committed": 125,
+        "rate_ff": 125,
+        "rate_standard": 150,
+        "steps_offered": 3,
+        "talk_first_days": 30,
+        "walkthrough_minutes": 45
+      },
+      "sha256": "8e793fb600479005b24905779871cf14bf2a14cfd1949dd2e1cd7e5e1b7dc9b9"
+    },
+    "reply.md": {
+      "cites": {
+        "access_by": "2026-11-13",
+        "deliver_by": "2026-12-04",
+        "duration_days": 21,
+        "walkthrough_minutes": 45
+      },
+      "sha256": "d92f5e1c88efb914791dd753dd281f6614b8fda90e814a8109d83a8c80b30c18"
+    }
+  },
+  "record": "myally-ld-step1"
+}
