@@ -12,6 +12,37 @@
     "label": "Frozen · 11:40 PM ET Wed",
     "text": "Past this point, more polishing is soothing, not preparing. Tomorrow: say the three cockpit lines out loud once, and check Gmail for Dana's reply at 1:30."
   },
+  "qualification": {
+    "tier": "T2",
+    "verdict": "go",
+    "checks": [
+      {
+        "gate": "intake",
+        "status": "pass",
+        "evidence": "The recruiter named the client in her first message (Tue 10 Nov 9:12 ET)."
+      },
+      {
+        "gate": "before-send",
+        "status": "pass",
+        "evidence": "Role listed on the company's own careers page, checked Tue 10 Nov 9:40 ET. Sent a one-page CV only."
+      },
+      {
+        "gate": "before-booking",
+        "status": "pass",
+        "evidence": "Invite came from a company-domain address; DMARC pass in the headers (Wed 11 Nov 14:05 ET)."
+      },
+      {
+        "gate": "on-call",
+        "status": "pending",
+        "evidence": "Identity questions open the call: tenure, team, the product's name."
+      },
+      {
+        "gate": "silence",
+        "status": "pass",
+        "evidence": "Every verification ask answered within a day."
+      }
+    ]
+  },
   "cockpit": {
     "sections": [
       {"id": "trip", "title": "1 · Tripwires: always on, leave the call", "items": [
