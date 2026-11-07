@@ -30,6 +30,8 @@ EXAMPLE = os.path.join(ROOT, "_ARTIFACTS/precall-brief/example.json")
 SKELETON = '<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>\n'
 SECTIONS = ["trip", "ask", "rule", "say"]
 LANES = ["before", "opening", "interview", "debrief"]
+GATES = ["intake", "before-send", "before-booking", "on-call", "silence"]
+TIERS = {"T0": "self-asserted", "T1": "company-published", "T2": "domain-authenticated", "T3": "trusted mutual", "T4": "company-confirmed"}
 
 
 def _resolve(s, root):
@@ -108,6 +110,13 @@ def validate(d):
         for it in s["items"]:
             if "link" in it and slug(it["link"]) not in seen:
                 errs.append(f"cockpit {s['id']}/{it['h']!r}: link {it['link']!r} names no card")
+    q = d["qualification"]
+    if [c["gate"] for c in q["checks"]] != GATES:
+        errs.append(f"qualification.checks: gates must be {GATES} in that order")
+    if q["verdict"] == "go" and q["tier"] < "T2":
+        errs.append(f"qualification: verdict go needs tier T2 or higher (got {q['tier']}, {TIERS[q['tier']]}); hold until a company-domain email or invite arrives")
+    if q["verdict"] == "go" and any(c["status"] == "fail" for c in q["checks"]):
+        errs.append("qualification: verdict go with a failed check; a failed gate means hold or stop")
     if not any(c["type"] == "exante" for l in d["lanes"] for c in l["cards"]):
         errs.append("no exante card: the predictions table is required")
     if d["start"] >= d["end"]:
@@ -118,7 +127,15 @@ def validate(d):
     return errs
 
 
+def qualification_card(q):
+    rows = [["Trust tier", f"{q['tier']}: {TIERS[q['tier']]}"], ["Verdict", q["verdict"].upper()]]
+    rows += [[c["gate"], f"{c['status'].upper()}. {c['evidence']}"] for c in q["checks"]]
+    return {"type": "kv", "title": "Qualification gate", "chip": "stated", "wide": True, "rows": rows}
+
+
 def render(d):
+    d = copy.deepcopy(d)
+    d["lanes"][0]["cards"].insert(0, qualification_card(d.pop("qualification")))
     data = json.dumps(d, ensure_ascii=False, separators=(", ", ": ")).replace("</", "<\\/")
     out = open(TEMPLATE, encoding="utf-8").read()
     out = out.replace("/*@@KIT_TOKENS@@*/", open(TOKENS, encoding="utf-8").read().rstrip("\n"))
@@ -160,6 +177,10 @@ def self_test():
     bad("unknown key", lambda d: d.update(colour="red"), "unknown key")
     bad("em-dash", lambda d: d.update(sub=d["sub"] + " — x"), "em-dash")
     bad("missing tripwires", lambda d: d["cockpit"]["sections"][0].update(items=[]), "items < 1")
+    bad("missing qualification", lambda d: d.pop("qualification"), "qualification")
+    bad("go below T2", lambda d: d["qualification"].update(tier="T0", verdict="go"), "needs tier T2")
+    bad("go with a failed gate", lambda d: d["qualification"]["checks"][0].update(status="fail"), "failed check")
+    bad("gate order", lambda d: d["qualification"]["checks"].reverse(), "in that order")
     print("self-test passed")
 
 
