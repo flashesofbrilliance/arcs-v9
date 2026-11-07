@@ -52,6 +52,13 @@ INVOKE = r"""(?:python3?|bash|sh|node|npx\s+tsx|tsx|zsh)\s+(?:-\S+\s+)*|\./|["']
 # round 4 (seed 20261021): in code, a command quoted in a message/remedy/comment is not run by the citer
 MSG_RE = re.compile(r"SystemExit|sys\.exit|\bprint\(|\bfix\s*=|remed|\braise\b|\becho\b|console\.(log|error)|f[\"']|hint|finding\(")
 SH_START = re.compile(r"^\s*(?:(?:then|do|else|&&|\|\||[A-Z_]+=\$\(|if\s+!?|!)\s*)?(?:python3?|bash|sh|node|npx\s+tsx|tsx|zsh|\./)")
+# orphan audit 2026-11-05: in shell a run can also start a later command on the line, after && || ; | $( then do
+# (xargs and its flags included), and the path can sit under a variable ("$_d/scripts/x.sh", "$CLAUDE_PROJECT_DIR/...").
+# In shell a match counts only outside a quoted literal (echo "run python3 scripts/x.py" runs nothing), which
+# replaces the line-wide MSG_RE skip there: `python3 scripts/x.py || fail "raise the token"` does run x.py.
+SH_SEP_END = re.compile(r"(?:&&|\|\||[;|]|\$\(|\bthen|\bdo)\s*(?:xargs(?:\s+-\S+)*\s+)?$")
+VAR_DIR = r"""["']?\$\{?[A-Za-z_]\w*\}?/"""
+RUN_PREFIX = r"(?:(?:" + INVOKE + r")(?:" + VAR_DIR + r")?|" + VAR_DIR + r")"
 # a route.tool clause offering a template, precedent or proposal names no tool doing the job
 ROUTE_HEDGE = re.compile(r"\b(pattern|template|precedent|prior art|when built|sibling|e\.g\.|like|modelled|modeled|format)\b", re.I)
 # round 5 exhaustive check: a clause naming a file the job creates, edits or studies makes it a target, not a server
@@ -154,13 +161,19 @@ def _is_shell(p):
 def run_paths(line, p, run_re):
     """Matches on `line` (in tool file p) where p really runs another path; the cite rule's whole decision."""
     code = p.endswith(CODE_EXT) or _is_shell(p)
-    if code and (line.lstrip().startswith(("#", "//", "*")) or MSG_RE.search(line)):
+    if code and line.lstrip().startswith(("#", "//", "*")):
         return []
+    msg = code and MSG_RE.search(line)
     out = []
     for m in run_re.finditer(line):
-        if code and _is_shell(p) and not SH_START.match(line):
-            continue
-        if code and not _is_shell(p) and m.group(0)[0] not in "\"'":
+        if code and _is_shell(p):
+            # a message word elsewhere on the line (fail "raise the token") does not stop a real run
+            begins = SH_START.match(line) or SH_SEP_END.search(line[:m.start()])
+            if not begins or _in_string(line, m.start()):
+                continue
+        elif msg or "$" in m.group(0):
+            continue  # a variable-rooted path is read as a run in shell only
+        elif code and m.group(0)[0] not in "\"'":
             continue  # .py/.js: only a real argv list runs the path
         out.append(m)
     return out
@@ -229,7 +242,7 @@ def build_edges(root, atoms, rows, op_edges):
             inv.setdefault("/" + a["id"].split(":", 2)[2], []).append(a["id"])
     paths_sorted = sorted(by_path, key=len, reverse=True)
     path_re = re.compile("|".join(re.escape(p) for p in paths_sorted)) if paths_sorted else None
-    run_re = re.compile(r"(?:" + INVOKE + r")(" + "|".join(re.escape(p) for p in paths_sorted) + r")(?![\w./-])") if paths_sorted else None
+    run_re = re.compile(RUN_PREFIX + r"(" + "|".join(re.escape(p) for p in paths_sorted) + r")(?![\w./-])") if paths_sorted else None
     base_re = re.compile(r"(?<![\w/.-])(" + "|".join(re.escape(b) for b in sorted(base, key=len, reverse=True)) + r")(?![\w-])") if base else None
     inv_re = re.compile(r"(?<![\w/.-])(" + "|".join(re.escape(i) for i in sorted(inv, key=len, reverse=True)) + r")(?![\w/-])") if inv else None
 

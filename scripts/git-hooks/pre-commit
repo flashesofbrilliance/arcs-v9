@@ -349,6 +349,40 @@ if [ -f scripts/page_gate.py ] && command -v python3 >/dev/null 2>&1; then
 fi
 
 # ---------------------------------------------------------------------------
+# proposal-build drift: a proposal's hosted page is GENERATED from its source by
+# scripts/proposal_build.py. If either is staged, the hosted copy must match a fresh build, so a
+# hand edit to public/ cannot be silently clobbered by the next regeneration (2026-11-06).
+if [ -f scripts/proposal_build.py ] && command -v python3 >/dev/null 2>&1; then
+  if git diff --cached --name-only | grep -qE '^(public/louisville-proposal\.html|_ARTIFACTS/louisville-proposal/source\.html)$'; then
+    if ! python3 scripts/proposal_build.py --louisville --check; then
+      echo "✖ commit blocked: edit _ARTIFACTS/louisville-proposal/source.html, then rebuild with scripts/proposal_build.py --louisville" >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# page-gate (pdf): any ADDED or CHANGED PDF under public/ or _ARTIFACTS/ must have pages, a real
+# title, tags, embedded fonts, no em-dash or mojibake in its text, and only https:// or mailto:
+# links. Banked 2026-11-06: the Louisville proposal PDF shipped with no gate looking at it. Skips
+# cleanly (exit 2, not a block) on a machine without poppler; the next machine with it catches it.
+if [ -f scripts/page_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  pdfs=$(git diff --cached --name-only --diff-filter=ACM -- 'public/*.pdf' 'public/**/*.pdf' '_ARTIFACTS/*.pdf' '_ARTIFACTS/**/*.pdf' 2>/dev/null || true)
+  if [ -n "$pdfs" ]; then
+    set +e
+    old_ifs=$IFS; IFS=$'\n'
+    python3 scripts/page_gate.py $pdfs
+    rc=$?
+    IFS=$old_ifs
+    set -e
+    if [ "$rc" -eq 1 ]; then
+      echo "✖ commit blocked: a staged PDF failed the page gate (see above). Fix the source page and re-render." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
 # tooltip-link guard: a glossary `.term` tooltip whose click handler preventDefaults
 # without a closest('a') guard silently blocks link navigation when a term sits inside
 # an <a> (banked 2026-09-23). ADDED + MODIFIED, by design: the bug arrives via an edit

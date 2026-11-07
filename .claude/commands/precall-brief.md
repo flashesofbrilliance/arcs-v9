@@ -14,6 +14,8 @@ description: Pre-meeting brief: find the counterpart inputs from the calendar, t
 
 > For an interview or any call where identity needs checking before you perform, the cockpit page is
 > **/precall-page** (template `src/ui-kit/precall-brief/`); this command stays the founder-meeting teardown path.
+> Either way, run the qualification gate first (trust tier T0 to T4, five gates, verdict; `/precall-page` Step 0) for
+> any counterpart who reached you unverified.
 
 **Usage:** `/precall-brief` (polls calendar for the next unbrief­ed external meeting) or
 `/precall-brief <attendee name or email>` (target one specific upcoming meeting directly).

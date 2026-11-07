@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 279,
+  "script": 280,
   "skill": 27,
   "workflow": 2
  },
- "total": 407,
+ "total": 408,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 565,
+   "WIRED": 566,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
@@ -2176,6 +2176,14 @@
    "path": "scripts/proof_emit.py",
    "jtbd": "proof_emit: render resume.arcs.care/proof (an infinite-zoom proof ledger) from one claims file.",
    "invoke": "python3 scripts/proof_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "proposal_build.py",
+   "path": "scripts/proposal_build.py",
+   "jtbd": "proposal_build.py: one source page -> the hosted page, a send copy and the PDF.",
+   "invoke": "python3 scripts/proposal_build.py",
    "state": "WIRED"
   },
   {

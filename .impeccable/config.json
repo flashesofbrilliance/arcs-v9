@@ -854,7 +854,8 @@
         "rule": "design-system-color",
         "value": "*",
         "files": [
-          "public/louisville-proposal.html"
+          "public/louisville-proposal.html",
+          "_ARTIFACTS/louisville-proposal/source.html"
         ],
         "createdAt": "2026-11-05T21:00:00.000Z",
         "reason": "Louisville proposal: the light theme (OS-following, with a toggle) and the print palette Zach asked for, the same light-world scope as the myally pages and the existing _ARTIFACTS/brooks-audit-onepager.html waiver; DESIGN.md is dark-only. Seam: _PATTERNS/kintsugi-visual-grammar-seams.md (Louisville proposal, 2026-11-05)"
@@ -863,7 +864,8 @@
         "rule": "all-caps-body",
         "value": "*",
         "files": [
-          "public/louisville-proposal.html"
+          "public/louisville-proposal.html",
+          "_ARTIFACTS/louisville-proposal/source.html"
         ],
         "createdAt": "2026-11-05T21:00:00.000Z",
         "reason": "Louisville proposal: the 'For Brooks Thomas, Louisville Brands' byline is a mono tracked label (label role), chosen by the 2026-11-05 brand gate over mixed-case mono, which read as code. Not body copy."

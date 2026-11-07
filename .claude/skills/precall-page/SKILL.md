@@ -19,6 +19,27 @@ Related: `/recoil-prep` fills the war-room SSOT and its ex-ante receipt; `/preca
 `/teardown`; `/recoil-close` scores the call afterwards. This skill makes the page you hold open during the call. If a
 recoil SSOT already exists for the counterpart, read it first and carry its ex-ante predictions over; don't restart.
 
+## Step 0: qualify (always, before anything is sent or prepped)
+Every brief carries a required `qualification` block, and the build refuses to render without it. An unverified inbound
+counterpart starts at bad faith (memory `unverified-inbound-starts-at-bad-faith-reference-class`): trust is earned
+through a channel they can't control.
+
+- **Trust tier** (the highest node reached for who they are): T0 self-asserted (profile, photo, Calendly, gmail, the
+  recruiter's word) · T1 company-published (the role or person on the company's own site) · T2 domain-authenticated
+  (email or invite from the company domain, DMARC pass; check the domain's policy with `dig +short TXT _dmarc.<domain>`)
+  · T3 trusted mutual who knows them directly · T4 company-confirmed (the company confirms person and role through a
+  contact you looked up yourself). T4 is the highest trust node.
+- **Five gates, in order**, each `pass`, `fail`, `pending` or `na` with evidence and a time: `intake` (they named the
+  client; never offer your guess), `before-send` (domain contact or the role on the company's site; until then send
+  nothing, or a plain one-page CV with no phone and no on-chain links), `before-booking` (a company-domain invite; a
+  personal Calendly gets one ask), `on-call` (stop at the first failed identity question), `silence` (an unanswered
+  verification ask is a no).
+- **Verdict**: `go`, `hold` (ask for the missing proof, send nothing) or `stop`. The build refuses `go` below T2 or with
+  any failed gate.
+
+Run this before Step 1 and before any send to the counterpart. Worked case: Bitfury, 2026-11-06 (memory
+`project_bitfury_jackson_hu_impersonation`). It would have scored T0 with four failed gates on 5 Nov.
+
 ## Step 1: gather (breadth, then depth, in parallel)
 - **Calendar**: the event, time, link, attendees. Note the link's real host (it must match the platform it claims).
 - **Gmail**: `search_threads` on the recruiter and company, `get_thread` on the substantive ones. What was promised,
