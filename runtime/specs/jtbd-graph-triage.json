@@ -35,14 +35,6 @@
   },
   {
    "rule": "ORPHAN-TOOL",
-   "id": "tool:script:surface_watch.py",
-   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-10-31",
-   "resolve_by": "2026-11-14"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
    "id": "tool:agent:ciso-review",
    "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
    "row": "jtbd-standing-tools",
@@ -131,14 +123,6 @@
   },
   {
    "rule": "ORPHAN-TOOL",
-   "id": "tool:script:ship_status.py",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
-   "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
    "id": "tool:script:dream_mine.py",
    "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
    "row": "jtbd-standing-tools",
@@ -172,14 +156,6 @@
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:skill:dream",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row; wrapper skill over the script",
-   "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:skill:ship-status",
    "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row; wrapper skill over the script",
    "row": "jtbd-standing-tools",
    "added": "2026-11-03",
