@@ -147,14 +147,24 @@
     },
     "duration_days": {
       "kind": "days",
-      "value": 21,
-      "label": "Step 1 duration, calendar days from access",
+      "value": 7,
+      "label": "Step 1 duration, calendar days from access (five working days)",
       "source": {
-        "kind": "judgment",
-        "ref": "2026-11-06 hand draft: 'access by Nov 13 ... results by Dec 4' (21 days). The same draft says 'about two weeks', which gives Nov 27. The record keeps the Dec 4 promise; Zach to confirm.",
-        "date": "2026-11-06"
+        "kind": "decision",
+        "ref": "Zach, 2026-11-08: Step 1 is 12 hours, so under a week, not three",
+        "date": "2026-11-08"
       },
-      "history": []
+      "history": [
+        {
+          "value": 21,
+          "until": "2026-11-08",
+          "source": {
+            "kind": "judgment",
+            "ref": "2026-11-06 hand draft: 'access by Nov 13 ... results by Dec 4' (21 days). The same draft says 'about two weeks', which gives Nov 27. The record keeps the Dec 4 promise; Zach to confirm.",
+            "date": "2026-11-06"
+          }
+        }
+      ]
     },
     "deliver_by": {
       "kind": "date",
@@ -305,14 +315,24 @@
     },
     "latest_access": {
       "kind": "date",
-      "value": "2026-12-01",
+      "value": "2026-12-15",
       "label": "Latest access date that still delivers before year end",
       "source": {
         "kind": "judgment",
-        "ref": "Zach, 2026-11-06 v2 reply: access by about Dec 1 still lands before the end of the year",
-        "date": "2026-11-06"
+        "ref": "Five working days from Dec 15 lands Dec 22, before the holidays",
+        "date": "2026-11-08"
       },
-      "history": []
+      "history": [
+        {
+          "value": "2026-12-01",
+          "until": "2026-11-08",
+          "source": {
+            "kind": "judgment",
+            "ref": "Zach, 2026-11-06 v2 reply: access by about Dec 1 still lands before the end of the year",
+            "date": "2026-11-06"
+          }
+        }
+      ]
     },
     "github_user": {
       "kind": "text",
@@ -333,6 +353,17 @@
         "kind": "decision",
         "ref": "Zach, 2026-11-06 v2 reply",
         "date": "2026-11-06"
+      },
+      "history": []
+    },
+    "work_days": {
+      "kind": "int",
+      "value": 5,
+      "label": "Working days Step 1 takes from access",
+      "source": {
+        "kind": "decision",
+        "ref": "Zach, 2026-11-08: under a week, broken down by day",
+        "date": "2026-11-08"
       },
       "history": []
     }
@@ -571,7 +602,7 @@
     {
       "id": "T3",
       "title": "Timing",
-      "body": "I'll deliver within {{duration_days|weeks}} after I have GitHub and Lovable access, or after signing if that comes later. Delays on your side move the date by the same amount."
+      "body": "I'll deliver within {{work_days|word}} working days after I have GitHub and Lovable access, or after signing if that comes later. Delays on your side move the date by the same amount."
     },
     {
       "id": "T4",
@@ -654,11 +685,13 @@
     "title": "Step 1: light audit and code review",
     "weeks": [
       "Before",
-      "Week 1",
-      "Week 2",
-      "Week 3"
+      "Day 1",
+      "Day 2",
+      "Day 3",
+      "Day 4",
+      "Day 5"
     ],
-    "summary": "Step 1 of 3 in the MVP Prototype: {{fee_step1}} of {{fee_offer_total}}, {{hours_step1}} of {{hours_offer_total}} hours, about {{duration_days|weeks}} from access.",
+    "summary": "Step 1 of 3 in the MVP Prototype: {{fee_step1}} of {{fee_offer_total}}, {{hours_step1}} of {{hours_offer_total}} hours, {{work_days|word}} working days from access.",
     "s2": "Step 2 (customer journey and design system)",
     "s3": "Step 3 (working prototype)",
     "rows": [
@@ -672,7 +705,8 @@
         "get": "",
         "s2": "",
         "s3": "",
-        "note": "What has to be in place before the three weeks start counting."
+        "note": "What has to be in place before day 1. My five working days count from signing or access, whichever comes later.",
+        "hours": 0
       },
       {
         "id": "w0a",
@@ -684,7 +718,8 @@
         "get": "",
         "s2": "",
         "s3": "",
-        "note": "Your counsel reviews the agreement first. My three weeks count from signing or access, whichever comes later."
+        "note": "Your counsel reviews the agreement first.",
+        "hours": 0
       },
       {
         "id": "w0b",
@@ -696,7 +731,8 @@
         "get": "Your code lives in your own account from day one.",
         "s2": "",
         "s3": "",
-        "note": "Free to set up, about 10 minutes. You can do it before signing."
+        "note": "Free to set up, about 10 minutes. You can do it before signing.",
+        "hours": 0
       },
       {
         "id": "w0c",
@@ -708,7 +744,8 @@
         "get": "",
         "s2": "",
         "s3": "",
-        "note": "So I can link Lovable to your GitHub."
+        "note": "So I can link Lovable to your GitHub.",
+        "hours": 0
       },
       {
         "id": "w0d",
@@ -720,7 +757,8 @@
         "get": "",
         "s2": "",
         "s3": "",
-        "note": "I review the rules, not the records. If you'd like me to try the app as a parent, two made-up parent accounts are enough."
+        "note": "I review the rules, not the records. If you'd like me to try the app as a parent, two made-up parent accounts are enough.",
+        "hours": 0
       },
       {
         "id": "w1",
@@ -728,11 +766,12 @@
         "kind": "phase",
         "label": "Code review",
         "start": 1,
-        "len": 2,
+        "len": 3,
         "get": "Exhibit A, item 1.",
         "s2": "",
         "s3": "",
-        "note": "Is it safe to build on?"
+        "note": "Is it safe to build on?",
+        "hours": 4.5
       },
       {
         "id": "w1a",
@@ -741,6 +780,7 @@
         "label": "Read the Lovable code, database rules and build spec",
         "start": 1,
         "len": 1,
+        "hours": 2,
         "get": "",
         "s2": "",
         "s3": "",
@@ -751,8 +791,22 @@
         "parent": "w1",
         "kind": "task",
         "label": "Sort the code into three piles: ready to build on, keep with some tidying, better rebuilt",
-        "start": 1,
-        "len": 2,
+        "start": 2,
+        "len": 1,
+        "hours": 2,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": ""
+      },
+      {
+        "id": "w1d",
+        "parent": "w1",
+        "kind": "task",
+        "label": "Write the report",
+        "start": 3,
+        "len": 1,
+        "hours": 0.5,
         "get": "",
         "s2": "",
         "s3": "",
@@ -763,32 +817,35 @@
         "parent": "w1",
         "kind": "ms",
         "label": "A short written report, with the reasons for each pile",
-        "start": 2,
+        "start": 3,
         "len": 0,
         "get": "The report is yours to keep and share.",
         "s2": "Shows which screens and flows are solid enough to map the customer journey on.",
         "s3": "Decides what the prototype builds on and what gets rebuilt first, so no hours go into code that will be thrown away.",
-        "note": ""
+        "note": "",
+        "hours": 0
       },
       {
         "id": "w2",
         "parent": null,
         "kind": "phase",
         "label": "Data separation check",
-        "start": 1,
+        "start": 2,
         "len": 2,
         "get": "Exhibit A, item 2.",
         "s2": "",
         "s3": "",
-        "note": ""
+        "note": "",
+        "hours": 2.5
       },
       {
         "id": "w2a",
         "parent": "w2",
         "kind": "task",
         "label": "Check that each family's data is kept apart in the database rules",
-        "start": 1,
+        "start": 2,
         "len": 2,
+        "hours": 2.5,
         "get": "",
         "s2": "",
         "s3": "",
@@ -799,24 +856,26 @@
         "parent": "w2",
         "kind": "ms",
         "label": "Anything risky flagged, in plain language",
-        "start": 2,
+        "start": 3,
         "len": 0,
         "get": "A list of what is fine, what to fix, and why.",
         "s2": "Tells the design work which information each screen is allowed to show.",
         "s3": "Has to pass before any real family uses the prototype, and before the 100-family test.",
-        "note": ""
+        "note": "",
+        "hours": 0
       },
       {
         "id": "w2c",
         "parent": "w2",
         "kind": "gap",
         "label": "Not part of Step 1: a full security test, or a FERPA, COPPA or HIPAA review",
-        "start": 1,
+        "start": 2,
         "len": 2,
         "get": "",
         "s2": "",
         "s3": "",
-        "note": "This check is a careful read of the code and rules (agreement term 7). A full security test comes later, and legal questions go to a specialist."
+        "note": "This check is a careful read of the code and rules (agreement term 7). A full security test comes later, and legal questions go to a specialist.",
+        "hours": 0
       },
       {
         "id": "w3",
@@ -828,7 +887,8 @@
         "get": "Exhibit A, item 3.",
         "s2": "",
         "s3": "",
-        "note": ""
+        "note": "",
+        "hours": 0.5
       },
       {
         "id": "w3a",
@@ -837,6 +897,7 @@
         "label": "Link your GitHub account to Lovable",
         "start": 1,
         "len": 1,
+        "hours": 0.5,
         "get": "",
         "s2": "",
         "s3": "",
@@ -852,27 +913,43 @@
         "get": "A full history of the code, owned by MyAlly.",
         "s2": "Design changes land in the same saved history.",
         "s3": "The prototype is built here, and you can hand it to any developer later.",
-        "note": ""
+        "note": "",
+        "hours": 0
       },
       {
         "id": "w4",
         "parent": null,
         "kind": "phase",
         "label": "Rough numbers",
-        "start": 2,
-        "len": 2,
+        "start": 4,
+        "len": 1,
         "get": "Exhibit A, item 4.",
         "s2": "",
         "s3": "",
-        "note": "Planning estimates for work I would do, not a quote (agreement term 6). If you share them, please share them as my estimates, with the assumptions attached."
+        "note": "Planning estimates for work I would do, not a quote (agreement term 6). If you share them, please share them as my estimates, with the assumptions attached.",
+        "hours": 3.75
       },
       {
         "id": "w4a",
         "parent": "w4",
         "kind": "task",
-        "label": "Start from the AI cost model Morgan and you built",
-        "start": 2,
+        "label": "Start from the AI cost model Morgan and you built, then build the ranges",
+        "start": 4,
         "len": 1,
+        "hours": 3,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": ""
+      },
+      {
+        "id": "w4e",
+        "parent": "w4",
+        "kind": "task",
+        "label": "Write up the ranges and their assumptions",
+        "start": 5,
+        "len": 1,
+        "hours": 0.75,
         "get": "",
         "s2": "",
         "s3": "",
@@ -883,56 +960,61 @@
         "parent": "w4",
         "kind": "ms",
         "label": "A low-to-high range for a build ready to test with up to 100 families",
-        "start": 3,
+        "start": 5,
         "len": 0,
         "get": "",
         "s2": "Firms up in Step 2 into a real range.",
         "s3": "Sets the budget the prototype is built against.",
-        "note": ""
+        "note": "",
+        "hours": 0
       },
       {
         "id": "w4c",
         "parent": "w4",
         "kind": "ms",
         "label": "A range for going from there to a public launch",
-        "start": 3,
+        "start": 5,
         "len": 0,
         "get": "",
         "s2": "Firms up in Step 2.",
         "s3": "",
-        "note": ""
+        "note": "",
+        "hours": 0
       },
       {
         "id": "w4d",
         "parent": "w4",
         "kind": "ms",
         "label": "Monthly running costs (AI, hosting, security checks) at each stage, over two years",
-        "start": 3,
+        "start": 5,
         "len": 0,
         "get": "Numbers Kelly can put in the business plan and show funders.",
         "s2": "",
         "s3": "Tells you what the prototype costs to keep running while families test it.",
-        "note": ""
+        "note": "",
+        "hours": 0
       },
       {
         "id": "w5",
         "parent": null,
         "kind": "phase",
         "label": "Walkthrough and your decision",
-        "start": 3,
+        "start": 5,
         "len": 1,
         "get": "Exhibit A, item 5.",
         "s2": "",
         "s3": "",
-        "note": ""
+        "note": "",
+        "hours": 0.75
       },
       {
         "id": "w5a",
         "parent": "w5",
         "kind": "ms",
         "label": "A {{walkthrough_minutes}}-minute walkthrough call",
-        "start": 3,
+        "start": 5,
         "len": 0,
+        "hours": 0.75,
         "get": "Part of Step 1. It doesn't use your office hours.",
         "s2": "",
         "s3": "",
@@ -943,12 +1025,13 @@
         "parent": "w5",
         "kind": "gate",
         "label": "Your yes or no on Step 2",
-        "start": 3,
+        "start": 5,
         "len": 1,
         "get": "Stop here and keep everything, or go on at {{fee_step1}}.",
         "s2": "",
         "s3": "",
-        "note": "Nothing later is committed until you say yes in writing."
+        "note": "Nothing later is committed until you say yes in writing.",
+        "hours": 0
       },
       {
         "id": "w6",
@@ -956,11 +1039,38 @@
         "kind": "phase",
         "label": "Included at no charge",
         "start": 0,
-        "len": 4,
+        "len": 6,
         "get": "",
         "s2": "",
         "s3": "",
-        "note": "On top of the {{fee_step1}}."
+        "note": "On top of the {{fee_step1}}.",
+        "hours": 0
+      },
+      {
+        "id": "w6c",
+        "parent": "w6",
+        "kind": "oh",
+        "label": "Proposed office hours: 30-minute kickoff",
+        "start": 1,
+        "len": 1,
+        "hours": 0,
+        "get": "We agree what matters most to you before I read the code.",
+        "s2": "",
+        "s3": "",
+        "note": "Uses 30 minutes of your free office hours. Move or skip it as you like."
+      },
+      {
+        "id": "w6d",
+        "parent": "w6",
+        "kind": "oh",
+        "label": "Proposed office hours: 30-minute check-in on what I find in the code",
+        "start": 3,
+        "len": 1,
+        "hours": 0,
+        "get": "You hear the early findings and answer my questions, so the report fits how you work.",
+        "s2": "",
+        "s3": "",
+        "note": "Uses 30 minutes of your free office hours. Move or skip it as you like."
       },
       {
         "id": "w6a",
@@ -968,11 +1078,12 @@
         "kind": "gift",
         "label": "{{oh_free_hours}} hours of office hours a month, in {{oh_slot_minutes}}-minute slots",
         "start": 0,
-        "len": 4,
+        "len": 6,
         "get": "To use however you like.",
         "s2": "",
         "s3": "",
-        "note": "Extra hours are {{rate_standard}} an hour, or {{rate_committed}} an hour when booked for {{commit_weeks}} weeks or more."
+        "note": "Two 30-minute slots are proposed during Step 1, so 3 hours a month stay free for anything else. Extra hours are {{rate_standard}} an hour, or {{rate_committed}} an hour when booked for {{commit_weeks}} weeks or more.",
+        "hours": 0
       },
       {
         "id": "w6b",
@@ -980,11 +1091,12 @@
         "kind": "gift",
         "label": "Claude skills, plugins and agents from my own working files, for your team",
         "start": 1,
-        "len": 3,
+        "len": 5,
         "get": "Shared on request, as is, for your team to use on MyAlly.",
         "s2": "Your team can run the same research and writing tools I use.",
         "s3": "The same build tools carry into the prototype, so nothing is relearned.",
-        "note": "I'll suggest the ones that fit how your team works. They stay mine, and you're free to use them for MyAlly (agreement term 5)."
+        "note": "I'll suggest the ones that fit how your team works. They stay mine, and you're free to use them for MyAlly (agreement term 5).",
+        "hours": 0
       }
     ],
     "glance": [
@@ -994,15 +1106,15 @@
       ],
       [
         "{{hours_step1}} hours",
-        "of {{hours_offer_total}} across the three steps"
+        "over {{work_days|word}} working days, about 2 to 3 hours a day"
       ],
       [
-        "About {{duration_days|weeks}}",
+        "{{work_days|Word}} working days",
         "from access. Access by {{access_by}} means results by {{deliver_by}}"
       ],
       [
         "{{oh_free_hours}} hours a month",
-        "of office hours at no charge, in {{oh_slot_minutes}}-minute slots"
+        "of office hours at no charge; two 30-minute slots proposed in Step 1"
       ]
     ]
   },

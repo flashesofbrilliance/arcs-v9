@@ -5,7 +5,7 @@
 
 To the Services Agreement between Access Consulting, LLC and Zach Harris.
 
-Step 1 delivers the following, within three weeks after I have access to GitHub and Lovable (or after signing, if that comes later):
+Step 1 delivers the following, within five working days after I have access to GitHub and Lovable (or after signing, if that comes later):
 
 - A short written report: what in the code is ready to build on, what to keep with some tidying, and what is better rebuilt, with the reasons.
 - A check of how each family's data is kept apart, with anything risky flagged.

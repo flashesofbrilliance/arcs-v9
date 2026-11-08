@@ -2,7 +2,7 @@
 
 To the Services Agreement between {{client.legal_name}} and Zach Harris.
 
-Step 1 delivers the following, within {{duration_days|weeks}} after I have access to GitHub and Lovable (or after signing, if that comes later):
+Step 1 delivers the following, within {{work_days|word}} working days after I have access to GitHub and Lovable (or after signing, if that comes later):
 
 {{list:exhibit}}
 

@@ -14,7 +14,7 @@ Yes. Step 1 will end with rough low-to-high ranges, with the assumptions listed,
 These are my planning estimates for work I would do, not a quote, and they firm up in Step 2. You're welcome to use them in your plan and with investors and funders. If you share them, please share them as my estimates, with the assumptions attached.
 
 **3. Timing**
-About {{duration_days|weeks}} from the day I have access to GitHub and Lovable, since Thanksgiving falls in the middle. If access lands by {{access_by}}, you'd have results by {{deliver_by}}. As long as access is in by about {{latest_access}}, you'll have everything before the end of the year.
+Step 1 is {{hours_step1}} hours of my time, so it takes {{work_days|word}} working days from the day I have access to GitHub and Lovable. If access lands by {{access_by}}, you'd have results by {{deliver_by}}. Access by about {{latest_access}} still gets you everything before the holidays.
 
 **4. Agreement**
 Attached. It's in plain language, it keeps the office hours exactly as in my Oct 29 note, and I'm glad for your counsel to review it and happy to talk through any changes.
@@ -22,7 +22,7 @@ Attached. It's in plain language, it keeps the office hours exactly as in my Oct
 **To get going:**
 {{list:to_start}}
 
-My {{duration_days|weeks}} count from whichever comes later, signing or access.
+My {{work_days|word}} working days count from whichever comes later, signing or access.
 
 With gratitude,
 Zach

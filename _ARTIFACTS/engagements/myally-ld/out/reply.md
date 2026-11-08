@@ -23,7 +23,7 @@ Yes. Step 1 will end with rough low-to-high ranges, with the assumptions listed,
 These are my planning estimates for work I would do, not a quote, and they firm up in Step 2. You're welcome to use them in your plan and with investors and funders. If you share them, please share them as my estimates, with the assumptions attached.
 
 **3. Timing**
-About three weeks from the day I have access to GitHub and Lovable, since Thanksgiving falls in the middle. If access lands by Nov 13, you'd have results by Dec 4. As long as access is in by about Dec 1, you'll have everything before the end of the year.
+Step 1 is 12 hours of my time, so it takes five working days from the day I have access to GitHub and Lovable. If access lands by Nov 13, you'd have results by Nov 20. Access by about Dec 15 still gets you everything before the holidays.
 
 **4. Agreement**
 Attached. It's in plain language, it keeps the office hours exactly as in my Oct 29 note, and I'm glad for your counsel to review it and happy to talk through any changes.
@@ -33,7 +33,7 @@ Attached. It's in plain language, it keeps the office hours exactly as in my Oct
 - Once your counsel is happy, sign and email the agreement back.
 - I'll send Access Consulting, LLC the $1,500 invoice when we sign.
 
-My three weeks count from whichever comes later, signing or access.
+My five working days count from whichever comes later, signing or access.
 
 With gratitude,
 Zach

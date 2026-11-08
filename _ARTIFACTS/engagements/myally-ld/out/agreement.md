@@ -9,7 +9,7 @@ Between Access Consulting, LLC, a Connecticut limited liability company, for the
 
 2. **Fee.** Step 1 is a fixed $1,500 for everything in Exhibit A, including the rough numbers and the walkthrough call. If it takes me longer than I planned, that's on me. I would only charge more for something outside Exhibit A, and only after your written yes, at $125 an hour. I'll invoice Access Consulting, LLC on signing, and payment is due on signing.
 
-3. **Timing.** I'll deliver within three weeks after I have GitHub and Lovable access, or after signing if that comes later. Delays on your side move the date by the same amount.
+3. **Timing.** I'll deliver within five working days after I have GitHub and Lovable access, or after signing if that comes later. Delays on your side move the date by the same amount.
 
 4. **Office hours.** 4 hours a month at no charge, in 30-minute slots, to use however you like. Extra hours are $150 an hour, or $125 an hour when booked for 4 weeks or more.
 
