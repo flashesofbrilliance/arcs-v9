@@ -41,6 +41,7 @@ OPS = {"mul", "div", "add_days"}
 ALTITUDES = ["exec", "strategic", "operational", "tactical", "surgical"]
 CITE = re.compile(r"\{\{([^{}]+)\}\}")
 WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]
+DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 LOCK = "render.lock.json"
 
@@ -168,6 +169,8 @@ def fmt(kind: str, value, style: str = "") -> str:
         if style == "nda":
             return f"{d.month}.{d.day}.{d.year % 100}"
         base = f"{MONTHS[d.month - 1]} {d.day}"
+        if style == "day":
+            return f"{DAYS[d.weekday()]} {base}"
         return f"{base}, {d.year}" if style == "long" else base
     if kind == "days" and style == "weeks":
         if value % 7 == 0 and value // 7 < len(WORDS):
@@ -481,6 +484,7 @@ def self_test() -> int:
         def moved(r):
             r["meta"]["last_sent"] = "2026-11-07"
             f = r["fields"]["access_by"]
+            f["value"], f["history"] = "2026-11-13", []  # fixed start, so record edits never break this test
             f["history"].append({"value": f["value"], "until": "2026-11-10", "source": f["source"]})
             f["value"] = "2026-11-20"
         edit(moved)
