@@ -274,6 +274,32 @@ footer p{text-align:left;}
 @media (max-width: 640px) { .offer > * { padding: var(--sp-2, 16px); } }
 @media print { .offer { break-inside: avoid; background: none; } .offer-proof { background: none; } .offer > * { padding: 12px 16px; } .offer-link { min-height: 0; } }
 /* @prim:end 41-offer-close */
+/* give/get grid 2026-11-08: the time trade, built on the questions grid (hhead + hairline rows) */
+.gg{display:flex;flex-direction:column;margin-top:var(--sp-2);}
+.gg-row{display:grid;grid-template-columns:5.5rem minmax(0,1fr) minmax(0,1fr);column-gap:var(--sp-3);padding:var(--sp-2) 0;border-top:1px solid var(--border);}
+.gg-head{font-family:var(--sans);font-size:var(--fs-title);font-weight:600;color:var(--secondary);border-top:0;padding:0 0 var(--sp-1);}
+.gg-head .c{color:var(--cyan);}
+.gg-when{font-weight:600;color:var(--text);}
+.gg-give{color:var(--text-secondary);text-wrap:pretty;}
+.gg-get{color:var(--text);text-wrap:pretty;}
+.gg-row:last-child{border-bottom:1px solid var(--border);}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+.gg + .offer{margin-top:var(--sp-3);}
+@media (max-width:640px){
+  .gg-row{grid-template-columns:minmax(0,1fr);row-gap:6px;}
+  .gg-head{display:none;}
+  .gg-give::before{content:"You give: ";font-weight:600;color:var(--text);}
+  .gg-get::before{content:"You get: ";font-weight:600;color:var(--cyan);}
+}
+@media print{
+  .gg{margin-left:2.25rem;break-inside:avoid;}
+  .offerwrap .bd > .pnote{break-before:page;margin-top:0;}
+  .gg-head{font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);padding-bottom:6px;border-bottom:1.5px solid var(--text);}
+  .gg-head .c{color:var(--cyan);}
+  .gg-row{padding:6px 0;line-height:1.4;grid-template-columns:4.5rem minmax(0,1.3fr) minmax(0,1fr);column-gap:var(--sp-2);}
+  .gg-head + .gg-row{border-top:0;}
+  .gg + .offer{margin-top:var(--sp-2);}
+}
 /* print design pass 2026-11-08: the PDF as a document, built from the page's own parts (forline label, mono numerals, hairline grids, offer card). Print only; the screen page is unchanged. */
 @page{size:Letter;margin:0.8in 0.8in 0.75in;
   @top-left{content:"ARCS";font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;font-size:7pt;font-weight:700;letter-spacing:0.32em;color:#00606b;vertical-align:bottom;padding-bottom:14pt;}
@@ -402,7 +428,13 @@ footer p{text-align:left;}
       <li><span class="pn">08</span><span>A readout to walk you through it.</span></li>
     </ol>
   </div>
-  <p class="pnote">A two-week sprint, with a few hours of your team's time across the sessions above. Your data stays with you: Total sales figures only, nothing at customer level, and a mutual NDA first.</p>
+  <p class="pnote">A two-week sprint. About three and a half hours of your team's time, a little over four with the optional session.</p>
+  <div class="gg" role="table" aria-label="What you give and what you get">
+    <div class="gg-row gg-head" role="row"><span role="columnheader"><span class="vh">When</span></span><span role="columnheader">What you give</span><span role="columnheader" class="c">What you get</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Before</span><span class="gg-give" role="cell">A mutual NDA, and total sales figures, nothing at customer level.</span><span class="gg-get" role="cell">Your data stays with you.</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 1</span><span class="gg-give" role="cell">Kickoff with you, 60 minutes. A screen-share with whoever is on the warehouse and MCP side, including where the data lives and who can reach it, 90 minutes. Optional: 45 minutes with whoever owns where the data gets used next, your choice of who.</span><span class="gg-get" role="cell">The Adobo trace in writing: The call, what it relies on, what it can't see, and the date you'll know.</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 2</span><span class="gg-give" role="cell">The readout, 60 minutes, and your pushback on anything that's wrong.</span><span class="gg-get" role="cell">One page on where the build stands, what's least efficient, and which hypotheses aren't holding, with next steps, each with a number and a date to check it.</span></div>
+  </div>
     </div>
   </details>
   <div class="offer">
