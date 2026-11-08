@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 278,
+  "rows": 280,
   "hosts": 61,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 222,
+   "product page": 224,
    "gated": 28
   },
   "next_config_hosts": 85,
   "proxy_hosts": 24,
   "app_routes": 47,
   "missing_purpose": 21,
-  "unlisted": 81
+  "unlisted": 83
  },
  "retired_hosts": [
   "ahmed-ext.arcs.care",
@@ -3873,6 +3873,26 @@
   },
   {
    "host": "myally.arcs.care",
+   "path": "/light-audit",
+   "catch_all": false,
+   "destination": "/myally-hub.html",
+   "pattern": false,
+   "file": "public/myally-hub.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "My Ally LD: Alyce",
+   "description": null,
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "My Ally LD: Alyce",
+   "kind": "product page",
+   "last_commit": "2026-10-29"
+  },
+  {
+   "host": "myally.arcs.care",
    "path": "/mnda-edits",
    "catch_all": false,
    "destination": "/myally-hub.html",
@@ -3914,6 +3934,26 @@
   {
    "host": "myally.arcs.care",
    "path": "/proposal",
+   "catch_all": false,
+   "destination": "/myally-hub.html",
+   "pattern": false,
+   "file": "public/myally-hub.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "My Ally LD: Alyce",
+   "description": null,
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "My Ally LD: Alyce",
+   "kind": "product page",
+   "last_commit": "2026-10-29"
+  },
+  {
+   "host": "myally.arcs.care",
+   "path": "/step-1",
    "catch_all": false,
    "destination": "/myally-hub.html",
    "pattern": false,
@@ -5058,7 +5098,7 @@
    "unlisted": true,
    "purpose": "ARCS, built in the open since day zero: a live product that grades itself. Proof over promises, one commit at a time.",
    "kind": "status",
-   "last_commit": "2026-11-04"
+   "last_commit": "2026-11-05"
   },
   {
    "host": "status.arcs.care",
@@ -5179,7 +5219,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-11-04"
+   "last_commit": "2026-11-05"
   },
   {
    "host": "todd-call.arcs.care",
