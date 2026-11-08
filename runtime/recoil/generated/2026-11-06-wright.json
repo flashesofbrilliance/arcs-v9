@@ -1,0 +1,479 @@
+{
+  "_METHOD": "Six tabs = six disciplines in sequence. PRE-CALL: orient before contact (True North, register/intent, intel, questions, landmines). EX-ANTE: file a decision receipt BEFORE the event (hypothesis + predicted Y-gate + pre-committed move + falsifier) so you can be scored later. FORGE: pressure-test the brief's own claims against external substrates via an independent skeptic (grounded / inference / struck). RECOIL: after the event, close the receipt — belief-update ledger (confidence x conviction), kairos/quiet-signals, risk flags, next steps. WAR GAME: adversarial + kinematic — measured manifold, BAR/LAB/COURT gauntlet, ATG pre-mortem on the critical path vs their real objections. DEFENSIBILITY: translate the method into the counterpart's native register (Rosetta) + a 5-verb x 4-proofing matrix + the antifragile-core / lossless-translation test.",
+  "meta": {
+    "report_id": "2026-11-06-wright",
+    "date": "2026-11-06",
+    "counterpart": "Harrison Wright",
+    "company": "Crossbridge Executive",
+    "segments": 4,
+    "gate": {
+      "internal": "LGxVQnlngpWYSpmX"
+    },
+    "provenance": {
+      "audience": "internal",
+      "captured": "Google Meet 1-1 on 2026-11-06, 3:00 PM ET, about 35 min (Granola c7bf8880, recorded by Zach; no notetaker consent on record)",
+      "load_bearing_quote": "Paraphrase only (no consent on record): he does not think Gravity Labs would want ARCS itself, since it is not an institutional crypto product, but thinks they would be interested in Zach."
+    }
+  },
+  "opportunity": {
+    "audience": "internal",
+    "engagement_type": "candidacy",
+    "req_reality": 1,
+    "req_reality_basis": "Transcript [23:15]: Gravity Labs is not urgently looking but keeps an eye out for an EIR; Coda's head of product is filled, and its CEO may want one or two more advisors. Verbal shape only: no JD, no comp, no decision owner met.",
+    "y_state": "FORK",
+    "topology": "DIVERGENT",
+    "nci_prior": 0,
+    "nci_post": 0,
+    "note": "Recruiting conversation, not a proposal. Three loops: (A) candidacy via Gravity Labs EIR or Coda advisory, (B) ARCS demo for Harrison as a possible user, (C) Harrison intro to a crypto-BD-turned-AI builder (name spelled 'Gemma Lopofido' by the transcriber; unconfirmed)."
+  },
+  "beliefs": [
+    {
+      "id": "P1",
+      "audience": "internal",
+      "claim": "Harrison is who he says he is and the call is safe to invest in",
+      "evidence": "2023 intro thread via David Wu Finkelstein (Gmail 18a95d4406f3c45b); same Zoom room on the 2023 invite now shows organizer harrison@crossbridgeexecutive.com; LinkedIn message 2026-10-23 from 'Founder, Crossbridge Executive'; Zach organized the 2026-11-06 invite; live hand-in-front-of-face check passed on the call [8:51]",
+      "inference": "EXP",
+      "confidence": [
+        0.7,
+        0.9
+      ],
+      "conviction": "HIGH",
+      "verdict": "UPGRADE"
+    },
+    {
+      "id": "P2",
+      "audience": "internal",
+      "claim": "The call would surface a paid engagement or proposal",
+      "evidence": "No ask for paid work. Harrison's asks are candidate material; Zach's offer was a free demo",
+      "inference": "EXP",
+      "confidence": [
+        0.3,
+        0.05
+      ],
+      "conviction": "HIGH",
+      "verdict": "FALSIFIED"
+    },
+    {
+      "id": "P3",
+      "audience": "internal",
+      "claim": "Leading with the ARCS product helps the candidacy",
+      "evidence": "He redirected from the product to the person [20:10]",
+      "inference": "EXP",
+      "confidence": [
+        0.5,
+        0.2
+      ],
+      "conviction": "MED",
+      "verdict": "DOWNGRADE"
+    },
+    {
+      "id": "P4",
+      "audience": "internal",
+      "claim": "There is a real role behind the Gravity Labs thread",
+      "evidence": "Not urgent, keeping eyes open for an EIR; the studio funds the company, not a salary we know of",
+      "inference": "IMP",
+      "confidence": [
+        0.5,
+        0.3
+      ],
+      "conviction": "LOW",
+      "verdict": "DOWNGRADE"
+    },
+    {
+      "id": "P5",
+      "audience": "internal",
+      "claim": "Harrison would use an ARCS candidate-briefing receipt",
+      "evidence": "He said yes to a look [31:23], with no time set and no pain named",
+      "inference": "IMP",
+      "confidence": [
+        0.3,
+        0.3
+      ],
+      "conviction": "LOW",
+      "verdict": "NEW"
+    }
+  ],
+  "kinematic_series": {
+    "dt": 1.0,
+    "series": [
+      {
+        "key": "fit_via_person",
+        "audience": "internal",
+        "label": "Candidacy read (person over product)",
+        "color": "#00F0FF",
+        "points": [
+          0.4,
+          0.45,
+          0.55,
+          0.6
+        ],
+        "grounding_quote": "Paraphrase: he can't picture Zach at a bank; thinks the studio would be interested in Zach"
+      },
+      {
+        "key": "req_real",
+        "audience": "internal",
+        "label": "Req reality (0..1 scale of 0..3)",
+        "color": "#FFD700",
+        "points": [
+          0.0,
+          0.0,
+          0.33,
+          0.33
+        ],
+        "grounding_quote": "Paraphrase: not urgently looking for an EIR"
+      }
+    ]
+  },
+  "insights": [
+    {
+      "audience": "internal",
+      "plane": "counterpart",
+      "title": "He is placing people, not buying tools",
+      "text": "His sweet spot is where TradFi meets crypto: regulated infrastructure firms, banks hiring crypto people, and professional services (he named Alvarez & Marsal). He just placed Coda's founding head of product; four candidates sent, three offered. The hard part of that search was salary: about $150K at a startup against about $300K at an incumbent custodian (his figures)."
+    },
+    {
+      "audience": "internal",
+      "plane": "idea",
+      "title": "Three loops from one call",
+      "text": "One 35-minute call opened a candidacy, a product-demo lead and a network intro. Each needs its own next step and its own receipt; folding them into one follow-up email is fine, but scoring them as one engagement is not."
+    }
+  ],
+  "next_steps": [
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Monday 2026-11-09 (he said Monday on the call): send the follow-up yourself. Draft in _ARTIFACTS/harrison-wright-2026-11-06/reply-draft.md."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Positioning bundle for the Gravity Labs EIR angle: one page plus a tailored resume (resume-tailor-zach). Lead with institutional crypto operator experience; ARCS as proof of building, not the pitch."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Demo: offer two 20-minute slots; show a candidate-briefing receipt on a synthetic candidate, never one of his real candidates."
+    },
+    {
+      "audience": "internal",
+      "owner": "Harrison",
+      "text": "Scope things with Gravity Labs and say if a different rec fits; intro to the crypto-BD contact (name unconfirmed)."
+    }
+  ],
+  "redaction_policy": {
+    "rules": [
+      "Method can cross; subject-about-them cannot.",
+      "Show your own updates, never their intent-scores.",
+      "Architecture crosses; weights/sauce do not."
+    ]
+  },
+  "page": {
+    "layout": "tabs",
+    "header": {
+      "eyebrow": "ARCS &#183; War Room",
+      "title": "Harrison Wright &#183; Crossbridge Executive",
+      "sub": "Close of the 2026-11-06 1-1: a recruiting conversation, three open loops"
+    },
+    "tabs": [
+      {
+        "id": "pre",
+        "label": "Pre-Call"
+      },
+      {
+        "id": "exante",
+        "label": "Ex-Ante"
+      },
+      {
+        "id": "forge",
+        "label": "Forge"
+      },
+      {
+        "id": "recoil",
+        "label": "Recoil"
+      },
+      {
+        "id": "wargame",
+        "label": "War Game"
+      },
+      {
+        "id": "defense",
+        "label": "Defensibility"
+      }
+    ],
+    "blocks": [
+      {
+        "tab": "pre",
+        "type": "prose",
+        "audience": "internal",
+        "h2": "True North",
+        "p": [
+          "Treat this as a candidacy at req reality 1 and a separate product lead: send the material he asked for, keep it small, and do not price or negotiate anything."
+        ]
+      },
+      {
+        "tab": "pre",
+        "type": "keyvalue",
+        "audience": "internal",
+        "h2": "Context",
+        "rows": [
+          {
+            "k": "Date",
+            "v": "Fri 2026-11-06, 3:00 to 3:25 PM ET booked; ran about 35 min (Zach had a 3:30)"
+          },
+          {
+            "k": "Register",
+            "v": "Warm peer, recruiting. Known since a 2023 intro via a mutual (David Wu Finkelstein)"
+          },
+          {
+            "k": "Their goal",
+            "v": "Assess Zach as a candidate for institutional crypto clients; keep a good candidate warm"
+          },
+          {
+            "k": "Trust tier",
+            "v": "T3 (trusted mutual intro, 2023 thread), plus live checks. Details in the Forge tab"
+          },
+          {
+            "k": "Y-Gate",
+            "v": "FORK (req reality 1 caps it below GREEN)"
+          }
+        ]
+      },
+      {
+        "tab": "pre",
+        "type": "list",
+        "audience": "internal",
+        "h2": "Intel",
+        "intro": "Harrison Wright, founder of Crossbridge Executive (institutional digital asset search). Formerly at theblockchainrecruiter.com (2023 emails).",
+        "items": [
+          {
+            "dot": "c",
+            "html": "<strong>Gravity Labs</strong>: a crypto venture studio. Public listings say it is owned by Defy (defy.vc); he said ex-Paxos founders and new last year (unconfirmed). Model per Harrison: validate an idea, hire CEO and founding team, write about $500K pre-pre-seed"
+          },
+          {
+            "dot": "c",
+            "html": "<strong>Coda Network</strong>: Gravity portfolio company building a compliance decisioning layer for institutions that self-custody. Not found in public search; his account only"
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Fund size</strong>: he guessed $150M and said he could not remember. Do not repeat it"
+          }
+        ]
+      },
+      {
+        "tab": "exante",
+        "type": "receipt",
+        "audience": "internal",
+        "h2": "Exhibit 1 &#183; Ex-Ante Decision Receipt (filed 2026-11-08, after the call, before the follow-up)",
+        "fields": [
+          {
+            "label": "D &#183; Sharpened question",
+            "value": "Is a Gravity Labs EIR or a Coda advisory seat worth a tailored bundle now, and is Harrison a real ARCS user?"
+          },
+          {
+            "label": "Note",
+            "value": "No ex-ante was filed before the call (no /recoil-prep ran). These predictions are about the follow-up Zach sends Monday, so they can still be scored."
+          },
+          {
+            "label": "E1",
+            "value": "Harrison replies to the bundle within 7 days. p=0.70, judgment; basis: he asked for it, has answered since 2023, and messaged first on 2026-10-23"
+          },
+          {
+            "label": "E2",
+            "value": "He makes a Gravity Labs intro within 21 days. p=0.40, judgment; basis: not urgently hiring, he has to scope first"
+          },
+          {
+            "label": "E3",
+            "value": "The crypto-BD intro happens within 14 days. p=0.50, judgment; basis: he offered it unprompted, but no date"
+          },
+          {
+            "label": "E4",
+            "value": "A demo is booked within 30 days. p=0.35, judgment; basis: polite yes, no time, no pain named"
+          },
+          {
+            "label": "E5",
+            "value": "Any paid use of ARCS by Harrison within 90 days. p=0.05, judgment; basis: no budget or problem stated"
+          },
+          {
+            "label": "Abort",
+            "value": "No reply in 14 days: one nudge, then mark ghosted at 4 weeks (recoil-close rule for warm threads at req reality 1)"
+          }
+        ]
+      },
+      {
+        "tab": "forge",
+        "type": "table",
+        "audience": "internal",
+        "h2": "Claim adjudication",
+        "columns": [
+          "Claim",
+          "Ruling",
+          "Source force"
+        ],
+        "rows": [
+          [
+            "Harrison is a real recruiter Zach has known since 2023",
+            "GROUNDED",
+            "Gmail thread 18a95d4406f3c45b (intro via mutual, Sep 2023); calendar 2023-09-22 invite; LinkedIn 2026-10-23"
+          ],
+          [
+            "harrison@crossbridgeexecutive.com is his",
+            "GROUNDED with a caveat",
+            "Same Google calendar account as 2023 now shows this address; MX is Google, SPF Google; DMARC p=none, so mail from this domain could be spoofed. Zach sent the invite, so no inbound mail was relied on"
+          ],
+          [
+            "Gravity Labs is a crypto venture studio",
+            "GROUNDED",
+            "Public job listings (web3.career, venturecapitalcareers.com) describe it as Defy's crypto studio"
+          ],
+          [
+            "Gravity Labs founders are ex-Paxos; fund about $150M",
+            "INFERENCE",
+            "Harrison only; he was unsure of the figure"
+          ],
+          [
+            "Coda Network exists and he placed its head of product",
+            "INFERENCE",
+            "Harrison only; no public trace found"
+          ],
+          [
+            "Zach: 250 commits last week",
+            "GROUNDED, roughly",
+            "262 non-merge commits across all refs 2026-10-30 to 11-06 (8 days)"
+          ],
+          [
+            "Zach: zero declined PRs; receipts 'on ledger'",
+            "STRUCK for reuse",
+            "Not checked; 'on ledger' means a Supabase table, which a crypto listener hears as on-chain. Do not repeat in writing"
+          ]
+        ]
+      },
+      {
+        "tab": "recoil",
+        "type": "keyvalue",
+        "audience": "internal",
+        "h2": "Receipt closed &#183; ex-ante vs actual",
+        "rows": [
+          {
+            "k": "Predicted",
+            "v": "No pre-call ex-ante was filed. The handoff guessed a proposal might come out of it"
+          },
+          {
+            "k": "Actual",
+            "v": "A recruiting conversation. No paid work asked for. He asked for candidate material, agreed to a demo, offered an intro"
+          },
+          {
+            "k": "Fork hit",
+            "v": "Candidacy at req reality 1, plus a product lead at curiosity level"
+          },
+          {
+            "k": "Load-bearing",
+            "v": "Paraphrase: Gravity would be interested in Zach, not in ARCS"
+          }
+        ]
+      },
+      {
+        "tab": "recoil",
+        "type": "belief_log",
+        "audience": "internal",
+        "h2": "Belief Log &#183; confidence x conviction"
+      },
+      {
+        "tab": "recoil",
+        "type": "worked_example",
+        "audience": "internal",
+        "h2": "Belief trajectory",
+        "intro": "The candidacy read rose once he moved from the product to the person; the req stayed verbal.",
+        "close": "The proposal prior was wrong: this was never a client call."
+      },
+      {
+        "tab": "recoil",
+        "type": "list",
+        "audience": "internal",
+        "h2": "Kairos, quiet signals &amp; risks",
+        "intro": "",
+        "items": [
+          {
+            "dot": "",
+            "html": "<strong>Kairos:</strong> his read that Zach would not fit a bank but fits a studio, followed by the Gravity Labs mention"
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Quiet signal:</strong> he redirected twice from the ARCS product to Zach himself. The bundle should follow that lead"
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Quiet signal:</strong> his hardest search problem was salary: startup pay against incumbent pay. Expect the EIR or founding-team pay to sit at the startup end"
+          },
+          {
+            "dot": "r",
+            "html": "<strong>Risk:</strong> Zach talked for most of the call. Harrison's own needs (his searches, his clients) got one question near the end"
+          },
+          {
+            "dot": "r",
+            "html": "<strong>Risk:</strong> no notetaker consent on record; nothing from the transcript may be quoted back to him"
+          }
+        ]
+      },
+      {
+        "tab": "wargame",
+        "type": "table",
+        "audience": "internal",
+        "h2": "ATG pre-mortem &#183; dead in 90 days",
+        "columns": [
+          "Node",
+          "Their objection",
+          "Failure mode",
+          "Handling"
+        ],
+        "rows": [
+          [
+            "1. Follow-up sent Monday (Zach)",
+            "none yet",
+            "Bundle goes out late or as a product pitch",
+            "Bottleneck, in Zach's court: one page, person first, sent Monday"
+          ],
+          [
+            "2. Harrison scopes with Gravity",
+            "not urgently looking",
+            "Studio has no EIR need this quarter",
+            "Ask him directly: does this land on an existing need, or is it still being shaped?"
+          ],
+          [
+            "3. Intro to Gravity partners",
+            "not an institutional crypto product",
+            "Zach pitches ARCS instead of himself",
+            "Lead with institutional crypto operating work; ARCS only as how he builds"
+          ],
+          [
+            "4. Comp",
+            "startup salary tension",
+            "EIR pay does not fit",
+            "Do not negotiate at req reality 1; learn the range first"
+          ]
+        ]
+      },
+      {
+        "tab": "defense",
+        "type": "rosetta",
+        "audience": "internal",
+        "h2": "The same model, both directions",
+        "left": "His world",
+        "right": "This engine",
+        "rows": [
+          [
+            "Candidate brief from a verbal debrief",
+            "Receipt with expected vs observed"
+          ],
+          [
+            "Gut feel on vibe fit",
+            "Confidence score recalibrated after each placement"
+          ],
+          [
+            "Three of four offered",
+            "A scored track record, by search"
+          ]
+        ]
+      }
+    ]
+  }
+}
