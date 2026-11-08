@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 280,
+  "script": 281,
   "skill": 27,
   "workflow": 2
  },
- "total": 408,
+ "total": 409,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 566,
+   "WIRED": 567,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
@@ -1928,6 +1928,14 @@
    "path": "scripts/motion_policy_gate.py",
    "jtbd": "motion_policy_gate: pages that move obey the motion and safety tokens in _tokens.css.",
    "invoke": "python3 scripts/motion_policy_gate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "myally_hub_sync.py",
+   "path": "scripts/myally_hub_sync.py",
+   "jtbd": "myally_hub_sync.py: inline the engine's Step 1 tree into the myally.arcs.care hub.",
+   "invoke": "python3 scripts/myally_hub_sync.py",
    "state": "WIRED"
   },
   {

@@ -2,11 +2,8 @@
 
 To the Services Agreement between {{client.legal_name}} and Zach Harris.
 
-Step 1 delivers the following, about {{duration_days|weeks}} after I have access to GitHub and Lovable:
+Step 1 delivers the following, within {{duration_days|weeks}} after I have access to GitHub and Lovable (or after signing, if that comes later):
 
-{{list:deliverables}}
+{{list:exhibit}}
 
-The rough numbers are bands with their assumptions listed, for:
-{{list:estimates}}
-
-They are planning estimates under term 6, not a quote.
+The ranges are planning estimates under term 6, not a quote.
