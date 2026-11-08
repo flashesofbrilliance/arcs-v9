@@ -68,7 +68,7 @@ const { chromium } = require('playwright');
     await page.goto(url);
     await page.waitForTimeout(300);
     const r = await page.evaluate(async ([LOCKED, UNLOCK]) => {
-      const lockOpen = () => localStorage.getItem('myAllyLock') === UNLOCK;
+      const lockOpen = id => localStorage.getItem('myAllyLock:' + id) === UNLOCK[id];
       const out = [], sleep = ms => new Promise(r => setTimeout(r, ms));
       const errs = [];
       const hook = w => w.addEventListener('error', e => errs.push(e.message));
@@ -82,7 +82,7 @@ const { chromium } = require('playwright');
       }
       for (const t of tabs.filter(t => !t.hidden)) {
         t.click(); await sleep(150);
-        const want = (LOCKED.includes(t.id) && !lockOpen()) ? 'pane-lock' : t.getAttribute('aria-controls');
+        const want = (LOCKED.includes(t.id) && !lockOpen(t.id)) ? 'pane-lock' : t.getAttribute('aria-controls');
         const vis = shown();
         if (vis.length !== 1 || vis[0] !== want) out.push(`tab ${t.id}: panels shown ${vis.join(',')}, want ${want}`);
       }
@@ -98,11 +98,19 @@ const { chromium } = require('playwright');
       document.getElementById('lockform').requestSubmit(); await sleep(150);
       if (document.getElementById('lockerr').hidden) out.push('wrong passcode showed no error');
       if (!shown().includes('pane-lock')) out.push('wrong passcode opened the tab');
-      // unlocked on this device: the content opens
-      localStorage.setItem('myAllyLock', UNLOCK);
-      document.getElementById('t-s1').click(); await sleep(30); document.getElementById('t-prop').click(); await sleep(120);
-      if (shown()[0] !== 'pane-prop') out.push(`after unlock, Proposal shows ${shown().join(',')}`);
-      localStorage.removeItem('myAllyLock');
+      // each tab's own passcode opens only that tab (typed the way a person might: capitals, apostrophe)
+      for (const [id, pw, pane] of [['t-prop', "What's next", 'pane-prop'], ['t-plan', "What's  later", 'pane-plan']]) {
+        document.getElementById(id).click(); await sleep(60);
+        document.getElementById('lockpw').value = pw;
+        document.getElementById('lockform').requestSubmit(); await sleep(200);
+        if (shown()[0] !== pane) out.push(`passcode for ${id} did not open it (shows ${shown().join(',')})`);
+      }
+      localStorage.removeItem('myAllyLock:t-plan');
+      document.getElementById('t-plan').click(); await sleep(60);
+      document.getElementById('lockpw').value = 'whats next';
+      document.getElementById('lockform').requestSubmit(); await sleep(200);
+      if (!shown().includes('pane-lock')) out.push("Proposal's passcode opened Timeline");
+      localStorage.removeItem('myAllyLock:t-prop'); localStorage.removeItem('myAllyLock:t-plan');
       document.getElementById('t-s1').click(); await sleep(100);
       const g = document.getElementById('s1g'), det = document.getElementById('s1detail');
       // every row opens its own details; clicking a workstream keeps it open
@@ -182,7 +190,7 @@ const { chromium } = require('playwright');
       }
       document.getElementById('t-s1').click();
       return out.concat(errs.map(e => 'script error: ' + e));
-    }, [JSON.parse(process.env.LOCKED), process.env.UNLOCK]);
+    }, [JSON.parse(process.env.LOCKED), JSON.parse(process.env.UNLOCK)]);
     r.forEach(x => fails.push(`${width}px: ${x}`));
     await page.close();
   }
@@ -210,8 +218,8 @@ def crawl() -> list:
     with tempfile.NamedTemporaryFile("w", suffix=".cjs", delete=False) as fh:
         fh.write(CRAWL_JS)
     try:
-        m = re.search(r"const LOCK_HASH='([0-9a-f]{64})'", open(HUB, encoding="utf-8").read())
-        env = dict(os.environ, NODE_PATH=paths[0], LOCKED=json.dumps(LOCKED), UNLOCK=m.group(1) if m else "")
+        m = re.search(r"const LOCKS=(\{[^}]*\})", open(HUB, encoding="utf-8").read())
+        env = dict(os.environ, NODE_PATH=paths[0], LOCKED=json.dumps(LOCKED), UNLOCK=m.group(1).replace("'", '"') if m else "{}")
         r = subprocess.run(["node", fh.name, url, exe], capture_output=True, text=True, env=env, timeout=300)
     finally:
         os.unlink(fh.name)
