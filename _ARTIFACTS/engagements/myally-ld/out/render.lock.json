@@ -30,14 +30,14 @@
     },
     "proposal.html": {
       "cites": {
-        "access_by": "2026-11-10",
+        "access_by": "2026-11-09",
         "block_hours": 2,
         "breach_notice_hours": 72,
         "changes_days": 7,
         "commit_weeks": 4,
-        "deliver_by": "2026-11-16",
+        "deliver_by": "2026-11-13",
         "dispute_forum": "the Connecticut courts named in our NDA",
-        "duration_days": 6,
+        "duration_days": 4,
         "fee_offer_total": 4500,
         "fee_step1": 1500,
         "fix_window_days": 30,
@@ -58,18 +58,18 @@
         "rate_ff": 125,
         "rate_standard": 150,
         "start_lag_days": 1,
-        "start_on": "2026-11-11",
+        "start_on": "2026-11-10",
         "steps_offered": 3,
         "talk_first_days": 30,
         "walkthrough_minutes": 45,
         "work_days": 4
       },
-      "sha256": "70174ed5fd9ef5da0334b51aaa480716b7c007224375afdc141e4cedb9becfba"
+      "sha256": "0f66a608c139bcefd52085a5a942883aad8c338820f23ef4018cbd78ee4c5d95"
     },
     "reply.md": {
       "cites": {
-        "access_by": "2026-11-10",
-        "deliver_by": "2026-11-16",
+        "access_by": "2026-11-09",
+        "deliver_by": "2026-11-13",
         "fee_step1": 1500,
         "github_user": "flashesofbrilliance",
         "hours_step1": 12,
@@ -78,24 +78,24 @@
         "walkthrough_minutes": 45,
         "work_days": 4
       },
-      "sha256": "761a6d8cb698cdcdcb99963fefda325167ec2fa297bb11e80ad55af97d100ce7"
+      "sha256": "5fa7890bf39b63ecaa1076258bfd7f2da559763b6dfb13ef8ca77e5916095ce1"
     },
     "step1_tree.json": {
       "cites": {
-        "access_by": "2026-11-10",
+        "access_by": "2026-11-09",
         "block_hours": 2,
         "changes_days": 7,
-        "deliver_by": "2026-11-16",
+        "deliver_by": "2026-11-13",
         "fee_step1": 1500,
         "hours_step1": 12,
         "lovable_email": "zach.harris@gmail.com",
         "oh_free_hours": 4,
         "oh_slot_minutes": 30,
         "rate_ff": 125,
-        "start_on": "2026-11-11",
+        "start_on": "2026-11-10",
         "walkthrough_minutes": 45
       },
-      "sha256": "d2cc001b19cd1f40ed17483156d3cd337fd37baa875773ea5a7b4948b0881697"
+      "sha256": "c73de272d6b6433ab15a1259912d5fd28780cd3ac862f852eb18c255f62d7e29"
     }
   },
   "record": "myally-ld-step1"

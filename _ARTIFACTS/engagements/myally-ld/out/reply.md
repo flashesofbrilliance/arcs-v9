@@ -23,7 +23,7 @@ Yes. Step 1 will end with rough low-to-high ranges, with the assumptions listed,
 These are my planning estimates for work I would do, not a quote, and they firm up in Step 2. You're welcome to use them in your plan and with investors and funders. If you share them, please share them as my estimates, with the assumptions attached.
 
 **3. Timing**
-Step 1 is 12 hours of my time, so it takes four working days from the day I have access to GitHub and Lovable. If access lands by Nov 10, you'd have results by Nov 16. Access by about Dec 15 still gets you everything before the holidays.
+Step 1 is 12 hours of my time, so it takes four working days from the day I have access to GitHub and Lovable. If access lands by Nov 9, you'd have results by Nov 13. Access by about Dec 15 still gets you everything before the holidays.
 
 **4. Agreement**
 Attached. It's in plain language, it keeps the office hours exactly as in my Oct 29 note, and I'm glad for your counsel to review it and happy to talk through any changes.

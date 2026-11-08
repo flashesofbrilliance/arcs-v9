@@ -136,11 +136,11 @@
     },
     "access_by": {
       "kind": "date",
-      "value": "2026-11-10",
+      "value": "2026-11-09",
       "label": "Date the agreement is signed and paid and both start items are in",
       "source": {
         "kind": "decision",
-        "ref": "Step 1 agreement rev 27 (Claude Doc https://claude.ai/artifact/5f7Mepg8bY7S4mogR9f4Vt, export 2026-11-08), section 2",
+        "ref": "Zach, 2026-11-08 (in session, after rev 27): assume everything is in on Monday; drop the Tuesday ready date. Same four working days, so start Tue Nov 10 and readout by Fri Nov 13. The Claude Doc rev 27 still says Nov 10 / 11 / 16.",
         "date": "2026-11-08"
       },
       "history": [
@@ -152,16 +152,25 @@
             "ref": "Zach, best case in the 2026-11-06 hand draft (sign within a week, access by Nov 13)",
             "date": "2026-11-06"
           }
+        },
+        {
+          "value": "2026-11-10",
+          "until": "2026-11-08",
+          "source": {
+            "kind": "decision",
+            "ref": "Step 1 agreement rev 27 (Claude Doc https://claude.ai/artifact/5f7Mepg8bY7S4mogR9f4Vt, export 2026-11-08), section 2",
+            "date": "2026-11-08"
+          }
         }
       ]
     },
     "duration_days": {
       "kind": "days",
-      "value": 6,
-      "label": "Calendar days from the ready date to the readout (Tue Nov 10 to Mon Nov 16)",
+      "value": 4,
+      "label": "Calendar days from the ready date to the readout (Mon Nov 9 to Fri Nov 13)",
       "source": {
         "kind": "decision",
-        "ref": "Step 1 agreement rev 27 (Claude Doc https://claude.ai/artifact/5f7Mepg8bY7S4mogR9f4Vt, export 2026-11-08), section 2",
+        "ref": "Zach, 2026-11-08 (in session, after rev 27): assume everything is in on Monday; drop the Tuesday ready date. Same four working days, so start Tue Nov 10 and readout by Fri Nov 13. The Claude Doc rev 27 still says Nov 10 / 11 / 16.",
         "date": "2026-11-08"
       },
       "history": [
@@ -180,6 +189,15 @@
           "source": {
             "kind": "decision",
             "ref": "Zach, 2026-11-08: Step 1 is 12 hours, so under a week, not three",
+            "date": "2026-11-08"
+          }
+        },
+        {
+          "value": 6,
+          "until": "2026-11-08",
+          "source": {
+            "kind": "decision",
+            "ref": "Step 1 agreement rev 27 (Claude Doc https://claude.ai/artifact/5f7Mepg8bY7S4mogR9f4Vt, export 2026-11-08), section 2",
             "date": "2026-11-08"
           }
         }
@@ -378,7 +396,7 @@
     "work_days": {
       "kind": "int",
       "value": 4,
-      "label": "Working days from the start to the readout (Wed Nov 11 to Mon Nov 16)",
+      "label": "Working days from the start to the readout (Tue Nov 10 to Fri Nov 13)",
       "source": {
         "kind": "decision",
         "ref": "Step 1 agreement rev 27 (Claude Doc https://claude.ai/artifact/5f7Mepg8bY7S4mogR9f4Vt, export 2026-11-08), section 2",
