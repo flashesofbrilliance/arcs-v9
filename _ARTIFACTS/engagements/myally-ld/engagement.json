@@ -1054,7 +1054,12 @@
         "get": "",
         "s2": "",
         "s3": "",
-        "note": "Rough ranges, each with its assumptions. Firm estimates are not part of this step.",
+        "note": "Each range comes with three things: what it relies on, what it can't see yet, and the date you'll know. So Kelly can show funders a number and its limits on the same page. Firm estimates are not part of this step.",
+        "proof": {
+          "lead": "Something I built on the same rule: it answers RFP questions with the clause behind it, says \"not covered\" when it can't find one, and publishes the ones it got wrong.",
+          "url": "https://good.arcs.care/rfp-engine",
+          "label": "good.arcs.care/rfp-engine"
+        },
         "hours": 1.25
       },
       {
@@ -1168,7 +1173,7 @@
         "label": "A go or stop memo, with the map of your spec against what is built",
         "start": 4,
         "len": 0,
-        "get": "All in plain language, so your team or any developer can act on it in Steps 2 and 3.",
+        "get": "The go or stop call comes with the same three things: what it relies on, what it can't see yet, and the date you'll know. All in plain language, so your team or any developer can act on it in Steps 2 and 3.",
         "s2": "",
         "s3": "",
         "note": "",

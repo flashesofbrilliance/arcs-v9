@@ -40,6 +40,9 @@ def unit() -> list:
             fails.append(f"row {r['id']}: start {r['start']} len {r['len']} runs past {cols} columns")
         if r["kind"] == "ms" and r["len"] != 0:
             fails.append(f"row {r['id']}: a milestone has len 0")
+        pf = r.get("proof")
+        if pf is not None and (set(pf) != {"lead", "url", "label"} or not pf["url"].startswith("https://") or not pf["lead"].strip()):
+            fails.append(f"row {r['id']}: proof needs lead, an https url and a label")
     work = sum(r.get("hours", 0) for r in rows if r["parent"] and r["kind"] in ("task", "ms"))
     want = rec["fields"]["hours_step1"]["value"]
     if abs(work - want) > 1e-9:
