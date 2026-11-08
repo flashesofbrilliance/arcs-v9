@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 278,
+  "script": 281,
   "skill": 27,
   "workflow": 2
  },
- "total": 406,
+ "total": 409,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 564,
+   "WIRED": 567,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
@@ -1300,6 +1300,14 @@
   },
   {
    "kind": "script",
+   "name": "engagement_render.py",
+   "path": "scripts/engagement_render.py",
+   "jtbd": "engagement_render.py: one engagement record -> reply, agreement, Exhibit A, five-altitude page.",
+   "invoke": "python3 scripts/engagement_render.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "era_b1_probe.py",
    "path": "scripts/era_b1_probe.py",
    "jtbd": "Pre-registered (before run): K1 ordering abs64<abs128<abs256 and oversharp gap (abs256-abs64)/32>=0.15;",
@@ -1924,6 +1932,14 @@
   },
   {
    "kind": "script",
+   "name": "myally_hub_sync.py",
+   "path": "scripts/myally_hub_sync.py",
+   "jtbd": "myally_hub_sync.py: inline the engine's Step 1 tree into the myally.arcs.care hub.",
+   "invoke": "python3 scripts/myally_hub_sync.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "neighbor_scan.py",
    "path": "scripts/neighbor_scan.py",
    "jtbd": "neighbor_scan: before a change lands, list who else holds it, and after, who to tell.",
@@ -2168,6 +2184,14 @@
    "path": "scripts/proof_emit.py",
    "jtbd": "proof_emit: render resume.arcs.care/proof (an infinite-zoom proof ledger) from one claims file.",
    "invoke": "python3 scripts/proof_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "proposal_build.py",
+   "path": "scripts/proposal_build.py",
+   "jtbd": "proposal_build.py: one source page -> the hosted page, a send copy and the PDF.",
+   "invoke": "python3 scripts/proposal_build.py",
    "state": "WIRED"
   },
   {
