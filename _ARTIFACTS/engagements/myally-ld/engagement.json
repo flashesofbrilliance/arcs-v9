@@ -1076,14 +1076,53 @@
         "id": "w6a",
         "parent": "w6",
         "kind": "gift",
-        "label": "{{oh_free_hours}} hours of office hours a month, in {{oh_slot_minutes}}-minute slots",
+        "label": "{{oh_free_hours}} hours of office hours a month at no charge, in {{oh_slot_minutes}}-minute slots, to use however you like",
         "start": 0,
         "len": 6,
-        "get": "To use however you like.",
+        "get": "One-on-one time with me, for any of the topics below.",
         "s2": "",
         "s3": "",
         "note": "Two 30-minute slots are proposed during Step 1, so 3 hours a month stay free for anything else. Extra hours are {{rate_standard}} an hour, or {{rate_committed}} an hour when booked for {{commit_weeks}} weeks or more.",
         "hours": 0
+      },
+      {
+        "id": "w6e",
+        "parent": "w6",
+        "kind": "gift",
+        "label": "Bring any question, technical or not",
+        "start": 0,
+        "len": 6,
+        "hours": 0,
+        "get": "About the plan, the app, the families you serve, or how AI fits. No question is too basic.",
+        "s2": "",
+        "s3": "",
+        "note": ""
+      },
+      {
+        "id": "w6f",
+        "parent": "w6",
+        "kind": "gift",
+        "label": "Clarifications on the report, the ranges or the agreement",
+        "start": 0,
+        "len": 6,
+        "hours": 0,
+        "get": "If anything I deliver is unclear, ask, and I'll walk you through it.",
+        "s2": "",
+        "s3": "",
+        "note": ""
+      },
+      {
+        "id": "w6g",
+        "parent": "w6",
+        "kind": "gift",
+        "label": "Help framing questions for your lawyer",
+        "start": 0,
+        "len": 6,
+        "hours": 0,
+        "get": "I can help you work out what to ask and gather the facts your lawyer will need.",
+        "s2": "",
+        "s3": "",
+        "note": "What I say is my opinion, not legal advice (agreement term 7). The answers come from your lawyer."
       },
       {
         "id": "w6b",
@@ -1101,20 +1140,24 @@
     ],
     "glance": [
       [
-        "{{fee_step1}} fixed",
-        "Step 1 of 3 in the MVP Prototype, one third of {{fee_offer_total}}"
+        "Fee",
+        "{{fee_step1}}",
+        "Fixed. Step 1 of 3, one third of {{fee_offer_total}}"
       ],
       [
+        "Time",
         "{{hours_step1}} hours",
-        "over {{work_days|word}} working days, about 2 to 3 hours a day"
+        "{{hours_step1}} of {{hours_offer_total}} across the three steps"
       ],
       [
+        "Delivery",
         "{{work_days|Word}} working days",
-        "from access. Access by {{access_by}} means results by {{deliver_by}}"
+        "From access. Access by {{access_by}}, results by {{deliver_by}}"
       ],
       [
+        "Office hours",
         "{{oh_free_hours}} hours a month",
-        "of office hours at no charge; two 30-minute slots proposed in Step 1"
+        "At no charge, in {{oh_slot_minutes}}-minute slots, to use however you like"
       ]
     ]
   },
