@@ -274,22 +274,76 @@ footer p{text-align:left;}
 @media (max-width: 640px) { .offer > * { padding: var(--sp-2, 16px); } }
 @media print { .offer { break-inside: avoid; background: none; } .offer-proof { background: none; } .offer > * { padding: 12px 16px; } .offer-link { min-height: 0; } }
 /* @prim:end 41-offer-close */
+/* print design pass 2026-11-08: the PDF as a document, built from the page's own parts (forline label, mono numerals, hairline grids, offer card). Print only; the screen page is unchanged. */
+@page{size:Letter;margin:0.8in 0.8in 0.75in;
+  @top-left{content:"ARCS";font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;font-size:7pt;font-weight:700;letter-spacing:0.32em;color:#00606b;vertical-align:bottom;padding-bottom:14pt;}
+  @top-right{content:"An outside read  \00B7  Louisville Brands";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#566170;vertical-align:bottom;padding-bottom:14pt;}
+  @bottom-left{content:"Zach Harris  \00B7  zach.harris@gmail.com";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;color:#566170;vertical-align:top;padding-top:14pt;}
+  @bottom-right{content:counter(page) " / " counter(pages);font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;font-size:7pt;font-weight:700;color:#1c2430;vertical-align:top;padding-top:14pt;}
+}
+@page :first{margin:0.8in;@top-left{content:none;}@top-right{content:none;}@bottom-left{content:none;}@bottom-right{content:none;}}
+@media print{
+  .cover{height:9.35in;gap:0;}
+  .cover-top{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:var(--sp-2);border-bottom:1px solid var(--border);}
+  .cover-date{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;color:var(--muted);}
+  .cover-title{margin-top:auto;padding-bottom:var(--sp-4);gap:var(--sp-2);}
+  .cover-for{font-family:var(--sans);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);}
+  .cover-h{font-size:2.4rem;line-height:1.08;letter-spacing:-0.025em;}
+  .cover-sub{font-size:var(--fs-headline);}
+  .cover-toc{list-style:none;margin:0;padding:var(--sp-2) 0 0;border-top:2px solid var(--gold);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:var(--sp-3);}
+  .cover-toc li{display:flex;flex-direction:column;gap:4px;color:var(--text);font-weight:600;line-height:1.35;}
+  .cover-toc .pn{font-family:var(--mono);font-weight:700;font-size:var(--fs-label);color:var(--cyan);}
+  .cover-meta{height:auto;border-top:0;margin-top:var(--sp-3);flex-direction:row;gap:var(--sp-2);font-size:var(--fs-label);}
+  .cover-meta p:first-child{font-weight:700;}
+  /* lede: the page's verdict, set as an opening paragraph */
+  .verdict{font-size:var(--fs-step);line-height:1.4;margin-top:0;}
+  .aside{color:var(--text-secondary);}
+  /* numbered sections: mono numeral eyebrow + a strong rule, matching the cover contents */
+  main{counter-reset:sec;}
+  details.blk > summary > .slabel,details.blk.sub > summary > .sublabel{display:block;border-top:1.5px solid var(--text);padding-top:var(--sp-1);font-size:var(--fs-step);font-weight:600;letter-spacing:-0.01em;}
+  details.blk > summary > .slabel::before,details.blk.sub > summary > .sublabel::before{counter-increment:sec;content:counter(sec,decimal-leading-zero);display:inline-block;width:2.25rem;vertical-align:2px;font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;color:var(--cyan);}
+  details.blk > summary{display:block;break-after:avoid;}
+  .spec{break-inside:avoid;}
+  details.blk.sub{margin-top:var(--sp-1);}
+  .offerwrap > .lockup{margin-top:var(--sp-1);}
+  .offerwrap > .lockup .slabel{font-size:var(--fs-step);}
+  /* questions grid: table-style column heads */
+  .hhead{font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);padding-bottom:6px;border-bottom:1.5px solid var(--text);}
+  .hhead.c{color:var(--cyan);border-bottom-color:var(--cyan);}
+  .hrow:nth-child(2) > div{border-top:0;}
+  .hrow > .hh{color:var(--text-secondary);}
+  .hrow > .hc{color:var(--text);}
+  .hrow > div{padding:5px 0;}
+  /* cases and deliverables */
+  .specrow{grid-template-columns:8rem minmax(0,1fr);padding:7px 0;}
+  .spec,.plist,.hgrid,.pnote{margin-left:2.25rem;}
+  .plist li{padding:6px 0;}
+  .offerwrap .specrow{padding:9px 0;}
+  .pnote{margin-top:var(--sp-2);}
+  .pnote + .offer{margin-top:var(--sp-3);}
+  .offer{border-color:var(--text);border-width:1.5px;}
+  .offer > *{padding:14px 18px;}
+  .offer-price{font-size:var(--fs-headline);}
+  footer{display:none;}
+}
 </style>
 </head>
 <body>
 <main class="page">
 
 <section class="cover" aria-label="Cover">
-  <p class="cover-mark"><span class="cover-a">A</span>RCS</p>
+  <div class="cover-top"><p class="cover-mark"><span class="cover-a">A</span>RCS</p><p class="cover-date">November 2026</p></div>
   <div class="cover-title">
+    <p class="cover-for">Prepared for Brooks Thomas, Louisville Brands</p>
     <p class="cover-h">An outside read on your AI build</p>
     <p class="cover-sub">Through one flavor decision: Adobo</p>
   </div>
-  <div class="cover-meta">
-    <p>Prepared for Brooks Thomas, Louisville Brands</p>
-    <p>Zach Harris · zach.harris@gmail.com</p>
-    <p>November 2026</p>
-  </div>
+  <ol class="cover-toc">
+    <li><span class="pn">01</span><span>Questions worth putting to your team</span></li>
+    <li><span class="pn">02</span><span>The test: Adobo</span></li>
+    <li><span class="pn">03</span><span>What $5,000 gets you</span></li>
+  </ol>
+  <div class="cover-meta"><p>Zach Harris</p><p>zach.harris@gmail.com</p></div>
 </section>
 
 
@@ -322,7 +376,7 @@ footer p{text-align:left;}
 </section>
 
 <section class="offerwrap">
-  <div class="lockup"><h2 class="slabel">If you want the outside read</h2><p class="deck">One decision, traced. Where Adobo stands sets the test.</p></div>
+  <div class="lockup"><h2 class="slabel">If you want the outside read</h2><p class="deck">One decision, traced. Where Adobo stands sets the test. Every call gets the same three things: What it relies on, what it can't see, and the date you'll know.</p></div>
   <details class="blk sub" open>
     <summary><h3 class="sublabel">The test: Adobo</h3><span class="tk">Three cases, set by where Adobo stands.</span></summary>
     <div class="bd">
@@ -357,7 +411,7 @@ footer p{text-align:left;}
       <p class="offer-keep">You keep all of the work.</p>
     </div>
     <div class="offer-proof">
-      <p>Something I built on the same rule: it answers RFP questions with the clause behind it, or says "not covered," and it publishes its own misses.</p>
+      <p>I hold my own build to those same three. My RFP engine answers each question with the clause behind it, says "not covered" when it can't find one, and publishes the questions it got wrong.</p>
       <a class="offer-link" href="https://good.arcs.care/rfp-engine">good.arcs.care/rfp-engine<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
     </div>
     <p class="offer-ask">If this is useful, tell me where Adobo stands and I'll shape it around that. If the timing's off, no reply needed.</p>
