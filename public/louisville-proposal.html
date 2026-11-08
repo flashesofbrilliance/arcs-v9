@@ -284,10 +284,9 @@ footer p{text-align:left;}
 }
 @media print{
   .gg{margin-left:2.25rem;break-inside:avoid;}
-  .offerwrap .bd > .pnote{break-before:page;margin-top:0;}
   .gg-head{font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);padding-bottom:6px;border-bottom:1.5px solid var(--text);}
   .gg-head .c{color:var(--cyan);}
-  .gg-row{padding:6px 0;line-height:1.4;grid-template-columns:4.5rem minmax(0,1.3fr) minmax(0,1fr);column-gap:var(--sp-2);}
+  .gg-row{padding:5px 0;line-height:1.38;grid-template-columns:4.5rem minmax(0,1.5fr) minmax(0,1fr);column-gap:var(--sp-2);}
   .gg-head + .gg-row{border-top:0;}
   .gg + .offer{margin-top:var(--sp-2);}
 }
@@ -334,12 +333,13 @@ footer p{text-align:left;}
   
   .specrow{grid-template-columns:8rem minmax(0,1fr);padding:7px 0;}
   .spec,.plist,.hgrid,.pnote{margin-left:2.25rem;}
-  .plist li{padding:6px 0;}
+  .plist li{padding:4px 0;}
   .offerwrap .specrow{padding:9px 0;}
   .pnote{margin-top:var(--sp-2);}
   .pnote + .offer{margin-top:var(--sp-3);}
+  .gg{margin-top:var(--sp-1);}
   .offer{border-color:var(--text);border-width:1.5px;}
-  .offer > *{padding:14px 18px;}
+  .offer > *{padding:10px 16px;}
   .offer-price{font-size:var(--fs-headline);}
   footer{display:none;}
 }
@@ -406,26 +406,23 @@ footer p{text-align:left;}
     </div>
   </details>
   <details class="blk sub pbreak">
-    <summary><h3 class="sublabel">What $5,000 gets you</h3><span class="tk">Every item, from kickoff to readout.</span></summary>
+    <summary><h3 class="sublabel">What $5,000 gets you</h3><span class="tk">Every deliverable, and the time it takes.</span></summary>
     <div class="bd">
   <div class="punch">
     <ol class="plist">
-      <li><span class="pn">01</span><span>A kickoff with you.</span></li>
-      <li><span class="pn">02</span><span>A screen‑share where you, and anyone else on the warehouse and MCP side, walk me through how the criteria scored Adobo.</span></li>
-      <li><span class="pn">03</span><span>The Adobo trace in writing: The call, what it relies on, and the date you'll know. If it has launched, the call next to how it actually sold.</span></li>
-      <li><span class="pn">04</span><span>One page: Where the build stands, what's least efficient, and which hypotheses aren't holding, as the Adobo trace shows them.</span></li>
-      <li><span class="pn">05</span><span>Read against the five things you said you want: Accuracy, efficiency, speed, cost, and a single source of truth that isn't growing data bloat and tech debt.</span></li>
-      <li><span class="pn">06</span><span>Next steps, each with a number for success and a date to check it.</span></li>
-      <li><span class="pn">07</span><span>Honest marks: Anything one flavor can't show is marked as not checked, anything I'm unsure of is marked as unsure, and your pushback goes on the page.</span></li>
-      <li><span class="pn">08</span><span>A readout to walk you through it.</span></li>
+      <li><span class="pn">01</span><span>The Adobo trace in writing: The call, what it relies on, and the date you'll know. If it has launched, the call next to how it actually sold.</span></li>
+      <li><span class="pn">02</span><span>One page: Where the build stands, what's least efficient, and which hypotheses aren't holding, as the Adobo trace shows them.</span></li>
+      <li><span class="pn">03</span><span>Read against the five things you said you want: Accuracy, efficiency, speed, cost, and a single source of truth that isn't growing data bloat and tech debt.</span></li>
+      <li><span class="pn">04</span><span>Next steps, each with a number for success and a date to check it.</span></li>
+      <li><span class="pn">05</span><span>Honest marks: Anything one flavor can't show is marked as not checked, anything I'm unsure of is marked as unsure, and your pushback goes on the page.</span></li>
     </ol>
   </div>
   <p class="pnote">A two-week sprint. About three and a half hours of your team's time, a little over four with the optional session.</p>
   <div class="gg" role="table" aria-label="What you give and what you get">
     <div class="gg-row gg-head" role="row"><span role="columnheader"><span class="vh">When</span></span><span role="columnheader">What you give</span><span role="columnheader" class="c">What you get</span></div>
     <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Before</span><span class="gg-give" role="cell">A mutual NDA, and total sales figures, nothing at customer level.</span><span class="gg-get" role="cell">Your data stays with you.</span></div>
-    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 1</span><span class="gg-give" role="cell">Kickoff with you, 60 minutes. A screen-share with whoever is on the warehouse and MCP side, including where the data lives and who can reach it, 90 minutes. Optional: 45 minutes with whoever owns where the data gets used next, your choice of who.</span><span class="gg-get" role="cell">The Adobo trace in writing: The call, what it relies on, what it can't see, and the date you'll know.</span></div>
-    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 2</span><span class="gg-give" role="cell">The readout, 60 minutes, and your pushback on anything that's wrong.</span><span class="gg-get" role="cell">One page on where the build stands, what's least efficient, and which hypotheses aren't holding, with next steps, each with a number and a date to check it.</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 1</span><span class="gg-give" role="cell">Kickoff with you, 60 minutes. A screen-share with whoever is on the warehouse and MCP side, including where the data lives and who can reach it, 90 minutes. Optional: 45 minutes with whoever owns where the data gets used next, your choice of who.</span><span class="gg-get" role="cell">The Adobo trace in writing.</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 2</span><span class="gg-give" role="cell">The readout, 60 minutes, and your pushback on anything that's wrong.</span><span class="gg-get" role="cell">The one page, the read against your five, and next steps, walked through together.</span></div>
   </div>
     </div>
   </details>
