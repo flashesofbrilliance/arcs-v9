@@ -161,6 +161,14 @@ if [ -n "$hub_eng" ] && [ -f scripts/myally_hub_sync.py ] && command -v python3 
     exit 1
   fi
 fi
+# myally Primer: the hub's embedded copy and the hover definitions must match public/myally-primer.html.
+pri_eng=$(git diff --cached --name-only -- public/myally-primer.html public/myally-hub.html scripts/myally_primer_terms.py 2>/dev/null || true)
+if [ -n "$pri_eng" ] && [ -f scripts/myally_primer_terms.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/myally_primer_terms.py --check; then
+    echo "✖ commit blocked: the Primer and its copy in the hub disagree. Fix: python3 scripts/myally_primer_terms.py, re-stage." >&2
+    exit 1
+  fi
+fi
 # myally hub interaction crawl (unit checks + headless clicks at 375/800/1280, about 12s).
 if [ -n "$hub_eng" ] && [ -f scripts/myally_hub_crawl.py ] && command -v python3 >/dev/null 2>&1; then
   if ! python3 scripts/myally_hub_crawl.py; then
