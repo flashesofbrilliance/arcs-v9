@@ -5,8 +5,8 @@ Two layers, both read-only:
   1. Unit checks on the Step 1 tree (out/step1_tree.json): parents exist, every row fits the
      day columns, hours add up to the fee's hours, every kind has an icon and a legend entry.
   2. A headless crawl (Playwright + installed Chrome, found the same way page_gate.py finds them)
-     at 375, 800 and 1280 px: every tab shows one panel; locked tabs show the lock note, refuse a wrong
-     passcode and open once unlocked; every Step 1 row
+     at 375, 800 and 1280 px: every tab shows one panel; locked tabs show only the note and hold no
+     content; every Step 1 row
      opens its own details; clicking a workstream keeps it open, the twisty closes it; every chip
      navigates; Close all / Open all work; arrow keys move focus; the day columns fill the grid
      and every bar sits inside them; no page-level horizontal overflow; every control inside the
@@ -24,7 +24,7 @@ PUB = os.environ.get("MYALLY_HUB_PUBLIC", os.path.join(ROOT, "public"))  # overr
 HUB = os.path.join(PUB, "myally-hub.html")
 TREE = os.path.join(ROOT, "_ARTIFACTS", "engagements", "myally-ld", "out", "step1_tree.json")
 REC = os.path.join(ROOT, "_ARTIFACTS", "engagements", "myally-ld", "engagement.json")
-LOCKED = ["t-prop", "t-plan"]  # passcode-locked during Step 1 pre-work (Zach, 2026-11-08)
+LOCKED = ["t-prop", "t-plan"]  # content off the site during Step 1 (Zach, 2026-11-08); tabs show a note
 
 
 def unit() -> list:
@@ -52,6 +52,12 @@ def unit() -> list:
             fails.append(f"kind {k}: no icon symbol")
         if k != "phase" and f'class="ico c-{k}"' not in hub:
             fails.append(f"kind {k}: no legend entry")
+    # Step 1 to 3 pricing tops out at $4,500; any figure of $10,000 or more is full-build pricing that must
+    # stay off the site until Step 2 (Zach, 2026-11-08). Checked on the decoded page, embedded copies included.
+    import html as _h
+    big = sorted({m for m in re.findall(r"\$\d{1,3}(?:,\d{3})+", _h.unescape(_h.unescape(hub))) if int(m[1:].replace(",", "")) >= 10000})
+    if big:
+        fails.append("full-build figures on the site: " + ", ".join(big[:8]))
     return fails
 
 
@@ -68,7 +74,7 @@ const { chromium } = require('playwright');
     await page.goto(url);
     await page.waitForTimeout(300);
     const r = await page.evaluate(async ([LOCKED, UNLOCK]) => {
-      const lockOpen = id => localStorage.getItem('myAllyLock:' + id) === UNLOCK[id];
+      const lockOpen = () => false;
       const out = [], sleep = ms => new Promise(r => setTimeout(r, ms));
       const errs = [];
       const hook = w => w.addEventListener('error', e => errs.push(e.message));
@@ -82,7 +88,7 @@ const { chromium } = require('playwright');
       }
       for (const t of tabs.filter(t => !t.hidden)) {
         t.click(); await sleep(150);
-        const want = (LOCKED.includes(t.id) && !lockOpen(t.id)) ? 'pane-lock' : t.getAttribute('aria-controls');
+        const want = LOCKED.includes(t.id) ? 'pane-lock' : t.getAttribute('aria-controls');
         const vis = shown();
         if (vis.length !== 1 || vis[0] !== want) out.push(`tab ${t.id}: panels shown ${vis.join(',')}, want ${want}`);
       }
@@ -92,25 +98,10 @@ const { chromium } = require('playwright');
         const vis = shown();
         if (vis.includes('pane-prop') || vis.includes('pane-plan')) out.push(`message alyceTab:${k} opened locked content`);
       }
-      // wrong passcode: error shown, still locked
-      document.getElementById('t-prop').click(); await sleep(60);
-      document.getElementById('lockpw').value = 'not-the-passcode';
-      document.getElementById('lockform').requestSubmit(); await sleep(150);
-      if (document.getElementById('lockerr').hidden) out.push('wrong passcode showed no error');
-      if (!shown().includes('pane-lock')) out.push('wrong passcode opened the tab');
-      // each tab's own passcode opens only that tab (typed the way a person might: capitals, apostrophe)
-      for (const [id, pw, pane] of [['t-prop', "What's next", 'pane-prop'], ['t-plan', "What's  later", 'pane-plan']]) {
-        document.getElementById(id).click(); await sleep(60);
-        document.getElementById('lockpw').value = pw;
-        document.getElementById('lockform').requestSubmit(); await sleep(200);
-        if (shown()[0] !== pane) out.push(`passcode for ${id} did not open it (shows ${shown().join(',')})`);
-      }
-      localStorage.removeItem('myAllyLock:t-plan');
-      document.getElementById('t-plan').click(); await sleep(60);
-      document.getElementById('lockpw').value = 'whats next';
-      document.getElementById('lockform').requestSubmit(); await sleep(200);
-      if (!shown().includes('pane-lock')) out.push("Proposal's passcode opened Timeline");
-      localStorage.removeItem('myAllyLock:t-prop'); localStorage.removeItem('myAllyLock:t-plan');
+      // the locked tabs hold no content: Proposal's frame is empty and Timeline has no rows
+      const pf = document.querySelector('#pane-prop iframe');
+      if (pf && pf.contentDocument && pf.contentDocument.body && pf.contentDocument.body.innerText.trim()) out.push('Proposal frame still has content');
+      if (document.querySelectorAll('#pane-plan .row[data-id]').length) out.push('Timeline still has rows');
       document.getElementById('t-s1').click(); await sleep(100);
       const g = document.getElementById('s1g'), det = document.getElementById('s1detail');
       // every row opens its own details; clicking a workstream keeps it open
@@ -218,8 +209,7 @@ def crawl() -> list:
     with tempfile.NamedTemporaryFile("w", suffix=".cjs", delete=False) as fh:
         fh.write(CRAWL_JS)
     try:
-        m = re.search(r"const LOCKS=(\{[^}]*\})", open(HUB, encoding="utf-8").read())
-        env = dict(os.environ, NODE_PATH=paths[0], LOCKED=json.dumps(LOCKED), UNLOCK=m.group(1).replace("'", '"') if m else "{}")
+        env = dict(os.environ, NODE_PATH=paths[0], LOCKED=json.dumps(LOCKED), UNLOCK="{}")
         r = subprocess.run(["node", fh.name, url, exe], capture_output=True, text=True, env=env, timeout=300)
     finally:
         os.unlink(fh.name)

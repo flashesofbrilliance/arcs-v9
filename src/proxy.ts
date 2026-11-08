@@ -327,6 +327,14 @@ export default async function proxy(request: NextRequest) {
       return NextResponse.rewrite(url)
     }
   }
+  // Off the site during Step 1 (Zach, 2026-11-08): the full-build proposal and the retired Oct 15 plan
+  // are not served even with the passcode, so they cannot be passed on for competing bids. They open
+  // the hub instead (which lands on Step 1). Restore when Step 2 starts.
+  if (pathname === '/myally-proposal.html' || pathname === '/myally.html') {
+    const url = request.nextUrl.clone()
+    url.pathname = '/myally-hub.html'
+    return NextResponse.rewrite(url)
+  }
 
   // /ammo on any AMMO_HOSTS subdomain — the gated companion to that host's open
   // pitch. Reuses the recruithaus ammo-gate infra (same shared passcode, same
