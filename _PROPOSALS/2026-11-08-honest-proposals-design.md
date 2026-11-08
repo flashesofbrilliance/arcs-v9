@@ -1,7 +1,7 @@
 ---
 title: Honest proposals, a public good (design, not built)
 date: 2026-11-08
-status: PROPOSED, waiting on Zach's go
+status: APPROVED 2026-11-08 (Zach: "Yes, build v0.1"); v0.1 built privately, see PR
 artifact: https://claude.ai/artifact/PGEkj5xJt9kXAxYgQnLwHB (private)
 rendered: _PROPOSALS/rendered/2026-11-08-honest-proposals.html
 owner: Zach Harris
