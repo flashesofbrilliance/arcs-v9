@@ -81,6 +81,7 @@ def validate(rec: dict) -> list[str]:
     for alt in ALTITUDES:
         if alt not in rec.get("altitudes", {}):
             errs.append(f"altitudes: missing {alt}")
+    errs += validate_progress(rec)
     blob = json.dumps(rec, ensure_ascii=False)
     if "—" in blob:
         errs.append("em-dash in the record (client copy rule: none)")
@@ -105,6 +106,96 @@ def _check_source(where, src) -> list[str]:
         out.append(f"{where}: source.ref is empty")
     if not _is_date(src.get("date")):
         out.append(f"{where}: source.date must be YYYY-MM-DD")
+    return out
+
+
+# ---------------------------------------------------------------- progress
+# rec["progress"] is an append-only log of {row, state, date, note}. The newest event per row wins;
+# earlier events stay, so a row that goes from done back to in_progress shows "reopened DATE".
+# Row ids must exist in an exported tree (a block with "rows"). The fold below writes each row's
+# status into the exported JSON, so the Step 1 tab and the progress band read one block.
+
+STATES = ("not_started", "in_progress", "done", "blocked")
+COUNTED = {"gate", "task", "ms", "oh"}  # kinds that can be finished; gap, gift, req never "complete"
+NOTE_MAX = 160
+
+
+def tree_rows(rec: dict) -> dict:
+    out = {}
+    for name in rec.get("exports", []):
+        for r in (rec.get(name) or {}).get("rows", []) if isinstance(rec.get(name), dict) else []:
+            out[r["id"]] = (name, r)
+    return out
+
+
+def validate_progress(rec: dict) -> list[str]:
+    ev = rec.get("progress", [])
+    if not isinstance(ev, list):
+        return ["progress must be a list (append-only)"]
+    rows, errs, last = tree_rows(rec), [], ""
+    for i, e in enumerate(ev):
+        w = f"progress[{i}]"
+        if not isinstance(e, dict) or set(e) - {"row", "state", "date", "note"}:
+            errs.append(f"{w}: keys are row, state, date, note")
+            continue
+        if e.get("row") not in rows:
+            errs.append(f"{w}: unknown row {e.get('row')!r} (not in any exported tree)")
+        if e.get("state") not in STATES:
+            errs.append(f"{w}: state must be one of {list(STATES)}")
+        if not _is_date(e.get("date")):
+            errs.append(f"{w}: date must be YYYY-MM-DD")
+        elif e["date"] < last:
+            errs.append(f"{w}: date {e['date']} is earlier than the entry before it (append in order)")
+        else:
+            last = e["date"]
+        if not isinstance(e.get("note", ""), str) or len(e.get("note", "")) > NOTE_MAX:
+            errs.append(f"{w}: note must be text of at most {NOTE_MAX} characters")
+    return errs
+
+
+def fold_progress(block: dict, events: list) -> dict:
+    """Return a copy of an exported tree with each row's status and a progress summary."""
+    if not isinstance(block, dict) or "rows" not in block:
+        return block
+    rows = [dict(r) for r in block["rows"]]
+    by = {r["id"]: r for r in rows}
+    hist: dict[str, list] = {}
+    for e in events:
+        if e["row"] in by:
+            hist.setdefault(e["row"], []).append(e)
+    for rid, hs in hist.items():
+        cur = hs[-1]
+        st = {"state": cur["state"], "date": cur["date"], "note": cur.get("note", "")}
+        if cur["state"] != "done" and any(h["state"] == "done" for h in hs[:-1]):
+            st["reopened"] = cur["date"]
+        by[rid]["status"] = st
+    for r in rows:  # phases roll up from their counted children unless they carry their own event
+        if r["kind"] != "phase" or r["id"] in hist:
+            continue
+        kids = [k for k in rows if k["parent"] == r["id"] and k["kind"] in COUNTED]
+        ks = [k.get("status", {}).get("state", "not_started") for k in kids]
+        if not ks or all(s == "not_started" for s in ks):
+            continue
+        state = ("blocked" if "blocked" in ks else "done" if all(s == "done" for s in ks) else "in_progress")
+        r["status"] = {"state": state, "date": max(k["status"]["date"] for k in kids if "status" in k), "note": ""}
+    leaves = [r for r in rows if r["kind"] != "phase"]
+    counted = [r for r in rows if r["kind"] in COUNTED]
+    st = lambda r: r.get("status", {}).get("state", "not_started")
+    order = sorted(counted, key=lambda r: (r["start"], rows.index(r)))
+    last = max((e for e in events if e["row"] in by), key=lambda e: e["date"], default=None)
+    hours = lambda rs: round(sum(r.get("hours", 0) for r in rs), 2)
+    out = dict(block)
+    out["rows"] = rows
+    out["progress"] = {
+        "hours_total": hours(leaves),
+        "hours_done": hours([r for r in leaves if st(r) == "done"]),
+        "items_total": len(counted),
+        "items_done": sum(1 for r in counted if st(r) == "done"),
+        "now": [r["id"] for r in order if st(r) == "in_progress"],
+        "blocked": [r["id"] for r in order if st(r) == "blocked"],
+        "next": next((r["id"] for r in order if st(r) == "not_started"), None),
+        "last": None if last is None else {"row": last["row"], "date": last["date"], "state": last["state"], "note": last.get("note", "")},
+    }
     return out
 
 
@@ -370,6 +461,7 @@ def build(eng_dir: str) -> dict:
         if name not in rec:
             raise RecordError(f"exports names {name!r}, which the record does not have")
         ctx = Ctx(rec, res)
+        block = fold_progress(rec[name], rec.get("progress", []))
         def walk(v):
             if isinstance(v, str):
                 return ctx.sub(v)
@@ -378,7 +470,7 @@ def build(eng_dir: str) -> dict:
             if isinstance(v, dict):
                 return {k: walk(x) for k, x in v.items()}
             return v
-        text = json.dumps(walk(rec[name]), indent=1, ensure_ascii=False, sort_keys=True) + "\n"
+        text = json.dumps(walk(block), indent=1, ensure_ascii=False, sort_keys=True) + "\n"
         if "\u2014" in text:
             raise RecordError(f"em-dash in exported {name}.json")
         outs[f"{name}.json"] = (text, cites_digest(rec, res, ctx.cites))
@@ -464,7 +556,7 @@ def self_test() -> int:
         write(eng)
         again = {n: open(os.path.join(eng, "out", n), encoding="utf-8").read() for n in os.listdir(os.path.join(eng, "out"))}
         assert first == again, "render must be idempotent"
-        assert "fixed $1,500" in first["agreement.md"] and "Dec 4" in first["reply.md"]
+        assert "fixed $1,500" in first["agreement.md"] and "by Nov 20" in first["reply.md"]
 
         edit(lambda r: r["fields"]["rate_ff"].update(value=150))
         p = check(eng)
@@ -487,10 +579,31 @@ def self_test() -> int:
         write(eng)
         reply = open(os.path.join(eng, "out", "reply.md"), encoding="utf-8").read()
         assert "CHANGED SINCE LAST SENT" in reply and "access_by: was Nov 13, now Nov 20" in reply, reply[:600]
-        assert "Dec 11" in reply, "deliver_by must follow access_by"
+        assert "by Nov 27" in reply, "deliver_by must follow access_by"
         assert "changed 2026-11-10, was Nov 13" in open(os.path.join(eng, "out", "proposal.html")).read()
 
+        # progress: done adds hours and rolls the phase up; a later non-done event shows the reopen seam
+        def prog(r):
+            r["progress"] = [{"row": "w1a", "state": "done", "date": "2026-11-14", "note": "Read the code"},
+                             {"row": "w1b", "state": "in_progress", "date": "2026-11-15", "note": ""}]
+        edit(prog)
+        write(eng)
+        t = json.load(open(os.path.join(eng, "out", "step1_tree.json"), encoding="utf-8"))
+        rid = {r["id"]: r for r in t["rows"]}
+        assert t["progress"]["hours_done"] == 2 and t["progress"]["now"] == ["w1b"], t["progress"]
+        assert rid["w1"]["status"]["state"] == "in_progress" and rid["w1a"]["status"]["state"] == "done"
+        assert check(eng) == [], "fresh render with progress must pass"
+        edit(lambda r: r["progress"].append({"row": "w1a", "state": "in_progress", "date": "2026-11-16", "note": ""}))
+        write(eng)
+        t = json.load(open(os.path.join(eng, "out", "step1_tree.json"), encoding="utf-8"))
+        assert {r["id"]: r for r in t["rows"]}["w1a"]["status"].get("reopened") == "2026-11-16", "reopen seam"
+        assert t["progress"]["hours_done"] == 0
+
         for bad, want in (
+            (lambda r: r.update(progress=[{"row": "zz", "state": "done", "date": "2026-11-14"}]), "unknown row"),
+            (lambda r: r.update(progress=[{"row": "w1a", "state": "finished", "date": "2026-11-14"}]), "state must be"),
+            (lambda r: r.update(progress=[{"row": "w1a", "state": "done", "date": "2026-11-14"},
+                                          {"row": "w1b", "state": "done", "date": "2026-11-13"}]), "append in order"),
             (lambda r: r["terms"].append({"id": "TX", "title": "x", "body": "{{nope}}"}), "unknown cite"),
             (lambda r: r["fields"]["rate_ff"].pop("source"), "no source"),
             (lambda r: r["assumptions"][0].update(test_that_would_decide=""), "no test"),
@@ -500,7 +613,7 @@ def self_test() -> int:
             edit(bad)
             p = check(eng)
             assert p and want in p[0], (want, p)
-        print("engagement_render self-test: OK (fresh passes, idempotent, stale field named, hand edit caught, seam shown, 4 invalid records refused)")
+        print("engagement_render self-test: OK (fresh passes, idempotent, stale field named, hand edit caught, seam shown, progress folded and reopen seam shown, 7 invalid records refused)")
         return 0
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
