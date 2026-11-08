@@ -133,6 +133,9 @@ def validate_progress(rec: dict) -> list[str]:
     if not isinstance(ev, list):
         return ["progress must be a list (append-only)"]
     rows, errs, last = tree_rows(rec), [], ""
+    for rid, (_, r) in rows.items():
+        if "file" in r and r.get("unlock") not in rows:
+            errs.append(f"row {rid}: unlock must name a row id")
     for i, e in enumerate(ev):
         w = f"progress[{i}]"
         if not isinstance(e, dict) or set(e) - {"row", "state", "date", "note"}:
@@ -197,6 +200,29 @@ def fold_progress(block: dict, events: list) -> dict:
         "last": None if last is None else {"row": last["row"], "date": last["date"], "state": last["state"], "note": last.get("note", "")},
     }
     return out
+
+
+GIFT_URL = "/myally-skills/"
+
+
+def apply_unlocks(block, eng_dir: str):
+    """A row with "file" + "unlock" is listed now but delivered later: it gets a "download" URL only once
+    its unlock row is done; until then "locked". The private file path never reaches the export."""
+    if not isinstance(block, dict) or "rows" not in block:
+        return block
+    rows, done = [], {r["id"] for r in block["rows"] if r.get("status", {}).get("state") == "done"}
+    for r in block["rows"]:
+        r = dict(r)
+        f, gate = r.pop("file", None), r.pop("unlock", None)
+        if f:
+            if not os.path.isfile(os.path.join(eng_dir, f)):
+                raise RecordError(f"row {r['id']}: file {f} does not exist")
+            if gate in done:
+                r["download"] = GIFT_URL + os.path.basename(f)
+            else:
+                r["locked"] = True
+        rows.append(r)
+    return dict(block, rows=rows)
 
 
 def resolve(rec: dict) -> dict:
@@ -461,7 +487,7 @@ def build(eng_dir: str) -> dict:
         if name not in rec:
             raise RecordError(f"exports names {name!r}, which the record does not have")
         ctx = Ctx(rec, res)
-        block = fold_progress(rec[name], rec.get("progress", []))
+        block = apply_unlocks(fold_progress(rec[name], rec.get("progress", [])), eng_dir)
         def walk(v):
             if isinstance(v, str):
                 return ctx.sub(v)
@@ -542,6 +568,7 @@ def self_test() -> int:
     eng = os.path.join(tmp, "eng")
     try:
         shutil.copytree(os.path.join(src, "templates"), os.path.join(eng, "templates"))
+        shutil.copytree(os.path.join(src, "gifts"), os.path.join(eng, "gifts"))
         shutil.copy(os.path.join(src, "engagement.json"), eng)
         recp = os.path.join(eng, "engagement.json")
 
@@ -599,6 +626,15 @@ def self_test() -> int:
         assert {r["id"]: r for r in t["rows"]}["w1a"]["status"].get("reopened") == "2026-11-16", "reopen seam"
         assert t["progress"]["hours_done"] == 0
 
+        # gifts: listed but locked until the unlock row is done; the private path never reaches the export
+        g = {r["id"]: r for r in t["rows"]}["w6e"]
+        assert g.get("locked") and "download" not in g and "file" not in g, g
+        edit(lambda r: r["progress"].append({"row": "w0a", "state": "done", "date": "2026-11-17", "note": ""}))
+        write(eng)
+        t = json.load(open(os.path.join(eng, "out", "step1_tree.json"), encoding="utf-8"))
+        g = {r["id"]: r for r in t["rows"]}["w6e"]
+        assert g.get("download") == "/myally-skills/rca.md" and not g.get("locked"), g
+
         for bad, want in (
             (lambda r: r.update(progress=[{"row": "zz", "state": "done", "date": "2026-11-14"}]), "unknown row"),
             (lambda r: r.update(progress=[{"row": "w1a", "state": "finished", "date": "2026-11-14"}]), "state must be"),
@@ -613,7 +649,7 @@ def self_test() -> int:
             edit(bad)
             p = check(eng)
             assert p and want in p[0], (want, p)
-        print("engagement_render self-test: OK (fresh passes, idempotent, stale field named, hand edit caught, seam shown, progress folded and reopen seam shown, 7 invalid records refused)")
+        print("engagement_render self-test: OK (fresh passes, idempotent, stale field named, hand edit caught, seam shown, progress folded and reopen seam shown, gift locked then released, 7 invalid records refused)")
         return 0
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
