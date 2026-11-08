@@ -2,65 +2,99 @@
   "outputs": {
     "agreement.md": {
       "cites": {
-        "arbitration_venue": "Fairfield County, Connecticut",
+        "breach_notice_hours": 72,
         "commit_weeks": 4,
-        "duration_days": 21,
+        "dispute_forum": "the Connecticut courts named in our NDA",
         "fee_step1": 1500,
-        "hours_step1": 12,
+        "fix_window_days": 30,
         "liability_cap": "the fees you paid me under it",
+        "lovable_email": "zach.harris@gmail.com",
         "nda_executed": "2026-10-26",
-        "oh_free_hours": 2,
-        "oh_sessions": 4,
+        "nda_restart_days": 60,
+        "oh_free_hours": 4,
         "oh_slot_minutes": 30,
         "rate_committed": 125,
         "rate_ff": 125,
         "rate_standard": 150,
-        "talk_first_days": 30
+        "talk_first_days": 30,
+        "work_days": 5
       },
-      "sha256": "ad98f03cd928aece16aeb3c2b96e44246ebf98d8a26a541abd73cb8b0b89dbc1"
+      "sha256": "60278045fe0ffbdffaa2cd7d75d377ab8cf1e5b53a0df0e54ee0bb4dee897f52"
     },
     "exhibit-a.md": {
       "cites": {
-        "duration_days": 21,
-        "walkthrough_minutes": 45
+        "walkthrough_minutes": 45,
+        "work_days": 5
       },
-      "sha256": "4afa3293b3947a3172d78715425f7588bcb37dcdd54426e1cd702520d9b08d07"
+      "sha256": "ae5d484fd065c0eb1612cdef3cd64b51dc131910951b2f9554905765a5a6297d"
     },
     "proposal.html": {
       "cites": {
         "access_by": "2026-11-13",
-        "arbitration_venue": "Fairfield County, Connecticut",
+        "breach_notice_hours": 72,
         "commit_weeks": 4,
-        "deliver_by": "2026-12-04",
-        "duration_days": 21,
+        "deliver_by": "2026-11-20",
+        "dispute_forum": "the Connecticut courts named in our NDA",
+        "duration_days": 7,
         "fee_offer_total": 4500,
         "fee_step1": 1500,
+        "fix_window_days": 30,
+        "github_user": "flashesofbrilliance",
+        "hours_offer_total": 36,
         "hours_step1": 12,
+        "latest_access": "2026-12-15",
         "liability_cap": "the fees you paid me under it",
+        "lovable_email": "zach.harris@gmail.com",
         "nda_anchor": "2026-10-09",
         "nda_executed": "2026-10-26",
+        "nda_restart_days": 60,
         "nda_return_by": "2027-01-07",
         "nda_return_days": 90,
-        "oh_free_hours": 2,
-        "oh_sessions": 4,
+        "oh_free_hours": 4,
         "oh_slot_minutes": 30,
         "rate_committed": 125,
         "rate_ff": 125,
         "rate_standard": 150,
         "steps_offered": 3,
         "talk_first_days": 30,
-        "walkthrough_minutes": 45
+        "walkthrough_minutes": 45,
+        "work_days": 5
       },
-      "sha256": "8e793fb600479005b24905779871cf14bf2a14cfd1949dd2e1cd7e5e1b7dc9b9"
+      "sha256": "9a4e7f34ff9253f10784f73b92330797c4b0bf8147ed90155141168a8ba43dd6"
     },
     "reply.md": {
       "cites": {
         "access_by": "2026-11-13",
-        "deliver_by": "2026-12-04",
-        "duration_days": 21,
-        "walkthrough_minutes": 45
+        "deliver_by": "2026-11-20",
+        "fee_step1": 1500,
+        "github_user": "flashesofbrilliance",
+        "hours_step1": 12,
+        "latest_access": "2026-12-15",
+        "lovable_email": "zach.harris@gmail.com",
+        "walkthrough_minutes": 45,
+        "work_days": 5
       },
-      "sha256": "d92f5e1c88efb914791dd753dd281f6614b8fda90e814a8109d83a8c80b30c18"
+      "sha256": "8572716930550eb931c954c58198060d45026ea547d76d8543c6a72b33925ae2"
+    },
+    "step1_tree.json": {
+      "cites": {
+        "access_by": "2026-11-13",
+        "commit_weeks": 4,
+        "deliver_by": "2026-11-20",
+        "fee_offer_total": 4500,
+        "fee_step1": 1500,
+        "github_user": "flashesofbrilliance",
+        "hours_offer_total": 36,
+        "hours_step1": 12,
+        "lovable_email": "zach.harris@gmail.com",
+        "oh_free_hours": 4,
+        "oh_slot_minutes": 30,
+        "rate_committed": 125,
+        "rate_standard": 150,
+        "walkthrough_minutes": 45,
+        "work_days": 5
+      },
+      "sha256": "123b02083e66659176c3bc8fc4150eddfe913f186cfa8895300fb9b85c4a939f"
     }
   },
   "record": "myally-ld-step1"

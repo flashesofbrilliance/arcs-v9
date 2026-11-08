@@ -365,6 +365,23 @@ def build(eng_dir: str) -> dict:
         outs[f"{name}.md"] = (text, cites_digest(rec, res, cites))
     page, cites = render_html(rec, res)
     outs["proposal.html"] = (page, cites_digest(rec, res, cites))
+    for name in rec.get("exports", []):
+        # A structured block (e.g. a tab's rows) exported as JSON, every string cite-substituted.
+        if name not in rec:
+            raise RecordError(f"exports names {name!r}, which the record does not have")
+        ctx = Ctx(rec, res)
+        def walk(v):
+            if isinstance(v, str):
+                return ctx.sub(v)
+            if isinstance(v, list):
+                return [walk(x) for x in v]
+            if isinstance(v, dict):
+                return {k: walk(x) for k, x in v.items()}
+            return v
+        text = json.dumps(walk(rec[name]), indent=1, ensure_ascii=False, sort_keys=True) + "\n"
+        if "\u2014" in text:
+            raise RecordError(f"em-dash in exported {name}.json")
+        outs[f"{name}.json"] = (text, cites_digest(rec, res, ctx.cites))
     lock = {"record": rec["meta"]["id"], "outputs": {
         n: {"sha256": hashlib.sha256(t.encode()).hexdigest(), "cites": c} for n, (t, c) in sorted(outs.items())}}
     return {"outputs": outs, "lock": json.dumps(lock, indent=2, sort_keys=True) + "\n"}
@@ -447,14 +464,14 @@ def self_test() -> int:
         write(eng)
         again = {n: open(os.path.join(eng, "out", n), encoding="utf-8").read() for n in os.listdir(os.path.join(eng, "out"))}
         assert first == again, "render must be idempotent"
-        assert "$1,500 fixed" in first["agreement.md"] and "Dec 4" in first["reply.md"]
+        assert "fixed $1,500" in first["agreement.md"] and "Dec 4" in first["reply.md"]
 
         edit(lambda r: r["fields"]["rate_ff"].update(value=150))
         p = check(eng)
         assert any("STALE field fee_step1" in x and "agreement.md" in x for x in p), p
         assert any("STALE field rate_ff" in x for x in p), p
         write(eng)
-        assert check(eng) == [] and "$1,800 fixed" in open(os.path.join(eng, "out", "agreement.md")).read()
+        assert check(eng) == [] and "fixed $1,800" in open(os.path.join(eng, "out", "agreement.md")).read()
 
         with open(os.path.join(eng, "out", "reply.md"), "a", encoding="utf-8") as fh:
             fh.write("hand edit\n")
