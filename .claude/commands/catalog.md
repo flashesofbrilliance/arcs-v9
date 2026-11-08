@@ -22,6 +22,29 @@ summary.
 When matching a job (below), a tool whose `state` is AVAILABLE-NOT-INSTALLED still counts:
 recommend it with its install command instead of inventing a replacement.
 
+## Plain verbs (checked before step 0, 2026-11-08)
+
+If the job starts with one of these verbs, route by this table and skip the lookup. The graph
+scores these phrases badly: "connect the dots" ranked `universe_jtbd_adapter.py` and "tear it
+down" ranked `design_debt_sweep.py`. Pick the row by what the target is. A verb not listed here,
+or a target that fits no row, goes on to step 0. A row marked GAP has no tool yet: say so and
+name its backlog row. Do not build the tool here.
+
+| Verb | Target | Tool |
+|---|---|---|
+| connect the dots | an outside paper, post or field | `/echo-scan <source>` |
+| connect the dots | a job, before planning it | `/prior-art <job>` |
+| tear it down | a person or company (site + bio PDF) | `/teardown` |
+| tear it down | a document's claims | Agent `claims-skeptic` |
+| decompose | a session or scattered state | `/fold` |
+| decompose | a page, into atoms to pages with params | GAP: backlog `decompose-page-atomic-params` |
+| check it | an HTML page | `/page-gate <path>` |
+| check it | a diff before merge | `python3 scripts/neighbor_scan.py`, then `/code-review` |
+| ship it | a PR | `scripts/safe_merge.sh <pr> <head-sha>`, only on Zach's go |
+| ship it | docs-only work | `scripts/ship_docs.sh` |
+
+Say "(answered by the verb table)". The routes still fire only on consent (step 5).
+
 ## Steps
 
 0. **Ask the JTBD graph first (since 2026-10-20; s4 blind test passed 16 of 18 against this
