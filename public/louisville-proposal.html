@@ -295,9 +295,10 @@ footer p{text-align:left;}
   @top-left{content:"ARCS";font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;font-size:7pt;font-weight:700;letter-spacing:0.32em;color:#00606b;vertical-align:bottom;padding-bottom:14pt;}
   @top-right{content:"An outside read  \00B7  Louisville Brands";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#566170;vertical-align:bottom;padding-bottom:14pt;}
   @bottom-left{content:"Zach Harris  \00B7  zach.harris@gmail.com";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;color:#566170;vertical-align:top;padding-top:14pt;}
+  @bottom-center{content:"Confidential";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#566170;vertical-align:top;padding-top:14pt;}
   @bottom-right{content:counter(page) " / " counter(pages);font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;font-size:7pt;font-weight:700;color:#1c2430;vertical-align:top;padding-top:14pt;}
 }
-@page :first{margin:0.8in;@top-left{content:none;}@top-right{content:none;}@bottom-left{content:none;}@bottom-right{content:none;}}
+@page :first{margin:0.8in 0.8in 0.75in;@top-left{content:none;}@top-right{content:none;}}
 @media print{
   .cover{height:9.35in;gap:0;}
   .cover-top{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:var(--sp-2);border-bottom:1px solid var(--border);}
@@ -471,6 +472,7 @@ footer p{text-align:left;}
 }
 
 @media print{
+  .cover-meta{display:none;} 
   .cover-top .cover-for{margin:0;}
   .cover-wm{margin-top:auto;}
   .cover-title{margin-top:var(--sp-5);padding-bottom:0;}
