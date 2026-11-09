@@ -605,6 +605,8 @@ footer p{text-align:left;}
 .asked-k{margin-top:var(--sp-3);}
 .asked-k + .verdict{margin-top:var(--sp-1);}
 @media print{.asked-k{margin-top:var(--sp-2);} .asked-k + .verdict{margin-top:4px;}}
+/* "Why" sits inside the card, in the same mono numeral style as the 01/02/03 section eyebrows */
+.named-why{display:block;margin-bottom:var(--sp-1);font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--cyan);}
 </style>
 </head>
 <body>
@@ -638,7 +640,7 @@ footer p{text-align:left;}
   <p class="named-k asked-k">You asked</p>
   <p class="verdict">Where is your AI build on its arc, where is it least efficient, which hypotheses are failing?</p>
   <p class="verdict">I'd answer by tracing two real decisions, one technical and one business, from inputs to outcome, before the next 20,000-bag MOQ rides on it.</p>
-  <div class="named"><p class="named-k">You named it</p><p class="named-v">Confirmation bias, recency bias, the fox watching the henhouse. An outside audit checks your team's work; it doesn't replace it.</p></div>
+  <div class="named"><p class="named-v"><span class="named-why">Why</span>Confirmation bias, recency bias, the fox watching the henhouse. An outside audit checks your team's work; it doesn't replace it.</p></div>
 </header>
 
 <div class="blkbar"><button type="button" class="expall">Expand all</button></div>
