@@ -6,6 +6,13 @@
     "ignoreFiles": [],
     "ignoreValues": [
       {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": ["public/myally-hub.html"],
+        "createdAt": "2026-11-09T19:05:00.000Z",
+        "reason": "MyAlly hub 'Not started' status LED: Zach asked for the pulsing LED from his Gold Coast Records site (2026-11-09); the glow is the LED, one 6px dot. The rule has no per-value match, so it is scoped to this file; no other glow exists here."
+      },
+      {
         "rule": "design-system-font-size",
         "value": ".75rem",
         "files": [
