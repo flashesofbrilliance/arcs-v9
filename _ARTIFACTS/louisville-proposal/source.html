@@ -552,6 +552,11 @@ footer p{text-align:left;}
   .mast .pdfbtn{width:44px;height:44px;padding:0;justify-content:center;}
   .mast .dprefs{gap:6px;}
 }
+/* Footer: one short row. Review copy at left, name at right (a mailto link). */
+@media screen{
+  footer{display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-2);flex-wrap:wrap;padding-top:var(--sp-2);font-size:var(--fs-label);}
+  footer p{margin:0;}
+}
 </style>
 </head>
 <body>
@@ -657,7 +662,7 @@ footer p{text-align:left;}
   </div>
 </section>
 
-<footer><p>Zach Harris · <a href="mailto:zach.harris@gmail.com" data-track="email_click">zach.harris@gmail.com</a></p><p class="revline">Want to mark it up? <a href="/proposal/review-copy.pdf" download="Outside-read-review-copy.pdf" data-track="review_copy_download">Download a review copy to print</a>, with numbered paragraphs and room for notes.</p></footer>
+<footer><p class="revline"><a href="/proposal/review-copy.pdf" download="Outside-read-review-copy.pdf" data-track="review_copy_download">Review copy to print</a></p><p class="fsig"><a href="mailto:zach.harris@gmail.com" data-track="email_click">Zach Harris</a></p></footer>
 </div>
 
 </main>
