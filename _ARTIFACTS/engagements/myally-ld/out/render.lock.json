@@ -82,7 +82,6 @@
     },
     "step1_tree.json": {
       "cites": {
-        "access_by": "2026-11-09",
         "block_hours": 2,
         "changes_days": 7,
         "fee_step1": 1500,
@@ -93,7 +92,7 @@
         "rate_ff": 125,
         "walkthrough_minutes": 45
       },
-      "sha256": "c4024ca6ed981a44e9f1b03a6a682a06c4f3e104825177f3e5eab4a35c5ac260"
+      "sha256": "a7cf24ded0052d1ddb277848708e44650c5ba0d79c5e6938b4d665e0098c64df"
     }
   },
   "record": "myally-ld-step1"

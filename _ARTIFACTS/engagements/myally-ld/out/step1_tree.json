@@ -7,13 +7,13 @@
   ],
   [
    "Time",
-   "A few working days",
-   "The week of Mon Nov 9"
+   "Five working days",
+   "From the working day after the start items are in"
   ],
   [
    "Your side",
    "About 10 minutes",
-   "A Lovable invite and your recent bills. Nothing new to write"
+   "A copy of your Lovable project and your recent bills. Nothing new to write"
   ],
   [
    "Office hours",
@@ -66,9 +66,9 @@
    "hours": 0,
    "id": "w0b",
    "kind": "gate",
-   "label": "An invite for zach.harris@gmail.com to your Lovable workspace, as a member",
+   "label": "An invite for zach.harris@gmail.com to a copy (a remix) of your Lovable project, with no real family information in it",
    "len": 1,
-   "note": "I read the code there, so no GitHub setup is needed for this step.",
+   "note": "I read the code there, read-only, so no GitHub setup is needed for this step. Working on a copy keeps my promise to work only from made-up data.",
    "parent": "w0",
    "s2": "",
    "s3": "",
@@ -497,7 +497,7 @@
    "kind": "gate",
    "label": "Your choice of next step",
    "len": 1,
-   "note": "More detail on open questions: 2-hour blocks at $125 an hour, each started only after your written OK, billed on their own and not credited toward later steps. Or Step 2: a new fixed scope and price, quoted after the readout, which starts only with your written yes.",
+   "note": "More detail on open questions: 2-hour blocks at $125 an hour, each started only after your written OK, billed on their own and not credited toward later steps. Or Step 2: $1,500 for up to 12 hours, as offered on October 29. A different scope or price applies only with your written yes, and Step 2 starts only with your written yes.",
    "parent": "w6",
    "s2": "",
    "s3": "",
@@ -532,7 +532,7 @@
  ],
  "s2": "Step 2",
  "s3": "Step 3",
- "summary": "Step 1 of 3: $1,500 fixed, for up to 12 hours of work, done in a few working days once we start. Step 2 is quoted after the readout.",
+ "summary": "Step 1 of 3: $1,500 fixed, for up to 12 hours of work, done in five working days once we start. Step 2 is $1,500 for up to 12 hours, as offered on October 29; a different scope needs your written yes.",
  "title": "Step 1: light audit and code review",
  "weeks": [
   "Before",
