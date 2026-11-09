@@ -7,6 +7,7 @@ export const MYALLY_GATE = { ns: "myally", cookie: "myally_gate", env: "MYALLY_P
 export const MONDAY_GATE = { ns: "monday", cookie: "monday_gate", env: "MONDAY_PASSCODE" } as const
 export const CIA_GATE = { ns: "cia", cookie: "cia_gate", env: "CIA_PASSCODE" } as const
 export const DIOPTRA_GATE = { ns: "dioptra", cookie: "dioptra_gate", env: "DIOPTRA_PASSCODE" } as const
+export const GRAVITY_GATE = { ns: "gravity", cookie: "gravity_gate", env: "GRAVITY_PASSCODE" } as const
 export const LOUISVILLE_GATE = { ns: "louisville", cookie: "louisville_gate", env: "LOUISVILLE_PASSCODE" } as const
 export const LOUISVILLE_PROPOSAL_GATE = { ns: "louisville-proposal", cookie: "louisville_proposal_gate", env: "LOUISVILLE_PROPOSAL_PASSCODE" } as const
 

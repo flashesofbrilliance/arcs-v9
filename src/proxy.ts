@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { AMMO_COOKIE, ammoUnlocked } from '@/lib/ammo-gate'
-import { CIA_GATE, DIOPTRA_GATE, LOUISVILLE_GATE, LOUISVILLE_PROPOSAL_GATE, MONDAY_GATE, MYALLY_GATE, gateUnlocked } from '@/lib/passcode-gate'
+import { CIA_GATE, DIOPTRA_GATE, GRAVITY_GATE, LOUISVILLE_GATE, LOUISVILLE_PROPOSAL_GATE, MONDAY_GATE, MYALLY_GATE, gateUnlocked } from '@/lib/passcode-gate'
 
 const SUBDOMAIN_MAP: Record<string, string> = {
   'resume':       '/resume.html',
@@ -68,6 +68,8 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   'cia':       { '/resume.pdf': '/cia-brief-resume.pdf', default: '/cia-brief.html' },
   // dioptra.arcs.care: candidate brief for the Dioptra Staff PM role (2026-10-29). Gated by DIOPTRA_PASSCODE; noindex. /work-sample.zip maps to a /dioptra-brief-* file, which the prefix gate locks on every host.
   'dioptra':   { '/work-sample.zip': '/dioptra-brief-sample.zip', default: '/dioptra-brief.html' },
+  // gravity.arcs.care: candidate positioning for the four open Gravity Labs roles, via Crossbridge Executive (2026-11-09). Gated by GRAVITY_PASSCODE; noindex.
+  'gravity':   { '/principal': '/gravity-brief-principal.html', '/eir': '/gravity-brief-eir.html', '/founder': '/gravity-brief-founder.html', '/open': '/gravity-brief-open.html', default: '/gravity-brief.html' },
   'monday':    { '/monday-guide-rc46.zip': '/monday-guide-rc46.zip', default: '/monday-guide.html' },
   'success-academy': { '/resume': '/success-academy-resume-viewer.html', '/success-academy-resume.pdf': '/success-academy-resume.pdf', '/success-academy-resume-ats.txt': '/success-academy-resume-ats.txt', default: '/success-academy.html' },
   // squad.arcs.care — Squad (gosquad.ai) Product Engineer bundle (2026-09-24): OPEN (ungated), noindex. root = positioning brief + fit score (the thesis mirror aimed at founder Ignacio García León), /resume = print-ready HTML resume (technical cut, leadership scope kept), + ATS txt. Asset paths mapped to themselves so the default-page rewrite does not swallow the resume/txt.
@@ -252,6 +254,29 @@ export default async function proxy(request: NextRequest) {
     if (!ok) {
       const url = request.nextUrl.clone()
       url.pathname = '/cia-gate.html'
+      return NextResponse.rewrite(url)
+    }
+  }
+
+  // --- gravity.arcs.care: candidate brief for the Gravity Labs EIR seat ------
+  // Same shape as the dioptra gate, own secret (GRAVITY_PASSCODE) and cookie.
+  if (pathname.startsWith('/gravity-gate')) return NextResponse.next()
+  const gravityFile = pathname.startsWith('/gravity-brief')
+  const gravityHostOpen =
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/_vercel') ||
+    pathname.startsWith('/api') ||
+    pathname === '/robots.txt' ||
+    SHARED_ICON_PATH.test(pathname)
+  if (gravityFile || (sub === 'gravity' && !gravityHostOpen)) {
+    const ok = await gateUnlocked(
+      GRAVITY_GATE.ns,
+      request.cookies.get(GRAVITY_GATE.cookie)?.value,
+      process.env[GRAVITY_GATE.env],
+    )
+    if (!ok) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/gravity-gate.html'
       return NextResponse.rewrite(url)
     }
   }

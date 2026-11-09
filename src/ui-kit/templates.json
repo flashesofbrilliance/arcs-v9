@@ -223,6 +223,22 @@
         "#brief-data"
       ],
       "min_signatures": 6
+    },
+    "tabbed-brief": {
+      "mode": "persuade",
+      "kind": "persuasion-surface",
+      "description": "Tabbed counterpart brief generated from data by scripts/tabbed_brief_build.py (schema src/ui-kit/tabbed-brief/brief.schema.json): kit 38 wordmark and kit 51 display preferences, a framed document with a meta strip, kit 42 shell nav (tabs from 1024px, dropdown below), a hero (headline, lede, next step, one action row), kit 45 fact tiles, fold sections, and one role tab per option with kit 52 plan matrix, fact tables, cards and kit 31 callouts. Template layer: src/ui-kit/tabbed-brief/shell.css and shell.js. Never hand-edited.",
+      "canonical_examples": [
+        "public/gravity-brief.html"
+      ],
+      "signature_selectors": [
+        ".shnav",
+        ".tb-meta",
+        ".ftiles",
+        ".tb-fold",
+        ".pm"
+      ],
+      "min_signatures": 3
     }
   }
 }
