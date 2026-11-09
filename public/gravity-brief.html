@@ -569,7 +569,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 .cia td.num{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
 .cia .cgrid.acrd3{grid-template-columns:repeat(3,minmax(0,1fr))!important}@media (max-width:900px){.cia .cgrid.acrd3{grid-template-columns:1fr!important}}.cia .acrd3 .ccard h3{color:var(--accent)}.cia .qlist ol{margin:0;padding-left:24px}.cia .qlist li{margin-bottom:8px}
 @media (min-width:700px){.shell-head .shell-meta,.shell-head .shell-bar{position:static;margin-left:0;margin-right:0}.shell-head .shell-meta::before,.shell-head .shell-meta::after{content:none}.shell-head{position:sticky;top:0;z-index:21;margin:-13px -1px 0;padding-top:12px;background:var(--pg-bg,var(--bg))}.shell-head>.shell-meta{border:1px solid var(--line);border-radius:10px 10px 0 0}.shell-head>.shell-bar{border-left:1px solid var(--line);border-right:1px solid var(--line)}.shell-head.stuck>.shell-bar{box-shadow:0 4px 12px rgba(0,0,0,.08)}}@media(min-width:700px){.cia .cgrid:has(>.ccard:nth-child(4):last-child){grid-template-columns:repeat(2,minmax(0,1fr))!important}.cia .cgrid:has(>.ccard:nth-child(3):last-child),.cia .cgrid:has(>.ccard:nth-child(6):last-child){grid-template-columns:repeat(3,minmax(0,1fr))!important}}.cia .ccard>h3+p{margin-top:0}.cia .ccard>.pill{margin:0 0 10px}.cia .ccard>h3{font-size:1.0625rem;line-height:1.3;margin:0 0 4px}.cia .ccard>p{color:var(--quiet,var(--text))}#pane-primer .cia .lede,#pane-primer .cia>p{max-width:none}.cia td{text-wrap:wrap}.cia th{font-size:.8125rem;font-weight:600;letter-spacing:.01em;color:var(--quiet,var(--text))}.cia table.gt td:nth-child(2){font-size:.8125rem;line-height:1.45;color:var(--quiet,var(--text));white-space:normal}.cia table.gt td:first-child{font-weight:600;color:var(--text)}.cia .blk>summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:8px}.stamp{position:relative;padding-right:44px}.stamp-x{position:absolute;top:8px;right:8px;width:28px;height:28px;display:grid;place-items:center;font:inherit;font-size:1.125rem;line-height:1;color:var(--quiet,var(--text));background:none;border:0;border-radius:6px;cursor:pointer}.stamp-x:hover{background:var(--line)}.stamp-x:focus-visible{outline:2px solid var(--accent);outline-offset:2px}</style><style>
-/* ARCS ui-kit primitives, verbatim from src/ui-kit/recoil-report (28 chip, 29 tile, 32 evidence-ref, 38 wordmark, 39 theme-toggle light remap) */
+/* ARCS ui-kit primitives, verbatim from src/ui-kit/recoil-report (28 chip, 29 tile, 32 evidence-ref, 38 wordmark, 39 theme-toggle light remap, 42 shell-nav) */
 /* @prim:begin 28-chip */
 .section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
 .chip { display: inline-flex; align-items: center; gap: 6px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: var(--ds-r-pill); border: 1px solid var(--border); color: var(--text-secondary); }
@@ -607,6 +607,37 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 .themebtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
 @media print{:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;} .themebtn{display:none!important;} body{background:#fff!important;}}
 /* @prim:end 39-theme-toggle */
+/* @prim:begin 42-shell-nav */
+.shnav { position: relative; display: flex; align-items: center; gap: 24px; min-height: 52px; padding: 0 20px; }
+.shnav-brand { flex: none; font-size: var(--fs-label); }
+.shnav { min-width: 0; }
+.shnav-tabs { display: flex; align-items: stretch; gap: 4px; margin-left: auto; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.shnav-tabs::-webkit-scrollbar { display: none; }
+.shnav-tab { font: inherit; font-family: var(--ds-font-sans); font-size: var(--fs-body); font-weight: 600; color: var(--text-secondary); background: none; border: 0; border-bottom: 2px solid transparent; border-radius: 0; padding: 12px 12px 10px; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; cursor: pointer; }
+.shnav-tab:hover { color: var(--text); }
+.shnav-tab[aria-selected="true"] { color: var(--cyan); border-bottom-color: var(--cyan); }
+.shnav-tab:focus-visible { outline: 2px solid var(--cyan); outline-offset: -2px; border-radius: var(--ds-r-xs); }
+.shnav-pill { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.02em; line-height: 1.4; padding: 2px 8px; border-radius: var(--ds-r-pill); background: var(--surface-2); color: var(--text-secondary); }
+.shnav-menu { display: none; flex: none; margin-left: auto; width: 44px; height: 44px; place-items: center; padding: 0; border: 0; border-radius: var(--ds-r-sm); background: none; color: var(--text); cursor: pointer; }
+.shnav-menu span, .shnav-menu span::before, .shnav-menu span::after { display: block; width: 20px; height: 2px; border-radius: var(--ds-r-xs); background: currentColor; position: relative; transition: transform var(--dur-fast) var(--ease-out); }
+.shnav-menu span::before, .shnav-menu span::after { content: ""; position: absolute; left: 0; }
+.shnav-menu span::before { top: -6px; }
+.shnav-menu span::after { top: 6px; }
+.shnav-menu[aria-expanded="true"] span { background: transparent; }
+.shnav-menu[aria-expanded="true"] span::before { transform: translateY(6px) rotate(45deg); }
+.shnav-menu[aria-expanded="true"] span::after { transform: translateY(-6px) rotate(-45deg); }
+.shnav-menu:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.shnav[data-mode="menu"] .shnav-menu { display: inline-grid; }
+.shnav[data-mode="menu"] .shnav-tabs { display: none; overflow: visible; position: absolute; top: calc(100% - 4px); right: 12px; z-index: 30; flex-direction: column; align-items: stretch; gap: 2px; margin: 0; width: max-content; min-width: 220px; max-width: calc(100vw - 32px); padding: 6px; background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-md); box-shadow: 0 12px 32px rgba(2, 4, 8, 0.28); }
+.shnav[data-mode="menu"].is-open .shnav-tabs { display: flex; animation: shnav-in var(--dur-fast) var(--ease-out); }
+.shnav[data-mode="menu"] .shnav-tab { justify-content: space-between; text-align: left; border-bottom: 0; border-radius: var(--ds-r-sm); padding: 10px 12px; color: var(--text); }
+.shnav[data-mode="menu"] .shnav-tab:hover { background: var(--surface-2); }
+.shnav[data-mode="menu"] .shnav-tab[aria-current="true"] { color: var(--cyan); box-shadow: inset 3px 0 0 var(--cyan); }
+.shnav[data-mode="menu"] .shnav-tab:focus-visible { outline-offset: -2px; border-radius: var(--ds-r-sm); }
+@keyframes shnav-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .shnav-menu span, .shnav-menu span::before, .shnav-menu span::after { transition: none; } .shnav[data-mode="menu"].is-open .shnav-tabs { animation: none; } }
+@media print { .shnav-menu, .shnav-tabs { display: none !important; } }
+/* @prim:end 42-shell-nav */
 
 /* host frame (2026-11-09): the artifact viewer styles body itself, so body carries the page colours explicitly */
 body{background:var(--bg);color:var(--text);margin:0;}
@@ -614,27 +645,10 @@ body{background:var(--bg);color:var(--text);margin:0;}
 /* Gravity seats (2026-11-09): tabs in the shell bar from 1024px; below that every pane stacks and each seat is a collapsible block in the cia-h2 grammar */
 html:not(.stacked) details.seat > summary{display:none;}
 html:not(.stacked) details.seat > .bd{padding-top:0;}
-html.stacked .shell-bar .tabs{display:none;}
 html.stacked .seatpane .cia-h1{display:none;}
 html.stacked .seatpane > .cia{padding-top:0;}
 details.seat > summary .tk .chip{margin-top:2px;}
 
-html:not(.stacked) .burger{display:none!important;}
-html.stacked .burger{display:inline-grid!important;margin-left:auto;}
-html.stacked .burger{place-items:center;width:44px;height:44px;margin-right:-8px;border:0;border-radius:6px;background:none;color:var(--text);cursor:pointer;}
-html.stacked .burger span,html.stacked .burger span::before,html.stacked .burger span::after{display:block;width:20px;height:2px;border-radius:2px;background:currentColor;position:relative;transition:transform .15s;}
-html.stacked .burger span::before,html.stacked .burger span::after{content:"";position:absolute;left:0;}
-html.stacked .burger span::before{top:-6px;}
-html.stacked .burger span::after{top:6px;}
-html.stacked .burger[aria-expanded=true] span{background:transparent;}
-html.stacked .burger[aria-expanded=true] span::before{transform:translateY(6px) rotate(45deg);}
-html.stacked .burger[aria-expanded=true] span::after{transform:translateY(-6px) rotate(-45deg);}
-@media (prefers-reduced-motion:reduce){html.stacked .burger span::before,html.stacked .burger span::after{transition:none;}}
-html.stacked .shell-bar{min-height:52px;align-items:center;}
-html.stacked .shell-bar.menu-open .tabs{display:flex!important;flex-direction:column;align-items:stretch;width:100%;}
-html.stacked .shell-bar .tabs > button{text-align:left;justify-content:flex-start;padding:12px 16px!important;border-bottom:0!important;min-height:44px;width:100%;box-shadow:none;}
-html.stacked .shell-bar .tabs > button .pill{margin-left:8px;vertical-align:1px;}
-html.stacked .shell-bar .tabs > button:focus-visible{outline:2px solid var(--accent);outline-offset:-4px;border-radius:6px;}
 .pill:not([data-k]){color:var(--muted);background:color-mix(in srgb,currentColor 12%,transparent);}
 .cia table.gt.prose td:nth-child(2){font-size:var(--fs-body);line-height:1.6;}
 .cia table.gt.prose td ul{margin:6px 0 0;padding-left:1.1rem;display:flex;flex-direction:column;gap:4px;}
@@ -644,7 +658,8 @@ html.stacked .shell-bar .tabs > button:focus-visible{outline:2px solid var(--acc
 html.stacked details.seat{scroll-margin-top:16px;}
 @media (min-width:700px){html.stacked details.seat{scroll-margin-top:calc(var(--metah,0px) + var(--barh,0px) + 16px);}}
 .cia table.gt.prose td:nth-child(2){color:var(--text);font-size:.9rem;}
-.tabs .pill,.seat .tk .pill{text-transform:none;letter-spacing:.02em;}
+.seat .tk .pill{text-transform:none;letter-spacing:.02em;}
+.shell-bar.shnav{padding:0 20px;}
 html.stacked .wide-only{display:none;}
 html:not(.stacked) .stack-only{display:none;}
 .nextrole{margin:24px 0 0;}
@@ -685,7 +700,7 @@ html:not(.stacked) .stack-only{display:none;}
 <div class="toprow"><p class="sm-conf mast-conf"><span class="ctag">Private</span>Prepared for the Gravity Labs team and shared through Harrison Wright of Crossbridge Executive.</p><button type="button" class="themetog" id="themetog" aria-label="Theme: Auto"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><g class="sun"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></g><path class="moon" d="M15.5 12.6A6.5 6.5 0 017.4 4.5a6.5 6.5 0 108.1 8.1z"/><g class="auto"><circle cx="10" cy="10" r="6.5"/><path d="M10 3.5v13" /><path d="M10 3.5a6.5 6.5 0 010 13z" fill="currentColor" stroke="none"/></g></svg><span class="trk" aria-hidden="true"></span></button></div>
 <section class="shell" aria-label="Candidate positioning for Gravity Labs">
 <div class="shell-head"><div class="shell-meta"><dl><div><dt>Prepared for</dt><dd>The Gravity Labs team</dd></div><div><dt>From</dt><dd>Zach Harris</dd></div><div><dt>Updated</dt><dd><time datetime="2026-11-09">November 9, 2026</time></dd></div><div><dt>Status</dt><dd>Draft for discussion</dd></div></dl></div>
-<div class="shell-bar"><span class="brand wordmark" aria-hidden="true"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></span><button type="button" class="burger" id="burger" aria-expanded="false" aria-controls="viewtabs" aria-label="Jump to a role"><span></span></button><div class="tabs" id="viewtabs" role="tablist" aria-label="View"><button type="button" role="tab" id="t-ov" aria-controls="pane-ov" aria-selected="true">Overview</button><button type="button" role="tab" id="t-principal" aria-controls="pane-principal" aria-selected="false" tabindex="-1">Principal<span class="pill">1st</span></button><button type="button" role="tab" id="t-eir" aria-controls="pane-eir" aria-selected="false" tabindex="-1">EIR<span class="pill">2nd</span></button><button type="button" role="tab" id="t-founder" aria-controls="pane-founder" aria-selected="false" tabindex="-1">Founder<span class="pill">3rd</span></button><button type="button" role="tab" id="t-open" aria-controls="pane-open" aria-selected="false" tabindex="-1">Open Application<span class="pill">Proposed</span></button></div></div>
+<nav class="shell-bar shnav" id="shnav" aria-label="Sections" data-menu-below="1024"><span class="wordmark shnav-brand" aria-hidden="true"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></span><div class="shnav-tabs" id="viewtabs" aria-label="View"><button type="button" class="shnav-tab" role="tab" id="t-ov" aria-controls="pane-ov" data-target="pane-ov" aria-selected="true" aria-current="true">Overview</button><button type="button" class="shnav-tab" role="tab" id="t-principal" aria-controls="pane-principal" data-target="pane-principal" aria-selected="false" tabindex="-1">Principal<span class="shnav-pill">1st</span></button><button type="button" class="shnav-tab" role="tab" id="t-eir" aria-controls="pane-eir" data-target="pane-eir" aria-selected="false" tabindex="-1">EIR<span class="shnav-pill">2nd</span></button><button type="button" class="shnav-tab" role="tab" id="t-founder" aria-controls="pane-founder" data-target="pane-founder" aria-selected="false" tabindex="-1">Founder<span class="shnav-pill">3rd</span></button><button type="button" class="shnav-tab" role="tab" id="t-open" aria-controls="pane-open" data-target="pane-open" aria-selected="false" tabindex="-1">Open Application<span class="shnav-pill">Proposed</span></button></div><button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Jump to a role"><span></span></button></nav>
 </div><div class="shell-body">
 
 <div id="pane-ov" class="cia-pane" role="tabpanel" aria-labelledby="t-ov"><div class="stamp" data-k="now" role="note"><button type="button" class="stamp-x" aria-label="Dismiss">&#215;</button><span class="pill" data-k="now" aria-hidden="true">Now</span><p><span class="stamp-vh">Now: </span><strong>Start here.</strong> Who this is, what it covers, and the through-line. The four roles on your jobs page <span class="wide-only">are in the tabs above</span><span class="stack-only">follow below</span>, strongest fit first.</p></div><div class="cia"><h1 class="cia-h1"><span class="hl">One idea in thirty gets funded.</span> <span class="hl">The other twenty&#8209;nine are the work.</span></h1><p class="lede">Your about page says that for roughly every 30 ideas you go deep on, you fund one. I have spent 20 years in the trenches taking products from zero, which mostly means killing ideas honestly and fast, and the last year building a tool that records what a team expects before a test runs and checks it after. This page maps me onto the four roles open on your jobs page, strongest fit first, with the proof and the gap for each.</p><div class="tiles" role="list" aria-label="At a glance">
@@ -834,15 +849,15 @@ html:not(.stacked) .stack-only{display:none;}
 <script>
 (function(){
 const render=()=>{},byId={},select=()=>{};
-/* tabs: wide screens get the shell tabs; below 1024px every pane stacks and the seats become collapsible blocks */
-const tabs=[...document.querySelectorAll('[role=tab]')];
-const mq=matchMedia('(min-width: 1024px)');let cur=tabs[0];
+/* nav: kit 42 shell nav. Tabs from 1024px; below that every pane stacks, seats collapse, and the menu jumps to them */
+function shnavInit(nav, o){o=o||{};var menu=nav.querySelector('.shnav-menu'),list=nav.querySelector('.shnav-tabs'),items=[].slice.call(list.querySelectorAll('.shnav-tab'));var below=+(nav.getAttribute('data-menu-below')||0),mq=below&&window.matchMedia?matchMedia('(max-width:'+(below-1)+'px)'):null;function isMenu(){return nav.getAttribute('data-mode')==='menu'}function close(f){nav.classList.remove('is-open');menu.setAttribute('aria-expanded','false');if(f)menu.focus()}function open(){nav.classList.add('is-open');menu.setAttribute('aria-expanded','true');(items.filter(function(b){return b.getAttribute('aria-current')==='true'})[0]||items[0]).focus()}function mode(){var m=o.forceMode||(mq&&mq.matches?'menu':'tabs');nav.setAttribute('data-mode',m);if(m==='menu'){list.removeAttribute('role');items.forEach(function(b){if(b.hasAttribute('aria-selected'))b.setAttribute('data-sel',b.getAttribute('aria-selected'));b.removeAttribute('aria-selected');b.removeAttribute('role');b.tabIndex=0})}else{close();list.setAttribute('role','tablist');items.forEach(function(b){var s=b.getAttribute('data-sel')||b.getAttribute('aria-selected')||'false';b.setAttribute('role','tab');b.setAttribute('aria-selected',s);b.tabIndex=s==='true'?0:-1})}if(o.onMode)o.onMode(m)}menu.addEventListener('click',function(e){e.stopPropagation();nav.classList.contains('is-open')?close():open()});document.addEventListener('click',function(e){if(isMenu()&&!nav.contains(e.target))close()});nav.addEventListener('keydown',function(e){if(e.key==='Escape'&&nav.classList.contains('is-open')){close(true);return}if(isMenu()||(e.key!=='ArrowRight'&&e.key!=='ArrowLeft'))return;var i=items.indexOf(document.activeElement);if(i<0)return;e.preventDefault();var n=items[(i+(e.key==='ArrowRight'?1:items.length-1))%items.length];n.focus();n.click()});items.forEach(function(b){b.addEventListener('click',function(){if(isMenu()){items.forEach(function(x){x.setAttribute('aria-current',x===b?'true':'false');x.setAttribute('data-sel',x===b?'true':'false')});close()}else{items.forEach(function(x){var on=x===b;x.setAttribute('aria-selected',String(on));x.setAttribute('data-sel',String(on));x.setAttribute('aria-current',String(on));x.tabIndex=on?0:-1})}if(o.onPick)o.onPick(b.getAttribute('data-target'),isMenu())})});if(mq&&mq.addEventListener)mq.addEventListener('change',mode);mode();return{mode:mode,close:close}}
+const docEl=document.documentElement,mq=matchMedia('(min-width: 1024px)'),panes=[...document.querySelectorAll('.cia-pane')];
+let cur='pane-ov';{const h=location.hash.slice(1);if(h&&document.getElementById('pane-'+h))cur='pane-'+h;}
 function alignMeta(){}
-function showTab(t){cur=t;tabs.forEach(x=>{const on=x===t;x.setAttribute('aria-selected',String(on));x.tabIndex=on?0:-1;const p=document.getElementById(x.getAttribute('aria-controls'));if(mq.matches){p.hidden=!on;const d=p.querySelector('details.seat');if(d&&on)d.open=true;}});setTimeout(alignMeta,30);}
-function mode(){document.documentElement.classList.toggle('stacked',!mq.matches);const vt=document.getElementById('viewtabs');if(mq.matches){vt.setAttribute('role','tablist');tabs.forEach(x=>x.setAttribute('role','tab'));}else{vt.setAttribute('role','list');tabs.forEach(x=>{x.removeAttribute('role');x.removeAttribute('aria-selected');x.tabIndex=0;});}if(window.__expSync)setTimeout(window.__expSync,0);if(mq.matches)showTab(cur);else tabs.forEach(x=>{document.getElementById(x.getAttribute('aria-controls')).hidden=false;});}
-tabs.forEach((t,i)=>{t.onclick=()=>{if(mq.matches){showTab(t);return}const p=document.getElementById(t.getAttribute('aria-controls'));const d=p.querySelector('details.seat');if(d)d.open=true;const bar=document.querySelector('.shell-bar');bar.classList.remove('menu-open');document.getElementById('burger').setAttribute('aria-expanded','false');(d||p).scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});const sm=d&&d.querySelector('summary');if(sm)sm.focus({preventScroll:true})};t.onkeydown=e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();const n=tabs[(i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length];n.focus();showTab(n)}}});
-{const h=location.hash.slice(1);const f=h&&document.getElementById('t-'+h);if(f)cur=f;}
-mq.addEventListener('change',mode);{const b=document.getElementById('burger'),bar=b.closest('.shell-bar');b.addEventListener('click',e=>{e.stopPropagation();const o=!bar.classList.contains('menu-open');bar.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',String(o));if(o)tabs[0].focus()});document.addEventListener('click',e=>{if(!bar.contains(e.target)){bar.classList.remove('menu-open');b.setAttribute('aria-expanded','false')}});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&bar.classList.contains('menu-open')){bar.classList.remove('menu-open');b.setAttribute('aria-expanded','false');b.focus()}});}addEventListener('beforeprint',()=>{tabs.forEach(x=>{document.getElementById(x.getAttribute('aria-controls')).hidden=false})});mode();
+function show(id){cur=id;panes.forEach(p=>{p.hidden=p.id!==id;if(p.id===id){const d=p.querySelector('details.seat');if(d)d.open=true}});}
+const nav=document.getElementById('shnav');
+const api=shnavInit(nav,{onMode:m=>{const stacked=m==='menu';docEl.classList.toggle('stacked',stacked);if(stacked)panes.forEach(p=>p.hidden=false);else{show(cur);const b=nav.querySelector('[data-target="'+cur+'"]');if(b)b.click()}if(window.__expSync)setTimeout(window.__expSync,0)},onPick:(t,isMenu)=>{if(!isMenu){show(t);setTimeout(alignMeta,30);return}const p=document.getElementById(t);const d=p.querySelector('details.seat');if(d)d.open=true;(d||p).scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});const sm=d&&d.querySelector('summary');if(sm)sm.focus({preventScroll:true})}});
+addEventListener('beforeprint',()=>{panes.forEach(p=>p.hidden=false)});
 /* reading options */
 const root=document.documentElement,RK='gravityRead',ro=document.getElementById('readopts'),fab=document.getElementById('readfab');
 let st={};try{st=JSON.parse(localStorage.getItem(RK)||'{}')||{}}catch(e){}

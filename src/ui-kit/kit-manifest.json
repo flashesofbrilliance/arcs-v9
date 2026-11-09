@@ -2086,7 +2086,8 @@
    },
    "templates": [
     "recoil-report",
-    "recoil-player"
+    "recoil-player",
+    "precall-brief"
    ],
    "jobs": [],
    "pages": [
@@ -2106,6 +2107,7 @@
     "_ARTIFACTS/forge-morgan-stanley-devgen/page.html",
     "_ARTIFACTS/mercury-bundle/pitch.html",
     "_ARTIFACTS/pitch-us-bundle-ia.html",
+    "_ARTIFACTS/precall-brief/example.html",
     "_ARTIFACTS/sentilink-bundle/pitch.html",
     "_ARTIFACTS/sixty-second-read.html",
     "_ARTIFACTS/sow-scaffold-2026-10-08/primer-view.html",
@@ -2119,6 +2121,7 @@
     "public/cia-brief.html",
     "public/good-instruments.html",
     "public/good.html",
+    "public/gravity-brief.html",
     "public/growth-ai-observatory.html",
     "public/mercury.html",
     "public/monolith.html",
@@ -2138,7 +2141,7 @@
     "public/yuri-profile.html",
     "scripts/counterpart_onepager_build.py"
    ],
-   "reuse": 47,
+   "reuse": 49,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2253,7 +2256,8 @@
    "templates": [
     "recoil-report",
     "recoil-player",
-    "counterpart-onepager"
+    "counterpart-onepager",
+    "tabbed-brief"
    ],
    "jobs": [],
    "pages": [
@@ -2265,12 +2269,13 @@
     "public/cia-brief.html",
     "public/good-audit-check.html",
     "public/good-audit-sample.html",
+    "public/gravity-brief.html",
     "public/prl-status-receipt.html",
     "scripts/audit_report_build.py",
     "scripts/counterpart_onepager_build.py",
     "scripts/kit_pull.py"
    ],
-   "reuse": 12,
+   "reuse": 13,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2502,6 +2507,8 @@
     "_ARTIFACTS/audit-report/readme-cold-1.html",
     "_ARTIFACTS/brooks-audit-onepager.html",
     "_ARTIFACTS/brooks-pitch-storyboard.html",
+    "_ARTIFACTS/engagements/example-fictional/out/proposal.html",
+    "_ARTIFACTS/engagements/myally-ld/out/proposal.html",
     "public/blog-til-a-draft-is-not-a-verb.html",
     "public/blog-til-apple-openai.html",
     "public/blog-til-closing-the-loop.html",
@@ -2514,7 +2521,7 @@
     "scripts/counterpart_onepager_build.py",
     "scripts/kit_pull.py"
    ],
-   "reuse": 15,
+   "reuse": 17,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2630,13 +2637,16 @@
    "pages": [
     "_ARTIFACTS/atlas/concordance.html",
     "_ARTIFACTS/louisville-atlas.html",
+    "_ARTIFACTS/louisville-proposal/source.html",
     "_ARTIFACTS/terrain-atlas.html",
     "_ARTIFACTS/ticket-zach-north-star-resonance-gradient-field.html",
     "public/cia-brief.html",
+    "public/gravity-brief.html",
+    "public/louisville-proposal.html",
     "public/proof.html",
     "scripts/counterpart_onepager_build.py"
    ],
-   "reuse": 7,
+   "reuse": 10,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -3067,7 +3077,9 @@
    ],
    "jobs": [
     "uikit-recoil-player",
-    "fc-rows-compost-2026-11"
+    "fc-rows-compost-2026-11",
+    "jtbd-orphanage-family-audit",
+    "ready-now-door-decision-split"
    ],
    "pages": [
     "scripts/kit_pull.py"
@@ -3319,18 +3331,16 @@
    },
    "templates": [],
    "jobs": [],
-   "pages": [
-    "_ARTIFACTS/brooks-pitch-storyboard.html",
-    "_ARTIFACTS/sow-scaffold-2026-10-08/primer-view.html",
-    "_ARTIFACTS/sow-scaffold-2026-10-08/proposal-view.html",
-    "public/honest.html",
-    "public/myally-mnda-edits.html",
-    "public/myally-primer.html",
-    "public/myally-proposal.html",
-    "public/myally.html"
-   ],
-   "reuse": 8,
-   "near_duplicates": []
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": [
+    {
+     "rule": ".wordmark",
+     "twin": "42-shell-nav",
+     "twin_rule": ".wordmark",
+     "jaccard": 1.0
+    }
+   ]
   },
   {
    "id": "39-theme-toggle",
@@ -3361,9 +3371,11 @@
    "jobs": [],
    "pages": [
     "_ARTIFACTS/brooks-audit-onepager.html",
+    "_ARTIFACTS/louisville-proposal/source.html",
+    "public/louisville-proposal.html",
     "scripts/counterpart_onepager_build.py"
    ],
-   "reuse": 2,
+   "reuse": 4,
    "near_duplicates": []
   },
   {
@@ -3445,10 +3457,61 @@
    "templates": [],
    "jobs": [],
    "pages": [
+    "_ARTIFACTS/louisville-proposal/source.html",
+    "public/louisville-proposal.html",
     "public/myally-debrief.html"
    ],
-   "reuse": 1,
+   "reuse": 3,
    "near_duplicates": []
+  },
+  {
+   "id": "42-shell-nav",
+   "number": "42",
+   "name": "Shell Nav",
+   "group": "Specimens",
+   "subtitle": "Organism 42 · Move a reader between the sections of a framed brief: tabs in the shell bar on wide screens, and a small menu anchored to a button at the top right on narrow ones.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/42-shell-nav.html",
+   "data_shape": [
+    "control",
+    "percent"
+   ],
+   "fidelity": [],
+   "classes": [
+    "is-open",
+    "shnav",
+    "shnav-brand",
+    "shnav-menu",
+    "shnav-pill",
+    "shnav-tab",
+    "shnav-tabs",
+    "wa",
+    "wf",
+    "wordmark"
+   ],
+   "prim_blocks": [
+    "38-wordmark",
+    "42-shell-nav"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [
+    "public/gravity-brief.html"
+   ],
+   "reuse": 1,
+   "near_duplicates": [
+    {
+     "rule": ".wordmark",
+     "twin": "38-wordmark",
+     "twin_rule": ".wordmark",
+     "jaccard": 1.0
+    }
+   ]
   },
   {
    "id": "grammar-chips",
