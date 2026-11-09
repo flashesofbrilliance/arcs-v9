@@ -31,7 +31,7 @@ Prepared for Brooks Thomas, Louisville Brands · Zach Harris · November 2026 ·
 
 ¶11. **Business.** A call the build informed, such as Filipino Adobo, a partner check before a collab, or the stop number before an MOQ.
 
-## 03 What $5,000 gets you
+## 03 What's included
 
 ¶12. Every deliverable, and the time it takes.
 

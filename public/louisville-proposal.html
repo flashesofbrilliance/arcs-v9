@@ -399,6 +399,23 @@ footer p{text-align:left;}
   .hrow > .hc{border-left:0;padding-top:0;}
   .offerwrap .bd > .spec{grid-template-columns:minmax(0,1fr);}
 }
+
+@media screen{
+  .pbody > section.offerwrap{border-top:0;padding-top:0;}
+  .offerwrap > .lockup .deck{font-family:var(--serif);font-size:var(--fs-step);font-weight:500;line-height:1.45;color:var(--text);}
+}
+@media screen and (max-width:640px){
+  .offerwrap > .lockup .deck{font-size:var(--fs-headline);line-height:1.5;}
+}
+
+.offer-eyebrow{display:none;}
+@media screen{
+  .offerwrap details.pbreak + .offer-eyebrow{display:block;margin:var(--sp-5) 0 var(--sp-1);font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--cyan);}
+  .offer-eyebrow + .offer{margin-top:0;}
+}
+@media screen and (max-width:640px){
+  .offerwrap details.pbreak + .offer-eyebrow{margin-top:var(--sp-4);}
+}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -416,7 +433,7 @@ footer p{text-align:left;}
   <ol class="cover-toc">
     <li><span class="pn">01</span><span>Questions worth putting to your team</span></li>
     <li><span class="pn">02</span><span>The two decisions</span></li>
-    <li><span class="pn">03</span><span>What $5,000 gets you</span></li>
+    <li><span class="pn">03</span><span>What's included</span></li>
   </ol>
   <div class="cover-meta"><p class="cm-who"><b>Zach Harris</b><span>zach.harris@gmail.com</span></p><p class="cm-conf">Confidential<br>Do not share</p></div>
 </section>
@@ -465,8 +482,8 @@ footer p{text-align:left;}
   </dl>
     </div>
   </details>
-  <details class="blk sub pbreak">
-    <summary><h2 class="slabel">What $5,000 gets you</h2><span class="tk">Every deliverable, and the time it takes.</span></summary>
+  <details class="blk sub pbreak" open>
+    <summary><h2 class="slabel">What's included</h2><span class="tk">Every deliverable, and the time it takes.</span></summary>
     <div class="bd">
   <div class="punch">
     <ol class="plist">
@@ -486,6 +503,7 @@ footer p{text-align:left;}
   </div>
     </div>
   </details>
+  <p class="offer-eyebrow">To start</p>
   <div class="offer">
     <div class="offer-head">
       <p class="offer-price"><span class="offer-fig">$5,000</span>, half at kickoff and half at the readout.</p>
