@@ -245,7 +245,12 @@
       "mcp__2b0178fa-6784-466d-8362-2fdd16318cb3__search_events",
       "mcp__2b0178fa-6784-466d-8362-2fdd16318cb3__list_events",
       "mcp__1a59c906-04da-521d-bda7-7f71b9f9e01c__read",
-      "mcp__ccd_session_mgmt__get_usage"
+      "mcp__ccd_session_mgmt__get_usage",
+      "Bash(docker info)",
+      "Bash(vercel ls *)",
+      "Bash(mdls *)",
+      "Bash($HOME/.claude/skills/impeccable/scripts/impeccable detect *)",
+      "mcp__perplexity__search"
     ],
     "ask": [
       "Bash(git push:*)"
