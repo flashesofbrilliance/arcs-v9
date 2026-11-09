@@ -30,7 +30,7 @@
    "href": "https://docs.google.com/document/d/1ynXK6zf9_Y575-owW9OmXcTUN4cRj-NCBVh-_ccNO4A/edit",
    "label": "Comment in the shared doc"
   },
-  "note": "Going on through Steps 2 and 3 brings the no-charge research design, Alyce's first prompts and project admin, and the $1,500 credit toward a later build.",
+  "note": "Steps 2 and 3 also include, at no charge: research design, Alyce's first prompts and project admin, plus a $1,500 credit toward a later build.",
   "pdf": {
    "docx": "/myally-step1-agreement.docx",
    "docx_label": "Word version for redlines",
@@ -79,7 +79,7 @@
    "kind": "phase",
    "label": "Before we start",
    "len": 1,
-   "note": "About 10 minutes on your side. The sprint starts the day after all three are in. If any land later, the dates move by the same amount.",
+   "note": "About 10 minutes on your side. The work starts on the working day after the last of these is in. If any land later, the dates move by the same amount.",
    "parent": null,
    "s2": "",
    "s3": "",
@@ -92,7 +92,7 @@
    "kind": "gate",
    "label": "Agreement signed and the $1,500 invoice paid",
    "len": 1,
-   "note": "I send the invoice when you sign. It is due before the sprint starts.",
+   "note": "I send the invoice when you sign. It is due before the work starts.",
    "parent": "w0",
    "s2": "",
    "s3": "",
@@ -570,7 +570,58 @@
  "s2": "Step 2",
  "s3": "Step 3",
  "summary": "Step 1 of 3: $1,500 fixed, for up to 12 hours of work, done in five working days once we start. Step 2 is $1,500 for up to 12 hours, as offered on October 29; a different scope needs your written yes.",
- "title": "Step 1: light audit and code review",
+ "title": "Step 1: light audit & MVP scoping",
+ "week": [
+  {
+   "day": 0,
+   "ids": [
+    "w0a",
+    "w0b",
+    "w0c"
+   ],
+   "text": "You send 3 things (about 10 minutes)"
+  },
+  {
+   "day": 1,
+   "ids": [
+    "w1a"
+   ],
+   "text": "I read the code and your spec"
+  },
+  {
+   "day": 2,
+   "ids": [
+    "w2a",
+    "w1c",
+    "w7a"
+   ],
+   "text": "Data check; code sorted into 3 piles; 30-minute review call"
+  },
+  {
+   "day": 3,
+   "ids": [
+    "w3c",
+    "w4a"
+   ],
+   "text": "Governance plan; rough ranges"
+  },
+  {
+   "day": 4,
+   "ids": [
+    "w5d",
+    "w6r"
+   ],
+   "text": "Go or stop memo; 45-minute readout"
+  },
+  {
+   "day": 5,
+   "ids": [
+    "w6s",
+    "w6t"
+   ],
+   "text": "One round of changes, then you choose"
+  }
+ ],
  "weeks": [
   "Before",
   "Day 1",
