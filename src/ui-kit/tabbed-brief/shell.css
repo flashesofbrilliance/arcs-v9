@@ -60,12 +60,13 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-coldread { display: flex; flex-direction: column; gap: 16px; }
 .tb-coldread > * { margin: 0; }
 .tb-h2 { margin: 0; font-size: var(--fs-headline); font-weight: 600; line-height: 1.3; }
-.tb-fold-btn { width: 100%; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 0; border: 0; background: none;
+.tb-fold-btn { width: 100%; display: flex; align-items: flex-start; justify-content: flex-start; gap: 12px; padding: 0; border: 0; background: none;
   color: var(--text); font: inherit; text-align: left; cursor: pointer; }
 .tb-fold-btn:hover { color: var(--cyan); }
-.tb-fold-btn::after { content: ""; flex: none; width: 9px; height: 9px; margin-top: 8px; border-right: 1.5px solid var(--text-secondary); border-bottom: 1.5px solid var(--text-secondary);
-  transform: rotate(45deg); transition: transform var(--dur-base) var(--ease-out); }
-.tb-fold-btn[aria-expanded="true"]::after { transform: rotate(-135deg); border-color: var(--cyan); }
+/* chevron as on MyAlly: left of the title, points right when closed, down when open */
+.tb-fold-btn::before { content: ""; flex: none; width: 8px; height: 8px; margin-top: 9px; border-right: 1.5px solid var(--text-secondary); border-bottom: 1.5px solid var(--text-secondary);
+  transform: rotate(-45deg); transition: transform var(--dur-base) var(--ease-out); }
+.tb-fold-btn[aria-expanded="true"]::before { transform: rotate(45deg); }
 .tb-fold-btn > span { display: flex; flex-direction: column; }
 .tb-fold-t { display: block; }
 .tb-tag { display: block; margin: 2px 0 0; font-size: var(--fs-body); font-weight: 400; color: var(--text-secondary); }
@@ -77,7 +78,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 /* role tab: one head, then units separated by hairline spacers */
 .seat-head { display: flex; flex-direction: column; gap: 12px; padding-bottom: 12px; }
 .seat-h { margin: 0; font-family: var(--ds-font-display); font-weight: 500; font-size: var(--fs-display); line-height: 1.3; }
-.seat-btn { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; width: 100%; padding: 0; border: 0; background: none; color: var(--text);
+.seat-btn { display: flex; align-items: flex-start; justify-content: flex-start; gap: 12px; width: 100%; padding: 0; border: 0; background: none; color: var(--text);
   font: inherit; text-align: left; cursor: default; }
 .seat-eyebrow { display: none; }
 .seat-title { font: inherit; text-wrap: balance; }
@@ -91,9 +92,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .stacked .tb-pane + .tb-pane { margin-top: 0; }
 .stacked .tb-pane.seat { border-top: 1px solid var(--border); padding-top: 20px; margin-top: 28px; }
 .stacked .seat-btn { cursor: pointer; }
-.stacked .seat-btn::after { content: ""; flex: none; width: 9px; height: 9px; margin-top: 10px; border-right: 1.5px solid var(--text-secondary); border-bottom: 1.5px solid var(--text-secondary);
-  transform: rotate(45deg); transition: transform var(--dur-base) var(--ease-out); }
-.stacked .seat-btn[aria-expanded="true"]::after { transform: rotate(-135deg); border-color: var(--cyan); }
+.stacked .seat-btn::before { content: ""; flex: none; width: 8px; height: 8px; margin-top: 11px; border-right: 1.5px solid var(--text-secondary); border-bottom: 1.5px solid var(--text-secondary);
+  transform: rotate(-45deg); transition: transform var(--dur-base) var(--ease-out); }
+.stacked .seat-btn[aria-expanded="true"]::before { transform: rotate(45deg); }
 .stacked .seat-eyebrow { display: flex; align-items: center; gap: 8px; font-size: var(--fs-headline); font-weight: 600; color: var(--text); margin-bottom: 6px; }
 .stacked .seat-h { font-family: var(--ds-font-sans); font-size: var(--fs-headline); font-weight: 600; }
 .stacked .seat-title { display: block; font-size: var(--fs-body); font-weight: 400; color: var(--text-secondary); }
