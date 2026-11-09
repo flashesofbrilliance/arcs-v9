@@ -570,6 +570,8 @@ footer p{text-align:left;}
 .named-k{margin:0;font-size:var(--fs-headline);font-weight:600;color:var(--text);}
 .named-v{margin:0;padding:var(--sp-2) var(--sp-3);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);color:var(--text-secondary);}
 @media print{.named{margin-top:var(--sp-1);gap:4px;} .named-k{font-size:var(--fs-body);} .named-v{padding:6px 12px;}}
+.verdict + .verdict{margin-top:var(--sp-2);}
+@media print{.verdict + .verdict{margin-top:var(--sp-1);}}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -601,7 +603,8 @@ footer p{text-align:left;}
 
 <header>
   <h1>An outside read on your AI build</h1>
-  <p class="verdict">You asked: where is your AI build on its arc, where is it least efficient, which hypotheses are failing? I'd answer by tracing two real decisions, one technical and one business, from inputs to outcome, before the next 20,000-bag MOQ rides on it.</p>
+  <p class="verdict">You asked: where is your AI build on its arc, where is it least efficient, which hypotheses are failing?</p>
+  <p class="verdict">I'd answer by tracing two real decisions, one technical and one business, from inputs to outcome, before the next 20,000-bag MOQ rides on it.</p>
   <div class="named"><p class="named-k">You named it</p><p class="named-v">Confirmation bias, recency bias, the fox watching the henhouse. An outside audit checks your team's work; it doesn't replace it.</p></div>
 </header>
 
