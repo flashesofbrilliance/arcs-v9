@@ -140,8 +140,10 @@ h1{font-family:var(--sans);font-size:var(--fs-display);font-weight:700;letter-sp
 .aside{color:var(--secondary);margin-top:var(--sp-2);}
 .slabel{font-family:var(--sans);font-size:var(--fs-step);font-weight:600;letter-spacing:-0.01em;line-height:1.25;color:var(--text);text-wrap:balance;}
 .hgrid{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--sp-4);}
-.hhead{font-family:var(--sans);font-size:var(--fs-title);font-weight:600;color:var(--secondary);padding-bottom:var(--sp-1);}
+.hhead{margin:0;font-family:var(--sans);font-size:var(--fs-body);font-weight:600;line-height:1.6;color:var(--text);padding-bottom:var(--sp-1);}
 .hhead.c{color:var(--cyan);}
+
+
 .hrow{display:contents;}
 .hrow > div{padding:var(--sp-2) 0;border-top:1px solid var(--border);}
 .hrow .ref{display:block;margin-top:6px;}
@@ -376,6 +378,27 @@ footer p{text-align:left;}
   .pbody > .blkbar{margin:calc(-1*var(--sp-1)) 0 calc(-1*var(--sp-2));}
 }
 @media print{.mast{display:none;} .pbody{display:contents;}}
+
+@media screen{
+  .hgrid{column-gap:0;margin-top:var(--sp-1);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);overflow:hidden;}
+  .hhead{padding:var(--sp-1) var(--sp-3);background:var(--surface-2);border-bottom:1px solid var(--border);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);}
+  .hhead.c{color:var(--cyan);border-left:1px solid var(--border);}
+  .hrow > div{padding:var(--sp-2) var(--sp-3);}
+  .hhead.c + .hrow > div{border-top:0;}
+  .hrow > .hh{color:var(--text-secondary);}
+  .hrow > .hc{color:var(--text);border-left:1px solid var(--border);}
+  .offerwrap .bd > .spec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-2);margin-top:var(--sp-1);}
+  .offerwrap .bd > .spec > .specrow,.offerwrap .bd > .spec > .specrow:last-child{grid-template-columns:minmax(0,1fr);align-content:start;row-gap:var(--sp-1);padding:var(--sp-2) var(--sp-3);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);}
+  .offerwrap .bd > .spec > .specrow dt{display:flex;align-items:center;gap:var(--sp-1);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);}
+  .offerwrap .bd > .spec > .specrow dt::before{content:"";width:8px;height:8px;border-radius:var(--ds-r-pill);background:currentColor;flex-shrink:0;}
+  .offerwrap .bd > .spec > .specrow:nth-child(2) dt{color:var(--gold);}
+}
+@media screen and (max-width:640px){
+  
+  .verdict{font-size:var(--fs-headline);line-height:1.5;}
+  .hrow > .hc{border-left:0;padding-top:0;}
+  .offerwrap .bd > .spec{grid-template-columns:minmax(0,1fr);}
+}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -421,7 +444,7 @@ footer p{text-align:left;}
     <summary><h2 class="slabel">Questions worth putting to your team</h2><span class="tk" data-voice="joint">Useful whether or not I'm involved. Each comes from something you raised when we spoke, as I understood it.</span></summary>
     <div class="bd">
   <div class="hgrid">
-    <div class="hhead">What you raised</div><div class="hhead c">Worth asking</div>
+    <h3 class="hhead">What you raised</h3><h3 class="hhead c">Worth asking</h3>
     <div class="hrow"><div class="hh">Volume-based indicators can miss a signal that's still rising, and every day without a call costs time to market.</div><div class="hc">Your criteria already reads whether a flavor has peaked or is still rising. On the calls it made, how often was that read right, and what would have told you it was wrong before the MOQ?</div></div>
     <div class="hrow"><div class="hh">You've built early-alarm signals for partner risk by hand before, and an analysis before a partnership is signed is critical.</div><div class="hc">Before the next collab is signed, what analysis runs on the partner, and would it catch a problem as it starts to bubble up after?</div></div>
     <div class="hrow"><div class="hh">When a simulation misses, either the data was bad or the hypothesis was wrong.</div><div class="hc">For the last miss, which was it, and can your setup tell the two apart next time?</div></div>
