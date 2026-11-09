@@ -97,7 +97,7 @@ const { chromium } = require('playwright');
     page.on('frameattached', f => f.page().on('pageerror', () => {}));
     await page.goto(url);
     await page.waitForTimeout(300);
-    const r = await page.evaluate(async ([LOCKED, UNLOCK]) => {
+    const r = await page.evaluate(async ([LOCKED, UNLOCK, GLOSS]) => {
       const lockOpen = () => false;
       const out = [], sleep = ms => new Promise(r => setTimeout(r, ms));
       const errs = [];
@@ -127,6 +127,13 @@ const { chromium } = require('playwright');
       if (pf && pf.contentDocument && pf.contentDocument.body && pf.contentDocument.body.innerText.trim()) out.push('Proposal frame still has content');
       if (document.querySelectorAll('#pane-plan .row[data-id]').length) out.push('Timeline still has rows');
       document.getElementById('t-s1').click(); await sleep(100);
+      // header actions (PDF, Word, call, comment) replace the old Step 1 button row: four links, 44px targets, an accessible name each
+      const acts = [...document.querySelectorAll('.shell-meta .metaacts a.ma')];
+      if (acts.length !== 4) out.push(`header actions: ${acts.length}, want 4`);
+      for (const a of acts) { const b = a.getBoundingClientRect(); if (b.height < 43.5 || b.width < 43.5) out.push(`header action "${a.getAttribute('aria-label')}" under 44px`); if (!a.getAttribute('href')) out.push('header action without a link'); }
+      // the Now note dismisses; the progress strip stays and carries a progressbar
+      if (!document.querySelector('#pane-s1>.stamp .stamp-x[aria-label]')) out.push('Now note has no dismiss button');
+      if (!document.querySelector('#s1prog [role=progressbar][aria-valuenow]')) out.push('progress strip has no progressbar');
       // "Your week" leads; the grid sits in a closed disclosure that opens to a working grid
       const all = document.getElementById('s1all');
       if (!all || all.open) out.push('"See every item" is missing or open by default');
@@ -173,13 +180,56 @@ const { chromium } = require('playwright');
           const t = b.nextElementSibling, tr = t.getBoundingClientRect(), dr = det.getBoundingClientRect();
           if (b.getBoundingClientRect().width < b.scrollWidth - 1) out.push(`row ${id}: term "${b.textContent}" is squeezed and overlaps the next word`);
           if (t.hidden) out.push(`row ${id}: definition for "${b.textContent}" did not open`);
-          else if (tr.left < dr.left - 1 || tr.right > dr.right + 1) out.push(`row ${id}: definition for "${b.textContent}" spills out of the panel`);
+          else if (tr.left < dr.left - 1 || tr.right > dr.right + 1 || tr.top < dr.top - 1 || tr.bottom > dr.bottom + 1) out.push(`row ${id}: definition for "${b.textContent}" spills out of the panel`);
+          else if (tr.left < -1 || tr.right > document.documentElement.clientWidth + 1) out.push(`row ${id}: definition for "${b.textContent}" spills out of the window`);
           if (/&[#a-z0-9]+;/i.test(t.textContent)) out.push(`row ${id}: definition shows raw HTML entities`);
-          det.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); await sleep(10);
+          det.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true })); await sleep(10);  // cancelable, like a real key: closing a definition must not also close the card
           if (!t.hidden) out.push(`row ${id}: Escape did not close "${b.textContent}"`);
         }
       }
       if (!tipsSeen) out.push('no hover definitions found on the Step 1 tab');
+      // First use: on every surface of the Step 1 tab, the first use of each Primer term (TERMS in
+      // myally_primer_terms.py, carried in the hub's GLOSS block) must be a definition. Text inside buttons, links,
+      // summaries, tile labels and figures is skipped (no control inside a control), and so is the details card's
+      // heading, whose terms the card lists right under it. The grid rows are controls; their terms live in the card.
+      const SKIP = 'a,button:not(.dfn),summary,.tip,.glab,.gf,.wd,.vh,.stamp-vh,.pill,#s1g,#s1dh,.pd-kind';
+      const RX = Object.entries(GLOSS).map(([gid, ph]) => [gid, new RegExp('(^|[^\\w/-])(' + ph.map(p => p.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&')).join('|') + ')(?![\\w/-])', 'i')]);
+      const firstUse = (root, where) => {
+        if (!root) return;
+        const done = new Set();
+        const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: n => n.parentElement.closest(SKIP) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
+        while (w.nextNode()) {
+          const n = w.currentNode, d = n.parentElement.closest('.dfn');
+          for (const [gid, re] of RX) {
+            if (done.has(gid) || !re.test(n.nodeValue)) continue;
+            if (d && d.dataset.gid !== gid) continue;  // inside a longer term's definition ("database" in "Database rules")
+            done.add(gid);
+            if (!d) out.push(`${where}: first use of "${n.nodeValue.match(re)[2]}" has no definition`);
+          }
+        }
+      };
+      firstUse(document.querySelector('#pane-s1>.stamp'), 'Now note');
+      firstUse(document.getElementById('s1sum'), 'tiles');
+      firstUse(document.querySelector('.s1week'), 'Your week');
+      firstUse(document.getElementById('s1plan'), 'The whole plan');
+      firstUse(document.getElementById('s1prog'), 'Where things stand');
+      for (const id of ids) {
+        const row = document.getElementById('s1r-' + id); if (!row) continue;
+        row.querySelector('.tx').click(); await sleep(10);
+        firstUse(det, `details for ${id}`);
+      }
+      det.querySelector('[data-back]')?.click(); await sleep(15);
+      if (innerWidth < 961) firstUse(det, 'Step 1 at a glance');
+      // definitions outside the details card open by click (tap), stay inside the window and close on Escape
+      for (const b of [...document.querySelectorAll('#pane-s1 .dfn')].filter(b => !det.contains(b) && b.offsetParent)) {
+        b.click(); await sleep(10);
+        const t = b.nextElementSibling, tr = t.getBoundingClientRect();
+        if (t.hidden) out.push(`"${b.textContent}": definition did not open`);
+        else if (tr.left < -1 || tr.right > document.documentElement.clientWidth + 1) out.push(`"${b.textContent}": definition spills out of the window`);
+        if (!b.getAttribute('aria-describedby') || document.getElementById(b.getAttribute('aria-describedby')) !== t) out.push(`"${b.textContent}": not described by its definition`);
+        b.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true })); await sleep(10);
+        if (!t.hidden) out.push(`"${b.textContent}": Escape did not close it`);
+      }
       // twisty closes and reopens
       const ph = g.querySelector('.row.l0'), pid = ph.dataset.id;
       ph.querySelector('.tw').dispatchEvent(new MouseEvent('click', { bubbles: true })); await sleep(15);
@@ -237,7 +287,7 @@ const { chromium } = require('playwright');
       document.getElementById('s1r-' + ids[0])?.querySelector('.tx').click(); await sleep(450);
       const ro = [];
       if (de.scrollWidth > innerWidth + 1) ro.push(`page scrolls sideways (${de.scrollWidth}px)`);
-      for (const el of document.querySelectorAll('.s1week li, .s1week .wt, #s1all>summary, #s1detail h2, #s1detail h3, #s1detail .pd-list button, #s1detail .pd-x, #s1detail .pd-ok button')) {
+      for (const el of document.querySelectorAll('#s1prog .s1si, .shell-meta .metaacts a, .s1sum .glab, .s1week li, .s1week .wt, #s1all>summary, #s1detail h2, #s1detail h3, #s1detail .pd-list button, #s1detail .pd-x, #s1detail .pd-ok button')) {
         if (el.scrollWidth > el.clientWidth + 1) ro.push(`clipped text in ${el.className || el.tagName}: "${el.textContent.trim().slice(0, 30)}"`);
       }
       for (const el of document.querySelectorAll('#s1all>summary, #s1detail .pd-list button, #s1detail .pd-ok button, #s1detail [data-close]')) {
@@ -253,7 +303,7 @@ const { chromium } = require('playwright');
       ro.forEach(x => out.push('reading options: ' + x));
       ['data-size', 'data-space', 'data-font'].forEach(k => de.removeAttribute(k));
       return out.concat(errs.map(e => 'script error: ' + e));
-    }, [JSON.parse(process.env.LOCKED), JSON.parse(process.env.UNLOCK)]);
+    }, [JSON.parse(process.env.LOCKED), JSON.parse(process.env.UNLOCK), JSON.parse(process.env.GLOSS)]);
     r.forEach(x => fails.push(`${width}px: ${x}`));
     await page.close();
   }
@@ -281,7 +331,9 @@ def crawl() -> list:
     with tempfile.NamedTemporaryFile("w", suffix=".cjs", delete=False) as fh:
         fh.write(CRAWL_JS)
     try:
-        env = dict(os.environ, NODE_PATH=paths[0], LOCKED=json.dumps(LOCKED), UNLOCK="{}")
+        hub = open(HUB, encoding="utf-8").read()
+        gl = json.loads(re.search(r"/\*GLOSS:BEGIN\*/(.*?)/\*GLOSS:END\*/", hub, re.S).group(1).replace("<\\/", "</"))
+        env = dict(os.environ, NODE_PATH=paths[0], LOCKED=json.dumps(LOCKED), UNLOCK="{}", GLOSS=json.dumps({k: v["p"] for k, v in gl.items()}))
         r = subprocess.run(["node", fh.name, url, exe], capture_output=True, text=True, env=env, timeout=300)
     finally:
         os.unlink(fh.name)

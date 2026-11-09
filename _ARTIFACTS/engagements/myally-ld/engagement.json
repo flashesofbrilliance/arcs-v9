@@ -2,7 +2,7 @@
   "schema": "engagement-record-v0",
   "meta": {
     "id": "myally-ld-step1",
-    "title": "My Ally LD: Step 1, light audit and code review",
+    "title": "My Ally LD: Step 1, the light audit & MVP scoping",
     "internal_note": "INTERNAL. Draft v2 (gauntlet pass 1, Option B). Nothing sent. The agreement is a plain-language draft for a Connecticut lawyer to review, not legal advice. SUPERSEDED for Step 1 terms by agreement rev 27 (2026-11-08): the hub's Step 1 tab follows rev 27; the agreement, Exhibit A and reply text here do not yet (see PR 2059).",
     "record_date": "2026-11-08",
     "last_sent": null
@@ -514,7 +514,7 @@
   "phases": [
     {
       "id": "step-1",
-      "name": "Light audit and code review",
+      "name": "Light audit & MVP scoping",
       "question": "Is it safe to build on?",
       "fee": "{{fee_step1}}",
       "status": "accepted 2026-11-06"
@@ -771,7 +771,7 @@
   },
   "counsel_notes": "Option B (mutual indemnity, the NDA's Connecticut courts) already meets counsel's usual pushback points. Likely questions: the liability cap amount (term 10), the 30-day fix window (term 8) and the scope of the data check (term 7). Hold firm on terms 6, 7 and 10.",
   "step1_tree": {
-    "title": "Step 1: light audit and code review",
+    "title": "Step 1: light audit & MVP scoping",
     "weeks": [
       "Before",
       "Day 1",
