@@ -232,7 +232,16 @@
       "mcp__Claude_Browser__preview_logs",
       "Bash(python3 scripts/proof_emit.py --check)",
       "Bash(node scripts/resume_static_emit.mjs --check)",
-      "Bash(python3 scripts/belief_blame.py *)"
+      "Bash(python3 scripts/belief_blame.py *)",
+      "Bash(docker info)",
+      "Bash(vercel ls *)",
+      "Bash(mdls *)",
+      "Bash($HOME/.claude/skills/impeccable/scripts/impeccable detect *)",
+      "mcp__ccd_session_mgmt__get_usage",
+      "mcp__perplexity__search",
+      "mcp__4d6d56fb-d727-457a-833d-2b8bf136e475__search_meetings",
+      "mcp__1a59c906-04da-521d-bda7-7f71b9f9e01c__read",
+      "mcp__2b0178fa-6784-466d-8362-2fdd16318cb3__search_events"
     ],
     "ask": [
       "Bash(git push:*)"
