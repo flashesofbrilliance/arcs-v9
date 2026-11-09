@@ -68,7 +68,7 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   'cia':       { '/resume.pdf': '/cia-brief-resume.pdf', default: '/cia-brief.html' },
   // dioptra.arcs.care: candidate brief for the Dioptra Staff PM role (2026-10-29). Gated by DIOPTRA_PASSCODE; noindex. /work-sample.zip maps to a /dioptra-brief-* file, which the prefix gate locks on every host.
   'dioptra':   { '/work-sample.zip': '/dioptra-brief-sample.zip', default: '/dioptra-brief.html' },
-  // gravity.arcs.care: candidate brief for the Gravity Labs EIR seat, via Crossbridge Executive (2026-11-08). Gated by GRAVITY_PASSCODE; noindex.
+  // gravity.arcs.care: candidate positioning for the four open Gravity Labs roles, via Crossbridge Executive (2026-11-09). Gated by GRAVITY_PASSCODE; noindex.
   'gravity':   { default: '/gravity-brief.html' },
   'monday':    { '/monday-guide-rc46.zip': '/monday-guide-rc46.zip', default: '/monday-guide.html' },
   'success-academy': { '/resume': '/success-academy-resume-viewer.html', '/success-academy-resume.pdf': '/success-academy-resume.pdf', '/success-academy-resume-ats.txt': '/success-academy-resume-ats.txt', default: '/success-academy.html' },

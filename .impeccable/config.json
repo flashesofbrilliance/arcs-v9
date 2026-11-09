@@ -19,7 +19,8 @@
         "value": "*",
         "files": [
           "public/myally-hub.html",
-          "public/cia-brief.html"
+          "public/cia-brief.html",
+          "public/gravity-brief.html"
         ],
         "createdAt": "2026-10-27T13:30:00.000Z",
         "reason": "MyAlly hub: the shell keeps its own small-label sizes (0.7 to 0.9rem) for chips, week numbers and meta. Snapping them to the DESIGN.md ramp (smallest step 0.925rem) enlarged every label and flattened the hierarchy, which Zach flagged on the live page. Same MyAlly-world seam as the colour and radius waivers."
@@ -29,7 +30,8 @@
         "value": "*",
         "files": [
           "public/myally-hub.html",
-          "public/cia-brief.html"
+          "public/cia-brief.html",
+          "public/gravity-brief.html"
         ],
         "createdAt": "2026-10-27T12:00:00.000Z",
         "reason": "MyAlly hub: the tab bar is an underline-tab strip whose active marker sits on the bar border by design, and the shell section is a framed box whose header bar runs edge to edge. Seam: _PATTERNS/kintsugi-visual-grammar-seams.md (MyAlly, 2026-10-26)"
@@ -39,7 +41,8 @@
         "value": "*",
         "files": [
           "public/myally-hub.html",
-          "public/cia-brief.html"
+          "public/cia-brief.html",
+          "public/gravity-brief.html"
         ],
         "createdAt": "2026-10-27T12:00:00.000Z",
         "reason": "MyAlly hub timeline: the hatch marks rows that exist only in the Full bucket, so it encodes data, not decoration; the legend names it. Seam: _PATTERNS/kintsugi-visual-grammar-seams.md (MyAlly, 2026-10-26)"
@@ -49,7 +52,8 @@
         "value": "*",
         "files": [
           "public/myally-hub.html",
-          "public/cia-brief.html"
+          "public/cia-brief.html",
+          "public/gravity-brief.html"
         ],
         "createdAt": "2026-10-27T23:50:00.000Z",
         "reason": "MyAlly hub: two radial gradients on the sticky Prepared-for band paint the page colour into the 11px corner areas outside its rounded top corners, so the outer box's straight side borders do not show past the curve when the header sticks. A corner mask, not a grid background. Seam: _PATTERNS/kintsugi-visual-grammar-seams.md (MyAlly, 2026-10-26)"
@@ -61,7 +65,8 @@
           "public/myally-proposal.html",
           "public/myally-hub.html",
           "public/myally-debrief.html",
-          "public/cia-brief.html"
+          "public/cia-brief.html",
+          "public/gravity-brief.html"
         ],
         "createdAt": "2026-10-26T23:30:00.000Z",
         "reason": "MyAlly client surface: shares the MyAlly page shell already live on myally.arcs.care (light palette, 4 to 8px corners from the /mnda-edits and plan pages), a per-engagement world separate from DESIGN.md, like the PRL kit. Scoped to this one page; seam booked 2026-10-26 in _PATTERNS/kintsugi-visual-grammar-seams.md"
@@ -73,7 +78,8 @@
           "public/myally-proposal.html",
           "public/myally-hub.html",
           "public/myally-debrief.html",
-          "public/cia-brief.html"
+          "public/cia-brief.html",
+          "public/gravity-brief.html"
         ],
         "createdAt": "2026-10-26T23:30:00.000Z",
         "reason": "MyAlly client surface: shares the MyAlly page shell already live on myally.arcs.care (light palette, 4 to 8px corners from the /mnda-edits and plan pages), a per-engagement world separate from DESIGN.md, like the PRL kit. Scoped to this one page; seam booked 2026-10-26 in _PATTERNS/kintsugi-visual-grammar-seams.md"

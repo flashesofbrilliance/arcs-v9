@@ -223,6 +223,24 @@
         "#brief-data"
       ],
       "min_signatures": 6
+    },
+    "tabbed-brief": {
+      "mode": "persuade",
+      "kind": "persuasion-surface",
+      "description": "Tabbed counterpart brief in the cia / myally shell: Private tag and theme switch row, framed document with a meta strip (prepared for, from, updated, status), a shell bar with the ARCS FIELD OS wordmark (kit 38) and tabs carrying status or ordinal pills, a Start here stamp, a serif headline, kit 29 tiles, and collapsible title-plus-summary sections. Below 1024px the tabs become a jump menu and each tab a collapsible section. Inlines kit tokens and kit 28, 29, 32, 38, 39 blocks verbatim. The shell itself is not yet a kit part (cia-brief and myally-hub carry it hand-built); promote it as one @dsCard before a third page copies it.",
+      "canonical_examples": [
+        "public/gravity-brief.html",
+        "public/cia-brief.html",
+        "public/myally-hub.html"
+      ],
+      "signature_selectors": [
+        ".shell-bar",
+        ".shell-meta",
+        ".stamp",
+        ".tiles",
+        ".cia-h1"
+      ],
+      "min_signatures": 3
     }
   }
 }
