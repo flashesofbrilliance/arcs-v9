@@ -5,7 +5,8 @@ Two layers, both read-only:
   1. Unit checks on the Step 1 tree (out/step1_tree.json): parents exist, every row fits the
      day columns, hours add up to the fee's hours, every kind has an icon and a legend entry.
   2. A headless crawl (Playwright + installed Chrome, found the same way page_gate.py finds them)
-     at 375, 800 and 1280 px: every tab shows one panel; locked tabs never open; every Step 1 row
+     at 375, 800 and 1280 px: every tab shows one panel; locked tabs show only the note and hold no
+     content; every Step 1 row
      opens its own details; clicking a workstream keeps it open, the twisty closes it; every chip
      navigates; Close all / Open all work; arrow keys move focus; the day columns fill the grid
      and every bar sits inside them; no page-level horizontal overflow; every control inside the
@@ -23,7 +24,7 @@ PUB = os.environ.get("MYALLY_HUB_PUBLIC", os.path.join(ROOT, "public"))  # overr
 HUB = os.path.join(PUB, "myally-hub.html")
 TREE = os.path.join(ROOT, "_ARTIFACTS", "engagements", "myally-ld", "out", "step1_tree.json")
 REC = os.path.join(ROOT, "_ARTIFACTS", "engagements", "myally-ld", "engagement.json")
-LOCKED = ["t-prop", "t-plan"]  # hidden for now (Zach, 2026-11-08); links to them land on Step 1
+LOCKED = ["t-prop", "t-plan"]  # content off the site during Step 1 (Zach, 2026-11-08); tabs show a note
 
 
 def unit() -> list:
@@ -51,6 +52,15 @@ def unit() -> list:
             fails.append(f"kind {k}: no icon symbol")
         if k != "phase" and f'class="ico c-{k}"' not in hub:
             fails.append(f"kind {k}: no legend entry")
+    # Later-phase pricing stays off the site until that phase is signed (Zach, 2026-11-08). An allowlist, not a
+    # threshold: a $10,000 floor let "$8,500 audit" through (2026-11-09). Every figure of $1,000 or more must be
+    # one the client already has in writing: a step ($1,500), all three steps ($4,500), their ceiling ($5,000).
+    # Checked on the decoded page, embedded copies included.
+    import html as _h
+    allowed = {"$1,500", "$4,500", "$5,000"}
+    big = sorted({m for m in re.findall(r"\$\d{1,3}(?:,\d{3})+", _h.unescape(_h.unescape(hub))) if m not in allowed})
+    if big:
+        fails.append("pricing not on the allowlist (later-phase figures?): " + ", ".join(big[:8]))
     return fails
 
 
@@ -66,23 +76,35 @@ const { chromium } = require('playwright');
     page.on('frameattached', f => f.page().on('pageerror', () => {}));
     await page.goto(url);
     await page.waitForTimeout(300);
-    const r = await page.evaluate(async (LOCKED) => {
+    const r = await page.evaluate(async ([LOCKED, UNLOCK]) => {
+      const lockOpen = () => false;
       const out = [], sleep = ms => new Promise(r => setTimeout(r, ms));
       const errs = [];
       const hook = w => w.addEventListener('error', e => errs.push(e.message));
       // tabs
       const tabs = [...document.querySelectorAll('[role=tab]')];
-      for (const id of LOCKED) { const t = document.getElementById(id); if (t && !t.hidden) out.push(`locked tab ${id} is visible`); }
+      const shown = () => [...document.querySelectorAll('[role=tabpanel]')].filter(p => !p.hidden).map(p => p.id);
+      for (const id of LOCKED) {
+        const t = document.getElementById(id);
+        if (!t || t.hidden) { out.push(`locked tab ${id} is missing or hidden (it should show with a lock)`); continue; }
+        if (!t.querySelector('.lk')) out.push(`locked tab ${id} has no lock icon`);
+      }
       for (const t of tabs.filter(t => !t.hidden)) {
         t.click(); await sleep(150);
-        const vis = [...document.querySelectorAll('[role=tabpanel]')].filter(p => !p.hidden).map(p => p.id);
-        if (vis.length !== 1 || vis[0] !== t.getAttribute('aria-controls')) out.push(`tab ${t.id}: panels shown ${vis.join(',')}`);
+        const want = LOCKED.includes(t.id) ? 'pane-lock' : t.getAttribute('aria-controls');
+        const vis = shown();
+        if (vis.length !== 1 || vis[0] !== want) out.push(`tab ${t.id}: panels shown ${vis.join(',')}, want ${want}`);
       }
-      // a message asking for a locked tab must land on Step 1
+      // a message or link to a locked tab shows the lock note, never the content
       for (const k of ['prop', 'plan']) {
         window.postMessage({ alyceTab: k }, '*'); await sleep(120);
-        if (document.getElementById('t-s1').getAttribute('aria-selected') !== 'true') out.push(`message alyceTab:${k} opened a locked tab`);
+        const vis = shown();
+        if (vis.includes('pane-prop') || vis.includes('pane-plan')) out.push(`message alyceTab:${k} opened locked content`);
       }
+      // the locked tabs hold no content: Proposal's frame is empty and Timeline has no rows
+      const pf = document.querySelector('#pane-prop iframe');
+      if (pf && pf.contentDocument && pf.contentDocument.body && pf.contentDocument.body.innerText.trim()) out.push('Proposal frame still has content');
+      if (document.querySelectorAll('#pane-plan .row[data-id]').length) out.push('Timeline still has rows');
       document.getElementById('t-s1').click(); await sleep(100);
       const g = document.getElementById('s1g'), det = document.getElementById('s1detail');
       // every row opens its own details; clicking a workstream keeps it open
@@ -96,6 +118,23 @@ const { chromium } = require('playwright');
         const now = document.getElementById('s1r-' + id);
         if (now && now.getAttribute('aria-expanded') === 'false') out.push(`row ${id}: clicking the workstream closed it`);
       }
+      // hover definitions in the details panel: every one opens, stays inside the panel, and Escape closes it
+      let tipsSeen = 0;
+      for (const id of ids) {
+        const row = document.getElementById('s1r-' + id); if (!row) continue;
+        row.querySelector('.tx').click(); await sleep(10);
+        for (const b of [...det.querySelectorAll('.dfn')]) {
+          b.click(); await sleep(10); tipsSeen++;
+          const t = b.nextElementSibling, tr = t.getBoundingClientRect(), dr = det.getBoundingClientRect();
+          if (b.getBoundingClientRect().width < b.scrollWidth - 1) out.push(`row ${id}: term "${b.textContent}" is squeezed and overlaps the next word`);
+          if (t.hidden) out.push(`row ${id}: definition for "${b.textContent}" did not open`);
+          else if (tr.left < dr.left - 1 || tr.right > dr.right + 1) out.push(`row ${id}: definition for "${b.textContent}" spills out of the panel`);
+          if (/&[#a-z0-9]+;/i.test(t.textContent)) out.push(`row ${id}: definition shows raw HTML entities`);
+          det.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); await sleep(10);
+          if (!t.hidden) out.push(`row ${id}: Escape did not close "${b.textContent}"`);
+        }
+      }
+      if (!tipsSeen) out.push('no hover definitions found on the Step 1 tab');
       // twisty closes and reopens
       const ph = g.querySelector('.row.l0'), pid = ph.dataset.id;
       ph.querySelector('.tw').dispatchEvent(new MouseEvent('click', { bubbles: true })); await sleep(15);
@@ -135,13 +174,18 @@ const { chromium } = require('playwright');
         const f = document.querySelector('#' + tb.getAttribute('aria-controls') + ' iframe');
         hook(f.contentWindow);
         for (const b of [...f.contentDocument.querySelectorAll('button,summary,[role=tab]')]) { if (b.offsetParent) { b.click(); await sleep(5); } }
+        if (t === 't-primer') {
+          const gls = [...f.contentDocument.querySelectorAll('a.gl')];
+          if (!gls.length) out.push('Primer: no hover definitions');
+          for (const g of gls) { g.click(); await sleep(10); const tp = g.parentNode.querySelector('.tip'); if (!tp || tp.hidden) out.push(`Primer: definition for "${g.textContent}" did not open`); g.click(); await sleep(5); }
+        }
         for (const a of f.contentDocument.querySelectorAll('a[href^="#"]')) {
           const h = a.getAttribute('href'); if (h.length > 1 && !f.contentDocument.getElementById(decodeURIComponent(h.slice(1)))) out.push(`${t}: dead link ${h}`);
         }
       }
       document.getElementById('t-s1').click();
       return out.concat(errs.map(e => 'script error: ' + e));
-    }, JSON.parse(process.env.LOCKED));
+    }, [JSON.parse(process.env.LOCKED), JSON.parse(process.env.UNLOCK)]);
     r.forEach(x => fails.push(`${width}px: ${x}`));
     await page.close();
   }
@@ -169,7 +213,7 @@ def crawl() -> list:
     with tempfile.NamedTemporaryFile("w", suffix=".cjs", delete=False) as fh:
         fh.write(CRAWL_JS)
     try:
-        env = dict(os.environ, NODE_PATH=paths[0], LOCKED=json.dumps(LOCKED))
+        env = dict(os.environ, NODE_PATH=paths[0], LOCKED=json.dumps(LOCKED), UNLOCK="{}")
         r = subprocess.run(["node", fh.name, url, exe], capture_output=True, text=True, env=env, timeout=300)
     finally:
         os.unlink(fh.name)
