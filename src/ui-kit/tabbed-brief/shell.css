@@ -14,6 +14,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 /* frame */
 .tb { max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
 .tb-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.dprefs-ttl { display: none; } /* as on MyAlly: icon and track only; aria-label keeps the name */
 .tb-brand { font-size: var(--fs-body); margin-right: auto; }
 .tb-top p { margin: 0; flex: 1 1 320px; font-size: var(--fs-body); color: var(--text-secondary); }
 .tb-frame { border: 1px solid var(--border); border-radius: var(--ds-r-md); background: var(--surface); }

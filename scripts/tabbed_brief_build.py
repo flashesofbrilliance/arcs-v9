@@ -186,9 +186,9 @@ def r_tab(t, horizons, i):
     calls = '<div class="seat-callouts">%s</div>' % calls if calls else ""
     op = "true" if i == 0 else "false"
     return ('<div id="pane-%s" class="tb-pane seat" role="tabpanel" aria-labelledby="t-%s">\n<div class="seat-head"><h2 class="seat-h">'
-            '<button type="button" class="seat-btn" aria-expanded="%s" aria-controls="seat-%s-body"><span><span class="seat-eyebrow">%s<span class="shnav-pill">%s</span></span>'
+            '<button type="button" class="seat-btn" aria-expanded="%s" aria-controls="seat-%s-body"><span><span class="seat-eyebrow">%s%s</span>'
             '<span class="seat-title">%s</span></span></button></h2></div>\n<div class="seat-body" id="seat-%s-body"><p class="seat-lede">%s</p>\n%s\n%s</div>\n</div>') % (
-        tid, tid, op, tid, md(t["name"]), md(t["rank"]), md(t["headline"]), tid, md(t["lede"]), units, calls)
+        tid, tid, op, tid, md(t["name"]), ('<span class="shnav-pill">%s</span>' % md(t["rank"])) if t.get("rank") else "", md(t["headline"]), tid, md(t["lede"]), units, calls)
 
 
 # kit 51 display preferences: the global header control (theme switch + reading options), same on every template
@@ -214,8 +214,8 @@ def dprefs_panel():
 def r_nav(d):
     tabs = ['<button type="button" class="shnav-tab" role="tab" id="t-ov" aria-controls="pane-ov" data-target="pane-ov" aria-selected="true" aria-current="true">%s</button>' % md(d["overview"]["label"])]
     for t in d["tabs"]:
-        tabs.append('<button type="button" class="shnav-tab" role="tab" id="t-%s" aria-controls="pane-%s" data-target="pane-%s" aria-selected="false" tabindex="-1">%s<span class="shnav-pill">%s</span></button>' % (
-            t["id"], t["id"], t["id"], md(t["label"]), md(t["rank"])))
+        tabs.append('<button type="button" class="shnav-tab" role="tab" id="t-%s" aria-controls="pane-%s" data-target="pane-%s" aria-selected="false" tabindex="-1">%s%s</button>' % (
+            t["id"], t["id"], t["id"], md(t["label"]), ('<span class="shnav-pill">%s</span>' % md(t["rank"])) if t.get("rank") else ""))
     return ('<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Sections" data-menu-below="1024"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs" aria-label="View">%s</div>'
             '<button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Jump to a section"><span></span></button></nav></div>') % "".join(tabs)
 
