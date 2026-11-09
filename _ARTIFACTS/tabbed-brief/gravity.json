@@ -19,7 +19,7 @@
    "The other twenty-nine are the work."
   ],
   "lede": [
-   "Twenty years taking products from zero to one, fast, as a player, a coach and a pace car. I look hardest at what the consensus passes on, and I keep the record of every call, misses included. ARCS is that record, built so people, squads and nodes own their judgment and get stronger from every miss."
+   "Twenty years in the trenches, taking products from zero. I keep the record of every call, misses included. ARCS is that record."
   ],
   "next_step": {
    "lead": "Let’s go.",
@@ -53,9 +53,9 @@
     "note": "AI health product lines tested at Twill Health"
    },
    {
-    "v": "1",
-    "k": "Kill line on my own work",
-    "note": "ARCS stops as a product if no one pays by 2027-03-31"
+    "v": "2027-03-31",
+    "k": "ARCS kill line",
+    "note": "No paying user by then, and ARCS stops as a product"
    }
   ],
   "sections": [
@@ -109,53 +109,6 @@
     ]
    }
   ],
-  "coldread": {
-   "id": "five",
-   "title": "5W + How",
-   "block": {
-    "type": "coldread",
-    "slots": [
-     [
-      "Who",
-      "Zach Harris. Product lead and founder: Grayscale, two companies, ARCS."
-     ],
-     [
-      "What",
-      "A 30, 90 and 180 day plan per open role, on your own job pages."
-     ],
-     [
-      "Where",
-      "Remote, New York metro."
-     ],
-     [
-      "When",
-      "Now. Four roles open; Harrison Wright offered the intro."
-     ],
-     [
-      "Why",
-      "You run on tested theses and a high kill rate. So do I. It is why I built ARCS."
-     ]
-    ],
-    "how": [
-     [
-      "Before",
-      "Today, November 9",
-      "This page, built on your own job pages."
-     ],
-     [
-      "During",
-      "Not booked yet",
-      "A 30-minute call with whoever owns the live seat, at a time that suits you."
-     ],
-     [
-      "After",
-      "Within two days of the call",
-      "The plan for that seat, reshaped with you."
-     ]
-    ],
-    "read": "Overview, then one tab per role, strongest fit first. Every plan cell is yours to edit."
-   }
-  },
   "subhead": "Your about page: of every 30 ideas you go deep on, you fund one."
  },
  "tabs": [
@@ -164,7 +117,7 @@
    "label": "Principal",
    "name": "Principal, New Ventures",
    "tagline": "My strongest fit",
-   "headline": "Principal: break the CEO bottleneck.",
+   "headline": "Break the CEO bottleneck.",
    "lede": "Your page: own hatches end to end, so ideas stop queuing at the CEO. Spot the gap, write the case, pitch the committee, prototype with AI, recruit founders. Builder, not researcher or investor.",
    "units": [
     {
@@ -350,7 +303,7 @@
    "label": "EIR",
    "name": "Entrepreneur in Residence",
    "tagline": "A strong fit",
-   "headline": "Entrepreneur in Residence: one wedge, not a category.",
+   "headline": "One wedge, not a category.",
    "lede": "Your page: a six-month contract. Source and validate hatches in DeFi, stablecoins, infrastructure and prediction markets, take each from a few sentences to a committee pitch, and by month six find one worth founding.",
    "units": [
     {
@@ -502,7 +455,7 @@
    "label": "Founder",
    "name": "Founder, Portfolio Company",
    "tagline": "A fit on one condition",
-   "headline": "Founder: EIR first, then the keys.",
+   "headline": "EIR first, then the keys.",
    "lede": "Your page: CEO or CTO of a hatch you have validated and funded. Five to ten years. An outside raise in year one.",
    "units": [
     {
@@ -636,7 +589,7 @@
    "label": "Open Application",
    "name": "Open Application",
    "tagline": "A sketch to co-design, in the open",
-   "headline": "Open Application: choose your own adventure.",
+   "headline": "Choose your own adventure.",
    "lede": "Your open application asks what I would own that you don't staff today, and why you'd move faster with me. My answer: a hatch desk, sketched to build with you, in the open.",
    "units": [
     {

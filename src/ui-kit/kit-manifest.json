@@ -2300,8 +2300,7 @@
    "templates": [
     "recoil-report",
     "recoil-player",
-    "counterpart-onepager",
-    "tabbed-brief"
+    "counterpart-onepager"
    ],
    "jobs": [],
    "pages": [
@@ -2313,14 +2312,12 @@
     "public/cia-brief.html",
     "public/good-audit-check.html",
     "public/good-audit-sample.html",
-    "public/gravity-brief.html",
     "public/prl-status-receipt.html",
     "scripts/audit_report_build.py",
     "scripts/counterpart_onepager_build.py",
-    "scripts/kit_pull.py",
-    "scripts/tabbed_brief_build.py"
+    "scripts/kit_pull.py"
    ],
-   "reuse": 14,
+   "reuse": 12,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -3717,10 +3714,14 @@
     "pullable": true,
     "no_raw_signal_hex": true
    },
-   "templates": [],
+   "templates": [
+    "tabbed-brief"
+   ],
    "jobs": [],
-   "pages": [],
-   "reuse": 0,
+   "pages": [
+    "scripts/tabbed_brief_build.py"
+   ],
+   "reuse": 1,
    "near_duplicates": [
     {
      "rule": ".ftiles",
@@ -3858,7 +3859,9 @@
     "pullable": true,
     "no_raw_signal_hex": true
    },
-   "templates": [],
+   "templates": [
+    "tabbed-brief"
+   ],
    "jobs": [],
    "pages": [],
    "reuse": 0,
@@ -4083,6 +4086,7 @@
     "callout",
     "cr",
     "cr-how",
+    "cr-howwrap",
     "cr-read",
     "cr-slots",
     "cr-step",
@@ -4111,10 +4115,9 @@
     "readme-cold-read-to-video"
    ],
    "pages": [
-    "public/gravity-brief.html",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 2,
+   "reuse": 1,
    "near_duplicates": [
     {
      "rule": ".section-label",

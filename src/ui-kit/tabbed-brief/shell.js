@@ -50,8 +50,8 @@
   if (ex) ex.addEventListener('click', function () { var all = ex.getAttribute('aria-pressed') === 'true';
     group().forEach(function (b) { (seats.indexOf(b) > -1 ? setSeat : setFold)(b, !all); }); });
 
-  /* jumps: clear the sticky nav by 12px; respect reduced motion */
-  var nav = document.querySelector('.tb-navwrap');
+  /* jumps: clear the sticky head (meta strip and nav) by 12px; respect reduced motion */
+  var nav = document.querySelector('.tb-head') || document.querySelector('.tb-navwrap');
   function cover() { return nav ? nav.getBoundingClientRect().height : 0; }
   function jumpTo(el, how) { if (!el) return; var y = el.getBoundingClientRect().top + scrollY - cover() - 12; scrollTo({ top: Math.max(0, y), behavior: how || (reduce() ? 'auto' : 'smooth') }); }
   var booting = true; addEventListener('load', function () { setTimeout(function () { booting = false; }, 0); });

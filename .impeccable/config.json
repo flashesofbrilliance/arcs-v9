@@ -10,7 +10,8 @@
         "value": ".75rem",
         "files": [
           "src/ui-kit/recoil-report/45-fact-tile.html",
-          "src/ui-kit/recoil-report/48-summary-disclosure.html"
+          "src/ui-kit/recoil-report/48-summary-disclosure.html",
+          "public/gravity-brief.html"
         ],
         "createdAt": "2026-11-09T19:00:00.000Z",
         "reason": "Kit 45 fact tile label: the 0.75rem caps label Zach approved on the My Ally Step 1 tab (2026-11-09). The ramp's label step (0.6875rem) shrinks it below what he signed off; same MyAlly-world seam as the myally-hub font-size waiver. One value, two files."
@@ -39,7 +40,8 @@
         "value": "*",
         "files": [
           "public/myally-hub.html",
-          "public/cia-brief.html"
+          "public/cia-brief.html",
+          "public/gravity-brief.html"
         ],
         "createdAt": "2026-10-27T12:00:00.000Z",
         "reason": "MyAlly hub: the tab bar is an underline-tab strip whose active marker sits on the bar border by design, and the shell section is a framed box whose header bar runs edge to edge. Seam: _PATTERNS/kintsugi-visual-grammar-seams.md (MyAlly, 2026-10-26)"

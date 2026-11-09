@@ -2,7 +2,7 @@
 The page is generated from four parts and never hand-edited:
   tokens    src/ui-kit/recoil-report/_tokens.css, inlined verbatim (sentinel line kept)
   kit       the @prim blocks of the parts the page uses, copied verbatim from src/ui-kit/recoil-report/NN-*.html
-            (27 section-label, 28 chip, 29 tile, 31 callout, 38 wordmark, 39 theme light remap, 42 shell-nav, 51 display-preferences, 52 plan-matrix, 53 cold-read)
+            (27 section-label, 28 chip, 31 callout, 38 wordmark, 39 theme light remap, 42 shell-nav, 45 fact-tile, 51 display-preferences, 52 plan-matrix, 53 cold-read)
   template  src/ui-kit/tabbed-brief/shell.css + shell.js (frame and page organisms, no counterpart content)
   data      a JSON file valid against src/ui-kit/tabbed-brief/brief.schema.json (all copy; links as [text](url), bold as **text**)
   python3 scripts/tabbed_brief_build.py DATA.json -o OUT.html            write the full page (doctype, analytics if the data asks)
@@ -16,7 +16,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KIT = os.path.join(ROOT, "src/ui-kit/recoil-report")
 TDIR = os.path.join(ROOT, "src/ui-kit/tabbed-brief")
 SCHEMA = os.path.join(TDIR, "brief.schema.json")
-PARTS = ["27-section-label", "28-chip", "29-tile", "31-callout", "38-wordmark", "39-theme-toggle", "42-shell-nav", "51-display-preferences", "52-plan-matrix", "53-cold-read"]
+PARTS = ["27-section-label", "28-chip", "31-callout", "45-fact-tile", "38-wordmark", "39-theme-toggle", "42-shell-nav", "51-display-preferences", "52-plan-matrix", "53-cold-read"]
 REGISTERED = {"_ARTIFACTS/tabbed-brief/gravity.json": "public/gravity-brief.html"}
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import precall_brief_build as pb  # the stdlib JSON Schema subset lives there; reuse it, do not fork it
@@ -166,7 +166,7 @@ def r_overview(d):
             acts.append('<a class="%s" href="#%s" data-go-tab="%s">%s</a>' % (cls, a["tab"], a["tab"], md(a["label"])))
         else:
             acts.append('<a class="%s" href="#%s" data-go-section="%s">%s</a>' % (cls, a["section"], a["section"], md(a["label"])))
-    tiles = "".join('<div class="tile" role="listitem"><div class="v">%s</div><div class="k">%s</div><p class="tb-tile-note">%s</p></div>' % (md(t["v"]), md(t["k"]), md(t["note"])) for t in o["tiles"])
+    tiles = "".join('<li class="ftile"><span class="ftile-lab">%s</span><span class="ftile-fig">%s</span><span class="ftile-cap">%s</span></li>' % (md(t["k"]), md(t["v"]), md(t["note"])) for t in o["tiles"])
     folds = "\n".join(r_fold(s, d["horizons"]) for s in o["sections"])
     cr = ""
     if o.get("coldread"):
@@ -174,7 +174,7 @@ def r_overview(d):
         cr = '<section class="tb-coldread" id="%s" aria-labelledby="%s-h"><h2 class="tb-h2" id="%s-h">%s</h2>%s</section>\n' % (c["id"], c["id"], c["id"], md(c["title"]), r_blocks([c["block"]], d["horizons"], 3))
     return ('<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">\n<h1 class="tb-h1">%s</h1>\n%s<p class="tb-lede">%s</p>\n'
             '<div class="tb-go"><p class="tb-go-h">%s</p><p class="tb-go-t">%s</p>\n<div class="tb-actions">%s%s</div></div>\n'
-            '%s<div class="tiles" role="list" aria-label="At a glance">%s</div>\n<div class="tb-expand"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>\n'
+            '%s<div class="ftiles-c"><ul class="ftiles is-4" aria-label="At a glance">%s</ul></div>\n<div class="tb-expand"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>\n'
             '<div class="tb-folds">%s</div>\n</div>') % (h, ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"])) if o.get("subhead") else "", "".join('<span class="ln">%s</span>' % md(re.sub(r"(?<=[a-z])-(?=[a-z])", "‑", x)) for x in o["lede"]), md(o["next_step"]["lead"]),
          md(o["next_step"]["text"]), "".join(acts), ('<p class="tb-note">%s</p>' % md(o["action_note"])) if o.get("action_note") else "", cr, tiles, folds)
 
@@ -244,7 +244,7 @@ def render(d, artifact=False):
     top = ('<header class="tb-top"><span class="wordmark tb-brand"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></span>%s%s</header>\n%s') % (
         line, DPREFS_ROW, dprefs_panel())
     body = "\n".join([r_overview(d)] + [r_tab(t, d["horizons"], i) for i, t in enumerate(d["tabs"])])
-    main = ('<main class="tb" data-store="' + e(d["storage_key"]) + '">\n%s\n<section class="tb-frame" aria-label="%s">\n%s\n%s\n<div class="tb-body">\n%s\n</div>\n</section>\n</main>\n'
+    main = ('<main class="tb" data-store="' + e(d["storage_key"]) + '">\n%s\n<section class="tb-frame" aria-label="%s">\n<div class="tb-head">%s\n%s</div>\n<div class="tb-body">\n%s\n</div>\n</section>\n</main>\n'
             '<script>%s</script>\n<script>%s</script>') % (top, e(d["doc_title"]), meta, r_nav(d), body, shnav_js()[len("<script>"):-len("</script>")],
                                                            open(os.path.join(TDIR, "shell.js"), encoding="utf-8").read())
     marks = "<!-- @arcs-template: tabbed-brief -->\n<!-- @arcs-mode: persuade -->\n"
