@@ -357,7 +357,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-table tr:last-child td { border-bottom: 0; }
 
 /* cards */
-.tb-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.tb-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; } /* one column until tabs show; no orphaned third card */
+@media (min-width: 1024px) { .tb-cards { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); } }
 .tb-card { border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); padding: 16px; display: flex; flex-direction: column; gap: 8px; }
 .tb-card > * { margin: 0; }
 .tb-card-t { font-size: var(--fs-body); font-weight: 600; line-height: 1.35; color: var(--text); }
