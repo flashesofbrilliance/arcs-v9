@@ -76,7 +76,6 @@
         "label",
         "headline",
         "lede",
-        "next_step",
         "actions",
         "tiles",
         "sections"
@@ -106,9 +105,7 @@
         "next_step": {
           "type": "object",
           "additionalProperties": false,
-          "required": [
-            "text"
-          ],
+          "required": [],
           "properties": {
             "lead": {
               "type": "string"
