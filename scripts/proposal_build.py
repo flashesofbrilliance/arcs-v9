@@ -23,6 +23,7 @@ USAGE
   python3 scripts/proposal_build.py --source S --hosted public/X.html --check
   python3 scripts/proposal_build.py --louisville            # the Louisville proposal preset
   python3 scripts/proposal_build.py --louisville --check
+Before a multi-part copy edit to the source: run the sanity-check agent (.claude/agents/sanity-check.md).
 Then gate the outputs: python3 scripts/page_gate.py --counterpart --matrix full public/X.html public/X.pdf
 EXIT 0 ok · 1 --check drift or a build error
 """

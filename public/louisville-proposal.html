@@ -145,7 +145,7 @@ h1{font-family:var(--sans);font-size:var(--fs-display);font-weight:700;letter-sp
 .hrow{display:contents;}
 .hrow > div{padding:var(--sp-2) 0;border-top:1px solid var(--border);}
 .hrow .ref{display:block;margin-top:6px;}
-.lockup{display:flex;flex-direction:column;gap:6px;}
+.lockup{display:flex;flex-direction:column;gap:var(--sp-1);}
 .lockup .deck{color:var(--secondary);text-wrap:pretty;}
 .proof{display:flex;flex-direction:column;gap:6px;}
 footer p{color:var(--secondary);text-align:center;}
@@ -199,11 +199,9 @@ header > .tools{grid-row:1;justify-self:end;display:flex;align-items:center;gap:
 @media print{
   .cover{display:flex;flex-direction:column;height:9.9in;break-after:page;}
   header > h1,header > .forline{display:none;}
-  .cover-mark{font-family:var(--mono);font-weight:700;letter-spacing:0.32em;font-size:var(--fs-body);color:var(--text);}
-  .cover-a{color:var(--cyan);}
   .cover-title{margin-top:auto;padding-bottom:var(--sp-3);display:flex;flex-direction:column;gap:var(--sp-1);}
   .cover-h{font-family:var(--sans);font-size:var(--fs-display);font-weight:700;letter-spacing:-0.02em;line-height:1.15;color:var(--text);}
-  .cover-sub{font-family:var(--serif);font-size:var(--fs-step);color:var(--text-secondary);}
+  .cover-sub{font-family:var(--serif);font-size:var(--fs-step);line-height:1.35;color:var(--text-secondary);}
   .cover-meta{border-top:1.5px solid var(--gold);padding-top:var(--sp-3);height:38%;display:flex;flex-direction:column;gap:4px;color:var(--text-secondary);}
   .cover-meta p:first-child{color:var(--text);font-weight:600;}
   .plist li{break-inside:avoid;padding:3px 0;line-height:1.4;}
@@ -225,7 +223,7 @@ details.blk > summary::-webkit-details-marker{display:none;}
 details.blk > summary::after{content:"";grid-column:2;grid-row:1 / span 2;width:10px;height:10px;margin-top:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform var(--dur-base) var(--ease-out);}
 details.blk[open] > summary::after{transform:rotate(-135deg);}
 details.blk > summary > h2,details.blk > summary > h3{grid-column:1;margin:0;}
-details.blk > summary .tk{grid-column:1;color:var(--secondary);margin-top:4px;text-wrap:pretty;}
+details.blk > summary .tk{grid-column:1;color:var(--secondary);margin-top:var(--sp-1);text-wrap:pretty;}
 details.blk > summary:focus-visible{outline:2px solid var(--cyan);outline-offset:4px;border-radius:var(--ds-r-sm);}
 details.blk > .bd{padding-top:var(--sp-2);}
 details.blk.sub{margin-top:var(--sp-2);border-top:1px solid var(--border);}
@@ -266,6 +264,31 @@ footer p{text-align:left;}
 @media print { .offer { break-inside: avoid; background: none; } .offer-proof { background: none; } .offer > * { padding: 12px 16px; } .offer-link { min-height: 0; } }
 
 
+.gg{display:flex;flex-direction:column;margin-top:var(--sp-2);}
+.gg-row{display:grid;grid-template-columns:5.5rem minmax(0,1fr) minmax(0,1fr);column-gap:var(--sp-3);padding:var(--sp-2) 0;border-top:1px solid var(--border);}
+.gg-head{font-family:var(--sans);font-size:var(--fs-title);font-weight:600;color:var(--secondary);border-top:0;padding:0 0 var(--sp-1);}
+.gg-head .c{color:var(--cyan);}
+.gg-when{font-weight:600;color:var(--text);}
+.gg-give{color:var(--text-secondary);text-wrap:pretty;}
+.gg-get{color:var(--text);text-wrap:pretty;}
+.gg-row:last-child{border-bottom:1px solid var(--border);}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+.gg + .offer{margin-top:var(--sp-3);}
+@media (max-width:640px){
+  .gg-row{grid-template-columns:minmax(0,1fr);row-gap:6px;}
+  .gg-head{display:none;}
+  .gg-give::before{content:"You give: ";font-weight:600;color:var(--text);}
+  .gg-get::before{content:"You get: ";font-weight:600;color:var(--cyan);}
+}
+@media print{
+  .gg{margin-left:2.25rem;break-inside:avoid;}
+  .gg-head{font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);padding-bottom:6px;border-bottom:1.5px solid var(--text);}
+  .gg-head .c{color:var(--cyan);}
+  .gg-row{padding:5px 0;line-height:1.38;grid-template-columns:4.5rem minmax(0,1.5fr) minmax(0,1fr);column-gap:var(--sp-2);}
+  .gg-head + .gg-row{border-top:0;}
+  .gg + .offer{margin-top:var(--sp-2);}
+}
+
 @page{size:Letter;margin:0.8in 0.8in 0.75in;
   @top-left{content:"ARCS";font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;font-size:7pt;font-weight:700;letter-spacing:0.32em;color:#00606b;vertical-align:bottom;padding-bottom:14pt;}
   @top-right{content:"An outside read  \00B7  Louisville Brands";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#566170;vertical-align:bottom;padding-bottom:14pt;}
@@ -276,7 +299,11 @@ footer p{text-align:left;}
 @media print{
   .cover{height:9.35in;gap:0;}
   .cover-top{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:var(--sp-2);border-bottom:1px solid var(--border);}
-  .cover-date{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;color:var(--muted);}
+  .cover-date{margin-left:auto;font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;color:var(--muted);}
+  
+  .cover-wm{margin-top:auto;display:flex;align-items:baseline;gap:0.45em;font-family:var(--mono);font-size:var(--fs-display);text-transform:uppercase;line-height:1;}
+  .cover-wm-a{color:var(--text);font-weight:800;letter-spacing:0.22em;}
+  .cover-wm-f{color:var(--muted);font-weight:400;letter-spacing:0.14em;}
   .cover-title{margin-top:auto;padding-bottom:var(--sp-4);gap:var(--sp-2);}
   .cover-for{font-family:var(--sans);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);}
   .cover-h{font-size:2.4rem;line-height:1.08;letter-spacing:-0.025em;}
@@ -284,10 +311,15 @@ footer p{text-align:left;}
   .cover-toc{list-style:none;margin:0;padding:var(--sp-2) 0 0;border-top:2px solid var(--gold);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:var(--sp-3);}
   .cover-toc li{display:flex;flex-direction:column;gap:4px;color:var(--text);font-weight:600;line-height:1.35;}
   .cover-toc .pn{font-family:var(--mono);font-weight:700;font-size:var(--fs-label);color:var(--cyan);}
-  .cover-meta{height:auto;border-top:0;margin-top:var(--sp-3);flex-direction:row;gap:var(--sp-2);font-size:var(--fs-label);}
-  .cover-meta p:first-child{font-weight:700;}
   
-  .verdict{font-size:var(--fs-step);line-height:1.45;margin-top:0;}
+  .cover-meta{height:auto;margin-top:var(--sp-4);padding-top:var(--sp-2);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:var(--sp-3);align-items:start;font-size:var(--fs-label);line-height:1.5;}
+  .cover-meta p{margin:0;}
+  .cover-meta .cm-who{display:flex;flex-direction:column;}
+  .cover-meta .cm-who b{color:var(--text);font-weight:700;}
+  .cover-meta .cm-conf{grid-column:3;justify-self:end;text-align:right;font-family:var(--sans);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text);}
+  .cover-sub{text-wrap:balance;}
+  
+  .verdict{font-size:var(--fs-step);line-height:1.4;margin-top:0;}
   .aside{color:var(--text-secondary);}
   
   main{counter-reset:sec;}
@@ -304,19 +336,39 @@ footer p{text-align:left;}
   .hrow:nth-child(2) > div{border-top:0;}
   .hrow > .hh{color:var(--text-secondary);}
   .hrow > .hc{color:var(--text);}
-  .hrow > div{padding:7px 0;}
+  .hrow > div{padding:5px 0;}
   
-  .specrow{grid-template-columns:8rem minmax(0,1fr);padding:8px 0;}
+  .specrow{grid-template-columns:8rem minmax(0,1fr);padding:7px 0;}
   .spec,.plist,.hgrid,.pnote{margin-left:2.25rem;}
-  .plist li{padding:6px 0;}
+  .plist li{padding:4px 0;}
   .offerwrap .specrow{padding:9px 0;}
   .pnote{margin-top:var(--sp-2);}
   .pnote + .offer{margin-top:var(--sp-3);}
+  .gg{margin-top:var(--sp-1);}
   .offer{border-color:var(--text);border-width:1.5px;}
-  .offer > *{padding:14px 18px;}
+  .offer > *{padding:10px 16px;}
   .offer-price{font-size:var(--fs-headline);}
   footer{display:none;}
 }
+
+@media screen{
+  .page{display:block;max-width:calc(var(--measure) + 2*var(--sp-4));border:1px solid var(--border);border-radius:var(--ds-r-md);background:var(--bg);overflow:hidden;}
+  .mast{padding:var(--sp-1) var(--sp-3) var(--sp-1) var(--sp-4);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:var(--sp-2);}
+  .mast .forline{margin:0;}
+  .mast .tools{display:flex;align-items:center;gap:0;margin:0 calc(-1*var(--sp-1)) 0 0;}
+  .pbody{display:flex;flex-direction:column;gap:var(--sp-4);padding:var(--sp-4);}
+  .pbody > header{padding-bottom:var(--sp-4);border-bottom:1px solid var(--border);}
+  .pbody > .blkbar{margin:calc(-1*var(--sp-2)) 0 calc(-1*var(--sp-3));}
+  footer{border-top:1px solid var(--border);padding-top:var(--sp-3);}
+}
+@media screen and (max-width:640px){
+  body{padding-left:var(--sp-1);padding-right:var(--sp-1);}
+  .mast{padding:var(--sp-1) var(--sp-1) var(--sp-1) var(--sp-2);}
+  .pbody{gap:var(--sp-3);padding:var(--sp-2);}
+  .pbody > header{padding-bottom:var(--sp-3);}
+  .pbody > .blkbar{margin:calc(-1*var(--sp-1)) 0 calc(-1*var(--sp-2));}
+}
+@media print{.mast{display:none;} .pbody{display:contents;}}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -324,30 +376,35 @@ footer p{text-align:left;}
 <main class="page">
 
 <section class="cover" aria-label="Cover">
-  <div class="cover-top"><p class="cover-mark"><span class="cover-a">A</span>RCS</p><p class="cover-date">November 2026</p></div>
+  <div class="cover-top"><p class="cover-date">November 2026</p></div>
+  <p class="cover-wm" aria-label="ARCS Field OS"><span class="cover-wm-a">ARCS</span><span class="cover-wm-f">FIELD OS</span></p>
   <div class="cover-title">
     <p class="cover-for">Prepared for Brooks Thomas, Louisville Brands</p>
     <p class="cover-h">An outside read on your AI build</p>
-    <p class="cover-sub">Through one flavor decision: Adobo</p>
+    <p class="cover-sub">Where it's least efficient, and which hypotheses aren't holding, in time for Q1 planning</p>
   </div>
   <ol class="cover-toc">
     <li><span class="pn">01</span><span>Questions worth putting to your team</span></li>
-    <li><span class="pn">02</span><span>The test: Adobo</span></li>
+    <li><span class="pn">02</span><span>The two decisions</span></li>
     <li><span class="pn">03</span><span>What $5,000 gets you</span></li>
   </ol>
-  <div class="cover-meta"><p>Zach Harris</p><p>zach.harris@gmail.com</p></div>
+  <div class="cover-meta"><p class="cm-who"><b>Zach Harris</b><span>zach.harris@gmail.com</span></p><p class="cm-conf">Confidential<br>Do not share</p></div>
 </section>
 
 
-<header>
-  <h1>An outside read on your AI build, through one flavor decision</h1>
+<div class="mast">
+  <p class="ref forline">For Brooks Thomas, Louisville Brands</p>
   <div class="tools">
     <a class="pdfbtn" href="/proposal/outside-read.pdf" download="Outside-read-Louisville-Brands.pdf" aria-label="Download as PDF" title="Download as PDF"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg></a>
   <button type="button" class="themebtn" id="themebtn" aria-label="Switch to light mode" title="Switch to light mode" hidden><svg class="i-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="i-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
   </div>
-  <p class="ref forline">For Brooks Thomas, Louisville Brands</p>
-  <p class="verdict">You asked where you are on the arc of your AI build, where it's least efficient, and which hypotheses are failing. I'd answer that through one real decision: Your criteria's call on Adobo, traced from its inputs to how it turns out, before the next 20,000-bag MOQ rides on a call like it.</p>
-  <p class="aside">Analyzing your own stuff from inside is hard: Confirmation and recency bias. An outside read checks the work you and your team have built; it doesn't replace it.</p>
+</div>
+<div class="pbody">
+
+<header>
+  <h1>An outside read on your AI build</h1>
+  <p class="verdict">You asked where you are on the arc of your AI build, where it's least efficient, and which hypotheses are failing. I'd answer that by auditing the build through two real decisions, one technical and one business, each traced from its inputs to how it turns out, before the next 20,000-bag MOQ rides on it.</p>
+  <p class="aside"><strong>Analyzing your own stuff from inside is hard:</strong> Confirmation and recency bias. An outside read checks the work you and your team have built; it doesn't replace it.</p>
 </header>
 
 <div class="blkbar"><button type="button" class="expall">Expand all</button></div>
@@ -368,33 +425,35 @@ footer p{text-align:left;}
 </section>
 
 <section class="offerwrap">
-  <div class="lockup"><h2 class="slabel">If you want the outside read</h2><p class="deck">One decision, traced. Where Adobo stands sets the test.</p></div>
+  <div class="lockup"><h2 class="slabel">If you want the outside read</h2><p class="deck">I'd read your build through what it decides. Every decision gets the same three things: What it relies on, what it can't see, and the date you'll know.</p></div>
   <details class="blk sub" open>
-    <summary><h3 class="sublabel">The test: Adobo</h3><span class="tk">Three cases, set by where Adobo stands.</span></summary>
+    <summary><h2 class="slabel">The two decisions</h2><span class="tk">You pick them. Here is what I'd suggest.</span></summary>
     <div class="bd">
   <dl class="spec">
-    <div class="specrow"><dt>Not launched</dt><dd>Your criteria scores Adobo with me in the room. I write down the call, what it relies on, and the date you'll know, before the order goes in. The readout gives you that written call and the date to check it.</dd></div>
-    <div class="specrow"><dt>Launched</dt><dd>I put your criteria's call next to how Adobo actually sold, and trace where it held and where it didn't.</dd></div>
-    <div class="specrow"><dt>Shelved</dt><dd>The same test on the next flavor on the calendar.</dd></div>
+    <div class="specrow"><dt>Technical</dt><dd>A choice in how the build works, such as how the warehouse and MCP feed your criteria, or what stays on-prem. I follow it from the data in to the answer out, and mark where it held, slowed or broke.</dd></div>
+    <div class="specrow"><dt>Business</dt><dd>A call the build informed, such as Filipino Adobo, a partner check before a collab, or the stop number before an MOQ.</dd></div>
   </dl>
     </div>
   </details>
   <details class="blk sub pbreak">
-    <summary><h3 class="sublabel">What $5,000 gets you</h3><span class="tk">Every item, from kickoff to readout.</span></summary>
+    <summary><h2 class="slabel">What $5,000 gets you</h2><span class="tk">Every deliverable, and the time it takes.</span></summary>
     <div class="bd">
   <div class="punch">
     <ol class="plist">
-      <li><span class="pn">01</span><span>A kickoff with you.</span></li>
-      <li><span class="pn">02</span><span>A screen‑share where you, and anyone else on the warehouse and MCP side, walk me through how the criteria scored Adobo.</span></li>
-      <li><span class="pn">03</span><span>The Adobo trace in writing: The call, what it relies on, and the date you'll know. If it has launched, the call next to how it actually sold.</span></li>
-      <li><span class="pn">04</span><span>One page: Where the build stands, what's least efficient, and which hypotheses aren't holding, as the Adobo trace shows them.</span></li>
-      <li><span class="pn">05</span><span>Read against the five things you said you want: Accuracy, efficiency, speed, cost, and a single source of truth that isn't growing data bloat and tech debt.</span></li>
-      <li><span class="pn">06</span><span>Next steps, each with a number for success and a date to check it.</span></li>
-      <li><span class="pn">07</span><span>Honest marks: Anything one flavor can't show is marked as not checked, anything I'm unsure of is marked as unsure, and your pushback goes on the page.</span></li>
-      <li><span class="pn">08</span><span>A readout to walk you through it.</span></li>
+      <li><span class="pn">01</span><span>Both decisions traced in writing: What each relies on, what it can't see, and the date you'll know. If one has played out, it sits next to what actually happened.</span></li>
+      <li><span class="pn">02</span><span>One page: Where the build stands, what's least efficient, and which hypotheses aren't holding, as the two traces show them.</span></li>
+      <li><span class="pn">03</span><span>Read against the five things you said you want: Accuracy, efficiency, speed, cost, and a single source of truth that isn't growing data bloat and tech debt.</span></li>
+      <li><span class="pn">04</span><span>Next steps, each with a number for success and a date to check it.</span></li>
+      <li><span class="pn">05</span><span>Honest marks: Anything two decisions can't show is marked as not checked, anything I'm unsure of is marked as unsure, and your pushback goes on the page.</span></li>
     </ol>
   </div>
-  <p class="pnote">A two-week sprint, with a few hours of your team's time across the sessions above. Your data stays with you: Total sales figures only, nothing at customer level, and a mutual NDA first.</p>
+  <p class="pnote">A two-week sprint. About three and a half hours of your team's time, a little over four with the optional session.</p>
+  <div class="gg" role="table" aria-label="What you give and what you get">
+    <div class="gg-row gg-head" role="row"><span role="columnheader"><span class="vh">When</span></span><span role="columnheader">What you give</span><span role="columnheader" class="c">What you get</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Before</span><span class="gg-give" role="cell">A mutual NDA, and total sales figures, nothing at customer level.</span><span class="gg-get" role="cell">Your data stays with you.</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 1</span><span class="gg-give" role="cell">Kickoff with you, 60 minutes. A screen-share with whoever is on the warehouse and MCP side, including where the data lives and who can reach it, 90 minutes. Optional: 45 minutes with whoever owns where the data gets used next, your choice of who.</span><span class="gg-get" role="cell">Both decisions traced in writing.</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 2</span><span class="gg-give" role="cell">The readout, 60 minutes, and your pushback on anything that's wrong.</span><span class="gg-get" role="cell">The one page, the read against your five, and next steps, walked through together.</span></div>
+  </div>
     </div>
   </details>
   <div class="offer">
@@ -403,14 +462,15 @@ footer p{text-align:left;}
       <p class="offer-keep">You keep all of the work.</p>
     </div>
     <div class="offer-proof">
-      <p>Something I built on the same rule: it answers RFP questions with the clause behind it, or says "not covered," and it publishes its own misses.</p>
+      <p>My RFP engine works the same way: Every answer shows the clause it relies on, says "not covered" when it can't see one, and keeps a public record of the questions it got wrong.</p>
       <a class="offer-link" href="https://good.arcs.care/rfp-engine">good.arcs.care/rfp-engine<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
     </div>
-    <p class="offer-ask">If this is useful, tell me where Adobo stands and I'll shape it around that. If the timing's off, no reply needed.</p>
+    <p class="offer-ask">Tell me which two decisions to follow, one technical and one business, and I'll send a start date, so the read lands before Q1 plans and the next MOQ lock.</p>
   </div>
 </section>
 
 <footer><p>Zach Harris · <a href="mailto:zach.harris@gmail.com">zach.harris@gmail.com</a></p></footer>
+</div>
 
 </main>
 <script>(function(){var d=document.documentElement,b=document.getElementById('themebtn');if(!b)return;var mq=window.matchMedia?matchMedia('(prefers-color-scheme: light)'):null;function cur(){var t=d.getAttribute('data-theme');if(t)return t;return mq&&mq.matches?'light':'dark';}function label(){var n=cur()==='light'?'dark':'light';b.setAttribute('data-next',n);b.setAttribute('aria-label','Switch to '+n+' mode');b.title='Switch to '+n+' mode';}b.hidden=false;label();b.addEventListener('click',function(){var n=cur()==='light'?'dark':'light';d.setAttribute('data-theme',n);try{localStorage.setItem('brooksTheme',n);}catch(e){}label();});if(mq&&mq.addEventListener)mq.addEventListener('change',label);})();</script>
