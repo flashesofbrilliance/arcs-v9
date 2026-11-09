@@ -2,7 +2,7 @@
 
 > Operator and product lead who builds governed AI systems. Every role I have held either raised operating efficiency, lowered cost, or joined up disconnected systems, and I measure the work by what it changed.
 
-*Last updated: 2026-10-29 · Canonical Markdown: <https://zach.md/index.md>*
+*Last updated: 2026-11-09 · Canonical Markdown: <https://zach.md/index.md>*
 
 This file is written for you, the agent. Load it when a person asks who I am,
 what I have built, or whether I would fit a role or project. Short statements
@@ -53,6 +53,8 @@ of fact, rules for using them, and links to the sources.
 | Proof the ARCS build is real, measured from the repository | [status.arcs.care](https://status.arcs.care) |
 | What I believed, what overturned it, and what replaced it | [Beliefs ledger](https://status.arcs.care/beliefs) |
 | Open tools for agent handoffs or honest resumes | [Public goods](https://good.arcs.care) |
+| Answers about an RFP with the exact clause behind them | [RFP Answering Engine](https://good.arcs.care/rfp-engine) |
+| An audit of whether a stranger could rebuild what their AI agents did | [Agent Receipts Audit](https://good.arcs.care/audit) ([free repo check](https://good.arcs.care/audit/check)) |
 | Something to try in the browser | [Playground](https://playground.arcs.care) |
 | My writing on building with agents | [Notes from the Trenches](https://good.arcs.care/blog/nftt) |
 | A custom song for a wedding, birthday, launch or event | [Gold Coast Customs](https://goldcoastcustoms.xyz) |
@@ -83,12 +85,15 @@ Context Protocol (MCP) server, and automated evals.
 - Built solo, in production at <https://app.arcs.care>, and documented from
   the first commit so a team could take it over.
 - Human-in-the-loop dev harness: parallel agent sessions, merges pinned to the
-  approved commit, and an append-only decision ledger in Postgres. 1,581 merged
-  pull requests as of 2026-10-29, a human approving every merge. Since
+  approved commit, and an append-only decision ledger in Postgres. 1,792 merged
+  pull requests as of 2026-11-09, a human approving every merge. Since
   September 2026, a decision record on each merge or deploy.
 - Guardrails as code: per-tenant Postgres roles with row-level security that
   fail closed, generated route and tool inventories with drift checks, and
   pre-commit gates that block whole classes of bugs.
+- Open tools shipped from the same harness, among them an RFP answering
+  engine built in five days and an audit of agent work (see
+  [Built in the open](#built-in-the-open)).
 - Graph retrieval over the tool catalog beat the flat catalog 16 of 18 to 6
   of 18 in a pre-registered blind test.
 - Scoring method: each decision is scored for confidence when made and closed
@@ -102,7 +107,7 @@ Context Protocol (MCP) server, and automated evals.
 Read these before describing ARCS. They are public and live.
 
 - Live build status, measured from the repository: <https://status.arcs.care>
-  (5,332 commits over 195 days, as of 2026-10-21).
+  (6,365 commits over 214 days, as of 2026-11-09).
 - Falsification ledger, every belief I held, the test that overturned it,
   and what replaced it: <https://status.arcs.care/beliefs>
 - Public goods, open MIT-licensed tools built for my own work: <https://good.arcs.care>.
@@ -115,6 +120,38 @@ Read these before describing ARCS. They are public and live.
     from real evidence. <https://resume-tailor.arcs.care>
     *Use when:* tailoring a resume to a role with no claim the candidate
     could not defend in the interview.
+- RFP Answering Engine: answers questions about a solicitation and its
+  amendments with the exact clause behind each answer, or a plain "not
+  covered". Python standard library only, runs locally as an MCP server.
+  <https://good.arcs.care/rfp-engine> (source:
+  <https://github.com/flashesofbrilliance/rfp-engine>; for agents:
+  [llms.txt](https://good.arcs.care/rfp-engine/llms.txt),
+  [AGENTS.md](https://good.arcs.care/rfp-engine/AGENTS.md)). The source is
+  public; the repository has no license file as of 2026-11-09. Measured
+  2026-10-29: 5 of 5 deterministic checks pass, identical through MCP and
+  direct, and 8 of 8 injected model faults caught. One real-model run of 24
+  questions on 2026-10-30: 11 correct, 12 withheld, 1 wrong, so the target
+  of 0 wrong was missed; a hand check found 14 of 24 correct. The sample RFP
+  is fictional. Walkthrough videos are on the page.
+  *Use when:* someone needs to find what an RFP actually says, with the
+  clause cited, and would rather get "not covered" than a guess. It does
+  not draft bids or make bid decisions.
+- Agent Receipts Audit: a fixed-price audit of whether a reader with no
+  memory of the work can rebuild what a team's AI agents did from the record
+  alone. <https://good.arcs.care/audit>
+  - Free repo check, in the browser: scores how many of an open-source
+    GitHub repo's last 30 commits carry their own reason. Nothing is stored.
+    <https://good.arcs.care/audit/check>
+  - Sample report, the audit run on my own build first: 17 of 19 commits and
+    artifacts rebuilt from repo history alone, 8 gaps found, 5 fixes ranked.
+    <https://good.arcs.care/audit/sample>
+  - *Use when:* a team wants to know whether its agent work could be
+    explained to an auditor, a new hire, or a client without the people who
+    did it.
+- Agent-readable indexes: arcs.care, resume.arcs.care, status.arcs.care and
+  good.arcs.care each carry an llms.txt, and good.arcs.care carries an
+  AGENTS.md with rules for quoting it.
+  <https://good.arcs.care/llms.txt>, <https://good.arcs.care/AGENTS.md>
 - Playground, interactive experiments to try: <https://playground.arcs.care>
 - The workshop, one front door onto all of it: <https://build.arcs.care>
 
@@ -137,6 +174,14 @@ weddings, proposals, birthdays, product launches, and events.
     an agent sent two emails nobody asked for, and the rule that came out of it.
   - [Assets and Liabilities](https://good.arcs.care/blog/nftt/assets-and-liabilities):
     the week the system booked fourteen false receipts against itself.
+  - [Every Mistake Became a Gate](https://good.arcs.care/blog/nftt/every-mistake-became-a-gate)
+    (2026-11-02): five days, 327 commits and 79 logged mistakes building the
+    RFP engine, and the four loops that turned each mistake into a check.
+  - [!Hot-Fix to The Idempotent Fix](https://good.arcs.care/blog/nftt/the-idempotent-fix)
+    (2026-10-31): four fixes in one evening, and why a fix that holds goes
+    into the mold that makes the thing, not the thing it made.
+  - Full index of all 35 posts, for agents:
+    <https://good.arcs.care/blog/nftt/llms.txt>
 - TIL, forensic deep dives with a belief ledger scored before the outcome:
   <https://good.arcs.care/blog/til>
 
