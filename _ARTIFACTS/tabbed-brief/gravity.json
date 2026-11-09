@@ -8,7 +8,6 @@
   90,
   180
  ],
- "top_line": "Prepared for the Gravity Labs team and shared through Harrison Wright of Crossbridge Executive.",
  "meta": {
   "prepared_for": "The Gravity Labs team",
   "from": "Zach Harris",
@@ -46,7 +45,7 @@
    },
    {
     "v": "2",
-    "k": "Companies from zero",
+    "k": "Built or turned around",
     "note": "A co-founding and a turnaround, one acquired"
    },
    {
@@ -113,7 +112,7 @@
   ],
   "coldread": {
    "id": "five",
-   "title": "Who, What, Where, When, Why, How",
+   "title": "Why, What, Who, Where, When, How",
    "block": {
     "type": "coldread",
     "slots": [
@@ -127,7 +126,7 @@
      ],
      [
       "Who",
-      "Zach Harris. Product lead and founder: regulated digital assets at Grayscale, two companies built from nothing, and ARCS, a decision-record tool I build alone."
+      "Zach Harris. Product lead and founder: regulated digital assets at Grayscale, one company co-founded, one turned around, and ARCS, a decision-record tool I build alone."
      ],
      [
       "Where",
@@ -245,11 +244,11 @@
         {
          "title": "A risk-adjusted pipeline",
          "ref": "Built: a conviction score on every decision. Not shown yet: how accurate it is.",
-         "text": "Each hatch carries what we expect, how sure we are, and what would kill it, so the pipeline reads by risk as well as by excitement."
+         "text": "Each hatch carries what the team expects, how sure it is, and what would kill it, so the pipeline reads by risk as well as by excitement."
         },
         {
          "title": "An antifragile test bench",
-         "ref": "Built: pre-registered tests, run once, failures published.",
+         "ref": "Built: pre-registered tests, run once, failures published. Not shown yet: a kill test run on a Gravity hatch.",
          "text": "Every kill test is written down before it runs, so a failed test still pays: the next thesis starts from what it ruled out."
         }
        ]
@@ -288,7 +287,7 @@
         ],
         [
          "A high kill rate",
-         "In October I pre-registered a retrieval benchmark, ran it once, published every result including the failures, and merged the one change that passed. Every belief I have had to overturn is on a [public ledger](https://status.arcs.care/beliefs), with the test that overturned it."
+         "In October I pre-registered a retrieval benchmark, ran it once, published every result including the failures, and merged the one change that passed. The beliefs I have overturned are on a [public ledger](https://status.arcs.care/beliefs), each with the test that overturned it."
         ]
        ]
       }
@@ -639,10 +638,10 @@
    "id": "open",
    "label": "Open Application",
    "name": "Open Application",
-   "rank": "Proposed",
-   "tagline": "The seat I would choose",
+   "rank": "Co-design",
+   "tagline": "A sketch to co-design, in the open",
    "headline": "Open Application: choose your own adventure.",
-   "lede": "Your open application asks what I would own that you do not staff today, and why you would move faster with me on it. My answer is a hatch desk.",
+   "lede": "Your open application asks what I would own that you do not staff today, and why you would move faster with me on it. My answer is a hatch desk. Read this tab as a sketch, not a pitch: an experiment in hiring the way I build, in the open, with you editing the plan.",
    "units": [
     {
      "title": "The Hatch Desk",

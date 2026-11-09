@@ -2,7 +2,7 @@
 The page is generated from four parts and never hand-edited:
   tokens    src/ui-kit/recoil-report/_tokens.css, inlined verbatim (sentinel line kept)
   kit       the @prim blocks of the parts the page uses, copied verbatim from src/ui-kit/recoil-report/NN-*.html
-            (27 section-label, 28 chip, 29 tile, 31 callout, 38 wordmark, 39 theme light remap, 42 shell-nav, 52 plan-matrix, 53 cold-read)
+            (27 section-label, 28 chip, 29 tile, 31 callout, 38 wordmark, 39 theme light remap, 42 shell-nav, 51 display-preferences, 52 plan-matrix, 53 cold-read)
   template  src/ui-kit/tabbed-brief/shell.css + shell.js (frame and page organisms, no counterpart content)
   data      a JSON file valid against src/ui-kit/tabbed-brief/brief.schema.json (all copy; links as [text](url), bold as **text**)
   python3 scripts/tabbed_brief_build.py DATA.json -o OUT.html            write the full page (doctype, analytics if the data asks)
@@ -16,7 +16,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KIT = os.path.join(ROOT, "src/ui-kit/recoil-report")
 TDIR = os.path.join(ROOT, "src/ui-kit/tabbed-brief")
 SCHEMA = os.path.join(TDIR, "brief.schema.json")
-PARTS = ["27-section-label", "28-chip", "29-tile", "31-callout", "38-wordmark", "39-theme-toggle", "42-shell-nav", "52-plan-matrix", "53-cold-read"]
+PARTS = ["27-section-label", "28-chip", "29-tile", "31-callout", "38-wordmark", "39-theme-toggle", "42-shell-nav", "51-display-preferences", "52-plan-matrix", "53-cold-read"]
 REGISTERED = {"_ARTIFACTS/tabbed-brief/gravity.json": "public/gravity-brief.html"}
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import precall_brief_build as pb  # the stdlib JSON Schema subset lives there; reuse it, do not fork it
@@ -92,10 +92,15 @@ def validate(d):
 
 
 # ---------- organisms ----------
+TABLE_N = [0]  # each scroll region gets its own name (axe landmark-unique)
+
+
 def r_table(b):
+    TABLE_N[0] += 1
     head = "".join("<th>%s</th>" % md(h) for h in b["head"])
     rows = "".join("<tr>%s</tr>" % "".join(('<td data-label="%s">%s</td>' % (e(b["head"][i]), md(c))) if i else "<td>%s</td>" % md(c) for i, c in enumerate(r)) for r in b["rows"])
-    return '<div class="tb-scroll"><table class="tb-table"><thead><tr>%s</tr></thead><tbody>%s</tbody></table></div>' % (head, rows)
+    return '<div class="tb-scroll" tabindex="0" role="region" aria-label="Table %d: %s"><table class="tb-table"><thead><tr>%s</tr></thead><tbody>%s</tbody></table></div>' % (
+        TABLE_N[0], e(", ".join(b["head"])), head, rows)
 
 
 def r_plan(b, horizons):
@@ -134,7 +139,7 @@ def r_blocks(bl, horizons, hlevel):
             slots = "".join('<dt class="section-label">%s</dt><dd>%s</dd>' % (md(k), md(v)) for k, v in b["slots"])
             how = "".join('<li class="cr-step"><p class="section-label">%s</p><p class="cr-when">%s</p><p class="cr-what">%s</p></li>' % (md(a), md(w), md(x)) for a, w, x in b.get("how", []))
             how = '<ol class="cr-how" aria-label="How">%s</ol>' % how if how else ""
-            read = '<p class="callout"><b>How to read</b>%s</p>' % md(b["read"]) if b.get("read") else ""
+            read = '<p class="callout cr-read"><b>How to read</b>%s</p>' % md(b["read"]) if b.get("read") else ""
             out.append('<div class="cr"><dl class="cr-slots">%s</dl>%s%s</div>' % (slots, how, read))
         elif t == "list":
             tag = "ol" if b.get("ordered") else "ul"
@@ -168,7 +173,7 @@ def r_overview(d):
         c = o["coldread"]
         cr = '<section class="tb-coldread" id="%s" aria-labelledby="%s-h"><h2 class="tb-h2" id="%s-h">%s</h2>%s</section>\n' % (c["id"], c["id"], c["id"], md(c["title"]), r_blocks([c["block"]], d["horizons"], 3))
     return ('<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">\n<h1 class="tb-h1">%s</h1>\n<p class="tb-lede">%s</p>\n'
-            '<p class="tb-next"><strong>%s</strong> %s</p>\n<div class="tb-actions">%s<p class="tb-note">%s</p></div>\n'
+            '<div class="tb-go"><p class="tb-go-h">%s</p><p class="tb-go-t">%s</p>\n<div class="tb-actions">%s<p class="tb-note">%s</p></div></div>\n'
             '%s<div class="tiles" role="list" aria-label="At a glance">%s</div>\n<div class="tb-expand"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>\n'
             '<div class="tb-folds">%s</div>\n</div>') % (h, md(o["lede"]), md(o["next_step"]["lead"]), md(o["next_step"]["text"]), "".join(acts), md(o["action_note"]), cr, tiles, folds)
 
@@ -185,13 +190,32 @@ def r_tab(t, horizons, i):
         tid, tid, op, tid, md(t["name"]), md(t["rank"]), md(t["headline"]), tid, md(t["lede"]), units, calls)
 
 
+# kit 51 display preferences: the global header control (theme switch + reading options), same on every template
+SUN = ('<svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">'
+       '<circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></svg>')
+DPREFS_ROW = ('<div class="dprefs"><button type="button" class="dprefs-theme" aria-pressed="false" aria-label="Dark mode">' + SUN +
+              '<span class="dprefs-ttl">Dark mode</span><span class="dprefs-trk" aria-hidden="true"></span></button>'
+              '<button type="button" class="dprefs-aa" aria-expanded="false" aria-controls="dprefs" aria-label="Reading options"><span aria-hidden="true">Aa</span></button></div>')
+DP_GROUPS = [("font", "Font", [("std", "Standard"), ("easy", "Easy-read")]),
+             ("size", "Text size", [("std", "Standard"), ("l", "Larger"), ("xl", "Largest")]),
+             ("space", "Spacing", [("std", "Standard"), ("roomy", "Roomy")])]
+
+
+def dprefs_panel():
+    g = "".join('<div class="dprefs-group" role="group" aria-labelledby="dprefs-%s"><span id="dprefs-%s" class="dprefs-label">%s</span><span class="dprefs-btns">%s</span></div>' % (
+        k, k, lab, "".join('<button type="button" data-k="%s" data-v="%s" aria-pressed="%s">%s</button>' % (k, v, str(v == "std").lower(), t) for v, t in opts))
+        for k, lab, opts in DP_GROUPS)
+    return ('<section id="dprefs" class="dprefs-panel" role="dialog" aria-modal="false" aria-labelledby="dprefs-h" hidden>'
+            '<p id="dprefs-h" class="dprefs-title">Reading options</p>%s<div class="dprefs-actions"><button type="button" data-reset>Reset</button>'
+            '<button type="button" data-close>Close</button></div></section>') % g
+
+
 def r_nav(d):
     tabs = ['<button type="button" class="shnav-tab" role="tab" id="t-ov" aria-controls="pane-ov" data-target="pane-ov" aria-selected="true" aria-current="true">%s</button>' % md(d["overview"]["label"])]
     for t in d["tabs"]:
         tabs.append('<button type="button" class="shnav-tab" role="tab" id="t-%s" aria-controls="pane-%s" data-target="pane-%s" aria-selected="false" tabindex="-1">%s<span class="shnav-pill">%s</span></button>' % (
             t["id"], t["id"], t["id"], md(t["label"]), md(t["rank"])))
-    return ('<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Sections" data-menu-below="1024"><span class="wordmark shnav-brand" aria-hidden="true"><span class="wa">ARCS</span>'
-            '<span class="wf">FIELD OS</span></span><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs" aria-label="View">%s</div>'
+    return ('<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Sections" data-menu-below="1024"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs" aria-label="View">%s</div>'
             '<button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Jump to a section"><span></span></button></nav></div>') % "".join(tabs)
 
 
@@ -202,15 +226,20 @@ def date_long(iso):
 
 
 def render(d, artifact=False):
+    TABLE_N[0] = 0
     m = d["meta"]
     css = tokens() + "\n" + "".join(kit_block(p) for p in PARTS) + open(os.path.join(TDIR, "shell.css"), encoding="utf-8").read()
-    head_js = ("<script>(function(){var d=document.documentElement;var t=null;try{t=localStorage.getItem('%s')}catch(e){}"
-               "d.setAttribute('data-theme',t==='dark'?'dark':'light');})();</script>") % d["storage_key"]
+    # pre-paint: one saved object per page (theme, font, size, space); light unless the reader chose dark
+    head_js = ("<script>(function(){var d=document.documentElement,s={};try{var r=localStorage.getItem('%s')||'';"
+               "s=r.charAt(0)==='{'?JSON.parse(r):(r?{theme:r}:{})}catch(e){}"
+               "d.setAttribute('data-theme',s.theme==='dark'?'dark':'light');"
+               "var A={font:'data-font',size:'data-size',space:'data-space'};for(var k in A){if(s[k]&&s[k]!=='std')d.setAttribute(A[k],s[k])}})();</script>") % d["storage_key"]
     meta = ('<dl class="tb-meta"><div class="opt"><dt>Prepared for</dt><dd>%s</dd></div><div><dt>From</dt><dd>%s</dd></div>'
             '<div><dt>Updated</dt><dd><time datetime="%s">%s</time></dd></div><div class="opt"><dt>Status</dt><dd>%s</dd></div></dl>') % (
         md(m["prepared_for"]), md(m["from"]), e(m["updated"]), date_long(m["updated"]), md(m["status"]))
-    top = ('<div class="tb-top"><span class="chip cyan">Private</span><p>%s</p><button type="button" class="tb-switch" id="tb-switch" role="switch" '
-           'aria-checked="false" aria-label="Dark mode"><span aria-hidden="true">Dark</span><span class="trk" aria-hidden="true"></span></button></div>') % md(d["top_line"])
+    line = ('<span class="chip cyan">Private</span><p>%s</p>' % md(d["top_line"])) if d.get("top_line") else ""
+    top = ('<header class="tb-top"><span class="wordmark tb-brand"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></span>%s%s</header>\n%s') % (
+        line, DPREFS_ROW, dprefs_panel())
     body = "\n".join([r_overview(d)] + [r_tab(t, d["horizons"], i) for i, t in enumerate(d["tabs"])])
     main = ('<main class="tb" data-store="' + e(d["storage_key"]) + '">\n%s\n<section class="tb-frame" aria-label="%s">\n%s\n%s\n<div class="tb-body">\n%s\n</div>\n</section>\n</main>\n'
             '<script>%s</script>\n<script>%s</script>') % (top, e(d["doc_title"]), meta, r_nav(d), body, shnav_js()[len("<script>"):-len("</script>")],

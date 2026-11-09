@@ -3,14 +3,33 @@
   var doc = document.documentElement, root = document.querySelector('.tb'), KEY = (root && root.getAttribute('data-store')) || 'tbTheme';
   var reduce = function () { return matchMedia('(prefers-reduced-motion: reduce)').matches; };
 
-  /* theme: light by default, the reader's choice is remembered on this device only */
-  var sw = document.getElementById('tb-switch');
-  function syncSwitch() { if (sw) sw.setAttribute('aria-checked', String(doc.getAttribute('data-theme') === 'dark')); }
-  if (sw) sw.addEventListener('click', function () {
-    var next = doc.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    doc.setAttribute('data-theme', next); try { localStorage.setItem(KEY, next); } catch (e) {} syncSwitch();
-  });
-  syncSwitch();
+  /* header controls (kit 51): theme switch + reading options, one saved object per page, light by default */
+  var st = {}; try { var raw = localStorage.getItem(KEY) || ''; st = raw.charAt(0) === '{' ? JSON.parse(raw) : (raw ? { theme: raw } : {}); } catch (e) {}
+  var ATTR = { font: 'data-font', size: 'data-size', space: 'data-space' };
+  var tg = document.querySelector('.dprefs-theme'), aa = document.querySelector('.dprefs-aa'), panel = aa && document.getElementById(aa.getAttribute('aria-controls'));
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
+  function applyPrefs() {
+    doc.setAttribute('data-theme', st.theme === 'dark' ? 'dark' : 'light');
+    for (var k in ATTR) { var v = st[k]; if (v && v !== 'std') doc.setAttribute(ATTR[k], v); else doc.removeAttribute(ATTR[k]); }
+    if (tg) tg.setAttribute('aria-pressed', String(st.theme === 'dark'));
+    if (panel) [].forEach.call(panel.querySelectorAll('button[data-k]'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === (st[b.getAttribute('data-k')] || 'std'))); });
+  }
+  function place() { var r = aa.getBoundingClientRect(), vw = doc.clientWidth; panel.style.top = Math.round(r.bottom + 8) + 'px'; panel.style.right = Math.max(16, Math.min(Math.round(vw - r.right), vw - panel.offsetWidth - 16)) + 'px'; }
+  function openPrefs(o) { panel.hidden = !o; aa.setAttribute('aria-expanded', String(o)); if (o) { place(); (panel.querySelector('button[aria-pressed="true"]') || panel.querySelector('button')).focus(); } else aa.focus(); }
+  if (tg) tg.addEventListener('click', function () { st.theme = st.theme === 'dark' ? 'light' : 'dark'; save(); applyPrefs(); });
+  if (aa && panel) {
+    aa.addEventListener('click', function () { openPrefs(panel.hidden); });
+    panel.addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      if (b.hasAttribute('data-close')) openPrefs(false);
+      else if (b.hasAttribute('data-reset')) { st = {}; save(); applyPrefs(); }
+      else if (b.getAttribute('data-k')) { st[b.getAttribute('data-k')] = b.getAttribute('data-v'); save(); applyPrefs(); }
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) openPrefs(false); });
+    addEventListener('resize', function () { if (!panel.hidden) place(); });
+    addEventListener('scroll', function () { if (!panel.hidden) place(); }, { passive: true });
+  }
+  applyPrefs();
 
   /* fold sections: button inside the heading toggles its body */
   function setFold(btn, open) { btn.setAttribute('aria-expanded', String(open)); var b = document.getElementById(btn.getAttribute('aria-controls')); if (b) b.hidden = !open; syncExpand(); }

@@ -10,7 +10,6 @@
     "doc_title",
     "storage_key",
     "horizons",
-    "top_line",
     "meta",
     "overview",
     "tabs"
@@ -45,7 +44,7 @@
     },
     "top_line": {
       "type": "string",
-      "description": "Who it is for and how it was shared, beside the Private chip."
+      "description": "Optional: a Private chip and one line on who it is for and how it was shared. Leave it out when the meta strip says enough."
     },
     "meta": {
       "type": "object",

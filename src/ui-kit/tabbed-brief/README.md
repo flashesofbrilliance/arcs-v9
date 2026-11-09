@@ -22,7 +22,8 @@ Never hand-edit a generated page. Change the data (copy), the template layer her
 | | callout (Gap, Condition) | kit 31 | |
 | | wordmark | kit 38 | |
 | | rank pill | kit 42 (`.shnav-pill`) | One pill for rank, in the tabs and the role headings. |
-| | button, switch | template (`.tb-btn`, `.tb-switch`) | Candidates for the kit once a second template uses them. |
+| | header controls (theme switch, reading options) | kit 51 | The global header with kit 38 wordmark (rule 13b). |
+| | button | template (`.tb-btn`) | Candidate for the kit once a second template uses it. |
 | Organisms | shell nav (tabs, dropdown menu) | kit 42 | Tabs from 1024px; menu below, half width from 600px. |
 | | plan matrix (duties by horizon, know strip) | kit 52 | Horizons are data. |
 | | hero (headline, lede, next step, actions) | template | Clean above the fold: one action row. |
@@ -48,7 +49,8 @@ Spacing: 28px between blocks and units, 12px inside a unit, hairline spacer betw
 - **Addresses:** each jump writes a plain `#name` (the tab id, or a section id) so any view can be linked; the overview clears it.
   A hash on load opens that view. Startup never clears a hash before it is read.
 - **Actions:** `tab` opens that tab (or scrolls to that role on narrow screens); `section` opens and scrolls to a fold.
-- **Theme:** light by default; the switch is remembered on the reader's device only (`storage_key`).
+- **Header:** kit 38 wordmark left, kit 51 right. Theme is light by default; theme, font, text size and spacing are saved as one
+  object under `storage_key` on the reader's device only. Escape or Close returns focus to Aa.
 - **Print:** every pane and fold opens.
 
 ## Data rules

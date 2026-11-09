@@ -23,6 +23,10 @@ CLASSNAME_ALLOW = {
 CSS_ALLOW = {
     "src/app/globals.css",  # reset + keyframes + font tokens
     "src/ui-kit/recoil-report/_tokens.css",  # artifact token kit (gotcha #13)
+    # Artifact-only kit stylesheets (2026-11-09): inlined into generated single-file pages, never loaded by the app.
+    "src/ui-kit/recoil-report/_tokens-light.css",  # shared light remap for kit parts 43 to 51
+    "src/ui-kit/recoil-report/_kit-sr.css",  # shared screen-reader utility for kit parts
+    "src/ui-kit/tabbed-brief/shell.css",  # tabbed-brief template layer (scripts/tabbed_brief_build.py)
 }
 TAILWIND = re.compile(r"@tailwind|@apply\b|from ['\"]tailwind|require\(['\"]tailwind")
 
