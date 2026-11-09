@@ -146,11 +146,11 @@ const { chromium } = require('playwright');
       for (const a of acts) { const b = a.getBoundingClientRect(); if (b.height < 43.5) out.push(`agreement action "${a.getAttribute('aria-label')}" under 44px`); if (!a.getAttribute('href')) out.push('agreement action without a link'); }
       if (!acts.some(a => /^Discuss/.test(a.getAttribute('aria-label') || ''))) out.push('no Discuss call to action');
       document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); document.body.click(); await sleep(80);
-      // the Now note dismisses; the strip says "Not started." until work starts, then shows a day progressbar
+      // the Now note dismisses; the strip shows a "Not started" pill until work starts, then shows a day progressbar
       if (!document.querySelector('#pane-s1>.stamp .stamp-x[aria-label]')) out.push('Now note has no dismiss button');
       const strip = document.getElementById('s1prog');
       if (!strip) out.push('no progress strip');
-      else if (!strip.querySelector('[role=progressbar][aria-valuenow]') && !/Not started\./.test(strip.textContent)) out.push('progress strip shows neither a progressbar nor "Not started."');
+      else if (!strip.querySelector('[role=progressbar][aria-valuenow]') && !/Not started/i.test(strip.textContent)) out.push('progress strip shows neither a progressbar nor "Not started."');
       // "Your week" leads; the grid sits in a closed disclosure that opens to a working grid
       const all = document.getElementById('s1all');
       if (!all || all.open) out.push('"See every item" is missing or open by default');
