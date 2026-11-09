@@ -102,6 +102,19 @@
   },
   {
    "get": "",
+   "hours": 0,
+   "id": "w0f",
+   "kind": "req",
+   "label": "Call transcripts only with your yes",
+   "len": 1,
+   "note": "I'd like to transcribe our calls with Granola, so I can check what I predicted against what you actually said. I'll ask at the start of each call. If anyone says no, I take notes by hand instead.",
+   "parent": "w0",
+   "s2": "",
+   "s3": "",
+   "start": 0
+  },
+  {
+   "get": "",
    "hours": 4.25,
    "id": "w1",
    "kind": "phase",
