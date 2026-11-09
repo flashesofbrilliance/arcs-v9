@@ -470,7 +470,13 @@ footer p{text-align:left;}
   .offerwrap details.pbreak{margin-top:var(--sp-4);}
 }
 
-@media print{.cover-top .cover-for{margin:0;}}
+@media print{
+  .cover-top .cover-for{margin:0;}
+  .cover-wm{margin-top:auto;}
+  .cover-title{margin-top:var(--sp-5);padding-bottom:0;}
+  .cover-toc{margin-top:auto;}
+  .cover-sub{font-size:1.5rem;line-height:1.35;color:var(--text);text-wrap:pretty;}
+}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -489,7 +495,7 @@ footer p{text-align:left;}
     <li><span class="pn">02</span><span>The two decisions</span></li>
     <li><span class="pn">03</span><span>What's included</span></li>
   </ol>
-  <div class="cover-meta"><p class="cm-who"><b>Zach Harris</b><span>zach.harris@gmail.com</span></p><p class="cm-conf">Confidential<br>Do not share</p></div>
+  <div class="cover-meta"><p class="cm-who"><b>Zach Harris</b><span>zach.harris@gmail.com</span></p><p class="cm-conf">Confidential</p></div>
 </section>
 
 
