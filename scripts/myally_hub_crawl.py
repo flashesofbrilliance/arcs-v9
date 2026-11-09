@@ -127,13 +127,30 @@ const { chromium } = require('playwright');
       if (pf && pf.contentDocument && pf.contentDocument.body && pf.contentDocument.body.innerText.trim()) out.push('Proposal frame still has content');
       if (document.querySelectorAll('#pane-plan .row[data-id]').length) out.push('Timeline still has rows');
       document.getElementById('t-s1').click(); await sleep(100);
-      // header actions (PDF, Word, call, comment) replace the old Step 1 button row: four links, 44px targets, an accessible name each
-      const acts = [...document.querySelectorAll('.shell-meta .metaacts a.ma')];
-      if (acts.length !== 4) out.push(`header actions: ${acts.length}, want 4`);
-      for (const a of acts) { const b = a.getBoundingClientRect(); if (b.height < 43.5 || b.width < 43.5) out.push(`header action "${a.getAttribute('aria-label')}" under 44px`); if (!a.getAttribute('href')) out.push('header action without a link'); }
-      // the Now note dismisses; the progress strip stays and carries a progressbar
+      // The agreement and Discuss live in one place: an "Agreement" menu in the header (desktop), the same group in the
+      // hamburger menu (phones). Four links (PDF, Word, shared doc, Discuss), 44px targets, an accessible name each.
+      const phone = innerWidth <= 560;
+      let acts = [];
+      if (phone) {
+        const bg = document.getElementById('burger'); if (bg) { bg.click(); await sleep(150); }
+        const g = document.querySelector('.shell-bar .menuacts');
+        if (!g || getComputedStyle(g).display === 'none') out.push('phone menu has no Agreement group');
+        acts = [...document.querySelectorAll('.shell-bar .menuacts a')];
+      } else {
+        const ab = document.querySelector('.shell-meta .agb');
+        if (!ab) out.push('header has no Agreement menu button');
+        else { ab.click(); await sleep(120); if (ab.getAttribute('aria-expanded') !== 'true') out.push('Agreement menu does not open'); }
+        acts = [...document.querySelectorAll('#agrmenu a')];
+      }
+      if (acts.length !== 4) out.push(`agreement actions: ${acts.length}, want 4`);
+      for (const a of acts) { const b = a.getBoundingClientRect(); if (b.height < 43.5) out.push(`agreement action "${a.getAttribute('aria-label')}" under 44px`); if (!a.getAttribute('href')) out.push('agreement action without a link'); }
+      if (!acts.some(a => /^Discuss/.test(a.getAttribute('aria-label') || ''))) out.push('no Discuss call to action');
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); document.body.click(); await sleep(80);
+      // the Now note dismisses; the strip says "Not started." until work starts, then shows a day progressbar
       if (!document.querySelector('#pane-s1>.stamp .stamp-x[aria-label]')) out.push('Now note has no dismiss button');
-      if (!document.querySelector('#s1prog [role=progressbar][aria-valuenow]')) out.push('progress strip has no progressbar');
+      const strip = document.getElementById('s1prog');
+      if (!strip) out.push('no progress strip');
+      else if (!strip.querySelector('[role=progressbar][aria-valuenow]') && !/Not started\./.test(strip.textContent)) out.push('progress strip shows neither a progressbar nor "Not started."');
       // "Your week" leads; the grid sits in a closed disclosure that opens to a working grid
       const all = document.getElementById('s1all');
       if (!all || all.open) out.push('"See every item" is missing or open by default');
@@ -287,7 +304,7 @@ const { chromium } = require('playwright');
       document.getElementById('s1r-' + ids[0])?.querySelector('.tx').click(); await sleep(450);
       const ro = [];
       if (de.scrollWidth > innerWidth + 1) ro.push(`page scrolls sideways (${de.scrollWidth}px)`);
-      for (const el of document.querySelectorAll('#s1prog .s1si, .shell-meta .metaacts a, .s1sum .glab, .s1week li, .s1week .wt, #s1all>summary, #s1detail h2, #s1detail h3, #s1detail .pd-list button, #s1detail .pd-x, #s1detail .pd-ok button')) {
+      for (const el of document.querySelectorAll('#s1prog .s1si, .shell-bar .menuacts a, #agrmenu a, .s1sum .glab, .s1week li, .s1week .wt, #s1all>summary, #s1detail h2, #s1detail h3, #s1detail .pd-list button, #s1detail .pd-x, #s1detail .pd-ok button')) {
         if (el.scrollWidth > el.clientWidth + 1) ro.push(`clipped text in ${el.className || el.tagName}: "${el.textContent.trim().slice(0, 30)}"`);
       }
       for (const el of document.querySelectorAll('#s1all>summary, #s1detail .pd-list button, #s1detail .pd-ok button, #s1detail [data-close]')) {
