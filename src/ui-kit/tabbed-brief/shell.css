@@ -38,11 +38,10 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-next { margin: 0; font-size: var(--fs-body); color: var(--text); }
 .tb-next strong { font-weight: 600; }
 /* the call to action: one loud block, mono at display size, inside a heavy ink border */
-.tb-go { display: flex; flex-direction: column; gap: 16px; padding: 28px; border: 2px solid var(--text); border-radius: var(--ds-r-md); background: var(--surface); }
+.tb-go { display: flex; flex-direction: column; gap: 16px; padding: 8px 0 20px; }
 .tb-go > * { margin: 0; }
 .tb-go-h { font-family: var(--ds-font-mono); font-weight: 800; font-size: var(--fs-display); line-height: 1.1; letter-spacing: -0.02em; color: var(--text); }
 .tb-go-t { font-size: var(--fs-headline); line-height: 1.5; color: var(--text); text-wrap: pretty; }
-@media (max-width: 599px) { .tb-go { padding: 20px; } }
 .tb-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .tb-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 18px; border-radius: var(--ds-r-pill);
   border: 1px solid var(--border); background: var(--surface); color: var(--cyan); font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; }

@@ -65,7 +65,7 @@
   "sections": [
    {
     "id": "line",
-    "title": "The Through-Line",
+    "title": "Proof of Work",
     "tagline": "Three things that hold across every seat.",
     "open": true,
     "blocks": [
@@ -94,7 +94,7 @@
    },
    {
     "id": "qs",
-    "title": "Two Questions for You",
+    "title": "Your Move",
     "tagline": "The answers decide which tab matters.",
     "open": true,
     "blocks": [
@@ -169,11 +169,11 @@
    "name": "Principal, New Ventures",
    "rank": "1st",
    "tagline": "My strongest fit",
-   "headline": "Principal, New Ventures: my strongest fit.",
+   "headline": "Principal: break the CEO bottleneck.",
    "lede": "Your page: own hatches end to end, so ideas stop queuing at the CEO. Spot the gap, write the case, pitch the committee, prototype with AI, recruit founders. Builder, not researcher or investor.",
    "units": [
     {
-     "title": "A 30, 90 and 180 Day Plan",
+     "title": "30 / 90 / 180",
      "blocks": [
       {
        "type": "plan",
@@ -231,7 +231,7 @@
      ]
     },
     {
-     "title": "How I Would Use ARCS in the Seat",
+     "title": "ARCS in the Seat",
      "blocks": [
       {
        "type": "p",
@@ -260,7 +260,7 @@
      ]
     },
     {
-     "title": "What You Ask For, and What I Bring",
+     "title": "You Ask, I Bring",
      "blocks": [
       {
        "type": "table",
@@ -298,7 +298,7 @@
      ]
     },
     {
-     "title": "The Exercise You Ask For, Done Once",
+     "title": "Homework, Done",
      "blocks": [
       {
        "type": "cards",
@@ -318,7 +318,7 @@
      ]
     },
     {
-     "title": "What Could Go Wrong",
+     "title": "How This Breaks",
      "blocks": [
       {
        "type": "table",
@@ -360,7 +360,7 @@
    "lede": "Your page: a six-month contract. Source and validate hatches in DeFi, stablecoins, infrastructure and prediction markets, take each from a few sentences to a committee pitch, and by month six find one worth founding.",
    "units": [
     {
-     "title": "A 30, 90 and 180 Day Plan",
+     "title": "30 / 90 / 180",
      "blocks": [
       {
        "type": "plan",
@@ -406,7 +406,7 @@
      ]
     },
     {
-     "title": "What You Ask For, and What I Bring",
+     "title": "You Ask, I Bring",
      "blocks": [
       {
        "type": "table",
@@ -457,7 +457,7 @@
      ]
     },
     {
-     "title": "What Would Make Me Commit, and What Would Make Me Walk",
+     "title": "Commit or Walk",
      "blocks": [
       {
        "type": "p",
@@ -466,7 +466,7 @@
      ]
     },
     {
-     "title": "What Could Go Wrong",
+     "title": "How This Breaks",
      "blocks": [
       {
        "type": "table",
@@ -509,11 +509,11 @@
    "name": "Founder, Portfolio Company",
    "rank": "3rd",
    "tagline": "A fit on one condition",
-   "headline": "Founder: the seat I would reach through the EIR seat.",
+   "headline": "Founder: EIR first, then the keys.",
    "lede": "Your page: CEO or CTO of a hatch you have validated and funded. Five to ten years. An outside raise in year one.",
    "units": [
     {
-     "title": "A 30, 90 and 180 Day Plan",
+     "title": "30 / 90 / 180",
      "blocks": [
       {
        "type": "plan",
@@ -566,7 +566,7 @@
      ]
     },
     {
-     "title": "What You Ask For, and What I Bring",
+     "title": "You Ask, I Bring",
      "blocks": [
       {
        "type": "table",
@@ -592,7 +592,7 @@
      ]
     },
     {
-     "title": "One Secret About Financial Services",
+     "title": "One Secret",
      "blocks": [
       {
        "type": "p",
@@ -601,7 +601,7 @@
      ]
     },
     {
-     "title": "What Could Go Wrong",
+     "title": "How This Breaks",
      "blocks": [
       {
        "type": "table",
@@ -665,7 +665,7 @@
      ]
     },
     {
-     "title": "A 30, 90 and 180 Day Plan",
+     "title": "30 / 90 / 180",
      "blocks": [
       {
        "type": "plan",
@@ -705,7 +705,7 @@
      ]
     },
     {
-     "title": "What Could Go Wrong",
+     "title": "How This Breaks",
      "blocks": [
       {
        "type": "table",
