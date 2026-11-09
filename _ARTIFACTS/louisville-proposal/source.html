@@ -560,6 +560,18 @@ footer p{text-align:left;}
   .mast .mast-for strong{color:var(--text);font-weight:600;margin-right:6px;}
 }
 @media print{.mast{display:none;}}
+/* Top row layout: wordmark alone on line one; "Prepared for" and the controls share line two.
+   On phones the controls move up beside the wordmark so the prepared-for line keeps full width. */
+@media screen{
+  .mast{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:var(--sp-2);row-gap:var(--sp-1);}
+  .mast .wordmark{grid-column:1;grid-row:1;}
+  .mast .mast-for{grid-column:1;grid-row:2;}
+  .mast .dprefs{grid-column:2;grid-row:2;margin-left:0;}
+}
+@media screen and (max-width:520px){
+  .mast .dprefs{grid-row:1;}
+  .mast .mast-for{grid-column:1 / -1;}
+}
 </style>
 </head>
 <body>
