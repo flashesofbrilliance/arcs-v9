@@ -52,12 +52,15 @@ def unit() -> list:
             fails.append(f"kind {k}: no icon symbol")
         if k != "phase" and f'class="ico c-{k}"' not in hub:
             fails.append(f"kind {k}: no legend entry")
-    # Step 1 to 3 pricing tops out at $4,500; any figure of $10,000 or more is full-build pricing that must
-    # stay off the site until Step 2 (Zach, 2026-11-08). Checked on the decoded page, embedded copies included.
+    # Later-phase pricing stays off the site until that phase is signed (Zach, 2026-11-08). An allowlist, not a
+    # threshold: a $10,000 floor let "$8,500 audit" through (2026-11-09). Every figure of $1,000 or more must be
+    # one the client already has in writing: a step ($1,500), all three steps ($4,500), their ceiling ($5,000).
+    # Checked on the decoded page, embedded copies included.
     import html as _h
-    big = sorted({m for m in re.findall(r"\$\d{1,3}(?:,\d{3})+", _h.unescape(_h.unescape(hub))) if int(m[1:].replace(",", "")) >= 10000})
+    allowed = {"$1,500", "$4,500", "$5,000"}
+    big = sorted({m for m in re.findall(r"\$\d{1,3}(?:,\d{3})+", _h.unescape(_h.unescape(hub))) if m not in allowed})
     if big:
-        fails.append("full-build figures on the site: " + ", ".join(big[:8]))
+        fails.append("pricing not on the allowlist (later-phase figures?): " + ", ".join(big[:8]))
     return fails
 
 

@@ -872,7 +872,7 @@
         "get": "",
         "s2": "",
         "s3": "",
-        "note": "What is built, and is it safe to build on?",
+        "note": "What is built, and what to fix first?",
         "hours": 4.25
       },
       {
@@ -1022,7 +1022,7 @@
         "id": "w3b",
         "parent": "w3",
         "kind": "task",
-        "label": "Find the lightest no-code or low-code way to meet each one, and what to buy or rent instead of build",
+        "label": "Find options for each one, with the questions to confirm with your counsel, and what to buy or rent instead of build",
         "start": 3,
         "len": 1,
         "get": "",
@@ -1055,7 +1055,7 @@
         "s2": "",
         "s3": "",
         "note": "Rough ranges, each with its assumptions. Firm estimates are not part of this step.",
-        "hours": 1.25
+        "hours": 1
       },
       {
         "id": "w4a",
@@ -1068,7 +1068,7 @@
         "s2": "",
         "s3": "",
         "note": "",
-        "hours": 1.25
+        "hours": 1
       },
       {
         "id": "w4b",
@@ -1184,21 +1184,21 @@
         "get": "",
         "s2": "",
         "s3": "",
-        "note": "",
-        "hours": 0.25
+        "note": "Each item on this list is marked ready for review as it lands, and you hear about it through the channel you choose: this tab, email, or a shared Slack channel if you use one.",
+        "hours": 0.5
       },
       {
         "id": "w7a",
         "parent": "w7",
         "kind": "ms",
-        "label": "Midweek, a short written note on what I'm seeing and anything I need from you",
+        "label": "Midweek, a 30-minute review call on your batched comments",
         "start": 2,
         "len": 0,
-        "get": "",
+        "get": "Comment whenever suits you on anything marked ready, in one place. I collect the comments and we go through them together, so your time stays free in between.",
         "s2": "",
         "s3": "",
-        "note": "",
-        "hours": 0.25
+        "note": "Review calls are part of Step 1 and don't use your office hours.",
+        "hours": 0.5
       },
       {
         "id": "w6",
