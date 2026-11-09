@@ -368,7 +368,7 @@ footer p{text-align:left;}
   main{counter-reset:sec;}
   details.blk > summary > .slabel::before{counter-increment:sec;content:counter(sec,decimal-leading-zero);display:block;margin-bottom:var(--sp-1);font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;color:var(--cyan);}
   .pbody > section.offerwrap{border-top:1px solid var(--border);padding-top:var(--sp-4);}
-  .offerwrap details.pbreak{border-top:1px solid var(--border);margin-top:var(--sp-3);padding-top:var(--sp-3);}
+  .offerwrap details.pbreak{border-top:1px solid var(--border);margin-top:var(--sp-5);padding-top:var(--sp-3);}
 }
 @media screen and (max-width:640px){
   body{padding-left:var(--sp-1);padding-right:var(--sp-1);}
@@ -391,7 +391,6 @@ footer p{text-align:left;}
   .offerwrap .bd > .spec > .specrow,.offerwrap .bd > .spec > .specrow:last-child{grid-template-columns:minmax(0,1fr);align-content:start;row-gap:var(--sp-1);padding:var(--sp-2) var(--sp-3);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);}
   .offerwrap .bd > .spec > .specrow dt{display:flex;align-items:center;gap:var(--sp-1);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);}
   .offerwrap .bd > .spec > .specrow dt::before{content:"";width:8px;height:8px;border-radius:var(--ds-r-pill);background:currentColor;flex-shrink:0;}
-  .offerwrap .bd > .spec > .specrow:nth-child(2) dt{color:var(--gold);}
 }
 @media screen and (max-width:640px){
   
@@ -415,6 +414,22 @@ footer p{text-align:left;}
 }
 @media screen and (max-width:640px){
   .offerwrap details.pbreak + .offer-eyebrow{margin-top:var(--sp-4);}
+}
+
+@media screen{
+  .hgrid .hhead,.gg .gg-head > span,.offerwrap > .lockup .slabel,.offerwrap details.pbreak + .offer-eyebrow{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;}
+  .offerwrap > .lockup .slabel{color:var(--muted);}
+  .offerwrap > .lockup{gap:var(--sp-2);}
+  .offerwrap > .lockup + details.blk.sub{border-top:0;margin-top:var(--sp-3);}
+  .gg{margin-top:var(--sp-2);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);overflow:hidden;}
+  .gg-row{padding:var(--sp-2) var(--sp-3);}
+  .gg-row:last-child{border-bottom:0;}
+  .gg-head{padding:var(--sp-1) var(--sp-3);background:var(--surface-2);border-bottom:1px solid var(--border);color:var(--muted);}
+  .gg-head + .gg-row{border-top:0;}
+}
+@media screen and (max-width:640px){
+  .gg-head + .gg-row{border-top:0;}
+  .gg > .gg-row:nth-child(2){border-top:0;}
 }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
