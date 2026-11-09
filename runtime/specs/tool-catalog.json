@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 281,
-  "skill": 27,
+  "script": 282,
+  "skill": 28,
   "workflow": 2
  },
- "total": 409,
+ "total": 411,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 567,
+   "WIRED": 569,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
@@ -136,6 +136,14 @@
    "path": ".claude/skills/forge-kit/SKILL.md",
    "jtbd": "Magnetically scaffold a whole engagement macro-construction — food, experience, tuned-explanation (oriented by a guest intake), and gift — by forking existing ARCS templates in one move. The macro BETWEEN tool-forge (one CLI) and a full bes",
    "invoke": "/forge-kit",
+   "state": "WIRED"
+  },
+  {
+   "kind": "skill",
+   "name": "honest-proposals-zach",
+   "path": ".claude/skills/honest-proposals-zach/SKILL.md",
+   "jtbd": "Zach's PRIVATE overlay on the honest-proposals method (never publish). Use whenever Zach writes a client proposal, reply, services agreement or Exhibit A from an engagement record. Layers his terms, voice, Connecticut agreement habits, coun",
+   "invoke": "/honest-proposals-zach",
    "state": "WIRED"
   },
   {
@@ -2192,6 +2200,14 @@
    "path": "scripts/proposal_build.py",
    "jtbd": "proposal_build.py: one source page -> the hosted page, a send copy and the PDF.",
    "invoke": "python3 scripts/proposal_build.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "proposal_lint.py",
+   "path": "scripts/proposal_lint.py",
+   "jtbd": "proposal_lint.py: the honest-proposals checks over one engagement's text and rendered outputs.",
+   "invoke": "python3 scripts/proposal_lint.py",
    "state": "WIRED"
   },
   {
