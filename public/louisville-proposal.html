@@ -145,7 +145,7 @@ h1{font-family:var(--sans);font-size:var(--fs-display);font-weight:700;letter-sp
 .hrow{display:contents;}
 .hrow > div{padding:var(--sp-2) 0;border-top:1px solid var(--border);}
 .hrow .ref{display:block;margin-top:6px;}
-.lockup{display:flex;flex-direction:column;gap:6px;}
+.lockup{display:flex;flex-direction:column;gap:var(--sp-1);}
 .lockup .deck{color:var(--secondary);text-wrap:pretty;}
 .proof{display:flex;flex-direction:column;gap:6px;}
 footer p{color:var(--secondary);text-align:center;}
@@ -223,7 +223,7 @@ details.blk > summary::-webkit-details-marker{display:none;}
 details.blk > summary::after{content:"";grid-column:2;grid-row:1 / span 2;width:10px;height:10px;margin-top:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform var(--dur-base) var(--ease-out);}
 details.blk[open] > summary::after{transform:rotate(-135deg);}
 details.blk > summary > h2,details.blk > summary > h3{grid-column:1;margin:0;}
-details.blk > summary .tk{grid-column:1;color:var(--secondary);margin-top:4px;text-wrap:pretty;}
+details.blk > summary .tk{grid-column:1;color:var(--secondary);margin-top:var(--sp-1);text-wrap:pretty;}
 details.blk > summary:focus-visible{outline:2px solid var(--cyan);outline-offset:4px;border-radius:var(--ds-r-sm);}
 details.blk > .bd{padding-top:var(--sp-2);}
 details.blk.sub{margin-top:var(--sp-2);border-top:1px solid var(--border);}
@@ -358,7 +358,7 @@ footer p{text-align:left;}
   .mast .tools{display:flex;align-items:center;gap:0;margin:0 calc(-1*var(--sp-1)) 0 0;}
   .pbody{display:flex;flex-direction:column;gap:var(--sp-4);padding:var(--sp-4);}
   .pbody > header{padding-bottom:var(--sp-4);border-bottom:1px solid var(--border);}
-  .pbody > header + .blkbar{margin-top:calc(-1*var(--sp-2));}
+  .pbody > .blkbar{margin:calc(-1*var(--sp-2)) 0 calc(-1*var(--sp-3));}
   footer{border-top:1px solid var(--border);padding-top:var(--sp-3);}
 }
 @media screen and (max-width:640px){
@@ -366,6 +366,7 @@ footer p{text-align:left;}
   .mast{padding:var(--sp-1) var(--sp-1) var(--sp-1) var(--sp-2);}
   .pbody{gap:var(--sp-3);padding:var(--sp-2);}
   .pbody > header{padding-bottom:var(--sp-3);}
+  .pbody > .blkbar{margin:calc(-1*var(--sp-1)) 0 calc(-1*var(--sp-2));}
 }
 @media print{.mast{display:none;} .pbody{display:contents;}}
 </style>
