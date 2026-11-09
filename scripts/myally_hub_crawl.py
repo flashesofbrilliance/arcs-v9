@@ -61,6 +61,13 @@ def unit() -> list:
     big = sorted({m for m in re.findall(r"\$\d{1,3}(?:,\d{3})+", _h.unescape(_h.unescape(hub))) if m not in allowed})
     if big:
         fails.append("pricing not on the allowlist (later-phase figures?): " + ", ".join(big[:8]))
+    # An embedded page must not show its own top bar inside the hub: a second wordmark, theme toggle, menu and
+    # an MNDA link to a locked tab (Zach saw it on the Primer tab, 2026-11-09). myally_primer_terms.py adds the
+    # data-embed="hub" style that hides it.
+    for m in re.finditer(r'<iframe title="([^"]+)" srcdoc="([^"]*)"', hub):
+        doc = _h.unescape(m.group(2))
+        if '<header class="top"' in doc and 'data-embed="hub"' not in doc:
+            fails.append(f"embedded {m.group(1)}: its own top bar shows inside the hub (missing the data-embed hide)")
     return fails
 
 

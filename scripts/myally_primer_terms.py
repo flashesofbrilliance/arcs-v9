@@ -181,6 +181,11 @@ def hub_text(hub, primer):
     catch = "var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;"
     block = block.replace(catch, "var a=e.target.closest&&e.target.closest('a[href]');if(!a||a.classList.contains('gl'))return;")
     body = primer.replace("—", "-")    # the embed has always carried hyphens for the two token-comment dashes
+    # Inside the hub the Primer's own top bar (wordmark, MNDA button, theme toggle, menu) duplicates the hub's
+    # chrome and its MNDA link leads to a locked tab (Zach, 2026-11-09). Hide it in the embed only, and zero the
+    # sticky-header offset it sets, so in-page jumps still land right.
+    embed_css = '<style data-embed="hub">header.top{display:none!important}html{--hdr:0px!important}</style>'
+    body = body.replace("</head>", embed_css + "</head>", 1)
     new = body[:body.rindex("</body>")] + block + body[body.rindex("</body>"):]
     return hub[:m.start(2)] + html.escape(new, quote=True) + hub[m.end(2):]
 
