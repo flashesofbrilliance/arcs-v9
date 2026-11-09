@@ -69,7 +69,7 @@ def validate(d):
                 for j, r in enumerate(b.get("rows", [])):
                     if len(r) != n + 1:
                         errs.append("%s[%d].rows[%d]: needs the duty plus %d horizon cells" % (where, i, j, n))
-                if len(b.get("know", [])) != n:
+                if "know" in b and len(b["know"]) != n:
                     errs.append("%s[%d].know: needs %d entries, one per horizon" % (where, i, n))
             if b.get("type") == "table":
                 w = len(b.get("head", []))
@@ -109,10 +109,11 @@ def r_plan(b, horizons):
     for r in b["rows"]:
         cells = "<td>%s</td>" % md(r[0]) + "".join('<td data-label="By day %d">%s</td>' % (horizons[i], md(c)) for i, c in enumerate(r[1:]))
         rows += "<tr>%s</tr>" % cells
-    know = "".join('<div class="pm-k"><p class="pm-kl">Day %d</p><p>%s</p></div>' % (horizons[i], md(k)) for i, k in enumerate(b["know"]))
+    know = "".join('<div class="pm-k"><p class="pm-kl">Day %d</p><p>%s</p></div>' % (horizons[i], md(k)) for i, k in enumerate(b.get("know", [])))
+    know = ('<p class="pm-khead">How you would know it is working</p><div class="pm-know">%s</div>' % know) if know else ""
     note = '<p class="pm-note">%s</p>' % md(b["note"]) if b.get("note") else ""
     return ('<div class="pm"><p class="pm-src">%s</p>%s<table class="pm-table"><thead><tr><th>Your page asks me to</th>%s</tr></thead>'
-            '<tbody>%s</tbody></table><p class="pm-khead">How you would know it is working</p><div class="pm-know">%s</div></div>') % (md(b["source"]), note, hs, rows, know)
+            '<tbody>%s</tbody></table>%s</div>') % (md(b["source"]), note, hs, rows, know)
 
 
 def r_cards(b, hlevel):

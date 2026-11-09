@@ -375,8 +375,7 @@
           "required": [
             "type",
             "source",
-            "rows",
-            "know"
+            "rows"
           ],
           "properties": {
             "type": {
