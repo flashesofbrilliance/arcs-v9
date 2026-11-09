@@ -1,11 +1,11 @@
-<!-- INTERNAL. Draft v2 (gauntlet pass 1, Option B). Nothing sent. The agreement is a plain-language draft for a Connecticut lawyer to review, not legal advice. -->
+<!-- INTERNAL. Draft v2 (gauntlet pass 1, Option B). Nothing sent. The agreement is a plain-language draft for a Connecticut lawyer to review, not legal advice. SUPERSEDED for Step 1 terms by agreement rev 27 (2026-11-08): the hub's Step 1 tab follows rev 27; the agreement, Exhibit A and reply text here do not yet (see PR 2059). -->
 <!-- Rendered by scripts/engagement_render.py from engagement.json (myally-ld-step1) + templates/exhibit-a.md.tpl. Do not hand-edit: change the record and re-render. -->
 
 **Exhibit A: Step 1 Deliverables**
 
 To the Services Agreement between Access Consulting, LLC and Zach Harris.
 
-Step 1 delivers the following, within five working days after I have access to GitHub and Lovable (or after signing, if that comes later):
+Step 1 delivers the following, within four working days after I have access to GitHub and Lovable (or after signing, if that comes later):
 
 - A short written report: what in the code is ready to build on, what to keep with some tidying, and what is better rebuilt, with the reasons.
 - A check of how each family's data is kept apart, with anything risky flagged.

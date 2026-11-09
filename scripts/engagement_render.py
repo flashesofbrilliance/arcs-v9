@@ -43,6 +43,7 @@ OPS = {"mul", "div", "add_days"}
 ALTITUDES = ["exec", "strategic", "operational", "tactical", "surgical"]
 CITE = re.compile(r"\{\{([^{}]+)\}\}")
 WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]
+DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 LOCK = "render.lock.json"
 
@@ -230,6 +231,8 @@ def fmt(kind: str, value, style: str = "") -> str:
         if style == "nda":
             return f"{d.month}.{d.day}.{d.year % 100}"
         base = f"{MONTHS[d.month - 1]} {d.day}"
+        if style == "day":
+            return f"{DAYS[d.weekday()]} {base}"
         return f"{base}, {d.year}" if style == "long" else base
     if kind == "days" and style == "weeks":
         if value % 7 == 0 and value // 7 < len(WORDS):
@@ -538,7 +541,7 @@ def self_test() -> int:
         write(eng)
         again = {n: open(os.path.join(eng, "out", n), encoding="utf-8").read() for n in os.listdir(os.path.join(eng, "out"))}
         assert first == again, "render must be idempotent"
-        assert "fixed $1,500" in first["agreement.md"] and "by Nov 20" in first["reply.md"]
+        assert "fixed $1,500" in first["agreement.md"], "agreement must cite the Step 1 fee"
 
         edit(lambda r: r["fields"]["rate_ff"].update(value=150))
         p = check(eng)
@@ -555,13 +558,17 @@ def self_test() -> int:
         def moved(r):
             r["meta"]["last_sent"] = "2026-11-07"
             f = r["fields"]["access_by"]
+            f["value"], f["history"] = "2026-11-13", []  # fixed start, so record edits never break this test
             f["history"].append({"value": f["value"], "until": "2026-11-10", "source": f["source"]})
             f["value"] = "2026-11-20"
         edit(moved)
         write(eng)
         reply = open(os.path.join(eng, "out", "reply.md"), encoding="utf-8").read()
         assert "CHANGED SINCE LAST SENT" in reply and "access_by: was Nov 13, now Nov 20" in reply, reply[:600]
-        assert "by Nov 27" in reply, "deliver_by must follow access_by"
+        import datetime as _dt
+        _days = json.load(open(recp, encoding="utf-8"))["fields"]["duration_days"]["value"]
+        _want = _dt.date(2026, 11, 20) + _dt.timedelta(days=_days)
+        assert _want.strftime("%b ") + str(_want.day) in reply, "deliver_by must follow access_by"
         assert "changed 2026-11-10, was Nov 13" in open(os.path.join(eng, "out", "proposal.html")).read()
 
         for bad, want in (

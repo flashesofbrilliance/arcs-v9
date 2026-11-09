@@ -161,6 +161,13 @@ if [ -n "$hub_eng" ] && [ -f scripts/myally_hub_sync.py ] && command -v python3 
     exit 1
   fi
 fi
+# myally hub interaction crawl (unit checks + headless clicks at 375/800/1280, about 12s).
+if [ -n "$hub_eng" ] && [ -f scripts/myally_hub_crawl.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/myally_hub_crawl.py; then
+    echo "✖ commit blocked: the myally hub crawl found a broken interaction (see above)." >&2
+    exit 1
+  fi
+fi
 gen_eng=$(git diff --cached --name-only -- _ARTIFACTS/engagements scripts/engagement_render.py 2>/dev/null || true)
 if [ -n "$gen_eng" ] && [ -f scripts/engagement_render.py ] && command -v python3 >/dev/null 2>&1; then
   if ! python3 scripts/engagement_render.py --check; then
