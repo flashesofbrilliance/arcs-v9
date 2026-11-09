@@ -139,7 +139,9 @@ export default async function proxy(request: NextRequest) {
       return NextResponse.rewrite(url)
     }
     if (lvProposalPath) {
-      url.pathname = pathname.endsWith('.pdf') ? '/louisville-proposal.pdf' : '/louisville-proposal.html'
+      // review-copy.pdf: the double-spaced, numbered copy for marking up by hand (built by proposal_build.py)
+      url.pathname = pathname.endsWith('/review-copy.pdf') ? '/louisville-proposal-review.pdf'
+        : pathname.endsWith('.pdf') ? '/louisville-proposal.pdf' : '/louisville-proposal.html'
       return NextResponse.rewrite(url)
     }
     return NextResponse.next()

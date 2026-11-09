@@ -425,7 +425,7 @@ footer p{text-align:left;}
 <div class="mast">
   <p class="ref forline">For Brooks Thomas, Louisville Brands</p>
   <div class="tools">
-    <a class="pdfbtn" href="/proposal/outside-read.pdf" download="Outside-read-Louisville-Brands.pdf" aria-label="Download as PDF" title="Download as PDF"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg></a>
+    <a class="pdfbtn" href="/proposal/outside-read.pdf" data-track="pdf_download" download="Outside-read-Louisville-Brands.pdf" aria-label="Download as PDF" title="Download as PDF"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg></a>
   <button type="button" class="themebtn" id="themebtn" aria-label="Switch to light mode" title="Switch to light mode" hidden><svg class="i-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="i-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
   </div>
 </div>
@@ -493,17 +493,18 @@ footer p{text-align:left;}
     </div>
     <div class="offer-proof">
       <p>My RFP engine works the same way: Every answer shows the clause it relies on, says "not covered" when it can't see one, and keeps a public record of the questions it got wrong.</p>
-      <a class="offer-link" href="https://good.arcs.care/rfp-engine">good.arcs.care/rfp-engine<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+      <a data-track="rfp_engine_click" class="offer-link" href="https://good.arcs.care/rfp-engine">good.arcs.care/rfp-engine<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
     </div>
     <p class="offer-ask">Tell me which two decisions to follow, one technical and one business, and I'll send a start date, so the read lands before Q1 plans and the next MOQ lock.</p>
   </div>
 </section>
 
-<footer><p>Zach Harris · <a href="mailto:zach.harris@gmail.com">zach.harris@gmail.com</a></p></footer>
+<footer><p>Zach Harris · <a href="mailto:zach.harris@gmail.com" data-track="email_click">zach.harris@gmail.com</a></p><p class="revline">Want to mark it up? <a href="/proposal/review-copy.pdf" download="Outside-read-review-copy.pdf" data-track="review_copy_download">Download a review copy to print</a>, with numbered paragraphs and room for notes.</p></footer>
 </div>
 
 </main>
 <script>(function(){var d=document.documentElement,b=document.getElementById('themebtn');if(!b)return;var mq=window.matchMedia?matchMedia('(prefers-color-scheme: light)'):null;function cur(){var t=d.getAttribute('data-theme');if(t)return t;return mq&&mq.matches?'light':'dark';}function label(){var n=cur()==='light'?'dark':'light';b.setAttribute('data-next',n);b.setAttribute('aria-label','Switch to '+n+' mode');b.title='Switch to '+n+' mode';}b.hidden=false;label();b.addEventListener('click',function(){var n=cur()==='light'?'dark':'light';d.setAttribute('data-theme',n);try{localStorage.setItem('brooksTheme',n);}catch(e){}label();});if(mq&&mq.addEventListener)mq.addEventListener('change',label);})();</script>
-<script>(function(){var b=document.querySelector('.expall');var ds=[].slice.call(document.querySelectorAll('details.blk'));if(!b||!ds.length)return;function sync(){var all=ds.every(function(d){return d.open});b.textContent=all?'Collapse all':'Expand all';}b.addEventListener('click',function(){var all=ds.every(function(d){return d.open});ds.forEach(function(d){d.open=!all});sync();});ds.forEach(function(d){d.addEventListener('toggle',sync)});window.addEventListener('beforeprint',function(){ds.forEach(function(d){d.open=true})});sync();})();</script>
+<script>(function(){var b=document.querySelector('.expall');var ds=[].slice.call(document.querySelectorAll('details.blk'));if(!b||!ds.length)return;function sync(){var all=ds.every(function(d){return d.open});b.textContent=all?'Collapse all':'Expand all';b.setAttribute('aria-expanded',all?'true':'false');}b.addEventListener('click',function(){var all=ds.every(function(d){return d.open});ds.forEach(function(d){d.open=!all});sync();});ds.forEach(function(d){d.addEventListener('toggle',sync)});window.addEventListener('beforeprint',function(){ds.forEach(function(d){d.open=true})});sync();})();</script>
+<script>(function(){window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-track]');if(!a)return;window.va('event',{name:a.getAttribute('data-track'),data:{href:a.getAttribute('href')||''}});});})();</script>
 </body>
 </html>
