@@ -51,6 +51,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-btn.primary { background: var(--cyan); border-color: var(--cyan); color: var(--surface); }
 .tb-note { margin: 0; flex-basis: 100%; font-size: var(--fs-body); color: var(--text-secondary); }
 .tb-expand { display: flex; justify-content: flex-end; }
+@media (min-width: 1024px) { .tb-expand.solo { display: none; } } /* one fold and no stacked seats: nothing to expand */
 
 /* fold sections: a heading that holds a button (the ARIA accordion pattern), a one-line tagline, a body */
 .tb-folds { display: flex; flex-direction: column; }

@@ -107,7 +107,6 @@
           "type": "object",
           "additionalProperties": false,
           "required": [
-            "lead",
             "text"
           ],
           "properties": {
