@@ -462,6 +462,13 @@ footer p{text-align:left;}
   .offerwrap .punch + .pnote{margin-top:0;padding:var(--sp-2) 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
   .offerwrap .punch + .pnote + .gg{margin-top:var(--sp-3);}
 }
+
+@media screen{
+  details.blk.fixed > summary{cursor:default;}
+  details.blk.fixed > summary::after{display:none;}
+  .offerwrap > .lockup + details.blk.sub{margin-top:var(--sp-2);}
+  .offerwrap details.pbreak{margin-top:var(--sp-4);}
+}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -527,7 +534,7 @@ footer p{text-align:left;}
     </ol>
     <p class="trace-stop">Stop number, agreed before the call</p>
   </figure></div>
-  <details class="blk sub" open>
+  <details class="blk sub fixed" open>
     <summary><h2 class="slabel">The two decisions</h2><span class="tk">You pick them. Here is what I'd suggest.</span></summary>
     <div class="bd">
   <dl class="spec">
@@ -577,7 +584,8 @@ footer p{text-align:left;}
 
 </main>
 <script>(function(){var d=document.documentElement,b=document.getElementById('themebtn');if(!b)return;var mq=window.matchMedia?matchMedia('(prefers-color-scheme: light)'):null;function cur(){var t=d.getAttribute('data-theme');if(t)return t;return mq&&mq.matches?'light':'dark';}function label(){var n=cur()==='light'?'dark':'light';b.setAttribute('data-next',n);b.setAttribute('aria-label','Switch to '+n+' mode');b.title='Switch to '+n+' mode';}b.hidden=false;label();b.addEventListener('click',function(){var n=cur()==='light'?'dark':'light';d.setAttribute('data-theme',n);try{localStorage.setItem('brooksTheme',n);}catch(e){}label();});if(mq&&mq.addEventListener)mq.addEventListener('change',label);})();</script>
-<script>(function(){var b=document.querySelector('.expall');var ds=[].slice.call(document.querySelectorAll('details.blk'));if(!b||!ds.length)return;function sync(){var all=ds.every(function(d){return d.open});b.textContent=all?'Collapse all':'Expand all';b.setAttribute('aria-expanded',all?'true':'false');}b.addEventListener('click',function(){var all=ds.every(function(d){return d.open});ds.forEach(function(d){d.open=!all});sync();});ds.forEach(function(d){d.addEventListener('toggle',sync)});window.addEventListener('beforeprint',function(){ds.forEach(function(d){d.open=true})});sync();})();</script>
+<script>(function(){var b=document.querySelector('.expall');var ds=[].slice.call(document.querySelectorAll('details.blk:not(.fixed)'));if(!b||!ds.length)return;function sync(){var all=ds.every(function(d){return d.open});b.textContent=all?'Collapse all':'Expand all';b.setAttribute('aria-expanded',all?'true':'false');}b.addEventListener('click',function(){var all=ds.every(function(d){return d.open});ds.forEach(function(d){d.open=!all});sync();});ds.forEach(function(d){d.addEventListener('toggle',sync)});window.addEventListener('beforeprint',function(){ds.forEach(function(d){d.open=true})});sync();})();</script>
 <script>(function(){window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-track]');if(!a)return;window.va('event',{name:a.getAttribute('data-track'),data:{href:a.getAttribute('href')||''}});});})();</script>
+<script>(function(){[].forEach.call(document.querySelectorAll('details.fixed > summary'),function(m){m.setAttribute('tabindex','-1');m.addEventListener('click',function(e){e.preventDefault();});});})();</script>
 </body>
 </html>
