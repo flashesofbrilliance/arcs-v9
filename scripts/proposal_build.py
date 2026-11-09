@@ -130,6 +130,12 @@ def main():
     with open(rel(a.source), encoding="utf-8") as f:
         src = f.read()
     send = send_copy(src)
+    # Guard (2026-11-09): a scripted copy edit once shipped "I\'m" to the counterpart. Refuse an
+    # escaped quote in the page's visible text (scripts and styles are skipped).
+    visible = re.sub(r"<(script|style)\b[^>]*>.*?</\1>", "", send, flags=re.S)
+    if re.search(r"\\['\"]", re.sub(r"<[^>]+>", "", visible)):
+        print("✖ proposal-build: escaped quote (\\' or \\\") in visible text; fix the source")
+        return 1
     hosted = hosted_copy(send, a.pdf_href)
 
     if a.check:
