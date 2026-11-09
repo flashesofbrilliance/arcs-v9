@@ -678,7 +678,8 @@ html.stacked details.seat{scroll-margin-top:16px;}
 #pane-ov .ovbelow{display:flex;flex-direction:column;gap:28px;}
 #pane-ov .ovbelow > *{margin:0;}
 #pane-ov .cia-h1{margin:0;}
-#pane-ov .lede.ovstatus{font-size:1.05rem;line-height:1.6;color:var(--text);max-width:none;}
+#pane-ov .ovstatus{font-size:1.05rem;line-height:1.6;color:var(--text);max-width:none;}
+#pane-ov .lede{max-width:none;}
 .plansrc a{text-decoration:underline;text-underline-offset:3px;}
 .ovstatus strong{font-weight:600;}
 .ovact{display:flex;flex-wrap:wrap;align-items:center;gap:12px;}
@@ -758,9 +759,9 @@ html:not(.stacked) .stack-only{display:none;}
 </div><div class="shell-body">
 
 <div id="pane-ov" class="cia-pane" role="tabpanel" aria-labelledby="t-ov"><div class="cia"><h1 class="cia-h1"><span class="hl">One idea in thirty gets funded.</span> <span class="hl">The other twenty&#8209;nine are the work.</span></h1>
-<p class="lede ovstatus"><strong>Your next step:</strong> pick the seat that is live, or reshape one, and tell Harrison or me which.</p>
+<p class="lede">Your about page says that for roughly every 30 ideas you go deep on, you fund one. I have spent 20 years in the trenches taking products from zero, as a player, a coach and a pace car, and the last year building a tool that records why each idea was passed on and checks it against what happened later, so a pass that turns out wrong becomes a lesson instead of a blind spot. This page maps me onto the four roles open on your jobs page, strongest fit first, with a plan, the proof and the gap for each.</p>
+<p class="ovstatus"><strong>Let&#8217;s go.</strong> Pick the seat that is live, or reshape one, and tell Harrison or me which.</p>
 <div class="ovact"><button type="button" class="ovbtn primary stamp-go" data-go="t-principal">Open the Principal plan</button><a class="ovbtn" href="#qs">Which seat is live?</a><p class="ovnote">Each role tab is a 90, 120 and 240 day plan built on your own job page, for you to edit.</p></div>
-<details class="blk ovsum"><summary><h2 class="cia-h2">The Short Version</h2><span class="tk">Twenty years of killing ideas honestly, and a tool that learns from every pass.</span></summary><div class="bd"><p>Your about page says that for roughly every 30 ideas you go deep on, you fund one. I have spent 20 years in the trenches taking products from zero, which mostly means killing ideas honestly and fast, and the last year building a tool that records why each idea was passed on and checks it against what happened later, so a pass that turns out wrong becomes a lesson instead of a blind spot. This page maps me onto the four roles open on your jobs page, strongest fit first, with the proof and the gap for each.</p></div></details>
 <div class="ovbelow"><div class="tiles" role="list" aria-label="At a glance">
 <div class="tile" role="listitem"><div class="v">10</div><div class="k">Regulated products</div><div class="ref">Digital-asset investment products at Grayscale, about $7B</div></div>
 <div class="tile" role="listitem"><div class="v">2</div><div class="k">Companies from zero</div><div class="ref">A co-founding and a turnaround, one acquired</div></div>
@@ -784,22 +785,11 @@ html:not(.stacked) .stack-only{display:none;}
 <div class="ccard"><h3>The kill call comes first</h3><p class="ref">src: my resume</p><p>Tested three AI health product lines for Twill Health; two went forward and one did not. ARCS does this by default: it records what a team expects before a decision and checks it against what happened.</p></div>
 </div><p><strong>Not onchain.</strong> The receipts ARCS keeps live in a Postgres table, not on a chain. Putting them onchain is a thesis I have not tested, and I would not claim otherwise.</p></div></details>
 
-<details class="blk" open><summary><h2 class="cia-h2">Proof, Not Promises</h2><span class="tk">Do not take my word for any of this. Check the record.</span></summary><div class="bd"><p>My <a href="https://zach.md/proof">proof page</a> lists 32 claims about my work, as of November 3. Each one links to the record behind it, says plainly when the record is private, and keeps the one claim I cannot show yet on the list so the gap stays visible. The same ledger is published as <a href="https://zach.md/proof/claims.json">JSON</a>, so you can check it without trusting the page. Six that matter for a studio that kills most of its ideas:</p>
-<div class="tblwrap"><table class="gt">
-<thead><tr><th>Claim</th><th>Status</th><th>Record</th></tr></thead>
-<tbody>
-<tr><td>42 beliefs logged as overturned, each with the test that overturned it</td><td><span class="chip green">Shown</span></td><td><a href="https://status.arcs.care/beliefs">Belief ledger</a></td></tr>
-<tr><td>Seven market calls published with their falsifiers stated up front, then scored, two corrections owned in public</td><td><span class="chip green">Shown</span></td><td><a href="https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers">Seven Calls, Seven Falsifiers</a></td></tr>
-<tr><td>Spotted a state-sponsored fake-recruiter malware lure aimed at developers, dissected it for defenders, and built a scanner from it</td><td><span class="chip green">Shown</span></td><td><a href="https://good.arcs.care/blog/nftt/take-home-trap/dossier">The Take-Home Trap: dossier</a></td></tr>
-<tr><td>Found a six-week silent production outage in my own product, fixed it, and published how</td><td><span class="chip green">Shown</span></td><td><a href="https://good.arcs.care/blog/nftt/the-question-that-found-the-outage">The Question That Found the Outage</a></td></tr>
-<tr><td>Built an open RFP answering engine that cites the exact clause or says it is not covered, and published the run where it missed its target</td><td><span class="chip green">Shown</span></td><td><a href="https://good.arcs.care/rfp-engine">RFP-O-Matic</a></td></tr>
-<tr><td>ARCS's decision scoring is accurate</td><td><span class="chip">Not yet</span></td><td>No record yet. Listed so the gap is visible.</td></tr>
-</tbody></table></div></div></details>
 
 <details class="blk" id="qs" open><summary><h2 class="cia-h2">Two Questions for You</h2><span class="tk">The answers decide which tab matters.</span></summary><div class="bd"><div class="qlist"><ol>
 <li>Which of the four seats is live now? Your people page lists the EIR title alongside your CTO, so I would like to know whether this is a second EIR seat.</li>
 <li>For the Founder seat, which hatch is it for?</li>
-</ol></div><p>Resume and a 20-minute walkthrough of ARCS on request. Live work: <a href="https://good.arcs.care/rfp-engine">RFP-O-Matic with four short videos</a>, <a href="https://github.com/flashesofbrilliance/rfp-engine">its source</a>, and <a href="https://app.arcs.care">ARCS</a>.</p></div></details>
+</ol></div><p>Resume and a 20-minute walkthrough of ARCS on request. Live work: <a href="https://good.arcs.care/rfp-engine">RFP-O-Matic with four short videos</a>, <a href="https://github.com/flashesofbrilliance/rfp-engine">its source</a>, <a href="https://app.arcs.care">ARCS</a>, and my <a href="https://zach.md/proof">proof page</a>, where each claim links to its record.</p></div></details>
 
 </div></div></div>
 
