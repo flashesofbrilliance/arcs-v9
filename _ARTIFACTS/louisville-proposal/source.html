@@ -449,6 +449,34 @@ footer p{text-align:left;}
   .gg-head + .gg-row{border-top:0;}
   .gg > .gg-row:nth-child(2){border-top:0;}
 }
+/* Trace diagram (the method in one row): inputs, decision, outcome, each with its mark, over the stop line.
+   HTML, not SVG, so it reflows to a column on phones and inherits the theme. */
+.trace{margin:var(--sp-1) 0 0;}
+.trace-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-3);}
+.trace-steps li{position:relative;display:flex;flex-direction:column;gap:4px;padding:var(--sp-2);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);}
+.trace-steps li + li::before{content:"\2192";position:absolute;left:calc(-1*var(--sp-3));width:var(--sp-3);top:50%;transform:translateY(-50%);text-align:center;color:var(--muted);}
+.trace-k{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);}
+.trace-v{color:var(--text);}
+.trace-stop{margin:var(--sp-2) 0 0;padding-top:var(--sp-1);border-top:1px dashed var(--muted);color:var(--secondary);font-size:var(--fs-label);font-family:var(--mono);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;text-align:center;}
+@media (max-width:640px){
+  .trace-steps{grid-template-columns:minmax(0,1fr);gap:var(--sp-3);}
+  .trace-steps li + li::before{content:"\2193";left:0;right:0;width:auto;top:calc(-1*var(--sp-3));transform:none;height:var(--sp-3);line-height:var(--sp-3);}
+}
+@media print{.trace{display:none;}} /* screen only: the sentence above it says the same thing on paper */
+/* Print fit after deliverable 06 and the field-guide line (2026-11-09): 03 flows on from page 2 instead of
+   forcing a page break, and the close card keeps itself whole. */
+@media print{
+  .offerwrap details.pbreak{break-before:auto;}
+  .offerwrap details.pbreak > summary{break-after:avoid;}
+  .plist li{padding:4px 0;line-height:1.35;}
+  .pnote{margin-top:var(--sp-1);}
+  .gg + .offer,.pnote + .offer{margin-top:var(--sp-1);}
+  .offer > *{padding:6px 14px;}
+  .gg-row{grid-template-columns:4.5rem minmax(0,1fr) minmax(0,1fr);}
+  .offer-ask{font-size:var(--fs-headline);line-height:1.4;}
+  .offer-price{font-size:var(--fs-body);}
+  .offer-proof{display:none;}
+}
 </style>
 </head>
 <body>
@@ -504,7 +532,15 @@ footer p{text-align:left;}
 </section>
 
 <section class="offerwrap">
-  <div class="lockup"><h2 class="slabel">If you want the outside read</h2><p class="deck">I'd read your build through what it decides. Every decision gets the same three things: What it relies on, what it can't see, and the date you'll know.</p></div>
+  <div class="lockup"><h2 class="slabel">If you want the outside read</h2><p class="deck">I'd read your build through what it decides. Every decision gets the same three things: What it relies on, what it can't see, and the date you'll know.</p>
+  <figure class="trace" aria-label="How one decision is traced">
+    <ol class="trace-steps">
+      <li><span class="trace-k">Inputs</span><span class="trace-v">What it relies on</span></li>
+      <li><span class="trace-k">Decision</span><span class="trace-v">What it can't see</span></li>
+      <li><span class="trace-k">Outcome</span><span class="trace-v">The date you'll know</span></li>
+    </ol>
+    <p class="trace-stop">Stop number, agreed before the call</p>
+  </figure></div>
   <details class="blk sub" open>
     <summary><h2 class="slabel">The two decisions</h2><span class="tk">You pick them. Here is what I'd suggest.</span></summary>
     <div class="bd">
@@ -524,6 +560,7 @@ footer p{text-align:left;}
       <li><span class="pn">03</span><span>Read against the six things you said you want: Accuracy, efficiency, speed, cost, on-prem, and a single source of truth that isn't growing data bloat and tech debt.</span></li>
       <li><span class="pn">04</span><span>Next steps, each with a number for success and a date to check it.</span></li>
       <li><span class="pn">05</span><span>Honest marks: Anything two decisions can't show is marked as not checked, anything I'm unsure of is marked as unsure, and your pushback goes on the page.</span></li>
+      <li><span class="pn">06</span><span>A stop number for each decision, agreed up front: The figure and date at which you'd call it wrong, so the next order doesn't go in without one.</span></li>
     </ol>
   </div>
   <p class="pnote">A two-week sprint. About three and a half hours of your team's time, a little over four with the optional session.</p>
@@ -531,7 +568,7 @@ footer p{text-align:left;}
     <div class="gg-row gg-head" role="row"><span role="columnheader"><span class="vh">When</span></span><span role="columnheader">What you give</span><span role="columnheader" class="c">What you get</span></div>
     <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Before</span><span class="gg-give" role="cell">A mutual NDA, and total sales figures, nothing at customer level.</span><span class="gg-get" role="cell">Your data stays with you.</span></div>
     <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 1</span><span class="gg-give" role="cell">Kickoff with you, 60 minutes. A screen-share with whoever is on the warehouse and MCP side, including where the data lives and who can reach it, 90 minutes. Optional: 45 minutes with whoever owns where the data gets used next, your choice of who.</span><span class="gg-get" role="cell">Both decisions traced in writing.</span></div>
-    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 2</span><span class="gg-give" role="cell">The readout, 60 minutes, and your pushback on anything that's wrong.</span><span class="gg-get" role="cell">The one page, the read against your six, and next steps, walked through together.</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 2</span><span class="gg-give" role="cell">The readout, 60 minutes, and your pushback on anything that's wrong.</span><span class="gg-get" role="cell">The one page, the read against your six, and next steps, walked through together, plus a one-page field guide to the checks I used, so your team can run them on the next decision.</span></div>
   </div>
     </div>
   </details>
