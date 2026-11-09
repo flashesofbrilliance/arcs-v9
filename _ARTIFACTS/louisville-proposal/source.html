@@ -588,6 +588,11 @@ footer p{text-align:left;}
   .mast .pdfbtn{width:36px;height:36px;padding:0;}
   .mast .dprefs-theme{height:36px;}
 }
+/* Calmer hover on the header pills: a neutral border lift, not the electric cyan hairline (reads loud in
+   dark mode). Keyboard focus keeps the cyan outline. */
+@media screen{
+  .mast .dprefs-theme:hover,.mast .pdfbtn:hover{border-color:var(--text-secondary);color:var(--text);}
+}
 </style>
 </head>
 <body>
