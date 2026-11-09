@@ -12,6 +12,8 @@ The page is rebuilt from the ui-kit levels, never hand-edited:
 
   python3 scripts/counterpart_onepager_build.py _ARTIFACTS/counterpart-onepager/brooks.json     write the page
   python3 scripts/counterpart_onepager_build.py --check                                        exit 1 if any page differs
+                                                                                               or an outcome block is unsound
+  python3 scripts/counterpart_onepager_build.py --receipt [data.json]                          print the ex-ante receipt template
 Stdlib only.
 """
 import json, os, re, sys
@@ -351,13 +353,109 @@ def build(d):
 """
 
 
+# Outcome fields (2026-11-09): an optional "outcome" block maps each claim the page makes to the parts that carry it,
+# keyed to a backlog job, so a close can score claims against what the reader did. Never rendered.
+CANDIDATES = {"lockup", "heard-check", "case-switcher", "receipt-sans", "qa-card", "depth-checklist"}
+PAGE_PARTS = {"hero"}
+BACKLOG = os.path.join(ROOT, "_QUEUE/induced-backlog.jsonl")
+
+
+def resolve(d, path):
+    cur = d
+    for k in path.split("."):
+        cur = cur[int(k)] if isinstance(cur, list) else cur[k]
+    return cur
+
+
+def backlog_row(job_id):
+    key = job_id.split(":", 2)[-1]
+    for line in open(BACKLOG, encoding="utf-8"):
+        if line.strip() and json.loads(line).get("id") == key:
+            return json.loads(line)
+    return None
+
+
+def validate(d):
+    """Problems with the outcome block; empty when it is sound or absent."""
+    o = d.get("outcome")
+    if not o:
+        return []
+    bad = []
+    if not o.get("job_id", "").startswith("job:backlog:") or not backlog_row(o["job_id"]):
+        bad.append(f"job_id {o.get('job_id')!r} names no row in _QUEUE/induced-backlog.jsonl")
+    blocks = {"hero"} | {f"sections.{i}" for i in range(len(d["sections"]))} | ({"ask"} if d.get("ask") else set()) | ({"depth"} if d.get("depth") else set())
+    claimed = set()
+    for c in o.get("claims", []):
+        for p in c["parts"]:
+            kind, _, name = p.partition(":")
+            ok = (kind == "kit" and os.path.exists(os.path.join(KIT, name + ".html"))) or (kind == "candidate" and name in CANDIDATES) or (kind == "page" and name in PAGE_PARTS)
+            if not ok:
+                bad.append(f"{c['id']}: part {p!r} is not a kit file, a known candidate or a page part")
+        for path in c["data"]:
+            try:
+                resolve(d, path)
+            except (KeyError, IndexError, ValueError, TypeError):
+                bad.append(f"{c['id']}: data path {path!r} does not resolve")
+            claimed |= {b for b in blocks if path == b or path.startswith(b + ".")}
+    bad += [f"block {b} is on the page but no claim names it" for b in sorted(blocks - claimed)]
+    return bad
+
+
+def q(s):
+    return "'" + str(s).replace("'", "''") + "'"
+
+
+def receipt_sql(d):
+    """An ex-ante decision_receipt INSERT template. Judgment fields stay <REQUIRED ...> placeholders; never written."""
+    o = d["outcome"]
+    out = os.path.join(ROOT, d["out"])
+    built = os.path.exists(out) and open(out, encoding="utf-8").read() == build(d)
+    row = backlog_row(o["job_id"]) or {}
+    fates = ", ".join(row.get("fates", [])) or "<none on the row>"
+    unconf = [f"{c['id']} lands with the reader: {c['claim']}" for c in o["claims"]]
+    refs = [d["out"]] + [f"claim:{c['id']} parts={','.join(c['parts'])} data={','.join(c['data'])}" for c in o["claims"]]
+    arr = lambda xs: "ARRAY[" + ", ".join(q(x) for x in xs) + "]"
+    return f"""-- ex-ante decision_receipt template for {o['job_id']} (fill every <REQUIRED ...>; run via Supabase execute_sql). Not written by this script.
+-- Fates on the backlog row, to score at close: {fates}
+-- supersedes names the stale ex-ante this one replaces; the old row stays (the ledger is append-only).
+INSERT INTO public.decision_receipt
+  (receipt_id, question, horizon, stakes, mode, what_confirmed, what_unconfirmed, operator, event_at, source_repo, refs, job_id, tool_id, supersedes)
+VALUES (
+  '<REQUIRED YYYY-MM-DD--<slug>-exante--ZH>',
+  '<REQUIRED the send question, e.g. Send {d['title']}?>',
+  '<REQUIRED today|this-week|this-quarter|1-3y>',
+  '<REQUIRED low|medium|high|critical>',
+  '<REQUIRED QUICKMOVE|PLAN|COURT>',
+  {arr(([d['out'] + ' matches its data (counterpart_onepager_build.py --check)'] if built else []) + [f"{len(o['claims'])} claims mapped to kit parts and data paths; every rendered block is claimed"])},
+  {arr(([] if built else [d['out'] + ' differs from its data; rebuild before sending']) + unconf)},
+  '<REQUIRED operator>',
+  '<REQUIRED event_at, timestamptz>',
+  'flashesofbrilliance/arcs-v9',
+  {arr(refs)},
+  {q(o['job_id'])},
+  'tool:script:counterpart_onepager_build.py',
+  {q(o['supersedes']) if o.get('supersedes') else 'NULL'}
+);"""
+
+
 def main(argv):
+    if "--receipt" in argv:
+        for p in [a for a in argv if not a.startswith("--")] or sorted(os.path.join(DATA, f) for f in os.listdir(DATA) if f.endswith(".json")):
+            d = json.load(open(p, encoding="utf-8"))
+            if d.get("outcome"):
+                bad = validate(d)
+                if bad:
+                    print("\n".join("✖ " + b for b in bad)); return 1
+                print(receipt_sql(d))
+        return 0
     check = "--check" in argv
     paths = [a for a in argv if not a.startswith("--")] or sorted(os.path.join(DATA, f) for f in os.listdir(DATA) if f.endswith(".json"))
     bad = 0
     for p in paths:
         d = json.load(open(p, encoding="utf-8"))
         out, page = os.path.join(ROOT, d["out"]), build(d)
+        for b in validate(d):
+            print(f"✖ {os.path.relpath(p, ROOT)} outcome: {b}"); bad += 1
         if check:
             same = os.path.exists(out) and open(out, encoding="utf-8").read() == page
             print(("✓ " if same else "✖ ") + d["out"] + ("" if same else f" differs from {os.path.relpath(p, ROOT)}; rebuild"))

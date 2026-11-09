@@ -155,5 +155,91 @@
   },
   "footer": "Zach Harris · zach.harris@gmail.com",
   "theme_button": "icon",
-  "print": true
+  "print": true,
+  "outcome": {
+    "_comment": "Internal, never rendered. Which part carries which claim, keyed to the backlog job, so the close can score each claim against what the reader did. Fates are read from the backlog row, not repeated here. Validated by scripts/counterpart_onepager_build.py --check; print the ex-ante receipt template with --receipt.",
+    "job_id": "job:backlog:brooks-audit-proposal-send",
+    "supersedes": "2026-11-04--brooks-audit-send-exante--ZH",
+    "supersedes_note": "Stale since the offer changed (two decisions, stop numbers, the 3-page proposal and louisville.arcs.care); the next ex-ante, filed at send, supersedes it.",
+    "claims": [
+      {
+        "id": "C1",
+        "claim": "The offer is an outside check of what his AI tools do against what he expects from them.",
+        "parts": [
+          "page:hero"
+        ],
+        "data": [
+          "hero.title",
+          "hero.verdict",
+          "hero.aside"
+        ]
+      },
+      {
+        "id": "C2",
+        "claim": "The price and the risk are small and fixed: $5,000, two weeks, about three hours of his team, stop after and keep it all.",
+        "parts": [
+          "kit:29-tile",
+          "kit:28-chip"
+        ],
+        "data": [
+          "hero.tiles",
+          "hero.chip"
+        ]
+      },
+      {
+        "id": "C3",
+        "claim": "The check answers what he said on the call, point by point.",
+        "parts": [
+          "candidate:heard-check",
+          "candidate:lockup"
+        ],
+        "data": [
+          "sections.0"
+        ]
+      },
+      {
+        "id": "C4",
+        "claim": "It is tested on one real decision, the adobo flavor, whatever state it is in.",
+        "parts": [
+          "kit:24-segmented-control",
+          "candidate:case-switcher",
+          "candidate:lockup"
+        ],
+        "data": [
+          "sections.1"
+        ]
+      },
+      {
+        "id": "C5",
+        "claim": "It asks little of his team, keeps customer data out, and leaves him one page and three next steps with no obligation.",
+        "parts": [
+          "candidate:qa-card",
+          "candidate:lockup"
+        ],
+        "data": [
+          "sections.2"
+        ]
+      },
+      {
+        "id": "C6",
+        "claim": "The reply is one question about an upcoming AI decision.",
+        "parts": [
+          "kit:31-callout"
+        ],
+        "data": [
+          "ask"
+        ]
+      },
+      {
+        "id": "C7",
+        "claim": "It covers the five things he expects from the tools, plus two added.",
+        "parts": [
+          "candidate:depth-checklist"
+        ],
+        "data": [
+          "depth"
+        ]
+      }
+    ]
+  }
 }
