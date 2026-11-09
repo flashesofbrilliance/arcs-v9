@@ -12,6 +12,8 @@ Spec: runtime/specs/engagement-record-v0.md, section "v1: honest proposals". Fou
   4. voice     no em-dash, no first person plural (we, our, us) in a client output.
   send gate    (--send-ready) all of the above, outputs fresh, and counsel_review, gauntlet (0 open)
                and ex_ante set in the record.
+  cap warning  any engagement (v0 or v1) whose investment.json shows unpaid hours past its cap gets a
+               warning line (scripts/engagement_hours.py). It never fails the lint: free work is a choice.
 
   python3 scripts/proposal_lint.py                      # every v1 engagement
   python3 scripts/proposal_lint.py --dir <slug-dir>
@@ -146,6 +148,15 @@ def send_gate(eng_dir, rec):
     return probs
 
 
+def cap_warning(eng_dir):
+    """A warning line when unpaid hours pass the engagement's discovery cap, else None."""
+    if not os.path.exists(os.path.join(eng_dir, "investment.json")):
+        return None
+    import engagement_hours as eh
+    text, over = eh.report(eng_dir)
+    return f"warn: {text.splitlines()[0]}; free work past the cap is a choice, make it on purpose" if over else None
+
+
 def lint(eng_dir, send_ready=False):
     rec = load(eng_dir)
     if rec.get("schema") != er.SCHEMA_V1:
@@ -225,7 +236,14 @@ def self_test() -> int:
             r["phases"][0].update(paid=True)
         reset(paid)
         assert not any(x.startswith("leak") for x in lint(eng)), "after the first step is paid the leak check stands down"
-        print(f"proposal_lint self-test: OK (example passes, not send-ready without counsel, {len(cases)} bad cases each refused, leak stands down once paid)")
+        capd = os.path.join(tmp, "capcase")
+        os.makedirs(capd)
+        json.dump({"cap_hours": 1, "paid_from": None, "work_paths": ["no/such/path"],
+                   "calls": [{"date": "2026-11-01", "minutes": 120, "source": "t", "basis": "measured"}]},
+                  open(os.path.join(capd, "investment.json"), "w"))
+        assert (cap_warning(capd) or "").startswith("warn: capcase: unpaid 2.0"), cap_warning(capd)
+        assert cap_warning(EXAMPLE) is None, "no investment.json, no warning"
+        print(f"proposal_lint self-test: OK (example passes, not send-ready without counsel, {len(cases)} bad cases each refused, leak stands down once paid, cap warning fires past the cap)")
         return 0
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -242,6 +260,9 @@ def main() -> int:
     dirs = [os.path.abspath(a.dir)] if a.dir else sorted(os.path.dirname(p) for p in glob.glob(er.ENG_GLOB))
     bad, ran = 0, 0
     for d in dirs:
+        w = cap_warning(d)
+        if w:
+            print(f"{os.path.relpath(d, ROOT)}: {w}", file=sys.stderr)
         probs = lint(d, a.send_ready)
         if probs is None:
             continue
