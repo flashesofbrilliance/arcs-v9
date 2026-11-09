@@ -10,8 +10,7 @@
  ],
  "meta": {
   "prepared_for": "The Gravity Labs team",
-  "from": "Zach Harris",
-  "updated": "2026-11-09"
+  "from": "Zach Harris"
  },
  "overview": {
   "label": "Overview",
@@ -19,7 +18,7 @@
    "One idea in thirty gets funded.",
    "The other twenty-nine are the work."
   ],
-  "lede": "Your about page says that for roughly every 30 ideas you go deep on, you fund one. I have spent 20 years in the trenches taking products from zero, as a player, a coach and a pace car, and the last year building a tool that records why each idea was passed on and checks it against what happened later, so a pass that turns out wrong becomes a lesson instead of a blind spot. This page maps me onto the four roles open on your jobs page, strongest fit first, with a plan, the proof and the gap for each.",
+  "lede": "I have spent 20 years in the trenches taking products from zero, as a player, a coach and a pace car, and the last year building a tool that records why each idea was passed on and checks it against what happened later, so a pass that turns out wrong becomes a lesson instead of a blind spot.",
   "next_step": {
    "lead": "Let’s go.",
    "text": "Pick the seat that is live, or reshape one, and tell Harrison or me which."
@@ -35,7 +34,6 @@
     "section": "qs"
    }
   ],
-  "action_note": "Each role tab is a 30, 90 and 180 day plan built on your own job page, for you to edit.",
   "tiles": [
    {
     "v": "10",
@@ -111,21 +109,17 @@
   ],
   "coldread": {
    "id": "five",
-   "title": "Why, What, Who, Where, When, How",
+   "title": "5W + How",
    "block": {
     "type": "coldread",
     "slots": [
      [
-      "Why",
-      "Your studio runs on pressure-tested theses and a high kill rate. That is the work I have done for 20 years, and the reason I built ARCS."
+      "Who",
+      "Zach Harris, product lead and founder: from regulated digital assets at Grayscale to ARCS, which I build alone."
      ],
      [
       "What",
-      "A 30, 90 and 180 day plan for each of the four roles on your jobs page, built on your own job pages so you can edit it."
-     ],
-     [
-      "Who",
-      "Zach Harris. Product lead and founder: regulated digital assets at Grayscale, one company co-founded, one turned around, and ARCS, a decision-record tool I build alone."
+      "A 30, 90 and 180 day plan for each of your four open roles, built on your own job pages."
      ],
      [
       "Where",
@@ -134,6 +128,10 @@
      [
       "When",
       "Now: all four roles are listed on your jobs page today, and Harrison Wright offered to bring this to you."
+     ],
+     [
+      "Why",
+      "Your studio runs on pressure-tested theses and a high kill rate. That is my work, and the reason I built ARCS."
      ]
     ],
     "how": [
@@ -155,7 +153,8 @@
     ],
     "read": "The overview first, then one tab per role, strongest fit first. Every plan cell is a proposal to edit."
    }
-  }
+  },
+  "subhead": "Your about page says that for roughly every 30 ideas you go deep on, you fund one."
  },
  "tabs": [
   {
@@ -168,11 +167,11 @@
    "lede": "The seat as your page describes it: break the bottleneck of every idea flowing through the CEO by owning hatches end to end. Spot the gap, write the case, pitch the investment committee, build the first prototype with AI coding tools, recruit the founders. A builder role, not research and not investing.",
    "units": [
     {
-     "title": "A 30, 90 and 180 Day Plan, for You to Edit",
+     "title": "A 30, 90 and 180 Day Plan",
      "blocks": [
       {
        "type": "plan",
-       "source": "Rows paraphrase the \"What You'll Do\" list on [your Principal page](https://gravity-labs.xyz/jobs-principal-new-ventures.html). Every cell is my proposal, not a promise: change any of it.",
+       "source": "Rows paraphrase the \"What You'll Do\" list on [your Principal page](https://gravity-labs.xyz/jobs-principal-new-ventures.html).",
        "rows": [
         [
          "Generate and validate hatch ideas",
@@ -355,11 +354,11 @@
    "lede": "The seat as your page describes it: a six-month contract to source and validate hatches across DeFi, stablecoins, infrastructure and prediction markets, take them from a few sentences to an investment committee pitch, and by month six find one worth founding.",
    "units": [
     {
-     "title": "A 30, 90 and 180 Day Plan, for You to Edit",
+     "title": "A 30, 90 and 180 Day Plan",
      "blocks": [
       {
        "type": "plan",
-       "source": "Rows paraphrase the \"What You'll Do\" list on [your EIR page](https://gravity-labs.xyz/jobs-entrepreneur-in-residence.html). Every cell is my proposal, not a promise: change any of it.",
+       "source": "Rows paraphrase the \"What You'll Do\" list on [your EIR page](https://gravity-labs.xyz/jobs-entrepreneur-in-residence.html).",
        "rows": [
         [
          "Generate and source hatches across crypto: DeFi, stablecoins, infra, prediction markets",
@@ -508,11 +507,11 @@
    "lede": "The seat as your page describes it: CEO or CTO of a hatch you have already validated and funded, with five to ten years of commitment and an outside raise within the first year.",
    "units": [
     {
-     "title": "A 30, 90 and 180 Day Plan, for You to Edit",
+     "title": "A 30, 90 and 180 Day Plan",
      "blocks": [
       {
        "type": "plan",
-       "source": "Rows paraphrase the \"What You'll Do\" list on [your Founder page](https://gravity-labs.xyz/jobs-founder-portfolio-company.html). Every cell is my proposal, not a promise: change any of it.",
+       "source": "Rows paraphrase the \"What You'll Do\" list on [your Founder page](https://gravity-labs.xyz/jobs-founder-portfolio-company.html).",
        "rows": [
         [
          "Own the company end to end",
@@ -556,7 +555,7 @@
         "A team forming and releases on a rhythm.",
         "Users who stay, and outside investors talking."
        ],
-       "note": "Your page does not name the hatch, so this plan is a shape, not a commitment. I would want to meet the hatch and its design partners first."
+       "note": "Your page does not name the hatch, so this plan is a shape, not a commitment."
       }
      ]
     },
@@ -640,18 +639,18 @@
    "rank": "Co-design",
    "tagline": "A sketch to co-design, in the open",
    "headline": "Open Application: choose your own adventure.",
-   "lede": "Your open application asks what I would own that you do not staff today, and why you would move faster with me on it. My answer is a hatch desk. Read this tab as a sketch, not a pitch: an experiment in hiring the way I build, in the open, with you editing the plan.",
+   "lede": "Your open application asks what I would own that you do not staff today, and why you would move faster with me on it. My answer is a hatch desk. I offer it as a sketch to build with you, in the open.",
    "units": [
     {
      "title": "The Hatch Desk",
      "blocks": [
       {
        "type": "p",
-       "text": "Most funds call this a deal desk or a platform role. I would run it as an AI-native platform team whose work compounds. I have done this job from the operator side for 20 years; here it would sit inside the studio and own the hatch pipeline: each memo, its kill criteria, and the record of every call."
+       "text": "Most funds call this a deal desk or a platform role. I would run it as an AI-native platform team whose work compounds. It would sit inside the studio and own the hatch pipeline: each memo, its kill criteria, and the record of every call."
       },
       {
        "type": "p",
-       "text": "Every pass is written down with its reasons and checked again as the market moves. A pass that turns out wrong shows up before you miss the next idea like it, and each new thesis starts from what the last 29 taught. The call stays with you and comes faster, and it takes process off the bottleneck your Principal page names without taking the decisions."
+       "text": "Every pass is written down with its reasons and checked again as the market moves. A pass that turns out wrong shows up before you miss the next idea like it, and each new thesis starts from what the last 29 taught. The call stays with you and comes faster."
       },
       {
        "type": "p",
@@ -660,11 +659,11 @@
      ]
     },
     {
-     "title": "A 30, 90 and 180 Day Plan, for You to Edit",
+     "title": "A 30, 90 and 180 Day Plan",
      "blocks": [
       {
        "type": "plan",
-       "source": "Rows paraphrase the four stages of the hatch process on [your about page](https://gravity-labs.xyz/about.html). Every cell is my proposal, not a promise: change any of it.",
+       "source": "Rows paraphrase the four stages of the hatch process on [your about page](https://gravity-labs.xyz/about.html).",
        "rows": [
         [
          "Exploration: short theses, at volume",
@@ -695,8 +694,7 @@
         "Every thesis and pass is on the record.",
         "The first pass comes back as a lead, or is confirmed.",
         "The team decides faster than it did before the desk existed."
-       ],
-       "note": "Your open application lists what gets your attention, not duties, so the rows here follow the four stages of your hatch process."
+       ]
       }
      ]
     },

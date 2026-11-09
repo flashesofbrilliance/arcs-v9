@@ -51,8 +51,7 @@
       "additionalProperties": false,
       "required": [
         "prepared_for",
-        "from",
-        "updated"
+        "from"
       ],
       "properties": {
         "prepared_for": {
@@ -79,7 +78,6 @@
         "lede",
         "next_step",
         "actions",
-        "action_note",
         "tiles",
         "sections"
       ],
@@ -195,6 +193,11 @@
               "$ref": "#/$defs/block"
             }
           }
+        },
+        "subhead": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional H2 line between the headline and the lede (the source of the headline claim)."
         }
       }
     },

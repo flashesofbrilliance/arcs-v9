@@ -138,7 +138,7 @@ def r_blocks(bl, horizons, hlevel):
         elif t == "coldread":
             slots = "".join('<dt class="section-label">%s</dt><dd>%s</dd>' % (md(k), md(v)) for k, v in b["slots"])
             how = "".join('<li class="cr-step"><p class="section-label">%s</p><p class="cr-when">%s</p><p class="cr-what">%s</p></li>' % (md(a), md(w), md(x)) for a, w, x in b.get("how", []))
-            how = '<ol class="cr-how" aria-label="How">%s</ol>' % how if how else ""
+            how = '<div class="cr-howwrap"><p class="section-label" id="cr-how-l">How</p><ol class="cr-how" aria-labelledby="cr-how-l">%s</ol></div>' % how if how else ""
             read = '<p class="callout cr-read"><b>How to read</b>%s</p>' % md(b["read"]) if b.get("read") else ""
             out.append('<div class="cr"><dl class="cr-slots">%s</dl>%s%s</div>' % (slots, how, read))
         elif t == "list":
@@ -172,10 +172,11 @@ def r_overview(d):
     if o.get("coldread"):
         c = o["coldread"]
         cr = '<section class="tb-coldread" id="%s" aria-labelledby="%s-h"><h2 class="tb-h2" id="%s-h">%s</h2>%s</section>\n' % (c["id"], c["id"], c["id"], md(c["title"]), r_blocks([c["block"]], d["horizons"], 3))
-    return ('<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">\n<h1 class="tb-h1">%s</h1>\n<p class="tb-lede">%s</p>\n'
-            '<div class="tb-go"><p class="tb-go-h">%s</p><p class="tb-go-t">%s</p>\n<div class="tb-actions">%s<p class="tb-note">%s</p></div></div>\n'
+    return ('<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">\n<h1 class="tb-h1">%s</h1>\n%s<p class="tb-lede">%s</p>\n'
+            '<div class="tb-go"><p class="tb-go-h">%s</p><p class="tb-go-t">%s</p>\n<div class="tb-actions">%s%s</div></div>\n'
             '%s<div class="tiles" role="list" aria-label="At a glance">%s</div>\n<div class="tb-expand"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>\n'
-            '<div class="tb-folds">%s</div>\n</div>') % (h, md(o["lede"]), md(o["next_step"]["lead"]), md(o["next_step"]["text"]), "".join(acts), md(o["action_note"]), cr, tiles, folds)
+            '<div class="tb-folds">%s</div>\n</div>') % (h, ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"])) if o.get("subhead") else "", md(o["lede"]), md(o["next_step"]["lead"]),
+         md(o["next_step"]["text"]), "".join(acts), ('<p class="tb-note">%s</p>' % md(o["action_note"])) if o.get("action_note") else "", cr, tiles, folds)
 
 
 def r_tab(t, horizons, i):
@@ -235,8 +236,9 @@ def render(d, artifact=False):
                "d.setAttribute('data-theme',s.theme==='dark'?'dark':'light');"
                "var A={font:'data-font',size:'data-size',space:'data-space'};for(var k in A){if(s[k]&&s[k]!=='std')d.setAttribute(A[k],s[k])}})();</script>") % d["storage_key"]
     meta = ('<dl class="tb-meta"><div class="opt"><dt>Prepared for</dt><dd>%s</dd></div><div><dt>From</dt><dd>%s</dd></div>'
-            '<div><dt>Updated</dt><dd><time datetime="%s">%s</time></dd></div>%s</dl>') % (
-        md(m["prepared_for"]), md(m["from"]), e(m["updated"]), date_long(m["updated"]),
+            '%s%s</dl>') % (
+        md(m["prepared_for"]), md(m["from"]),
+        ('<div><dt>Updated</dt><dd><time datetime="%s">%s</time></dd></div>' % (e(m["updated"]), date_long(m["updated"]))) if m.get("updated") else "",
         ('<div class="opt"><dt>Status</dt><dd>%s</dd></div>' % md(m["status"])) if m.get("status") else "")
     line = ('<span class="chip cyan">Private</span><p>%s</p>' % md(d["top_line"])) if d.get("top_line") else ""
     top = ('<header class="tb-top"><span class="wordmark tb-brand"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></span>%s%s</header>\n%s') % (
