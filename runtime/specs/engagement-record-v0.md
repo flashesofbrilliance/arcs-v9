@@ -66,6 +66,20 @@ Derive ops: `["mul", a, b]`, `["div", a, b]`, `["add_days", date, days]`; argume
 - Pre-commit runs `--check` whenever anything under `_ARTIFACTS/engagements/` or the renderer is staged, and the
   `--self-test` when the renderer is staged.
 
+## Progress (added 2026-11-08)
+
+- `progress` (optional, top level) is an append-only list of `{row, state, date, note}`. `row` must be a row id in an
+  exported tree (an `exports` block with `rows`); `state` is `not_started`, `in_progress`, `done` or `blocked`; dates
+  run in order; `note` is client-facing (first person singular, plain language, at most 160 characters, no em-dash).
+- The newest entry per row wins and earlier ones stay. A row that goes back from `done` shows `reopened DATE`.
+- The renderer folds progress into each exported tree: every row with entries gets `status`, phases roll up from their
+  gate/task/ms/oh children, and a `progress` summary carries hours done of total, items done, now, blocked, next and
+  the latest entry. The myally hub's Step 1 tab draws its "Where things stand" band and row pills from that block.
+- A `done` entry may carry `actual_hours` (private): the fold never exports it, so it never reaches a client
+  page. `scripts/engagement_calibrate.py` compares it with planned hours by row kind, counts only until three
+  steps have finished.
+- Log and publish with `scripts/engagement_progress.py` (`<row> start|done|block|reset "note"`, `--list`, `--ship`).
+
 ## Add an engagement
 
 1. Copy `_ARTIFACTS/engagements/myally-ld/` to a new slug; replace the record's values and sources.
