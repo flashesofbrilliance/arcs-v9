@@ -52,8 +52,7 @@
       "required": [
         "prepared_for",
         "from",
-        "updated",
-        "status"
+        "updated"
       ],
       "properties": {
         "prepared_for": {

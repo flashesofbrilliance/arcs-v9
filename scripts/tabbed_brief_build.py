@@ -235,8 +235,9 @@ def render(d, artifact=False):
                "d.setAttribute('data-theme',s.theme==='dark'?'dark':'light');"
                "var A={font:'data-font',size:'data-size',space:'data-space'};for(var k in A){if(s[k]&&s[k]!=='std')d.setAttribute(A[k],s[k])}})();</script>") % d["storage_key"]
     meta = ('<dl class="tb-meta"><div class="opt"><dt>Prepared for</dt><dd>%s</dd></div><div><dt>From</dt><dd>%s</dd></div>'
-            '<div><dt>Updated</dt><dd><time datetime="%s">%s</time></dd></div><div class="opt"><dt>Status</dt><dd>%s</dd></div></dl>') % (
-        md(m["prepared_for"]), md(m["from"]), e(m["updated"]), date_long(m["updated"]), md(m["status"]))
+            '<div><dt>Updated</dt><dd><time datetime="%s">%s</time></dd></div>%s</dl>') % (
+        md(m["prepared_for"]), md(m["from"]), e(m["updated"]), date_long(m["updated"]),
+        ('<div class="opt"><dt>Status</dt><dd>%s</dd></div>' % md(m["status"])) if m.get("status") else "")
     line = ('<span class="chip cyan">Private</span><p>%s</p>' % md(d["top_line"])) if d.get("top_line") else ""
     top = ('<header class="tb-top"><span class="wordmark tb-brand"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></span>%s%s</header>\n%s') % (
         line, DPREFS_ROW, dprefs_panel())
