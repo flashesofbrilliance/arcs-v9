@@ -489,16 +489,17 @@ footer p{text-align:left;}
   .offerwrap > .lockup + details.blk.sub{margin-top:var(--sp-2);}
   .offerwrap details.pbreak{margin-top:var(--sp-4);}
 }
+/* cover: the prepared-for line sits in the top row with the date, above the rule */
+@media print{.cover-top .cover-for{margin:0;}}
 </style>
 </head>
 <body>
 <main class="page">
 
 <section class="cover" aria-label="Cover">
-  <div class="cover-top"><p class="cover-date">November 2026</p></div>
+  <div class="cover-top"><p class="cover-for">Prepared for Brooks Thomas, Louisville Brands</p><p class="cover-date">November 2026</p></div>
   <p class="cover-wm" aria-label="ARCS Field OS"><span class="cover-wm-a">ARCS</span><span class="cover-wm-f">FIELD OS</span></p>
   <div class="cover-title">
-    <p class="cover-for">Prepared for Brooks Thomas, Louisville Brands</p>
     <p class="cover-h">An outside read on your AI build</p>
     <p class="cover-sub">Where it's least efficient, and which hypotheses aren't holding, in time for Q1 planning</p>
   </div>
