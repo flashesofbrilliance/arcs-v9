@@ -13,12 +13,12 @@ what broke, and which seat found it. Items in [square brackets] are choices or b
 # Part A. Edits to rev 27
 
 - **New, under the title: "At a glance"** (Zach, 2026-11-08: in the order Who, What, Where, When, Why now, How;
-  the "why" folded into "Why now"), headed "the sections below govern if anything here differs" so the summary can
+  "Why now" is the kairos trigger, not the purpose), headed "the sections below govern if anything here differs" so the summary can
   never conflict with the body. Who: Access Consulting, LLC, for its My Ally LD venture (Leah, Chelsea and Kelly), and
   Zach. What: Step 1 of three, $1,500 fixed, up to 12 hours. Where: remote, read-only Lovable access, video calls,
-  Connecticut law. When: the day after the invite and bills; [Nov 10] in, readout by [Nov 16]. Why now: a go or stop
-  answer, a data plan and ranges before year end, ahead of the 100-family pilot and the raise (from call notes, not the
-  agreement), usable in Steps 2 and 3 by any builder. How: midweek note, 45-minute readout, one round of changes, then
+  Connecticut law. When: the day after the invite and bills; [Nov 10] in, readout by [Nov 16]. Why now (kairos, the trigger, not the purpose): the 100-family pilot will soon put real family data in
+  the app; before that, fixes are cheapest and no family's data is at risk, and a go or stop answer by year end goes
+  into the raise (judgment from call notes, not the agreement). How: midweek note, 45-minute readout, one round of changes, then
   more detail or Step 2.
 - **Opening line.** Replace "Between MyAlly LD and [your business name]." with: "Between Access Consulting, LLC, for its
   My Ally LD venture ("you"), and [Zach Harris, an individual / Zach's LLC name] ("I"). The person signing for you
