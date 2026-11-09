@@ -1,0 +1,114 @@
+{
+  "number": "49",
+  "name": "Pinned Details Card",
+  "slug": "pinned-card",
+  "layer": "Organism",
+  "job": "Show the details of the row the reader picked without leaving the full-width grid: a card pinned bottom-right on wide screens, a block below the content on narrow ones.",
+  "anatomy": [
+    {
+      "part": "Layout",
+      "role": "The grid takes the full width (`minmax(0,1fr)`); the card is its sibling",
+      "token": "none"
+    },
+    {
+      "part": "Card, wide (961px and up)",
+      "role": "`position:fixed`, 16px from the bottom-right, `min(25rem, 100vw - 32px)` wide, at most 50vh tall, scrolls inside, no scrim; depth from an offset plus soft-blur shadow, no hairline",
+      "token": "`surface`, `ds-r-md`"
+    },
+    {
+      "part": "Card, narrow",
+      "role": "Sits below the content in flow with a hairline border; a Back control instead of the X",
+      "token": "`surface`, `border`, `ds-r-md`"
+    },
+    {
+      "part": "Head",
+      "role": "Title (focus target), one meta line, optional summary; the 44px X top-right",
+      "token": "`surface-2`, X `text-secondary`"
+    },
+    {
+      "part": "Sections",
+      "role": "Hairline-split; heading in a 9.5rem left column once the card is 520px wide (container query)",
+      "token": "`border`, heading `text-secondary`"
+    }
+  ],
+  "states": [
+    {
+      "name": "Narrow (in flow)",
+      "args": [
+        "narrow"
+      ],
+      "note": "Below the content, bordered. This is what phones and tablets in portrait see."
+    },
+    {
+      "name": "Wide (pinned)",
+      "args": [
+        "wide"
+      ],
+      "note": "Shown here in place; on the live page it floats bottom-right and rows stay clickable behind it."
+    }
+  ],
+  "use_when": [
+    "A full-width grid or list whose rows each carry a page of detail, and the reader compares rows one after another.",
+    "Non-modal on purpose: no scrim, rows stay clickable, picking another row swaps the card's content."
+  ],
+  "avoid_when": [
+    "Do not use it for a decision the reader must finish first; that is a dialog.",
+    "Do not draw a hairline border plus a wide shadow on the pinned card; one offset plus soft-blur shadow carries the depth.",
+    "Do not let it grow past half the window height; it scrolls inside."
+  ],
+  "data": [
+    {
+      "field": "title",
+      "type": "string",
+      "required": true,
+      "note": "The picked row's name."
+    },
+    {
+      "field": "meta[]",
+      "type": "string[]",
+      "required": false,
+      "note": "Kind, day, hours; joined by dots on one line."
+    },
+    {
+      "field": "sections[]",
+      "type": "{h, html}",
+      "required": true,
+      "note": "Status, What you get, Good to know, and so on; empty sections are left out."
+    },
+    {
+      "field": "returnTo",
+      "type": "element",
+      "required": true,
+      "note": "The row that opened it; focus goes back there on close."
+    }
+  ],
+  "access": [
+    "A `section` labelled by its title (`aria-labelledby`), with `aria-live=polite` so a swapped row is announced.",
+    "Opening moves focus to the title (`tabindex=-1`); the X (`Close details`) or Escape closes it and focus returns to the row.",
+    "Wide: `overscroll-behavior:contain` keeps a scroll inside the card from moving the page.",
+    "Slide-in respects `prefers-reduced-motion`. Rem sizes; at the largest text size the card scrolls rather than clips."
+  ],
+  "built_from": [
+    {
+      "name": "Kit tokens (atoms)",
+      "href": "_tokens.css"
+    },
+    {
+      "name": "39 Theme toggle (light remap)",
+      "href": "39-theme-toggle.html"
+    }
+  ],
+  "used_by": [
+    {
+      "name": "Approved My Ally Step 1 template (public/myally-hub.html, PR 2094)"
+    }
+  ],
+  "gates": [
+    "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+    "`kit_primitive_sync.py --check` (in scripts): every page that marks this block carries it unchanged.",
+    "`scripts/token_source_gate.py`, `scripts/component_source_gate.py` and `scripts/artifact_wrap_lint.py` on this page.",
+    "Reading-options check: 375 and 1280, light and dark, largest text size, roomy spacing and the easy-read font."
+  ],
+  "css": "/* @prim:begin 39-theme-toggle */\n:root{color-scheme:dark;}\n@media (prefers-color-scheme: light){:root:not([data-theme=\"dark\"]){--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}}\n:root[data-theme=\"light\"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}\n.themebtn{display:inline-flex;align-items:center;min-height:44px;padding:0;margin:0 0 8px;font:inherit;font-size:var(--fs-body);color:var(--text-secondary);background:none;border:0;cursor:pointer;text-underline-offset:3px;}\n.themebtn:hover,.themebtn:focus-visible{color:var(--cyan);text-decoration:underline;}\n.themebtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}\n@media print{:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;} .themebtn{display:none!important;} body{background:#fff!important;}}\n/* @prim:end 39-theme-toggle */\n/* @prim:begin 49-pinned-card */\n.pcard-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}\n.pcard{border:1px solid var(--border);border-radius:var(--ds-r-md);background:var(--surface);overflow:hidden;container-type:inline-size}\n.pcard[hidden]{display:none}\n.pcard-h{position:relative;padding:14px 18px 16px;border-bottom:1px solid var(--border);background:var(--surface-2)}\n.pcard-h h2{margin:0;padding-right:44px;font-size:1.15rem;line-height:1.3;font-weight:650;text-wrap:balance}\n.pcard-h h2:focus{outline:none}\n.pcard-h h2:focus-visible{outline:3px solid var(--cyan);outline-offset:4px;border-radius:var(--ds-r-xs)}\n.pcard-meta{margin:8px 0 0;color:var(--text-secondary);font-size:.9rem;font-variant-numeric:tabular-nums}\n.pcard-x{position:absolute;top:10px;right:12px;display:inline-grid;place-items:center;width:44px;height:44px;border:0;border-radius:var(--ds-r-sm);background:none;color:var(--text-secondary);cursor:pointer}\n.pcard-x svg{width:1.125rem;height:1.125rem}\n.pcard-x:hover{color:var(--text);background:var(--cyan-bg)}\n.pcard-x:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}\n.pcard-b{padding:2px 18px 18px}\n.pcard-s{padding:14px 0;border-top:1px solid var(--border)}\n.pcard-s:first-child{border-top:0}\n.pcard-s h3{margin:0 0 6px;font-size:.9rem;font-weight:600;line-height:1.4;color:var(--text-secondary)}\n.pcard-s p{margin:0;line-height:1.55;text-wrap:pretty}\n@container (min-width:520px){.pcard-s{display:grid;grid-template-columns:9.5rem minmax(0,1fr);gap:0 20px}.pcard-s h3{margin:2px 0 0}}\n@media (min-width:961px){.pcard.is-pinned{position:fixed;z-index:30;right:16px;bottom:16px;width:min(25rem,calc(100vw - 32px));max-height:50vh;overflow:auto;overscroll-behavior:contain;border:0;border-radius:var(--ds-r-md);box-shadow:0 10px 12px -4px rgba(0,0,0,.26),0 2px 6px rgba(0,0,0,.10);transform:translateY(12px);opacity:0;visibility:hidden;transition:transform 160ms var(--ease-out),opacity 160ms var(--ease-out),visibility 0s linear 160ms}.pcard.is-pinned.on{transform:none;opacity:1;visibility:visible;transition:transform 260ms var(--ease-out),opacity 200ms var(--ease-out),visibility 0s}.pcard.is-static{border:0;box-shadow:0 10px 12px -4px rgba(0,0,0,.26),0 2px 6px rgba(0,0,0,.10);border-radius:var(--ds-r-md)}}\n@media (max-width:960px){.pcard.is-pinned:not(.on){display:none}}\n@media (prefers-reduced-motion:reduce){.pcard{transition:none!important}}\n/* @prim:end 49-pinned-card */\n",
+  "demo": "var KI={dl:'<path d=\"M8 2.5v7.5M4.75 7 8 10.25 11.25 7M3 13.5h10\"/>',ext:'<path d=\"M9 2.5h4.5V7M13.5 2.5 7.5 8.5M11.5 9.5v3a1 1 0 01-1 1h-7a1 1 0 01-1-1v-7a1 1 0 011-1h3\"/>',cal:'<rect x=\"2.5\" y=\"3.5\" width=\"11\" height=\"10\" rx=\"1.5\"/><path d=\"M2.5 6.5h11M5.5 2v3M10.5 2v3\"/>',chev:'<path d=\"M4.5 6.5 8 10l3.5-3.5\"/>',right:'<path d=\"M6 3.5 10.5 8 6 12.5\"/>',x:'<path d=\"M4 4l8 8M12 4l-8 8\"/>'};\nfunction kIcon(k){return '<svg viewBox=\"0 0 16 16\" aria-hidden=\"true\" focusable=\"false\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\">'+KI[k]+'</svg>';}\nfunction kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar PC=[{id:'k1',title:'Kickoff call',meta:['Task','Day 1','1 hour'],sections:[{h:'What you get',p:'A shared list of the tools and people in scope.'},{h:'Good to know',p:'Thirty minutes is enough; bring whoever runs the day to day.'}]},{id:'i1',title:'Front-line interviews',meta:['Task','Day 2','2 hours'],sections:[{h:'What you get',p:'Two short write-ups in plain language.'},{h:'Waits on you',p:'Two names and a time that suits them.'}]},{id:'r1',title:'Review call',meta:['Milestone','Day 5','1 hour'],sections:[{h:'What you get',p:'The scoped MVP plan, walked through together.'}]}];\nfunction pcardHTML(n,uid){return '<header class=\"pcard-h\"><h2 id=\"'+uid+'\" tabindex=\"-1\">'+kEsc(n.title)+'</h2><p class=\"pcard-meta\">'+n.meta.map(kEsc).join(' · ')+'</p><button type=\"button\" class=\"pcard-x\" aria-label=\"Close details\">'+kIcon('x')+'</button></header><div class=\"pcard-b\">'+n.sections.map(function(s){return '<div class=\"pcard-s\"><h3>'+kEsc(s.h)+'</h3><p>'+kEsc(s.p)+'</p></div>';}).join('')+'</div>';}\nfunction kitPinnedCard(card,rows,uid){var from=null;function close(){card.classList.remove('on');card.hidden=true;if(from)from.focus();}\ncard.addEventListener('click',function(e){if(e.target.closest('.pcard-x'))close();});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!card.hidden)close();});\nreturn function open(n,btn){from=btn;card.hidden=false;card.setAttribute('aria-labelledby',uid);card.innerHTML=pcardHTML(n,uid);card.scrollTop=0;requestAnimationFrame(function(){card.classList.add('on');card.querySelector('h2').focus({preventScroll:true});});};}\nvar stg=kSlot();stg.innerHTML='<div class=\"pcard-layout\"><div role=\"list\" aria-label=\"Items\" style=\"display:grid;gap:6px\"></div><section class=\"pcard is-pinned\" aria-live=\"polite\" hidden></section></div>';var lst=stg.querySelector('[role=list]'),cd=stg.querySelector('.pcard'),op=kitPinnedCard(cd,PC,'pc-stage-h');\nPC.forEach(function(n){var w=document.createElement('div');w.setAttribute('role','listitem');var b=document.createElement('button');b.type='button';b.style.cssText='width:100%;min-height:44px;display:flex;align-items:center;padding:0 12px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font:inherit;text-align:left;cursor:pointer';b.textContent=n.title+' ('+n.meta[1]+')';b.onclick=function(){op(n,b);};w.appendChild(b);lst.appendChild(w);});\nSTATES.forEach(function(s,i){var c=document.createElement('section');c.className='pcard'+(s[0]==='wide'?' is-static':'');c.setAttribute('aria-labelledby','pc-s'+i);c.innerHTML=pcardHTML(PC[0],'pc-s'+i);kSlot(i).appendChild(c);});\n"
+}

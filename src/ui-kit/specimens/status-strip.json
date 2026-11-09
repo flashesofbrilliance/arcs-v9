@@ -1,0 +1,136 @@
+{
+  "number": "44",
+  "name": "Status Strip",
+  "slug": "status-strip",
+  "layer": "Molecule",
+  "job": "Say in one line where the work stands: not started and what is next, or which day it is, how many hours are done and what waits on the reader.",
+  "anatomy": [
+    {
+      "part": "Not started",
+      "role": "Bold `Not started.` before any progress; never an empty 0% bar",
+      "token": "`text`"
+    },
+    {
+      "part": "Day segments",
+      "role": "One 18px segment per plan day; done days filled, today half filled; `role=progressbar`",
+      "token": "`cyan`, empty `border`"
+    },
+    {
+      "part": "Day and hours",
+      "role": "`Day N · X of Y hours done`, tabular figures",
+      "token": "`text`"
+    },
+    {
+      "part": "Items",
+      "role": "Bold key then value: `Up next:`, `Ready for your review:`, `Comments so far:`",
+      "token": "key `text`, value `text-secondary`"
+    },
+    {
+      "part": "Details",
+      "role": "A `details` disclosure, only when something sits behind it (working on now, waiting on, latest)",
+      "token": "summary `cyan`"
+    }
+  ],
+  "states": [
+    {
+      "name": "Not started",
+      "args": [
+        {
+          "started": false
+        }
+      ],
+      "note": "`Not started.` plus `Up next:`. No bar and no Details."
+    },
+    {
+      "name": "In progress",
+      "args": [
+        {
+          "started": true
+        }
+      ],
+      "note": "Day segments, `Day 2 · 6 of 16 hours done`, review and comments count, and Details because something is waiting."
+    }
+  ],
+  "use_when": [
+    "A plan has days and hours and the reader wants to know, at a glance, where it stands and whether anything waits on them.",
+    "Show progress only once there is some; before that, `Not started.` and `Up next` say more than a 0% bar.",
+    "Placement: directly under the wordmark row and above the header strip, on every tab, with `.is-top` (one step smaller than the body text). It is engagement-wide status, not part of one tab's content."
+  ],
+  "avoid_when": [
+    "Do not show an empty bar, a percent, or a Details toggle with nothing behind it.",
+    "Do not repeat what the Now note above already says; the strip is the facts, the note is the action."
+  ],
+  "data": [
+    {
+      "field": "days[]",
+      "type": "string[]",
+      "required": true,
+      "note": "Plan day labels, such as `Before`, `Day 1` to `Day 5`, `After`; one segment each."
+    },
+    {
+      "field": "current",
+      "type": "integer",
+      "required": false,
+      "note": "Index of today in `days`; absent means not started."
+    },
+    {
+      "field": "hours_done, hours_total",
+      "type": "number",
+      "required": false,
+      "note": "Rendered as `X of Y hours done`."
+    },
+    {
+      "field": "next",
+      "type": "string",
+      "required": true,
+      "note": "The next item, shown as `Up next:`."
+    },
+    {
+      "field": "review[]",
+      "type": "string[]",
+      "required": false,
+      "note": "Items ready for the reader, with the date they became ready."
+    },
+    {
+      "field": "comments",
+      "type": "integer",
+      "required": false,
+      "note": "Count of comments batched for the next review call."
+    },
+    {
+      "field": "details[]",
+      "type": "{key, text}",
+      "required": false,
+      "note": "Lines behind Details: working on now, waiting on, latest. No Details when empty."
+    }
+  ],
+  "access": [
+    "A labelled `section` with a visually hidden heading (Where things stand).",
+    "Segments carry `role=progressbar` with `aria-valuemin`, `aria-valuemax`, `aria-valuenow` and an `aria-valuetext` that reads the day and hours.",
+    "Meaning never rests on colour: the day and hours are also written out.",
+    "Details is a native `details`/`summary`, 44px tall. Text is rem, so the reading options scale it."
+  ],
+  "built_from": [
+    {
+      "name": "Kit tokens (atoms)",
+      "href": "_tokens.css"
+    },
+    {
+      "name": "39 Theme toggle (light remap)",
+      "href": "39-theme-toggle.html"
+    }
+  ],
+  "used_by": [
+    {
+      "name": "Approved My Ally Step 1 template (public/myally-hub.html, PR 2094)"
+    }
+  ],
+  "gates": [
+    "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+    "`kit_primitive_sync.py --check` (in scripts): every page that marks this block carries it unchanged.",
+    "`scripts/token_source_gate.py`, `scripts/component_source_gate.py` and `scripts/artifact_wrap_lint.py` on this page.",
+    "Reading-options check: 375 and 1280, light and dark, largest text size, roomy spacing and the easy-read font."
+  ],
+  "css": "/* @prim:begin 39-theme-toggle */\n:root{color-scheme:dark;}\n@media (prefers-color-scheme: light){:root:not([data-theme=\"dark\"]){--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}}\n:root[data-theme=\"light\"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}\n.themebtn{display:inline-flex;align-items:center;min-height:44px;padding:0;margin:0 0 8px;font:inherit;font-size:var(--fs-body);color:var(--text-secondary);background:none;border:0;cursor:pointer;text-underline-offset:3px;}\n.themebtn:hover,.themebtn:focus-visible{color:var(--cyan);text-decoration:underline;}\n.themebtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}\n@media print{:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;} .themebtn{display:none!important;} body{background:#fff!important;}}\n/* @prim:end 39-theme-toggle */\n/* @prim:begin 44-status-strip */\n.sstrip{display:block}\n.sstrip-h{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.sstrip-line{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;line-height:1.45;color:var(--text-secondary)}\n.sstrip-line b{font-weight:600;color:var(--text)}\n.sstrip-done{color:var(--text);font-variant-numeric:tabular-nums}\n.sstrip-segs{display:inline-grid;grid-auto-flow:column;grid-auto-columns:18px;gap:3px;flex:none}\n.sstrip-seg{height:5px;border-radius:3px;background:var(--border)}\n.sstrip-seg.is-done{background:var(--cyan)}\n.sstrip-seg.is-now{background:var(--cyan);opacity:.5}\n.sstrip-det{margin-left:auto}\n.sstrip-det>summary{display:inline-flex;align-items:center;min-height:44px;padding:0 4px;cursor:pointer;color:var(--cyan);font-weight:600}\n.sstrip-det>summary:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}\n.sstrip-det[open]{flex-basis:100%;margin-left:0}\n.sstrip-more p{margin:0 0 4px}\n.sstrip.is-top{margin:-4px 0 12px;padding:0 2px}\n.sstrip.is-top .sstrip-line{font-size:var(--fs-body)}\n/* @prim:end 44-status-strip */\n",
+  "demo": "var KI={dl:'<path d=\"M8 2.5v7.5M4.75 7 8 10.25 11.25 7M3 13.5h10\"/>',ext:'<path d=\"M9 2.5h4.5V7M13.5 2.5 7.5 8.5M11.5 9.5v3a1 1 0 01-1 1h-7a1 1 0 01-1-1v-7a1 1 0 011-1h3\"/>',cal:'<rect x=\"2.5\" y=\"3.5\" width=\"11\" height=\"10\" rx=\"1.5\"/><path d=\"M2.5 6.5h11M5.5 2v3M10.5 2v3\"/>',chev:'<path d=\"M4.5 6.5 8 10l3.5-3.5\"/>',right:'<path d=\"M6 3.5 10.5 8 6 12.5\"/>',x:'<path d=\"M4 4l8 8M12 4l-8 8\"/>'};\nfunction kIcon(k){return '<svg viewBox=\"0 0 16 16\" aria-hidden=\"true\" focusable=\"false\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\">'+KI[k]+'</svg>';}\nfunction kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar SS={days:['Before','Day 1','Day 2','Day 3','Day 4','Day 5','After'],current:2,hours_done:6,hours_total:16,next:'Interview two front-line staff',review:['Current-state map (since Nov 10)'],comments:3,details:[{key:'Working on now:',text:'Tool inventory'},{key:'Waiting on:',text:'Access to the shared drive (asked Nov 9)'}]};\nfunction kitStatusStrip(host,d,uid){var s=document.createElement('section');s.className='sstrip';s.setAttribute('aria-labelledby',uid);var it=function(k,v){return v?'<span><b>'+kEsc(k)+'</b> '+kEsc(v)+'</span>':'';};var started=d.current!==undefined&&d.current!==null;var h='<h2 class=\"sstrip-h\" id=\"'+uid+'\">Where things stand</h2><div class=\"sstrip-line\">';\nif(started){var done=d.hours_done+' of '+d.hours_total+' hours done';h+='<span class=\"sstrip-segs\" role=\"progressbar\" aria-label=\"Progress by day\" aria-valuemin=\"0\" aria-valuemax=\"'+Math.max(d.days.length-1,1)+'\" aria-valuenow=\"'+d.current+'\" aria-valuetext=\"'+kEsc(d.days[d.current]+', '+done)+'\">'+d.days.map(function(x,i){return '<span class=\"sstrip-seg'+(i<d.current?' is-done':i===d.current?' is-now':'')+'\"></span>';}).join('')+'</span><span class=\"sstrip-done\">'+kEsc(d.days[d.current])+' · '+kEsc(done)+'</span>';}else h+='<span class=\"sstrip-done\"><b>Not started.</b></span>';\nh+=it('Up next:',d.next)+it('Ready for your review:',(d.review||[]).join('; '))+(d.comments?it('Comments so far:',d.comments+' batched for the review call'):'');\nvar more=(d.details||[]).map(function(x){return '<p><b>'+kEsc(x.key)+'</b> '+kEsc(x.text)+'</p>';}).join('');if(more)h+='<details class=\"sstrip-det\"><summary>Details</summary><div class=\"sstrip-more\">'+more+'</div></details>';s.innerHTML=h+'</div>';host.appendChild(s);return s;}\nkitStatusStrip(kSlot(),SS,'ss-stage').classList.add('is-top');\nSTATES.forEach(function(s,i){var d=s[0].started?SS:{days:SS.days,next:'Kickoff call'};kitStatusStrip(kSlot(i),d,'ss-s'+i);});\n"
+}

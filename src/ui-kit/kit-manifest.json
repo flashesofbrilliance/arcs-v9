@@ -2086,7 +2086,8 @@
    },
    "templates": [
     "recoil-report",
-    "recoil-player"
+    "recoil-player",
+    "precall-brief"
    ],
    "jobs": [],
    "pages": [
@@ -2106,6 +2107,7 @@
     "_ARTIFACTS/forge-morgan-stanley-devgen/page.html",
     "_ARTIFACTS/mercury-bundle/pitch.html",
     "_ARTIFACTS/pitch-us-bundle-ia.html",
+    "_ARTIFACTS/precall-brief/example.html",
     "_ARTIFACTS/sentilink-bundle/pitch.html",
     "_ARTIFACTS/sixty-second-read.html",
     "_ARTIFACTS/sow-scaffold-2026-10-08/primer-view.html",
@@ -2138,7 +2140,7 @@
     "public/yuri-profile.html",
     "scripts/counterpart_onepager_build.py"
    ],
-   "reuse": 47,
+   "reuse": 48,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2502,6 +2504,8 @@
     "_ARTIFACTS/audit-report/readme-cold-1.html",
     "_ARTIFACTS/brooks-audit-onepager.html",
     "_ARTIFACTS/brooks-pitch-storyboard.html",
+    "_ARTIFACTS/engagements/example-fictional/out/proposal.html",
+    "_ARTIFACTS/engagements/myally-ld/out/proposal.html",
     "public/blog-til-a-draft-is-not-a-verb.html",
     "public/blog-til-apple-openai.html",
     "public/blog-til-closing-the-loop.html",
@@ -2514,7 +2518,7 @@
     "scripts/counterpart_onepager_build.py",
     "scripts/kit_pull.py"
    ],
-   "reuse": 15,
+   "reuse": 17,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2630,13 +2634,15 @@
    "pages": [
     "_ARTIFACTS/atlas/concordance.html",
     "_ARTIFACTS/louisville-atlas.html",
+    "_ARTIFACTS/louisville-proposal/source.html",
     "_ARTIFACTS/terrain-atlas.html",
     "_ARTIFACTS/ticket-zach-north-star-resonance-gradient-field.html",
     "public/cia-brief.html",
+    "public/louisville-proposal.html",
     "public/proof.html",
     "scripts/counterpart_onepager_build.py"
    ],
-   "reuse": 7,
+   "reuse": 9,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -3067,7 +3073,9 @@
    ],
    "jobs": [
     "uikit-recoil-player",
-    "fc-rows-compost-2026-11"
+    "fc-rows-compost-2026-11",
+    "jtbd-orphanage-family-audit",
+    "ready-now-door-decision-split"
    ],
    "pages": [
     "scripts/kit_pull.py"
@@ -3360,11 +3368,551 @@
    ],
    "jobs": [],
    "pages": [
-    "_ARTIFACTS/brooks-audit-onepager.html",
     "scripts/counterpart_onepager_build.py"
    ],
-   "reuse": 2,
-   "near_duplicates": []
+   "reuse": 1,
+   "near_duplicates": [
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "43-action-menu",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "44-status-strip",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "45-fact-tile",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "46-day-list",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "47-now-note",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "49-pinned-card",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "50-term-definition",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "51-display-preferences",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    }
+   ]
   },
   {
    "id": "40-token-tuner",
@@ -3445,10 +3993,5426 @@
    "templates": [],
    "jobs": [],
    "pages": [
+    "_ARTIFACTS/louisville-proposal/source.html",
+    "public/louisville-proposal.html",
     "public/myally-debrief.html"
    ],
-   "reuse": 1,
-   "near_duplicates": []
+   "reuse": 3,
+   "near_duplicates": [
+    {
+     "rule": ".offer",
+     "twin": "49-pinned-card",
+     "twin_rule": ".pcard",
+     "jaccard": 0.8
+    }
+   ]
+  },
+  {
+   "id": "43-action-menu",
+   "number": "43",
+   "name": "Action Menu",
+   "group": "Specimens",
+   "subtitle": "Molecule 43 · Put every way to get or discuss one document behind a single header button, each item named by format and purpose.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/43-action-menu.html",
+   "data_shape": [
+    "control",
+    "label"
+   ],
+   "fidelity": [],
+   "classes": [
+    "amenu",
+    "amenu-btn",
+    "amenu-cta",
+    "amenu-group",
+    "amenu-h",
+    "amenu-i",
+    "amenu-list",
+    "themebtn"
+   ],
+   "prim_blocks": [
+    "39-theme-toggle",
+    "43-action-menu"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "counterpart-onepager"
+   ],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": [
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "39-theme-toggle",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "44-status-strip",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "45-fact-tile",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "46-day-list",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "47-now-note",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "49-pinned-card",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "50-term-definition",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "51-display-preferences",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "44-status-strip",
+   "number": "44",
+   "name": "Status Strip",
+   "group": "Specimens",
+   "subtitle": "Molecule 44 · Say in one line where the work stands: not started and what is next, or which day it is, how many hours are done and what waits on the reader.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/44-status-strip.html",
+   "data_shape": [
+    "state"
+   ],
+   "fidelity": [],
+   "classes": [
+    "is-done",
+    "is-now",
+    "is-top",
+    "sstrip",
+    "sstrip-det",
+    "sstrip-done",
+    "sstrip-h",
+    "sstrip-line",
+    "sstrip-more",
+    "sstrip-seg",
+    "sstrip-segs",
+    "themebtn"
+   ],
+   "prim_blocks": [
+    "39-theme-toggle",
+    "44-status-strip"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "counterpart-onepager"
+   ],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": [
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "39-theme-toggle",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "43-action-menu",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "45-fact-tile",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "46-day-list",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".sstrip-h",
+     "twin": "46-day-list",
+     "twin_rule": ".daylist-sr",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "47-now-note",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".sstrip-h",
+     "twin": "47-now-note",
+     "twin_rule": ".nnote-sr",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "49-pinned-card",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "50-term-definition",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "51-display-preferences",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".sstrip-h",
+     "twin": "51-display-preferences",
+     "twin_rule": ".dprefs-ttl",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".sstrip-h",
+     "twin": "grammar-chips",
+     "twin_rule": ".g-sr",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "45-fact-tile",
+   "number": "45",
+   "name": "Fact Tile",
+   "group": "Specimens",
+   "subtitle": "Molecule 45 · Give one fact a label, a figure and a short caption, with the label outside the box so a row of tiles reads as one aligned band.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/45-fact-tile.html",
+   "data_shape": [
+    "scalar",
+    "table"
+   ],
+   "fidelity": [],
+   "classes": [
+    "ftile",
+    "ftile-cap",
+    "ftile-fig",
+    "ftile-lab",
+    "ftiles",
+    "ftiles-c",
+    "is-4",
+    "is-fit",
+    "themebtn"
+   ],
+   "prim_blocks": [
+    "39-theme-toggle",
+    "45-fact-tile"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "counterpart-onepager"
+   ],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": [
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "39-theme-toggle",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "43-action-menu",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "44-status-strip",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "46-day-list",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "47-now-note",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftiles",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".ftiles",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".ftile",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile::before",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".ftile::before",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile-lab",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".ftile-lab",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile-fig",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".ftile-fig",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile-cap",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".ftile-cap",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "49-pinned-card",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "50-term-definition",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "51-display-preferences",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "46-day-list",
+   "number": "46",
+   "name": "Day List",
+   "group": "Specimens",
+   "subtitle": "Molecule 46 · Tell the reader what happens on each day of a short plan, one plain sentence per day, from Before to After.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/46-day-list.html",
+   "data_shape": [],
+   "fidelity": [],
+   "classes": [
+    "daylist",
+    "daylist-d",
+    "daylist-h",
+    "daylist-sr",
+    "daylist-t",
+    "themebtn"
+   ],
+   "prim_blocks": [
+    "39-theme-toggle",
+    "46-day-list"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "counterpart-onepager"
+   ],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": [
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "39-theme-toggle",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "43-action-menu",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "44-status-strip",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".daylist-sr",
+     "twin": "44-status-strip",
+     "twin_rule": ".sstrip-h",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "45-fact-tile",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "47-now-note",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".daylist-sr",
+     "twin": "47-now-note",
+     "twin_rule": ".nnote-sr",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "49-pinned-card",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "50-term-definition",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "51-display-preferences",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".daylist-sr",
+     "twin": "51-display-preferences",
+     "twin_rule": ".dprefs-ttl",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".daylist-sr",
+     "twin": "grammar-chips",
+     "twin_rule": ".g-sr",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "47-now-note",
+   "number": "47",
+   "name": "Now Note",
+   "group": "Specimens",
+   "subtitle": "Molecule 47 · Tell the reader, in one sentence at the top, what to do now, and let them dismiss it once read; a changed note comes back.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/47-now-note.html",
+   "data_shape": [
+    "delta",
+    "note"
+   ],
+   "fidelity": [],
+   "classes": [
+    "nnote",
+    "nnote-pill",
+    "nnote-sr",
+    "nnote-x",
+    "themebtn"
+   ],
+   "prim_blocks": [
+    "39-theme-toggle",
+    "47-now-note"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "counterpart-onepager"
+   ],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": [
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "39-theme-toggle",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "43-action-menu",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "44-status-strip",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".nnote-sr",
+     "twin": "44-status-strip",
+     "twin_rule": ".sstrip-h",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "45-fact-tile",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "46-day-list",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".nnote-sr",
+     "twin": "46-day-list",
+     "twin_rule": ".daylist-sr",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "49-pinned-card",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "50-term-definition",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "51-display-preferences",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".nnote-sr",
+     "twin": "51-display-preferences",
+     "twin_rule": ".dprefs-ttl",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".nnote-sr",
+     "twin": "grammar-chips",
+     "twin_rule": ".g-sr",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "48-summary-disclosure",
+   "number": "48",
+   "name": "Summary Disclosure",
+   "group": "Specimens",
+   "subtitle": "Molecule 48 · Keep the whole plan one line tall until the reader asks for it: a title and a one-line summary when closed, the fact tiles and a quiet note when open.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/48-summary-disclosure.html",
+   "data_shape": [
+    "note"
+   ],
+   "fidelity": [],
+   "classes": [
+    "ftile",
+    "ftile-cap",
+    "ftile-fig",
+    "ftile-lab",
+    "ftiles",
+    "ftiles-c",
+    "is-4",
+    "is-fit",
+    "sumd",
+    "sumd-chev",
+    "sumd-note",
+    "sumd-s",
+    "sumd-t",
+    "themebtn"
+   ],
+   "prim_blocks": [
+    "39-theme-toggle",
+    "45-fact-tile",
+    "48-summary-disclosure"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "counterpart-onepager"
+   ],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": [
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "39-theme-toggle",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "43-action-menu",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "44-status-strip",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "45-fact-tile",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftiles",
+     "twin": "45-fact-tile",
+     "twin_rule": ".ftiles",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile",
+     "twin": "45-fact-tile",
+     "twin_rule": ".ftile",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile::before",
+     "twin": "45-fact-tile",
+     "twin_rule": ".ftile::before",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile-lab",
+     "twin": "45-fact-tile",
+     "twin_rule": ".ftile-lab",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile-fig",
+     "twin": "45-fact-tile",
+     "twin_rule": ".ftile-fig",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile-cap",
+     "twin": "45-fact-tile",
+     "twin_rule": ".ftile-cap",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "46-day-list",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "47-now-note",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "49-pinned-card",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "50-term-definition",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "51-display-preferences",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "49-pinned-card",
+   "number": "49",
+   "name": "Pinned Details Card",
+   "group": "Specimens",
+   "subtitle": "Organism 49 · Show the details of the row the reader picked without leaving the full-width grid: a card pinned bottom-right on wide screens, a block below the content on narrow ones.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/49-pinned-card.html",
+   "data_shape": [
+    "state",
+    "table"
+   ],
+   "fidelity": [],
+   "classes": [
+    "is-pinned",
+    "is-static",
+    "on",
+    "pcard",
+    "pcard-b",
+    "pcard-h",
+    "pcard-layout",
+    "pcard-meta",
+    "pcard-s",
+    "pcard-x",
+    "themebtn"
+   ],
+   "prim_blocks": [
+    "39-theme-toggle",
+    "49-pinned-card"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "counterpart-onepager"
+   ],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": [
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "39-theme-toggle",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".pcard",
+     "twin": "41-offer-close",
+     "twin_rule": ".offer",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "43-action-menu",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "44-status-strip",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "45-fact-tile",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "46-day-list",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "47-now-note",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "50-term-definition",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "51-display-preferences",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "50-term-definition",
+   "number": "50",
+   "name": "Term Definition",
+   "group": "Specimens",
+   "subtitle": "Molecule 50 · Let a reader who does not know a word see its plain meaning in place, on hover, focus or tap, with a link to the full glossary entry.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/50-term-definition.html",
+   "data_shape": [],
+   "fidelity": [],
+   "classes": [
+    "term",
+    "term-b",
+    "term-go",
+    "term-tip",
+    "themebtn",
+    "up"
+   ],
+   "prim_blocks": [
+    "39-theme-toggle",
+    "50-term-definition"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "counterpart-onepager"
+   ],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": [
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "39-theme-toggle",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "43-action-menu",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "44-status-strip",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "45-fact-tile",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "46-day-list",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "47-now-note",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "49-pinned-card",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "51-display-preferences",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "51-display-preferences",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "51-display-preferences",
+   "number": "51",
+   "name": "Display Preferences",
+   "group": "Specimens",
+   "subtitle": "Molecule 51 · Give every reader the theme switch and the reading options (easy-read font, larger text, roomy spacing) side by side in the header, remembered on their device.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/51-display-preferences.html",
+   "data_shape": [
+    "label"
+   ],
+   "fidelity": [],
+   "classes": [
+    "dprefs",
+    "dprefs-aa",
+    "dprefs-actions",
+    "dprefs-btns",
+    "dprefs-group",
+    "dprefs-label",
+    "dprefs-panel",
+    "dprefs-theme",
+    "dprefs-title",
+    "dprefs-trk",
+    "dprefs-ttl",
+    "is-static",
+    "themebtn"
+   ],
+   "prim_blocks": [
+    "39-theme-toggle",
+    "51-display-preferences"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "counterpart-onepager"
+   ],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": [
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "39-theme-toggle",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "39-theme-toggle",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "43-action-menu",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "43-action-menu",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "44-status-strip",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "44-status-strip",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".dprefs-ttl",
+     "twin": "44-status-strip",
+     "twin_rule": ".sstrip-h",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "45-fact-tile",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "45-fact-tile",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "46-day-list",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "46-day-list",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".dprefs-ttl",
+     "twin": "46-day-list",
+     "twin_rule": ".daylist-sr",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "47-now-note",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "47-now-note",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".dprefs-ttl",
+     "twin": "47-now-note",
+     "twin_rule": ".nnote-sr",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "49-pinned-card",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "49-pinned-card",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root:not([data-theme=\"dark\"])",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root[data-theme=\"light\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".themebtn",
+     "twin": "50-term-definition",
+     "twin_rule": ".themebtn",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root:not([data-theme=\"dark\"])",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root[data-theme=\"light\"]",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ":root",
+     "twin": "50-term-definition",
+     "twin_rule": ":root",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".dprefs-ttl",
+     "twin": "grammar-chips",
+     "twin_rule": ".g-sr",
+     "jaccard": 1.0
+    }
+   ]
   },
   {
    "id": "grammar-chips",
@@ -3514,6 +9478,30 @@
      "twin": "12-role-thesis",
      "twin_rule": ".adjacency-row",
      "jaccard": 0.8
+    },
+    {
+     "rule": ".g-sr",
+     "twin": "44-status-strip",
+     "twin_rule": ".sstrip-h",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".g-sr",
+     "twin": "46-day-list",
+     "twin_rule": ".daylist-sr",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".g-sr",
+     "twin": "47-now-note",
+     "twin_rule": ".nnote-sr",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".g-sr",
+     "twin": "51-display-preferences",
+     "twin_rule": ".dprefs-ttl",
+     "jaccard": 1.0
     }
    ]
   },

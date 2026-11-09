@@ -1,0 +1,89 @@
+{
+  "number": "46",
+  "name": "Day List",
+  "slug": "day-list",
+  "layer": "Molecule",
+  "job": "Tell the reader what happens on each day of a short plan, one plain sentence per day, from Before to After.",
+  "anatomy": [
+    {
+      "part": "Heading",
+      "role": "One or two words (Your week), headline size",
+      "token": "`text`"
+    },
+    {
+      "part": "List",
+      "role": "An ordered list in one bordered box; rows split by a hairline",
+      "token": "`surface`, `border`, `ds-r-sm`"
+    },
+    {
+      "part": "Day",
+      "role": "4.5rem column, bold, tabular, no wrap; a screen-reader `: ` follows it",
+      "token": "`text`"
+    },
+    {
+      "part": "Sentence",
+      "role": "One plain sentence, `text-wrap:pretty`; numbers keep a non-breaking hyphen (30‑minute)",
+      "token": "`text`"
+    }
+  ],
+  "states": [
+    {
+      "name": "Full week",
+      "args": [
+        "full"
+      ],
+      "note": "Before, Day 1 to Day 5, After."
+    },
+    {
+      "name": "Short plan",
+      "args": [
+        "short"
+      ],
+      "note": "Before, Day 1, After: the list fits any length."
+    }
+  ],
+  "use_when": [
+    "A short plan (a week or two) where the reader wants the shape of it before the detail.",
+    "Pair each row with the item ids it covers (`data-items`) so the consuming page can cross-check the list against the full grid."
+  ],
+  "avoid_when": [
+    "Do not put more than one sentence on a day, or a status pill on a row; status lives in the status strip.",
+    "Do not use it for a plan over about ten days; use the full grid with the pinned details card instead."
+  ],
+  "data": [
+    {
+      "field": "days[]",
+      "type": "{day, text, items?}",
+      "required": true,
+      "note": "`day` is the label (`Before`, `Day 1`, `After`); `text` is one sentence; `items` is an optional list of grid row ids for cross-checking."
+    }
+  ],
+  "access": [
+    "A labelled `section` (`aria-labelledby` the heading) holding an `ol`, so screen readers announce the count and order.",
+    "The day is followed by a visually hidden `: `, so it reads Day 1: then the sentence rather than running together.",
+    "Rem sizing; the day column is 4.5rem and holds `Before` at the largest text size."
+  ],
+  "built_from": [
+    {
+      "name": "Kit tokens (atoms)",
+      "href": "_tokens.css"
+    },
+    {
+      "name": "39 Theme toggle (light remap)",
+      "href": "39-theme-toggle.html"
+    }
+  ],
+  "used_by": [
+    {
+      "name": "Approved My Ally Step 1 template (public/myally-hub.html, PR 2094)"
+    }
+  ],
+  "gates": [
+    "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+    "`kit_primitive_sync.py --check` (in scripts): every page that marks this block carries it unchanged.",
+    "`scripts/token_source_gate.py`, `scripts/component_source_gate.py` and `scripts/artifact_wrap_lint.py` on this page.",
+    "Reading-options check: 375 and 1280, light and dark, largest text size, roomy spacing and the easy-read font."
+  ],
+  "css": "/* @prim:begin 39-theme-toggle */\n:root{color-scheme:dark;}\n@media (prefers-color-scheme: light){:root:not([data-theme=\"dark\"]){--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}}\n:root[data-theme=\"light\"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}\n.themebtn{display:inline-flex;align-items:center;min-height:44px;padding:0;margin:0 0 8px;font:inherit;font-size:var(--fs-body);color:var(--text-secondary);background:none;border:0;cursor:pointer;text-underline-offset:3px;}\n.themebtn:hover,.themebtn:focus-visible{color:var(--cyan);text-decoration:underline;}\n.themebtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}\n@media print{:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;} .themebtn{display:none!important;} body{background:#fff!important;}}\n/* @prim:end 39-theme-toggle */\n/* @prim:begin 46-day-list */\n.daylist-h{margin:0 0 10px;font-size:var(--fs-headline);line-height:1.3;font-weight:650}\n.daylist ol{list-style:none;margin:0;padding:0;border:1px solid var(--border);border-radius:var(--ds-r-sm);background:var(--surface)}\n.daylist li{display:grid;grid-template-columns:4.5rem minmax(0,1fr);gap:16px;align-items:baseline;padding:12px 14px;line-height:1.45}\n.daylist li+li{border-top:1px solid var(--border)}\n.daylist-d{font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}\n.daylist-t{text-wrap:pretty}\n.daylist-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n/* @prim:end 46-day-list */\n",
+  "demo": "var KI={dl:'<path d=\"M8 2.5v7.5M4.75 7 8 10.25 11.25 7M3 13.5h10\"/>',ext:'<path d=\"M9 2.5h4.5V7M13.5 2.5 7.5 8.5M11.5 9.5v3a1 1 0 01-1 1h-7a1 1 0 01-1-1v-7a1 1 0 011-1h3\"/>',cal:'<rect x=\"2.5\" y=\"3.5\" width=\"11\" height=\"10\" rx=\"1.5\"/><path d=\"M2.5 6.5h11M5.5 2v3M10.5 2v3\"/>',chev:'<path d=\"M4.5 6.5 8 10l3.5-3.5\"/>',right:'<path d=\"M6 3.5 10.5 8 6 12.5\"/>',x:'<path d=\"M4 4l8 8M12 4l-8 8\"/>'};\nfunction kIcon(k){return '<svg viewBox=\"0 0 16 16\" aria-hidden=\"true\" focusable=\"false\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\">'+KI[k]+'</svg>';}\nfunction kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar DL=[{day:'Before',text:'You sign, pay, and send the start items.',items:['s0']},{day:'Day 1',text:'Kickoff call, 30-minute, then the tool inventory.',items:['k1','t1']},{day:'Day 2',text:'Two short interviews with front-line staff.',items:['i1']},{day:'Day 3',text:'I map how the work flows today.',items:['m1']},{day:'Day 4',text:'I size the options and pick one to scope.',items:['o1']},{day:'Day 5',text:'Review call: we walk the plan together.',items:['r1']},{day:'After',text:'You decide on Step 2, with no obligation.',items:['a1']}];\nfunction kitDayList(host,rows,title,uid){var s=document.createElement('section');s.className='daylist';s.setAttribute('aria-labelledby',uid);s.innerHTML='<h2 class=\"daylist-h\" id=\"'+uid+'\">'+kEsc(title)+'</h2><ol>'+rows.map(function(r){return '<li'+(r.items?' data-items=\"'+kEsc(r.items.join(' '))+'\"':'')+'><span class=\"daylist-d\">'+kEsc(r.day)+'<span class=\"daylist-sr\">: </span></span><span class=\"daylist-t\">'+kEsc(r.text).replace(/(\\d+)-(minute|hour|day)/g,'$1‑$2')+'</span></li>';}).join('')+'</ol>';host.appendChild(s);return s;}\nkitDayList(kSlot(),DL,'Your week','dl-stage');\nSTATES.forEach(function(s,i){kitDayList(kSlot(i),s[0]==='full'?DL:[DL[0],DL[1],DL[6]],'Your week','dl-s'+i);});\n"
+}

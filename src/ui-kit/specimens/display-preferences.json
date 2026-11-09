@@ -1,0 +1,106 @@
+{
+  "number": "51",
+  "name": "Display Preferences",
+  "slug": "display-preferences",
+  "layer": "Molecule",
+  "job": "Give every reader the theme switch and the reading options (easy-read font, larger text, roomy spacing) side by side in the header, remembered on their device.",
+  "anatomy": [
+    {
+      "part": "Theme switch",
+      "role": "Pill button: icon, the label `Dark mode`, a track; `aria-pressed` says if dark is on; 48px tall",
+      "token": "`surface`, `border`, on `cyan`"
+    },
+    {
+      "part": "Aa button",
+      "role": "48px circle beside it, `aria-expanded`, opens the panel below itself",
+      "token": "`surface`, `border`, hover `cyan`"
+    },
+    {
+      "part": "Panel",
+      "role": "Non-modal dialog placed under the Aa button, right edges aligned; groups of pressed buttons",
+      "token": "`surface`, `border`, `ds-r-md`"
+    },
+    {
+      "part": "Reading attributes",
+      "role": "`data-font=easy` swaps `--ds-font-sans` and `--ds-font-display`; `data-size` l/xl sets the root font to 112.5%/125%; `data-space=roomy` adds letter, word and line spacing",
+      "token": "`ds-font-sans`, `ds-font-display`"
+    },
+    {
+      "part": "Phone",
+      "role": "At 520px and below the switch's text label is visually hidden; the icon and track stay",
+      "token": "none"
+    }
+  ],
+  "states": [
+    {
+      "name": "Header row",
+      "args": [
+        "row"
+      ],
+      "note": "Switch and Aa side by side at the right of the top row."
+    },
+    {
+      "name": "Panel open",
+      "args": [
+        "panel"
+      ],
+      "note": "Font, Text size, Spacing; the current choice is pressed. Escape or Close returns focus to Aa."
+    }
+  ],
+  "use_when": [
+    "Any client page whose readers include people who rely on a dyslexia-friendly font, larger text or wider spacing.",
+    "Every other block on the page must use rem or em and the kit font tokens, so these settings reach it.",
+    "Run the reading-options check on every page change: largest size, roomy spacing and easy-read font, at 375 and 1280."
+  ],
+  "avoid_when": [
+    "Do not float the Aa button at the bottom of the page; it lives in the header next to the theme switch.",
+    "Do not use it on a video frame or fixed render. Pages with only a theme need just 39 Theme toggle."
+  ],
+  "data": [
+    {
+      "field": "key",
+      "type": "string",
+      "required": true,
+      "note": "localStorage key for the saved settings object, such as `myAllyRead`; read in a pre-paint head script, every access in try/catch."
+    },
+    {
+      "field": "groups[]",
+      "type": "{k, label, options[]}",
+      "required": false,
+      "note": "Defaults: font std/easy, size std/l/xl, space std/roomy."
+    }
+  ],
+  "access": [
+    "The theme switch is a `<button>` named `Dark mode` with `aria-pressed`; the label stays in the accessible name on phones when it is visually hidden.",
+    "The Aa button has `aria-label=Reading options`, `aria-expanded` and `aria-controls`; the panel is `role=dialog` with `aria-modal=false`, labelled by its title.",
+    "Opening moves focus to the pressed option; Escape or Close closes and returns focus to Aa.",
+    "Options are groups of `aria-pressed` buttons, each 44px tall, with a visible label per group."
+  ],
+  "built_from": [
+    {
+      "name": "Kit tokens (atoms)",
+      "href": "_tokens.css"
+    },
+    {
+      "name": "39 Theme toggle (light remap)",
+      "href": "39-theme-toggle.html"
+    }
+  ],
+  "used_by": [
+    {
+      "name": "Approved My Ally Step 1 template (public/myally-hub.html, PR 2094)"
+    },
+    {
+      "name": "Sibling of 39 Theme toggle (39 unchanged for its consumers)",
+      "href": "39-theme-toggle.html"
+    }
+  ],
+  "gates": [
+    "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+    "`kit_primitive_sync.py --check` (in scripts): every page that marks this block carries it unchanged.",
+    "`scripts/token_source_gate.py`, `scripts/component_source_gate.py` and `scripts/artifact_wrap_lint.py` on this page.",
+    "Reading-options check: 375 and 1280, light and dark, largest text size, roomy spacing and the easy-read font."
+  ],
+  "css": "/* @prim:begin 39-theme-toggle */\n:root{color-scheme:dark;}\n@media (prefers-color-scheme: light){:root:not([data-theme=\"dark\"]){--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}}\n:root[data-theme=\"light\"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}\n.themebtn{display:inline-flex;align-items:center;min-height:44px;padding:0;margin:0 0 8px;font:inherit;font-size:var(--fs-body);color:var(--text-secondary);background:none;border:0;cursor:pointer;text-underline-offset:3px;}\n.themebtn:hover,.themebtn:focus-visible{color:var(--cyan);text-decoration:underline;}\n.themebtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}\n@media print{:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;} .themebtn{display:none!important;} body{background:#fff!important;}}\n/* @prim:end 39-theme-toggle */\n/* @prim:begin 51-display-preferences */\n:root[data-font=\"easy\"]{--ds-font-sans:Verdana,Tahoma,\"Trebuchet MS\",Arial,sans-serif;--ds-font-display:Verdana,Tahoma,\"Trebuchet MS\",Arial,sans-serif}\n:root[data-font=\"easy\"] *{font-style:normal!important}\n:root[data-size=\"l\"]{font-size:112.5%}\n:root[data-size=\"xl\"]{font-size:125%}\n[data-space=\"roomy\"] :is(p,li,dd,dt,button,summary){letter-spacing:.04em;word-spacing:.14em}\n[data-space=\"roomy\"] :is(p,li,dd,dt){line-height:1.8}\n.dprefs{display:flex;align-items:center;gap:8px;flex:none;margin-left:auto}\n.dprefs-theme{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 16px;font:inherit;font-size:var(--fs-body);font-weight:600;color:var(--text-secondary);border:1px solid var(--border);border-radius:var(--ds-r-pill);background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.14);cursor:pointer}\n.dprefs-theme svg{width:18px;height:18px;flex:none}\n.dprefs-theme[aria-pressed=\"true\"] .dprefs-ttl{color:var(--cyan)}\n.dprefs-trk{position:relative;width:34px;height:20px;border-radius:var(--ds-r-pill);background:var(--border);transition:background var(--dur-base)}\n.dprefs-trk::after{content:\"\";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform var(--dur-base) var(--ease-out)}\n.dprefs-theme[aria-pressed=\"true\"] .dprefs-trk{background:var(--cyan)}\n.dprefs-theme[aria-pressed=\"true\"] .dprefs-trk::after{transform:translateX(14px)}\n.dprefs-aa{flex:none;width:48px;height:48px;border-radius:var(--ds-r-pill);border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.14)}\n.dprefs-aa:hover,.dprefs-theme:hover{border-color:var(--cyan);color:var(--cyan)}\n.dprefs-aa:focus-visible,.dprefs-theme:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}\n.dprefs-panel{position:fixed;z-index:30;width:min(360px,calc(100vw - 32px));max-height:calc(100dvh - 100px);overflow:auto;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:var(--ds-r-md);padding:16px;box-shadow:0 4px 12px rgba(0,0,0,.14)}\n.dprefs-panel.is-static{position:static;width:auto;max-height:none}\n.dprefs-panel[hidden]{display:none}\n.dprefs-title{margin:0 0 10px;font-weight:700}\n.dprefs-group{margin:0 0 12px}\n.dprefs-label{display:block;color:var(--text-secondary);margin:0 0 4px}\n.dprefs-btns{display:flex;flex-wrap:wrap;gap:6px}\n.dprefs-btns button,.dprefs-actions button{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-sm);padding:0 14px;min-height:44px;cursor:pointer}\n.dprefs-btns button[aria-pressed=\"true\"]{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-bg);font-weight:700}\n.dprefs-btns button:focus-visible,.dprefs-actions button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}\n.dprefs-actions{display:flex;gap:8px;justify-content:flex-end}\n@media (max-width:520px){.dprefs-ttl{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.dprefs-theme{padding:0 12px}}\n@media (prefers-reduced-motion:reduce){.dprefs-trk,.dprefs-trk::after{transition:none}}\n@media print{.dprefs,.dprefs-panel{display:none!important}}\n/* @prim:end 51-display-preferences */\n",
+  "demo": "var KI={dl:'<path d=\"M8 2.5v7.5M4.75 7 8 10.25 11.25 7M3 13.5h10\"/>',ext:'<path d=\"M9 2.5h4.5V7M13.5 2.5 7.5 8.5M11.5 9.5v3a1 1 0 01-1 1h-7a1 1 0 01-1-1v-7a1 1 0 011-1h3\"/>',cal:'<rect x=\"2.5\" y=\"3.5\" width=\"11\" height=\"10\" rx=\"1.5\"/><path d=\"M2.5 6.5h11M5.5 2v3M10.5 2v3\"/>',chev:'<path d=\"M4.5 6.5 8 10l3.5-3.5\"/>',right:'<path d=\"M6 3.5 10.5 8 6 12.5\"/>',x:'<path d=\"M4 4l8 8M12 4l-8 8\"/>'};\nfunction kIcon(k){return '<svg viewBox=\"0 0 16 16\" aria-hidden=\"true\" focusable=\"false\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\">'+KI[k]+'</svg>';}\nfunction kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar DP_G=[{k:'font',label:'Font',o:[['std','Standard'],['easy','Easy-read']]},{k:'size',label:'Text size',o:[['std','Standard'],['l','Larger'],['xl','Largest']]},{k:'space',label:'Spacing',o:[['std','Standard'],['roomy','Roomy']]}];\nvar DP_SUN='<svg viewBox=\"0 0 20 20\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"><circle cx=\"10\" cy=\"10\" r=\"3.6\"/><path d=\"M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4\"/></svg>';\nfunction dpPanel(id,cls){return '<section id=\"'+id+'\" class=\"dprefs-panel'+(cls||'')+'\" role=\"dialog\" aria-modal=\"false\" aria-labelledby=\"'+id+'-h\"'+(cls?'':' hidden')+'><p id=\"'+id+'-h\" class=\"dprefs-title\">Reading options</p>'+DP_G.map(function(g){return '<div class=\"dprefs-group\" role=\"group\" aria-labelledby=\"'+id+'-'+g.k+'\"><span id=\"'+id+'-'+g.k+'\" class=\"dprefs-label\">'+g.label+'</span><span class=\"dprefs-btns\">'+g.o.map(function(o){return '<button type=\"button\" data-k=\"'+g.k+'\" data-v=\"'+o[0]+'\" aria-pressed=\"'+(o[0]==='std')+'\">'+o[1]+'</button>';}).join('')+'</span></div>';}).join('')+'<div class=\"dprefs-actions\"><button type=\"button\" data-reset>Reset</button><button type=\"button\" data-close>Close</button></div></section>';}\nfunction dpRow(pid){return '<div class=\"dprefs\"><button type=\"button\" class=\"dprefs-theme\" aria-pressed=\"false\">'+DP_SUN+'<span class=\"dprefs-ttl\">Dark mode</span><span class=\"dprefs-trk\" aria-hidden=\"true\"></span></button><button type=\"button\" class=\"dprefs-aa\" aria-expanded=\"false\" aria-controls=\"'+pid+'\" aria-label=\"Reading options\"><span aria-hidden=\"true\">Aa</span></button></div>';}\nfunction kitDisplayPrefs(row,panel,key){var d=document.documentElement,K={font:'data-font',size:'data-size',space:'data-space',theme:'data-theme'},st={};try{st=JSON.parse(localStorage.getItem(key)||'{}')||{};}catch(e){}\nvar tg=row.querySelector('.dprefs-theme'),aa=row.querySelector('.dprefs-aa'),mq=window.matchMedia&&matchMedia('(prefers-color-scheme: light)');function dark(){return st.theme?st.theme==='dark':!(mq&&mq.matches);}\nfunction apply(){for(var k in K){var v=st[k];v&&v!=='std'?d.setAttribute(K[k],v):d.removeAttribute(K[k]);}tg.setAttribute('aria-pressed',String(dark()));panel.querySelectorAll('button[data-k]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.v===(st[b.dataset.k]||'std')));});}\nfunction save(){try{localStorage.setItem(key,JSON.stringify(st));}catch(e){}}\nfunction place(){var r=aa.getBoundingClientRect();panel.style.top=Math.round(r.bottom+8)+'px';var vw=document.documentElement.clientWidth;panel.style.right=Math.max(16,Math.min(Math.round(vw-r.right),vw-panel.offsetWidth-16))+'px';}\nfunction open(o){panel.hidden=!o;aa.setAttribute('aria-expanded',String(o));if(o){place();(panel.querySelector('button[aria-pressed=\"true\"]')||panel.querySelector('button')).focus();}else aa.focus();}\ntg.onclick=function(){st.theme=dark()?'light':'dark';save();apply();};aa.onclick=function(){open(panel.hidden);};\npanel.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;if(b.hasAttribute('data-close'))open(false);else if(b.hasAttribute('data-reset')){st={};save();apply();}else if(b.dataset.k){st[b.dataset.k]=b.dataset.v;save();apply();}});\ndocument.addEventListener('keydown',function(e){if(e.key==='Escape'&&!panel.hidden)open(false);});addEventListener('resize',function(){if(!panel.hidden)place();});addEventListener('scroll',function(){if(!panel.hidden)place();},{passive:true});apply();}\nvar stg=kSlot();stg.innerHTML='<div style=\"display:flex;align-items:center;gap:12px;flex-wrap:wrap\"><span style=\"font-family:var(--ds-font-mono);letter-spacing:.18em;font-weight:700\">ARCS FIELD OS</span>'+dpRow('dp-stage')+'</div>';document.body.insertAdjacentHTML('beforeend',dpPanel('dp-stage'));kitDisplayPrefs(stg.querySelector('.dprefs'),document.getElementById('dp-stage'),'arcsKitRead');\nSTATES.forEach(function(s,i){var el=kSlot(i);if(s[0]==='row'){el.innerHTML=dpRow('dp-x'+i).replace('class=\"dprefs\"','class=\"dprefs\" inert');return;}el.innerHTML=dpPanel('dp-s'+i,' is-static');el.querySelector('section').setAttribute('inert','');});\n"
+}
