@@ -1,223 +1,274 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Honest Proposals Design</title>
+<title>Honest Proposals v0.1</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: one reading lane (960px) with a single px measure for body text; ledes and tables span the lane. */
-:root{
-  --bg:#f6f7f9; --surface:#ffffff; --ink:#1b2330; --muted:#4f5b6b; --rule:#d9dee6;
-  --accent:#8a6410; --accent-soft:#f3ead3; --code:#eef1f5;
-  --f-display:"Newsreader", Georgia, "Times New Roman", serif;
-  --f-body:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
-  --lane:960px; --measure:680px;
-}
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --bg:#0d1117; --surface:#141b24; --ink:#e2e8f0; --muted:#a3afbf; --rule:#263241;
-  --accent:#e0b84a; --accent-soft:#2a2414; --code:#1a2330; color-scheme:dark; } }
-:root[data-theme="dark"]{
-  --bg:#0d1117; --surface:#141b24; --ink:#e2e8f0; --muted:#a3afbf; --rule:#263241;
-  --accent:#e0b84a; --accent-soft:#2a2414; --code:#1a2330; color-scheme:dark; }
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
 
-body{ background:var(--bg); color:var(--ink); font:16px/1.6 var(--f-body);
-  padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); padding-block:40px 72px; }
-main{ max-width:var(--lane); margin:0 auto; display:flex; flex-direction:column; gap:40px; }
-section{ display:flex; flex-direction:column; gap:14px; min-width:0; }
-h1,h2,h3{ font-family:var(--f-display); font-weight:600; line-height:1.15; text-wrap:balance; margin:0; }
-h1{ font-size:clamp(2rem, 5vw, 2.9rem); }
-h2{ font-size:1.6rem; padding-top:20px; border-top:1px solid var(--rule); }
-h3{ font-size:1.15rem; font-family:var(--f-body); }
-p,li{ max-width:var(--measure); text-wrap:pretty; margin:0; }
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   the ui-kit compounding sweep note for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion durations and easing. Defined in DESIGN.md "Motion and safety" (promoted 2026-10-19). */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+/* Page layer. Layout: one 960px lane; body text on one px measure; ledes and the decision block span the lane.
+   Single dark look from the kit, so no light theme is declared. Accent (gold) marks only gaps and the recommendation. */
+:root{ color-scheme:dark; --lane:960px; --measure:680px; }
+*{ box-sizing:border-box; }
+body{ background:var(--bg); color:var(--text); font:16px/1.6 var(--ds-font-sans); margin:0;
+  padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); padding-block:36px 64px; }
+main{ max-width:var(--lane); margin:0 auto; display:flex; flex-direction:column; gap:32px; }
+section{ display:flex; flex-direction:column; gap:12px; min-width:0; }
+h1,h2,h3{ font-family:var(--ds-font-sans); font-weight:650; line-height:1.2; text-wrap:balance; margin:0; }
+h1{ font-size:clamp(1.7rem, 4.5vw, 2.4rem); letter-spacing:-0.01em; }
+h2{ font-size:1.35rem; }
+h3{ font-size:1.05rem; }
+p,li,dd{ max-width:var(--measure); text-wrap:pretty; margin:0; }
 ul,ol{ margin:0; padding-left:1.25em; display:flex; flex-direction:column; gap:6px; }
-.lede{ max-width:none; font-size:1.12rem; color:var(--ink); }
-.eyebrow{ font:500 .78rem/1.3 var(--f-mono); letter-spacing:.09em; text-transform:uppercase; color:var(--accent); max-width:none; }
-.meta{ font:400 .85rem/1.5 var(--f-mono); color:var(--muted); max-width:none; }
-.cold{ display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:14px; }
-.cold div{ background:var(--surface); border:1px solid var(--rule); border-radius:6px; padding:16px 18px; min-width:0; }
-.cold b{ display:block; font:500 .78rem/1.3 var(--f-mono); letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.lede{ max-width:none; font-size:1.1rem; }
+.status{ max-width:none; color:var(--muted); }
+code{ font-family:var(--ds-font-mono); font-size:.88em; background:var(--surface-2); padding:1px 5px; border-radius:var(--r-sm); overflow-wrap:anywhere; }
+a{ color:var(--text); text-decoration-color:var(--muted); text-underline-offset:3px; }
+:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+.decide{ border:1px solid var(--gold); border-radius:var(--r-md); background:var(--surface); padding:18px 20px; display:flex; flex-direction:column; gap:12px; }
+.decide ol{ gap:12px; }
+.decide li{ max-width:none; }
+.decide b{ color:var(--gold); }
+.how{ max-width:none; }
+
+.cold{ display:grid; grid-template-columns:1fr; gap:12px; }
+@media (min-width:600px){ .cold{ grid-template-columns:repeat(2, 1fr); } }
+.cold > div{ background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); padding:14px 16px; min-width:0; display:flex; flex-direction:column; gap:6px; }
+.cold h3{ color:var(--muted); font-size:.95rem; }
 .cold p{ max-width:none; }
-pre{ background:var(--code); border-radius:6px; padding:16px; overflow-x:auto; font:400 .85rem/1.5 var(--f-mono); margin:0; }
-code{ font-family:var(--f-mono); font-size:.88em; background:var(--code); padding:1px 4px; border-radius:3px; }
-pre code{ background:none; padding:0; }
-.tw{ overflow-x:auto; border:1px solid var(--rule); border-radius:6px; background:var(--surface); }
-table{ border-collapse:collapse; width:100%; min-width:640px; font-size:.92rem; }
-th,td{ text-align:left; vertical-align:top; padding:10px 12px; border-bottom:1px solid var(--rule); }
-tr:last-child td{ border-bottom:0; }
-th{ font:500 .74rem/1.3 var(--f-mono); letter-spacing:.07em; text-transform:uppercase; color:var(--muted); }
-td.n{ font-family:var(--f-mono); color:var(--accent); white-space:nowrap; }
-.pill{ display:inline-block; font:500 .72rem/1.4 var(--f-mono); padding:1px 7px; border-radius:10px; white-space:nowrap; border:1px solid var(--rule); color:var(--muted); }
-.pill.yes{ border-color:var(--accent); color:var(--accent); }
-.rec{ background:var(--accent-soft); border-left:3px solid var(--accent); padding:16px 18px; border-radius:0 6px 6px 0; }
-.rec p{ max-width:none; }
-.ask ol{ gap:10px; }
-a{ color:var(--accent); }
-:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
-@media (max-width:640px){ .eyebrow{ letter-spacing:.06em; } h2{ font-size:1.35rem; } }
+.steps{ list-style:none; padding:0; gap:4px; }
+.steps li{ max-width:none; }
+.steps b{ display:inline-block; min-width:4.2em; }
+
+dl.flow{ margin:0; display:grid; grid-template-columns:1fr; gap:10px; }
+dl.flow div{ display:grid; grid-template-columns:1fr; gap:2px; }
+@media (min-width:640px){ dl.flow div{ grid-template-columns:8rem 1fr; gap:16px; } }
+dl.flow dt{ font-weight:650; }
+dl.flow dd{ max-width:none; }
+
+.rules{ list-style:none; padding:0; display:flex; flex-direction:column; gap:0; border:1px solid var(--border); border-radius:var(--r-md); background:var(--surface); }
+.rules li{ max-width:none; display:grid; grid-template-columns:1fr; gap:4px; padding:12px 16px; border-bottom:1px solid var(--border); }
+.rules li:last-child{ border-bottom:0; }
+@media (min-width:760px){ .rules li{ grid-template-columns:minmax(0,1.1fr) 6.5rem minmax(0,1.5fr); gap:16px; align-items:start; } }
+.rules .r{ font-weight:650; }
+.rules .r span{ color:var(--muted); font-weight:400; margin-right:6px; font-variant-numeric:tabular-nums; }
+.rules .e{ color:var(--text-secondary, var(--text)); }
+.pill{ justify-self:start; font-size:.8rem; line-height:1.4; padding:1px 8px; border-radius:10px; border:1px solid var(--border); color:var(--muted); white-space:nowrap; }
+.pill.gap{ border-color:var(--gold); color:var(--gold); }
+.pill.new{ border-color:var(--text); color:var(--text); }
+
+details{ background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); padding:12px 16px; }
+details[open]{ padding-bottom:16px; }
+summary{ cursor:pointer; font-weight:650; }
+details > *:not(summary){ margin-top:10px; }
+.bg{ display:flex; flex-direction:column; gap:10px; }
+.tw{ overflow-x:auto; }
+table{ border-collapse:collapse; width:100%; font-size:.92rem; }
+th,td{ text-align:left; vertical-align:top; padding:8px 10px; border-bottom:1px solid var(--border); }
+th{ font-weight:650; color:var(--muted); }
+@media (max-width:640px){
+  table, thead, tbody, tr, th, td{ display:block; }
+  thead{ display:none; }
+  tr{ padding:8px 0; border-bottom:1px solid var(--border); }
+  td{ border:0; padding:2px 0; }
+  td:first-child{ font-weight:650; }
+}
+footer{ color:var(--muted); font-size:.9rem; border-top:1px solid var(--border); padding-top:14px; }
+footer p{ max-width:none; }
+@media (prefers-reduced-motion:reduce){ *{ transition:none !important; } }
 </style>
 </head><body>
 <main>
 <header style="display:flex;flex-direction:column;gap:12px">
-  <p class="eyebrow">Proposal, 2026-11-08 · status: waiting on Zach's go · nothing built</p>
-  <h1>Honest proposals</h1>
-  <p class="lede">A public skill that turns a client's ask or an RFP into one engagement record, and renders the reply, the proposal page, a plain-language agreement and a client page block from it, with checks that refuse to send a number without a source, a quote where a range belongs, or a price list before the paid step.</p>
-  <p class="meta">Markdown source: _PROPOSALS/2026-11-08-honest-proposals-design.md</p>
+  <h1>Merge honest-proposals v0.1 and keep it private</h1>
+  <p class="status">Status, Nov 8, 2026: v0.1 is built on a branch. <a href="https://github.com/flashesofbrilliance/arcs-v9/pull/2072">PR 2072</a> passes every check and is not merged. Nothing is public.</p>
+  <p class="lede">A skill that turns a client's ask into a reply, an agreement and a scope exhibit, all rendered from one record. It refuses to put out a number without a source, a quote where a range belongs, a sharing ban, or a per-task price list before the client has paid for the first step.</p>
 </header>
 
+<section class="decide" aria-labelledby="d-h">
+  <h2 id="d-h">What I need from you</h2>
+  <ol>
+    <li><b>Now:</b> merge PR 2072. Recommended. It adds the checks and a fictional worked example inside this private repo, and changes nothing a client or the public can see. My Ally's documents render byte for byte as before.</li>
+    <li><b>Later, no date:</b> extract the public method to its own repo, <code>honest-proposals</code>. Recommended over a skill inside <code>rfp-engine</code>, whose code refuses to draft proposals. This needs a second go from you and a skeptic's read of the fictional example first.</li>
+    <li><b>Only after a third engagement:</b> claim it works for proposals in general. The bar is under "Background".</li>
+  </ol>
+</section>
+
+<p class="how">How to read this: the cold read below gives the reasons, then what it does, then the rules with their status today, then what is not proven yet. Everything else is folded under "Background".</p>
+
 <section class="cold" aria-label="Cold read">
-  <div><b>Why</b><p>Small proposals go out as three or four hand-typed documents that drift apart the first time a date or price changes, and they tend to oversell. The two engagements done by hand showed the fix is one record that every document renders from, plus a few rules a check enforces before send.</p></div>
-  <div><b>What</b><p>A Claude Code skill, <code>honest-proposals</code>. The sibling of the honest resume skill: that one refuses to claim what it cannot defend about a person; this one refuses to promise what it cannot defend about a piece of work.</p></div>
-  <div><b>Why now</b><p>The engine is mid-flight. The renderer is 536 lines of stdlib Python and only its self-test names a client. The rendered agreement is still v2 text marked superseded by rev 27, so that path needs rework anyway. No client deadline drives this.</p></div>
-  <div><b>How</b><p>Before (now): this design. During (after your go): v0.1 built privately in arcs-v9 on a fictional example. After: a public repo only on a second go, and a "it generalizes" claim only after a third engagement passes the bar in section 7.</p></div>
-</section>
-<p class="meta">How to read: sections 1 to 3 are what it is and who it is for. Section 4 is the core. Sections 5 to 7 are reuse, first release and the bar to generalize. 8 is the home. 9 is what I need from you.</p>
-
-<section>
-  <h2>1. What it is</h2>
-  <p>One record in, five things out, four gates before send.</p>
-<pre tabindex="0"><code>client ask (email, call notes, RFP)
-   |
-   v
-engagement record (one JSON; every value has a source and an append-only history)
-   |
-   +--&gt; reply (email text)
-   +--&gt; proposal page (five altitudes, exec to surgical)
-   +--&gt; agreement + Exhibit A (plain language, draft for a lawyer)
-   +--&gt; client page block (rendered between markers in an existing page)
-   +--&gt; ex-ante receipt (what I expect the client to do, with odds and their basis)
-
-gates: record validator | leak and voice lint | pre-send gauntlet | counsel flag</code></pre>
-  <p>It does not send, publish or price for you. It refuses to mark the agreement sendable until a lawyer review date is in the record, and refuses to render a client-facing output that fails a gate.</p>
+  <div><h3>Why</h3><p>A small consulting proposal usually goes out as three or four hand-typed documents. They drift apart the first time a date or a price changes, and they tend to oversell.</p></div>
+  <div><h3>What</h3><p>One record per engagement. Every document renders from it, and checks run before anything is sent. It is the sibling of the honest resume skill, which refuses to claim what it cannot defend about a person.</p></div>
+  <div><h3>Why now</h3><p>Nothing outside forces it. The one reason is cost: the two client engagements done by hand this month are fresh, and the renderer already existed, so the line between "generic" and "this client" was cheap to draw now.</p></div>
+  <div><h3>How</h3><ul class="steps">
+    <li><b>Before</b> Nov 8: you approved the design.</li>
+    <li><b>During</b> Nov 8: v0.1 built; PR 2072 green.</li>
+    <li><b>After</b> merge on your go; public repo on a second go, no date.</li>
+  </ul></div>
 </section>
 
-<section>
-  <h2>2. Who it is for</h2>
-  <ul>
-    <li><b>First:</b> a solo consultant or fractional operator writing a small fixed-fee proposal to a private company that asked for help in an email or on a call. A paid first step, then later steps not yet scoped. This is the only type v0.1 supports.</li>
-    <li><b>Later:</b> formal RFP responses (with <code>rfp-engine</code> supplying the cited asks), agencies with a procurement counterpart, multi-party agreements.</li>
-    <li><b>Not for:</b> anyone who wants a persuasive pitch generator. It makes a proposal less impressive and more defensible on purpose.</li>
-  </ul>
+<section aria-labelledby="w-h">
+  <h2 id="w-h">What it does</h2>
+  <dl class="flow">
+    <div><dt>In</dt><dd>The client's ask, in their words: an email thread or call notes. Formal RFPs come later.</dd></div>
+    <div><dt>Record</dt><dd>One JSON file. Every value has a source (an email, a call, a decision, or "judgment") and a history that only grows.</dd></div>
+    <div><dt>Out</dt><dd>A reply email, a plain-language agreement, an Exhibit A listing what is delivered, and an internal page that goes from a one-line summary down to every value and its source.</dd></div>
+    <div><dt>Before send</dt><dd>Four checks on the text, then a send gate: a lawyer has read the agreement template, a pre-send review from the client's five seats is clean, and a written prediction of the client's reply, with odds and their basis, is on file.</dd></div>
+    <div><dt>Never</dt><dd>It does not send, publish or set your prices. You send.</dd></div>
+  </dl>
 </section>
 
-<section>
-  <h2>3. What stays private</h2>
-  <p>Zach's terms, rates, payment rules, state of law, voice and receipt ledger live in a private overlay skill (<code>honest-proposals-zach</code>), the same split as <code>resume-tailor</code> and <code>resume-tailor-zach</code>. The public method ships one fictional worked example. Its figures, step count and dates are invented rather than swapped out of a real engagement, because the shape alone (three steps, a five-day first step, a particular fee) can identify a client.</p>
-</section>
-
-<section>
-  <h2>4. The honesty rules, and how each is enforced</h2>
-  <p><b>Code</b> means the validator or a lint refuses the output. <b>Gate</b> means a review must pass before send. <b>Human</b> means the skill asks and records the answer but cannot check it.</p>
-  <div class="tw" tabindex="0"><table>
-    <thead><tr><th>#</th><th>Rule</th><th>Enforced by</th><th>Today</th><th>My view</th></tr></thead>
-    <tbody>
-      <tr><td class="n">1</td><td>Every number cites a source or is labeled judgment</td><td>Code: every stored field needs a source; <code>judgment</code> is a source kind. Add a lint that fails any figure in rendered text that did not come from a cite (rfp-engine's "figures are quoted, never computed", turned on our own output).</td><td><span class="pill">partly</span></td><td>Keep. The literal-figure lint is the cheap gap closer.</td></tr>
-      <tr><td class="n">2</td><td>Ranges with written assumptions, never a quote</td><td>Code: phases after the paid step use a <code>money_range</code> field and link an assumption with a test that would decide it.</td><td><span class="pill">no</span></td><td>Keep, refined: the paid first step is a fixed fee. That is the price of finding out, not a quote for the job. A range on a five-day step reads as evasive.</td></tr>
-      <tr><td class="n">3</td><td>Reliance disclaimer instead of a sharing ban</td><td>Code: the agreement template carries the clause; a lint fails on ban phrases ("may not share", "do not forward").</td><td><span class="pill">partly</span></td><td>Keep. The ban backfired in review: the client has to show the work to people who were not in the room.</td></tr>
-      <tr><td class="n">4</td><td>No task-level bid sheet before the paid step</td><td>Code: leak check. A per-engagement ceiling plus a pattern check for per-task hour or rate tables, on every client-facing output while the step is unpaid.</td><td><span class="pill">one page</span></td><td>Keep, generalize: ceiling and paid flag move into the record. This is what stops the proposal being shopped to other bidders.</td></tr>
-      <tr><td class="n">5</td><td>"Opinion, not legal or compliance advice", "as is", a lawyer reads it once</td><td>Code for the wording. Human for the lawyer: <code>counsel_review {date, by_role}</code> must be set before the agreement renders as sendable.</td><td><span class="pill">wording</span></td><td>Keep. "Once" means once per template version. The public README says the templates follow one US state's habits.</td></tr>
-      <tr><td class="n">6</td><td>Ex-ante receipt, scored after the reply</td><td>Gate: <code>ex_ante {expect, p, basis, date}</code> before any send, <code>close</code> after the reply. Public: local JSONL. Overlay: the <code>decision_receipt</code> row.</td><td><span class="pill">no</span></td><td>Keep. Without it there is no way to learn whether honest proposals win or lose more often.</td></tr>
-      <tr><td class="n">7</td><td>Gauntlet pass before anything is sent</td><td>Gate: <code>counterpart-gauntlet</code> with a five-seat proposal preset (founder, finance, counsel, skeptic, busy reader). Public: the same seats as a checklist prompt.</td><td><span class="pill yes">yes</span></td><td>Keep. It caught a narrowed office-hours term and the sharing ban on one engagement (measured, n=1).</td></tr>
-      <tr><td class="n">8</td><td>What is not proven yet is said out loud</td><td>Code: <code>not_proven[]</code> must be non-empty and renders as its own section.</td><td><span class="pill">no</span></td><td>Keep. An empty list is itself a red flag, so it is an error.</td></tr>
-    </tbody>
-  </table></div>
-  <h3>Two I would add, both half built</h3>
-  <div class="tw" tabindex="0"><table>
-    <thead><tr><th>#</th><th>Rule</th><th>Enforced by</th></tr></thead>
-    <tbody>
-      <tr><td class="n">9</td><td>A change after sending is shown, never silent</td><td>Code, already built: once <code>last_sent</code> is set, a changed cited value prints "changed DATE, was X" in every output.</td></tr>
-      <tr><td class="n">10</td><td>Plain language, first person singular, no em-dashes, no invented urgency</td><td>Code: em-dash and voice lint (the <code>page_gate.py --counterpart</code> check). Human: <code>why_now</code> must name a real trigger.</td></tr>
-    </tbody>
-  </table></div>
-  <p>One I would leave out: "price last". It suits video and calls, but a written proposal reader often scrolls to the price first, and hiding it reads as a sales move.</p>
-</section>
-
-<section>
-  <h2>5. The pieces it reuses</h2>
-  <div class="tw" tabindex="0"><table>
-    <thead><tr><th>Piece</th><th>Where now</th><th>Generic today?</th><th>Change for v0.1</th></tr></thead>
-    <tbody>
-      <tr><td>Renderer (render, --check, --self-test)</td><td><code>scripts/engagement_render.py</code>, 536 lines</td><td>Yes, except self-test fixtures</td><td>Self-test runs on the fictional example</td></tr>
-      <tr><td>Record schema</td><td><code>runtime/specs/engagement-record-v0.md</code></td><td>Yes</td><td>v1 adds not_proven, ex_ante, close, counsel_review, money_range, phase.paid, leak.ceiling</td></tr>
-      <tr><td>Page block sync</td><td><code>scripts/myally_hub_sync.py</code>, 52 lines</td><td>Nearly</td><td>Markers and paths become arguments</td></tr>
-      <tr><td>Leak check</td><td>hub crawl, on branches only</td><td>No</td><td>Pull out as its own lint over every output</td></tr>
-      <tr><td>Voice lint</td><td><code>scripts/page_gate.py --counterpart</code></td><td>Yes</td><td>Run on rendered text too</td></tr>
-      <tr><td>Pre-send gauntlet</td><td><code>.claude/workflows/counterpart-gauntlet.js</code></td><td>Yes</td><td>Proposal seat preset; public checklist version</td></tr>
-      <tr><td>Assumption rows</td><td><code>scripts/assumptions.py</code> shape</td><td>Yes</td><td>None</td></tr>
-      <tr><td>Progress events</td><td><code>scripts/engagement_progress.py</code></td><td>Nearly</td><td>Not in v0.1</td></tr>
-      <tr><td>RFP intake</td><td><code>rfp-engine</code> (public)</td><td>Yes</td><td>Not in v0.1; later turns an RFP into cited asks</td></tr>
-      <tr><td>Method and overlay split</td><td><code>resume-tailor</code> + <code>resume-tailor-zach</code></td><td>Pattern</td><td>Copy the layout</td></tr>
-    </tbody>
-  </table></div>
-  <p>What does not carry over: the Louisville proposal page and PDF were built by hand, not from the record. So Louisville is an instance of the method, not of the code. Only one of the two engagements exercised the renderer.</p>
-</section>
-
-<section>
-  <h2>6. The smallest first release (v0.1)</h2>
-  <p>One engagement type: <b>a fixed-fee paid first step for a private client who asked by email or call, with later steps shown as ranges.</b></p>
-  <h3>In</h3>
-  <ul>
-    <li><code>SKILL.md</code>: intake questions, fill the record, render, lint, gauntlet checklist, ex-ante, stop before send.</li>
-    <li>Schema v1 and the validator.</li>
-    <li>Four outputs: reply, proposal page, agreement, Exhibit A.</li>
-    <li>Four lints: literal figures, sharing-ban phrases, leak ceiling and bid-sheet pattern, voice and em-dash.</li>
-    <li>The counsel flag and the ex-ante requirement.</li>
-    <li>One fictional worked example, and a self-test that fails on a stale output and passes on a fresh one.</li>
-  </ul>
-  <h3>Out, each a later backlog row</h3>
-  <ul>
-    <li>Client page tabs and progress tracking.</li>
-    <li>RFP intake through <code>rfp-engine</code>.</li>
-    <li>PDF output, hosting, passcode gates.</li>
-    <li>Supabase receipts (overlay only).</li>
-    <li>Any second engagement type.</li>
-  </ul>
-  <p>Size, judgment: one to two working sessions, since the renderer and most checks exist and the new work is schema additions, four lints and the example. Basis: the 588 lines already written and this week's build pace. Not measured.</p>
-</section>
-
-<section>
-  <h2>7. What a third engagement must prove before generalizing</h2>
-  <p>Written down now so the count is not bent later. Thresholds are judgment.</p>
-  <ol>
-    <li><b>Different shape.</b> A different client type or a formal RFP, not another paid-diagnostic-then-build.</li>
-    <li><b>Cold use.</b> Run end to end by a session that did not build the skill, from <code>SKILL.md</code> alone.</li>
-    <li><b>No hand edits.</b> Zero edits to rendered outputs; every change goes through the record.</li>
-    <li><b>Small code change.</b> Renderer changes under about 50 lines and at most three new record keys. More means the schema was fitted to the first client.</li>
-    <li><b>Gates earn their keep.</b> Each gate's catches are counted and published, zero included.</li>
-    <li><b>The ex-ante is scored.</b> The client replied and the receipt says whether the prediction held.</li>
+<section aria-labelledby="r-h">
+  <h2 id="r-h">The rules, and where each stands today</h2>
+  <p>Ten rules. Eight came from the brief. I changed rule 2 so the paid first step stays a fixed fee, because it is the price of finding out and a range on a short step reads as evasive. Rules 9 and 10 are new. All of them now run in v0.1.</p>
+  <ol class="rules">
+    <li><span class="r"><span>1</span>Every number cites a source or says it is judgment</span><span class="pill">built</span><span class="e">The record refuses a value with no source; a check fails any figure typed into a template. Gap: numbers written as words get through.</span></li>
+    <li><span class="r"><span>2</span>The first step is a fixed fee; later steps are ranges with written assumptions</span><span class="pill new">built, changed</span><span class="e">The record refuses a later step that isn't a range linked to an assumption, each with the test that would settle it.</span></li>
+    <li><span class="r"><span>3</span>A reliance disclaimer instead of a sharing ban</span><span class="pill">built</span><span class="e">The agreement must carry a reliance term; a check fails "may not be shared" and similar.</span></li>
+    <li><span class="r"><span>4</span>No per-task price list before the first step is paid</span><span class="pill">built</span><span class="e">Until the first step is paid, a check fails any figure above the engagement's ceiling, or three or more table rows with prices or hours.</span></li>
+    <li><span class="r"><span>5</span>"Opinion, not legal advice" and "as is", and a lawyer reads the agreement once</span><span class="pill">built</span><span class="e">A check needs both phrases. The send gate needs a lawyer-review date for the template version.</span></li>
+    <li><span class="r"><span>6</span>Predict the reply before sending, score it after</span><span class="pill gap">partly</span><span class="e">The prediction and its score live in the record and the send gate needs the prediction. Writing it to the decision ledger is still manual.</span></li>
+    <li><span class="r"><span>7</span>A pre-send review from the client's seats</span><span class="pill gap">partly</span><span class="e">The send gate needs a clean review on file. The five seats (founder, finance, counsel, skeptic, busy reader) are a written checklist, not yet a preset in the review workflow.</span></li>
+    <li><span class="r"><span>8</span>What is not proven yet is said out loud</span><span class="pill">built</span><span class="e">The record refuses an empty list; the internal page shows it.</span></li>
+    <li><span class="r"><span>9</span>A change after sending is shown, never silent</span><span class="pill new">built, new</span><span class="e">Once a send date is set, a changed value prints "changed on DATE, was X" in every document.</span></li>
+    <li><span class="r"><span>10</span>Plain language, "I" to "you", no em-dashes</span><span class="pill new">built, new</span><span class="e">A check fails "we", "our", "us" and em-dashes in client text.</span></li>
   </ol>
-  <p>Pass: move to a plugin with the second engagement type. Fail on 4: fix the schema, not the templates.</p>
+  <p>One I left out on purpose: "price last". A written proposal reader often scrolls to the price first, and hiding it reads as a sales move.</p>
 </section>
 
-<section>
-  <h2>8. Where it lives</h2>
-  <div class="rec"><p><b>Recommendation:</b> a new public repo, <code>honest-proposals</code>, as a Claude Code skill, built first inside arcs-v9. Not a skill inside <code>rfp-engine</code>.</p></div>
-  <p>The reason is <code>rfp-engine</code>'s own contract: requests to draft proposal language or decide whether to bid are refused before any model call, enforced in code. That refusal is what makes it trustworthy as a reader of solicitations. A drafting skill in the same repo would break that rule or sit beside it as an exception, and both weaken what it is known for. They should be neighbours: <code>rfp-engine</code> reads the RFP and returns cited asks; <code>honest-proposals</code> takes cited asks and writes an offer. A README link each way, and later an intake adapter, joins them without merging their promises.</p>
-  <p>A plugin is premature: there is one skill with one engagement type. Revisit at the third instance.</p>
-  <ol>
-    <li>Build v0.1 in arcs-v9 under <code>scripts/</code> and <code>_ARTIFACTS/engagements/example-fictional/</code>, with the overlay at <code>.claude/skills/honest-proposals-zach/</code>.</li>
-    <li>On a second go, extract the public method to <code>flashesofbrilliance/honest-proposals</code> (MIT, like the resume skill), catalogue it in the seedbank with <code>rfp-engine</code> (which clears that drift flag), and link the two READMEs.</li>
-  </ol>
-</section>
-
-<section class="ask">
-  <h2>9. What I need from you</h2>
-  <ol>
-    <li>Home: new repo <code>honest-proposals</code> (recommended) or a skill inside <code>rfp-engine</code>.</li>
-    <li>First release type: fixed-fee paid first step, private client (recommended), or another.</li>
-    <li>Go to build v0.1 privately in arcs-v9. Nothing public until a separate go.</li>
-    <li>The rule changes: the fixed-fee refinement to rule 2, and adding rules 9 and 10.</li>
-  </ol>
-</section>
-
-<section>
-  <h2>Not proven yet</h2>
+<section aria-labelledby="n-h">
+  <h2 id="n-h">Not proven yet</h2>
   <ul>
-    <li>That honest proposals win more often, or lose less painfully, than ordinary ones. There is no outcome data; rule 6 exists to start collecting it.</li>
-    <li>That the schema fits a second engagement type. Only one engagement used the code.</li>
-    <li>That the agreement template is sound outside the one state it was drafted for.</li>
-    <li>That the fictional example is far enough from a real client that nobody can tell. It needs a skeptic read before it goes public.</li>
+    <li>That honest proposals win more often than ordinary ones. There is no outcome data; rule 6 starts collecting it.</li>
+    <li>That the record fits a second kind of engagement. Only one client engagement has used the code; the other was built by hand.</li>
+    <li>That the agreement template holds up outside the one state it was drafted for.</li>
+    <li>That the fictional example is far enough from a real client that nobody can tell who inspired it.</li>
   </ul>
 </section>
+
+<section aria-labelledby="b-h">
+  <h2 id="b-h">Background</h2>
+  <div class="bg">
+    <details><summary>Who it is for</summary>
+      <p>First: a solo consultant writing a small fixed-fee proposal to a private company that asked by email or on a call, with a paid first step and later steps not yet scoped. That is the only type v0.1 supports. Not for anyone who wants a persuasive pitch: it makes a proposal less impressive and more defensible on purpose.</p>
+    </details>
+    <details><summary>What stays private</summary>
+      <p>Your terms, rates, payment rules, state of law and voice live in a private version of the skill, kept apart from the public method the same way the resume skill is split. The public method ships one example whose names, figures, dates and step count are all invented, because the shape of a real engagement can identify a client on its own.</p>
+    </details>
+    <details><summary>What v0.1 is, file by file</summary>
+      <div class="tw" role="region" aria-label="v0.1 files"><table>
+        <thead><tr><th>File</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>scripts/engagement_render.py</code></td><td>Existing renderer; now enforces the rules for the new record version. Old records render unchanged.</td></tr>
+          <tr><td><code>scripts/proposal_lint.py</code></td><td>The four text checks and the send gate, with a self-test that refuses eleven bad cases.</td></tr>
+          <tr><td><code>_ARTIFACTS/engagements/example-fictional/</code></td><td>The worked example. Passes the checks; not ready to send, on purpose, until a lawyer and a review are on file.</td></tr>
+          <tr><td><code>_ARTIFACTS/honest-proposals-skill/SKILL.md</code></td><td>The public method, staged here until extraction.</td></tr>
+          <tr><td><code>.claude/skills/honest-proposals-zach/</code></td><td>Your private version.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Left out of v0.1, each a later item: client page tabs and progress, RFP intake, PDFs and hosting, automatic ledger writes, any second kind of engagement.</p>
+    </details>
+    <details><summary>Where it lives, and why not inside rfp-engine</summary>
+      <p><code>rfp-engine</code> reads a solicitation and answers with the exact clause, and its code refuses requests to draft proposal language or decide whether to bid. That refusal is why it can be trusted. A drafting skill in the same repo would break that rule or sit beside it as an exception. So they stay neighbours: one reads the RFP and returns cited asks, the other takes cited asks and writes an offer. A plugin is premature with one skill and one kind of engagement.</p>
+    </details>
+    <details><summary>What a third engagement must prove before it generalizes</summary>
+      <ol>
+        <li>A different shape: a formal RFP or a different kind of client.</li>
+        <li>Run end to end by a session that did not build it, from the skill file alone.</li>
+        <li>No hand edits to any rendered document.</li>
+        <li>Renderer changes under about 50 lines and at most three new record keys. More means the record was fitted to the first client. (Thresholds are my judgment.)</li>
+        <li>Each check's catches counted and published, zero included.</li>
+        <li>The prediction scored after the client replies.</li>
+      </ol>
+    </details>
+  </div>
+</section>
+
+<footer><p>Source: <code>_PROPOSALS/2026-11-08-honest-proposals-design.md</code> in arcs-v9. Reworked Nov 8 after a design review.</p></footer>
 </main>
 </body></html>
