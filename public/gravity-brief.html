@@ -4,11 +4,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<meta name="robots" content="noindex, nofollow">
 <title>Zach Harris for Gravity Labs</title>
-<style>/* ARCS Recoil Report — Design Tokens */
+<meta name="robots" content="noindex, nofollow">
+<script>(function(){var d=document.documentElement;var t=null;try{t=localStorage.getItem('gravityTheme')}catch(e){}d.setAttribute('data-theme',t==='dark'?'dark':'light');})();</script>
+<style>
+/* ARCS Recoil Report — Design Tokens */
 :root {
   /* Surface */
   --bg:        #020408;
@@ -95,481 +97,10 @@
   --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
   --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
 }
-html:not([data-size]){font-size:90%}
-.pane-doc iframe,#pane-prop iframe{opacity:0;transition:opacity .12s}
-</style>
-<script>(function(){var d=document.documentElement;try{var r=JSON.parse(localStorage.getItem('gravityRead')||'{}')||{};var K={font:'data-font',size:'data-size',space:'data-space',tone:'data-tone',theme:'data-theme'};if(!r.theme||r.theme==='std')r.theme='light';for(var k in K){if(r[k]&&r[k]!=='std')d.setAttribute(K[k],r[k]);}}catch(e){}})();</script>
-<style>
-:root{
- --bg:#f7f8fa;--surface:#fff;--surface2:#eef1f5;--line:#d5dbe3;--text:#1c2430;--dim:#566170;
- --accent:#00606b;--accent-bg:rgba(0,96,107,.09);--gate:#8a5a00;--risk:#a3263c;--req:#4a4fb0;--gap:#6e4f8f;
- --font-body:system-ui,-apple-system,"Segoe UI",sans-serif;--col:32px;--nm:300px;--rh:36px;
-}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0d1117;--surface:#151b23;--surface2:#1c2430;--line:#2a3340;--text:#e2e8f0;--dim:#a3b0c2;--accent:#3cc6d3;--accent-bg:rgba(60,198,211,.12);--gate:#e0a63a;--risk:#ff7a8e;--req:#a6abff;--gap:#cfadf2}} :root[data-theme="dark"]{color-scheme:dark;--bg:#0d1117;--surface:#151b23;--surface2:#1c2430;--line:#2a3340;--text:#e2e8f0;--dim:#a3b0c2;--accent:#3cc6d3;--accent-bg:rgba(60,198,211,.12);--gate:#e0a63a;--risk:#ff7a8e;--req:#a6abff;--gap:#cfadf2} :root[data-theme="light"]{color-scheme:light}
-[data-tone="warm"]{--bg:#f6f0e4;--surface:#fbf7ef;--surface2:#efe7d6;--line:#ddd2bd}
-[data-font="easy"]{--font-body:Verdana,Tahoma,"Trebuchet MS",Arial,sans-serif}
-[data-font="easy"] *{font-style:normal!important}
-[data-size="l"]{font-size:112.5%;--rh:40px}
-[data-size="xl"]{font-size:125%;--rh:44px}
-[data-space="roomy"] :is(p,li,dd,dt,.tx,button){letter-spacing:.04em;word-spacing:.14em}
-[data-space="roomy"] :is(p,li,dd,dt){line-height:1.8}
-*{box-sizing:border-box}
-html{font-family:var(--font-body);color:var(--text);background:var(--bg)}
-body{margin:0;padding:24px 16px 40px;font-size:1rem;line-height:1.5}
-::selection{background:var(--accent-bg)}
-:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-main{max-width:1008px;margin:0 auto}
-h1{font-size:clamp(1.6rem,1.2rem + 1.6vw,2.25rem);line-height:1.15;letter-spacing:-.015em;margin:0 0 10px;text-wrap:balance}
-.mast{margin:8px 0 28px;width:fit-content;max-width:100%}.mast-meta{display:flex;flex-wrap:wrap;gap:4px 10px;margin:0 0 12px;font-size:.8rem;font-weight:600;letter-spacing:.04em;color:var(--dim)}.mast-meta span+span::before{content:"";display:inline-block;width:3px;height:3px;border-radius:50%;background:currentColor;vertical-align:middle;margin-right:10px;opacity:.6}@media (max-width:640px){.mast-meta .mm-d{display:none}}.mast-dek{contain:inline-size;margin:0;font-size:1.05rem;line-height:1.55;color:var(--dim);text-wrap:pretty}
-.lede,.tabnote{color:var(--dim);margin:0 0 20px;max-width:none}
-.bar-top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:0 0 12px}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
-.seg button{min-height:44px;padding:0 16px;border:0;border-right:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit;cursor:pointer}
-.seg button:last-child{border-right:0}
-.seg button[aria-pressed="true"]{background:var(--accent-bg);color:var(--accent);font-weight:700}
-.btn{min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--text);font:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
-.btn:hover,.seg button:hover{border-color:var(--accent)}
-.grow{flex:1}
-.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:0 0 12px;padding:0;list-style:none;color:var(--dim);font-size:.9rem}
-.legend li{display:inline-flex;align-items:center;gap:6px}
-.ico{width:14px;height:14px;flex:none}
-.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
 
-.wrap{overflow:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface);max-height:70vh}
-.grid{position:relative;min-width:max-content}
-.row{display:flex;height:var(--rh);border-bottom:1px solid var(--line)}
-.row.head{position:sticky;top:0;z-index:3;background:var(--surface2);height:32px}
-.nm{position:sticky;left:0;z-index:2;width:var(--nm);min-width:var(--nm);background:inherit;border-right:1px solid var(--line);display:flex;align-items:center;gap:8px;padding:0 10px}
-.row{background:var(--surface)}
-.row.l0{background:var(--surface2);font-weight:700}
-.row[aria-selected="true"] .nm{box-shadow:inset 3px 0 0 var(--accent)}
-.row[aria-selected="true"]{background:var(--accent-bg)}
-.row:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
-.tw{width:16px;height:16px;flex:none;color:var(--dim);transition:transform .15s ease-out}
-.row[aria-expanded="false"] .tw{transform:rotate(-90deg)}
-.tx{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.wk{width:var(--col);min-width:var(--col);font-size:.75rem;color:var(--dim);text-align:center;line-height:32px;font-variant-numeric:tabular-nums}
-.cells{position:relative;display:flex;padding-right:calc(var(--col) * 2)}
-.cells i{width:var(--col);min-width:var(--col)}
-.cells i:nth-child(even){background:color-mix(in srgb,var(--line) 22%,transparent)}
-.b{position:absolute;top:calc(50% - 8px);height:16px;border-radius:4px;background:var(--accent);z-index:1}
-.b.ph{top:calc(50% - 4px);height:8px;background:color-mix(in srgb,var(--accent) 40%,transparent)}
-.b.gate{background:var(--gate)}.b.req{background:color-mix(in srgb,var(--req) 70%,transparent)}
-.b.risk{background:repeating-linear-gradient(45deg,var(--risk) 0 4px,transparent 4px 8px);outline:1px solid var(--risk)}
-.pt{position:absolute;top:calc(50% - 9px);z-index:2}
-.gh{position:absolute;top:calc(50% - 10px);height:20px;border-radius:5px;z-index:0}
-.gh.best{border:1.5px dashed var(--accent)}.gh.worst{border:1.5px solid var(--risk);opacity:.6}.gh.base{border:1.5px dotted var(--dim)}
-.slip{position:absolute;top:calc(50% - 9px);z-index:2;font-size:.75rem;font-weight:700;color:var(--risk);white-space:nowrap;font-variant-numeric:tabular-nums}
-.sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 12px}
-.sum button{font:inherit;color:var(--text);text-align:left;cursor:pointer;min-height:44px;border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:10px 12px}.sum button:hover{border-color:var(--accent)}
-.sum button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-bg)}
-.sum b{display:block;font-size:1rem}.sum span{color:var(--dim);font-size:.9rem;font-variant-numeric:tabular-nums}
-svg.arrows{position:absolute;left:0;top:0;pointer-events:none;z-index:1;overflow:visible}
-svg.arrows path{fill:none;stroke:var(--dim);stroke-width:1.25;opacity:.75}
-.c-task{color:var(--accent)}.c-gate{color:var(--gate)}.c-req{color:var(--req)}.c-blk{color:var(--risk)}.c-gap{color:var(--gap)}.c-ms{color:var(--text)}.c-risk{color:var(--risk)}.c-phase{color:var(--dim)}
-#detail{border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:16px;align-self:start}
-.how{margin:0 0 12px}.how summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:600;color:var(--accent)} @media (min-width:1100px){.layout{grid-template-columns:minmax(0,1fr) 360px}#detail{position:sticky;top:12px;max-height:calc(100dvh - 24px);overflow:auto}#detail .dbody{grid-template-columns:minmax(0,1fr)!important}#detail .dside{border-left:0!important;border-top:1px solid var(--line)}#detail .wide{grid-column:auto!important}}@media (min-width:900px){#detail .wide{grid-column:2/-1}}#detail .inside{columns:2 18rem;column-gap:24px;margin:0;padding-left:18px}
-#detail h2{font-size:1.1rem;margin:0 0 10px;display:flex;gap:8px;align-items:center}
-#detail dl{display:grid;grid-template-columns:7.5rem 1fr;gap:6px 12px;margin:0}
-#detail dt{color:var(--dim)}#detail dd{margin:0}
-.edit{min-height:1.5em;border-bottom:1px dashed var(--line);padding:2px 0}
-.edit:empty::before{content:"Add";color:var(--dim)}
-.empty{color:var(--dim);margin:0}
-.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:0 0 16px}
-.tabs button{min-height:44px;padding:0 16px;border:0;border-bottom:3px solid transparent;background:none;color:var(--dim);font:inherit;font-weight:600;cursor:pointer}
-.tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
-#pane-prop iframe{width:100%;height:calc(100dvh - 160px);border:1px solid var(--line);border-radius:6px;background:#fff}
-.rx{--hc:var(--risk);--mc:var(--gate);--lc:var(--accent)} .rx-top{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;margin:0 0 20px} @media (min-width:860px){.rx-top{grid-template-columns:minmax(300px,380px) minmax(0,1fr);align-items:start}} .rx-mx{margin:0} .rx-cap{font-weight:700;margin:0 0 10px} .rx-mxw{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;gap:6px} .rx-ay{writing-mode:vertical-rl;transform:rotate(180deg);font-size:.8rem;color:var(--dim);text-align:center} .rx-ax{grid-column:2;font-size:.8rem;color:var(--dim);text-align:center} .rx-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,minmax(76px,auto));gap:4px} .rx-c{position:relative;border-radius:6px;padding:20px 6px 6px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:4px;background:color-mix(in srgb,var(--bc) 10%,var(--surface));border:1px solid color-mix(in srgb,var(--bc) 28%,var(--line))} .rx-c.h{--bc:var(--hc)}.rx-c.m{--bc:var(--mc)}.rx-c.l{--bc:var(--lc)} .rx-c>i{position:absolute;top:4px;left:6px;font-style:normal;font-size:.7rem;color:var(--dim);font-variant-numeric:tabular-nums} .rx-chip{font:inherit;font-size:.8rem;font-weight:700;min-height:28px;min-width:36px;padding:0 8px;border-radius:999px;border:1px solid color-mix(in srgb,var(--bc) 60%,var(--line));background:var(--surface);color:var(--text);cursor:pointer;font-variant-numeric:tabular-nums;transition:box-shadow .2s cubic-bezier(.16,1,.3,1)} .rx-chip:hover{box-shadow:0 2px 6px rgba(0,0,0,.12)} .rx-chip[aria-current="true"]{background:var(--text);color:var(--surface);border-color:var(--text)} .rx-chip.dim{opacity:.35} .rx-ghost{font-size:.75rem;min-height:24px;padding:0 6px;border-radius:999px;border:1px dashed var(--dim);color:var(--dim);display:inline-flex;align-items:center} .rx-meter{border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:14px 16px;margin:0 0 12px} .rx-meter b{font-size:1.5rem;font-variant-numeric:tabular-nums} .rx-meter p{margin:0}.rx-meter .d{color:var(--dim)} .rx-track{height:8px;border-radius:999px;background:var(--surface2);margin:10px 0 6px;overflow:hidden;display:flex} .rx-track span{display:block;height:100%;background:var(--accent);transition:width .4s cubic-bezier(.16,1,.3,1)} .rx-stats{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:.9rem;color:var(--dim);font-variant-numeric:tabular-nums} .rx-stats b{font-size:inherit;color:var(--text)} .rx-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center} .rx-seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden} .rx-seg button{font:inherit;min-height:44px;padding:0 14px;border:0;border-right:1px solid var(--line);background:var(--surface);color:var(--text);cursor:pointer} .rx-seg button:last-child{border-right:0} .rx-seg button[aria-pressed="true"]{background:var(--accent-bg);color:var(--accent);font-weight:700} .rx-sel{display:inline-flex;align-items:center;gap:8px;color:var(--dim)} .rx-sel select{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:6px;min-height:44px;padding:0 10px} .rx-chk{display:inline-flex;align-items:center;gap:8px;min-height:44px;cursor:pointer} .rx-chk input{width:18px;height:18px;accent-color:var(--accent)} .rx-lnk{font:inherit;min-height:44px;padding:0 4px;border:0;background:none;color:var(--accent);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px} .rx-list{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface);overflow:hidden} .rx-it{border-top:1px solid var(--line)} .rx-it:first-child{border-top:0} .rx-it.sel{background:color-mix(in srgb,var(--accent) 5%,var(--surface))} .rx-hd{all:unset;box-sizing:border-box;width:100%;display:grid;grid-template-columns:20px 44px minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:12px 16px;cursor:pointer} .rx-hd:focus-visible{outline:2px solid var(--accent);outline-offset:-2px} .rx-hd svg{width:16px;height:16px;transition:transform .2s cubic-bezier(.16,1,.3,1)} .rx-hd[aria-expanded="true"] svg{transform:rotate(90deg)} .rx-id{font-weight:700;color:var(--dim);font-variant-numeric:tabular-nums} .rx-nm{font-weight:600} .rx-sub{grid-column:3/-1;font-size:.85rem;color:var(--dim)} .rx-sc{display:inline-flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums} .rx-p{min-width:30px;text-align:center;border-radius:999px;padding:2px 8px;font-weight:700;font-size:.85rem} .rx-p.h{background:var(--risk);color:#fff}.rx-p.m{background:var(--gate);color:#fff}.rx-p.l{background:var(--accent-bg);color:var(--accent);outline:1px solid var(--accent)} .rx-p.was{background:none;color:var(--dim);outline:1px dashed var(--dim);font-weight:600} .rx-bd{padding:4px 16px 18px 52px;display:grid;gap:16px} @media (min-width:900px){.rx-bd{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}} .rx-h4{font-size:.8rem;font-weight:700;color:var(--dim);margin:0 0 8px} .rx-flow{list-style:none;margin:0;padding:0;display:grid;gap:0} .rx-flow li{position:relative;padding:0 0 12px 22px} .rx-flow li::before{content:"";position:absolute;left:5px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--risk)} .rx-flow li:not(:last-child)::after{content:"";position:absolute;left:8.5px;top:16px;bottom:0;width:1px;background:color-mix(in srgb,var(--risk) 40%,var(--line))} .rx-flow li:nth-child(2)::before{opacity:.7}.rx-flow li:nth-child(3)::before{opacity:.45} .rx-sw{list-style:none;margin:0;padding:0;display:grid;gap:8px} .rx-sw label{display:grid;grid-template-columns:40px minmax(0,1fr);gap:12px;align-items:start;cursor:pointer;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface)} .rx-sw label:has(input:checked){border-color:var(--accent);background:var(--accent-bg)} .rx-sw input{appearance:none;margin:2px 0 0;width:40px;height:22px;border-radius:999px;background:var(--line);position:relative;cursor:pointer;transition:background .2s} .rx-sw input::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:transform .2s cubic-bezier(.16,1,.3,1)} .rx-sw input:checked{background:var(--accent)} .rx-sw input:checked::after{transform:translateX(18px)} .rx-sw input:focus-visible{outline:2px solid var(--accent);outline-offset:2px} .rx-sw small{display:block;color:var(--dim);margin-top:2px} .rx-warn{margin:0;padding:10px 12px;border-radius:6px;background:color-mix(in srgb,var(--gate) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--gate) 40%,var(--line))} .rx-rows{display:flex;flex-wrap:wrap;gap:6px} .rx-rows button{font:inherit;font-size:.85rem;min-height:32px;padding:4px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--text);cursor:pointer;display:inline-flex;align-items:center;gap:6px} .rx-rows button:hover{border-color:var(--accent);color:var(--accent)} .rx-own input{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:6px;min-height:40px;padding:6px 10px;width:100%} .rx-empty{color:var(--dim)} @media (max-width:640px){.rx-bd{padding-left:16px}.rx-hd{grid-template-columns:20px 36px minmax(0,1fr)}.rx-hd .rx-sc{grid-column:3}} @media (prefers-reduced-motion:reduce){::view-transition-group(*){animation:none!important}} .rsum{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
-.rsum span{border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:8px 12px;font-variant-numeric:tabular-nums}
-.rk{border:1px solid var(--line);border-radius:6px;background:var(--surface);margin:0 0 12px;padding:14px 16px}
-.rk h3{margin:0 0 4px;font-size:1.05rem;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
-.rk .meta{color:var(--dim);margin:0 0 8px}
-.sc{display:inline-flex;align-items:center;justify-content:center;min-width:2.2rem;height:1.6rem;border-radius:4px;font-weight:700;font-variant-numeric:tabular-nums;font-size:.9rem}
-.sc.h{background:var(--risk);color:#fff}.sc.m{background:var(--gate);color:#fff}.sc.l{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent)}
-.chain{margin:6px 0 10px;padding-left:18px}.chain li{margin:2px 0}
-.ctls{list-style:none;margin:8px 0;padding:0;display:grid;gap:6px}
-.ctls label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;min-height:32px}
-.ctls input{width:20px;height:20px;margin-top:2px;accent-color:var(--accent);flex:none}
-.ctls small{color:var(--dim)}
-.rk dl{display:grid;grid-template-columns:7.5rem 1fr;gap:4px 12px;margin:8px 0 0}.rk dt{color:var(--dim)}.rk dd{margin:0}
-.rb{display:inline-flex;gap:2px;margin-left:auto;flex:none}
-.rb i{font-style:normal;font-size:.7rem;font-weight:700;border-radius:3px;padding:0 4px;color:#fff}
-#fmtip{position:fixed;z-index:40;max-width:340px;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:12px 14px;box-shadow:0 4px 12px rgba(0,0,0,.14);pointer-events:none;font-size:.9rem;line-height:1.45}
-#fmtip b{display:block;font-size:.95rem;margin:0 0 4px}#fmtip p{margin:4px 0 0}#fmtip .d{color:var(--dim)}
-[data-fm]{cursor:help}.fmid{text-decoration:underline dotted;text-underline-offset:3px}
-#detail{padding:0;overflow:hidden}
-.dh{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--line);background:var(--surface2)}
-.dh h2{margin:0;font-size:1.1rem}.dh .ico{width:16px;height:16px}
-.ty{font-size:.8rem;color:var(--dim);border:1px solid var(--line);border-radius:999px;padding:1px 10px;background:var(--surface)}
-.fmb{font-size:.75rem;font-weight:700;color:#fff;border-radius:4px;padding:1px 6px}
-.dbody{display:grid;grid-template-columns:minmax(0,1fr);gap:0}
-@media (min-width:900px){.dbody{grid-template-columns:minmax(0,1fr) 260px}.dside{border-left:1px solid var(--line)}}
-.dmain{padding:14px 16px;display:grid;gap:14px}.dside{padding:14px 16px;display:grid;gap:10px;align-content:start;background:color-mix(in srgb,var(--surface2) 50%,var(--surface))}
-.dl{font-size:.8rem;font-weight:700;color:var(--dim);margin:0 0 6px;letter-spacing:.02em}
-.lanes{display:grid;gap:4px}
-.ln{display:grid;grid-template-columns:3.5rem minmax(0,1fr) 8.5rem;align-items:center;gap:10px;font-variant-numeric:tabular-nums}
-.ln .lk{color:var(--dim);font-size:.9rem}.ln.cur .lk,.ln.cur .lv{color:var(--text);font-weight:700}
-.tr{position:relative;height:12px;border-radius:6px;background:color-mix(in srgb,var(--line) 45%,transparent)}
-.tb{position:absolute;top:0;height:12px;border-radius:6px;min-width:6px}
-.tb.best{background:color-mix(in srgb,var(--accent) 55%,transparent)}.tb.base{background:var(--accent)}.tb.worst{background:var(--risk)}
-.ln.scale .tr{background:none;height:auto}.ticks{display:flex;justify-content:space-between;font-size:.7rem;color:var(--dim)}.ticks i{font-style:normal}
-.lv{font-size:.9rem}
-.flow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:start}
-@media (max-width:640px){.flow{grid-template-columns:1fr}.flow .arrow{transform:rotate(90deg);justify-self:center}}
-.fcol{display:flex;flex-direction:column;gap:4px}.fh{font-size:.75rem;color:var(--dim)}
-.arrow{color:var(--dim);padding-top:20px}
-.chip{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:4px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--text);font:inherit;font-size:.9rem;text-align:left;cursor:pointer}
-button.chip:hover{border-color:var(--accent)}.chip.me{border-color:var(--accent);background:var(--accent-bg);font-weight:700;cursor:default}
-.kids{display:flex;flex-wrap:wrap;gap:6px}.none{color:var(--dim);font-size:.9rem}
-.dnote{margin:0;padding:10px 12px;border-radius:6px;background:var(--surface2);font-size:.95rem}
-.fld{display:grid;gap:4px}.fld span{font-size:.8rem;color:var(--dim);font-weight:700}
-.fld input,.fld select,.fld textarea{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-height:40px;width:100%}
-.fld textarea{resize:vertical}
-.wl{margin:0}.wc{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 20px}.wc li{font-variant-numeric:tabular-nums}.wc span{color:var(--dim);margin-right:6px}.wc li.cur{font-weight:700}.wc li.cur span{color:var(--text)}
-.wn{margin:6px 0 0;color:var(--risk);font-size:.9rem}
-.fl{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 6px}.fk{color:var(--dim);font-size:.9rem;min-width:7rem}
-.cad-key{margin:0 0 12px;color:var(--dim)}.cad-key b{color:var(--text)}
-.row.cadrow{background:var(--bg);height:28px}.row.cadrow .nm{background:var(--bg);font-size:.85rem;color:var(--dim);cursor:default}
-.cad{width:var(--col);min-width:var(--col);display:flex;align-items:center;justify-content:center;gap:2px}
-.cad i{display:block;width:5px;height:5px;border-radius:50%}.cad .cp{background:var(--dim)}.cad .cd{background:var(--accent);width:7px;height:7px}.cad .cn{background:var(--gate)}
-[hidden]{display:none!important}
-.b.ph{top:calc(50% - 7px);height:14px;background:var(--accent)}
-.pc{position:absolute;top:calc(50% - .7em);background:var(--surface);padding:0 6px;border-radius:4px;line-height:1.4;font-size:.8rem;color:var(--dim);white-space:nowrap;z-index:2;font-variant-numeric:tabular-nums}
-.pc.flip{text-align:right} .dense .wk:nth-child(even){visibility:hidden}
-.pc .sl{color:var(--risk);font-weight:700}
-.slip{background:var(--surface);padding:0 4px;border-radius:4px}
-.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-@media (max-width:640px){.sum{grid-template-columns:1fr}:root{--nm:180px}.tx{font-size:.9rem}}
-
-.readfab{position:fixed;right:16px;bottom:16px;z-index:4;width:48px;height:48px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.14)}
-.readfab:hover{border-color:var(--accent);color:var(--accent)}
-.readopts{position:fixed;right:16px;bottom:76px;z-index:30;width:min(360px,calc(100vw - 32px));max-height:calc(100dvh - 100px);overflow:auto;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,.14)}
-.ro-title{margin:0 0 4px;font-weight:700}.ro-note{margin:0 0 10px;color:var(--dim)}
-.ro-group{margin:0 0 12px}.ro-label{display:block;color:var(--dim);margin:0 0 4px}
-.ro-btns{display:flex;flex-wrap:wrap;gap:6px}.ro-hint{display:block;color:var(--dim);margin-top:4px;font-size:.9rem}
-.ro-btns button,.ro-actions button{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:0 14px;min-height:44px;cursor:pointer}
-.ro-btns button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);font-weight:700}
-.ro-actions{display:flex;gap:8px;justify-content:flex-end}
-@media (forced-colors:active){.b,.pt{forced-color-adjust:none}.readfab,.readopts,.btn,.seg{border:1px solid CanvasText}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
-@media print{.readfab,.readopts,.bar-top{display:none!important}.wrap{max-height:none;overflow:visible}}
-.shell{border:1px solid var(--line);border-radius:10px;background:var(--bg);box-shadow:none} .shell-bar{display:flex;flex-wrap:wrap;align-items:flex-end;gap:0 28px;padding:0 20px;background:var(--surface);border-bottom:1px solid var(--line);border-radius:10px 10px 0 0} .brand{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:.85rem;letter-spacing:.18em;color:var(--dim);padding:16px 0 15px;white-space:nowrap}.brand b{color:var(--accent);font-weight:700} .shell .tabs{margin:0 0 -1px;border-bottom:0} .shell-body{padding:20px} #pane-prop{margin:-20px}#pane-prop>.lede{margin:16px 20px}#pane-prop iframe{display:block;border:0!important;border-top:0!important;border-radius:0 0 10px 10px!important;height:auto;min-height:200px} @media (max-width:640px){.shell-bar{padding:0 12px;gap:0 16px}.brand{padding:12px 0 4px;width:100%}.shell-body{padding:14px}#pane-prop{margin:-14px}}
-
-/* type and hierarchy pass (design-debt.md) */
-.lede,.tabnote{font-size:.95rem}
-.sum button{padding:12px 14px;display:grid;gap:2px;align-content:start}
-.sum b{font-size:1.05rem;font-weight:600}
-.sum span{font-size:.875rem}
-.sum em{font-style:normal;font-weight:600;font-size:.95rem;color:var(--text);font-variant-numeric:tabular-nums;margin-top:4px}
-.sum button[aria-pressed="true"]{border:1px solid var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:color-mix(in srgb,var(--accent) 6%,var(--surface))}
-.how{margin:4px 0 0}.how summary{font-size:.9rem;font-weight:500}
-.bar-top{margin:0 0 10px}.bar-top .how{margin:0 auto 0 0}.bar-top .how[open]{order:9;flex-basis:100%;margin:4px 0 0}
-.bar-top .btn{min-height:40px;font-size:.9rem}
-.l0{font-weight:600}
-.row.l0 .tx{font-size:.95rem}
-.row.l1 .tx{font-size:.9rem;font-weight:400;color:var(--text)}
-.row.head .nm,.row.head .wk{font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
-.row.head .wk{text-transform:none;letter-spacing:0}
-.pc{font-weight:500;font-size:.78rem;color:var(--dim)}
-.layout{align-items:start}.wrap{align-self:start}
-.dh h2{font-size:1.125rem;font-weight:600}
-.advgrp{opacity:0;pointer-events:none}.advgrp[data-open="true"]{opacity:1;pointer-events:auto}
-.advgrp{overflow:hidden}.advgrp{display:inline-flex;max-width:0;gap:8px;transition:max-width .3s cubic-bezier(.16,1,.3,1),opacity .2s}.advgrp[data-open="true"]{max-width:600px}.advgrp .btn{flex:none;white-space:nowrap}
-#det{order:99}#det .chev{width:14px;height:14px;transition:transform .25s cubic-bezier(.16,1,.3,1)}#det[aria-expanded="true"] .chev{transform:rotate(180deg)}#det[aria-expanded="true"]{border-color:var(--accent);color:var(--accent)}
-@media (max-width:640px){.advgrp[data-open="true"]{max-width:100%;flex-wrap:wrap;order:100;flex-basis:100%}}
-@media (prefers-reduced-motion:reduce){.advgrp,#det .chev{transition:none}}
-#cmp{--c:var(--gap)}#lens{--c:var(--risk)}#arr{--c:var(--req)}
-.advgrp .btn{gap:8px}.advgrp .btn::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c);flex:none}
-.advgrp .btn:hover{border-color:var(--c);color:var(--c)}
-.advgrp .btn[aria-pressed="true"]{border-color:var(--c);color:var(--c);background:color-mix(in srgb,var(--c) 12%,var(--surface));font-weight:600}
-svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
-
-/* toolbar glyphs */
-.bar-top .btn{gap:8px}.gl{width:16px;height:16px;flex:none;overflow:visible}
-.gl *{transition:transform .32s cubic-bezier(.16,1,.3,1),opacity .2s}
-.advgrp .btn::before{display:none}.advgrp .gl{color:var(--c)}
-#tog .ca,#tog .cb{transform-origin:8px 8px}
-#tog[data-open="true"] .ca{transform:translateY(4px) rotate(180deg)}#tog[data-open="true"] .cb{transform:translateY(-4px) rotate(180deg)}
-#tog:hover[data-open="false"] .ca{transform:translateY(-1.5px)}#tog:hover[data-open="false"] .cb{transform:translateY(1.5px)}
-#cmp:hover .g2,#cmp[aria-pressed="true"] .g2{transform:translateX(-3px)}
-#lens .g2{transform-origin:8px 9px}#lens:hover .g2,#lens[aria-pressed="true"] .g2{animation:lpulse .9s cubic-bezier(.16,1,.3,1)}
-@keyframes lpulse{30%{transform:scaleY(1.25)}}
-#arr .g2{stroke-dasharray:14;stroke-dashoffset:0}#arr:hover .g2{animation:ldraw .6s cubic-bezier(.16,1,.3,1)}
-@keyframes ldraw{from{stroke-dashoffset:14}}
-#det .k1,#det .k2{transition:transform .35s cubic-bezier(.16,1,.3,1)}
-#det:hover .k1,#det[aria-expanded="true"] .k1{transform:translateX(5px)}#det:hover .k2,#det[aria-expanded="true"] .k2{transform:translateX(-5px)}
-#det .chev{width:16px;height:16px}#det .chev path{transition:transform .32s cubic-bezier(.16,1,.3,1),opacity .2s}
-#det .c2{opacity:0;transform:translateX(-3px)}#det:hover .c2{opacity:.5;transform:translateX(0)}#det:hover .c1{transform:translateX(-2px)}
-#det[aria-expanded="true"] .chev{transform:rotate(180deg)}
-#det[aria-expanded="true"]{background:var(--accent-bg);font-weight:600}
-.btn:active .gl,.btn:active .chev{transform:scale(.9)}
-@media (prefers-reduced-motion:reduce){.gl *,#det .chev path,#det .k1,#det .k2{transition:none!important;animation:none!important}}
-.shell-meta{padding:14px 20px 12px;border-bottom:1px solid var(--line);background:var(--surface)}.shell-meta dl{display:flex;flex-wrap:wrap;gap:6px 28px;margin:0}.shell-meta dl div{display:grid}.shell-meta dt{font-size:.8rem;color:var(--dim)}.shell-meta dd{margin:0;font-weight:600;font-size:.95rem}.sm-conf{margin:0;font-size:.875rem;color:var(--dim);display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}.ctag{font-weight:600;font-size:.8rem;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:1px 10px}
-@media (max-width:640px){.shell-meta{padding:12px}}
-.mast-conf{margin:0 0 16px}
-.shell-bar{min-width:0}.shell .tabs{min-width:0;max-width:100%;overflow-x:auto;scrollbar-width:none}.shell .tabs::-webkit-scrollbar{display:none}.shell .tabs button{flex:none}@media (max-width:640px){.shell .tabs button{padding:0 12px}}
-/* rows read as clickable */
-.row[data-id]{cursor:pointer;transition:background .15s}
-.row[data-id]:hover{background:color-mix(in srgb,var(--accent) 7%,var(--surface))}
-.row.l0[data-id]:hover{background:color-mix(in srgb,var(--accent) 9%,var(--surface2))}
-.row[data-id] .nm{padding-right:26px;position:sticky}
-.row[data-id] .nm::after{content:"";position:absolute;right:12px;top:50%;width:6px;height:6px;border-right:1.5px solid var(--dim);border-bottom:1.5px solid var(--dim);transform:translateY(-50%) rotate(-45deg);opacity:.55;transition:opacity .15s,transform .15s}
-.row[data-id]:hover .nm::after,.row[aria-selected="true"] .nm::after{opacity:1;border-color:var(--accent);transform:translate(2px,-50%) rotate(-45deg)}
-.row[data-id]:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-@media (prefers-reduced-motion:reduce){.row[data-id],.row[data-id] .nm::after{transition:none}}
-/* best-to-worst spectrum */
-.spec{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:4px 0 8px;font-size:.8rem;font-weight:600;color:var(--dim)}
-.spec::before{content:"";position:absolute;left:0;right:0;top:calc(100% + 1px);height:3px;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--gate),var(--risk));opacity:.55}
-.spec span:nth-child(1){text-align:left}.spec .spec-m{text-align:center;color:var(--accent)}.spec span:nth-child(3){text-align:right}
-.sum{margin-top:10px}
-@media (max-width:640px){.spec{grid-template-columns:1fr 1fr 1fr}}
-/* plan summary panel */
-.glance{list-style:none;margin:0;padding:0;display:grid;gap:4px}
-.glance button{all:unset;box-sizing:border-box;width:100%;display:grid;gap:1px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);cursor:pointer}
-.glance button:hover{border-color:var(--accent)}.glance button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.glance .gn{font-weight:600}.glance .gw{font-size:.85rem;color:var(--dim);font-variant-numeric:tabular-nums}
-/* ordered, nested Inside */
-.seq{list-style:none;margin:0;padding:0;display:grid;gap:8px;counter-reset:none}
-.seq>li{display:grid;grid-template-columns:24px minmax(0,1fr);gap:8px;align-items:start}
-.sqn{width:22px;height:22px;border-radius:50%;background:var(--accent-bg);color:var(--accent);font-size:.75rem;font-weight:700;display:grid;place-items:center;font-variant-numeric:tabular-nums;margin-top:5px}
-.sqi{display:flex;flex-wrap:wrap;gap:6px}.sqc{display:grid;gap:4px}
-.sqa{display:flex;flex-wrap:wrap;gap:4px;padding-left:14px;border-left:2px solid var(--line);margin-left:8px}
-.sqa .chip{font-size:.8rem;min-height:28px}
-.sqk{margin:8px 0 0;font-size:.8rem;color:var(--dim)}
-.likely{font-size:.72rem;font-weight:600;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:0 8px;margin-left:6px;vertical-align:2px}
-.shell .tabs{margin-left:auto}
-/* one text column for every tab: the proposal's 960px measure, centred */
-:root{--colw:960px}
-.shell-bar,.shell-meta{padding-left:max(20px,calc((100% - var(--colw)) / 2));padding-right:max(20px,calc((100% - var(--colw)) / 2))}
-#pane-plan{max-width:var(--colw);margin-left:auto;margin-right:auto}
-/* header: meta eyebrow band, then a compact nav bar (two-tone) */
-.shell-meta{background:var(--surface2);border-bottom:1px solid var(--line);border-radius:10px 10px 0 0;padding-top:8px!important;padding-bottom:8px!important}
-.shell-meta dl{gap:2px 22px;margin:0}
-.shell-meta dl div{display:flex;gap:6px;align-items:baseline}
-.shell-meta dt{font-size:.75rem}.shell-meta dd{font-size:.8rem}
-.shell-bar{border-radius:0!important;align-items:center!important}
-.shell .brand{padding:0!important}
-.shell .tabs button{min-height:40px}
-@media (max-width:640px){.shell-meta dl div{display:grid;gap:0}.shell .brand{padding:8px 0 0!important}}
-/* size lockup: one connected best-to-worst scale */
-#sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface);margin:4px 0 12px}
-#sum button{position:relative;border:0!important;border-right:1px solid var(--line)!important;border-radius:0!important;box-shadow:none!important;background:var(--surface);padding:18px 16px 14px!important;display:grid;gap:2px;text-align:left}
-#sum button:last-child{border-right:0!important}
-#sum button::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--cc);opacity:.45;transition:opacity .15s,height .15s}
-#sum button:nth-child(1){--cc:var(--accent)}#sum button:nth-child(2){--cc:var(--gate)}#sum button:nth-child(3){--cc:var(--risk)}
-#sum .cap{font-size:.72rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--dim)}
-#sum b{font-size:1.05rem;font-weight:600}
-#sum em{font-style:normal;font-weight:700;font-size:1.15rem;font-variant-numeric:tabular-nums;color:var(--text);margin-top:2px}
-#sum span:last-child{font-size:.85rem;color:var(--dim)}
-#sum button:hover{background:color-mix(in srgb,var(--cc) 6%,var(--surface))}
-#sum button[aria-pressed="true"]{background:color-mix(in srgb,var(--cc) 10%,var(--surface))}
-#sum button[aria-pressed="true"]::before{opacity:1;height:5px}
-#sum button[aria-pressed="true"] .cap{color:var(--text)}
-#sum button:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
-@media (max-width:640px){#sum{grid-template-columns:1fr}#sum button{border-right:0!important;border-bottom:1px solid var(--line)!important}#sum button:last-child{border-bottom:0!important}}
-@media (prefers-reduced-motion:reduce){#sum button::before{transition:none}}
-.themetog{flex:none;display:grid;place-items:center;width:40px;height:40px;margin-left:4px;border:0;border-radius:8px;background:transparent;color:var(--dim);cursor:pointer}
-.themetog:hover{color:var(--accent);background:var(--accent-bg)}.themetog:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.themetog svg{width:18px;height:18px}.themetog g,.themetog path.moon{display:none}
-.themetog[data-mode="light"] .sun,.themetog[data-mode="dark"] .moon,.themetog[data-mode="std"] .auto{display:inline}
-.toprow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 16px}.toprow .mast-conf{margin:0}
-.toprow .themetog{display:inline-flex;align-items:center;gap:10px;width:auto;height:48px;padding:0 16px;margin:0;font:inherit;font-size:.925rem;font-weight:600;border:1px solid var(--line);border-radius:999px;background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.14)}
-.toprow .themetog svg{width:18px;height:18px;order:0}.toprow .themetog .ttl{order:1}
-.trk{order:2;position:relative;width:34px;height:20px;border-radius:999px;background:var(--line);transition:background .2s}
-.trk::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .2s cubic-bezier(.16,1,.3,1)}
-.themetog[data-mode="dark"] .trk{background:var(--accent)}.themetog[data-mode="dark"] .trk::after{transform:translateX(14px)}
-@media (prefers-reduced-motion:reduce){.trk,.trk::after{transition:none}}
-.toprow .themetog .ttl{color:var(--dim)}.toprow .themetog[data-mode="dark"] .ttl{color:var(--accent)}
-.readfab{right:max(16px,calc((100vw - 1008px) / 4 - 24px))}.readopts{right:max(16px,calc((100vw - 1008px) / 4 - 24px))}
-@media (min-width:700px){.shell-meta{position:sticky;top:12px;z-index:21;margin-left:-1px;margin-right:-1px;border:1px solid var(--line);border-bottom:0;border-radius:10px 10px 0 0}.shell-meta::after{content:"";position:absolute;top:-1px;left:-1px;right:-1px;height:11px;pointer-events:none;background:radial-gradient(circle at 11px 11px,transparent 10px,var(--pg-bg,var(--bg)) 10.5px) left top/11px 11px no-repeat,radial-gradient(circle at 0 11px,transparent 10px,var(--pg-bg,var(--bg)) 10.5px) right top/11px 11px no-repeat}.shell-meta::before{content:"";position:absolute;left:-2px;right:-2px;bottom:calc(100% + 1px);height:12px;background:var(--pg-bg,var(--bg))}.shell-bar{position:sticky;top:calc(var(--metah,0px) + 12px);z-index:20;background:var(--surface)}.shell-bar.stuck{box-shadow:0 4px 12px rgba(0,0,0,.08)}}
-@media (max-width:560px){.shell-bar{position:relative;flex-wrap:nowrap!important;justify-content:space-between;align-items:center!important;padding:10px 16px!important}
-.burger{display:inline-grid;place-items:center;width:44px;height:44px;margin-right:-8px;border:0;border-radius:6px;background:none;color:var(--text);cursor:pointer}
-.burger span,.burger span::before,.burger span::after{display:block;width:20px;height:2px;border-radius:2px;background:currentColor;position:relative;transition:transform .15s}
-.burger span::before,.burger span::after{content:"";position:absolute;left:0}.burger span::before{top:-6px}.burger span::after{top:6px}
-.burger[aria-expanded=true] span{background:transparent}.burger[aria-expanded=true] span::before{transform:translateY(6px) rotate(45deg)}.burger[aria-expanded=true] span::after{transform:translateY(-6px) rotate(-45deg)}
-.burger:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.shell-bar .tabs{display:none!important;position:absolute;top:100%;left:0;right:0;z-index:30;flex-direction:column;align-items:stretch;margin:0!important;padding:6px 0;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:0 4px 12px rgba(0,0,0,.14)}
-.shell-bar.menu-open .tabs{display:flex!important}
-.shell-bar .tabs [role=tab]{text-align:left;padding:12px 16px!important;border-bottom:0!important;min-height:44px}
-.shell-bar .tabs [role=tab][aria-selected=true]{box-shadow:inset 3px 0 0 var(--accent)}}
-@media (min-width:561px){.burger{display:none}}
-.shell-bar .tabs [role=tab]:focus-visible{outline:2px solid var(--accent);outline-offset:-4px;border-radius:6px}
-@media (max-width:560px){.ro-esc{display:none}}@media (min-width:700px){#sum{position:sticky;top:calc(var(--metah,0px) + var(--barh,0px) + 12px);z-index:15;background:var(--surface);box-shadow:0 6px 10px -8px rgba(0,0,0,.25)}}@media (min-width:700px){#detail{top:calc(var(--metah,0px) + var(--barh,0px) + var(--sumh,0px) + 24px)!important;max-height:calc(100dvh - var(--metah,0px) - var(--barh,0px) - var(--sumh,0px) - 36px)!important}}.glance2{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
-.glance2 li+li{border-top:1px solid var(--line)}
-.glance2 .g2h{display:grid;grid-template-columns:minmax(0,1fr) 3.6rem 5.6rem;gap:8px;padding:6px 10px;background:var(--surface2);font-size:.75rem;font-weight:600;letter-spacing:.02em;color:var(--muted)}
-.glance2 .g2h span:nth-child(n+2){text-align:right}
-.glance2 button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) 3.6rem 5.6rem;grid-template-rows:auto 4px;gap:5px 8px;width:100%;padding:8px 10px 7px;cursor:pointer}
-.glance2 button:hover{background:var(--surface2)}
-.glance2 button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-.g2n{font-weight:600;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.g2w,.g2c{text-align:right;font-variant-numeric:tabular-nums;line-height:1.3;white-space:nowrap}
-.g2w{color:var(--muted)}.g2c{font-weight:600}.g2c i{font-style:normal;font-weight:400;color:var(--muted)}
-.g2t{grid-column:1/-1;position:relative;height:4px;border-radius:2px;background:color-mix(in srgb,var(--line) 70%,transparent)}
-.g2t span{position:absolute;top:0;bottom:0;border-radius:2px;background:var(--accent)}
-.g2sum{margin:8px 2px 0;color:var(--muted)}.g2sum b{color:var(--text)}
-.dside,.fmb,#detail .notes{display:none!important}#detail .dbody{grid-template-columns:minmax(0,1fr)!important}.pane-doc{margin:-20px}.pane-doc iframe{display:block;width:100%;border:0;border-radius:0 0 10px 10px;min-height:200px;background:#fff}@media (max-width:640px){.pane-doc{margin:-14px}}
-:root{--pill-now:#116b3a;--pill-now-bg:#e2f3e8;--pill-next:#7a5600;--pill-next-bg:#fbf0cf;--pill-later:#a3263c;--pill-later-bg:#fbe4e8}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--pill-now:#4ade80;--pill-now-bg:rgba(74,222,128,.14);--pill-next:#facc15;--pill-next-bg:rgba(250,204,21,.14);--pill-later:#ff8095;--pill-later-bg:rgba(255,128,149,.14)}}:root[data-theme="dark"]{--pill-now:#4ade80;--pill-now-bg:rgba(74,222,128,.14);--pill-next:#facc15;--pill-next-bg:rgba(250,204,21,.14);--pill-later:#ff8095;--pill-later-bg:rgba(255,128,149,.14)}.pill{display:inline-flex;align-items:center;gap:6px;flex:none;padding:3px 10px;border-radius:999px;font-size:.75em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;line-height:1.4;white-space:nowrap}.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}.pill[data-k=now]{color:var(--pill-now);background:var(--pill-now-bg)}.pill[data-k=next]{color:var(--pill-next);background:var(--pill-next-bg)}.pill[data-k=later]{color:var(--pill-later);background:var(--pill-later-bg)}[role=tab] .pill{margin-left:8px;vertical-align:1px}.stamp{display:flex;align-items:baseline;gap:12px;padding:12px 16px;margin:0 0 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text)}.pane-doc>.stamp,#pane-prop>.stamp{margin:20px 20px 0}@media (max-width:640px){.pane-doc>.stamp,#pane-prop>.stamp{margin:14px 14px 0}}.stamp p{margin:0;line-height:1.5}.stamp-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.stamp{display:grid;grid-template-columns:76px 1fr;align-items:start;gap:14px;padding:14px 18px}.stamp>.pill{justify-content:center;width:100%;box-sizing:border-box;margin-top:1px}.stamp p strong{display:block;font-size:1.0625em;line-height:1.35;margin:0 0 2px}.stamp p{color:var(--quiet,var(--text))}.stamp p strong{color:var(--text)}.shell-body .cia-pane>.stamp{margin:0 0 16px}@media (max-width:480px){.stamp{grid-template-columns:1fr;gap:8px}.stamp>.pill{width:auto;justify-self:start}}.stamp-go{font:inherit;color:var(--accent);background:none;border:0;padding:0;text-decoration:underline;text-underline-offset:3px;cursor:pointer}.stamp-go:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
-</style>
-<style>
-.cia{max-width:none;padding:8px 4px 24px;color:var(--text)}
-.cia .cia-h1{font-family:'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;font-size:var(--fs-display);font-weight:500;line-height:1.35;margin:16px 0 12px}
-.cia .lede{font-size:var(--fs-headline);line-height:1.6;margin-bottom:16px}
-.cia .cia-h2{font-size:var(--fs-headline);font-weight:600;line-height:1.5;margin:32px 0 12px}
-.cia h3:not(.cia-h2){font-size:var(--fs-body);font-weight:600;margin-bottom:8px;color:var(--accent)}
-.cia p{margin-bottom:12px;line-height:1.6}
-.cia .cgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.cia .cgrid.three{grid-template-columns:repeat(3,1fr)}
-@media (max-width:900px){.cia .cgrid.three{grid-template-columns:1fr}}@media (max-width:640px){.cia .cgrid{grid-template-columns:1fr}}
-.cia .ccard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:16px}
-.cia ul,.cia ol{padding-left:24px}.cia li{margin-bottom:4px;line-height:1.6}
-.cia table{width:100%;border-collapse:collapse;margin-bottom:12px}
-.cia th,.cia td{text-align:left;padding:12px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.5}
-.cia th{font-weight:600;color:var(--muted)}
-.cia .pill.g{background:var(--pill-now-bg);color:var(--pill-now)}.cia .pill.y{background:var(--pill-next-bg);color:var(--pill-next)}.cia .pill.r{background:var(--pill-later-bg);color:var(--pill-later)}
-.cia a{color:var(--accent)}
-@media (max-width:640px){.cia table,.cia thead,.cia tbody,.cia tr,.cia td{display:block}.cia thead{display:none}.cia td{border:none;padding:4px 0}.cia tr{border-bottom:1px solid var(--line);padding:12px 0}}
-</style><script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".tblwrap table").forEach(function(t){var h=[].map.call(t.querySelectorAll("thead th"),function(x){return x.textContent.trim()});t.querySelectorAll("tbody tr").forEach(function(r){[].forEach.call(r.children,function(c,i){if(h[i])c.setAttribute("data-label",h[i])})})})});</script><script>document.addEventListener("click",function(e){var x=e.target.closest&&e.target.closest(".stamp-x");if(x)x.parentElement.hidden=true});</script><style>
-.cia{--m:68ch}
-.cia .cia-h1,.cia .cia-h2,.cia h3{text-wrap:balance}.cia p,.cia li,.cia td{text-wrap:pretty}
-.cia .lede{max-width:none}
-.cia .cgrid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))!important}
-.cia .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;margin:8px 0 8px}
-.cia .kpis>div{background:var(--surface);padding:12px 16px;display:flex;flex-direction:column;gap:4px}
-.cia .kpis .k{font-size:var(--fs-body);color:var(--muted);font-weight:600}
-.cia .kpis .v{font-size:var(--fs-body);font-weight:600;color:var(--text)}
-.cia table{font-variant-numeric:tabular-nums}
-.cia tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--surface) 55%,transparent)}
-.cia td:first-child{font-weight:600}
-.cia .tblwrap{overflow-x:auto;margin-bottom:12px}
-.cia .tblwrap table{margin:0;min-width:760px}
-.cia .raci td:not(:first-child):not(:last-child),.cia .raci th:not(:first-child):not(:last-child){text-align:center}
-.cia .rk{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:var(--r-sm);font-weight:700;border:1px solid var(--line);color:var(--muted)}
-.cia .rk[data-r="A"]{background:var(--pill-next-bg);color:var(--pill-next);border-color:transparent}
-.cia .rk[data-r="R"]{background:var(--pill-now-bg);color:var(--pill-now);border-color:transparent}
-.cia a{text-underline-offset:3px}
-.cia ::selection{background:var(--pill-now-bg)}
-.cia :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-@media (max-width:640px){.cia .tblwrap table,.cia .tblwrap thead,.cia .tblwrap tbody,.cia .tblwrap tr{display:revert}.cia .tblwrap td{display:table-cell;border-bottom:1px solid var(--line);padding:12px}.cia .tblwrap thead{display:table-header-group}}
-.cia th{border-bottom:none}.cia tbody tr:last-child td{border-bottom:none}
-.cia .src{font-size:var(--fs-body);color:var(--muted);margin-bottom:8px}
-/* type system, matched to the hub documents: H1 title, H2 section, H3 subhead, lede, body, meta */
-.cia{font-family:var(--font-body);font-size:1rem;line-height:1.65;color:var(--text)}
-.cia .cia-h1{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;font-size:clamp(1.5rem,4vw,2.4rem);font-weight:500;line-height:1.3;letter-spacing:-0.02em;margin:24px 0 12px}
-.cia .lede{font-size:1.15rem;font-weight:400;line-height:1.55;margin:0 0 16px;color:var(--text)}
-.cia .cia-h2{font-size:clamp(1.5rem,3vw,1.875rem);font-weight:600;line-height:1.3;letter-spacing:-0.01em;color:var(--accent);margin:56px 0 12px}
-.cia .cgrid h3,.cia h3:not(.cia-h2){font-size:1.15rem;font-weight:600;line-height:1.35;color:var(--text);margin:0 0 6px}
-.cia p,.cia li,.cia td,.cia th{font-size:1rem;line-height:1.6}
-.cia th{font-weight:600;color:var(--muted)}
-.cia .src,.cia .kpis .k{font-size:.925rem;font-weight:600;color:var(--muted)}
-.cia .kpis .v{font-size:1rem;font-weight:600}
-.cia .ccard p:last-child,.cia .ccard ul:last-child,.cia .ccard ol:last-child{margin-bottom:0}
-.cia .pill.n{background:transparent;color:var(--muted);border:1px solid var(--line)}
-.cia .kpis{margin:16px 0 8px}
-.cia .kpis>div{padding:16px 20px;gap:4px;justify-content:flex-start}
-.cia .kpis .k{font-size:.925rem;font-weight:600;color:var(--muted)}
-.cia .kpis .v{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1.3;color:var(--text);text-wrap:balance}
-.cia .kpis .d{font-size:.925rem;line-height:1.5;color:var(--muted)}
-.cia .blkbar{display:flex;justify-content:flex-end;margin:16px 0 4px}.cia .ns-kr li{display:flex;flex-direction:column;gap:0;padding:14px 16px}.cia .ns-kr li>.ns-n{padding:0;margin:0 0 4px;line-height:1.2;letter-spacing:.08em}.cia .ns-kr li>span:last-child>b{display:block;font-size:1.0625rem;line-height:1.3;color:var(--text);margin:0 0 4px}.cia .ns-kr li>span:last-child{display:block;color:var(--quiet,var(--text));line-height:1.5}.cia .ns-o{text-wrap:pretty}.cia .ns-foot{grid-column:1/-1;margin:12px 0 0;font-size:.875rem;color:var(--quiet,var(--text))}.cia .ns+.blkbar{margin-top:32px}
-.cia .expall{font:inherit;font-size:.925rem;font-weight:600;color:var(--accent);background:none;border:1px solid var(--line);border-radius:999px;padding:4px 14px;cursor:pointer}
-
-
-.cia .blk>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto;column-gap:16px;padding:16px 0;align-items:start}
-.cia .blk>summary::-webkit-details-marker{display:none}
-.cia .blk>summary::after{content:"";grid-column:2;grid-row:1/span 2;width:10px;height:10px;margin-top:10px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s ease-out}
-.cia .blk[open]>summary::after{transform:rotate(-135deg)}
-.cia .blk>summary .cia-h2{margin:0 0 4px;grid-column:1}
-.cia .blk>summary .tk{grid-column:1;font-size:1.15rem;line-height:1.55;color:var(--text);text-wrap:pretty}
-
-.cia .blk .bd{padding:0 0 24px}
-@media print{.cia .blk>.bd{display:block}.cia .blkbar{display:none}}
-/* design system primitives (src/ui-kit/recoil-report: 06 beat stepper, 13 90-day build, 28 chip, 29 tile, 32 evidence ref), colors bound to the shell's theme-aware variables */
-.cia{--sig-r:var(--accent);--sig-a:var(--pill-next);--sig-a-bg:var(--pill-next-bg);--sig-g:var(--pill-now);--sig-g-bg:var(--pill-now-bg)}
-.cia .chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--ds-font-mono);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap;line-height:1.5}
-.cia .chip.green{color:var(--sig-g);background:var(--sig-g-bg);border-color:transparent}
-.cia .chip.gold{color:var(--sig-a);background:var(--sig-a-bg);border-color:transparent}
-.cia .chip.cyan{color:var(--sig-r);background:color-mix(in srgb,var(--sig-r) 12%,transparent);border-color:transparent}
-.cia .ref{font-family:var(--ds-font-mono);font-size:.75rem;letter-spacing:.04em;line-height:1.5;color:var(--muted);margin:0 0 8px}
-.cia .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0 8px}
-.cia .tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:16px}
-.cia .tile .v{font-family:var(--ds-font-mono);font-size:clamp(1.5rem,4vw,2.4rem);font-weight:700;line-height:1.3;font-variant-numeric:tabular-nums;color:var(--accent)}
-.cia .tile .k{font-family:var(--ds-font-mono);font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text);margin:4px 0 6px;line-height:1.5}
-.cia .tile .ref{margin:0}
-.cia .phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-.cia .phase{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
-.cia .phase-header{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}
-.cia .phase-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--ds-font-mono);font-weight:700;border:1px solid var(--accent);color:var(--accent);flex-shrink:0}
-.cia .phase-days{font-family:var(--ds-font-mono);font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);line-height:1.5}
-.cia .phase-name{font-weight:600;color:var(--text)}
-.cia .phase-body{padding:14px 16px;display:flex;flex-direction:column;gap:8px}
-.cia .phase-item{display:flex;align-items:flex-start;gap:10px}
-.cia .item-dot{width:5px;height:5px;border-radius:50%;margin-top:10px;background:var(--accent);flex-shrink:0}
-.cia .beat-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
-.cia .beat-item{display:flex;align-items:center;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 16px;position:relative;overflow:hidden}
-
-.cia .beat-number{width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--surface);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700}
-.cia .beat-content{flex:1;display:flex;flex-direction:column;gap:2px}
-.cia .beat-title{font-weight:600;color:var(--text)}
-.cia .beat-body{color:var(--text)}
-.cia .pwrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:12px;margin:8px 0 16px}
-.cia .pmap{width:100%;height:auto;display:block;font-family:var(--font-body)}
-.cia .pmap .ax{stroke:var(--line);stroke-width:1.5}.cia .pmap .zone{fill:color-mix(in srgb,var(--accent) 8%,transparent);stroke:var(--accent);stroke-dasharray:4 4}
-.cia .pmap .al{fill:var(--muted);font-size:13px}.cia .pmap .zl{fill:var(--accent);font-size:13px;font-weight:600}
-.cia .pmap .fin{fill:var(--accent)}.cia .pmap .oth{fill:var(--muted)}
-.cia .pmap .pl{font-size:13px}.cia .pmap .fint{fill:var(--text);font-weight:600}.cia .pmap .otht{fill:var(--muted)}
-@media (min-width:700px){.shell-meta{position:sticky;top:12px;z-index:21;margin:-1px -1px 0;border:1px solid var(--line);border-bottom:0;border-radius:10px 10px 0 0}
-.shell-meta::before{content:'';position:absolute;left:-1px;right:-1px;top:-14px;bottom:auto;height:23px;z-index:-1;pointer-events:none;background:linear-gradient(var(--pg-bg,var(--bg)),var(--pg-bg,var(--bg))) 0 0/100% 13px no-repeat,radial-gradient(circle at 100% 100%,transparent 10px,var(--pg-bg,var(--bg)) 10.5px) 0 13px/10px 10px no-repeat,radial-gradient(circle at 0 100%,transparent 10px,var(--pg-bg,var(--bg)) 10.5px) 100% 13px/10px 10px no-repeat}
-.shell-bar{margin:0 -1px;border-left:1px solid var(--line);border-right:1px solid var(--line)}}
-.cia .pfig{margin:8px 0 16px}
-.cia .pwrap{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:8px}
-.cia .pmap{width:100%;height:auto;display:block;font-family:var(--font-body);overflow:visible}
-.cia .pmap .q-hi{fill:color-mix(in srgb,var(--accent) 7%,transparent)}
-.cia .pmap .ql{fill:var(--muted);font-size:12px;font-weight:600;letter-spacing:.02em}.cia .pmap .qa{fill:var(--accent)}
-.cia .pmap .mid{stroke:var(--line);stroke-dasharray:3 4}.cia .pmap .ax{stroke:var(--muted);stroke-width:1.5}
-.cia .pmap .at{fill:var(--text);font-size:13px;font-weight:600}.cia .pmap .al{fill:var(--muted);font-size:12px}
-.cia .pmap .hit{fill:transparent}
-.cia .pmap .dot{stroke-width:2.5}.cia .pmap .dot.fin.ms,.cia .pmap .dot.fin.nms{fill:var(--accent);stroke:var(--surface)}
-.cia .pmap .dot.fin.nms{fill:var(--surface);stroke:var(--accent);stroke-width:3}
-.cia .pmap .dot.oth.ms{fill:var(--muted);stroke:var(--surface)}.cia .pmap .dot.oth.nms{fill:var(--surface);stroke:var(--muted)}
-.cia .pmap .det{fill:none;stroke:var(--text);stroke-width:1.5;stroke-dasharray:3 3}
-.cia .pmap .pn{fill:var(--text);font-size:13.5px;font-weight:600}.cia .pmap .pf{font-size:15px;font-weight:700}
-.cia .pmap .pr{fill:var(--muted);font-size:12px}
-.cia .pmap .pt{cursor:default;outline:none}.cia .pmap .pt:focus-visible .dot,.cia .pmap .pt:hover .dot{stroke:var(--text)}
-.cia .ptip{position:absolute;max-width:300px;background:var(--text);color:var(--surface);font-size:.875rem;line-height:1.5;padding:10px 12px;border-radius:8px;pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.18);z-index:2}
-.cia .plg{display:flex;flex-wrap:wrap;gap:8px 20px;margin:12px 4px 4px;font-size:.875rem;color:var(--muted)}
-.cia .plg span{display:inline-flex;align-items:center;gap:8px}
-.cia .lg{width:12px;height:12px;border-radius:50%;display:inline-block;border:2.5px solid var(--muted)}
-.cia .lg.fin{background:var(--accent);border-color:var(--accent)}.cia .lg.oth.ms{background:var(--muted)}.cia .lg.oth.nms{background:transparent}
-.cia .lg.detl{border:1.5px dashed var(--text);width:16px;height:16px}
-.cia .ptab{margin-top:8px}.cia .ptab>summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:.925rem}
-.cia{padding-top:0}.cia>.cia-h1:first-child{margin-top:20px}
-
-.shell-body #pane-prop{margin:0}.shell-body #pane-prop>.stamp{margin:0 0 16px}.shell-body #pane-plan{max-width:none;margin:0}
-.toprow .respill{margin-left:auto;margin-right:12px;display:inline-flex;align-items:center;font-size:.925rem;font-weight:600;color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--surface);white-space:nowrap}
-.toprow .respill:hover{border-color:var(--accent)}.toprow .respill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.cia .acrd .ccard h3{color:var(--accent)}
-.cia .cgrid.acrd{grid-template-columns:repeat(2,minmax(0,1fr))!important}@media (max-width:640px){.cia .cgrid.acrd{grid-template-columns:1fr!important}}
-#pane-primer .cia>.cia-h2:first-child{margin-top:8px}
-@media (max-width:640px){.toprow{flex-wrap:wrap;row-gap:8px}.toprow .sm-conf{flex:1 1 100%}.toprow .respill{margin-left:0}}
-.cia{--quiet:color-mix(in srgb,var(--text) 72%,var(--bg))}
-.cia .ref,.cia th,.cia .chip:not(.green):not(.gold):not(.cyan),.cia .src,.cia .kpis .k,.cia .kpis .d{color:var(--quiet)}
-.cia .ns{margin:8px 0 8px;padding:24px;border-radius:var(--r-md);background:color-mix(in srgb,var(--accent) 8%,var(--surface));border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line))}
-.cia .ns-k{font-family:var(--ds-font-mono);font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
-.cia .ns-o{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;font-size:clamp(1.35rem,3vw,1.9rem);font-weight:500;line-height:1.35;letter-spacing:-.01em;color:var(--text);margin:0 0 20px;text-wrap:balance}
-@media(min-width:901px){.cia .ns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:12px;align-items:start}.cia .ns-k{grid-column:3;grid-row:1;text-align:right;margin:6px 0 0}.cia .ns-o{grid-column:1/3;grid-row:1;text-wrap:pretty}.cia .ns-kr{grid-column:1/-1}}.cia .ns-kr{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}@media (max-width:900px){.cia .ns-kr{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:560px){.cia .ns-kr{grid-template-columns:1fr}}
-.cia .ns-kr li{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm,6px);padding:12px 14px;margin:0}
-.cia .ns-n{font-family:var(--ds-font-mono);font-size:.75rem;font-weight:700;color:var(--accent);padding-top:3px;flex-shrink:0}
-.cia .rpill{display:inline-flex;align-items:center;gap:6px;font-size:.8125rem;font-weight:600;line-height:1.5;padding:3px 10px 3px 8px;border-radius:999px;white-space:nowrap;border:1px solid transparent}
-.cia .rpill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
-.cia .rpill[data-k="a"]{color:var(--pill-next);background:var(--pill-next-bg)}
-.cia .rpill[data-k="r"]{color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
-.cia .rpill[data-k="c"],.cia .rpill[data-k="i"]{color:var(--quiet);border-color:var(--line);background:transparent}
-.cia .rpill[data-k="i"]::before{background:transparent;border:1.5px solid currentColor;width:4px;height:4px}
-.cia .rlegend{display:flex;flex-wrap:wrap;gap:8px 14px;margin:4px 0 12px;font-size:.8125rem;color:var(--quiet)}
-.cia .rlegend>span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}.cia .rlegend .rpill{min-width:24px;justify-content:center}.cia .raci .rpill{min-width:28px;justify-content:center}@media(min-width:900px){.cia .rlegend{flex-wrap:nowrap}}
-.cia .raci{min-width:0}.cia .tblwrap table{min-width:0}.cia .rlegend b{font-weight:600;color:var(--text)}@media(max-width:699px){.cia .tblwrap{overflow:visible}.cia .tblwrap table,.cia .tblwrap tbody,.cia .tblwrap tr,.cia .tblwrap td{display:block;width:100%}.cia .tblwrap thead{display:none}.cia .tblwrap tr{padding:12px 0;border-bottom:1px solid var(--line)}.cia .tblwrap td{padding:2px 0;border:0;text-align:left!important}.cia .tblwrap td[data-label]:not(:first-child)::before{content:attr(data-label);display:block;font-size:.75rem;font-weight:600;color:var(--quiet);margin-top:6px}.cia .raci td[data-label]:not(:first-child):not(:last-child){display:flex;justify-content:space-between;align-items:center}.cia .raci td[data-label]:not(:first-child):not(:last-child)::before{margin:0}}
-.cia td.num{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
-.cia .cgrid.acrd3{grid-template-columns:repeat(3,minmax(0,1fr))!important}@media (max-width:900px){.cia .cgrid.acrd3{grid-template-columns:1fr!important}}.cia .acrd3 .ccard h3{color:var(--accent)}.cia .qlist ol{margin:0;padding-left:24px}.cia .qlist li{margin-bottom:8px}
-@media (min-width:700px){.shell-head .shell-meta,.shell-head .shell-bar{position:static;margin-left:0;margin-right:0}.shell-head .shell-meta::before,.shell-head .shell-meta::after{content:none}.shell-head{position:sticky;top:0;z-index:21;margin:-13px -1px 0;padding-top:12px;background:var(--pg-bg,var(--bg))}.shell-head>.shell-meta{border:1px solid var(--line);border-radius:10px 10px 0 0}.shell-head>.shell-bar{border-left:1px solid var(--line);border-right:1px solid var(--line)}.shell-head.stuck>.shell-bar{box-shadow:0 4px 12px rgba(0,0,0,.08)}}@media(min-width:700px){.cia .cgrid:has(>.ccard:nth-child(4):last-child){grid-template-columns:repeat(2,minmax(0,1fr))!important}.cia .cgrid:has(>.ccard:nth-child(3):last-child),.cia .cgrid:has(>.ccard:nth-child(6):last-child){grid-template-columns:repeat(3,minmax(0,1fr))!important}}.cia .ccard>h3+p{margin-top:0}.cia .ccard>.pill{margin:0 0 10px}.cia .ccard>h3{font-size:1.0625rem;line-height:1.3;margin:0 0 4px}.cia .ccard>p{color:var(--quiet,var(--text))}#pane-primer .cia .lede,#pane-primer .cia>p{max-width:none}.cia td{text-wrap:wrap}.cia th{font-size:.8125rem;font-weight:600;letter-spacing:.01em;color:var(--quiet,var(--text))}.cia table.gt td:nth-child(2){font-size:.8125rem;line-height:1.45;color:var(--quiet,var(--text));white-space:normal}.cia table.gt td:first-child{font-weight:600;color:var(--text)}.cia .blk>summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:8px}.stamp{position:relative;padding-right:44px}.stamp-x{position:absolute;top:8px;right:8px;width:28px;height:28px;display:grid;place-items:center;font:inherit;font-size:1.125rem;line-height:1;color:var(--quiet,var(--text));background:none;border:0;border-radius:6px;cursor:pointer}.stamp-x:hover{background:var(--line)}.stamp-x:focus-visible{outline:2px solid var(--accent);outline-offset:2px}</style><style>
-/* ARCS ui-kit primitives, verbatim from src/ui-kit/recoil-report (28 chip, 29 tile, 31 callout, 32 evidence-ref, 38 wordmark, 39 theme-toggle light remap, 42 shell-nav) */
+/* @prim:begin 27-section-label */
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+/* @prim:end 27-section-label */
 /* @prim:begin 28-chip */
 .section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
 .chip { display: inline-flex; align-items: center; gap: 6px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: var(--ds-r-pill); border: 1px solid var(--border); color: var(--text-secondary); }
@@ -587,12 +118,13 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 .tile .v.cyan { color: var(--cyan); }
 .tile .k { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
 /* @prim:end 29-tile */
-/* @prim:begin 32-evidence-ref */
+/* @prim:begin 31-callout */
 .section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-.ref { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--dimmed); }
-.ref a { color: var(--cyan); text-decoration: none; }
-.ref a:hover, .ref a:focus-visible { text-decoration: underline; }
-/* @prim:end 32-evidence-ref */
+.callout { max-width: var(--measure, 640px); background: var(--gold-bg); border: 1px solid var(--gold); border-radius: var(--ds-r-sm); padding: 12px 16px; color: var(--text-secondary); }
+.callout.red { background: var(--red-bg); border-color: var(--red); }
+.callout b { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-right: 6px; }
+.callout.red b { color: var(--red); }
+/* @prim:end 31-callout */
 /* @prim:begin 38-wordmark */
 .wordmark { font-family: var(--ds-font-mono); text-transform: uppercase; display: inline-flex; gap: 0.45em; align-items: baseline; max-width: none; }
 .wordmark .wa { color: var(--cyan); font-weight: 800; letter-spacing: 0.22em; }
@@ -618,7 +150,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 .shnav-tab:hover { color: var(--text); }
 .shnav-tab[aria-selected="true"] { color: var(--cyan); border-bottom-color: var(--cyan); }
 .shnav-tab:focus-visible { outline: 2px solid var(--cyan); outline-offset: -2px; border-radius: var(--ds-r-xs); }
-.shnav-pill { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.02em; line-height: 1.4; padding: 2px 8px; border-radius: var(--ds-r-pill); background: var(--surface-2); color: var(--text-secondary); }
+.shnav-pill { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.02em; line-height: 1.4; padding: 2px 8px; border-radius: var(--ds-r-pill); background: var(--surface-2); border: 1px solid var(--border); color: var(--text-secondary); }
 .shnav-menu { display: none; flex: none; margin-left: auto; width: 44px; height: 44px; place-items: center; padding: 0; border: 0; border-radius: var(--ds-r-sm); background: none; color: var(--text); cursor: pointer; }
 .shnav-menu span, .shnav-menu span::before, .shnav-menu span::after { display: block; width: 20px; height: 2px; border-radius: var(--ds-r-xs); background: currentColor; position: relative; transition: transform var(--dur-fast) var(--ease-out); }
 .shnav-menu span::before, .shnav-menu span::after { content: ""; position: absolute; left: 0; }
@@ -643,339 +175,315 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 @media (prefers-reduced-motion: reduce) { .shnav-menu span, .shnav-menu span::before, .shnav-menu span::after { transition: none; } .shnav[data-mode="menu"].is-open .shnav-tabs { animation: none; } }
 @media print { .shnav-menu, .shnav-tabs { display: none !important; } }
 /* @prim:end 42-shell-nav */
-/* @prim:begin 31-callout */
-.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-.callout { max-width: var(--measure, 640px); background: var(--gold-bg); border: 1px solid var(--gold); border-radius: var(--ds-r-sm); padding: 12px 16px; color: var(--text-secondary); }
-.callout.red { background: var(--red-bg); border-color: var(--red); }
-.callout b { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-right: 6px; }
-.callout.red b { color: var(--red); }
-/* @prim:end 31-callout */
+/* @prim:begin 43-plan-matrix */
+.pm { display: flex; flex-direction: column; gap: 12px; }
+.pm > * { margin: 0; }
+.pm-src, .pm-note { font-size: var(--fs-body); line-height: 1.55; color: var(--text-secondary); }
+.pm-table { width: 100%; border-collapse: collapse; font-size: var(--fs-body); }
+.pm-table th { text-align: left; font-size: var(--fs-body); font-weight: 600; color: var(--text-secondary); padding: 0 12px 8px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.pm-table td { text-align: left; vertical-align: top; padding: 12px; line-height: 1.5; color: var(--text); border-bottom: 1px solid var(--border); }
+.pm-table td:first-child { font-weight: 600; width: 28%; }
+.pm-table tr:last-child td { border-bottom: 0; }
+.pm-khead { font-size: var(--fs-body); font-weight: 600; line-height: 1.4; color: var(--text); margin-top: 4px; }
+.pm-know { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.pm-k { border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); padding: 12px 14px; }
+.pm-k p { margin: 0; font-size: var(--fs-body); line-height: 1.5; color: var(--text); }
+.pm-k .pm-kl { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cyan); margin-bottom: 4px; }
+@media (max-width: 599px) { .pm-table thead { display: none; } .pm-table tr { display: block; padding: 12px 0; border-bottom: 1px solid var(--border); } .pm-table tr:last-child { border-bottom: 0; } .pm-table td { display: block; width: auto; padding: 2px 0; border: 0; } .pm-table td:first-child { width: auto; margin-bottom: 4px; } .pm-table td[data-label]:not(:first-child)::before { content: attr(data-label); display: block; font-size: var(--fs-label); font-weight: 600; color: var(--text-secondary); } }
+/* @prim:end 43-plan-matrix */
+/* @prim:begin 44-cold-read */
+.cr { display: flex; flex-direction: column; gap: 20px; }
+.cr > * { margin: 0; }
+.cr > .callout { max-width: none; }
+.cr-slots { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 28px; }
+.cr-slots dt, .cr-slots dd { margin: 0; padding: 12px 0; border-top: 1px solid var(--border); }
+.cr-slots dt:first-of-type, .cr-slots dt:first-of-type + dd { border-top: 0; padding-top: 0; }
+.cr-slots dt.section-label { margin: 0; line-height: 1.6rem; }
+.cr-slots dd { font-size: var(--fs-body); line-height: 1.6; color: var(--text); }
+.cr-how { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+.cr-step { position: relative; display: flex; flex-direction: column; gap: 8px; padding: 16px; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); }
+.cr-step > * { margin: 0; }
+.cr-step .section-label { margin: 0; }
+.cr-when { font-size: var(--fs-body); font-weight: 600; line-height: 1.4; color: var(--text); }
+.cr-what { font-size: var(--fs-body); line-height: 1.5; color: var(--text); }
+.cr-step + .cr-step::before { content: ""; position: absolute; left: -13px; top: 24px; width: 12px; height: 1px; background: var(--border); }
+@media (max-width: 599px) { .cr-slots { grid-template-columns: minmax(0, 1fr); } .cr-slots dd { border-top: 0; padding-top: 2px; } .cr-slots dt { padding-bottom: 0; line-height: 1.4; } .cr-how { grid-template-columns: minmax(0, 1fr); } .cr-step + .cr-step::before { left: 24px; top: -13px; width: 1px; height: 12px; } }
+/* @prim:end 44-cold-read */
+/* tabbed-brief template layer (2026-11-09). Composes kit parts; owns only the frame and the page organisms.
+   Tokens: src/ui-kit/recoil-report/_tokens.css (inlined first) and the kit 39 light remap. No literal colours here.
+   Type ramp, five steps: label 0.6875rem (labels only, never prose) · small 0.875rem · body 1rem · section 1.25rem · display (serif).
+   Breakpoints, two: 600px (phone) and 1024px (tabs; set by kit 42 data-menu-below). */
+html { font-size: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6;
+  padding-block: 32px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  -webkit-font-smoothing: antialiased; }
+a { color: var(--cyan); text-decoration: underline; text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: var(--ds-r-xs); }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+[hidden] { display: none !important; }
 
-/* host frame (2026-11-09): the artifact viewer styles body itself, so body carries the page colours explicitly */
-body{background:var(--bg);color:var(--text);margin:0;}
-.shell-meta dd{color:var(--text);}
-/* Gravity seats (2026-11-09): tabs in the shell bar from 1024px; below that every pane stacks and each seat is a collapsible block in the cia-h2 grammar */
-html:not(.stacked) details.seat > summary{display:none;}
-html:not(.stacked) details.seat > .bd{padding-top:0;}
-html.stacked .seatpane .cia-h1{display:none;}
-html.stacked .seatpane > .cia{padding-top:0;}
-details.seat > summary .tk .chip{margin-top:2px;}
+/* frame */
+.tb { max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+.tb-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.tb-top p { margin: 0; flex: 1 1 320px; font-size: var(--fs-body); color: var(--text-secondary); }
+.tb-switch { margin-left: auto; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 14px; border: 1px solid var(--border);
+  border-radius: var(--ds-r-pill); background: var(--surface); color: var(--text-secondary); font: inherit; font-size: var(--fs-body); cursor: pointer; }
+.tb-switch .trk { width: 34px; height: 20px; border-radius: var(--ds-r-pill); background: var(--surface-2); border: 1px solid var(--border); position: relative; }
+.tb-switch .trk::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: var(--text-secondary);
+  transition: transform var(--dur-fast) var(--ease-out); }
+.tb-switch[aria-checked="true"] .trk { background: var(--cyan-bg); border-color: var(--cyan); }
+.tb-switch[aria-checked="true"] .trk::after { transform: translateX(14px); background: var(--cyan); }
+.tb-frame { border: 1px solid var(--border); border-radius: var(--ds-r-md); background: var(--surface); }
+.tb-meta { margin: 0; display: flex; flex-wrap: wrap; gap: 4px 28px; padding: 12px 20px; background: var(--surface-2); border-bottom: 1px solid var(--border);
+  border-radius: var(--ds-r-md) var(--ds-r-md) 0 0; }
+.tb-meta div { display: flex; gap: 6px; align-items: baseline; }
+.tb-meta dt { font-size: var(--fs-body); color: var(--text-secondary); }
+.tb-meta dd { margin: 0; font-size: var(--fs-body); font-weight: 600; color: var(--text); }
+.tb-navwrap { position: sticky; top: 0; z-index: 20; background: var(--surface); box-shadow: 0 1px 0 var(--border); }
+.tb-body { padding: 32px 40px 40px; }
+.tb-pane { display: flex; flex-direction: column; gap: 28px; }
+.tb-pane > * { margin: 0; }
 
-.pill:not([data-k]){color:var(--muted);background:color-mix(in srgb,currentColor 12%,transparent);}
-.cia table.gt.prose td:nth-child(2){font-size:var(--fs-body);line-height:1.6;}
-.cia table.gt.prose td ul{margin:6px 0 0;padding-left:1.1rem;display:flex;flex-direction:column;gap:4px;}
-.cia h3.cia-h2{font-size:1.111rem;font-weight:600;color:var(--text);margin:36px 0 10px;}
-.cia .ccard h3{font-size:1.111rem;}
-@media (min-width:700px){html.stacked details.seat{scroll-margin-top:calc(var(--metah,0px) + var(--barh,0px) + 16px);}}
-html.stacked details.seat{scroll-margin-top:16px;}
-@media (min-width:700px){html.stacked details.seat{scroll-margin-top:calc(var(--metah,0px) + var(--barh,0px) + 16px);}}
-.cia table.gt.prose td:nth-child(2){color:var(--text);font-size:.9rem;}
-.seat .tk .pill{text-transform:none;letter-spacing:.02em;}
-.shell-bar.shnav{padding:0 20px;}
-/* overview, clean above the fold (approved pattern 2026-11-09): next action, one action row, the summary folded; below: tiles then detail; one 28px gap */
-#pane-ov > .cia{display:flex;flex-direction:column;gap:28px;}
-#pane-ov > .cia > *{margin:0;}
-#pane-ov .ovbelow{display:flex;flex-direction:column;gap:28px;}
-#pane-ov .ovbelow > *{margin:0;}
-#pane-ov .cia-h1{margin:0;}
-#pane-ov .ovstatus{font-size:1.05rem;line-height:1.6;color:var(--text);max-width:none;}
-#pane-ov .lede{max-width:none;}
-.plansrc a{text-decoration:underline;text-underline-offset:3px;}
-.ovstatus strong{font-weight:600;}
-.ovact{display:flex;flex-wrap:wrap;align-items:center;gap:12px;}
-.ovbtn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--accent);font:inherit;font-weight:600;text-decoration:none;cursor:pointer;}
-.ovbtn.primary{background:var(--accent);border-color:var(--accent);color:var(--bg);}
-.ovbtn:hover{border-color:var(--accent);}
-.ovbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
-.ovnote{flex-basis:100%;margin:0;color:var(--dim);font-size:.95em;}
-.cia details.ovsum{border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
-/* role organism (2026-11-09): head, then units separated by a hairline spacer; one 28px unit padding, one 12px inner rhythm */
-.cia details.seat > .bd{display:flex;flex-direction:column;gap:0;}
-.cia details.seat > .bd > .cia-h1{margin:0 0 12px;}
-.cia details.seat > .bd > .lede{margin:0 0 28px;}
-.cia .unit{display:flex;flex-direction:column;gap:12px;padding:28px 0;border-top:1px solid var(--line);}
-.cia .unit > *{margin:0;}
-.cia .unit > h3.cia-h2{margin:0;}
-.cia .unit .tblwrap{margin:0;}
-.cia .unit .cgrid{margin:0;}
-.cia .unit .ref.plansrc{margin:0;}
-.cia .unit .plannote{margin:0;}
-.cia .unit .knowhead{margin:4px 0 0;}
-.cia details.seat > .bd > .callout{margin:0 0 8px;max-width:none;}
-.cia .know{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0;padding:0;}
-.cia .kcell{border:1px solid var(--line);border-radius:var(--ds-r-sm);padding:12px 14px;background:var(--surface);}
-.cia .kcell p{margin:0;font-size:.95rem;line-height:1.5;color:var(--text);}
-.cia .kcell .klabel{font-family:var(--ds-font-mono);font-size:var(--fs-label);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:0 0 4px;}
-@media (max-width:640px){.cia .know{grid-template-columns:minmax(0,1fr);}.cia table.gt.plan td:first-child{width:auto;}}
-/* the 90 / 120 / 240 plans */
-.cia table.gt.plan td{vertical-align:top;font-size:.95rem;line-height:1.5;color:var(--text);}
-.cia table.gt.plan td:first-child{font-weight:600;width:28%;}
-.cia table.gt.plan th{white-space:nowrap;}
-@media (max-width:640px){.cia table.gt.plan td:first-child{width:auto;}}
-.plannote{color:var(--dim);margin:0 0 12px;}
-.knowhead{font-weight:600;margin:16px 0 6px;color:var(--text);}
-@media (max-width:560px){.ovbtn{flex:1 1 auto;}}
-html.stacked .wide-only{display:none;}
-html:not(.stacked) .stack-only{display:none;}
-.nextrole{margin:24px 0 0;}
-/* type ruling 2026-11-09 (Impeccable, from the measured render ledger): section titles on the ramp, ink, hairlines between rows */
-.cia details.blk > summary{padding:18px 0;}
-.cia details.blk + details.blk{border-top:1px solid var(--line);}
-.cia details.blk > summary h2.cia-h2{font-size:1.4rem;font-weight:600;line-height:1.3;letter-spacing:-.005em;color:var(--text);margin:0 0 2px;}
-.cia details.blk > summary .tk{font-size:1rem;font-weight:400;line-height:1.5;color:var(--dim);}
-.cia details.blk > summary::after{width:9px;height:9px;margin-top:6px;border-right-width:1.5px;border-bottom-width:1.5px;border-color:var(--dim);}
-.cia details.blk > summary:hover h2.cia-h2{color:var(--accent);}
-.cia details.blk[open] > summary::after,.cia details.blk > summary:hover::after{border-color:var(--accent);}
-.cia .tile .v{font-size:clamp(1.35rem,2.6vw,1.75rem);}
-@media (max-width:640px){.cia details.blk > summary{padding:14px 0;column-gap:12px;}}
+/* hero */
+.tb-h1 { margin: 0; font-family: var(--ds-font-display); font-weight: 500; font-size: var(--fs-display); line-height: 1.3; letter-spacing: -0.01em; color: var(--text); }
+.tb-h1 .hl { display: block; text-wrap: balance; }
+.tb-lede { margin: 0; font-size: var(--fs-headline); line-height: 1.6; color: var(--text); text-wrap: pretty; }
+.tb-next { margin: 0; font-size: var(--fs-body); color: var(--text); }
+.tb-next strong { font-weight: 600; }
+.tb-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.tb-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 18px; border-radius: var(--ds-r-pill);
+  border: 1px solid var(--border); background: var(--surface); color: var(--cyan); font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; }
+.tb-btn:hover { border-color: var(--cyan); }
+.tb-btn.primary { background: var(--cyan); border-color: var(--cyan); color: var(--surface); }
+.tb-note { margin: 0; flex-basis: 100%; font-size: var(--fs-body); color: var(--text-secondary); }
+.tb-expand { display: flex; justify-content: flex-end; }
 
-@media (min-width:561px) and (max-width:899px){.cia .tiles{grid-template-columns:repeat(2,minmax(0,1fr));}}
-@media (min-width:900px){.cia .tiles{grid-template-columns:repeat(4,minmax(0,1fr));}}
-@media (max-width:640px){.cia tbody tr:nth-child(even) td{background:none;}}
-@media (max-width:560px){.toprow{flex-wrap:wrap;}.toprow .themetog{margin-left:auto;}}
+/* fold sections: a heading that holds a button (the ARIA accordion pattern), a one-line tagline, a body */
+.tb-folds { display: flex; flex-direction: column; }
+.tb-fold { border-top: 1px solid var(--border); padding: 18px 0; }
+.tb-fold:last-child { border-bottom: 1px solid var(--border); }
+.tb-coldread { display: flex; flex-direction: column; gap: 16px; }
+.tb-coldread > * { margin: 0; }
+.tb-h2 { margin: 0; font-size: var(--fs-headline); font-weight: 600; line-height: 1.3; }
+.tb-fold-btn { width: 100%; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 0; border: 0; background: none;
+  color: var(--text); font: inherit; text-align: left; cursor: pointer; }
+.tb-fold-btn:hover { color: var(--cyan); }
+.tb-fold-btn::after { content: ""; flex: none; width: 9px; height: 9px; margin-top: 8px; border-right: 1.5px solid var(--text-secondary); border-bottom: 1.5px solid var(--text-secondary);
+  transform: rotate(45deg); transition: transform var(--dur-base) var(--ease-out); }
+.tb-fold-btn[aria-expanded="true"]::after { transform: rotate(-135deg); border-color: var(--cyan); }
+.tb-fold-btn > span { display: flex; flex-direction: column; }
+.tb-fold-t { display: block; }
+.tb-tag { display: block; margin: 2px 0 0; font-size: var(--fs-body); font-weight: 400; color: var(--text-secondary); }
+.tb-scroll { overflow-x: auto; }
+.tb-fold-body { padding-top: 16px; display: flex; flex-direction: column; gap: 16px; }
+.tb-fold-body > * { margin: 0; }
 
-.cia-h1 .hl{display:block;text-wrap:balance;}
-.cia-h1 .nw{white-space:nowrap;}
+/* role tab: one head, then units separated by hairline spacers */
+.seat-head { display: flex; flex-direction: column; gap: 12px; padding-bottom: 12px; }
+.seat-h { margin: 0; font-family: var(--ds-font-display); font-weight: 500; font-size: var(--fs-display); line-height: 1.3; }
+.seat-btn { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; width: 100%; padding: 0; border: 0; background: none; color: var(--text);
+  font: inherit; text-align: left; cursor: default; }
+.seat-eyebrow { display: none; }
+.seat-title { font: inherit; text-wrap: balance; }
+.seat-lede { margin: 0 0 28px; font-size: var(--fs-headline); line-height: 1.6; color: var(--text); text-wrap: pretty; }
+.unit { display: flex; flex-direction: column; gap: 12px; padding: 28px 0; border-top: 1px solid var(--border); }
+.unit > * { margin: 0; }
+.tb-h3 { margin: 0; font-size: var(--fs-headline); font-weight: 600; line-height: 1.35; color: var(--text); }
+.seat-callouts { display: flex; flex-direction: column; gap: 12px; padding-top: 4px; }
+.seat-callouts .callout { max-width: none; margin: 0; }
+/* below 1024px the tabs fold into the kit 42 menu, every pane shows, and each role becomes a collapsible section */
+.stacked .tb-pane + .tb-pane { margin-top: 0; }
+.stacked .tb-pane.seat { border-top: 1px solid var(--border); padding-top: 20px; margin-top: 28px; }
+.stacked .seat-btn { cursor: pointer; }
+.stacked .seat-btn::after { content: ""; flex: none; width: 9px; height: 9px; margin-top: 10px; border-right: 1.5px solid var(--text-secondary); border-bottom: 1.5px solid var(--text-secondary);
+  transform: rotate(45deg); transition: transform var(--dur-base) var(--ease-out); }
+.stacked .seat-btn[aria-expanded="true"]::after { transform: rotate(-135deg); border-color: var(--cyan); }
+.stacked .seat-eyebrow { display: flex; align-items: center; gap: 8px; font-size: var(--fs-headline); font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.stacked .seat-h { font-family: var(--ds-font-sans); font-size: var(--fs-headline); font-weight: 600; }
+.stacked .seat-title { display: block; font-size: var(--fs-body); font-weight: 400; color: var(--text-secondary); }
+.stacked .seat-btn > span:first-child { display: flex; flex-direction: column; }
+
+/* tables (prose facts) */
+.tb-table { width: 100%; border-collapse: collapse; font-size: var(--fs-body); }
+.tb-table th { text-align: left; font-size: var(--fs-body); font-weight: 600; color: var(--text-secondary); padding: 0 12px 8px; border-bottom: 1px solid var(--border); }
+.tb-table td { text-align: left; vertical-align: top; padding: 12px; line-height: 1.55; color: var(--text); border-bottom: 1px solid var(--border); }
+.tb-table td:first-child { font-weight: 600; width: 32%; }
+.tb-table tr:last-child td { border-bottom: 0; }
+
+/* cards */
+.tb-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.tb-card { border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+.tb-card > * { margin: 0; }
+.tb-card-t { font-size: var(--fs-body); font-weight: 600; line-height: 1.35; color: var(--text); }
+.tb-card-ref, .tb-tile-note { font-size: var(--fs-body); line-height: 1.5; color: var(--text-secondary); }
+.tile .tb-tile-note { margin: 8px 0 0; }
+.tb-card p:last-child { font-size: var(--fs-body); line-height: 1.55; color: var(--text); }
+.tb-list { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 8px; }
+.tb-p { margin: 0; font-size: var(--fs-body); line-height: 1.6; color: var(--text); }
+
+@media (max-width: 599px) {
+  body { padding-block: 16px 48px; }
+  .tb-meta { padding: 10px 16px; }
+  .tb-meta { gap: 2px 16px; }
+  .tb-meta dt, .tb-meta dd { font-size: var(--fs-label); }
+  .tb-meta .opt { display: none; }
+  .tb-top p { order: 3; flex-basis: 100%; }
+  .tb-switch { order: 2; }
+  .tb-body { padding: 20px 16px 28px; }
+  .tb-table thead { display: none; }
+  .tb-table tr { display: block; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .tb-table tr:last-child { border-bottom: 0; }
+  .tb-table td { display: block; width: auto; padding: 2px 0; border: 0; }
+  .tb-table td:first-child { width: auto; }
+  .tb-table td[data-label]::before { content: attr(data-label); display: block; font-size: var(--fs-label); font-weight: 600; color: var(--text-secondary); }
+}
+@media (prefers-reduced-motion: reduce) { .tb-switch .trk::after, .tb-fold-btn::after, .stacked .seat-btn::after { transition: none; } }
+@media print { .tb-switch, .tb-expand, .tb-navwrap { display: none; } body { background: #fff; } }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-<symbol id="i-task" viewBox="0 0 14 14"><rect x="1" y="3" width="12" height="8" rx="2" fill="currentColor"/></symbol>
-<symbol id="i-gate" viewBox="0 0 14 14"><rect x="1" y="3" width="12" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 7h4" stroke="currentColor" stroke-width="2"/></symbol>
-<symbol id="i-req" viewBox="0 0 14 14"><path d="M3 7.5l2.5 2.5L11 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-<symbol id="i-blk" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="currentColor"/><path d="M4 7h6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></symbol>
-<symbol id="i-gap" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="2.4 1.8"/></symbol>
-<symbol id="i-ms" viewBox="0 0 14 14"><path d="M7 1l6 6-6 6-6-6z" fill="currentColor"/></symbol>
-<symbol id="i-risk" viewBox="0 0 14 14"><rect x="1" y="3" width="12" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 11l6-8M7 11l4-5" stroke="currentColor" stroke-width="1.5"/></symbol>
-<symbol id="i-phase" viewBox="0 0 14 14"><path d="M1 7h12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
-<symbol id="i-tw" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-</svg>
-<main>
-<div class="toprow"><p class="sm-conf mast-conf"><span class="ctag">Private</span>Prepared for the Gravity Labs team and shared through Harrison Wright of Crossbridge Executive.</p><button type="button" class="themetog" id="themetog" aria-label="Theme: Auto"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><g class="sun"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></g><path class="moon" d="M15.5 12.6A6.5 6.5 0 017.4 4.5a6.5 6.5 0 108.1 8.1z"/><g class="auto"><circle cx="10" cy="10" r="6.5"/><path d="M10 3.5v13" /><path d="M10 3.5a6.5 6.5 0 010 13z" fill="currentColor" stroke="none"/></g></svg><span class="trk" aria-hidden="true"></span></button></div>
-<section class="shell" aria-label="Candidate positioning for Gravity Labs">
-<div class="shell-head"><div class="shell-meta"><dl><div><dt>Prepared for</dt><dd>The Gravity Labs team</dd></div><div><dt>From</dt><dd>Zach Harris</dd></div><div><dt>Updated</dt><dd><time datetime="2026-11-09">November 9, 2026</time></dd></div><div><dt>Status</dt><dd>Draft for discussion</dd></div></dl></div>
-<nav class="shell-bar shnav" id="shnav" aria-label="Sections" data-menu-below="1024"><span class="wordmark shnav-brand" aria-hidden="true"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></span><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs" aria-label="View"><button type="button" class="shnav-tab" role="tab" id="t-ov" aria-controls="pane-ov" data-target="pane-ov" aria-selected="true" aria-current="true">Overview</button><button type="button" class="shnav-tab" role="tab" id="t-principal" aria-controls="pane-principal" data-target="pane-principal" aria-selected="false" tabindex="-1">Principal<span class="shnav-pill">1st</span></button><button type="button" class="shnav-tab" role="tab" id="t-eir" aria-controls="pane-eir" data-target="pane-eir" aria-selected="false" tabindex="-1">EIR<span class="shnav-pill">2nd</span></button><button type="button" class="shnav-tab" role="tab" id="t-founder" aria-controls="pane-founder" data-target="pane-founder" aria-selected="false" tabindex="-1">Founder<span class="shnav-pill">3rd</span></button><button type="button" class="shnav-tab" role="tab" id="t-open" aria-controls="pane-open" data-target="pane-open" aria-selected="false" tabindex="-1">Open Application<span class="shnav-pill">Proposed</span></button></div><button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Jump to a role"><span></span></button></nav>
-</div><div class="shell-body">
-
-<div id="pane-ov" class="cia-pane" role="tabpanel" aria-labelledby="t-ov"><div class="cia"><h1 class="cia-h1"><span class="hl">One idea in thirty gets funded.</span> <span class="hl">The other twenty&#8209;nine are the work.</span></h1>
-<p class="lede">Your about page says that for roughly every 30 ideas you go deep on, you fund one. I have spent 20 years in the trenches taking products from zero, as a player, a coach and a pace car, and the last year building a tool that records why each idea was passed on and checks it against what happened later, so a pass that turns out wrong becomes a lesson instead of a blind spot. This page maps me onto the four roles open on your jobs page, strongest fit first, with a plan, the proof and the gap for each.</p>
-<p class="ovstatus"><strong>Let&#8217;s go.</strong> Pick the seat that is live, or reshape one, and tell Harrison or me which.</p>
-<div class="ovact"><button type="button" class="ovbtn primary stamp-go" data-go="t-principal">Open the Principal plan</button><a class="ovbtn" href="#qs">Which seat is live?</a><p class="ovnote">Each role tab is a 90, 120 and 240 day plan built on your own job page, for you to edit.</p></div>
-<div class="ovbelow"><div class="tiles" role="list" aria-label="At a glance">
-<div class="tile" role="listitem"><div class="v">10</div><div class="k">Regulated products</div><div class="ref">Digital-asset investment products at Grayscale, about $7B</div></div>
-<div class="tile" role="listitem"><div class="v">2</div><div class="k">Companies from zero</div><div class="ref">A co-founding and a turnaround, one acquired</div></div>
-<div class="tile" role="listitem"><div class="v">2 of 3</div><div class="k">Lines taken forward</div><div class="ref">AI health product lines tested at Twill Health</div></div>
-<div class="tile" role="listitem"><div class="v">1</div><div class="k">Kill line on my own work</div><div class="ref">ARCS stops as a product if no one pays by 2027-03-31</div></div>
-</div><div class="blkbar"><button type="button" class="expall" aria-pressed="false">Expand all</button></div>
-
-<details class="blk" open><summary><h2 class="cia-h2">Who, What, Where, When, Why</h2><span class="tk">The page in five lines.</span></summary><div class="bd"><div class="tblwrap"><table class="gt prose">
-<thead><tr><th>Question</th><th>Answer</th></tr></thead>
-<tbody>
-<tr><td>Who</td><td>Zach Harris. Product lead and founder: regulated digital assets at Grayscale, two companies built from nothing, and ARCS, which I build alone. For the Gravity Labs team, through Harrison Wright of Crossbridge Executive.</td></tr>
-<tr><td>What</td><td>A 90, 120 and 240 day plan for each of the four roles on your jobs page, built on your own job pages so you can edit it, with proof and the gap I would name myself.</td></tr>
-<tr><td>Where</td><td>Remote from the New York metro, as all four roles are.</td></tr>
-<tr><td>When</td><td>Now, while all four roles are listed on your jobs page.<ul><li>Before: this page, November 9.</li><li>During: a 30-minute call with whoever owns the live seat.</li><li>After: the plan for the live seat, reshaped with you.</li></ul></td></tr>
-<tr><td>Why</td><td>Your studio runs on pressure-tested theses and a high kill rate. That is the work I have done for 20 years, and the reason I built ARCS.</td></tr>
-</tbody></table></div></div></details>
-
-<details class="blk" open><summary><h2 class="cia-h2">The Through-Line</h2><span class="tk">Three things that hold across every seat.</span></summary><div class="bd"><div class="cgrid">
-<div class="ccard"><h3>Regulated digital assets, from the inside</h3><p class="ref">src: my resume</p><p>At Grayscale (2024 to 2025) I owned the investor-facing platform for a launch of 10 regulated digital-asset investment products, about $7B. Every release passed product, engineering, legal, risk and compliance, and I cut the release cycle 35%.</p></div>
-<div class="ccard"><h3>Zero to one, more than once</h3><p class="ref">src: my resume</p><p>Co-founded a direct-to-consumer company, $0 to profitable in 24 months ($2M+). As GM, turned a video ad network from $4,500 to over $1M a month and recruited its first CTO; acquired by Meredith. Since 2025, ARCS, built alone.</p></div>
-<div class="ccard"><h3>The kill call comes first</h3><p class="ref">src: my resume</p><p>Tested three AI health product lines for Twill Health; two went forward and one did not. ARCS does this by default: it records what a team expects before a decision and checks it against what happened.</p></div>
-</div><p><strong>Not onchain.</strong> The receipts ARCS keeps live in a Postgres table, not on a chain. Putting them onchain is a thesis I have not tested, and I would not claim otherwise.</p></div></details>
-
-
-<details class="blk" id="qs" open><summary><h2 class="cia-h2">Two Questions for You</h2><span class="tk">The answers decide which tab matters.</span></summary><div class="bd"><div class="qlist"><ol>
-<li>Which of the four seats is live now? Your people page lists the EIR title alongside your CTO, so I would like to know whether this is a second EIR seat.</li>
-<li>For the Founder seat, which hatch is it for?</li>
-</ol></div><p>Resume and a 20-minute walkthrough of ARCS on request. Live work: <a href="https://good.arcs.care/rfp-engine">RFP-O-Matic with four short videos</a>, <a href="https://github.com/flashesofbrilliance/rfp-engine">its source</a>, <a href="https://app.arcs.care">ARCS</a>, and my <a href="https://zach.md/proof">proof page</a>, where each claim links to its record.</p></div></details>
-
-</div></div></div>
-
-<div id="pane-principal" class="cia-pane seatpane" role="tabpanel" aria-labelledby="t-principal" hidden><div class="cia"><details class="blk seat" open><summary><h2 class="cia-h2">Principal, New Ventures</h2><span class="tk"><span class="pill">1st</span> My strongest fit</span></summary><div class="bd">
-<h2 class="cia-h1">Principal, New Ventures: my strongest fit.</h2>
-<p class="lede">The seat as your page describes it: break the bottleneck of every idea flowing through the CEO by owning hatches end to end. Spot the gap, write the case, pitch the investment committee, build the first prototype with AI coding tools, recruit the founders. A builder role, not research and not investing.</p>
-<section class="unit"><h3 class="cia-h2">A 90, 120 and 240 Day Plan, for You to Edit</h3>
-<p class="ref plansrc">Rows paraphrase the "What You'll Do" list on <a href="https://gravity-labs.xyz/jobs-principal-new-ventures.html">your Principal page</a>. Every cell is my proposal, not a promise: change any of it.</p>
-<div class="tblwrap"><table class="gt plan">
-<thead><tr><th>Your page asks me to</th><th>By day 90</th><th>By day 120</th><th>By day 240</th></tr></thead><tbody>
-<tr><td>Generate and validate hatch ideas</td><td>30 one-line theses, each with its kill criteria written first</td><td>3 to 5 taken to one-pagers</td><td>A steady weekly flow, every pass recorded and rechecked</td></tr>
-<tr><td>Write the docs that move ideas forward</td><td>First investment memo, with its strongest counter-argument</td><td>A second memo, on a template the team reuses</td><td>The memo template is the team default</td></tr>
-<tr><td>Pitch Defy's investment committee</td><td>First hatch ready to pitch</td><td>First hatch pitched</td><td>Second hatch pitched</td></tr>
-<tr><td>Build MVPs with AI coding tools</td><td>One prototype in front of design partners</td><td>The prototype reworked on their feedback</td><td>A prototype handed to the founder hired for it</td></tr>
-<tr><td>Recruit founders</td><td>A founder candidate list for the first hatch</td><td>A shortlist of three CEO or CTO candidates</td><td>One founder signed</td></tr>
-<tr><td>Advise after launch</td><td>Not yet</td><td>Not yet</td><td>A standing weekly call with the founder I placed</td></tr>
-<tr><td>Kill your darlings</td><td>Every killed hatch has a written reason</td><td>A first review of every pass</td><td>One pass reopened, or confirmed, as the market moved</td></tr>
-</tbody></table></div>
-<p class="knowhead">How you would know it is working</p>
-<div class="know"><div class="kcell"><p class="klabel">Day 90</p><p>The theses, the first memo and the prototype exist, and you have read them.</p></div><div class="kcell"><p class="klabel">Day 120</p><p>The committee has seen a hatch from me.</p></div><div class="kcell"><p class="klabel">Day 240</p><p>A founder has signed, and the pass record has changed at least one call.</p></div></div></section>
-<section class="unit"><h3 class="cia-h2">How I Would Use ARCS in the Seat</h3>
-<div class="cgrid">
-<div class="ccard"><h3>An alpha engine</h3><p class="ref">Built: the record and the recheck. Not shown yet: that it beats judgment alone.</p><p>Much of a studio's edge hides in what it passed on. ARCS records why each hatch was passed and checks it again as the market moves, so a pass that was wrong becomes a lead instead of a loss.</p></div>
-<div class="ccard"><h3>A risk-adjusted pipeline</h3><p class="ref">Built: a conviction score on every decision. Not shown yet: how accurate it is (my proof page marks it not yet).</p><p>Each hatch carries what we expect, how sure we are, and what would kill it, so the pipeline reads by risk as well as by excitement.</p></div>
-<div class="ccard"><h3>An antifragile test bench</h3><p class="ref">Built: pre-registered tests, run once, failures published (my October benchmark).</p><p>Every kill test is written down before it runs, so a failed test still pays: the next thesis starts from what it ruled out.</p></div>
-</div></section>
-<section class="unit"><h3 class="cia-h2">What You Ask For, and What I Bring</h3>
-<div class="tblwrap"><table class="gt prose">
-<thead><tr><th>You ask for</th><th>What I bring</th></tr></thead>
-<tbody>
-<tr><td>Early-stage startup experience</td><td>Co-founder, 2012 to 2016 ($0 to profitable in 24 months). GM of a turnaround, 2010 to 2012 ($4,500 to over $1M a month, acquired).</td></tr>
-<tr><td>Crypto experience, a thesis not a meme</td><td>At Grayscale I owned the investor-facing platform for a launch of 10 regulated digital-asset investment products, about $7B. Mentor at Outlier Ventures (2024).</td></tr>
-<tr><td>PM instincts: the riskiest assumption, a spec an engineer can ship</td><td>Embedded product partner since 2020 across health, government and media ventures. Three product lines tested, two taken forward.</td></tr>
-<tr><td>A working prototype built with Claude Code or Cursor</td><td><a href="https://github.com/flashesofbrilliance/rfp-engine">RFP-O-Matic</a>, a public repo started 2026-11-02. It answers questions about a request for proposal and cites the exact clause, or says the document does not cover it.</td></tr>
-<tr><td>Where the AI got it wrong</td><td>Agents reported my quality gates green while running a stale copy of the checker from another branch, so a layout bug shipped repeatedly. I now make every gate run from the branch it is checking, and the fix is itself a check.</td></tr>
-<tr><td>A high kill rate</td><td>In October I pre-registered a retrieval benchmark, ran it once, published every result including the failures, and merged the one change that passed. Every belief I have had to overturn is on a <a href="https://status.arcs.care/beliefs">public ledger</a>, with the test that overturned it.</td></tr>
-</tbody></table></div></section>
-<section class="unit"><h3 class="cia-h2">The Exercise You Ask For, Done Once</h3>
-<div class="cgrid">
-<div class="ccard"><h3>Vault: the riskiest assumption</h3><p class="ref">src: the one-line description on your portfolio page; the team will know more</p><p>Lenders hold back on bitcoin-backed loans because collateral infrastructure is missing, rather than because of credit or regulatory appetite.</p></div>
-<div class="ccard"><h3>The kill test: under two weeks, under $10k</h3><p class="ref">Pre-registered before the first call</p><p>15 calls with credit leads at lenders that offer or are weighing these loans. Kill it if fewer than 2 of the 15 will sign a letter of intent for a pilot. Opinions are cheap; a signature is not.</p></div>
-</div></section>
-</div></details></div></div>
-
-<div id="pane-eir" class="cia-pane seatpane" role="tabpanel" aria-labelledby="t-eir" hidden><div class="cia"><details class="blk seat"><summary><h2 class="cia-h2">Entrepreneur in Residence</h2><span class="tk"><span class="pill">2nd</span> A strong fit</span></summary><div class="bd">
-<h2 class="cia-h1">Entrepreneur in Residence: one wedge, not a category.</h2>
-<p class="lede">The seat as your page describes it: a six-month contract to source and validate hatches across DeFi, stablecoins, infrastructure and prediction markets, take them from a few sentences to an investment committee pitch, and by month six find one worth founding.</p>
-<section class="unit"><h3 class="cia-h2">A 90, 120 and 240 Day Plan, for You to Edit</h3>
-<p class="ref plansrc">Rows paraphrase the "What You'll Do" list on <a href="https://gravity-labs.xyz/jobs-entrepreneur-in-residence.html">your EIR page</a>. Every cell is my proposal, not a promise: change any of it.</p>
-<p class="plannote">The seat is a six-month contract, so day 240 falls two months after it ends. I use that mark as the found-or-walk point, which leads into the Founder tab.</p>
-<div class="tblwrap"><table class="gt plan">
-<thead><tr><th>Your page asks me to</th><th>By day 90</th><th>By day 120</th><th>By day 240</th></tr></thead><tbody>
-<tr><td>Generate and source hatches across crypto: DeFi, stablecoins, infra, prediction markets</td><td>30 one-line theses, kill criteria written first</td><td>5 one-pagers, at least one in a sector new to the portfolio</td><td>The full pass record handed over, rechecked as the market moves</td></tr>
-<tr><td>Take the best ideas from a few sentences to a one-pager, a memo and an IC pitch</td><td>First memo</td><td>First committee pitch</td><td>The hatch I would found, pitched with its founding plan</td></tr>
-<tr><td>Use the team and advisors as a sounding board, but drive the work</td><td>A short weekly written update</td><td>Advisor reviews on the top two hatches</td><td>A written found-or-walk decision, with reasons</td></tr>
-<tr><td>Spend time with the team and portfolio without being embedded</td><td>One working session with each live portfolio company</td><td>Help on one question for each, where asked</td><td>Not planned</td></tr>
-<tr><td>By month six, one idea worth founding</td><td>The top two candidates named</td><td>One chosen, with a design partner in conversation</td><td>Founding it, or a written walk with every kill handed over</td></tr>
-</tbody></table></div>
-<p class="knowhead">How you would know it is working</p>
-<div class="know"><div class="kcell"><p class="klabel">Day 90</p><p>Thirty theses and a first memo you have read.</p></div><div class="kcell"><p class="klabel">Day 120</p><p>A hatch in front of the committee.</p></div><div class="kcell"><p class="klabel">Day 240</p><p>A founding plan you can fund, or a clean handover of everything I killed and why.</p></div></div></section>
-<section class="unit"><h3 class="cia-h2">What You Ask For, and What I Bring</h3>
-<div class="tblwrap"><table class="gt prose">
-<thead><tr><th>You ask for</th><th>What I bring</th></tr></thead>
-<tbody>
-<tr><td>A senior operator from a strong crypto company</td><td>At Grayscale I owned the investor-facing platform for a launch of 10 regulated digital-asset investment products, about $7B.</td></tr>
-<tr><td>A notable swing and miss</td><td>ARCS is my live swing: built since 2025, no revenue yet. My kill line for it: if no one pays for ARCS by 2027-03-31, I stop building it as a product and keep it as my own working tool.</td></tr>
-<tr><td>Intellectual honesty</td><td>My <a href="https://zach.md/proof">proof page</a> links 32 claims to the record behind each one, marks which records are private, and lists the one I cannot show yet.</td></tr>
-</tbody></table></div></section>
-<section class="unit"><h3 class="cia-h2">The Wedge</h3>
-<div class="cgrid">
-<div class="ccard"><h3>Receipts for agent spend</h3><p class="ref">A hypothesis, not a pitch</p><p>When an AI agent can move stablecoins for a company, every send is final. Wallet policy engines log which rule allowed a send. They do not log what the agent expected or whether it came true. That gap is the wedge.</p></div>
-<div class="ccard"><h3>First user, and why it is not built</h3><p class="ref">My read; to test</p><p>The treasury or compliance lead at a fintech piloting agent payments. ARCS has the receipt and the one-way-door check but no payment rails and no design partner, and your stealth agentic stablecoin payments company may already own this ground. I would ask first.</p></div>
-<div class="ccard"><h3>Kill it if</h3><p class="ref">Pre-registered</p><p>Fewer than 3 of 15 teams piloting agent payments say the approval trail is what keeps them from going live.</p></div>
-</div></section>
-<section class="unit"><h3 class="cia-h2">What Would Make Me Commit, and What Would Make Me Walk</h3>
-<p>I commit when an idea passes the kill criteria I wrote in week one and a named design partner agrees to a pilot. If nothing survives by month six, I hand you the written kills. At one fund in thirty, those are the studio's data, not a wasted contract.</p></section>
-<p class="callout"><b>Gap</b>No crypto exit. My crypto depth is regulated product and go-to-market, not protocol engineering.</p>
-</div></details></div></div>
-
-<div id="pane-founder" class="cia-pane seatpane" role="tabpanel" aria-labelledby="t-founder" hidden><div class="cia"><details class="blk seat"><summary><h2 class="cia-h2">Founder, Portfolio Company</h2><span class="tk"><span class="pill">3rd</span> A fit on one condition</span></summary><div class="bd">
-<h2 class="cia-h1">Founder: the seat I would reach through the EIR seat.</h2>
-<p class="lede">The seat as your page describes it: CEO or CTO of a hatch you have already validated and funded, with five to ten years of commitment and an outside raise within the first year.</p>
-<section class="unit"><h3 class="cia-h2">A 90, 120 and 240 Day Plan, for You to Edit</h3>
-<p class="ref plansrc">Rows paraphrase the "What You'll Do" list on <a href="https://gravity-labs.xyz/jobs-founder-portfolio-company.html">your Founder page</a>. Every cell is my proposal, not a promise: change any of it.</p>
-<p class="plannote">Your page does not name the hatch, so this plan is a shape, not a commitment. I would want to meet the hatch and its design partners first.</p>
-<div class="tblwrap"><table class="gt plan">
-<thead><tr><th>Your page asks me to</th><th>By day 90</th><th>By day 120</th><th>By day 240</th></tr></thead><tbody>
-<tr><td>Own the company end to end</td><td>A 12-month plan for the hatch, agreed with you</td><td>Team, budget and milestones set against your tranche terms</td><td>Running the company toward its next tranche milestone</td></tr>
-<tr><td>Get to a first real user fast</td><td>A first user named and using the product</td><td>A small group of active users</td><td>Usage an outside investor would read as pull</td></tr>
-<tr><td>Live with customers</td><td>20 customer conversations, written up</td><td>The thesis restated in their words, with what was killed</td><td>A product reshaped by what they said, with the record of why</td></tr>
-<tr><td>Ship relentlessly</td><td>A first release to the first user</td><td>A weekly release rhythm</td><td>The product the next round is raised on</td></tr>
-<tr><td>Recruit your team, starting with a co-founder</td><td>The co-founder search under way with your search firm</td><td>A co-founder or first engineer signed</td><td>A core team of three</td></tr>
-<tr><td>Raise the next round</td><td>An investor list and a first draft of the story</td><td>Materials reviewed with you</td><td>In conversation with outside investors, inside the first year as your page sets</td></tr>
-</tbody></table></div>
-<p class="knowhead">How you would know it is working</p>
-<div class="know"><div class="kcell"><p class="klabel">Day 90</p><p>A first user, and a plan you agreed.</p></div><div class="kcell"><p class="klabel">Day 120</p><p>A team forming and releases on a rhythm.</p></div><div class="kcell"><p class="klabel">Day 240</p><p>Users who stay, and outside investors talking.</p></div></div></section>
-<section class="unit"><h3 class="cia-h2">What You Ask For, and What I Bring</h3>
-<div class="tblwrap"><table class="gt prose">
-<thead><tr><th>You ask for</th><th>What I bring</th></tr></thead>
-<tbody>
-<tr><td>Repeat founder or senior fintech operator</td><td>The CEO seat, not the CTO seat. Co-founder once, GM of a turnaround once, then Grayscale.</td></tr>
-<tr><td>Selling to sophisticated customers and investors</td><td>Institutional digital-asset products at Grayscale; Fortune 500 advertisers at the ad network.</td></tr>
-<tr><td>Making a thesis you did not originate your own</td><td>Six years as an embedded product partner on other people's ventures, including a secure first-responder video product and five 5G ventures.</td></tr>
-</tbody></table></div></section>
-<section class="unit"><h3 class="cia-h2">One Secret About Financial Services</h3>
-<p>Regulated firms keep the record of what they decided because the rules require it. Almost none keep what they expected to happen, so they cannot score their own judgment.</p></section>
-<p class="callout"><b>Condition</b>I would want to meet the hatch and its design partners before committing a decade. For me the natural route to this seat runs through the EIR seat first.</p>
-</div></details></div></div>
-
-<div id="pane-open" class="cia-pane seatpane" role="tabpanel" aria-labelledby="t-open" hidden><div class="cia"><details class="blk seat"><summary><h2 class="cia-h2">Open Application</h2><span class="tk"><span class="pill">Proposed</span> The seat I would choose</span></summary><div class="bd">
-<h2 class="cia-h1">Open Application: choose your own adventure.</h2>
-<p class="lede">Your open application asks what I would own that you do not staff today, and why you would move faster with me on it. My answer is a hatch desk.</p>
-<section class="unit unit-lead"><p>Most funds call this a deal desk or a platform role. I would run it as an AI-native platform team whose work compounds. I have done this job from the operator side for 20 years; here it would sit inside the studio and own the hatch pipeline: each memo, its kill criteria, and the record of every call.</p>
-<p>Every pass is written down with its reasons and checked again as the market moves. A pass that turns out wrong shows up before you miss the next idea like it, and each new thesis starts from what the last 29 taught. The call stays with you and comes faster, and it takes process off the bottleneck your Principal page names without taking the decisions.</p></section>
-<section class="unit"><h3 class="cia-h2">A 90, 120 and 240 Day Plan, for You to Edit</h3>
-<p class="ref plansrc">Rows paraphrase the four stages of the hatch process on <a href="https://gravity-labs.xyz/about.html">your about page</a>. Every cell is my proposal, not a promise: change any of it.</p>
-<p class="plannote">Your open application lists what gets your attention, not duties, so the rows here follow the four stages of your hatch process.</p>
-<div class="tblwrap"><table class="gt plan">
-<thead><tr><th>Your page asks me to</th><th>By day 90</th><th>By day 120</th><th>By day 240</th></tr></thead><tbody>
-<tr><td>Exploration: short theses, at volume</td><td>Every thesis logged with its date and its keep-or-pass reason</td><td>A monthly list of passes worth a second look</td><td>The pass record feeds each new thesis</td></tr>
-<tr><td>Deep dive: investment documents and founder decks</td><td>One shared template for the deep dive</td><td>Every deep dive starts from the closest past passes</td><td>Deep-dive time per hatch measured, and falling</td></tr>
-<tr><td>Gate check: the memo to the Defy investment committee</td><td>Each memo carries its kill criteria and what it expects</td><td>The first memo checked against what happened after</td><td>Every committee call has a record anyone can replay</td></tr>
-<tr><td>Recruitment and launch</td><td>One place for each hatch's founder pipeline</td><td>Expected against actual, written up for each launch</td><td>A quarterly read-out of what the passes and launches taught</td></tr>
-</tbody></table></div>
-<p class="knowhead">How you would know it is working</p>
-<div class="know"><div class="kcell"><p class="klabel">Day 90</p><p>Every thesis and pass is on the record.</p></div><div class="kcell"><p class="klabel">Day 120</p><p>The first pass comes back as a lead, or is confirmed.</p></div><div class="kcell"><p class="klabel">Day 240</p><p>The team decides faster than it did before the desk existed.</p></div></div></section>
-<p class="callout"><b>Gap</b>You do not staff this seat today, so it is the one to test hardest. A two-week trial on hatches you have already killed would show whether the receipts would have called them sooner.</p>
-</div></details></div></div>
-
+<main class="tb" data-store="gravityTheme">
+<div class="tb-top"><span class="chip cyan">Private</span><p>Prepared for the Gravity Labs team and shared through Harrison Wright of Crossbridge Executive.</p><button type="button" class="tb-switch" id="tb-switch" role="switch" aria-checked="false" aria-label="Dark mode"><span aria-hidden="true">Dark</span><span class="trk" aria-hidden="true"></span></button></div>
+<section class="tb-frame" aria-label="Zach Harris for Gravity Labs">
+<dl class="tb-meta"><div class="opt"><dt>Prepared for</dt><dd>The Gravity Labs team</dd></div><div><dt>From</dt><dd>Zach Harris</dd></div><div><dt>Updated</dt><dd><time datetime="2026-11-09">November 9, 2026</time></dd></div><div class="opt"><dt>Status</dt><dd>Draft for discussion</dd></div></dl>
+<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Sections" data-menu-below="1024"><span class="wordmark shnav-brand" aria-hidden="true"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></span><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs" aria-label="View"><button type="button" class="shnav-tab" role="tab" id="t-ov" aria-controls="pane-ov" data-target="pane-ov" aria-selected="true" aria-current="true">Overview</button><button type="button" class="shnav-tab" role="tab" id="t-principal" aria-controls="pane-principal" data-target="pane-principal" aria-selected="false" tabindex="-1">Principal<span class="shnav-pill">1st</span></button><button type="button" class="shnav-tab" role="tab" id="t-eir" aria-controls="pane-eir" data-target="pane-eir" aria-selected="false" tabindex="-1">EIR<span class="shnav-pill">2nd</span></button><button type="button" class="shnav-tab" role="tab" id="t-founder" aria-controls="pane-founder" data-target="pane-founder" aria-selected="false" tabindex="-1">Founder<span class="shnav-pill">3rd</span></button><button type="button" class="shnav-tab" role="tab" id="t-open" aria-controls="pane-open" data-target="pane-open" aria-selected="false" tabindex="-1">Open Application<span class="shnav-pill">Proposed</span></button></div><button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Jump to a section"><span></span></button></nav></div>
+<div class="tb-body">
+<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">
+<h1 class="tb-h1"><span class="hl">One idea in thirty gets funded.</span><span class="hl">The other twenty‑nine are the work.</span></h1>
+<p class="tb-lede">Your about page says that for roughly every 30 ideas you go deep on, you fund one. I have spent 20 years in the trenches taking products from zero, as a player, a coach and a pace car, and the last year building a tool that records why each idea was passed on and checks it against what happened later, so a pass that turns out wrong becomes a lesson instead of a blind spot. This page maps me onto the four roles open on your jobs page, strongest fit first, with a plan, the proof and the gap for each.</p>
+<p class="tb-next"><strong>Let’s go.</strong> Pick the seat that is live, or reshape one, and tell Harrison or me which.</p>
+<div class="tb-actions"><a class="tb-btn primary" href="#principal" data-go-tab="principal">Open the Principal plan</a><a class="tb-btn" href="#qs" data-go-section="qs">Which seat is live?</a><p class="tb-note">Each role tab is a 30, 90 and 180 day plan built on your own job page, for you to edit.</p></div>
+<section class="tb-coldread" id="five" aria-labelledby="five-h"><h2 class="tb-h2" id="five-h">Who, What, Where, When, Why, How</h2><div class="cr"><dl class="cr-slots"><dt class="section-label">Why</dt><dd>Your studio runs on pressure-tested theses and a high kill rate. That is the work I have done for 20 years, and the reason I built ARCS.</dd><dt class="section-label">What</dt><dd>A 30, 90 and 180 day plan for each of the four roles on your jobs page, built on your own job pages so you can edit it.</dd><dt class="section-label">Who</dt><dd>Zach Harris. Product lead and founder: regulated digital assets at Grayscale, two companies built from nothing, and ARCS, a decision-record tool I build alone.</dd><dt class="section-label">Where</dt><dd>Remote from the New York metro, as all four roles are.</dd><dt class="section-label">When</dt><dd>Now: all four roles are listed on your jobs page today, and Harrison Wright offered to bring this to you.</dd></dl><ol class="cr-how" aria-label="How"><li class="cr-step"><p class="section-label">Before</p><p class="cr-when">Today, November 9</p><p class="cr-what">This page, built on your own job pages.</p></li><li class="cr-step"><p class="section-label">During</p><p class="cr-when">Not booked yet</p><p class="cr-what">A 30-minute call with whoever owns the live seat, at a time that suits you.</p></li><li class="cr-step"><p class="section-label">After</p><p class="cr-when">Within two days of the call</p><p class="cr-what">The plan for that seat, reshaped with you.</p></li></ol><p class="callout"><b>How to read</b>The overview first, then one tab per role, strongest fit first. Every plan cell is a proposal to edit.</p></div></section>
+<div class="tiles" role="list" aria-label="At a glance"><div class="tile" role="listitem"><div class="v">10</div><div class="k">Regulated products</div><p class="tb-tile-note">Digital-asset investment products at Grayscale, about $7B</p></div><div class="tile" role="listitem"><div class="v">2</div><div class="k">Companies from zero</div><p class="tb-tile-note">A co-founding and a turnaround, one acquired</p></div><div class="tile" role="listitem"><div class="v">2 of 3</div><div class="k">Lines taken forward</div><p class="tb-tile-note">AI health product lines tested at Twill Health</p></div><div class="tile" role="listitem"><div class="v">1</div><div class="k">Kill line on my own work</div><p class="tb-tile-note">ARCS stops as a product if no one pays by 2027-03-31</p></div></div>
+<div class="tb-expand"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>
+<div class="tb-folds"><section class="tb-fold" id="line"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="true" aria-controls="line-body"><span><span class="tb-fold-t">The Through-Line</span><span class="tb-tag">Three things that hold across every seat.</span></span></button></h2><div class="tb-fold-body" id="line-body"><div class="tb-cards"><div class="tb-card"><h3 class="tb-card-t">Regulated digital assets, from the inside</h3><p>At Grayscale (2024 to 2025) I owned the investor-facing platform for a launch of 10 regulated digital-asset investment products, about $7B. Every release passed product, engineering, legal, risk and compliance, and I cut the release cycle 35%.</p></div><div class="tb-card"><h3 class="tb-card-t">Zero to one, more than once</h3><p>Co-founded a direct-to-consumer company, $0 to profitable in 24 months ($2M+). As GM, turned a video ad network from $4,500 to over $1M a month and recruited its first CTO; acquired by Meredith. Since 2025, ARCS, built alone.</p></div><div class="tb-card"><h3 class="tb-card-t">The kill call comes first</h3><p>Tested three AI health product lines for Twill Health; two went forward and one did not. ARCS does this by default: it records what a team expects before a decision and checks it against what happened.</p></div></div>
+<p class="tb-p"><strong>Not onchain.</strong> The receipts ARCS keeps live in a Postgres table, not on a chain. Putting them onchain is a thesis I have not tested, and I would not claim otherwise.</p></div></section>
+<section class="tb-fold" id="qs"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="true" aria-controls="qs-body"><span><span class="tb-fold-t">Two Questions for You</span><span class="tb-tag">The answers decide which tab matters.</span></span></button></h2><div class="tb-fold-body" id="qs-body"><ol class="tb-list"><li>Which of the four seats is live now? Your people page lists the EIR title alongside your CTO, so I would like to know whether this is a second EIR seat.</li><li>For the Founder seat, which hatch is it for?</li></ol>
+<p class="tb-p">Resume and a 20-minute walkthrough of ARCS on request. Live work: <a href="https://good.arcs.care/rfp-engine">RFP-O-Matic with four short videos</a>, <a href="https://github.com/flashesofbrilliance/rfp-engine">its source</a>, <a href="https://app.arcs.care">ARCS</a>, and my <a href="https://zach.md/proof">proof page</a>, where each claim links to its record.</p></div></section></div>
+</div>
+<div id="pane-principal" class="tb-pane seat" role="tabpanel" aria-labelledby="t-principal">
+<div class="seat-head"><h2 class="seat-h"><button type="button" class="seat-btn" aria-expanded="true" aria-controls="seat-principal-body"><span><span class="seat-eyebrow">Principal, New Ventures<span class="shnav-pill">1st</span></span><span class="seat-title">Principal, New Ventures: my strongest fit.</span></span></button></h2></div>
+<div class="seat-body" id="seat-principal-body"><p class="seat-lede">The seat as your page describes it: break the bottleneck of every idea flowing through the CEO by owning hatches end to end. Spot the gap, write the case, pitch the investment committee, build the first prototype with AI coding tools, recruit the founders. A builder role, not research and not investing.</p>
+<section class="unit"><h3 class="tb-h3">A 30, 90 and 180 Day Plan, for You to Edit</h3><div class="pm"><p class="pm-src">Rows paraphrase the &quot;What You&#x27;ll Do&quot; list on <a href="https://gravity-labs.xyz/jobs-principal-new-ventures.html">your Principal page</a>. Every cell is my proposal, not a promise: change any of it.</p><table class="pm-table"><thead><tr><th>Your page asks me to</th><th>By day 30</th><th>By day 90</th><th>By day 180</th></tr></thead><tbody><tr><td>Generate and validate hatch ideas</td><td data-label="By day 30">30 one-line theses, each with its kill criteria written first</td><td data-label="By day 90">3 to 5 taken to one-pagers</td><td data-label="By day 180">A steady weekly flow, every pass recorded and rechecked</td></tr><tr><td>Write the docs that move ideas forward</td><td data-label="By day 30">A first memo outline, with its strongest counter-argument</td><td data-label="By day 90">A first full investment memo</td><td data-label="By day 180">A memo template the team reuses</td></tr><tr><td>Pitch Defy&#x27;s investment committee</td><td data-label="By day 30">The first hatch chosen for the committee</td><td data-label="By day 90">The first hatch pitched</td><td data-label="By day 180">A second hatch pitched</td></tr><tr><td>Build MVPs with AI coding tools</td><td data-label="By day 30">A clickable prototype for the lead hatch</td><td data-label="By day 90">The prototype in front of design partners</td><td data-label="By day 180">A prototype handed to the founder hired for it</td></tr><tr><td>Recruit founders</td><td data-label="By day 30">A founder candidate list for the lead hatch</td><td data-label="By day 90">A shortlist of three CEO or CTO candidates</td><td data-label="By day 180">One founder signed</td></tr><tr><td>Advise after launch</td><td data-label="By day 30">Not yet</td><td data-label="By day 90">Not yet</td><td data-label="By day 180">A standing weekly call with the founder I placed</td></tr><tr><td>Kill your darlings</td><td data-label="By day 30">Every killed thesis has a written reason</td><td data-label="By day 90">A first review of every pass</td><td data-label="By day 180">One pass reopened, or confirmed, as the market moved</td></tr></tbody></table><p class="pm-khead">How you would know it is working</p><div class="pm-know"><div class="pm-k"><p class="pm-kl">Day 30</p><p>You have read the first theses and the memo outline.</p></div><div class="pm-k"><p class="pm-kl">Day 90</p><p>The committee has seen a hatch from me.</p></div><div class="pm-k"><p class="pm-kl">Day 180</p><p>A founder has signed, and the pass record has changed at least one call.</p></div></div></div></section>
+<section class="unit"><h3 class="tb-h3">How I Would Use ARCS in the Seat</h3><p class="tb-p">Your Idea Engine post says agents now produce memos six times faster, but the output is not always usable. Each use below is aimed at that gap.</p>
+<div class="tb-cards"><div class="tb-card"><h4 class="tb-card-t">An alpha engine</h4><p class="tb-card-ref">Built: the record and the recheck. Not shown yet: that it beats judgment alone.</p><p>Much of a studio&#x27;s edge hides in what it passed on. ARCS records why each hatch was passed and checks it again as the market moves, so a pass that was wrong becomes a lead instead of a loss.</p></div><div class="tb-card"><h4 class="tb-card-t">A risk-adjusted pipeline</h4><p class="tb-card-ref">Built: a conviction score on every decision. Not shown yet: how accurate it is.</p><p>Each hatch carries what we expect, how sure we are, and what would kill it, so the pipeline reads by risk as well as by excitement.</p></div><div class="tb-card"><h4 class="tb-card-t">An antifragile test bench</h4><p class="tb-card-ref">Built: pre-registered tests, run once, failures published.</p><p>Every kill test is written down before it runs, so a failed test still pays: the next thesis starts from what it ruled out.</p></div></div></section>
+<section class="unit"><h3 class="tb-h3">What You Ask For, and What I Bring</h3><div class="tb-scroll"><table class="tb-table"><thead><tr><th>You ask for</th><th>What I bring</th></tr></thead><tbody><tr><td>Early-stage startup experience</td><td data-label="What I bring">Co-founder, 2012 to 2016 ($0 to profitable in 24 months). GM of a turnaround, 2010 to 2012 ($4,500 to over $1M a month, acquired).</td></tr><tr><td>Crypto experience, a thesis not a meme</td><td data-label="What I bring">At Grayscale I owned the investor-facing platform for a launch of 10 regulated digital-asset investment products, about $7B. Mentor at Outlier Ventures (2024).</td></tr><tr><td>PM instincts: the riskiest assumption, a spec an engineer can ship</td><td data-label="What I bring">Embedded product partner since 2020 across health, government and media ventures. Three product lines tested, two taken forward.</td></tr><tr><td>A working prototype built with Claude Code or Cursor</td><td data-label="What I bring"><a href="https://github.com/flashesofbrilliance/rfp-engine">RFP-O-Matic</a>, a public repo started 2026-11-02. It answers questions about a request for proposal and cites the exact clause, or says the document does not cover it.</td></tr><tr><td>Where the AI got it wrong</td><td data-label="What I bring">Agents reported my quality gates green while running a stale copy of the checker from another branch, so a layout bug shipped repeatedly. I now make every gate run from the branch it is checking, and the fix is itself a check.</td></tr><tr><td>A high kill rate</td><td data-label="What I bring">In October I pre-registered a retrieval benchmark, ran it once, published every result including the failures, and merged the one change that passed. Every belief I have had to overturn is on a <a href="https://status.arcs.care/beliefs">public ledger</a>, with the test that overturned it.</td></tr></tbody></table></div></section>
+<section class="unit"><h3 class="tb-h3">The Exercise You Ask For, Done Once</h3><div class="tb-cards"><div class="tb-card"><h4 class="tb-card-t">Coda Network: the riskiest assumption</h4><p class="tb-card-ref">From the one-line description on your portfolio page; the team will know more.</p><p>Banks would accept crypto deposits once the safety and compliance piece is solved, rather than holding back for reasons of their own appetite.</p></div><div class="tb-card"><h4 class="tb-card-t">The kill test: under two weeks, under $10k</h4><p class="tb-card-ref">Pre-registered before the first call.</p><p>15 conversations with bank digital-asset and compliance leads. Kill it if fewer than 2 of the 15 will sign a letter of intent for a pilot. Opinions are cheap; a signature is not.</p></div></div></section>
+<section class="unit"><h3 class="tb-h3">What Could Go Wrong</h3><div class="tb-scroll"><table class="tb-table"><thead><tr><th>Risk</th><th>Early signal</th><th>What I would do</th></tr></thead><tbody><tr><td>My ideas read well but do not hold up with real buyers.</td><td data-label="Early signal">By day 30, few ideas survive a first call with a likely customer.</td><td data-label="What I would do">Put each idea in front of two likely customers before I write a one-pager.</td></tr><tr><td>My first memo is not ready for the investment committee.</td><td data-label="Early signal">The draft comes back with changes to its structure, not just its wording.</td><td data-label="What I would do">Model the memo on one the committee funded, and review it with you at half draft.</td></tr><tr><td>I cannot find founders willing to quit their jobs for a hatch.</td><td data-label="Early signal">By day 90, fewer than three serious founder conversations for the first hatch.</td><td data-label="What I would do">Ask the search firm and advisors for introductions early, and widen the founder profile.</td></tr></tbody></table></div></section>
+</div>
+</div>
+<div id="pane-eir" class="tb-pane seat" role="tabpanel" aria-labelledby="t-eir">
+<div class="seat-head"><h2 class="seat-h"><button type="button" class="seat-btn" aria-expanded="false" aria-controls="seat-eir-body"><span><span class="seat-eyebrow">Entrepreneur in Residence<span class="shnav-pill">2nd</span></span><span class="seat-title">Entrepreneur in Residence: one wedge, not a category.</span></span></button></h2></div>
+<div class="seat-body" id="seat-eir-body"><p class="seat-lede">The seat as your page describes it: a six-month contract to source and validate hatches across DeFi, stablecoins, infrastructure and prediction markets, take them from a few sentences to an investment committee pitch, and by month six find one worth founding.</p>
+<section class="unit"><h3 class="tb-h3">A 30, 90 and 180 Day Plan, for You to Edit</h3><div class="pm"><p class="pm-src">Rows paraphrase the &quot;What You&#x27;ll Do&quot; list on <a href="https://gravity-labs.xyz/jobs-entrepreneur-in-residence.html">your EIR page</a>. Every cell is my proposal, not a promise: change any of it.</p><table class="pm-table"><thead><tr><th>Your page asks me to</th><th>By day 30</th><th>By day 90</th><th>By day 180</th></tr></thead><tbody><tr><td>Generate and source hatches across crypto: DeFi, stablecoins, infra, prediction markets</td><td data-label="By day 30">30 one-line theses, kill criteria written first</td><td data-label="By day 90">5 one-pagers, at least one in a sector new to the portfolio</td><td data-label="By day 180">The full pass record handed over, rechecked as the market moves</td></tr><tr><td>Take the best ideas from a few sentences to a one-pager, a memo and an IC pitch</td><td data-label="By day 30">A first one-pager</td><td data-label="By day 90">A first memo and committee pitch</td><td data-label="By day 180">The hatch I would found, pitched with its founding plan</td></tr><tr><td>Use the team and advisors as a sounding board, but drive the work</td><td data-label="By day 30">A short weekly written update</td><td data-label="By day 90">Advisor reviews on the top two hatches</td><td data-label="By day 180">A written found-or-walk decision, with reasons</td></tr><tr><td>Spend time with the team and portfolio without being embedded</td><td data-label="By day 30">One working session with each live portfolio company</td><td data-label="By day 90">Help on one question for each, where asked</td><td data-label="By day 180">Not planned</td></tr><tr><td>By month six, one idea worth founding</td><td data-label="By day 30">The top five candidates named</td><td data-label="By day 90">The top two, each with a design partner in conversation</td><td data-label="By day 180">One idea I would found, or a written walk with every kill handed over</td></tr></tbody></table><p class="pm-khead">How you would know it is working</p><div class="pm-know"><div class="pm-k"><p class="pm-kl">Day 30</p><p>Thirty theses you have read.</p></div><div class="pm-k"><p class="pm-kl">Day 90</p><p>A hatch in front of the committee.</p></div><div class="pm-k"><p class="pm-kl">Day 180</p><p>A founding plan you can fund, or a clean handover of everything I killed and why.</p></div></div></div></section>
+<section class="unit"><h3 class="tb-h3">What You Ask For, and What I Bring</h3><div class="tb-scroll"><table class="tb-table"><thead><tr><th>You ask for</th><th>What I bring</th></tr></thead><tbody><tr><td>A senior operator from a strong crypto company</td><td data-label="What I bring">At Grayscale I owned the investor-facing platform for a launch of 10 regulated digital-asset investment products, about $7B.</td></tr><tr><td>A notable swing and miss</td><td data-label="What I bring">ARCS is my live swing: built since 2025, no revenue yet. My kill line for it: if no one pays for ARCS by 2027-03-31, I stop building it as a product and keep it as my own working tool.</td></tr><tr><td>Intellectual honesty</td><td data-label="What I bring">My <a href="https://zach.md/proof">proof page</a> links 32 claims to the record behind each one, marks which records are private, and lists the one I cannot show yet.</td></tr></tbody></table></div></section>
+<section class="unit"><h3 class="tb-h3">The Wedge</h3><div class="tb-cards"><div class="tb-card"><h4 class="tb-card-t">Receipts for agent spend</h4><p class="tb-card-ref">A hypothesis, not a pitch.</p><p>When an AI agent can move stablecoins for a company, every send is final. Wallet policy engines log which rule allowed a send. They do not log what the agent expected or whether it came true. That gap is the wedge.</p></div><div class="tb-card"><h4 class="tb-card-t">First user, and why it is not built</h4><p class="tb-card-ref">My read; to test.</p><p>The treasury or compliance lead at a fintech piloting agent payments. ARCS has the receipt and the one-way-door check but no payment rails and no design partner, and your stealth agentic stablecoin payments company may already own this ground. I would ask first.</p></div><div class="tb-card"><h4 class="tb-card-t">Kill it if</h4><p class="tb-card-ref">Pre-registered.</p><p>Fewer than 3 of 15 teams piloting agent payments say the approval trail is what keeps them from going live.</p></div></div></section>
+<section class="unit"><h3 class="tb-h3">What Would Make Me Commit, and What Would Make Me Walk</h3><p class="tb-p">I commit when an idea passes the kill criteria I wrote in week one and a named design partner agrees to a pilot. If nothing survives by month six, I hand you the written kills. At one fund in thirty, those are the studio’s data, not a wasted contract.</p></section>
+<section class="unit"><h3 class="tb-h3">What Could Go Wrong</h3><div class="tb-scroll"><table class="tb-table"><thead><tr><th>Risk</th><th>Early signal</th><th>What I would do</th></tr></thead><tbody><tr><td>I spread across too many sectors and no idea goes deep.</td><td data-label="Early signal">By day 30, no one-pager names a real first user.</td><td data-label="What I would do">Narrow to the two strongest ideas and spend the rest of the contract there.</td></tr><tr><td>My best idea overlaps a company you already run in stealth.</td><td data-label="Early signal">You flag the overlap when I share my first one-pager.</td><td data-label="What I would do">Check for overlap before any deep work, and move to the next idea if it collides.</td></tr><tr><td>Month six arrives with nothing I would found.</td><td data-label="Early signal">By day 90, no early customer agrees to a pilot conversation.</td><td data-label="What I would do">Say so in writing, hand over every idea I dropped and why, and step away.</td></tr></tbody></table></div></section>
+<div class="seat-callouts"><p class="callout"><b>Gap</b>No crypto exit. My crypto depth is regulated product and go-to-market, not protocol engineering.</p></div></div>
+</div>
+<div id="pane-founder" class="tb-pane seat" role="tabpanel" aria-labelledby="t-founder">
+<div class="seat-head"><h2 class="seat-h"><button type="button" class="seat-btn" aria-expanded="false" aria-controls="seat-founder-body"><span><span class="seat-eyebrow">Founder, Portfolio Company<span class="shnav-pill">3rd</span></span><span class="seat-title">Founder: the seat I would reach through the EIR seat.</span></span></button></h2></div>
+<div class="seat-body" id="seat-founder-body"><p class="seat-lede">The seat as your page describes it: CEO or CTO of a hatch you have already validated and funded, with five to ten years of commitment and an outside raise within the first year.</p>
+<section class="unit"><h3 class="tb-h3">A 30, 90 and 180 Day Plan, for You to Edit</h3><div class="pm"><p class="pm-src">Rows paraphrase the &quot;What You&#x27;ll Do&quot; list on <a href="https://gravity-labs.xyz/jobs-founder-portfolio-company.html">your Founder page</a>. Every cell is my proposal, not a promise: change any of it.</p><p class="pm-note">Your page does not name the hatch, so this plan is a shape, not a commitment. I would want to meet the hatch and its design partners first.</p><table class="pm-table"><thead><tr><th>Your page asks me to</th><th>By day 30</th><th>By day 90</th><th>By day 180</th></tr></thead><tbody><tr><td>Own the company end to end</td><td data-label="By day 30">A 12-month plan for the hatch, agreed with you</td><td data-label="By day 90">Team, budget and milestones set against your tranche terms</td><td data-label="By day 180">The company at its first tranche milestone</td></tr><tr><td>Get to a first real user fast</td><td data-label="By day 30">A first user named and using the product</td><td data-label="By day 90">A small group of active users</td><td data-label="By day 180">Usage an outside investor would read as pull</td></tr><tr><td>Live with customers</td><td data-label="By day 30">20 customer conversations, written up</td><td data-label="By day 90">The thesis restated in their words, with what was killed</td><td data-label="By day 180">A product reshaped by what they said, with the record of why</td></tr><tr><td>Ship relentlessly</td><td data-label="By day 30">A first release to the first user</td><td data-label="By day 90">A weekly release rhythm</td><td data-label="By day 180">The product the next round is raised on</td></tr><tr><td>Recruit your team, starting with a co-founder</td><td data-label="By day 30">The co-founder search under way with your search firm</td><td data-label="By day 90">A co-founder or first engineer signed</td><td data-label="By day 180">A core team of three</td></tr><tr><td>Raise the next round</td><td data-label="By day 30">An investor list</td><td data-label="By day 90">A first draft of the story, reviewed with you</td><td data-label="By day 180">In conversation with outside investors, inside the first year as your page sets</td></tr></tbody></table><p class="pm-khead">How you would know it is working</p><div class="pm-know"><div class="pm-k"><p class="pm-kl">Day 30</p><p>A first user, and a plan you agreed.</p></div><div class="pm-k"><p class="pm-kl">Day 90</p><p>A team forming and releases on a rhythm.</p></div><div class="pm-k"><p class="pm-kl">Day 180</p><p>Users who stay, and outside investors talking.</p></div></div></div></section>
+<section class="unit"><h3 class="tb-h3">What You Ask For, and What I Bring</h3><div class="tb-scroll"><table class="tb-table"><thead><tr><th>You ask for</th><th>What I bring</th></tr></thead><tbody><tr><td>Repeat founder or senior fintech operator</td><td data-label="What I bring">The CEO seat, not the CTO seat. Co-founder once, GM of a turnaround once, then Grayscale.</td></tr><tr><td>Selling to sophisticated customers and investors</td><td data-label="What I bring">Institutional digital-asset products at Grayscale; Fortune 500 advertisers at the ad network.</td></tr><tr><td>Making a thesis you did not originate your own</td><td data-label="What I bring">Six years as an embedded product partner on other people&#x27;s ventures, including a secure first-responder video product and five 5G ventures.</td></tr></tbody></table></div></section>
+<section class="unit"><h3 class="tb-h3">One Secret About Financial Services</h3><p class="tb-p">Regulated firms keep the record of what they decided because the rules require it. Almost none keep what they expected to happen, so they cannot score their own judgment.</p></section>
+<section class="unit"><h3 class="tb-h3">What Could Go Wrong</h3><div class="tb-scroll"><table class="tb-table"><thead><tr><th>Risk</th><th>Early signal</th><th>What I would do</th></tr></thead><tbody><tr><td>The thesis does not hold up with real customers.</td><td data-label="Early signal">My first ten customer calls contradict what the thesis expects.</td><td data-label="What I would do">Restate the thesis in the customers&#x27; words and agree any change with you.</td></tr><tr><td>The first real user takes too long to arrive.</td><td data-label="Early signal">By day 30, no named user has agreed to try the product.</td><td data-label="What I would do">Narrow to one customer type and sell to them directly until one says yes.</td></tr><tr><td>I cannot hire a strong technical co-founder fast enough.</td><td data-label="Early signal">By day 90, the co-founder search has no finalist.</td><td data-label="What I would do">Bring in a senior contract engineer to keep shipping while the search continues.</td></tr></tbody></table></div></section>
+<div class="seat-callouts"><p class="callout"><b>Condition</b>I would want to meet the hatch and its design partners before committing a decade. For me the natural route to this seat runs through the EIR seat first.</p></div></div>
+</div>
+<div id="pane-open" class="tb-pane seat" role="tabpanel" aria-labelledby="t-open">
+<div class="seat-head"><h2 class="seat-h"><button type="button" class="seat-btn" aria-expanded="false" aria-controls="seat-open-body"><span><span class="seat-eyebrow">Open Application<span class="shnav-pill">Proposed</span></span><span class="seat-title">Open Application: choose your own adventure.</span></span></button></h2></div>
+<div class="seat-body" id="seat-open-body"><p class="seat-lede">Your open application asks what I would own that you do not staff today, and why you would move faster with me on it. My answer is a hatch desk.</p>
+<section class="unit"><h3 class="tb-h3">The Hatch Desk</h3><p class="tb-p">Most funds call this a deal desk or a platform role. I would run it as an AI-native platform team whose work compounds. I have done this job from the operator side for 20 years; here it would sit inside the studio and own the hatch pipeline: each memo, its kill criteria, and the record of every call.</p>
+<p class="tb-p">Every pass is written down with its reasons and checked again as the market moves. A pass that turns out wrong shows up before you miss the next idea like it, and each new thesis starts from what the last 29 taught. The call stays with you and comes faster, and it takes process off the bottleneck your Principal page names without taking the decisions.</p>
+<p class="tb-p">It would sit on top of the Idea Engine you already run: the agents find and draft, and the desk keeps the record of every call, so nothing it already does gets built twice.</p></section>
+<section class="unit"><h3 class="tb-h3">A 30, 90 and 180 Day Plan, for You to Edit</h3><div class="pm"><p class="pm-src">Rows paraphrase the four stages of the hatch process on <a href="https://gravity-labs.xyz/about.html">your about page</a>. Every cell is my proposal, not a promise: change any of it.</p><p class="pm-note">Your open application lists what gets your attention, not duties, so the rows here follow the four stages of your hatch process.</p><table class="pm-table"><thead><tr><th>Your page asks me to</th><th>By day 30</th><th>By day 90</th><th>By day 180</th></tr></thead><tbody><tr><td>Exploration: short theses, at volume</td><td data-label="By day 30">Every thesis logged with its date and its keep-or-pass reason</td><td data-label="By day 90">A monthly list of passes worth a second look</td><td data-label="By day 180">The pass record feeds each new thesis</td></tr><tr><td>Deep dive: investment documents and founder decks</td><td data-label="By day 30">One shared template for the deep dive</td><td data-label="By day 90">Every deep dive starts from the closest past passes</td><td data-label="By day 180">Deep-dive time per hatch measured</td></tr><tr><td>Gate check: the memo to the Defy investment committee</td><td data-label="By day 30">Each memo carries its kill criteria and what it expects</td><td data-label="By day 90">The first memo checked against what happened after</td><td data-label="By day 180">Every committee call has a record anyone can replay</td></tr><tr><td>Recruitment and launch</td><td data-label="By day 30">One place for each hatch&#x27;s founder pipeline</td><td data-label="By day 90">Expected against actual, written up for each launch</td><td data-label="By day 180">A read-out of what the passes and launches taught</td></tr></tbody></table><p class="pm-khead">How you would know it is working</p><div class="pm-know"><div class="pm-k"><p class="pm-kl">Day 30</p><p>Every thesis and pass is on the record.</p></div><div class="pm-k"><p class="pm-kl">Day 90</p><p>The first pass comes back as a lead, or is confirmed.</p></div><div class="pm-k"><p class="pm-kl">Day 180</p><p>The team decides faster than it did before the desk existed.</p></div></div></div></section>
+<section class="unit"><h3 class="tb-h3">What Could Go Wrong</h3><div class="tb-scroll"><table class="tb-table"><thead><tr><th>Risk</th><th>Early signal</th><th>What I would do</th></tr></thead><tbody><tr><td>Your team already has tools that do this, so I duplicate work.</td><td data-label="Early signal">In week one, you show me a system that already records why ideas were passed.</td><td data-label="What I would do">Build on what exists and drop anything that repeats it.</td></tr><tr><td>Recording every pass adds paperwork and slows the team down.</td><td data-label="Early signal">Entries stop being filled in within the first month.</td><td data-label="What I would do">Cut each entry to three fields and fill them in myself from the memos.</td></tr><tr><td>Rechecking old passes never turns up a real lead.</td><td data-label="Early signal">By day 90, no past pass looks worth reopening.</td><td data-label="What I would do">Run a two-week test on old passes; if nothing turns up, close the desk.</td></tr></tbody></table></div></section>
+<div class="seat-callouts"><p class="callout"><b>Gap</b>You do not staff this seat today, so it is the one to test hardest. A two-week trial on hatches you have already killed would show whether the record would have called them sooner.</p></div></div>
+</div>
 </div>
 </section>
-<p id="hint" class="vh">Use the left and right arrow keys to move between tabs.</p>
 </main>
+<script>function shnavInit(nav, o){o=o||{};var menu=nav.querySelector('.shnav-menu'),list=nav.querySelector('.shnav-tabs'),items=[].slice.call(list.querySelectorAll('.shnav-tab'));var below=+(nav.getAttribute('data-menu-below')||0),mq=below&&window.matchMedia?matchMedia('(max-width:'+(below-1)+'px)'):null;function setCur(b){var c=nav.querySelector('.shnav-current');if(c&&b)c.textContent=(b.childNodes[0]&&b.childNodes[0].textContent||b.textContent).trim()}function isMenu(){return nav.getAttribute('data-mode')==='menu'}function close(f){nav.classList.remove('is-open');menu.setAttribute('aria-expanded','false');if(f)menu.focus()}function open(){nav.classList.add('is-open');menu.setAttribute('aria-expanded','true');(items.filter(function(b){return b.getAttribute('aria-current')==='true'})[0]||items[0]).focus()}function mode(){var m=o.forceMode||(mq&&mq.matches?'menu':'tabs');nav.setAttribute('data-mode',m);if(m==='menu'){list.removeAttribute('role');items.forEach(function(b){if(b.hasAttribute('aria-selected'))b.setAttribute('data-sel',b.getAttribute('aria-selected'));b.removeAttribute('aria-selected');b.removeAttribute('role');b.tabIndex=0})}else{close();list.setAttribute('role','tablist');items.forEach(function(b){var s=b.getAttribute('data-sel')||b.getAttribute('aria-selected')||'false';b.setAttribute('role','tab');b.setAttribute('aria-selected',s);b.tabIndex=s==='true'?0:-1})}if(o.onMode)o.onMode(m)}menu.addEventListener('click',function(e){e.stopPropagation();nav.classList.contains('is-open')?close():open()});document.addEventListener('click',function(e){if(isMenu()&&!nav.contains(e.target))close()});nav.addEventListener('keydown',function(e){if(e.key==='Escape'&&nav.classList.contains('is-open')){close(true);return}if(isMenu()||['ArrowRight','ArrowLeft','Home','End'].indexOf(e.key)<0)return;var i=items.indexOf(document.activeElement);if(i<0)return;e.preventDefault();var n=e.key==='Home'?items[0]:e.key==='End'?items[items.length-1]:items[(i+(e.key==='ArrowRight'?1:items.length-1))%items.length];n.focus();n.click()});items.forEach(function(b){b.addEventListener('click',function(){if(isMenu()){items.forEach(function(x){x.setAttribute('aria-current',x===b?'true':'false');x.setAttribute('data-sel',x===b?'true':'false')});close()}else{items.forEach(function(x){var on=x===b;x.setAttribute('aria-selected',String(on));x.setAttribute('data-sel',String(on));x.setAttribute('aria-current',String(on));x.tabIndex=on?0:-1})}setCur(b);if(o.onPick)o.onPick(b.getAttribute('data-target'),isMenu())})});if(mq&&mq.addEventListener)mq.addEventListener('change',mode);setCur(items.filter(function(b){return b.getAttribute('aria-current')==='true'||b.getAttribute('aria-selected')==='true'})[0]||items[0]);mode();return{mode:mode,close:close,setCur:setCur}}</script>
+<script>/* tabbed-brief template behaviour (2026-11-09). Needs kit 42 shnavInit loaded first. Interaction rules: src/ui-kit/tabbed-brief/README.md */
+(function () {
+  var doc = document.documentElement, root = document.querySelector('.tb'), KEY = (root && root.getAttribute('data-store')) || 'tbTheme';
+  var reduce = function () { return matchMedia('(prefers-reduced-motion: reduce)').matches; };
 
-<div id="fmtip" role="tooltip" hidden></div>
-<button type="button" class="readfab" id="readfab" aria-expanded="false" aria-controls="readopts" aria-label="Reading options"><span aria-hidden="true">Aa</span></button>
-<section id="readopts" class="readopts" role="dialog" aria-modal="false" aria-labelledby="roh" hidden>
-<p id="roh" class="ro-title">Reading options</p>
-<p class="ro-note">Comfort settings: pick whatever reads best for you. They stay on this device and are not sent anywhere. I recommend reading this on a computer or a larger tablet, where these settings work best too.</p>
-<div class="ro-group" role="group" aria-labelledby="ro-f"><span id="ro-f" class="ro-label">Font</span><span class="ro-btns"><button type="button" data-k="font" data-v="std">Standard</button><button type="button" data-k="font" data-v="easy">Easy-read</button></span><span class="ro-hint">Easy-read is a plain, wide font with no italics.</span></div>
-<div class="ro-group" role="group" aria-labelledby="ro-s"><span id="ro-s" class="ro-label">Text size</span><span class="ro-btns"><button type="button" data-k="size" data-v="std">Standard</button><button type="button" data-k="size" data-v="l">Larger</button><button type="button" data-k="size" data-v="xl">Largest</button></span></div>
-<div class="ro-group" role="group" aria-labelledby="ro-p"><span id="ro-p" class="ro-label">Spacing</span><span class="ro-btns"><button type="button" data-k="space" data-v="std">Standard</button><button type="button" data-k="space" data-v="roomy">Roomy</button></span><span class="ro-hint">Roomy adds space between letters, words and lines.</span></div>
-<div class="ro-group" role="group" aria-labelledby="ro-th"><span id="ro-th" class="ro-label">Theme</span><span class="ro-btns"><button type="button" data-k="theme" data-v="light">Light</button><button type="button" data-k="theme" data-v="dark">Dark</button></span></div>
-<div class="ro-group" role="group" aria-labelledby="ro-t"><span id="ro-t" class="ro-label">Background</span><span class="ro-btns"><button type="button" data-k="tone" data-v="std">Standard</button><button type="button" data-k="tone" data-v="warm">Warm paper</button></span></div>
-<p class="ro-esc" style="margin:12px 0 0;color:var(--muted)">Press Esc to close.</p><div class="ro-actions"><button type="button" class="ro-reset">Reset</button><button type="button" class="ro-close">Close</button></div>
-</section>
+  /* theme: light by default, the reader's choice is remembered on this device only */
+  var sw = document.getElementById('tb-switch');
+  function syncSwitch() { if (sw) sw.setAttribute('aria-checked', String(doc.getAttribute('data-theme') === 'dark')); }
+  if (sw) sw.addEventListener('click', function () {
+    var next = doc.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    doc.setAttribute('data-theme', next); try { localStorage.setItem(KEY, next); } catch (e) {} syncSwitch();
+  });
+  syncSwitch();
 
-<script>
-(function(){
-const render=()=>{},byId={},select=()=>{};
-/* nav: kit 42 shell nav. Tabs from 1024px; below that every pane stacks, seats collapse, and the menu jumps to them */
-function shnavInit(nav, o){o=o||{};var menu=nav.querySelector('.shnav-menu'),list=nav.querySelector('.shnav-tabs'),items=[].slice.call(list.querySelectorAll('.shnav-tab'));var below=+(nav.getAttribute('data-menu-below')||0),mq=below&&window.matchMedia?matchMedia('(max-width:'+(below-1)+'px)'):null;function setCur(b){var c=nav.querySelector('.shnav-current');if(c&&b)c.textContent=(b.childNodes[0]&&b.childNodes[0].textContent||b.textContent).trim()}function isMenu(){return nav.getAttribute('data-mode')==='menu'}function close(f){nav.classList.remove('is-open');menu.setAttribute('aria-expanded','false');if(f)menu.focus()}function open(){nav.classList.add('is-open');menu.setAttribute('aria-expanded','true');(items.filter(function(b){return b.getAttribute('aria-current')==='true'})[0]||items[0]).focus()}function mode(){var m=o.forceMode||(mq&&mq.matches?'menu':'tabs');nav.setAttribute('data-mode',m);if(m==='menu'){list.removeAttribute('role');items.forEach(function(b){if(b.hasAttribute('aria-selected'))b.setAttribute('data-sel',b.getAttribute('aria-selected'));b.removeAttribute('aria-selected');b.removeAttribute('role');b.tabIndex=0})}else{close();list.setAttribute('role','tablist');items.forEach(function(b){var s=b.getAttribute('data-sel')||b.getAttribute('aria-selected')||'false';b.setAttribute('role','tab');b.setAttribute('aria-selected',s);b.tabIndex=s==='true'?0:-1})}if(o.onMode)o.onMode(m)}menu.addEventListener('click',function(e){e.stopPropagation();nav.classList.contains('is-open')?close():open()});document.addEventListener('click',function(e){if(isMenu()&&!nav.contains(e.target))close()});nav.addEventListener('keydown',function(e){if(e.key==='Escape'&&nav.classList.contains('is-open')){close(true);return}if(isMenu()||(e.key!=='ArrowRight'&&e.key!=='ArrowLeft'))return;var i=items.indexOf(document.activeElement);if(i<0)return;e.preventDefault();var n=items[(i+(e.key==='ArrowRight'?1:items.length-1))%items.length];n.focus();n.click()});items.forEach(function(b){b.addEventListener('click',function(){if(isMenu()){items.forEach(function(x){x.setAttribute('aria-current',x===b?'true':'false');x.setAttribute('data-sel',x===b?'true':'false')});close()}else{items.forEach(function(x){var on=x===b;x.setAttribute('aria-selected',String(on));x.setAttribute('data-sel',String(on));x.setAttribute('aria-current',String(on));x.tabIndex=on?0:-1})}setCur(b);if(o.onPick)o.onPick(b.getAttribute('data-target'),isMenu())})});if(mq&&mq.addEventListener)mq.addEventListener('change',mode);setCur(items.filter(function(b){return b.getAttribute('aria-current')==='true'||b.getAttribute('aria-selected')==='true'})[0]||items[0]);mode();return{mode:mode,close:close,setCur:setCur}}
-const docEl=document.documentElement,mq=matchMedia('(min-width: 1024px)'),panes=[...document.querySelectorAll('.cia-pane')];
-let cur='pane-ov';{const h=location.hash.slice(1);if(h&&document.getElementById('pane-'+h))cur='pane-'+h;}
-function alignMeta(){}
-const smooth=()=>matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
-function cover(){let c=0;document.querySelectorAll('.shell-head').forEach(s=>{const p=getComputedStyle(s).position;if(p==='sticky'||p==='fixed')c=Math.max(c,s.getBoundingClientRect().height)});return c}
-function jumpTo(el,how){if(!el)return;const y=el.getBoundingClientRect().top+scrollY-cover()-12;scrollTo({top:Math.max(0,y),behavior:how||smooth()})}
-const HASH={'pane-ov':'','pane-principal':'principal','pane-eir':'eir','pane-founder':'founder','pane-open':'open'};
-let booting=true;addEventListener('load',()=>setTimeout(()=>{booting=false},0));
-function setHash(h){if(booting)return;try{history.replaceState(null,'',h?'#'+h:location.pathname+location.search)}catch(e){}}
-function show(id){cur=id;panes.forEach(p=>{p.hidden=p.id!==id;if(p.id===id){const d=p.querySelector('details.seat');if(d)d.open=true}});}
-const nav=document.getElementById('shnav');
-const api=shnavInit(nav,{onMode:m=>{const stacked=m==='menu';docEl.classList.toggle('stacked',stacked);if(stacked)panes.forEach(p=>p.hidden=false);else{show(cur);const b=nav.querySelector('[data-target="'+cur+'"]');if(b)b.click()}if(window.__expSync)setTimeout(window.__expSync,0)},onPick:(t,isMenu)=>{setHash(HASH[t]);if(!isMenu){show(t);const sb=document.querySelector('.shell-body');if(sb&&sb.getBoundingClientRect().top<cover())jumpTo(sb,'auto');setTimeout(alignMeta,30);return}if(t==='pane-ov'){scrollTo({top:0,behavior:smooth()});return}const p=document.getElementById(t);const d=p.querySelector('details.seat');if(d)d.open=true;const sm=d&&d.querySelector('summary');jumpTo(sm||p);if(sm)sm.focus({preventScroll:true})}});
-addEventListener('beforeprint',()=>{panes.forEach(p=>p.hidden=false)});
-function toQs(how){const q=document.getElementById('qs');if(!q)return;q.open=true;jumpTo(q.querySelector('summary'),how)}
-document.querySelectorAll('a[href="#qs"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();setHash('qs');toQs()}));
-addEventListener('load',()=>{const h=location.hash.slice(1);if(!h)return;if(h==='qs'){toQs('auto');return}if(docEl.classList.contains('stacked')&&document.getElementById('pane-'+h)){const p=document.getElementById('pane-'+h),d=p.querySelector('details.seat');if(d)d.open=true;jumpTo((d&&d.querySelector('summary'))||p,'auto')}});
-/* reading options */
-const root=document.documentElement,RK='gravityRead',ro=document.getElementById('readopts'),fab=document.getElementById('readfab');
-let st={};try{st=JSON.parse(localStorage.getItem(RK)||'{}')||{}}catch(e){}
-const KEYS={font:'data-font',size:'data-size',space:'data-space',tone:'data-tone',theme:'data-theme'};
-const isDarkNow=()=>{const el=document.querySelector('.shell-bar')||document.documentElement;const c=getComputedStyle(el).backgroundColor.match(/[\d.]+/g);if(!c||(c[3]!==undefined&&+c[3]===0))return false;return (0.299*c[0]+0.587*c[1]+0.114*c[2])<128};function applyRead(){if(!st.theme||st.theme==='std')st.theme='light';{const tg=document.getElementById('themetog');if(tg){const m=st.theme&&st.theme!=='std'?st.theme:(isDarkNow()?'dark':'light');tg.dataset.mode=m;tg.setAttribute('aria-pressed',String(m==='dark'));tg.setAttribute('aria-label','Dark mode')}}for(const k in KEYS){const v=st[k];v&&v!=='std'?root.setAttribute(KEYS[k],v):root.removeAttribute(KEYS[k])}
- ro.querySelectorAll('button[data-k]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===(st[b.dataset.k]||'std'))));render();}
-function saveRead(){try{localStorage.setItem(RK,JSON.stringify(st))}catch(e){}}
-function openRead(o){ro.hidden=!o;fab.setAttribute('aria-expanded',String(o));if(o)(ro.querySelector('button[aria-pressed="true"]')||ro.querySelector('button')).focus();else fab.focus()}
-fab.onclick=()=>openRead(ro.hidden);
-ro.querySelector('.ro-close').onclick=()=>openRead(false);
-ro.querySelector('.ro-reset').onclick=()=>{st={};saveRead();applyRead()};
-ro.querySelectorAll('button[data-k]').forEach(b=>b.onclick=()=>{st[b.dataset.k]=b.dataset.v;saveRead();applyRead()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!ro.hidden)openRead(false)});
-document.getElementById('themetog')?.addEventListener('click',()=>{const now=st.theme&&st.theme!=='std'?st.theme:(isDarkNow()?'dark':'light');st.theme=now==='dark'?'light':'dark';saveRead();applyRead()});
-function placeFab(){const m=document.querySelector('main');if(!m)return;const g=document.documentElement.clientWidth-m.getBoundingClientRect().right,r=Math.max(16,Math.round((g-48)/2))+'px';fab.style.right=r;ro.style.right=r;const sh=document.querySelector('.shell');if(sh){const gap=Math.round(innerHeight-sh.getBoundingClientRect().bottom);fab.style.bottom=Math.max(16,gap)+'px'}}
-addEventListener('load',()=>{applyRead();placeFab()});addEventListener('resize',placeFab);addEventListener('scroll',placeFab,{passive:true});addEventListener('scroll',()=>{const b=document.querySelector('.shell-bar');if(b)b.classList.toggle('stuck',b.getBoundingClientRect().top<=(parseFloat(getComputedStyle(b).top)||0)+1&&scrollY>0)},{passive:true});document.addEventListener('click',()=>setTimeout(placeFab,60));placeFab();
-applyRead();
+  /* fold sections: button inside the heading toggles its body */
+  function setFold(btn, open) { btn.setAttribute('aria-expanded', String(open)); var b = document.getElementById(btn.getAttribute('aria-controls')); if (b) b.hidden = !open; syncExpand(); }
+  var folds = [].slice.call(document.querySelectorAll('.tb-fold-btn'));
+  folds.forEach(function (b) { b.addEventListener('click', function () { setFold(b, b.getAttribute('aria-expanded') !== 'true'); }); });
+
+  /* role sections: on wide screens a tab shows one; below the breakpoint each role is a fold */
+  var seats = [].slice.call(document.querySelectorAll('.seat-btn'));
+  var stacked = false;
+  function setSeat(btn, open) { btn.setAttribute('aria-expanded', String(open)); var b = document.getElementById(btn.getAttribute('aria-controls')); if (b) b.hidden = !open; syncExpand(); }
+  seats.forEach(function (b) { b.addEventListener('click', function () { if (stacked) setSeat(b, b.getAttribute('aria-expanded') !== 'true'); }); });
+
+  /* expand all: every fold, plus the role sections while they are folds */
+  var ex = document.getElementById('tb-expand');
+  function group() { return folds.concat(stacked ? seats : []); }
+  function syncExpand() { if (!ex) return; var all = group().every(function (b) { return b.getAttribute('aria-expanded') === 'true'; });
+    ex.textContent = all ? 'Collapse all' : 'Expand all'; ex.setAttribute('aria-pressed', String(all)); }
+  if (ex) ex.addEventListener('click', function () { var all = ex.getAttribute('aria-pressed') === 'true';
+    group().forEach(function (b) { (seats.indexOf(b) > -1 ? setSeat : setFold)(b, !all); }); });
+
+  /* jumps: clear the sticky nav by 12px; respect reduced motion */
+  var nav = document.querySelector('.tb-navwrap');
+  function cover() { return nav ? nav.getBoundingClientRect().height : 0; }
+  function jumpTo(el, how) { if (!el) return; var y = el.getBoundingClientRect().top + scrollY - cover() - 12; scrollTo({ top: Math.max(0, y), behavior: how || (reduce() ? 'auto' : 'smooth') }); }
+  var booting = true; addEventListener('load', function () { setTimeout(function () { booting = false; }, 0); });
+  function setHash(h) { if (booting) return; try { history.replaceState(null, '', h ? '#' + h : location.pathname + location.search); } catch (e) {} }
+
+  /* panes and the kit 42 nav */
+  var panes = [].slice.call(document.querySelectorAll('.tb-pane'));
+  var first = panes[0] ? panes[0].id : '';
+  var cur = first; var h0 = location.hash.slice(1);
+  if (h0 && document.getElementById('pane-' + h0)) cur = 'pane-' + h0;
+  function show(id) { cur = id; panes.forEach(function (p) { p.hidden = p.id !== id; }); }
+  var shnav = document.getElementById('shnav');
+  var api = window.shnavInit && shnavInit(shnav, {
+    onMode: function (m) {
+      stacked = m === 'menu'; doc.classList.toggle('stacked', stacked);
+      seats.forEach(function (b) { if (stacked) { b.removeAttribute('aria-disabled'); b.tabIndex = 0; setSeat(b, b.getAttribute('aria-expanded') !== 'false'); }
+        else { b.setAttribute('aria-disabled', 'true'); b.tabIndex = -1; setSeat(b, true); } });
+      if (stacked) panes.forEach(function (p) { p.hidden = false; });
+      else { show(cur); var t = shnav.querySelector('[data-target="' + cur + '"]'); if (t) t.click(); }
+      syncExpand();
+    },
+    onPick: function (t, isMenu) {
+      setHash(t === first ? '' : t.replace(/^pane-/, ''));
+      if (!isMenu) { show(t); var body = document.querySelector('.tb-body'); if (body && body.getBoundingClientRect().top < cover()) jumpTo(body, 'auto'); return; }
+      if (t === first) { scrollTo({ top: 0, behavior: reduce() ? 'auto' : 'smooth' }); return; }
+      var p = document.getElementById(t), b = p && p.querySelector('.seat-btn');
+      if (b) setSeat(b, true); jumpTo(p); if (b) b.focus({ preventScroll: true });
+    }
+  });
+
+  /* actions: a tab target or a section target, from data */
+  function openSection(id, how) { var s = document.getElementById(id); if (!s) return; var b = s.querySelector('.tb-fold-btn'); if (b) setFold(b, true); setHash(id); jumpTo(s, how); }
+  [].forEach.call(document.querySelectorAll('[data-go-tab]'), function (a) { a.addEventListener('click', function (e) { e.preventDefault();
+    var t = shnav.querySelector('[data-target="pane-' + a.getAttribute('data-go-tab') + '"]'); if (t) t.click(); }); });
+  [].forEach.call(document.querySelectorAll('[data-go-section]'), function (a) { a.addEventListener('click', function (e) { e.preventDefault(); openSection(a.getAttribute('data-go-section')); }); });
+
+  /* a hash on load: a section, or a role on narrow screens (wide screens already showed the tab) */
+  addEventListener('load', function () { var h = location.hash.slice(1); if (!h) return;
+    if (document.getElementById(h) && document.getElementById(h).classList.contains('tb-fold')) { openSection(h, 'auto'); return; }
+    var p = document.getElementById('pane-' + h); if (p && stacked) { var b = p.querySelector('.seat-btn'); if (b) setSeat(b, true); jumpTo(p, 'auto'); } });
+  addEventListener('beforeprint', function () { panes.forEach(function (p) { p.hidden = false; }); group().forEach(function (b) { (seats.indexOf(b) > -1 ? setSeat : setFold)(b, true); }); });
+  syncExpand();
 })();
 </script>
-<script>(function(){function m(){var e=document.querySelector('.shell-meta'),b=document.querySelector('.shell-bar');if(e)document.documentElement.style.setProperty('--metah',e.offsetHeight+'px');if(b)document.documentElement.style.setProperty('--barh',b.offsetHeight+'px');var u=document.getElementById('sum');if(u&&u.offsetHeight)document.documentElement.style.setProperty('--sumh',u.offsetHeight+'px')}document.addEventListener('click',function(){setTimeout(m,60)});m();addEventListener('resize',m);addEventListener('load',m)})();</script><script>document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.stamp-go');if(!b)return;var tb=document.getElementById(b.dataset.go);if(tb){tb.click()}});</script><script>(function(){document.querySelectorAll('.cia .expall').forEach(function(b){var C=function(){return document.documentElement.classList.contains('stacked')?document.querySelector('.shell-body'):b.closest('.cia')};function sync(){var all=[].every.call(C().querySelectorAll('details.blk'),function(d){return d.open});b.textContent=all?'Collapse all':'Expand all';b.setAttribute('aria-pressed',String(all))}b.addEventListener('click',function(){var all=b.getAttribute('aria-pressed')==='true';C().querySelectorAll('details.blk').forEach(function(d){d.open=!all});sync()});document.querySelector('.shell-body').addEventListener('toggle',sync,true);window.__expSync=sync;sync()});addEventListener('beforeprint',function(){document.querySelectorAll('details.blk').forEach(function(d){d.open=true})})})();</script><script>(function(){var m=document.querySelector('.shell-head');if(!m)return;function f(){m.classList.toggle('stuck',scrollY>0&&m.getBoundingClientRect().top<=1)}addEventListener('scroll',f,{passive:true});addEventListener('resize',f);f()})();</script><script>(function(){document.querySelectorAll('.cia .pwrap').forEach(function(w){var t=w.querySelector('.ptip');function show(g){var r=w.getBoundingClientRect(),d=g.querySelector('.dot').getBoundingClientRect();t.textContent=g.getAttribute('data-tip');t.hidden=false;var x=d.left-r.left+d.width/2,y=d.top-r.top;var tw=t.offsetWidth,th=t.offsetHeight;var left=Math.min(Math.max(8,x-tw/2),r.width-tw-8);var top=y-th-12;if(top<8)top=y+d.height+12;t.style.left=left+'px';t.style.top=top+'px'}function hide(){t.hidden=true}w.querySelectorAll('.pt').forEach(function(g){g.addEventListener('mouseenter',function(){show(g)});g.addEventListener('mouseleave',hide);g.addEventListener('focus',function(){show(g)});g.addEventListener('blur',hide)});w.addEventListener('keydown',function(e){if(e.key==='Escape')hide()})})})();</script></body>
+</body>
 </html>

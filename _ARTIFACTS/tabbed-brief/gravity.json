@@ -1,0 +1,744 @@
+{
+ "id": "gravity",
+ "doc_title": "Zach Harris for Gravity Labs",
+ "storage_key": "gravityTheme",
+ "analytics": true,
+ "horizons": [
+  30,
+  90,
+  180
+ ],
+ "top_line": "Prepared for the Gravity Labs team and shared through Harrison Wright of Crossbridge Executive.",
+ "meta": {
+  "prepared_for": "The Gravity Labs team",
+  "from": "Zach Harris",
+  "updated": "2026-11-09",
+  "status": "Draft for discussion"
+ },
+ "overview": {
+  "label": "Overview",
+  "headline": [
+   "One idea in thirty gets funded.",
+   "The other twenty-nine are the work."
+  ],
+  "lede": "Your about page says that for roughly every 30 ideas you go deep on, you fund one. I have spent 20 years in the trenches taking products from zero, as a player, a coach and a pace car, and the last year building a tool that records why each idea was passed on and checks it against what happened later, so a pass that turns out wrong becomes a lesson instead of a blind spot. This page maps me onto the four roles open on your jobs page, strongest fit first, with a plan, the proof and the gap for each.",
+  "next_step": {
+   "lead": "Let’s go.",
+   "text": "Pick the seat that is live, or reshape one, and tell Harrison or me which."
+  },
+  "actions": [
+   {
+    "label": "Open the Principal plan",
+    "tab": "principal",
+    "primary": true
+   },
+   {
+    "label": "Which seat is live?",
+    "section": "qs"
+   }
+  ],
+  "action_note": "Each role tab is a 30, 90 and 180 day plan built on your own job page, for you to edit.",
+  "tiles": [
+   {
+    "v": "10",
+    "k": "Regulated products",
+    "note": "Digital-asset investment products at Grayscale, about $7B"
+   },
+   {
+    "v": "2",
+    "k": "Companies from zero",
+    "note": "A co-founding and a turnaround, one acquired"
+   },
+   {
+    "v": "2 of 3",
+    "k": "Lines taken forward",
+    "note": "AI health product lines tested at Twill Health"
+   },
+   {
+    "v": "1",
+    "k": "Kill line on my own work",
+    "note": "ARCS stops as a product if no one pays by 2027-03-31"
+   }
+  ],
+  "sections": [
+   {
+    "id": "line",
+    "title": "The Through-Line",
+    "tagline": "Three things that hold across every seat.",
+    "open": true,
+    "blocks": [
+     {
+      "type": "cards",
+      "cards": [
+       {
+        "title": "Regulated digital assets, from the inside",
+        "text": "At Grayscale (2024 to 2025) I owned the investor-facing platform for a launch of 10 regulated digital-asset investment products, about $7B. Every release passed product, engineering, legal, risk and compliance, and I cut the release cycle 35%."
+       },
+       {
+        "title": "Zero to one, more than once",
+        "text": "Co-founded a direct-to-consumer company, $0 to profitable in 24 months ($2M+). As GM, turned a video ad network from $4,500 to over $1M a month and recruited its first CTO; acquired by Meredith. Since 2025, ARCS, built alone."
+       },
+       {
+        "title": "The kill call comes first",
+        "text": "Tested three AI health product lines for Twill Health; two went forward and one did not. ARCS does this by default: it records what a team expects before a decision and checks it against what happened."
+       }
+      ]
+     },
+     {
+      "type": "p",
+      "text": "**Not onchain.** The receipts ARCS keeps live in a Postgres table, not on a chain. Putting them onchain is a thesis I have not tested, and I would not claim otherwise."
+     }
+    ]
+   },
+   {
+    "id": "qs",
+    "title": "Two Questions for You",
+    "tagline": "The answers decide which tab matters.",
+    "open": true,
+    "blocks": [
+     {
+      "type": "list",
+      "ordered": true,
+      "items": [
+       "Which of the four seats is live now? Your people page lists the EIR title alongside your CTO, so I would like to know whether this is a second EIR seat.",
+       "For the Founder seat, which hatch is it for?"
+      ]
+     },
+     {
+      "type": "p",
+      "text": "Resume and a 20-minute walkthrough of ARCS on request. Live work: [RFP-O-Matic with four short videos](https://good.arcs.care/rfp-engine), [its source](https://github.com/flashesofbrilliance/rfp-engine), [ARCS](https://app.arcs.care), and my [proof page](https://zach.md/proof), where each claim links to its record."
+     }
+    ]
+   }
+  ],
+  "coldread": {
+   "id": "five",
+   "title": "Who, What, Where, When, Why, How",
+   "block": {
+    "type": "coldread",
+    "slots": [
+     [
+      "Why",
+      "Your studio runs on pressure-tested theses and a high kill rate. That is the work I have done for 20 years, and the reason I built ARCS."
+     ],
+     [
+      "What",
+      "A 30, 90 and 180 day plan for each of the four roles on your jobs page, built on your own job pages so you can edit it."
+     ],
+     [
+      "Who",
+      "Zach Harris. Product lead and founder: regulated digital assets at Grayscale, two companies built from nothing, and ARCS, a decision-record tool I build alone."
+     ],
+     [
+      "Where",
+      "Remote from the New York metro, as all four roles are."
+     ],
+     [
+      "When",
+      "Now: all four roles are listed on your jobs page today, and Harrison Wright offered to bring this to you."
+     ]
+    ],
+    "how": [
+     [
+      "Before",
+      "Today, November 9",
+      "This page, built on your own job pages."
+     ],
+     [
+      "During",
+      "Not booked yet",
+      "A 30-minute call with whoever owns the live seat, at a time that suits you."
+     ],
+     [
+      "After",
+      "Within two days of the call",
+      "The plan for that seat, reshaped with you."
+     ]
+    ],
+    "read": "The overview first, then one tab per role, strongest fit first. Every plan cell is a proposal to edit."
+   }
+  }
+ },
+ "tabs": [
+  {
+   "id": "principal",
+   "label": "Principal",
+   "name": "Principal, New Ventures",
+   "rank": "1st",
+   "tagline": "My strongest fit",
+   "headline": "Principal, New Ventures: my strongest fit.",
+   "lede": "The seat as your page describes it: break the bottleneck of every idea flowing through the CEO by owning hatches end to end. Spot the gap, write the case, pitch the investment committee, build the first prototype with AI coding tools, recruit the founders. A builder role, not research and not investing.",
+   "units": [
+    {
+     "title": "A 30, 90 and 180 Day Plan, for You to Edit",
+     "blocks": [
+      {
+       "type": "plan",
+       "source": "Rows paraphrase the \"What You'll Do\" list on [your Principal page](https://gravity-labs.xyz/jobs-principal-new-ventures.html). Every cell is my proposal, not a promise: change any of it.",
+       "rows": [
+        [
+         "Generate and validate hatch ideas",
+         "30 one-line theses, each with its kill criteria written first",
+         "3 to 5 taken to one-pagers",
+         "A steady weekly flow, every pass recorded and rechecked"
+        ],
+        [
+         "Write the docs that move ideas forward",
+         "A first memo outline, with its strongest counter-argument",
+         "A first full investment memo",
+         "A memo template the team reuses"
+        ],
+        [
+         "Pitch Defy's investment committee",
+         "The first hatch chosen for the committee",
+         "The first hatch pitched",
+         "A second hatch pitched"
+        ],
+        [
+         "Build MVPs with AI coding tools",
+         "A clickable prototype for the lead hatch",
+         "The prototype in front of design partners",
+         "A prototype handed to the founder hired for it"
+        ],
+        [
+         "Recruit founders",
+         "A founder candidate list for the lead hatch",
+         "A shortlist of three CEO or CTO candidates",
+         "One founder signed"
+        ],
+        [
+         "Advise after launch",
+         "Not yet",
+         "Not yet",
+         "A standing weekly call with the founder I placed"
+        ],
+        [
+         "Kill your darlings",
+         "Every killed thesis has a written reason",
+         "A first review of every pass",
+         "One pass reopened, or confirmed, as the market moved"
+        ]
+       ],
+       "know": [
+        "You have read the first theses and the memo outline.",
+        "The committee has seen a hatch from me.",
+        "A founder has signed, and the pass record has changed at least one call."
+       ]
+      }
+     ]
+    },
+    {
+     "title": "How I Would Use ARCS in the Seat",
+     "blocks": [
+      {
+       "type": "p",
+       "text": "Your Idea Engine post says agents now produce memos six times faster, but the output is not always usable. Each use below is aimed at that gap."
+      },
+      {
+       "type": "cards",
+       "cards": [
+        {
+         "title": "An alpha engine",
+         "ref": "Built: the record and the recheck. Not shown yet: that it beats judgment alone.",
+         "text": "Much of a studio's edge hides in what it passed on. ARCS records why each hatch was passed and checks it again as the market moves, so a pass that was wrong becomes a lead instead of a loss."
+        },
+        {
+         "title": "A risk-adjusted pipeline",
+         "ref": "Built: a conviction score on every decision. Not shown yet: how accurate it is.",
+         "text": "Each hatch carries what we expect, how sure we are, and what would kill it, so the pipeline reads by risk as well as by excitement."
+        },
+        {
+         "title": "An antifragile test bench",
+         "ref": "Built: pre-registered tests, run once, failures published.",
+         "text": "Every kill test is written down before it runs, so a failed test still pays: the next thesis starts from what it ruled out."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "title": "What You Ask For, and What I Bring",
+     "blocks": [
+      {
+       "type": "table",
+       "head": [
+        "You ask for",
+        "What I bring"
+       ],
+       "rows": [
+        [
+         "Early-stage startup experience",
+         "Co-founder, 2012 to 2016 ($0 to profitable in 24 months). GM of a turnaround, 2010 to 2012 ($4,500 to over $1M a month, acquired)."
+        ],
+        [
+         "Crypto experience, a thesis not a meme",
+         "At Grayscale I owned the investor-facing platform for a launch of 10 regulated digital-asset investment products, about $7B. Mentor at Outlier Ventures (2024)."
+        ],
+        [
+         "PM instincts: the riskiest assumption, a spec an engineer can ship",
+         "Embedded product partner since 2020 across health, government and media ventures. Three product lines tested, two taken forward."
+        ],
+        [
+         "A working prototype built with Claude Code or Cursor",
+         "[RFP-O-Matic](https://github.com/flashesofbrilliance/rfp-engine), a public repo started 2026-11-02. It answers questions about a request for proposal and cites the exact clause, or says the document does not cover it."
+        ],
+        [
+         "Where the AI got it wrong",
+         "Agents reported my quality gates green while running a stale copy of the checker from another branch, so a layout bug shipped repeatedly. I now make every gate run from the branch it is checking, and the fix is itself a check."
+        ],
+        [
+         "A high kill rate",
+         "In October I pre-registered a retrieval benchmark, ran it once, published every result including the failures, and merged the one change that passed. Every belief I have had to overturn is on a [public ledger](https://status.arcs.care/beliefs), with the test that overturned it."
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "title": "The Exercise You Ask For, Done Once",
+     "blocks": [
+      {
+       "type": "cards",
+       "cards": [
+        {
+         "title": "Coda Network: the riskiest assumption",
+         "ref": "From the one-line description on your portfolio page; the team will know more.",
+         "text": "Banks would accept crypto deposits once the safety and compliance piece is solved, rather than holding back for reasons of their own appetite."
+        },
+        {
+         "title": "The kill test: under two weeks, under $10k",
+         "ref": "Pre-registered before the first call.",
+         "text": "15 conversations with bank digital-asset and compliance leads. Kill it if fewer than 2 of the 15 will sign a letter of intent for a pilot. Opinions are cheap; a signature is not."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "title": "What Could Go Wrong",
+     "blocks": [
+      {
+       "type": "table",
+       "head": [
+        "Risk",
+        "Early signal",
+        "What I would do"
+       ],
+       "rows": [
+        [
+         "My ideas read well but do not hold up with real buyers.",
+         "By day 30, few ideas survive a first call with a likely customer.",
+         "Put each idea in front of two likely customers before I write a one-pager."
+        ],
+        [
+         "My first memo is not ready for the investment committee.",
+         "The draft comes back with changes to its structure, not just its wording.",
+         "Model the memo on one the committee funded, and review it with you at half draft."
+        ],
+        [
+         "I cannot find founders willing to quit their jobs for a hatch.",
+         "By day 90, fewer than three serious founder conversations for the first hatch.",
+         "Ask the search firm and advisors for introductions early, and widen the founder profile."
+        ]
+       ]
+      }
+     ]
+    }
+   ],
+   "callouts": []
+  },
+  {
+   "id": "eir",
+   "label": "EIR",
+   "name": "Entrepreneur in Residence",
+   "rank": "2nd",
+   "tagline": "A strong fit",
+   "headline": "Entrepreneur in Residence: one wedge, not a category.",
+   "lede": "The seat as your page describes it: a six-month contract to source and validate hatches across DeFi, stablecoins, infrastructure and prediction markets, take them from a few sentences to an investment committee pitch, and by month six find one worth founding.",
+   "units": [
+    {
+     "title": "A 30, 90 and 180 Day Plan, for You to Edit",
+     "blocks": [
+      {
+       "type": "plan",
+       "source": "Rows paraphrase the \"What You'll Do\" list on [your EIR page](https://gravity-labs.xyz/jobs-entrepreneur-in-residence.html). Every cell is my proposal, not a promise: change any of it.",
+       "rows": [
+        [
+         "Generate and source hatches across crypto: DeFi, stablecoins, infra, prediction markets",
+         "30 one-line theses, kill criteria written first",
+         "5 one-pagers, at least one in a sector new to the portfolio",
+         "The full pass record handed over, rechecked as the market moves"
+        ],
+        [
+         "Take the best ideas from a few sentences to a one-pager, a memo and an IC pitch",
+         "A first one-pager",
+         "A first memo and committee pitch",
+         "The hatch I would found, pitched with its founding plan"
+        ],
+        [
+         "Use the team and advisors as a sounding board, but drive the work",
+         "A short weekly written update",
+         "Advisor reviews on the top two hatches",
+         "A written found-or-walk decision, with reasons"
+        ],
+        [
+         "Spend time with the team and portfolio without being embedded",
+         "One working session with each live portfolio company",
+         "Help on one question for each, where asked",
+         "Not planned"
+        ],
+        [
+         "By month six, one idea worth founding",
+         "The top five candidates named",
+         "The top two, each with a design partner in conversation",
+         "One idea I would found, or a written walk with every kill handed over"
+        ]
+       ],
+       "know": [
+        "Thirty theses you have read.",
+        "A hatch in front of the committee.",
+        "A founding plan you can fund, or a clean handover of everything I killed and why."
+       ]
+      }
+     ]
+    },
+    {
+     "title": "What You Ask For, and What I Bring",
+     "blocks": [
+      {
+       "type": "table",
+       "head": [
+        "You ask for",
+        "What I bring"
+       ],
+       "rows": [
+        [
+         "A senior operator from a strong crypto company",
+         "At Grayscale I owned the investor-facing platform for a launch of 10 regulated digital-asset investment products, about $7B."
+        ],
+        [
+         "A notable swing and miss",
+         "ARCS is my live swing: built since 2025, no revenue yet. My kill line for it: if no one pays for ARCS by 2027-03-31, I stop building it as a product and keep it as my own working tool."
+        ],
+        [
+         "Intellectual honesty",
+         "My [proof page](https://zach.md/proof) links 32 claims to the record behind each one, marks which records are private, and lists the one I cannot show yet."
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "title": "The Wedge",
+     "blocks": [
+      {
+       "type": "cards",
+       "cards": [
+        {
+         "title": "Receipts for agent spend",
+         "ref": "A hypothesis, not a pitch.",
+         "text": "When an AI agent can move stablecoins for a company, every send is final. Wallet policy engines log which rule allowed a send. They do not log what the agent expected or whether it came true. That gap is the wedge."
+        },
+        {
+         "title": "First user, and why it is not built",
+         "ref": "My read; to test.",
+         "text": "The treasury or compliance lead at a fintech piloting agent payments. ARCS has the receipt and the one-way-door check but no payment rails and no design partner, and your stealth agentic stablecoin payments company may already own this ground. I would ask first."
+        },
+        {
+         "title": "Kill it if",
+         "ref": "Pre-registered.",
+         "text": "Fewer than 3 of 15 teams piloting agent payments say the approval trail is what keeps them from going live."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "title": "What Would Make Me Commit, and What Would Make Me Walk",
+     "blocks": [
+      {
+       "type": "p",
+       "text": "I commit when an idea passes the kill criteria I wrote in week one and a named design partner agrees to a pilot. If nothing survives by month six, I hand you the written kills. At one fund in thirty, those are the studio’s data, not a wasted contract."
+      }
+     ]
+    },
+    {
+     "title": "What Could Go Wrong",
+     "blocks": [
+      {
+       "type": "table",
+       "head": [
+        "Risk",
+        "Early signal",
+        "What I would do"
+       ],
+       "rows": [
+        [
+         "I spread across too many sectors and no idea goes deep.",
+         "By day 30, no one-pager names a real first user.",
+         "Narrow to the two strongest ideas and spend the rest of the contract there."
+        ],
+        [
+         "My best idea overlaps a company you already run in stealth.",
+         "You flag the overlap when I share my first one-pager.",
+         "Check for overlap before any deep work, and move to the next idea if it collides."
+        ],
+        [
+         "Month six arrives with nothing I would found.",
+         "By day 90, no early customer agrees to a pilot conversation.",
+         "Say so in writing, hand over every idea I dropped and why, and step away."
+        ]
+       ]
+      }
+     ]
+    }
+   ],
+   "callouts": [
+    {
+     "label": "Gap",
+     "text": "No crypto exit. My crypto depth is regulated product and go-to-market, not protocol engineering."
+    }
+   ]
+  },
+  {
+   "id": "founder",
+   "label": "Founder",
+   "name": "Founder, Portfolio Company",
+   "rank": "3rd",
+   "tagline": "A fit on one condition",
+   "headline": "Founder: the seat I would reach through the EIR seat.",
+   "lede": "The seat as your page describes it: CEO or CTO of a hatch you have already validated and funded, with five to ten years of commitment and an outside raise within the first year.",
+   "units": [
+    {
+     "title": "A 30, 90 and 180 Day Plan, for You to Edit",
+     "blocks": [
+      {
+       "type": "plan",
+       "source": "Rows paraphrase the \"What You'll Do\" list on [your Founder page](https://gravity-labs.xyz/jobs-founder-portfolio-company.html). Every cell is my proposal, not a promise: change any of it.",
+       "rows": [
+        [
+         "Own the company end to end",
+         "A 12-month plan for the hatch, agreed with you",
+         "Team, budget and milestones set against your tranche terms",
+         "The company at its first tranche milestone"
+        ],
+        [
+         "Get to a first real user fast",
+         "A first user named and using the product",
+         "A small group of active users",
+         "Usage an outside investor would read as pull"
+        ],
+        [
+         "Live with customers",
+         "20 customer conversations, written up",
+         "The thesis restated in their words, with what was killed",
+         "A product reshaped by what they said, with the record of why"
+        ],
+        [
+         "Ship relentlessly",
+         "A first release to the first user",
+         "A weekly release rhythm",
+         "The product the next round is raised on"
+        ],
+        [
+         "Recruit your team, starting with a co-founder",
+         "The co-founder search under way with your search firm",
+         "A co-founder or first engineer signed",
+         "A core team of three"
+        ],
+        [
+         "Raise the next round",
+         "An investor list",
+         "A first draft of the story, reviewed with you",
+         "In conversation with outside investors, inside the first year as your page sets"
+        ]
+       ],
+       "know": [
+        "A first user, and a plan you agreed.",
+        "A team forming and releases on a rhythm.",
+        "Users who stay, and outside investors talking."
+       ],
+       "note": "Your page does not name the hatch, so this plan is a shape, not a commitment. I would want to meet the hatch and its design partners first."
+      }
+     ]
+    },
+    {
+     "title": "What You Ask For, and What I Bring",
+     "blocks": [
+      {
+       "type": "table",
+       "head": [
+        "You ask for",
+        "What I bring"
+       ],
+       "rows": [
+        [
+         "Repeat founder or senior fintech operator",
+         "The CEO seat, not the CTO seat. Co-founder once, GM of a turnaround once, then Grayscale."
+        ],
+        [
+         "Selling to sophisticated customers and investors",
+         "Institutional digital-asset products at Grayscale; Fortune 500 advertisers at the ad network."
+        ],
+        [
+         "Making a thesis you did not originate your own",
+         "Six years as an embedded product partner on other people's ventures, including a secure first-responder video product and five 5G ventures."
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "title": "One Secret About Financial Services",
+     "blocks": [
+      {
+       "type": "p",
+       "text": "Regulated firms keep the record of what they decided because the rules require it. Almost none keep what they expected to happen, so they cannot score their own judgment."
+      }
+     ]
+    },
+    {
+     "title": "What Could Go Wrong",
+     "blocks": [
+      {
+       "type": "table",
+       "head": [
+        "Risk",
+        "Early signal",
+        "What I would do"
+       ],
+       "rows": [
+        [
+         "The thesis does not hold up with real customers.",
+         "My first ten customer calls contradict what the thesis expects.",
+         "Restate the thesis in the customers' words and agree any change with you."
+        ],
+        [
+         "The first real user takes too long to arrive.",
+         "By day 30, no named user has agreed to try the product.",
+         "Narrow to one customer type and sell to them directly until one says yes."
+        ],
+        [
+         "I cannot hire a strong technical co-founder fast enough.",
+         "By day 90, the co-founder search has no finalist.",
+         "Bring in a senior contract engineer to keep shipping while the search continues."
+        ]
+       ]
+      }
+     ]
+    }
+   ],
+   "callouts": [
+    {
+     "label": "Condition",
+     "text": "I would want to meet the hatch and its design partners before committing a decade. For me the natural route to this seat runs through the EIR seat first."
+    }
+   ]
+  },
+  {
+   "id": "open",
+   "label": "Open Application",
+   "name": "Open Application",
+   "rank": "Proposed",
+   "tagline": "The seat I would choose",
+   "headline": "Open Application: choose your own adventure.",
+   "lede": "Your open application asks what I would own that you do not staff today, and why you would move faster with me on it. My answer is a hatch desk.",
+   "units": [
+    {
+     "title": "The Hatch Desk",
+     "blocks": [
+      {
+       "type": "p",
+       "text": "Most funds call this a deal desk or a platform role. I would run it as an AI-native platform team whose work compounds. I have done this job from the operator side for 20 years; here it would sit inside the studio and own the hatch pipeline: each memo, its kill criteria, and the record of every call."
+      },
+      {
+       "type": "p",
+       "text": "Every pass is written down with its reasons and checked again as the market moves. A pass that turns out wrong shows up before you miss the next idea like it, and each new thesis starts from what the last 29 taught. The call stays with you and comes faster, and it takes process off the bottleneck your Principal page names without taking the decisions."
+      },
+      {
+       "type": "p",
+       "text": "It would sit on top of the Idea Engine you already run: the agents find and draft, and the desk keeps the record of every call, so nothing it already does gets built twice."
+      }
+     ]
+    },
+    {
+     "title": "A 30, 90 and 180 Day Plan, for You to Edit",
+     "blocks": [
+      {
+       "type": "plan",
+       "source": "Rows paraphrase the four stages of the hatch process on [your about page](https://gravity-labs.xyz/about.html). Every cell is my proposal, not a promise: change any of it.",
+       "rows": [
+        [
+         "Exploration: short theses, at volume",
+         "Every thesis logged with its date and its keep-or-pass reason",
+         "A monthly list of passes worth a second look",
+         "The pass record feeds each new thesis"
+        ],
+        [
+         "Deep dive: investment documents and founder decks",
+         "One shared template for the deep dive",
+         "Every deep dive starts from the closest past passes",
+         "Deep-dive time per hatch measured"
+        ],
+        [
+         "Gate check: the memo to the Defy investment committee",
+         "Each memo carries its kill criteria and what it expects",
+         "The first memo checked against what happened after",
+         "Every committee call has a record anyone can replay"
+        ],
+        [
+         "Recruitment and launch",
+         "One place for each hatch's founder pipeline",
+         "Expected against actual, written up for each launch",
+         "A read-out of what the passes and launches taught"
+        ]
+       ],
+       "know": [
+        "Every thesis and pass is on the record.",
+        "The first pass comes back as a lead, or is confirmed.",
+        "The team decides faster than it did before the desk existed."
+       ],
+       "note": "Your open application lists what gets your attention, not duties, so the rows here follow the four stages of your hatch process."
+      }
+     ]
+    },
+    {
+     "title": "What Could Go Wrong",
+     "blocks": [
+      {
+       "type": "table",
+       "head": [
+        "Risk",
+        "Early signal",
+        "What I would do"
+       ],
+       "rows": [
+        [
+         "Your team already has tools that do this, so I duplicate work.",
+         "In week one, you show me a system that already records why ideas were passed.",
+         "Build on what exists and drop anything that repeats it."
+        ],
+        [
+         "Recording every pass adds paperwork and slows the team down.",
+         "Entries stop being filled in within the first month.",
+         "Cut each entry to three fields and fill them in myself from the memos."
+        ],
+        [
+         "Rechecking old passes never turns up a real lead.",
+         "By day 90, no past pass looks worth reopening.",
+         "Run a two-week test on old passes; if nothing turns up, close the desk."
+        ]
+       ]
+      }
+     ]
+    }
+   ],
+   "callouts": [
+    {
+     "label": "Gap",
+     "text": "You do not staff this seat today, so it is the one to test hardest. A two-week trial on hatches you have already killed would show whether the record would have called them sooner."
+    }
+   ]
+  }
+ ]
+}

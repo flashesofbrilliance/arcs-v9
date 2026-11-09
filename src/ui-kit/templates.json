@@ -227,18 +227,16 @@
     "tabbed-brief": {
       "mode": "persuade",
       "kind": "persuasion-surface",
-      "description": "Tabbed counterpart brief in the cia / myally shell: Private tag and theme switch row, framed document with a meta strip (prepared for, from, updated, status), a shell bar with the ARCS FIELD OS wordmark (kit 38) and kit 42 shell-nav tabs carrying status or ordinal pills, a Start here stamp, a serif headline, kit 29 tiles, and collapsible title-plus-summary sections. Below 1024px the tabs become a jump menu and each tab a collapsible section. Inlines kit tokens and kit 28, 29, 32, 38, 39 blocks verbatim. The shell bar is kit 42 (shell-nav): tabs from the page's breakpoint, a popover menu anchored top right below it. cia-brief and myally-hub still carry the older hand-built bar.",
+      "description": "Tabbed counterpart brief generated from data by scripts/tabbed_brief_build.py (schema src/ui-kit/tabbed-brief/brief.schema.json): Private chip and theme switch, a framed document with a meta strip, kit 42 shell nav (tabs from 1024px, dropdown below), a hero (headline, lede, next step, one action row), kit 29 tiles, fold sections, and one role tab per option with kit 43 plan matrix, fact tables, cards and kit 31 callouts. Template layer: src/ui-kit/tabbed-brief/shell.css and shell.js. Never hand-edited.",
       "canonical_examples": [
-        "public/gravity-brief.html",
-        "public/cia-brief.html",
-        "public/myally-hub.html"
+        "public/gravity-brief.html"
       ],
       "signature_selectors": [
-        ".shell-bar",
-        ".shell-meta",
-        ".stamp",
+        ".shnav",
+        ".tb-meta",
         ".tiles",
-        ".cia-h1"
+        ".tb-fold",
+        ".pm"
       ],
       "min_signatures": 3
     }

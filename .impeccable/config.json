@@ -19,8 +19,7 @@
         "value": "*",
         "files": [
           "public/myally-hub.html",
-          "public/cia-brief.html",
-          "public/gravity-brief.html"
+          "public/cia-brief.html"
         ],
         "createdAt": "2026-10-27T13:30:00.000Z",
         "reason": "MyAlly hub: the shell keeps its own small-label sizes (0.7 to 0.9rem) for chips, week numbers and meta. Snapping them to the DESIGN.md ramp (smallest step 0.925rem) enlarged every label and flattened the hierarchy, which Zach flagged on the live page. Same MyAlly-world seam as the colour and radius waivers."
@@ -30,8 +29,7 @@
         "value": "*",
         "files": [
           "public/myally-hub.html",
-          "public/cia-brief.html",
-          "public/gravity-brief.html"
+          "public/cia-brief.html"
         ],
         "createdAt": "2026-10-27T12:00:00.000Z",
         "reason": "MyAlly hub: the tab bar is an underline-tab strip whose active marker sits on the bar border by design, and the shell section is a framed box whose header bar runs edge to edge. Seam: _PATTERNS/kintsugi-visual-grammar-seams.md (MyAlly, 2026-10-26)"
@@ -41,8 +39,7 @@
         "value": "*",
         "files": [
           "public/myally-hub.html",
-          "public/cia-brief.html",
-          "public/gravity-brief.html"
+          "public/cia-brief.html"
         ],
         "createdAt": "2026-10-27T12:00:00.000Z",
         "reason": "MyAlly hub timeline: the hatch marks rows that exist only in the Full bucket, so it encodes data, not decoration; the legend names it. Seam: _PATTERNS/kintsugi-visual-grammar-seams.md (MyAlly, 2026-10-26)"
@@ -52,8 +49,7 @@
         "value": "*",
         "files": [
           "public/myally-hub.html",
-          "public/cia-brief.html",
-          "public/gravity-brief.html"
+          "public/cia-brief.html"
         ],
         "createdAt": "2026-10-27T23:50:00.000Z",
         "reason": "MyAlly hub: two radial gradients on the sticky Prepared-for band paint the page colour into the 11px corner areas outside its rounded top corners, so the outer box's straight side borders do not show past the curve when the header sticks. A corner mask, not a grid background. Seam: _PATTERNS/kintsugi-visual-grammar-seams.md (MyAlly, 2026-10-26)"
@@ -65,8 +61,7 @@
           "public/myally-proposal.html",
           "public/myally-hub.html",
           "public/myally-debrief.html",
-          "public/cia-brief.html",
-          "public/gravity-brief.html"
+          "public/cia-brief.html"
         ],
         "createdAt": "2026-10-26T23:30:00.000Z",
         "reason": "MyAlly client surface: shares the MyAlly page shell already live on myally.arcs.care (light palette, 4 to 8px corners from the /mnda-edits and plan pages), a per-engagement world separate from DESIGN.md, like the PRL kit. Scoped to this one page; seam booked 2026-10-26 in _PATTERNS/kintsugi-visual-grammar-seams.md"
@@ -78,8 +73,7 @@
           "public/myally-proposal.html",
           "public/myally-hub.html",
           "public/myally-debrief.html",
-          "public/cia-brief.html",
-          "public/gravity-brief.html"
+          "public/cia-brief.html"
         ],
         "createdAt": "2026-10-26T23:30:00.000Z",
         "reason": "MyAlly client surface: shares the MyAlly page shell already live on myally.arcs.care (light palette, 4 to 8px corners from the /mnda-edits and plan pages), a per-engagement world separate from DESIGN.md, like the PRL kit. Scoped to this one page; seam booked 2026-10-26 in _PATTERNS/kintsugi-visual-grammar-seams.md"
@@ -833,7 +827,8 @@
         "value": "*",
         "files": [
           "_ARTIFACTS/brooks-audit-onepager.html",
-          "src/ui-kit/recoil-report/39-theme-toggle.html"
+          "src/ui-kit/recoil-report/39-theme-toggle.html",
+          "public/gravity-brief.html"
         ],
         "createdAt": "2026-11-04T21:30:00.000Z",
         "reason": "Kit 39 theme toggle: the light remap (the myally.arcs.care pattern) is a deliberate second palette over the kit tokens, outside DESIGN.md by design; the recoil-report brand profile exempts design-system-color. Contrast stays live (page_gate checks it)."
@@ -875,6 +870,15 @@
         ],
         "createdAt": "2026-11-05T21:00:00.000Z",
         "reason": "Louisville proposal: the 'For Brooks Thomas, Louisville Brands' byline is a mono tracked label (label role), chosen by the 2026-11-05 brand gate over mixed-case mono, which read as code. Not body copy."
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "public/gravity-brief.html"
+        ],
+        "createdAt": "2026-11-09T20:00:00.000Z",
+        "reason": "Gravity tabbed brief (tabbed-brief template): every size is a DESIGN.md ramp token (label, body, headline, display). The ramp's own body-to-headline step is 1.243, just under the detector's 1.25 target; passing would need an off-ramp size. Kit-level follow-up: retune --fs-headline or the target, then drop this waiver."
       }
     ]
   },

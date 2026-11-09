@@ -734,6 +734,13 @@ if [ -f scripts/precall_brief_build.py ] && git diff --cached --name-only -- '_A
     exit 1
   fi
 fi
+# tabbed-brief: generated pages must match their data and the template (2026-11-09). Never hand-edit a generated page.
+if [ -f scripts/tabbed_brief_build.py ] && git diff --cached --name-only -- '_ARTIFACTS/tabbed-brief/*' 'src/ui-kit/tabbed-brief/*' 'src/ui-kit/recoil-report/*' 'src/ui-kit/specimens/shell-nav.json' 'public/gravity-brief.html' 'scripts/tabbed_brief_build.py' 'scripts/precall_brief_build.py' | grep -q .; then
+  if ! python3 scripts/tabbed_brief_build.py --check; then
+    echo "✖ commit blocked: a tabbed-brief page differs from its data or template. Rebuild it with python3 scripts/tabbed_brief_build.py DATA.json -o PAGE.html." >&2
+    exit 1
+  fi
+fi
 
 # Kit manifest is generated (2026-10-31): the parts, classes, fidelity states and gate flags in
 # src/ui-kit/kit-manifest.json must match the kit files. Jobs and page usage may lag; kit fields may not.

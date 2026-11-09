@@ -27,7 +27,9 @@ organisms  → recoil-report/NN-*.html (the 14 numbered @dsCard primitives):
                           21 big-button-grid · 22 pad-grid · 23 step-sequencer · 24 segmented-control · 25 resolution-ladder · 26 beat-check
              (16 to 20 are the Instrument Lab group, added 2026-10-15; 21 to 26 were promoted from _ARTIFACTS/phosphor.html on 2026-10-16.
               They use the DESIGN.md conformance tokens, and scripts/kit_primitive_sync.py --check keeps each @prim block identical to the page.)
-             42 shell-nav (2026-11-09): the framed brief's section bar, tabs on wide screens and a popover menu anchored top right on narrow ones; specimen-built.
+             42 shell-nav (2026-11-09): the framed brief's section bar, tabs on wide screens and a dropdown menu below 1024px; specimen-built.
+             43 plan-matrix and 44 cold-read (2026-11-09): duties by time horizon with a know strip, and the rule-13a cold-read header; specimen-built.
+             The tabbed-brief template (src/ui-kit/tabbed-brief/) composes them; pages are generated from data by scripts/tabbed_brief_build.py.
 templates  → a composition of organisms a page declares once and snaps into (see templates.json)
 ```
 

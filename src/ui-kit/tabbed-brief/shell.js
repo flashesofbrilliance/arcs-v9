@@ -1,0 +1,78 @@
+/* tabbed-brief template behaviour (2026-11-09). Needs kit 42 shnavInit loaded first. Interaction rules: src/ui-kit/tabbed-brief/README.md */
+(function () {
+  var doc = document.documentElement, root = document.querySelector('.tb'), KEY = (root && root.getAttribute('data-store')) || 'tbTheme';
+  var reduce = function () { return matchMedia('(prefers-reduced-motion: reduce)').matches; };
+
+  /* theme: light by default, the reader's choice is remembered on this device only */
+  var sw = document.getElementById('tb-switch');
+  function syncSwitch() { if (sw) sw.setAttribute('aria-checked', String(doc.getAttribute('data-theme') === 'dark')); }
+  if (sw) sw.addEventListener('click', function () {
+    var next = doc.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    doc.setAttribute('data-theme', next); try { localStorage.setItem(KEY, next); } catch (e) {} syncSwitch();
+  });
+  syncSwitch();
+
+  /* fold sections: button inside the heading toggles its body */
+  function setFold(btn, open) { btn.setAttribute('aria-expanded', String(open)); var b = document.getElementById(btn.getAttribute('aria-controls')); if (b) b.hidden = !open; syncExpand(); }
+  var folds = [].slice.call(document.querySelectorAll('.tb-fold-btn'));
+  folds.forEach(function (b) { b.addEventListener('click', function () { setFold(b, b.getAttribute('aria-expanded') !== 'true'); }); });
+
+  /* role sections: on wide screens a tab shows one; below the breakpoint each role is a fold */
+  var seats = [].slice.call(document.querySelectorAll('.seat-btn'));
+  var stacked = false;
+  function setSeat(btn, open) { btn.setAttribute('aria-expanded', String(open)); var b = document.getElementById(btn.getAttribute('aria-controls')); if (b) b.hidden = !open; syncExpand(); }
+  seats.forEach(function (b) { b.addEventListener('click', function () { if (stacked) setSeat(b, b.getAttribute('aria-expanded') !== 'true'); }); });
+
+  /* expand all: every fold, plus the role sections while they are folds */
+  var ex = document.getElementById('tb-expand');
+  function group() { return folds.concat(stacked ? seats : []); }
+  function syncExpand() { if (!ex) return; var all = group().every(function (b) { return b.getAttribute('aria-expanded') === 'true'; });
+    ex.textContent = all ? 'Collapse all' : 'Expand all'; ex.setAttribute('aria-pressed', String(all)); }
+  if (ex) ex.addEventListener('click', function () { var all = ex.getAttribute('aria-pressed') === 'true';
+    group().forEach(function (b) { (seats.indexOf(b) > -1 ? setSeat : setFold)(b, !all); }); });
+
+  /* jumps: clear the sticky nav by 12px; respect reduced motion */
+  var nav = document.querySelector('.tb-navwrap');
+  function cover() { return nav ? nav.getBoundingClientRect().height : 0; }
+  function jumpTo(el, how) { if (!el) return; var y = el.getBoundingClientRect().top + scrollY - cover() - 12; scrollTo({ top: Math.max(0, y), behavior: how || (reduce() ? 'auto' : 'smooth') }); }
+  var booting = true; addEventListener('load', function () { setTimeout(function () { booting = false; }, 0); });
+  function setHash(h) { if (booting) return; try { history.replaceState(null, '', h ? '#' + h : location.pathname + location.search); } catch (e) {} }
+
+  /* panes and the kit 42 nav */
+  var panes = [].slice.call(document.querySelectorAll('.tb-pane'));
+  var first = panes[0] ? panes[0].id : '';
+  var cur = first; var h0 = location.hash.slice(1);
+  if (h0 && document.getElementById('pane-' + h0)) cur = 'pane-' + h0;
+  function show(id) { cur = id; panes.forEach(function (p) { p.hidden = p.id !== id; }); }
+  var shnav = document.getElementById('shnav');
+  var api = window.shnavInit && shnavInit(shnav, {
+    onMode: function (m) {
+      stacked = m === 'menu'; doc.classList.toggle('stacked', stacked);
+      seats.forEach(function (b) { if (stacked) { b.removeAttribute('aria-disabled'); b.tabIndex = 0; setSeat(b, b.getAttribute('aria-expanded') !== 'false'); }
+        else { b.setAttribute('aria-disabled', 'true'); b.tabIndex = -1; setSeat(b, true); } });
+      if (stacked) panes.forEach(function (p) { p.hidden = false; });
+      else { show(cur); var t = shnav.querySelector('[data-target="' + cur + '"]'); if (t) t.click(); }
+      syncExpand();
+    },
+    onPick: function (t, isMenu) {
+      setHash(t === first ? '' : t.replace(/^pane-/, ''));
+      if (!isMenu) { show(t); var body = document.querySelector('.tb-body'); if (body && body.getBoundingClientRect().top < cover()) jumpTo(body, 'auto'); return; }
+      if (t === first) { scrollTo({ top: 0, behavior: reduce() ? 'auto' : 'smooth' }); return; }
+      var p = document.getElementById(t), b = p && p.querySelector('.seat-btn');
+      if (b) setSeat(b, true); jumpTo(p); if (b) b.focus({ preventScroll: true });
+    }
+  });
+
+  /* actions: a tab target or a section target, from data */
+  function openSection(id, how) { var s = document.getElementById(id); if (!s) return; var b = s.querySelector('.tb-fold-btn'); if (b) setFold(b, true); setHash(id); jumpTo(s, how); }
+  [].forEach.call(document.querySelectorAll('[data-go-tab]'), function (a) { a.addEventListener('click', function (e) { e.preventDefault();
+    var t = shnav.querySelector('[data-target="pane-' + a.getAttribute('data-go-tab') + '"]'); if (t) t.click(); }); });
+  [].forEach.call(document.querySelectorAll('[data-go-section]'), function (a) { a.addEventListener('click', function (e) { e.preventDefault(); openSection(a.getAttribute('data-go-section')); }); });
+
+  /* a hash on load: a section, or a role on narrow screens (wide screens already showed the tab) */
+  addEventListener('load', function () { var h = location.hash.slice(1); if (!h) return;
+    if (document.getElementById(h) && document.getElementById(h).classList.contains('tb-fold')) { openSection(h, 'auto'); return; }
+    var p = document.getElementById('pane-' + h); if (p && stacked) { var b = p.querySelector('.seat-btn'); if (b) setSeat(b, true); jumpTo(p, 'auto'); } });
+  addEventListener('beforeprint', function () { panes.forEach(function (p) { p.hidden = false; }); group().forEach(function (b) { (seats.indexOf(b) > -1 ? setSeat : setFold)(b, true); }); });
+  syncExpand();
+})();
