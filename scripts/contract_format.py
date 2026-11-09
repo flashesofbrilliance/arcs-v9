@@ -93,6 +93,47 @@ FOOTER_XML = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 REL_NS = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
 
 
+def _style(sid: str, kind: str, name: str, body: str, based: str = "Normal") -> str:
+    return (f'<w:style w:type="{kind}" w:styleId="{sid}"><w:name w:val="{name}"/>'
+            + (f'<w:basedOn w:val="{based}"/>' if based else "") + f'<w:qFormat/>{body}</w:style>')
+
+
+# The Word file should read like the PDF (PRINT_CSS): Georgia 11pt at about 1.4 line height, bold black
+# headings at 16/12/11pt, generous paragraph spacing, and tables ruled in thin black lines (Zach, 2026-11-09:
+# "I like the styling of PDF but think the attached docs aren't as good"). Sizes are half-points; spacing twips.
+_PDF_MATCH = {
+    "Heading1": ("paragraph", "heading 1", '<w:pPr><w:keepNext/><w:keepLines/><w:spacing w:before="0" w:after="280"/>'
+                 '<w:outlineLvl w:val="0"/></w:pPr><w:rPr><w:b/><w:bCs/><w:color w:val="000000"/><w:sz w:val="32"/><w:szCs w:val="32"/></w:rPr>'),
+    "Heading2": ("paragraph", "heading 2", '<w:pPr><w:keepNext/><w:keepLines/><w:spacing w:before="320" w:after="120"/>'
+                 '<w:outlineLvl w:val="1"/></w:pPr><w:rPr><w:b/><w:bCs/><w:color w:val="000000"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr>'),
+    "Heading3": ("paragraph", "heading 3", '<w:pPr><w:keepNext/><w:keepLines/><w:spacing w:before="240" w:after="80"/>'
+                 '<w:outlineLvl w:val="2"/></w:pPr><w:rPr><w:b/><w:bCs/><w:color w:val="000000"/><w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr>'),
+    "BodyText": ("paragraph", "Body Text", '<w:pPr><w:spacing w:before="0" w:after="160"/></w:pPr>'),
+    "Compact": ("paragraph", "Compact", '<w:pPr><w:spacing w:before="0" w:after="80"/></w:pPr>'),
+    "Table": ("table", "Table", '<w:tblPr><w:tblInd w:w="0" w:type="dxa"/><w:tblBorders>'
+              + "".join(f'<w:{e} w:val="single" w:sz="4" w:space="0" w:color="000000"/>' for e in ("top", "left", "bottom", "right", "insideH", "insideV"))
+              + '</w:tblBorders><w:tblCellMar><w:top w:w="100" w:type="dxa"/><w:left w:w="140" w:type="dxa"/>'
+              '<w:bottom w:w="100" w:type="dxa"/><w:right w:w="140" w:type="dxa"/></w:tblCellMar></w:tblPr>'
+              '<w:tblStylePr w:type="firstRow"><w:rPr><w:b/><w:bCs/></w:rPr></w:tblStylePr>'),
+}
+
+
+def match_pdf_styles(s: str) -> str:
+    """Rewrite the reference styles so a pandoc .docx matches the PDF's look."""
+    s = re.sub(r"<w:docDefaults>.*?</w:docDefaults>",
+               '<w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Georgia" w:hAnsi="Georgia" w:eastAsia="Georgia" '
+               'w:cs="Georgia"/><w:sz w:val="22"/><w:szCs w:val="22"/><w:lang w:val="en-US"/></w:rPr></w:rPrDefault>'
+               '<w:pPrDefault><w:pPr><w:spacing w:after="160" w:line="324" w:lineRule="auto"/></w:pPr></w:pPrDefault>'
+               "</w:docDefaults>", s, count=1, flags=re.S)
+    for sid, (kind, name, body) in _PDF_MATCH.items():
+        based = "TableNormal" if kind == "table" else ("BodyText" if sid == "Compact" else "Normal")
+        new = _style(sid, kind, name, body, based)
+        s, n = re.subn(r'<w:style [^>]*w:styleId="%s"[^>]*>.*?</w:style>' % sid, lambda _m: new, s, count=1, flags=re.S)
+        if not n:
+            s = s.replace("</w:styles>", new + "</w:styles>")
+    return s
+
+
 def build_reference_docx(dst: Path, label: str) -> None:
     """Pandoc's default reference.docx, restyled (Georgia, black headings) with a page-number footer."""
     src = dst.with_suffix(".src.docx")
@@ -107,6 +148,7 @@ def build_reference_docx(dst: Path, label: str) -> None:
                 s = re.sub(r'w:ascii="[^"]*"', 'w:ascii="Georgia"', s)
                 s = re.sub(r'w:hAnsi="[^"]*"', 'w:hAnsi="Georgia"', s)
                 s = re.sub(r'<w:color w:val="[0-9A-Fa-f]{6}"[^/]*/>', '<w:color w:val="000000"/>', s)
+                s = match_pdf_styles(s)
                 data = s.encode()
             elif name == "word/document.xml":
                 s = data.decode()
@@ -205,6 +247,8 @@ def self_test() -> None:
         with zipfile.ZipFile(m["docx"]) as z:
             assert "NUMPAGES" in z.read("word/footer1.xml").decode()
             assert "rIdFtr1" in z.read("word/document.xml").decode()
+            st = z.read("word/styles.xml").decode()
+            assert "tblBorders" in st and re.search(r'styleId="Heading2".{0,800}<w:b\s*/>', st, re.S), "Word styles do not match the PDF"
         p.write_text(bad)
         try:
             build(p, "test", Path(td) / "out2", draft=False)
