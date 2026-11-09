@@ -180,21 +180,30 @@ def r_overview(d):
     note = ('<p class="tb-note">%s</p>' % md(o["action_note"])) if o.get("action_note") else ""
     acts_html = ('<div class="tb-actions">%s</div>' % "".join(acts)) if acts else ""
     go = ('<div class="tb-go">%s%s%s%s</div>\n' % (lead, acts_html, cap, note)) if (lead or acts_html or cap or note) else ""
-    return ('<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">\n<h1 class="tb-h1">%s</h1>\n%s%s'
+    out = ('<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">\n<h1 class="tb-h1">%s</h1>\n%s%s'
             '<div class="ftiles-c"><ul class="ftiles is-4" aria-label="At a glance">%s</ul></div>\n'
             '%s'
             '%s<div class="tb-expand%s"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>\n'
             '<div class="tb-folds">%s</div>\n</div>') % (h, ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"])) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(re.sub(r"(?<=[a-z])-(?=[a-z])", "‑", x)) for x in o["lede"])) if o.get("lede") else "",
          tiles, go, cr,
          " solo" if len(o["sections"]) < 2 else "", folds)
+    if d.get("pages") and len(o["sections"]) < 2:
+        out = re.sub(r'<div class="tb-expand[^"]*"><button[^<]*</button></div>\n', "", out)
+    return out
 
 
-def r_tab(t, horizons, i):
+def r_tab(t, horizons, i, page=False):
     tid = t["id"]
     units = "\n".join('<section class="unit"><h3 class="tb-h3">%s</h3>%s</section>' % (md(u["title"]), r_blocks(u["blocks"], horizons, 4)) for u in t["units"])
     calls = "".join('<p class="callout"><b>%s</b>%s</p>' % (md(c["label"]), md(c["text"])) for c in t.get("callouts", []))
     calls = '<div class="seat-callouts">%s</div>' % calls if calls else ""
     op = "true" if i == 0 else "false"
+    if page:
+        # a role on its own page: no fold, the seat name shows as the eyebrow; headings step h1, h2, h3
+        units = "\n".join('<section class="unit"><h2 class="tb-h3">%s</h2>%s</section>' % (md(u["title"]), r_blocks(u["blocks"], horizons, 3)) for u in t["units"])
+        return ('<div id="pane-%s" class="tb-pane seat">\n<div class="seat-head"><p class="section-label seat-name">%s</p><h1 class="seat-h">%s</h1></div>\n'
+                '<div class="seat-body" id="seat-%s-body"><p class="seat-lede">%s</p>\n%s\n%s</div>\n</div>') % (
+            tid, md(t["name"]), md(t["headline"]), tid, md(t["lede"]), units, calls)
     return ('<div id="pane-%s" class="tb-pane seat" role="tabpanel" aria-labelledby="t-%s">\n<div class="seat-head"><h2 class="seat-h">'
             '<button type="button" class="seat-btn" aria-expanded="%s" aria-controls="seat-%s-body"><span><span class="seat-eyebrow">%s%s</span>'
             '<span class="seat-title">%s</span></span></button></h2></div>\n<div class="seat-body" id="seat-%s-body"><p class="seat-lede">%s</p>\n%s\n%s</div>\n</div>') % (
@@ -221,6 +230,19 @@ def dprefs_panel():
             '<button type="button" data-close>Close</button></div></section>') % g
 
 
+def page_hrefs(d, artifact):
+    """Where each page lives: on the site a path per role; in the Artifact a sibling file per role."""
+    ov = "./" if artifact else "/"
+    return dict([("ov", ov)] + [(t["id"], ("%s.html" if artifact else "/%s") % t["id"]) for t in d["tabs"]])
+
+
+def r_nav_links(d, cur, hrefs):
+    items = [("ov", d["overview"]["label"])] + [(t["id"], t["label"]) for t in d["tabs"]]
+    tabs = "".join('<a class="shnav-tab" href="%s" data-target="pane-%s" aria-current="%s">%s</a>' % (e(hrefs[i]), i, "page" if i == cur else "false", md(lab)) for i, lab in items)
+    return ('<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Pages" data-menu-below="1024"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs">%s</div>'
+            '<button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Go to a page"><span></span></button></nav></div>') % tabs
+
+
 def r_nav(d):
     tabs = ['<button type="button" class="shnav-tab" role="tab" id="t-ov" aria-controls="pane-ov" data-target="pane-ov" aria-selected="true" aria-current="true">%s</button>' % md(d["overview"]["label"])]
     for t in d["tabs"]:
@@ -236,7 +258,7 @@ def date_long(iso):
     return dt.strftime("%B ") + str(dt.day) + dt.strftime(", %Y")
 
 
-def render(d, artifact=False):
+def render(d, artifact=False, page=None):
     TABLE_N[0] = 0
     m = d["meta"]
     css = tokens() + "\n" + "".join(kit_block(p) for p in PARTS) + open(os.path.join(TDIR, "shell.css"), encoding="utf-8").read()
@@ -253,12 +275,22 @@ def render(d, artifact=False):
     line = ('<span class="chip cyan">Private</span><p>%s</p>' % md(d["top_line"])) if d.get("top_line") else ""
     top = ('<header class="tb-top"><span class="wordmark tb-brand"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></span>%s%s</header>\n%s') % (
         line, DPREFS_ROW, dprefs_panel())
-    body = "\n".join([r_overview(d)] + [r_tab(t, d["horizons"], i) for i, t in enumerate(d["tabs"])])
-    main = ('<main class="tb" data-store="' + e(d["storage_key"]) + '">\n%s\n<section class="tb-frame" aria-label="%s">\n<div class="tb-head">%s\n%s</div>\n<div class="tb-body">\n%s\n</div>\n</section>\n</main>\n'
-            '<script>%s</script>\n<script>%s</script>') % (top, e(d["doc_title"]), meta, r_nav(d), body, shnav_js()[len("<script>"):-len("</script>")],
+    title = d["doc_title"]
+    if page is None:
+        body, nav, pages_attr = "\n".join([r_overview(d)] + [r_tab(t, d["horizons"], i) for i, t in enumerate(d["tabs"])]), r_nav(d), ""
+    else:
+        # one pane per page; the nav links between pages
+        t = next((x for x in d["tabs"] if x["id"] == page), None)
+        body = r_overview(d) if t is None else r_tab(t, d["horizons"], 0, page=True)
+        nav, pages_attr = r_nav_links(d, page, page_hrefs(d, artifact)), ' data-pages="1"'
+        body = re.sub(r' role="tabpanel" aria-labelledby="t-[a-z0-9-]+"', "", body)  # a page, not a tab panel
+        if t is not None:
+            title = "%s · %s" % (t["name"], d["doc_title"])
+    main = ('<main class="tb" data-store="' + e(d["storage_key"]) + '"' + pages_attr + '>\n%s\n<section class="tb-frame" aria-label="%s">\n<div class="tb-head">%s\n%s</div>\n<div class="tb-body">\n%s\n</div>\n</section>\n</main>\n'
+            '<script>%s</script>\n<script>%s</script>') % (top, e(d["doc_title"]), meta, nav, body, shnav_js()[len("<script>"):-len("</script>")],
                                                            open(os.path.join(TDIR, "shell.js"), encoding="utf-8").read())
     marks = "<!-- @arcs-template: tabbed-brief -->\n<!-- @arcs-mode: persuade -->\n"
-    head = ('<title>%s</title>\n<meta name="robots" content="noindex, nofollow">\n%s\n<style>\n%s</style>\n') % (e(d["doc_title"]), head_js, css)
+    head = ('<title>%s</title>\n<meta name="robots" content="noindex, nofollow">\n%s\n<style>\n%s</style>\n') % (e(title), head_js, css)
     if artifact:
         return marks + '<meta name="claude:viewport-fit-sides" content="cover">\n' + head + main + "\n"
     ana = '<script defer src="/_vercel/insights/script.js"></script>\n' if d.get("analytics") else ""
@@ -274,24 +306,41 @@ def build(path, out=None, artifact=False):
         for x in errs:
             print("✖ " + x)
         raise SystemExit(1)
-    page = render(d, artifact)
-    if artifact:
-        page = page.replace('<html lang="en"', '<html lang="en"')  # no-op; the Artifact host supplies <html>
+    return write_pages(d, out, artifact)
+
+
+def outputs(d, out, artifact=False):
+    """Every file one data file produces: {path: html}. Pages mode adds one file per role beside the overview."""
+    if not d.get("pages"):
+        return {out: render(d, artifact)}
+    folder, base = os.path.split(out)
+    res = {out: render(d, artifact, "ov")}
+    for t in d["tabs"]:
+        name = ("%s.html" % t["id"]) if artifact else re.sub(r"\.html$", "-%s.html" % t["id"], base)
+        res[os.path.join(folder, name)] = render(d, artifact, t["id"])
+    return res
+
+
+def write_pages(d, out, artifact=False):
+    res = outputs(d, out or "", artifact)
     if out:
-        open(out, "w", encoding="utf-8").write(page)
-    return page
+        for p, html_ in res.items():
+            open(p, "w", encoding="utf-8").write(html_)
+    return res
 
 
 def check():
     bad = 0
     for data, page in REGISTERED.items():
-        want = build(os.path.join(ROOT, data))
-        have = open(os.path.join(ROOT, page), encoding="utf-8").read() if os.path.exists(os.path.join(ROOT, page)) else ""
-        if want != have:
-            bad += 1
-            print("✖ %s differs from %s. Run python3 scripts/tabbed_brief_build.py %s -o %s" % (page, data, data, page))
-        else:
-            print("✓ %s matches %s" % (page, data))
+        d = json.load(open(os.path.join(ROOT, data), encoding="utf-8"))
+        for path, want in outputs(d, os.path.join(ROOT, page)).items():
+            rel = os.path.relpath(path, ROOT)
+            have = open(path, encoding="utf-8").read() if os.path.exists(path) else ""
+            if want != have:
+                bad += 1
+                print("✖ %s differs from %s. Run python3 scripts/tabbed_brief_build.py %s -o %s" % (rel, data, data, page))
+            else:
+                print("✓ %s matches %s" % (rel, data))
     return 1 if bad else 0
 
 

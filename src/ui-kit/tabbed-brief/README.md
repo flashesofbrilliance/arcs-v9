@@ -10,6 +10,11 @@ python3 scripts/tabbed_brief_build.py --check                             # pre-
 python3 scripts/tabbed_brief_build.py --self-test                         # the validator rejects each bad shape
 ```
 
+**Pages mode** (`"pages": true` in the data): the overview stays at the output path and each role becomes its own page
+beside it (`<name>-<id>.html`, served at `/<id>` through the host map in `src/proxy.ts`; in the Artifact build, `<id>.html`).
+The kit 42 nav switches to links (`shnavInit(nav, {links: true})`, `aria-current="page"`), roles never fold, and `--check`
+compares every page. Gravity uses it.
+
 Never hand-edit a generated page. Change the data (copy), the template layer here (shell.css, shell.js), or a kit part.
 
 ## Teardown: atoms to pages

@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 281,
+  "rows": 285,
   "hosts": 62,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 225,
+   "product page": 229,
    "gated": 28
   },
   "next_config_hosts": 85,
   "proxy_hosts": 26,
   "app_routes": 47,
   "missing_purpose": 21,
-  "unlisted": 84
+  "unlisted": 88
  },
  "retired_hosts": [
   "ahmed-ext.arcs.care",
@@ -3567,6 +3567,86 @@
    "purpose": "Zach Harris for Gravity Labs",
    "kind": "product page",
    "last_commit": "2026-11-09"
+  },
+  {
+   "host": "gravity.arcs.care",
+   "path": "/eir",
+   "catch_all": false,
+   "destination": "/gravity-brief-eir.html",
+   "pattern": false,
+   "file": "public/gravity-brief-eir.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Entrepreneur in Residence · Zach Harris for Gravity Labs",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Entrepreneur in Residence · Zach Harris for Gravity Labs",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "gravity.arcs.care",
+   "path": "/founder",
+   "catch_all": false,
+   "destination": "/gravity-brief-founder.html",
+   "pattern": false,
+   "file": "public/gravity-brief-founder.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Founder, Portfolio Company · Zach Harris for Gravity Labs",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Founder, Portfolio Company · Zach Harris for Gravity Labs",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "gravity.arcs.care",
+   "path": "/open",
+   "catch_all": false,
+   "destination": "/gravity-brief-open.html",
+   "pattern": false,
+   "file": "public/gravity-brief-open.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Open Application · Zach Harris for Gravity Labs",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Open Application · Zach Harris for Gravity Labs",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "gravity.arcs.care",
+   "path": "/principal",
+   "catch_all": false,
+   "destination": "/gravity-brief-principal.html",
+   "pattern": false,
+   "file": "public/gravity-brief-principal.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Principal, New Ventures · Zach Harris for Gravity Labs",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Principal, New Ventures · Zach Harris for Gravity Labs",
+   "kind": "product page",
+   "last_commit": null
   },
   {
    "host": "growth-ai.arcs.care",

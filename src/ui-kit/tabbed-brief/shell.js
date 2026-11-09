@@ -64,16 +64,19 @@
   if (h0 && document.getElementById('pane-' + h0)) cur = 'pane-' + h0;
   function show(id) { cur = id; panes.forEach(function (p) { p.hidden = p.id !== id; }); }
   var shnav = document.getElementById('shnav');
+  var pagesMode = !!(root && root.getAttribute('data-pages') === '1'); /* one pane per page: the nav is links, roles never fold */
   var api = window.shnavInit && shnavInit(shnav, {
+    links: pagesMode,
     onMode: function (m) {
-      stacked = m === 'menu'; doc.classList.toggle('stacked', stacked);
+      stacked = m === 'menu' && !pagesMode; doc.classList.toggle('stacked', stacked);
       seats.forEach(function (b) { if (stacked) { b.removeAttribute('aria-disabled'); b.tabIndex = 0; setSeat(b, b.getAttribute('aria-expanded') !== 'false'); }
         else { b.setAttribute('aria-disabled', 'true'); b.tabIndex = -1; setSeat(b, true); } });
       if (stacked) panes.forEach(function (p) { p.hidden = false; });
-      else { show(cur); var t = shnav.querySelector('[data-target="' + cur + '"]'); if (t) t.click(); }
+      else if (!pagesMode) { show(cur); var t = shnav.querySelector('[data-target="' + cur + '"]'); if (t) t.click(); } /* in pages mode a click is a navigation: never synthesize one */
       syncExpand();
     },
     onPick: function (t, isMenu) {
+      if (pagesMode) return;
       setHash(t === first ? '' : t.replace(/^pane-/, ''));
       if (!isMenu) { show(t); var body = document.querySelector('.tb-body'); if (body && body.getBoundingClientRect().top < cover()) jumpTo(body, 'auto'); return; }
       if (t === first) { scrollTo({ top: 0, behavior: reduce() ? 'auto' : 'smooth' }); return; }

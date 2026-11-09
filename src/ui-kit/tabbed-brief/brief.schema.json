@@ -208,6 +208,10 @@
       "items": {
         "$ref": "#/$defs/tab"
       }
+    },
+    "pages": {
+      "type": "boolean",
+      "description": "One page per pane: the overview at the output path, each role beside it (site: <name>-<id>.html served at /<id>; Artifact: <id>.html)."
     }
   },
   "$defs": {

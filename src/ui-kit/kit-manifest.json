@@ -2696,15 +2696,13 @@
    "pages": [
     "_ARTIFACTS/atlas/concordance.html",
     "_ARTIFACTS/louisville-atlas.html",
-    "_ARTIFACTS/louisville-proposal/source.html",
     "_ARTIFACTS/terrain-atlas.html",
     "_ARTIFACTS/ticket-zach-north-star-resonance-gradient-field.html",
     "public/cia-brief.html",
-    "public/louisville-proposal.html",
     "public/proof.html",
     "scripts/counterpart_onepager_build.py"
    ],
-   "reuse": 9,
+   "reuse": 7,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -3455,12 +3453,10 @@
    "jobs": [],
    "pages": [
     "_ARTIFACTS/brooks-audit-onepager.html",
-    "_ARTIFACTS/louisville-proposal/source.html",
-    "public/louisville-proposal.html",
     "scripts/counterpart_onepager_build.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 5,
+   "reuse": 3,
    "near_duplicates": []
   },
   {
@@ -3596,10 +3592,14 @@
    ],
    "jobs": [],
    "pages": [
+    "public/gravity-brief-eir.html",
+    "public/gravity-brief-founder.html",
+    "public/gravity-brief-open.html",
+    "public/gravity-brief-principal.html",
     "public/gravity-brief.html",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 2,
+   "reuse": 6,
    "near_duplicates": [
     {
      "rule": ".wordmark",
@@ -4018,10 +4018,16 @@
    "templates": [],
    "jobs": [],
    "pages": [
+    "_ARTIFACTS/louisville-proposal/source.html",
+    "public/gravity-brief-eir.html",
+    "public/gravity-brief-founder.html",
+    "public/gravity-brief-open.html",
+    "public/gravity-brief-principal.html",
     "public/gravity-brief.html",
+    "public/louisville-proposal.html",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 2,
+   "reuse": 8,
    "near_duplicates": []
   },
   {
@@ -4059,10 +4065,13 @@
    ],
    "jobs": [],
    "pages": [
-    "public/gravity-brief.html",
+    "public/gravity-brief-eir.html",
+    "public/gravity-brief-founder.html",
+    "public/gravity-brief-open.html",
+    "public/gravity-brief-principal.html",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 2,
+   "reuse": 5,
    "near_duplicates": [
     {
      "rule": ".pm-khead",
