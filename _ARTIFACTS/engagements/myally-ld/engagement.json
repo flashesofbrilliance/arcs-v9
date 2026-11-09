@@ -1,0 +1,1345 @@
+{
+  "schema": "engagement-record-v0",
+  "meta": {
+    "id": "myally-ld-step1",
+    "title": "My Ally LD: Step 1, light audit and code review",
+    "internal_note": "INTERNAL. Draft v2 (gauntlet pass 1, Option B). Nothing sent. The agreement is a plain-language draft for a Connecticut lawyer to review, not legal advice. SUPERSEDED for Step 1 terms by agreement rev 27 (2026-11-08): the hub's Step 1 tab follows rev 27; the agreement, Exhibit A and reply text here do not yet (see PR 2059).",
+    "record_date": "2026-11-08",
+    "last_sent": null
+  },
+  "client": {
+    "legal_name": "Access Consulting, LLC",
+    "product": "MyAlly",
+    "contacts": [
+      "Chelsea Starks",
+      "Leah Gambal",
+      "Kelly Jacobson"
+    ],
+    "reply_to": "Chelsea"
+  },
+  "fields": {
+    "rate_ff": {
+      "kind": "money",
+      "value": 125,
+      "label": "Friends-and-family hourly rate",
+      "source": {
+        "kind": "sent",
+        "ref": "myally.arcs.care Debrief tab, offer sent 2026-10-29: 'Each step is 12 hours at $125 an hour'",
+        "date": "2026-10-29"
+      },
+      "history": []
+    },
+    "rate_standard": {
+      "kind": "money",
+      "value": 150,
+      "label": "Standard hourly rate (office hours beyond the free sessions)",
+      "source": {
+        "kind": "sent",
+        "ref": "Debrief tab, offer sent 2026-10-29: 'office hours are $150 an hour'",
+        "date": "2026-10-29"
+      },
+      "history": []
+    },
+    "rate_committed": {
+      "kind": "money",
+      "value": 125,
+      "label": "Office-hours rate with a 4-week commitment",
+      "source": {
+        "kind": "sent",
+        "ref": "Debrief tab, offer sent 2026-10-29: 'or $125 an hour with a 4-week commitment'",
+        "date": "2026-10-29"
+      },
+      "history": []
+    },
+    "commit_weeks": {
+      "kind": "int",
+      "value": 4,
+      "label": "Weeks booked to earn the committed rate",
+      "source": {
+        "kind": "sent",
+        "ref": "Debrief tab, offer sent 2026-10-29",
+        "date": "2026-10-29"
+      },
+      "history": []
+    },
+    "hours_step1": {
+      "kind": "int",
+      "value": 12,
+      "label": "Hours in Step 1",
+      "source": {
+        "kind": "sent",
+        "ref": "Debrief tab, offer sent 2026-10-29: 'Each step is 12 hours'",
+        "date": "2026-10-29"
+      },
+      "history": []
+    },
+    "fee_step1": {
+      "kind": "money",
+      "derive": [
+        "mul",
+        "hours_step1",
+        "rate_ff"
+      ],
+      "label": "Step 1 fixed fee"
+    },
+    "steps_offered": {
+      "kind": "int",
+      "value": 3,
+      "label": "Steps in the offer",
+      "source": {
+        "kind": "sent",
+        "ref": "Debrief tab, offer sent 2026-10-29: three steps",
+        "date": "2026-10-29"
+      },
+      "history": []
+    },
+    "fee_offer_total": {
+      "kind": "money",
+      "derive": [
+        "mul",
+        "fee_step1",
+        "steps_offered"
+      ],
+      "label": "All three steps"
+    },
+    "oh_slot_minutes": {
+      "kind": "int",
+      "value": 30,
+      "label": "Office-hour slot length, minutes",
+      "source": {
+        "kind": "sent",
+        "ref": "Debrief tab, offer sent 2026-10-29",
+        "date": "2026-10-29"
+      },
+      "history": []
+    },
+    "oh_free_hours": {
+      "kind": "hours",
+      "value": 4,
+      "label": "Free office hours a month",
+      "source": {
+        "kind": "sent",
+        "ref": "Zach to Chelsea, Oct 29 7:59 PM: 'you get 4 hours of office hours a month at no charge, in 30-minute slots, to use however you like'. Chelsea's Nov 6 yes thanked him for these hours.",
+        "date": "2026-10-29"
+      },
+      "history": [
+        {
+          "value": 2,
+          "until": "2026-11-08",
+          "source": {
+            "kind": "sent",
+            "ref": "Debrief tab source file, Oct 29: 'four 30-minute sessions a month included'. The live hub copy of Debrief showed paid bundles instead. Zach 2026-11-08: match what was shared with Chelsea (the email).",
+            "date": "2026-10-29"
+          }
+        }
+      ]
+    },
+    "access_by": {
+      "kind": "date",
+      "value": "2026-11-09",
+      "label": "Date the agreement is signed and paid and both start items are in",
+      "source": {
+        "kind": "decision",
+        "ref": "Zach, 2026-11-08 (in session, after rev 27): assume everything is in on Monday; drop the Tuesday ready date. Same four working days, so start Tue Nov 10 and readout by Fri Nov 13. The Claude Doc rev 27 still says Nov 10 / 11 / 16.",
+        "date": "2026-11-08"
+      },
+      "history": [
+        {
+          "value": "2026-11-13",
+          "until": "2026-11-08",
+          "source": {
+            "kind": "judgment",
+            "ref": "Zach, best case in the 2026-11-06 hand draft (sign within a week, access by Nov 13)",
+            "date": "2026-11-06"
+          }
+        },
+        {
+          "value": "2026-11-10",
+          "until": "2026-11-08",
+          "source": {
+            "kind": "decision",
+            "ref": "Step 1 agreement rev 27 (Claude Doc https://claude.ai/artifact/5f7Mepg8bY7S4mogR9f4Vt, export 2026-11-08), section 2",
+            "date": "2026-11-08"
+          }
+        }
+      ]
+    },
+    "duration_days": {
+      "kind": "days",
+      "value": 4,
+      "label": "Calendar days from the ready date to the readout (Mon Nov 9 to Fri Nov 13)",
+      "source": {
+        "kind": "decision",
+        "ref": "Zach, 2026-11-08 (in session, after rev 27): assume everything is in on Monday; drop the Tuesday ready date. Same four working days, so start Tue Nov 10 and readout by Fri Nov 13. The Claude Doc rev 27 still says Nov 10 / 11 / 16.",
+        "date": "2026-11-08"
+      },
+      "history": [
+        {
+          "value": 21,
+          "until": "2026-11-08",
+          "source": {
+            "kind": "judgment",
+            "ref": "2026-11-06 hand draft: 'access by Nov 13 ... results by Dec 4' (21 days). The same draft says 'about two weeks', which gives Nov 27. The record keeps the Dec 4 promise; Zach to confirm.",
+            "date": "2026-11-06"
+          }
+        },
+        {
+          "value": 7,
+          "until": "2026-11-08",
+          "source": {
+            "kind": "decision",
+            "ref": "Zach, 2026-11-08: Step 1 is 12 hours, so under a week, not three",
+            "date": "2026-11-08"
+          }
+        },
+        {
+          "value": 6,
+          "until": "2026-11-08",
+          "source": {
+            "kind": "decision",
+            "ref": "Step 1 agreement rev 27 (Claude Doc https://claude.ai/artifact/5f7Mepg8bY7S4mogR9f4Vt, export 2026-11-08), section 2",
+            "date": "2026-11-08"
+          }
+        }
+      ]
+    },
+    "deliver_by": {
+      "kind": "date",
+      "derive": [
+        "add_days",
+        "access_by",
+        "duration_days"
+      ],
+      "label": "Results delivered by, if access lands on the target date"
+    },
+    "walkthrough_minutes": {
+      "kind": "int",
+      "value": 45,
+      "label": "Walkthrough call length, minutes",
+      "source": {
+        "kind": "judgment",
+        "ref": "2026-11-06 hand draft; open choice whether it comes out of the free office hours",
+        "date": "2026-11-06"
+      },
+      "history": []
+    },
+    "nda_executed": {
+      "kind": "date",
+      "value": "2026-10-26",
+      "label": "Mutual NDA executed",
+      "source": {
+        "kind": "doc",
+        "ref": "Mutual NDA revised, Fully Executed 10.26.26 (Gmail thread 1a121bb189899df1)",
+        "date": "2026-10-26"
+      },
+      "history": []
+    },
+    "nda_anchor": {
+      "kind": "date",
+      "value": "2026-10-09",
+      "label": "NDA date that 8.1(c) counts from",
+      "source": {
+        "kind": "doc",
+        "ref": "Mutual NDA 8.1(c): return or destroy 90 days after the Oct 9 effective date unless a services agreement is signed",
+        "date": "2026-10-26"
+      },
+      "history": []
+    },
+    "nda_return_days": {
+      "kind": "days",
+      "value": 90,
+      "label": "Days in NDA 8.1(c)",
+      "source": {
+        "kind": "doc",
+        "ref": "Mutual NDA 8.1(c)",
+        "date": "2026-10-26"
+      },
+      "history": []
+    },
+    "nda_return_by": {
+      "kind": "date",
+      "derive": [
+        "add_days",
+        "nda_anchor",
+        "nda_return_days"
+      ],
+      "label": "Return-or-destroy fires unless a services agreement is signed"
+    },
+    "liability_cap": {
+      "kind": "text",
+      "value": "the fees you paid me under it",
+      "label": "Liability cap",
+      "source": {
+        "kind": "decision",
+        "ref": "Zach, 2026-11-06 terms brief: liability capped",
+        "date": "2026-11-06"
+      },
+      "history": []
+    },
+    "talk_first_days": {
+      "kind": "int",
+      "value": 30,
+      "label": "Good-faith talk period before going to court, days",
+      "source": {
+        "kind": "decision",
+        "ref": "Zach, 2026-11-06: Option B, disputes go to the NDA's Connecticut courts after 30 days of talks",
+        "date": "2026-11-06"
+      },
+      "history": []
+    },
+    "dispute_forum": {
+      "kind": "text",
+      "value": "the Connecticut courts named in our NDA",
+      "label": "Where disputes go",
+      "source": {
+        "kind": "decision",
+        "ref": "Zach, 2026-11-06: Option B (matches NDA section 14)",
+        "date": "2026-11-06"
+      },
+      "history": [
+        {
+          "value": "binding arbitration in Fairfield County, Connecticut",
+          "until": "2026-11-06",
+          "source": {
+            "kind": "decision",
+            "ref": "Zach, 2026-11-06 terms brief",
+            "date": "2026-11-06"
+          }
+        }
+      ]
+    },
+    "hours_offer_total": {
+      "kind": "int",
+      "derive": [
+        "mul",
+        "hours_step1",
+        "steps_offered"
+      ],
+      "label": "Hours across the three steps"
+    },
+    "fix_window_days": {
+      "kind": "days",
+      "value": 30,
+      "label": "Days to report a mismatch with Exhibit A",
+      "source": {
+        "kind": "decision",
+        "ref": "Gauntlet pass 1, adopted by Zach 2026-11-06",
+        "date": "2026-11-06"
+      },
+      "history": []
+    },
+    "breach_notice_hours": {
+      "kind": "int",
+      "value": 72,
+      "label": "Hours to tell them of a suspected data exposure",
+      "source": {
+        "kind": "decision",
+        "ref": "Gauntlet pass 1, adopted by Zach 2026-11-06",
+        "date": "2026-11-06"
+      },
+      "history": []
+    },
+    "nda_restart_days": {
+      "kind": "days",
+      "value": 60,
+      "label": "Days after delivery before NDA 8.1(c) applies again",
+      "source": {
+        "kind": "decision",
+        "ref": "Gauntlet pass 1, adopted by Zach 2026-11-06",
+        "date": "2026-11-06"
+      },
+      "history": []
+    },
+    "latest_access": {
+      "kind": "date",
+      "value": "2026-12-15",
+      "label": "Latest access date that still delivers before year end",
+      "source": {
+        "kind": "judgment",
+        "ref": "Five working days from Dec 15 lands Dec 22, before the holidays",
+        "date": "2026-11-08"
+      },
+      "history": [
+        {
+          "value": "2026-12-01",
+          "until": "2026-11-08",
+          "source": {
+            "kind": "judgment",
+            "ref": "Zach, 2026-11-06 v2 reply: access by about Dec 1 still lands before the end of the year",
+            "date": "2026-11-06"
+          }
+        }
+      ]
+    },
+    "github_user": {
+      "kind": "text",
+      "value": "flashesofbrilliance",
+      "label": "Zach's GitHub username",
+      "source": {
+        "kind": "decision",
+        "ref": "Zach, 2026-11-06 v2 reply",
+        "date": "2026-11-06"
+      },
+      "history": []
+    },
+    "lovable_email": {
+      "kind": "text",
+      "value": "zach.harris@gmail.com",
+      "label": "Email for the Lovable invite",
+      "source": {
+        "kind": "decision",
+        "ref": "Zach, 2026-11-06 v2 reply",
+        "date": "2026-11-06"
+      },
+      "history": []
+    },
+    "work_days": {
+      "kind": "int",
+      "value": 4,
+      "label": "Working days from the start to the readout (Tue Nov 10 to Fri Nov 13)",
+      "source": {
+        "kind": "decision",
+        "ref": "Step 1 agreement rev 27 (Claude Doc https://claude.ai/artifact/5f7Mepg8bY7S4mogR9f4Vt, export 2026-11-08), section 2",
+        "date": "2026-11-08"
+      },
+      "history": [
+        {
+          "value": 5,
+          "until": "2026-11-08",
+          "source": {
+            "kind": "decision",
+            "ref": "Zach, 2026-11-08: under a week, broken down by day",
+            "date": "2026-11-08"
+          }
+        }
+      ]
+    },
+    "start_lag_days": {
+      "kind": "days",
+      "value": 1,
+      "label": "The sprint starts the day after the ready date",
+      "source": {
+        "kind": "decision",
+        "ref": "Step 1 agreement rev 27 (Claude Doc https://claude.ai/artifact/5f7Mepg8bY7S4mogR9f4Vt, export 2026-11-08), section 2",
+        "date": "2026-11-08"
+      },
+      "history": []
+    },
+    "start_on": {
+      "kind": "date",
+      "derive": [
+        "add_days",
+        "access_by",
+        "start_lag_days"
+      ],
+      "label": "Sprint start, if everything is in on the ready date"
+    },
+    "changes_days": {
+      "kind": "days",
+      "value": 7,
+      "label": "Days after the readout to send one combined round of comments",
+      "source": {
+        "kind": "decision",
+        "ref": "Step 1 agreement rev 27 (Claude Doc https://claude.ai/artifact/5f7Mepg8bY7S4mogR9f4Vt, export 2026-11-08), section 4",
+        "date": "2026-11-08"
+      },
+      "history": []
+    },
+    "block_hours": {
+      "kind": "hours",
+      "value": 2,
+      "label": "Size of each more-detail block after the readout",
+      "source": {
+        "kind": "decision",
+        "ref": "Step 1 agreement rev 27 (Claude Doc https://claude.ai/artifact/5f7Mepg8bY7S4mogR9f4Vt, export 2026-11-08), section 5",
+        "date": "2026-11-08"
+      },
+      "history": []
+    }
+  },
+  "asks": [
+    {
+      "id": "ask-1",
+      "short": "What we keep",
+      "text": "An exact list of the Step 1 deliverables.",
+      "answered_by": [
+        "deliverables"
+      ],
+      "source": {
+        "kind": "email",
+        "ref": "Chelsea, 2026-11-06 12:16 PM",
+        "date": "2026-11-06"
+      }
+    },
+    {
+      "id": "ask-2",
+      "short": "Numbers",
+      "text": "A rough range for a build ready to test with up to 100 families, and for going from there to a public launch, plus a first look at monthly running costs over two years, with the assumptions written out.",
+      "answered_by": [
+        "estimates"
+      ],
+      "source": {
+        "kind": "email",
+        "ref": "Chelsea, 2026-11-06 12:16 PM",
+        "date": "2026-11-06"
+      }
+    },
+    {
+      "id": "ask-3",
+      "short": "Timing",
+      "text": "How long Step 1 takes. They want results before year end.",
+      "answered_by": [
+        "deliver_by"
+      ],
+      "source": {
+        "kind": "email",
+        "ref": "Chelsea, 2026-11-06 12:16 PM",
+        "date": "2026-11-06"
+      }
+    },
+    {
+      "id": "ask-4",
+      "short": "Agreement",
+      "text": "The standard Step 1 agreement, which their counsel will review.",
+      "answered_by": [
+        "terms"
+      ],
+      "source": {
+        "kind": "email",
+        "ref": "Chelsea, 2026-11-06 12:16 PM",
+        "date": "2026-11-06"
+      }
+    }
+  ],
+  "phases": [
+    {
+      "id": "step-1",
+      "name": "Light audit and code review",
+      "question": "Is it safe to build on?",
+      "fee": "{{fee_step1}}",
+      "status": "accepted 2026-11-06"
+    },
+    {
+      "id": "step-2",
+      "name": "Customer journey and design system",
+      "question": "Where does Alyce help most?",
+      "fee": "{{fee_step1}}",
+      "status": "offered, needs its own written yes"
+    },
+    {
+      "id": "step-3",
+      "name": "Working prototype",
+      "question": "Will families use it?",
+      "fee": "{{fee_step1}}",
+      "status": "offered, needs its own written yes"
+    }
+  ],
+  "lists": {
+    "deliverables": [
+      {
+        "id": "D1",
+        "text": "A short written report: what in the code is ready to build on, what to keep with some tidying, and what is better rebuilt, with the reasons."
+      },
+      {
+        "id": "D2",
+        "text": "A check of how each family's data is kept apart, with anything risky flagged."
+      },
+      {
+        "id": "D3",
+        "text": "Your code saved in your own GitHub account, linked to Lovable, so it stays in your name and every change from here is kept."
+      },
+      {
+        "id": "D4",
+        "text": "Rough low-to-high ranges, with the assumptions written out, as in point 2."
+      },
+      {
+        "id": "D5",
+        "text": "A {{walkthrough_minutes}}-minute walkthrough call, part of Step 1 (it doesn't use your office hours)."
+      }
+    ],
+    "estimates": [
+      {
+        "id": "E1",
+        "text": "a build ready to test with up to 100 families,"
+      },
+      {
+        "id": "E2",
+        "text": "what it takes to go from there to a public launch,"
+      },
+      {
+        "id": "E3",
+        "text": "monthly running costs (AI, hosting, security checks) at each of those stages, over two years. For the AI costs I'll start from the model Morgan and you built."
+      }
+    ],
+    "exhibit": [
+      {
+        "id": "X1",
+        "text": "A short written report: what in the code is ready to build on, what to keep with some tidying, and what is better rebuilt, with the reasons."
+      },
+      {
+        "id": "X2",
+        "text": "A check of how each family's data is kept apart, with anything risky flagged."
+      },
+      {
+        "id": "X3",
+        "text": "Your code saved in your own GitHub account, linked to Lovable, so it stays in your name and every change from here is kept."
+      },
+      {
+        "id": "X4",
+        "text": "Rough low-to-high ranges, with assumptions written out, for (a) a build ready to test with up to 100 families, (b) going from there to a public launch, and (c) monthly running costs (AI, hosting, security checks) at each of those stages, over two years."
+      },
+      {
+        "id": "X5",
+        "text": "A {{walkthrough_minutes}}-minute walkthrough call."
+      }
+    ],
+    "to_start": [
+      {
+        "id": "S1",
+        "text": "You can set up GitHub now: create a free account in MyAlly's name and invite me (username: {{github_user}}). Please also invite me in Lovable ({{lovable_email}})."
+      },
+      {
+        "id": "S2",
+        "text": "Once your counsel is happy, sign and email the agreement back."
+      },
+      {
+        "id": "S3",
+        "text": "I'll send {{client.legal_name}} the {{fee_step1}} invoice when we sign."
+      }
+    ]
+  },
+  "assumptions": [
+    {
+      "id": "asm-myally-01",
+      "text": "Access to GitHub and Lovable lands by {{access_by|long}}; every date counts from access, not from signing.",
+      "test_that_would_decide": "The GitHub invite date. If it lands later, deliver_by moves by the same number of days.",
+      "status": "open",
+      "source": {
+        "kind": "judgment",
+        "ref": "Zach, best/base/worst, 2026-11-06 hand draft",
+        "date": "2026-11-06"
+      }
+    },
+    {
+      "id": "asm-myally-02",
+      "text": "No real family or child records are needed for Step 1; I review the rules, not the records.",
+      "test_that_would_decide": "The database export. Falsified if the review cannot be done without opening real records.",
+      "status": "open",
+      "source": {
+        "kind": "sent",
+        "ref": "Debrief tab 2026-10-29: 'I work only from a made-up copy'",
+        "date": "2026-10-29"
+      }
+    },
+    {
+      "id": "asm-myally-03",
+      "text": "The base case is the most likely: counsel redlines for 1 to 2 weeks and access slips to late November.",
+      "test_that_would_decide": "The date their counsel returns the agreement.",
+      "status": "open",
+      "source": {
+        "kind": "judgment",
+        "ref": "Zach, 2026-11-06 hand draft; no measured odds",
+        "date": "2026-11-06"
+      }
+    },
+    {
+      "id": "asm-015",
+      "text": "The data flow (which fields reach which vendor) is not yet mapped.",
+      "test_that_would_decide": "See _ARTIFACTS/sow-scaffold-2026-10-08/03-assumptions-draft.jsonl asm-015.",
+      "status": "open",
+      "source": {
+        "kind": "doc",
+        "ref": "_ARTIFACTS/sow-scaffold-2026-10-08/03-assumptions-draft.jsonl",
+        "date": "2026-10-08"
+      }
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "best",
+      "what": "They sign in a week, access lands by {{access_by}}, and the audit delivers by {{deliver_by}}. Steps 2 and 3 follow in January.",
+      "earn": "{{fee_offer_total}} across the three steps, then a build quote priced from evidence",
+      "watch": "They send GitHub and Lovable access within days of signing",
+      "guard": "Nothing extra needed"
+    },
+    {
+      "id": "base",
+      "what": "Counsel redlines for 1 to 2 weeks and access slips to late November. Delivery lands mid-December.",
+      "earn": "{{fee_step1}} now, the rest pending",
+      "watch": "Questions come back to me, not to other vendors",
+      "guard": "A firm delivery date that counts from access, not from signing"
+    },
+    {
+      "id": "worst",
+      "what": "Step 1 becomes a cheap spec: the ranges and code map go to other builders as an RFP.",
+      "earn": "{{fee_step1}} for work that sets the price for someone else",
+      "watch": "Requests for a shareable format, or line-item hours a bidder could fill in",
+      "guard": "Term 6: ranges are my planning estimates, not a quote, shared with the assumptions attached; findings come as bands, with no task-level bid sheet until Step 2 is mine"
+    }
+  ],
+  "terms": [
+    {
+      "id": "T1",
+      "title": "The work",
+      "body": "I review the MyAlly code, database rules and build spec and deliver what is listed in Exhibit A. That's all Step 1 includes. Steps 2 and 3 stay at {{fee_step1}} each if you choose to go on. They, the full build, a pilot and any launch each need their own written yes."
+    },
+    {
+      "id": "T2",
+      "title": "Fee",
+      "body": "Step 1 is a fixed {{fee_step1}} for everything in Exhibit A, including the rough numbers and the walkthrough call. If it takes me longer than I planned, that's on me. I would only charge more for something outside Exhibit A, and only after your written yes, at {{rate_ff}} an hour. I'll invoice {{client.legal_name}} on signing, and payment is due on signing."
+    },
+    {
+      "id": "T3",
+      "title": "Timing",
+      "body": "I'll deliver within {{work_days|word}} working days after I have GitHub and Lovable access, or after signing if that comes later. Delays on your side move the date by the same amount."
+    },
+    {
+      "id": "T4",
+      "title": "Office hours",
+      "body": "{{oh_free_hours}} hours a month at no charge, in {{oh_slot_minutes}}-minute slots, to use however you like. Extra hours are {{rate_standard}} an hour, or {{rate_committed}} an hour when booked for {{commit_weeks}} weeks or more."
+    },
+    {
+      "id": "T5",
+      "title": "What you own",
+      "body": "Once paid, I assign to you all rights in the report and anything else I deliver in Step 1. I keep my pre-existing tools, templates and methods, including ARCS (NDA sections 9.2 and 9.3). Where any of them are built into what I deliver, {{client.legal_name}}, and any company that takes over the MyAlly project, gets a permanent, royalty-free license to use, change and pass them on as part of the MyAlly platform, including to another developer working on it for you."
+    },
+    {
+      "id": "T6",
+      "title": "Estimates",
+      "body": "Any ranges or estimates are my good-faith planning numbers for work I would do. They aren't a quote, a fixed price or a promise, and nobody else can rely on them as one. You're welcome to use them in your business plan and with investors, funders and advisors. If you share them, please share them as my estimates, with the assumptions attached."
+    },
+    {
+      "id": "T7",
+      "title": "My opinion, not legal or compliance advice",
+      "body": "I'll do the work carefully and professionally. My findings are my professional opinion, for you to use as you see fit, and the decisions remain yours. The data check is a careful read of the code and database rules. It isn't a full security test, and it isn't a legal or compliance review under student-records law (FERPA), children's online privacy law (COPPA), health-privacy law (HIPAA) or state privacy law. A full test comes later, and for legal questions you'll want a specialist."
+    },
+    {
+      "id": "T8",
+      "title": "Fixes, and code as is",
+      "body": "If something I deliver doesn't match Exhibit A, tell me within {{fix_window_days}} days and I'll fix it. Any code, configuration or setup is provided as is, without other warranties. Running, maintaining, hosting, securing and backing up the platform remains your responsibility, unless a later written agreement says otherwise."
+    },
+    {
+      "id": "T9",
+      "title": "Your data",
+      "body": "Please don't send me real family or child information; I review the rules, not the records. For the access you give me: I'll use only what you give me, I won't copy family records, I'll keep your data out of AI tools except as NDA section 4 allows, I'll tell you within {{breach_notice_hours}} hours if I suspect any exposure, and I'll give back all access when Step 1 ends unless a later step is signed."
+    },
+    {
+      "id": "T10",
+      "title": "Limit of liability",
+      "body": "My total liability under this agreement is capped at {{liability_cap}}, and neither of us is liable for indirect or lost-profit damages. The cap doesn't apply to breaches of the NDA, or to gross negligence or willful misconduct."
+    },
+    {
+      "id": "T11",
+      "title": "Covering each other",
+      "body": "Each of us covers the other for claims from third parties caused by our own negligence or breach of this agreement or the NDA. I also cover you if anything I deliver infringes someone else's rights. You cover me for claims about your platform, users and data, except where I caused the problem."
+    },
+    {
+      "id": "T12",
+      "title": "Disputes",
+      "body": "We talk first, in good faith, for {{talk_first_days}} days. After that, either of us can go to {{dispute_forum}}, including small claims. Connecticut law applies."
+    },
+    {
+      "id": "T13",
+      "title": "The NDA stays",
+      "body": "The Mutual NDA (executed {{nda_executed|nda}}) continues to apply, and this agreement counts as the services agreement in its section 8.1. If {{nda_restart_days}} days pass after Step 1 is delivered with no later step signed, NDA section 8.1(c) applies again. If the two conflict on confidentiality, the NDA controls."
+    },
+    {
+      "id": "T14",
+      "title": "Ending early",
+      "body": "I'm an independent contractor, not an employee. Either of us can end this agreement in writing. If either of us ends it early, I refund the part of the fee for work not yet done. Sections 5, 6, 10, 11, 12 and 13 survive if this agreement ends."
+    },
+    {
+      "id": "T15",
+      "title": "The basics",
+      "body": "This agreement and the NDA are the whole agreement between us for Step 1. Changes must be in writing. E-signatures are fine. Notices go by email to the addresses below."
+    }
+  ],
+  "altitudes": {
+    "exec": "My Ally said yes to Step 1 ({{fee_step1}}, {{hours_step1}} hours). Results by {{deliver_by|long}} if access lands by {{access_by|long}}; the NDA's return-or-destroy clause fires {{nda_return_by|long}} unless this agreement is signed first.",
+    "strategic": "Three cases (best, base, worst) and the guard for each. The worst case is Step 1 used as a spec for other bidders; the guard is term 6 (estimates, not a quote) and findings delivered as bands, not a bid sheet.",
+    "operational": "Three steps, each with its own written yes. Step 1 runs about {{duration_days|weeks}} from access.",
+    "tactical": "Chelsea's four asks, each answered by a named part of this record: deliverables, estimates, the delivery date and the agreement.",
+    "surgical": "Every value, where it came from, and when it last changed."
+  },
+  "cold_read": {
+    "why": "My Ally said yes to Step 1 of a three-step offer. Before work starts, Chelsea asked four things, and their counsel will review the agreement.",
+    "what": "One record for this engagement. The reply email, the Step 1 agreement and its Exhibit A (deliverables) all render from it, so a changed price or date changes every page that cites it.",
+    "why_now": "The holding reply promised a follow-up. They want results before year end, and the NDA's return-or-destroy clause (8.1(c)) fires {{nda_return_by|long}} unless a services agreement is signed first.",
+    "before": "Agreement signed and GitHub and Lovable access by {{access_by|long}}.",
+    "during": "Step 1 runs about {{duration_days|weeks}}, {{hours_step1}} hours of my time, from {{access_by}} to {{deliver_by}}.",
+    "after": "A {{walkthrough_minutes}}-minute walkthrough by {{deliver_by|long}}, then their written yes or no on Step 2."
+  },
+  "counsel_notes": "Option B (mutual indemnity, the NDA's Connecticut courts) already meets counsel's usual pushback points. Likely questions: the liability cap amount (term 10), the 30-day fix window (term 8) and the scope of the data check (term 7). Hold firm on terms 6, 7 and 10.",
+  "step1_tree": {
+    "title": "Step 1: light audit and code review",
+    "weeks": [
+      "Before",
+      "Day 1",
+      "Day 2",
+      "Day 3",
+      "Day 4",
+      "After"
+    ],
+    "summary": "Step 1 of 3: {{fee_step1}} fixed, for up to {{hours_step1}} hours of work, done in five working days once we start. Step 2 is {{fee_step1}} for up to {{hours_step1}} hours, as offered on October 29; a different scope needs your written yes.",
+    "s2": "Step 2",
+    "s3": "Step 3",
+    "rows": [
+      {
+        "id": "w0",
+        "parent": null,
+        "kind": "phase",
+        "label": "Before we start",
+        "start": 0,
+        "len": 1,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "About 10 minutes on your side. The sprint starts the day after all three are in. If any land later, the dates move by the same amount.",
+        "hours": 0
+      },
+      {
+        "id": "w0a",
+        "parent": "w0",
+        "kind": "gate",
+        "label": "Agreement signed and the {{fee_step1}} invoice paid",
+        "start": 0,
+        "len": 1,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "I send the invoice when you sign. It is due before the sprint starts.",
+        "hours": 0
+      },
+      {
+        "id": "w0b",
+        "parent": "w0",
+        "kind": "gate",
+        "label": "An invite for {{lovable_email}} to a copy (a remix) of your Lovable project, with no real family information in it",
+        "start": 0,
+        "len": 1,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "I read the code there, read-only, so no GitHub setup is needed for this step. Working on a copy keeps my promise to work only from made-up data.",
+        "hours": 0
+      },
+      {
+        "id": "w0c",
+        "parent": "w0",
+        "kind": "gate",
+        "label": "The last one or two monthly bills and usage screens for Lovable, Supabase and your AI provider",
+        "start": 0,
+        "len": 1,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "Screenshots by email are fine.",
+        "hours": 0
+      },
+      {
+        "id": "w0e",
+        "parent": "w0",
+        "kind": "req",
+        "label": "Nothing new to write",
+        "start": 0,
+        "len": 1,
+        "get": "Your October 27 walkthrough and the integration spec already show how the app works.",
+        "s2": "",
+        "s3": "",
+        "note": "If you already have them, attach your business plan, roadmap, token cost analysis, counsel's findings or user stories.",
+        "hours": 0
+      },
+      {
+        "id": "w0d",
+        "parent": "w0",
+        "kind": "req",
+        "label": "No real family data",
+        "start": 0,
+        "len": 1,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "No real family data is needed for this step.",
+        "hours": 0
+      },
+      {
+        "id": "w1",
+        "parent": null,
+        "kind": "phase",
+        "label": "Code review",
+        "start": 1,
+        "len": 2,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "What is built, and what to fix first?",
+        "hours": 4.25
+      },
+      {
+        "id": "w1a",
+        "parent": "w1",
+        "kind": "task",
+        "label": "Read the Lovable code, database rules and integration spec",
+        "start": 1,
+        "len": 1,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "",
+        "hours": 2
+      },
+      {
+        "id": "w1b",
+        "parent": "w1",
+        "kind": "task",
+        "label": "Sort the code into three piles",
+        "start": 2,
+        "len": 1,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "",
+        "hours": 1.5
+      },
+      {
+        "id": "w1e",
+        "parent": "w1",
+        "kind": "task",
+        "label": "Map what your spec says against what is built, stubbed or missing",
+        "start": 2,
+        "len": 1,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "",
+        "hours": 0.75
+      },
+      {
+        "id": "w1c",
+        "parent": "w1",
+        "kind": "ms",
+        "label": "The code sorted into three piles: ready to build on, keep with tidying, better rebuilt",
+        "start": 2,
+        "len": 0,
+        "get": "",
+        "s2": "Shows which parts are solid enough to plan Step 2 on.",
+        "s3": "Decides what gets rebuilt first, so no hours go into code that will be thrown away.",
+        "note": "",
+        "hours": 0
+      },
+      {
+        "id": "w1g",
+        "parent": "w1",
+        "kind": "gap",
+        "label": "Not in Step 1: GitHub, version control, automatic checks and deploys (CI/CD) and test environments",
+        "start": 1,
+        "len": 2,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "These start in Step 2 and finish in Step 3.",
+        "hours": 0
+      },
+      {
+        "id": "w2",
+        "parent": null,
+        "kind": "phase",
+        "label": "Data separation check",
+        "start": 2,
+        "len": 1,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "",
+        "hours": 1.5
+      },
+      {
+        "id": "w2a",
+        "parent": "w2",
+        "kind": "task",
+        "label": "Check whether each family's data is kept apart in the current code",
+        "start": 2,
+        "len": 1,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "",
+        "hours": 1.5
+      },
+      {
+        "id": "w2b",
+        "parent": "w2",
+        "kind": "ms",
+        "label": "Whether each family's data is kept apart, in plain language",
+        "start": 2,
+        "len": 0,
+        "get": "",
+        "s2": "",
+        "s3": "Has to pass before any real family uses the prototype, and before a 100-family test.",
+        "note": "",
+        "hours": 0
+      },
+      {
+        "id": "w2c",
+        "parent": "w2",
+        "kind": "gap",
+        "label": "Not in Step 1: fixes, or a full security test",
+        "start": 2,
+        "len": 1,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "This step finds and ranks the problems. Fixing them comes later.",
+        "hours": 0
+      },
+      {
+        "id": "w3",
+        "parent": null,
+        "kind": "phase",
+        "label": "Data governance plan",
+        "start": 2,
+        "len": 2,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "",
+        "hours": 2.5
+      },
+      {
+        "id": "w3a",
+        "parent": "w3",
+        "kind": "task",
+        "label": "List the controls and approvals your pilot schools and families are likely to ask for",
+        "start": 2,
+        "len": 1,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "",
+        "hours": 1.5
+      },
+      {
+        "id": "w3b",
+        "parent": "w3",
+        "kind": "task",
+        "label": "Find options for each one, with the questions to confirm with your counsel, and what to buy or rent instead of build",
+        "start": 3,
+        "len": 1,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "",
+        "hours": 1
+      },
+      {
+        "id": "w3c",
+        "parent": "w3",
+        "kind": "ms",
+        "label": "A data governance plan",
+        "start": 3,
+        "len": 0,
+        "get": "Keeping each family's data apart, who can see what, consent, and what to keep out of the app. With the questions to take to your counsel and accountant, including business structure, grants and vendor pricing.",
+        "s2": "Tells the design work which information each screen is allowed to show.",
+        "s3": "",
+        "note": "",
+        "hours": 0
+      },
+      {
+        "id": "w4",
+        "parent": null,
+        "kind": "phase",
+        "label": "Rough ranges",
+        "start": 3,
+        "len": 1,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "Rough ranges, each with its assumptions. Firm estimates are not part of this step.",
+        "hours": 1
+      },
+      {
+        "id": "w4a",
+        "parent": "w4",
+        "kind": "task",
+        "label": "Build the ranges from your bills, usage screens and cost analysis",
+        "start": 3,
+        "len": 1,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "",
+        "hours": 1
+      },
+      {
+        "id": "w4b",
+        "parent": "w4",
+        "kind": "ms",
+        "label": "A range for a build ready to test with up to 100 families",
+        "start": 3,
+        "len": 0,
+        "get": "",
+        "s2": "",
+        "s3": "Sets the budget the prototype is built against.",
+        "note": "",
+        "hours": 0
+      },
+      {
+        "id": "w4c",
+        "parent": "w4",
+        "kind": "ms",
+        "label": "A range for the path from there to public launch",
+        "start": 3,
+        "len": 0,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "",
+        "hours": 0
+      },
+      {
+        "id": "w4d",
+        "parent": "w4",
+        "kind": "ms",
+        "label": "Monthly running costs for AI, hosting and security checks, shown over two years",
+        "start": 3,
+        "len": 0,
+        "get": "Numbers Kelly can put in the business plan and show funders.",
+        "s2": "",
+        "s3": "",
+        "note": "",
+        "hours": 0
+      },
+      {
+        "id": "w5",
+        "parent": null,
+        "kind": "phase",
+        "label": "Go or stop memo",
+        "start": 3,
+        "len": 2,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "",
+        "hours": 1.5
+      },
+      {
+        "id": "w5a",
+        "parent": "w5",
+        "kind": "task",
+        "label": "Rank the problems to fix first, as an order of work",
+        "start": 3,
+        "len": 1,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "",
+        "hours": 0.5
+      },
+      {
+        "id": "w5b",
+        "parent": "w5",
+        "kind": "task",
+        "label": "Write the memo and check it against your pilot and fundraising goals",
+        "start": 4,
+        "len": 1,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "",
+        "hours": 1
+      },
+      {
+        "id": "w5c",
+        "parent": "w5",
+        "kind": "ms",
+        "label": "A ranked list of problems to fix first",
+        "start": 4,
+        "len": 0,
+        "get": "The problems, not fix plans, in an order where each step unblocks or lowers the risk of the next.",
+        "s2": "Becomes the starting order of work for Step 2.",
+        "s3": "",
+        "note": "",
+        "hours": 0
+      },
+      {
+        "id": "w5d",
+        "parent": "w5",
+        "kind": "ms",
+        "label": "A go or stop memo, with the map of your spec against what is built",
+        "start": 4,
+        "len": 0,
+        "get": "All in plain language, so your team or any developer can act on it in Steps 2 and 3.",
+        "s2": "",
+        "s3": "",
+        "note": "",
+        "hours": 0
+      },
+      {
+        "id": "w7",
+        "parent": null,
+        "kind": "phase",
+        "label": "Along the way",
+        "start": 1,
+        "len": 4,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "Each item on this list is marked ready for review as it lands, and you hear about it through the channel you choose: this tab, email, or a shared Slack channel if you use one.",
+        "hours": 0.5
+      },
+      {
+        "id": "w7a",
+        "parent": "w7",
+        "kind": "ms",
+        "label": "Midweek, a 30-minute review call on your batched comments",
+        "start": 2,
+        "len": 0,
+        "get": "Comment whenever suits you on anything marked ready, in one place. I collect the comments and we go through them together, so your time stays free in between.",
+        "s2": "",
+        "s3": "",
+        "note": "Review calls are part of Step 1 and don't use your office hours.",
+        "hours": 0.5
+      },
+      {
+        "id": "w6",
+        "parent": null,
+        "kind": "phase",
+        "label": "Readout and your choice",
+        "start": 4,
+        "len": 2,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "",
+        "hours": 0.75
+      },
+      {
+        "id": "w6r",
+        "parent": "w6",
+        "kind": "ms",
+        "label": "A {{walkthrough_minutes}}-minute readout call",
+        "start": 4,
+        "len": 0,
+        "get": "We walk through the memo, the plan and the ranges together.",
+        "s2": "",
+        "s3": "",
+        "note": "",
+        "hours": 0.75
+      },
+      {
+        "id": "w6s",
+        "parent": "w6",
+        "kind": "gate",
+        "label": "One round of changes",
+        "start": 5,
+        "len": 1,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "Send your comments together, in one message, within {{changes_days}} days of the readout, and I update the deliverables once. After that, the step is accepted.",
+        "hours": 0
+      },
+      {
+        "id": "w6t",
+        "parent": "w6",
+        "kind": "gate",
+        "label": "Your choice of next step",
+        "start": 5,
+        "len": 1,
+        "get": "A decision date agreed on the call, and the name of the person who decides on your side.",
+        "s2": "",
+        "s3": "",
+        "note": "More detail on open questions: {{block_hours}}-hour blocks at {{rate_ff}} an hour, each started only after your written OK, billed on their own and not credited toward later steps. Or Step 2: {{fee_step1}} for up to {{hours_step1}} hours, as offered on October 29. A different scope or price applies only with your written yes, and Step 2 starts only with your written yes.",
+        "hours": 0
+      },
+      {
+        "id": "w8",
+        "parent": null,
+        "kind": "phase",
+        "label": "Included at no charge",
+        "start": 0,
+        "len": 6,
+        "get": "",
+        "s2": "",
+        "s3": "",
+        "note": "On top of the {{fee_step1}}.",
+        "hours": 0
+      },
+      {
+        "id": "w8a",
+        "parent": "w8",
+        "kind": "gift",
+        "label": "{{oh_free_hours}} hours of office hours a month at no charge, in {{oh_slot_minutes}}-minute slots",
+        "start": 0,
+        "len": 6,
+        "get": "Booked through my calendar link, as offered on October 29.",
+        "s2": "",
+        "s3": "",
+        "note": "Bring any question, technical or not.",
+        "hours": 0
+      }
+    ],
+    "plan": {
+      "title": "The whole plan",
+      "summary": "Step 1 now, then Steps 2 and 3 in about three weeks, with handoff by mid-December.",
+      "rows": [
+        [
+          "Steps 2 and 3",
+          "About three weeks",
+          "Customer journey and design system, then a working prototype, {{fee_step1}} each. Each starts only with your written yes."
+        ],
+        [
+          "Target",
+          "Mid-December",
+          "Handoff before the end of the year, counted from the day Step 1 starts."
+        ],
+        [
+          "After Step 3",
+          "While you demo",
+          "Office hours continue as offered. Maintenance is optional, quoted when you want it."
+        ]
+      ],
+      "note": "Going on through Steps 2 and 3 brings the no-charge research design, Alyce's first prompts and project admin, and the {{fee_step1}} credit toward a later build.",
+      "pdf": {
+        "href": "/myally-step1-agreement.pdf",
+        "label": "Download the Step 1 agreement (PDF)",
+        "note": "For your counsel's review. Once they're happy, I send a clean copy to sign.",
+        "docx": "/myally-step1-agreement.docx",
+        "docx_label": "Word version for redlines"
+      },
+      "call": {
+        "href": "https://calendar.app.google/cTQkE1W2D8EPo8q59",
+        "label": "Book a quick call"
+      },
+      "doc": {
+        "href": "https://docs.google.com/document/d/1ynXK6zf9_Y575-owW9OmXcTUN4cRj-NCBVh-_ccNO4A/edit",
+        "label": "Comment in the shared doc"
+      }
+    },
+    "glance": [
+      [
+        "Fee",
+        "{{fee_step1}}",
+        "Fixed, for up to {{hours_step1}} hours at {{rate_ff}} an hour"
+      ],
+      [
+        "Time",
+        "Five working days",
+        "From the working day after the start items are in"
+      ],
+      [
+        "Your side",
+        "About 10 minutes",
+        "A copy of your Lovable project and your recent bills. Nothing new to write"
+      ],
+      [
+        "Office hours",
+        "{{oh_free_hours}} hours a month",
+        "At no charge, in {{oh_slot_minutes}}-minute slots, booked through my calendar link"
+      ]
+    ]
+  },
+  "exports": [
+    "step1_tree"
+  ]
+}

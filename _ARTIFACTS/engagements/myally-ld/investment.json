@@ -1,0 +1,18 @@
+{
+  "cap_hours": 10,
+  "paid_from": null,
+  "work_paths": [
+    "public/myally*",
+    "_ARTIFACTS/engagements/myally-ld",
+    "_ARTIFACTS/sow-scaffold-2026-10-08",
+    "runtime/recoil/generated/*myally*",
+    "_DRAFTS/myally",
+    "scripts/myally*"
+  ],
+  "calls": [
+    {"date": "2026-10-08", "minutes": 65, "source": "Granola, intro call with Kelly and Chelsea; end extrapolated from the transcript", "basis": "estimated"},
+    {"date": "2026-10-27", "minutes": 91, "source": "Granola, proposal call with Leah, Kelly, Chelsea and Morgan; from the memory note, not re-measured", "basis": "reported"}
+  ],
+  "emails": {"sent": 18, "minutes_each": 15, "basis": "assumed", "counted_through": "2026-11-07", "source": "Gmail threads 1a121bb189899df1 (17) and 1a12236da25a1a76 (1)"},
+  "notes": "Cap set by Zach 2026-11-08. Unpaid time not visible here: reading the 60-page spec and the RFP, planning, texts, and Claude work that left no commit."
+}

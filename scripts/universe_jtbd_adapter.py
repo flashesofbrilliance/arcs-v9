@@ -507,7 +507,7 @@ def edge_self_test():
         mr = re.compile(ge.SERVICES["resend"][1]).search(real)
         print(f"good edge fixture (a real resend import still matches): {'ok' if mr and not ge.SVC_REGEX_DEF.search(real[:mr.start()]) else 'WRONG'}")
         ok &= bool(mr) and not ge.SVC_REGEX_DEF.search(real[:mr.start()])
-        rr = re.compile(r"(?:" + ge.INVOKE + r")(scripts/a\.py)(?![\w./-])")
+        rr = re.compile(ge.RUN_PREFIX + r"(scripts/a\.py)(?![\w./-])")
         cases = [("operators/o.py", 'subprocess.run(["python3", "scripts/a.py"])', 1),
                  ("operators/o.py", 'print("fix:", ["python3", "scripts/a.py"])', 0),
                  ("operators/o.py", 'raise SystemExit("run: python3 scripts/a.py")', 0),
@@ -519,6 +519,14 @@ def edge_self_test():
                  ("scripts/git-hooks/pre-commit", '# Fix: python3 scripts/a.py, re-stage.', 0),
                  ("scripts/git-hooks/pre-commit", '  echo "  run python3 scripts/a.py" >&2', 0),
                  ("scripts/git-hooks/pre-commit", 'if [ -f scripts/a.py ]; then', 0),
+                 ("scripts/git-hooks/pre-commit", 'if ! echo "$f" | xargs -0 python3 scripts/a.py; then', 1),
+                 ("scripts/git-hooks/pre-commit", 'echo "$f" | tr x y; echo "run python3 scripts/a.py"', 0),
+                 (".claude/hooks/s.sh", '[ -x "$_d/scripts/a.py" ] && "$_d/scripts/a.py" "$_d" || true', 1),
+                 (".claude/hooks/s.sh", 'python3 "$CLAUDE_PROJECT_DIR/scripts/a.py" check 2>/dev/null || true', 1),
+                 (".claude/hooks/s.sh", '[ -f "$_d/scripts/a.py" ] || exit 0', 0),
+                 ("scripts/g.sh", 'python3 scripts/a.py "$F" || fail "regression (raise the token)"', 1),
+                 ("scripts/g.sh", 'python3 scripts/b.py || echo "then run python3 scripts/a.py"', 0),
+                 ("operators/o.py", 'subprocess.run(["sh", "-c", "$HOME/scripts/a.py"])', 0),
                  (".claude/commands/c.md", 'Run `python3 scripts/a.py` first.', 1),
                  (".claude/commands/c.md", 'Queue produced by scripts/a.py nightly.', 0)]
         rt = lambda x: [c for c in ge.ROUTE_LIST.split(x) if not ge.ROUTE_HEDGE.search(c)

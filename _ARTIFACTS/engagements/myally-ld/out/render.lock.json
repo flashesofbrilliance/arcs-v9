@@ -1,0 +1,99 @@
+{
+  "outputs": {
+    "agreement.md": {
+      "cites": {
+        "breach_notice_hours": 72,
+        "commit_weeks": 4,
+        "dispute_forum": "the Connecticut courts named in our NDA",
+        "fee_step1": 1500,
+        "fix_window_days": 30,
+        "liability_cap": "the fees you paid me under it",
+        "lovable_email": "zach.harris@gmail.com",
+        "nda_executed": "2026-10-26",
+        "nda_restart_days": 60,
+        "oh_free_hours": 4,
+        "oh_slot_minutes": 30,
+        "rate_committed": 125,
+        "rate_ff": 125,
+        "rate_standard": 150,
+        "talk_first_days": 30,
+        "work_days": 4
+      },
+      "sha256": "54b58821fcc9fdfa0385b90569284330fb67369ee79a0fecb05d5ed3e6957869"
+    },
+    "exhibit-a.md": {
+      "cites": {
+        "walkthrough_minutes": 45,
+        "work_days": 4
+      },
+      "sha256": "bcf6f61620cc3bec3de5a186477122af2c0b17ad3b2912978bcdc09b0ca9a14d"
+    },
+    "proposal.html": {
+      "cites": {
+        "access_by": "2026-11-09",
+        "block_hours": 2,
+        "breach_notice_hours": 72,
+        "changes_days": 7,
+        "commit_weeks": 4,
+        "deliver_by": "2026-11-13",
+        "dispute_forum": "the Connecticut courts named in our NDA",
+        "duration_days": 4,
+        "fee_offer_total": 4500,
+        "fee_step1": 1500,
+        "fix_window_days": 30,
+        "github_user": "flashesofbrilliance",
+        "hours_offer_total": 36,
+        "hours_step1": 12,
+        "latest_access": "2026-12-15",
+        "liability_cap": "the fees you paid me under it",
+        "lovable_email": "zach.harris@gmail.com",
+        "nda_anchor": "2026-10-09",
+        "nda_executed": "2026-10-26",
+        "nda_restart_days": 60,
+        "nda_return_by": "2027-01-07",
+        "nda_return_days": 90,
+        "oh_free_hours": 4,
+        "oh_slot_minutes": 30,
+        "rate_committed": 125,
+        "rate_ff": 125,
+        "rate_standard": 150,
+        "start_lag_days": 1,
+        "start_on": "2026-11-10",
+        "steps_offered": 3,
+        "talk_first_days": 30,
+        "walkthrough_minutes": 45,
+        "work_days": 4
+      },
+      "sha256": "0f66a608c139bcefd52085a5a942883aad8c338820f23ef4018cbd78ee4c5d95"
+    },
+    "reply.md": {
+      "cites": {
+        "access_by": "2026-11-09",
+        "deliver_by": "2026-11-13",
+        "fee_step1": 1500,
+        "github_user": "flashesofbrilliance",
+        "hours_step1": 12,
+        "latest_access": "2026-12-15",
+        "lovable_email": "zach.harris@gmail.com",
+        "walkthrough_minutes": 45,
+        "work_days": 4
+      },
+      "sha256": "5fa7890bf39b63ecaa1076258bfd7f2da559763b6dfb13ef8ca77e5916095ce1"
+    },
+    "step1_tree.json": {
+      "cites": {
+        "block_hours": 2,
+        "changes_days": 7,
+        "fee_step1": 1500,
+        "hours_step1": 12,
+        "lovable_email": "zach.harris@gmail.com",
+        "oh_free_hours": 4,
+        "oh_slot_minutes": 30,
+        "rate_ff": 125,
+        "walkthrough_minutes": 45
+      },
+      "sha256": "022fcc5912ff257dbe73e5b0b4e87ed0492c76ac5d63ba1977f89eb2f5040f43"
+    }
+  },
+  "record": "myally-ld-step1"
+}

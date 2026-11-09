@@ -1,0 +1,102 @@
+{
+  "number": "39",
+  "name": "Theme Toggle",
+  "slug": "theme-toggle",
+  "layer": "Molecule",
+  "job": "Let a reader switch a dark kit page to light and back, follow the system setting until they choose, and print on paper colours.",
+  "anatomy": [
+    {
+      "part": "Button",
+      "role": "Sans, body size, text only, 44px tall target; label names the mode it switches to",
+      "token": "`text-secondary`, hover and focus `cyan`"
+    },
+    {
+      "part": "Light remap",
+      "role": "Overrides the kit surface, text and signal tokens on `:root`; kit parts stay verbatim",
+      "token": "`bg` `surface` `elevated` `border` `text` `text-secondary` `muted` `dimmed` `cyan` `green` `gold` `red` and their `-bg`"
+    },
+    {
+      "part": "System default",
+      "role": "`prefers-color-scheme: light` applies the remap unless the reader chose dark",
+      "token": "`color-scheme`"
+    },
+    {
+      "part": "Print",
+      "role": "Print always uses the light remap and hides the button",
+      "token": "same remap"
+    },
+    {
+      "part": "Memory",
+      "role": "Pre-paint head script reads the saved choice; the tail script saves it under a per-page key",
+      "token": "none (localStorage, wrapped in try)"
+    }
+  ],
+  "states": [
+    {
+      "name": "Dark (default)",
+      "args": [
+        "dark"
+      ],
+      "note": "The kit as authored. Button reads Light mode."
+    },
+    {
+      "name": "Light (chosen)",
+      "args": [
+        "light"
+      ],
+      "note": "Remap on, data-theme set to light. Button reads Dark mode."
+    },
+    {
+      "name": "No script",
+      "args": [
+        null
+      ],
+      "note": "The button stays hidden; the page still follows the system setting through the media query."
+    }
+  ],
+  "use_when": [
+    "A dark kit page will be read by a counterpart who may prefer light, or will be printed.",
+    "The page inlines the kit tokens, so one remap covers every part on it."
+  ],
+  "avoid_when": [
+    "The page is a video frame or a fixed-render surface; a frame has one look.",
+    "The page already has its own light palette under page-local token names (the myally family uses `--pg-*`); keep that one."
+  ],
+  "data": [
+    {
+      "field": "key",
+      "type": "string",
+      "required": true,
+      "note": "The localStorage key for the saved choice, one per page family, such as `brooksTheme`."
+    }
+  ],
+  "access": [
+    "A real `<button>`, hidden until the script runs, so it never shows without working.",
+    "`aria-label` says Switch to light mode or Switch to dark mode; the visible label matches.",
+    "Focus ring is a 2px cyan outline; the target is 44px tall.",
+    "The light remap keeps every kit pairing at AA contrast (checked on the Brooks one-pager by page_gate)."
+  ],
+  "built_from": [
+    {
+      "name": "Kit tokens (atoms)",
+      "href": "_tokens.css"
+    }
+  ],
+  "used_by": [
+    {
+      "name": "Brooks audit one-pager (counterpart-onepager template)"
+    },
+    {
+      "name": "MyAlly pages (same pattern, page-local tokens)"
+    }
+  ],
+  "gates": [
+    "`scripts/kit_primitive_sync.py --check`: every page that marks this block carries it unchanged.",
+    "`scripts/kit_specimen.py --check`: this page matches its spec.",
+    "`scripts/page_gate.py`, `scripts/token_source_gate.py`, and the Impeccable detector at 0 findings."
+  ],
+  "css": "/* @prim:begin 39-theme-toggle */\n:root{color-scheme:dark;}\n@media (prefers-color-scheme: light){:root:not([data-theme=\"dark\"]){--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}}\n:root[data-theme=\"light\"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}\n.themebtn{display:inline-flex;align-items:center;min-height:44px;padding:0;margin:0 0 8px;font:inherit;font-size:var(--fs-body);color:var(--text-secondary);background:none;border:0;cursor:pointer;text-underline-offset:3px;}\n.themebtn:hover,.themebtn:focus-visible{color:var(--cyan);text-decoration:underline;}\n.themebtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}\n@media print{:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;} .themebtn{display:none!important;} body{background:#fff!important;}}\n/* @prim:end 39-theme-toggle */\n.sp-state [data-state] { min-height: 44px; }\n",
+  "head_js": "<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('{key}');if(t==='light'||t==='dark')d.setAttribute('data-theme',t);}catch(e){}})();</script>",
+  "tail_js": "<script>(function(){var d=document.documentElement,b=document.getElementById('themebtn');if(!b)return;var mq=window.matchMedia?matchMedia('(prefers-color-scheme: light)'):null;function cur(){var t=d.getAttribute('data-theme');if(t)return t;return mq&&mq.matches?'light':'dark';}function label(){b.textContent=cur()==='light'?'Dark mode':'Light mode';b.setAttribute('aria-label','Switch to '+b.textContent.toLowerCase());}b.hidden=false;label();b.addEventListener('click',function(){var n=cur()==='light'?'dark':'light';d.setAttribute('data-theme',n);try{localStorage.setItem('{key}',n);}catch(e){}label();});if(mq&&mq.addEventListener)mq.addEventListener('change',label);})();</script>",
+  "demo": "var b=document.createElement('button');b.type='button';b.className='themebtn';b.id='themebtn';b.hidden=true;b.textContent='Light mode';document.querySelector('[data-stage]').appendChild(b);\nSTATES.forEach(function(s,i){var el=document.querySelector('[data-state=\"'+i+'\"]');var x=document.createElement('span');x.className='themebtn';x.textContent=s===null?'(hidden)':(s==='light'?'Dark mode':'Light mode');el.appendChild(x);});\n(function(){var d=document.documentElement,b=document.getElementById('themebtn');if(!b)return;var mq=window.matchMedia?matchMedia('(prefers-color-scheme: light)'):null;function cur(){var t=d.getAttribute('data-theme');if(t)return t;return mq&&mq.matches?'light':'dark';}function label(){b.textContent=cur()==='light'?'Dark mode':'Light mode';b.setAttribute('aria-label','Switch to '+b.textContent.toLowerCase());}b.hidden=false;label();b.addEventListener('click',function(){var n=cur()==='light'?'dark':'light';d.setAttribute('data-theme',n);try{localStorage.setItem('arcsKitTheme',n);}catch(e){}label();});if(mq&&mq.addEventListener)mq.addEventListener('change',label);})();"
+}

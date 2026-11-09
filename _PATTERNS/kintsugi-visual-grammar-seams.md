@@ -842,3 +842,17 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - **Repair:** (1) phosphor is now checked only for Instrument Lab blocks, and every page that marks a block is checked against the kit; a kit rule the page never uses may be left out (`public/good-audit-check.html` leaves out the unused `.section-label` line). (2) Waived for the storyboard file only, not fixed: its type is the original session's call. (3) `design-system-color` is waived for the one-pager and the 39 specimen (the brand profile already exempts it); the three font sizes are waived for that file only, because changing them would break the 0-pixel parity.
 - **Guard:** the sync check was shown to fail on a broken block before it was trusted. The font-size waiver is open debt. To repair: move the three sizes onto ramp tokens in the generator, rebuild, re-shoot parity, and delete the font-size waiver in `.impeccable/config.json`. Source text: the Seams section of the counterpart-onepager README on branch `claude/brooks-onepager-kit-trueup`.
 - **Note on this file:** it could not take this entry until the seven cites to pages retired by PR #2025 (commit `29e477bc`) were re-pointed to `_ARCHIVE/retired-surfaces/2026-11-04/<original path>`. History entries were kept; only the paths changed.
+
+## 2026-11-05 · Louisville proposal hosted at louisville.arcs.care/proposal (repaired, two waivers)
+
+- **Break:** the ratchet counted 9 findings against 0 at HEAD on `public/louisville-proposal.html`, because the page was new to git. That covered 6 `design-system-color` (the light and print palette), 1 `all-caps-body` (the byline), 1 radius of 8px (the header icon buttons) and 1 font size of 0.85rem (a dead phone rule for the segment labels).
+- **Root cause:** the hosted copy is the canonical Brooks page, which carries a light theme that DESIGN.md (dark only) doesn't define. The other two were real leftovers from the icon-toggle and brand-gate passes.
+- **Repair:** the icon buttons now use `var(--ds-r-sm)` and the dead 0.85rem rule is removed. `design-system-color` (the same light-world scope as the myally pages and the `_ARTIFACTS/brooks-audit-onepager.html` waiver) and `all-caps-body` (the byline is a mono label) are waived for this one file only.
+- **Guard:** the ratchet. The file now scores 0, and any new finding blocks.
+
+## 2026-11-06 · precall-brief template example (repaired, one waiver)
+
+- **Break:** the ratchet counted 13 findings against 0 at HEAD on the new `_ARTIFACTS/precall-brief/example.html`: 8 `design-system-color` (the light palette), 3 chips and the NOW badge at 10px under the 11px floor, a 12px disclosure arrow off the type ramp, and a cramped-padding flag on the status bar.
+- **Root cause:** the template is the Bitfury v19 brief, which set those small sizes by hand and carries a light theme that DESIGN.md (dark only) doesn't define.
+- **Repair:** chips, the NOW badge and the arrow use `var(--fs-label)`; the bar uses `padding: var(--sp-3) 0`. The fix lives in `src/ui-kit/precall-brief/page.tpl`, so every future brief inherits it. `design-system-color` is waived for the example file only (the light theme is part of the specified structure).
+- **Guard:** the ratchet on the example, and `scripts/precall_brief_build.py --check` in pre-commit, which fails when the template moves without a rebuilt example.
