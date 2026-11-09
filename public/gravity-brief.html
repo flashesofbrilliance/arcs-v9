@@ -638,6 +638,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 .shnav[data-mode="menu"] .shnav-tab:hover { color: var(--text); background: var(--surface-2); }
 .shnav[data-mode="menu"] .shnav-tab[aria-current="true"] { color: var(--cyan); box-shadow: inset 3px 0 0 var(--cyan); }
 .shnav[data-mode="menu"] .shnav-tab:focus-visible { outline-offset: -4px; border-radius: var(--ds-r-sm); }
+@media (min-width: 600px) { .shnav[data-mode="menu"] .shnav-tabs { left: auto; width: 50%; border-left: 1px solid var(--border); border-bottom-left-radius: var(--ds-r-md); } }
 @keyframes shnav-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .shnav-menu span, .shnav-menu span::before, .shnav-menu span::after { transition: none; } .shnav[data-mode="menu"].is-open .shnav-tabs { animation: none; } }
 @media print { .shnav-menu, .shnav-tabs { display: none !important; } }
