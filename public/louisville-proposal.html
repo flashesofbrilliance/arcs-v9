@@ -578,6 +578,15 @@ footer p{text-align:left;}
 @media print{.asked-k{margin-top:var(--sp-2);} .asked-k + .verdict{margin-top:4px;}}
 
 .named-why{display:block;margin-bottom:var(--sp-1);font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--cyan);}
+
+.named{position:relative;margin:0 0 var(--sp-3);}
+.named-v{padding:var(--sp-1) calc(var(--sp-4) + var(--sp-1)) var(--sp-1) var(--sp-2);}
+.named-why{margin-bottom:2px;}
+.named-x{position:absolute;top:4px;right:4px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0;border:0;background:none;color:var(--muted);border-radius:var(--ds-r-pill);cursor:pointer;}
+.named-x:hover{color:var(--text);}
+.named-x:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
+.named[hidden]{display:none;}
+@media print{.named-x{display:none;} .named{margin:0 0 var(--sp-1);} .named-v{padding:6px 12px;}}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -608,11 +617,11 @@ footer p{text-align:left;}
 <div class="pbody">
 
 <header>
+  <div class="named" id="why"><p class="named-v"><span class="named-why">Why</span>Confirmation bias, recency bias, the fox watching the henhouse. An outside audit checks your team's work; it doesn't replace it.</p><button type="button" class="named-x" aria-label="Dismiss"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></div>
   <h1>An outside read on your AI build</h1>
   <p class="named-k asked-k">You asked</p>
   <p class="verdict">Where is your AI build on its arc, where is it least efficient, which hypotheses are failing?</p>
   <p class="verdict">I'd answer by tracing two real decisions, one technical and one business, from inputs to outcome, before the next 20,000-bag MOQ rides on it.</p>
-  <div class="named"><p class="named-v"><span class="named-why">Why</span>Confirmation bias, recency bias, the fox watching the henhouse. An outside audit checks your team's work; it doesn't replace it.</p></div>
 </header>
 
 <div class="blkbar"><button type="button" class="expall">Expand all</button></div>
@@ -695,5 +704,6 @@ footer p{text-align:left;}
 <script>(function(){window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-track]');if(!a)return;window.va('event',{name:a.getAttribute('data-track'),data:{href:a.getAttribute('href')||''}});});})();</script>
 <script>(function(){[].forEach.call(document.querySelectorAll('details.fixed > summary'),function(m){m.setAttribute('tabindex','-1');m.addEventListener('click',function(e){e.preventDefault();});});})();</script>
 <script>(function(){var d=document.documentElement,b=document.querySelector('.mast .dprefs-theme');if(!b)return;var st={};try{st=JSON.parse(localStorage.getItem('brooksRead')||'{}')||{};}catch(e){}var mq=window.matchMedia&&matchMedia('(prefers-color-scheme: light)');function dark(){return st.theme?st.theme==='dark':!(mq&&mq.matches);}function apply(){st.theme?d.setAttribute('data-theme',st.theme):d.removeAttribute('data-theme');b.setAttribute('aria-pressed',String(dark()));}b.addEventListener('click',function(){st.theme=dark()?'light':'dark';try{localStorage.setItem('brooksRead',JSON.stringify(st));localStorage.setItem('brooksTheme',st.theme);}catch(e){}apply();});apply();})();</script>
+<script>(function(){var c=document.getElementById('why');if(!c)return;var k='brooksWhyClosed';try{if(sessionStorage.getItem(k))c.hidden=true;}catch(e){}var x=c.querySelector('.named-x');x&&x.addEventListener('click',function(){c.hidden=true;try{sessionStorage.setItem(k,'1');}catch(e){}var h=document.querySelector('.pbody h1');if(h){h.setAttribute('tabindex','-1');h.focus();}});})();</script>
 </body>
 </html>
