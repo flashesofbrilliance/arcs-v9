@@ -291,9 +291,10 @@ def render(d, artifact=False, page=None):
                                                            open(os.path.join(TDIR, "shell.js"), encoding="utf-8").read())
     marks = "<!-- @arcs-template: tabbed-brief -->\n<!-- @arcs-mode: persuade -->\n"
     head = ('<title>%s</title>\n<meta name="robots" content="noindex, nofollow">\n%s\n<style>\n%s</style>\n') % (e(title), head_js, css)
-    if artifact:
+    if artifact and page in (None, "ov"):
         return marks + '<meta name="claude:viewport-fit-sides" content="cover">\n' + head + main + "\n"
-    ana = '<script defer src="/_vercel/insights/script.js"></script>\n' if d.get("analytics") else ""
+    # a full document: the site page, or an Artifact subpage (served without the host's wrapper, so it brings its own head)
+    ana = '<script defer src="/_vercel/insights/script.js"></script>\n' if d.get("analytics") and not artifact else ""
     return ('<!doctype html>\n' + marks + '<html lang="en">\n<head>\n<meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n<meta name="color-scheme" content="light dark">\n%s%s</head>\n<body>\n%s\n</body>\n</html>\n') % (
         head, ana, main)
