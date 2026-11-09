@@ -179,11 +179,11 @@ def r_overview(d):
     note = ('<p class="tb-note">%s</p>' % md(o["action_note"])) if o.get("action_note") else ""
     acts_html = ('<div class="tb-actions">%s</div>' % "".join(acts)) if acts else ""
     go = ('<div class="tb-go">%s%s%s%s</div>\n' % (lead, acts_html, cap, note)) if (lead or acts_html or cap or note) else ""
-    return ('<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">\n<h1 class="tb-h1">%s</h1>\n%s<p class="tb-lede">%s</p>\n'
+    return ('<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">\n<h1 class="tb-h1">%s</h1>\n%s%s'
             '<div class="ftiles-c"><ul class="ftiles is-4" aria-label="At a glance">%s</ul></div>\n'
             '%s'
             '%s<div class="tb-expand%s"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>\n'
-            '<div class="tb-folds">%s</div>\n</div>') % (h, ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"])) if o.get("subhead") else "", "".join('<span class="ln">%s</span>' % md(re.sub(r"(?<=[a-z])-(?=[a-z])", "‑", x)) for x in o["lede"]),
+            '<div class="tb-folds">%s</div>\n</div>') % (h, ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"])) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(re.sub(r"(?<=[a-z])-(?=[a-z])", "‑", x)) for x in o["lede"])) if o.get("lede") else "",
          tiles, go, cr,
          " solo" if len(o["sections"]) < 2 else "", folds)
 
@@ -300,7 +300,7 @@ def self_test():
     x = copy.deepcopy(base); x["tabs"][0]["units"][0]["blocks"][0]["rows"][0].pop(); cases.append(("plan row short a horizon", x, "horizon cells"))
     x = copy.deepcopy(base); x["tabs"][1]["id"] = x["tabs"][0]["id"]; cases.append(("duplicate tab id", x, "unique"))
     x = copy.deepcopy(base); x["overview"]["actions"] = [{"label": "Go", "tab": "nope"}]; cases.append(("action to a missing tab", x, "does not exist"))
-    x = copy.deepcopy(base); x["overview"]["lede"] += " — x"; cases.append(("em-dash in copy", x, "em-dash"))
+    x = copy.deepcopy(base); x["overview"]["headline"][0] += " — x"; cases.append(("em-dash in copy", x, "em-dash"))
     x = copy.deepcopy(base); del x["meta"]; cases.append(("missing meta", x, "meta"))
     x = copy.deepcopy(base); x["horizons"] = [30, 90]; cases.append(("horizons change without rows", x, "horizon"))
     ok = True
