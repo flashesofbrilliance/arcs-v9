@@ -1,0 +1,114 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>LessonLoop: Step 1, scheduling data check</title><style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   the ui-kit compounding sweep note for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion durations and easing. Defined in DESIGN.md "Motion and safety" (promoted 2026-10-19). */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+
+
+* { box-sizing: border-box; }
+body { --sans: var(--ds-font-sans); --mono: var(--ds-font-mono);
+  background: var(--bg); color: var(--text); font-family: var(--sans); font-size: var(--fs-body); line-height: 1.6; margin: 0; padding: 28px 16px; }
+main { --measure: 860px; max-width: var(--measure); margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+h1 { font-family: var(--sans); font-size: var(--fs-display); font-weight: 600; line-height: 1.2; margin: 0; text-wrap: balance; }
+.lede { max-width: none; margin: 0; }
+.note { color: var(--muted); margin: 0; }
+h2.label { font-family: var(--mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: .02em; color: var(--muted); margin: 0 0 6px; line-height: 1.4; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-sm); padding: 20px 22px; }
+.panel p { margin: 0 0 8px; }
+.beats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.beat { background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-sm); padding: 12px; min-width: 0; }
+.beat b { display: block; font-family: var(--mono); font-size: var(--fs-body); letter-spacing: .02em; color: var(--cyan); margin-bottom: 4px; }
+details { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-sm); padding: 14px 18px; }
+summary { cursor: pointer; font-weight: 600; }
+summary span { font-family: var(--mono); font-size: var(--fs-body); color: var(--muted); letter-spacing: .02em; margin-right: 10px; }
+.tw { overflow-x: auto; margin-top: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: var(--fs-body); }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; overflow-wrap: anywhere; }
+th { font-family: var(--mono); font-size: var(--fs-body); letter-spacing: .02em; color: var(--muted); font-weight: 700; }
+code { font-family: var(--mono); }
+.seam { color: var(--gold); font-family: var(--mono); font-size: var(--fs-body); }
+.callout { border: 1px solid var(--gold); background: var(--elevated); padding: 12px 16px; border-radius: var(--ds-r-sm); margin: 0; }
+</style></head><body><main><h1>LessonLoop: Step 1, scheduling data check</h1><p class="note">Internal draft. Not for the client. Rendered from engagement.json (example-fictional-step1).</p><p class="lede">A short paid check of the scheduling data for $960, then ranges, not quotes, for the rebuild.</p><section class="panel"><h2 class="label">Why</h2><p>LessonLoop&#x27;s bookings are kept in a spreadsheet and a calendar tool that disagree, and parents phone to confirm lessons.</p><h2 class="label">What</h2><p>A fixed-fee check of the data and the booking flow, with ranges for the rebuild.</p><h2 class="label">Why now</h2><p>Dana wants bookings working before the January term, and the check has to finish first.</p><h2 class="label">How</h2><div class="beats"><div class="beat"><b>Before</b>Sign, share the spreadsheet and a booking-tool seat.</div><div class="beat"><b>During</b>Three working days of review; a walkthrough call at the end.</div><div class="beat"><b>After</b>Firmer ranges for Steps 2 and 3; each needs its own yes.</div></div></section><p class="callout">How to read this: five levels, Exec to Surgical. Each opens one level deeper; Surgical lists every value with its source.</p><details open><summary><span>1 Exec</span>The headline</summary><p>A short paid check of the scheduling data for $960, then ranges, not quotes, for the rebuild.</p></details><details><summary><span>2 Strategic</span>Best, base, worst</summary><p>Step 1 is the price of finding out; the rebuild is sized from what it finds, so neither side bets on a guess.</p><div class="tw"><table><thead><tr><th>Case</th><th>What happens</th><th>I earn</th><th>Signal to watch</th><th>Guard</th></tr></thead><tbody><tr><td>best</td><td>Dana signs this week, access lands by Dec 1, results by Dec 4; Step 2 starts before the January term.</td><td>$960, then a Step 2 priced from evidence</td><td>Access arrives within two days of signing</td><td>Nothing extra needed</td></tr><tr><td>base</td><td>Signing takes a week or two; Step 1 lands in mid December and Step 2 waits for January.</td><td>$960</td><td>Questions from whoever helps Dana decide</td><td>Keep the ranges labeled as estimates wherever they travel</td></tr><tr><td>worst</td><td>Dana shows the ranges to a cheaper builder and hires them for the rebuild.</td><td>Nothing beyond Step 1, if Step 1 is bought at all</td><td>Requests for a per-task breakdown before Step 1 is paid</td><td>No task-level price list before Step 1 is paid; the leak check refuses one</td></tr></tbody></table></div></details><details><summary><span>3 Operational</span>Steps and timing</summary><p>Three working days from access; results by Dec 4 if access lands by Dec 1.</p><div class="tw"><table><thead><tr><th>Step</th><th>Question</th><th>Fee</th><th>Status</th></tr></thead><tbody><tr><td>Scheduling data check</td><td>What is actually broken, and is the data worth keeping?</td><td>$960</td><td>offered</td></tr><tr><td>Rebuild the booking flow</td><td>Can parents book without a phone call?</td><td>$2,400 to $4,800</td><td>range only, needs its own written yes</td></tr><tr><td>Parent reminders pilot</td><td>Do reminders cut no-shows?</td><td>$1,800 to $3,600</td><td>range only, needs its own written yes</td></tr></tbody></table></div></details><details><summary><span>4 Tactical</span>Dana&#x27;s asks, each with its answer</summary><p>Each of Dana&#x27;s three questions maps to a deliverable or a field below.</p><div class="tw"><table><thead><tr><th>Ask</th><th>From</th><th>What they asked</th><th>Answered by</th></tr></thead><tbody><tr><td>Where to start</td><td>Dana, 2026-11-03 email</td><td>What would you do first, and what would we have at the end of it?</td><td>deliverables</td></tr><tr><td>Whole cost</td><td>Dana, 2026-11-03 email</td><td>Roughly what does fixing the whole booking mess cost?</td><td>fee_step2, fee_step3</td></tr><tr><td>Timing</td><td>Dana, 2026-11-03 email</td><td>Could this be done before the January term starts?</td><td>deliver_by</td></tr></tbody></table></div></details><details><summary><span>5 Surgical</span>Every value and where it came from</summary><p>Every value, its source and its history; every assumption with the test that would decide it.</p><div class="tw"><table><thead><tr><th>Field</th><th>What</th><th>Value</th><th>Source</th></tr></thead><tbody><tr><td><code>access_by</code></td><td>Target date for spreadsheet and booking-tool access</td><td>Dec 1, 2026</td><td>email: Dana, 2026-11-03 email (2026-11-03)</td></tr><tr><td><code>deliver_by</code></td><td>Results by, if access lands on the target date</td><td>Dec 4, 2026</td><td>derived from access_by, duration_days</td></tr><tr><td><code>dispute_forum</code></td><td>Where a dispute goes</td><td>the courts of Lane County, Oregon</td><td>decision: Robin, rate card (2026-11-02)</td></tr><tr><td><code>duration_days</code></td><td>Calendar days from access to results</td><td>3</td><td>judgment: Robin, sizing after the intro call (2026-11-03)</td></tr><tr><td><code>fee_step1</code></td><td>Step 1 fixed fee</td><td>$960</td><td>derived from hours_step1, rate_hour</td></tr><tr><td><code>fee_step2</code></td><td>Step 2 planning range</td><td>$2,400 to $4,800</td><td>judgment: Robin, sizing after the intro call (2026-11-03)</td></tr><tr><td><code>fee_step3</code></td><td>Step 3 planning range</td><td>$1,800 to $3,600</td><td>judgment: Robin, sizing after the intro call (2026-11-03)</td></tr><tr><td><code>fix_window_days</code></td><td>Days to report a mismatch with Exhibit A</td><td>14</td><td>decision: Robin, rate card (2026-11-02)</td></tr><tr><td><code>hours_step1</code></td><td>Hours in Step 1</td><td>8</td><td>judgment: Robin, sizing after the intro call (2026-11-03)</td></tr><tr><td><code>liability_cap</code></td><td>Liability cap</td><td>the fee paid for Step 1</td><td>decision: Robin, rate card (2026-11-02)</td></tr><tr><td><code>rate_hour</code></td><td>Hourly rate for fixed-fee steps</td><td>$120</td><td>decision: Robin, rate card (2026-11-02)</td></tr><tr><td><code>talk_first_days</code></td><td>Days of good-faith talks before a dispute goes further</td><td>15</td><td>decision: Robin, rate card (2026-11-02)</td></tr><tr><td><code>walkthrough_minutes</code></td><td>Walkthrough call length</td><td>45</td><td>decision: Robin, rate card (2026-11-02)</td></tr><tr><td><code>work_days</code></td><td>Working days in Step 1</td><td>3</td><td>judgment: Robin, sizing after the intro call (2026-11-03)</td></tr></tbody></table></div><h2 class="label">Assumptions</h2><div class="tw"><table><thead><tr><th>Id</th><th>Assumption</th><th>Test that would decide it</th><th>Status</th></tr></thead><tbody><tr><td><code>asm-1</code></td><td>Access lands by Dec 1, 2026; every date counts from access, not from signing.</td><td>The date the spreadsheet is shared. If later, deliver_by moves by the same number of days.</td><td>open</td></tr><tr><td><code>asm-2</code></td><td>Bookings live in one spreadsheet and one calendar tool, with no second system kept by hand.</td><td>Step 1 finds a second system: the Step 2 range is re-sized before any yes.</td><td>open</td></tr><tr><td><code>asm-3</code></td><td>Reminders can go out through the email tool already paid for, with no new texting service.</td><td>The current email plan allows scheduled sends to the parent list.</td><td>open</td></tr></tbody></table></div></details><section class="panel"><h2 class="label">Not proven yet</h2><ul><li>That the spreadsheet is the only booking record; asm-2 tests it in Step 1.</li><li>That reminders reduce no-shows for this client; Step 3 is the pilot that would show it.</li></ul></section><h2 class="label">Before send</h2><div class="tw"><table><thead><tr><th>Gate</th><th>State</th></tr></thead><tbody><tr><td>Lawyer read the agreement</td><td>not yet (blocks send)</td></tr><tr><td>Pre-send gauntlet</td><td>not yet (blocks send)</td></tr><tr><td>Ex-ante</td><td>Dana signs Step 1 within ten days of the send (p 0.6, judgment: one warm intro call; budget not stated; 2026-11-08)</td></tr><tr><td>Scored after reply</td><td>open</td></tr></tbody></table></div><h2 class="label">Counsel notes</h2><p>A lawyer may ask for a mutual indemnity and a named governing-law clause; the template keeps both short on purpose.</p></main></body></html>

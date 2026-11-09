@@ -1,0 +1,67 @@
+{
+  "outputs": {
+    "agreement.md": {
+      "cites": {
+        "dispute_forum": "the courts of Lane County, Oregon",
+        "fee_step1": 960,
+        "fix_window_days": 14,
+        "liability_cap": "the fee paid for Step 1",
+        "talk_first_days": 15,
+        "work_days": 3
+      },
+      "sha256": "13f77e9ddcf09fea9754c89232286a7bcb45600f6dbfea85967222f6166e8fff"
+    },
+    "exhibit-a.md": {
+      "cites": {
+        "walkthrough_minutes": 45,
+        "work_days": 3
+      },
+      "sha256": "e2b92f053974c241f866be5e929225313fec5aa7088c7471f9b52aaabb1c848f"
+    },
+    "proposal.html": {
+      "cites": {
+        "access_by": "2026-12-01",
+        "deliver_by": "2026-12-04",
+        "dispute_forum": "the courts of Lane County, Oregon",
+        "duration_days": 3,
+        "fee_step1": 960,
+        "fee_step2": [
+          2400,
+          4800
+        ],
+        "fee_step3": [
+          1800,
+          3600
+        ],
+        "fix_window_days": 14,
+        "hours_step1": 8,
+        "liability_cap": "the fee paid for Step 1",
+        "rate_hour": 120,
+        "talk_first_days": 15,
+        "walkthrough_minutes": 45,
+        "work_days": 3
+      },
+      "sha256": "e9fb024ac11bf78cd969d2e8bee1ce4df55ed67e42450324ffd69fa4aea91d6a"
+    },
+    "reply.md": {
+      "cites": {
+        "access_by": "2026-12-01",
+        "deliver_by": "2026-12-04",
+        "fee_step1": 960,
+        "fee_step2": [
+          2400,
+          4800
+        ],
+        "fee_step3": [
+          1800,
+          3600
+        ],
+        "hours_step1": 8,
+        "walkthrough_minutes": 45,
+        "work_days": 3
+      },
+      "sha256": "f7281b695da8feea25fd330af23e2db4e98a049a42f0709ff54021d5163db37b"
+    }
+  },
+  "record": "example-fictional-step1"
+}
