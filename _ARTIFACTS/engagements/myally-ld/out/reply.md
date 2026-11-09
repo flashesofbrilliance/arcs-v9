@@ -1,4 +1,4 @@
-<!-- INTERNAL. Draft v2 (gauntlet pass 1, Option B). Nothing sent. The agreement is a plain-language draft for a Connecticut lawyer to review, not legal advice. -->
+<!-- INTERNAL. Draft v2 (gauntlet pass 1, Option B). Nothing sent. The agreement is a plain-language draft for a Connecticut lawyer to review, not legal advice. SUPERSEDED for Step 1 terms by agreement rev 27 (2026-11-08): the hub's Step 1 tab follows rev 27; the agreement, Exhibit A and reply text here do not yet (see PR 2059). -->
 <!-- Rendered by scripts/engagement_render.py from engagement.json (myally-ld-step1) + templates/reply.md.tpl. Do not hand-edit: change the record and re-render. -->
 
 Subject: Re: Thank you, and next steps for My Ally LD
@@ -23,7 +23,7 @@ Yes. Step 1 will end with rough low-to-high ranges, with the assumptions listed,
 These are my planning estimates for work I would do, not a quote, and they firm up in Step 2. You're welcome to use them in your plan and with investors and funders. If you share them, please share them as my estimates, with the assumptions attached.
 
 **3. Timing**
-Step 1 is 12 hours of my time, so it takes five working days from the day I have access to GitHub and Lovable. If access lands by Nov 13, you'd have results by Nov 20. Access by about Dec 15 still gets you everything before the holidays.
+Step 1 is 12 hours of my time, so it takes four working days from the day I have access to GitHub and Lovable. If access lands by Nov 9, you'd have results by Nov 13. Access by about Dec 15 still gets you everything before the holidays.
 
 **4. Agreement**
 Attached. It's in plain language, it keeps the office hours exactly as in my Oct 29 note, and I'm glad for your counsel to review it and happy to talk through any changes.
@@ -33,7 +33,7 @@ Attached. It's in plain language, it keeps the office hours exactly as in my Oct
 - Once your counsel is happy, sign and email the agreement back.
 - I'll send Access Consulting, LLC the $1,500 invoice when we sign.
 
-My five working days count from whichever comes later, signing or access.
+My four working days count from whichever comes later, signing or access.
 
 With gratitude,
 Zach

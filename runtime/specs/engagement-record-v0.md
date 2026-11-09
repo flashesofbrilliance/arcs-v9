@@ -66,6 +66,20 @@ Derive ops: `["mul", a, b]`, `["div", a, b]`, `["add_days", date, days]`; argume
 - Pre-commit runs `--check` whenever anything under `_ARTIFACTS/engagements/` or the renderer is staged, and the
   `--self-test` when the renderer is staged.
 
+## Progress (added 2026-11-08)
+
+- `progress` (optional, top level) is an append-only list of `{row, state, date, note}`. `row` must be a row id in an
+  exported tree (an `exports` block with `rows`); `state` is `not_started`, `in_progress`, `done` or `blocked`; dates
+  run in order; `note` is client-facing (first person singular, plain language, at most 160 characters, no em-dash).
+- The newest entry per row wins and earlier ones stay. A row that goes back from `done` shows `reopened DATE`.
+- The renderer folds progress into each exported tree: every row with entries gets `status`, phases roll up from their
+  gate/task/ms/oh children, and a `progress` summary carries hours done of total, items done, now, blocked, next and
+  the latest entry. The myally hub's Step 1 tab draws its "Where things stand" band and row pills from that block.
+- A `done` entry may carry `actual_hours` (private): the fold never exports it, so it never reaches a client
+  page. `scripts/engagement_calibrate.py` compares it with planned hours by row kind, counts only until three
+  steps have finished.
+- Log and publish with `scripts/engagement_progress.py` (`<row> start|done|block|reset "note"`, `--list`, `--ship`).
+
 ## Add an engagement
 
 1. Copy `_ARTIFACTS/engagements/myally-ld/` to a new slug; replace the record's values and sources.
@@ -73,3 +87,35 @@ Derive ops: `["mul", a, b]`, `["div", a, b]`, `["add_days", date, days]`; argume
 3. `python3 scripts/engagement_render.py --dir _ARTIFACTS/engagements/<slug>`, read `out/`, commit.
 
 Nothing renders under `public/`, and nothing here sends. Agreements are drafts for a Connecticut lawyer, not legal advice.
+
+## v1: honest proposals (2026-11-08)
+
+A record with `"schema": "engagement-record-v1"` carries the honest-proposals rules
+(design: `_PROPOSALS/2026-11-08-honest-proposals-design.md`). v0 records are unchanged and skipped by the lint.
+Worked example (every name, figure and date invented): `_ARTIFACTS/engagements/example-fictional/`.
+
+The renderer refuses a v1 record unless:
+
+| Rule | Record shape |
+|---|---|
+| The first step is a fixed fee | `phases[0].fee` cites one `money` field |
+| Later steps are ranges with written assumptions | `phases[1:].fee` cites one `money_range` field (`value: [low, high]`, rendered "$X to $Y") and `phases[i].assumptions[]` names existing assumption ids |
+| Paid state is explicit | every phase has `paid: true` or `false` |
+| What is not proven is said out loud | `not_proven[]` has at least one `{id, text}`; it renders as its own section |
+| Full-build pricing has a ceiling | `leak.ceiling_usd` is a positive number |
+| A reliance disclaimer, not a sharing ban | `terms[]` has a term with `id: "reliance"` |
+| Optional, checked when present | `ex_ante {expect, p (0 to 1), basis {kind: stated, measured or judgment, text}, date}`; `close {what_happened, held, date}` (needs `ex_ante`); `counsel_review {date, by_role, template_version}`; `gauntlet {date, ref, open_findings}` |
+
+`scripts/proposal_lint.py` then checks the templates, the record's text and the client outputs (`out/*.md`, exported
+`out/*.json`; header comments and the internal `proposal.html` are not client text):
+
+1. **figures**: no `$` amount, percent or "N hours/days/weeks" typed into a template or record text; cite a field.
+   Known gap: numbers written as words ("three thousand dollars") pass.
+2. **sharing**: no ban phrase ("may not be shared", "do not forward"); the agreement says "not legal" advice and "as is".
+3. **leak**: while `phases[0].paid` is false, no `$` figure at or above `leak.ceiling_usd`, and no three or more table
+   rows carrying a price or hours (a task-level bid sheet).
+4. **voice**: no em-dash, no we / our / us.
+
+`--send-ready` adds: outputs fresh (`engagement_render.py --check`), `counsel_review` set, `gauntlet` set with
+`open_findings: 0`, and `ex_ante` written. Nothing in either script sends. Pre-commit runs the lint on any staged
+engagement and its `--self-test` when the lint or renderer is staged.
