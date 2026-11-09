@@ -160,7 +160,7 @@ def r_overview(d):
     o = d["overview"]
     h = "".join('<span class="hl">%s</span>' % md(re.sub(r"(?<=[a-z])-(?=[a-z])", "‑", x)) for x in o["headline"])
     acts = []
-    for a in o["actions"]:
+    for a in o.get("actions", []):
         cls = "tb-btn primary" if a.get("primary") else "tb-btn"
         if "tab" in a:
             acts.append('<a class="%s" href="#%s" data-go-tab="%s">%s</a>' % (cls, a["tab"], a["tab"], md(a["label"])))
@@ -176,12 +176,15 @@ def r_overview(d):
     ns = o.get("next_step", {})
     lead = ('<p class="tb-go-h">%s</p>' % md(ns["lead"])) if ns.get("lead") else ""
     cap = ('<p class="tb-go-t">%s</p>' % md(ns["text"])) if ns.get("text") else ""
+    note = ('<p class="tb-note">%s</p>' % md(o["action_note"])) if o.get("action_note") else ""
+    acts_html = ('<div class="tb-actions">%s</div>' % "".join(acts)) if acts else ""
+    go = ('<div class="tb-go">%s%s%s%s</div>\n' % (lead, acts_html, cap, note)) if (lead or acts_html or cap or note) else ""
     return ('<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">\n<h1 class="tb-h1">%s</h1>\n%s<p class="tb-lede">%s</p>\n'
             '<div class="ftiles-c"><ul class="ftiles is-4" aria-label="At a glance">%s</ul></div>\n'
-            '<div class="tb-go">%s<div class="tb-actions">%s</div>%s%s</div>\n'
+            '%s'
             '%s<div class="tb-expand%s"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>\n'
             '<div class="tb-folds">%s</div>\n</div>') % (h, ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"])) if o.get("subhead") else "", "".join('<span class="ln">%s</span>' % md(re.sub(r"(?<=[a-z])-(?=[a-z])", "‑", x)) for x in o["lede"]),
-         tiles, lead, "".join(acts), cap, ('<p class="tb-note">%s</p>' % md(o["action_note"])) if o.get("action_note") else "", cr,
+         tiles, go, cr,
          " solo" if len(o["sections"]) < 2 else "", folds)
 
 
@@ -296,7 +299,7 @@ def self_test():
     cases = []
     x = copy.deepcopy(base); x["tabs"][0]["units"][0]["blocks"][0]["rows"][0].pop(); cases.append(("plan row short a horizon", x, "horizon cells"))
     x = copy.deepcopy(base); x["tabs"][1]["id"] = x["tabs"][0]["id"]; cases.append(("duplicate tab id", x, "unique"))
-    x = copy.deepcopy(base); x["overview"]["actions"][0]["tab"] = "nope"; cases.append(("action to a missing tab", x, "does not exist"))
+    x = copy.deepcopy(base); x["overview"]["actions"] = [{"label": "Go", "tab": "nope"}]; cases.append(("action to a missing tab", x, "does not exist"))
     x = copy.deepcopy(base); x["overview"]["lede"] += " — x"; cases.append(("em-dash in copy", x, "em-dash"))
     x = copy.deepcopy(base); del x["meta"]; cases.append(("missing meta", x, "meta"))
     x = copy.deepcopy(base); x["horizons"] = [30, 90]; cases.append(("horizons change without rows", x, "horizon"))

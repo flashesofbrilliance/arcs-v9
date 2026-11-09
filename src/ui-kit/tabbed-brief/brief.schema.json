@@ -76,7 +76,6 @@
         "label",
         "headline",
         "lede",
-        "actions",
         "tiles",
         "sections"
       ],
@@ -117,7 +116,7 @@
         },
         "actions": {
           "type": "array",
-          "minItems": 1,
+          "minItems": 0,
           "maxItems": 3,
           "items": {
             "type": "object",

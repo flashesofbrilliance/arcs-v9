@@ -22,17 +22,6 @@
    "**Twenty years in the trenches, taking products from zero.**",
    "ARCS checks every call against what happened, misses included."
   ],
-  "actions": [
-   {
-    "label": "Open the Principal plan",
-    "tab": "principal",
-    "primary": true
-   },
-   {
-    "label": "Which seat is live?",
-    "section": "qs"
-   }
-  ],
   "tiles": [
    {
     "v": "10",
@@ -57,22 +46,14 @@
   ],
   "sections": [
    {
-    "id": "qs",
-    "title": "Your Move",
-    "tagline": "The answers decide which tab matters.",
+    "id": "receipts",
+    "title": "Receipts",
+    "tagline": "Live work, open to check.",
     "open": true,
     "blocks": [
      {
-      "type": "list",
-      "ordered": true,
-      "items": [
-       "Which seat is live now? Your people page lists an EIR beside your CTO: is this a second EIR seat?",
-       "Founder seat: which hatch?"
-      ]
-     },
-     {
       "type": "p",
-      "text": "Resume and a 20-minute ARCS walkthrough on request. Live work: [RFP-O-Matic with four short videos](https://good.arcs.care/rfp-engine), [its source](https://github.com/flashesofbrilliance/rfp-engine), [ARCS](https://app.arcs.care), and my [proof page](https://zach.md/proof), where each claim links to its record."
+      "text": "[RFP-O-Matic with four short videos](https://good.arcs.care/rfp-engine), [its source](https://github.com/flashesofbrilliance/rfp-engine), [ARCS](https://app.arcs.care), and my [proof page](https://zach.md/proof), where each claim links to its record. Resume and a 20-minute walkthrough on request."
      }
     ]
    }
