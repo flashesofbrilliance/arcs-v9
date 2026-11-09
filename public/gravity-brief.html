@@ -230,10 +230,10 @@
 .cr > .callout { max-width: none; }
 .cr > .callout.cr-read { background: var(--surface-2); border-color: var(--border); }
 .cr > .callout.cr-read b { color: var(--text-secondary); }
-.cr-slots { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 28px; }
+.cr-slots { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 0; }
 .cr-slots dt, .cr-slots dd { margin: 0; padding: 12px 0; border-top: 1px solid var(--border); }
 .cr-slots dt:first-of-type, .cr-slots dt:first-of-type + dd { border-top: 0; padding-top: 0; }
-.cr-slots dt.section-label { margin: 0; line-height: 1.6rem; }
+.cr-slots dt.section-label { margin: 0; padding-right: 28px; line-height: 1.6rem; }
 .cr-slots dd { font-size: var(--fs-body); line-height: 1.6; color: var(--text); }
 .cr-how { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
 .cr-step { position: relative; display: flex; flex-direction: column; gap: 8px; padding: 16px; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); }
@@ -241,8 +241,7 @@
 .cr-step .section-label { margin: 0; }
 .cr-when { font-size: var(--fs-body); font-weight: 600; line-height: 1.4; color: var(--text); }
 .cr-what { font-size: var(--fs-body); line-height: 1.5; color: var(--text); }
-.cr-step + .cr-step::before { content: ""; position: absolute; left: -13px; top: 24px; width: 12px; height: 1px; background: var(--border); }
-@media (max-width: 599px) { .cr-slots { grid-template-columns: minmax(0, 1fr); } .cr-slots dd { border-top: 0; padding-top: 2px; } .cr-slots dt { padding-bottom: 0; line-height: 1.4; } .cr-how { grid-template-columns: minmax(0, 1fr); } .cr-step + .cr-step::before { left: 24px; top: -13px; width: 1px; height: 12px; } }
+@media (max-width: 599px) { .cr-slots { grid-template-columns: minmax(0, 1fr); } .cr-slots dd { border-top: 0; padding-top: 2px; } .cr-slots dt { padding-right: 0; padding-bottom: 0; line-height: 1.4; } .cr-how { grid-template-columns: minmax(0, 1fr); } }
 /* @prim:end 53-cold-read */
 /* tabbed-brief template layer (2026-11-09). Composes kit parts; owns only the frame and the page organisms.
    Tokens: src/ui-kit/recoil-report/_tokens.css (inlined first) and the kit 39 light remap. No literal colours here.
@@ -382,7 +381,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 <div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">
 <h1 class="tb-h1"><span class="hl">One idea in thirty gets funded.</span><span class="hl">The other twenty‑nine are the work.</span></h1>
 <h2 class="tb-sub">Your about page: of every 30 ideas you go deep on, you fund one.</h2>
-<p class="tb-lede"><span class="ln">Twenty years in the trenches.</span><span class="ln">Ships 0 → 1, fast.</span><span class="ln">Contrarian thinker and builder.</span><span class="ln">Built ARCS: every pass on record, checked against what happened.</span><span class="ln">Target: help people, squads and nodes become self‑sovereign and anti‑fragile.</span></p>
+<p class="tb-lede"><span class="ln">Twenty years taking products from zero to one, fast, as a player, a coach and a pace car. I look hardest at what the consensus passes on, and I keep the record of every call, misses included. ARCS is that record, built so people, squads and nodes own their judgment and get stronger from every miss.</span></p>
 <div class="tb-go"><p class="tb-go-h">Let’s go.</p><p class="tb-go-t">Pick a seat, or reshape one. Tell Harrison or me.</p>
 <div class="tb-actions"><a class="tb-btn primary" href="#principal" data-go-tab="principal">Open the Principal plan</a><a class="tb-btn" href="#qs" data-go-section="qs">Which seat is live?</a></div></div>
 <section class="tb-coldread" id="five" aria-labelledby="five-h"><h2 class="tb-h2" id="five-h">5W + How</h2><div class="cr"><dl class="cr-slots"><dt class="section-label">Who</dt><dd>Zach Harris. Product lead and founder: Grayscale, two companies, ARCS.</dd><dt class="section-label">What</dt><dd>A 30, 90 and 180 day plan per open role, on your own job pages.</dd><dt class="section-label">Where</dt><dd>Remote, New York metro.</dd><dt class="section-label">When</dt><dd>Now. Four roles open; Harrison Wright offered the intro.</dd><dt class="section-label">Why</dt><dd>You run on tested theses and a high kill rate. So do I. It is why I built ARCS.</dd></dl><div class="cr-howwrap"><p class="section-label" id="cr-how-l">How</p><ol class="cr-how" aria-labelledby="cr-how-l"><li class="cr-step"><p class="section-label">Before</p><p class="cr-when">Today, November 9</p><p class="cr-what">This page, built on your own job pages.</p></li><li class="cr-step"><p class="section-label">During</p><p class="cr-when">Not booked yet</p><p class="cr-what">A 30-minute call with whoever owns the live seat, at a time that suits you.</p></li><li class="cr-step"><p class="section-label">After</p><p class="cr-when">Within two days of the call</p><p class="cr-what">The plan for that seat, reshaped with you.</p></li></ol></div><p class="callout cr-read"><b>How to read</b>Overview, then one tab per role, strongest fit first. Every plan cell is yours to edit.</p></div></section>

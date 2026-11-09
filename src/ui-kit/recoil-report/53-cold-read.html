@@ -60,10 +60,10 @@ main { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; 
 .cr > .callout { max-width: none; }
 .cr > .callout.cr-read { background: var(--surface-2); border-color: var(--border); }
 .cr > .callout.cr-read b { color: var(--text-secondary); }
-.cr-slots { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 28px; }
+.cr-slots { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 0; }
 .cr-slots dt, .cr-slots dd { margin: 0; padding: 12px 0; border-top: 1px solid var(--border); }
 .cr-slots dt:first-of-type, .cr-slots dt:first-of-type + dd { border-top: 0; padding-top: 0; }
-.cr-slots dt.section-label { margin: 0; line-height: 1.6rem; }
+.cr-slots dt.section-label { margin: 0; padding-right: 28px; line-height: 1.6rem; }
 .cr-slots dd { font-size: var(--fs-body); line-height: 1.6; color: var(--text); }
 .cr-how { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
 .cr-step { position: relative; display: flex; flex-direction: column; gap: 8px; padding: 16px; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); }
@@ -71,8 +71,7 @@ main { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; 
 .cr-step .section-label { margin: 0; }
 .cr-when { font-size: var(--fs-body); font-weight: 600; line-height: 1.4; color: var(--text); }
 .cr-what { font-size: var(--fs-body); line-height: 1.5; color: var(--text); }
-.cr-step + .cr-step::before { content: ""; position: absolute; left: -13px; top: 24px; width: 12px; height: 1px; background: var(--border); }
-@media (max-width: 599px) { .cr-slots { grid-template-columns: minmax(0, 1fr); } .cr-slots dd { border-top: 0; padding-top: 2px; } .cr-slots dt { padding-bottom: 0; line-height: 1.4; } .cr-how { grid-template-columns: minmax(0, 1fr); } .cr-step + .cr-step::before { left: 24px; top: -13px; width: 1px; height: 12px; } }
+@media (max-width: 599px) { .cr-slots { grid-template-columns: minmax(0, 1fr); } .cr-slots dd { border-top: 0; padding-top: 2px; } .cr-slots dt { padding-right: 0; padding-bottom: 0; line-height: 1.4; } .cr-how { grid-template-columns: minmax(0, 1fr); } }
 /* @prim:end 53-cold-read */
 </style>
 </head>
