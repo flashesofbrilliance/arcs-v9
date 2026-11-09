@@ -371,6 +371,14 @@ footer p{text-align:left;}
   .pbody > .blkbar{margin:calc(-1*var(--sp-2)) 0 calc(-1*var(--sp-3));}
   footer{border-top:1px solid var(--border);padding-top:var(--sp-3);}
 }
+/* Section breaks on screen, matching the PDF: the same 01/02/03 numerals (as a mono eyebrow, so heading and deck
+   stay left-aligned) and a hairline rule at each break. The header rule already opens section 01. */
+@media screen{
+  main{counter-reset:sec;}
+  details.blk > summary > .slabel::before{counter-increment:sec;content:counter(sec,decimal-leading-zero);display:block;margin-bottom:var(--sp-1);font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;color:var(--cyan);}
+  .pbody > section.offerwrap{border-top:1px solid var(--border);padding-top:var(--sp-4);}
+  .offerwrap details.pbreak{border-top:1px solid var(--border);margin-top:var(--sp-3);padding-top:var(--sp-3);}
+}
 @media screen and (max-width:640px){
   body{padding-left:var(--sp-1);padding-right:var(--sp-1);}
   .mast{padding:var(--sp-1) var(--sp-1) var(--sp-1) var(--sp-2);}
