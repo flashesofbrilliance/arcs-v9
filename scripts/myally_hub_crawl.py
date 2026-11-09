@@ -187,28 +187,17 @@ const { chromium } = require('playwright');
         if (det.classList.contains('on')) out.push('sheet: close button did not close it');
         r0().querySelector('.tx').click(); await sleep(30);
       } else if (getComputedStyle(det).position === 'fixed') out.push('details are a sheet below 961px');
-      // hover definitions in the details panel: every one opens, stays inside the panel, and Escape closes it
-      let tipsSeen = 0;
+      // The details card is plain text (Zach, 2026-11-09: definitions there fought the row hover). None may appear.
       for (const id of ids) {
         const row = document.getElementById('s1r-' + id); if (!row) continue;
         row.querySelector('.tx').click(); await sleep(10);
-        for (const b of [...det.querySelectorAll('.dfn')]) {
-          b.click(); await sleep(10); tipsSeen++;
-          const t = b.nextElementSibling, tr = t.getBoundingClientRect(), dr = det.getBoundingClientRect();
-          if (b.getBoundingClientRect().width < b.scrollWidth - 1) out.push(`row ${id}: term "${b.textContent}" is squeezed and overlaps the next word`);
-          if (t.hidden) out.push(`row ${id}: definition for "${b.textContent}" did not open`);
-          else if (tr.left < dr.left - 1 || tr.right > dr.right + 1 || tr.top < dr.top - 1 || tr.bottom > dr.bottom + 1) out.push(`row ${id}: definition for "${b.textContent}" spills out of the panel`);
-          else if (tr.left < -1 || tr.right > document.documentElement.clientWidth + 1) out.push(`row ${id}: definition for "${b.textContent}" spills out of the window`);
-          if (/&[#a-z0-9]+;/i.test(t.textContent)) out.push(`row ${id}: definition shows raw HTML entities`);
-          det.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true })); await sleep(10);  // cancelable, like a real key: closing a definition must not also close the card
-          if (!t.hidden) out.push(`row ${id}: Escape did not close "${b.textContent}"`);
-        }
+        if (det.querySelector('.dfn,.termwrap,.pd-terms')) out.push(`details for ${id}: carries a definition; the card is plain text`);
       }
-      if (!tipsSeen) out.push('no hover definitions found on the Step 1 tab');
+      if (!document.querySelector('#pane-s1 .dfn')) out.push('no hover definitions found on the Step 1 tab');
       // First use: on every surface of the Step 1 tab, the first use of each Primer term (TERMS in
       // myally_primer_terms.py, carried in the hub's GLOSS block) must be a definition. Text inside buttons, links,
-      // summaries, tile labels and figures is skipped (no control inside a control), and so is the details card's
-      // heading, whose terms the card lists right under it. The grid rows are controls; their terms live in the card.
+      // summaries, tile labels and figures is skipped (no control inside a control), and the details card is plain
+      // text by design. The grid rows are controls.
       const SKIP = 'a,button:not(.dfn),summary,.tip,.glab,.gf,.wd,.vh,.stamp-vh,.pill,#s1g,#s1dh,.pd-kind';
       const RX = Object.entries(GLOSS).map(([gid, ph]) => [gid, new RegExp('(^|[^\\w/-])(' + ph.map(p => p.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&')).join('|') + ')(?![\\w/-])', 'i')]);
       const firstUse = (root, where) => {
@@ -230,13 +219,7 @@ const { chromium } = require('playwright');
       firstUse(document.querySelector('.s1week'), 'Your week');
       firstUse(document.getElementById('s1plan'), 'The whole plan');
       firstUse(document.getElementById('s1prog'), 'Where things stand');
-      for (const id of ids) {
-        const row = document.getElementById('s1r-' + id); if (!row) continue;
-        row.querySelector('.tx').click(); await sleep(10);
-        firstUse(det, `details for ${id}`);
-      }
       det.querySelector('[data-back]')?.click(); await sleep(15);
-      if (innerWidth < 961) firstUse(det, 'Step 1 at a glance');
       // definitions outside the details card open by click (tap), stay inside the window and close on Escape
       for (const b of [...document.querySelectorAll('#pane-s1 .dfn')].filter(b => !det.contains(b) && b.offsetParent)) {
         b.click(); await sleep(10);
@@ -315,7 +298,9 @@ const { chromium } = require('playwright');
       }
       if (innerWidth >= 961) {
         const dr = det.getBoundingClientRect();
-        if (getComputedStyle(det).overflowY !== 'auto' || dr.bottom > innerHeight + 1 || dr.height > innerHeight / 2 + 1 || det.scrollHeight <= det.clientHeight) ro.push(`sheet does not scroll inside the window (overflow ${getComputedStyle(det).overflowY}, bottom ${Math.round(dr.bottom)} of ${innerHeight}, ${det.className}, ${getComputedStyle(det).position})`);
+        // the header stays pinned; the body under it is what scrolls
+        const sb = det.querySelector('.pd-b') || det;
+        if (getComputedStyle(sb).overflowY !== 'auto' || dr.bottom > innerHeight + 1 || dr.height > innerHeight / 2 + 1 || sb.scrollHeight <= sb.clientHeight) ro.push(`sheet does not scroll inside the window (body overflow ${getComputedStyle(sb).overflowY}, bottom ${Math.round(dr.bottom)} of ${innerHeight}, ${det.className}, ${getComputedStyle(det).position})`);
       }
       ro.forEach(x => out.push('reading options: ' + x));
       ['data-size', 'data-space', 'data-font'].forEach(k => de.removeAttribute(k));
