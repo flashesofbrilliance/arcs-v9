@@ -20,6 +20,9 @@ what broke, and which seat found it. Items in [square brackets] are choices or b
   the app; before that, fixes are cheapest and no family's data is at risk, and a go or stop answer by year end goes
   into the raise (judgment from call notes, not the agreement). How: midweek note, 45-minute readout, one round of changes, then
   more detail or Step 2.
+- **Head.** Date chip moves from Nov 6 to Nov 8 (rev 28 draft date). The opening line keeps only the party
+  definitions; its second sentence ("Step 1 of the three-step plan ... once we start") is struck because "At a glance"
+  now says it.
 - **Opening line.** Replace "Between MyAlly LD and [your business name]." with: "Between Access Consulting, LLC, for its
   My Ally LD venture ("you"), and [Zach Harris, an individual / Zach's LLC name] ("I"). The person signing for you
   confirms they can bind Access Consulting, LLC." (seam 5)
