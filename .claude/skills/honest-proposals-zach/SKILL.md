@@ -20,6 +20,10 @@ overrides. Never copy anything from a real engagement folder into the public met
 3. **Proposal bar** (memory `proposals-narrow-specific-no-pressure-value-first`): narrow, specific, no pressure,
    value from the pains the client named. Box discovery; ship a working slice early
    (memory `avoid-front-loaded-unpaid-discovery`).
+3a. **Sanity check, every polish round:** before applying any multi-part copy plan, run the `sanity-check` agent
+   with the counterpart's verbatim ask (from the engagement SSOT) and the plan or current draft. On DRIFTED, fix the
+   offer first, then polish. Cause: the Louisville proposal drifted into one flavor decision over many rounds that each
+   passed every gate (PR 2069).
 4. **Gauntlet:** run the `counterpart-gauntlet` workflow with the proposal seats (founder, finance, counsel,
    skeptic, busy reader), passing the transcript and every client output. Record the run in `gauntlet`.
 5. **Counsel:** a Connecticut lawyer reads each new agreement template version once; record it in `counsel_review`
