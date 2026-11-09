@@ -178,7 +178,7 @@ def _check_source(where, src) -> list[str]:
 # actual_hours (optional, on done entries) is private calibration data for engagement_calibrate.py:
 # the fold never copies it into the export, so it cannot reach a client page.
 
-STATES = ("not_started", "in_progress", "done", "blocked")
+STATES = ("not_started", "in_progress", "review", "done", "blocked")  # review = ready for the client to review
 COUNTED = {"gate", "task", "ms", "oh"}  # kinds that can be finished; gap, gift, req never "complete"
 NOTE_MAX = 160
 
@@ -192,10 +192,20 @@ def tree_rows(rec: dict) -> dict:
 
 
 def validate_progress(rec: dict) -> list[str]:
+    errs0 = []
+    rb = rec.get("review_batch")
+    if rb is not None:
+        if not isinstance(rb, dict) or set(rb) - {"pending", "next_call"}:
+            errs0.append("review_batch: keys are pending, next_call")
+        else:
+            if not isinstance(rb.get("pending", 0), int) or isinstance(rb.get("pending"), bool) or rb.get("pending", 0) < 0:
+                errs0.append("review_batch.pending is a whole number of comments")
+            if rb.get("next_call") is not None and not _is_date(rb.get("next_call")):
+                errs0.append("review_batch.next_call must be YYYY-MM-DD or null")
     ev = rec.get("progress", [])
     if not isinstance(ev, list):
         return ["progress must be a list (append-only)"]
-    rows, errs, last = tree_rows(rec), [], ""
+    rows, errs, last = tree_rows(rec), errs0, ""
     for rid, (_, r) in rows.items():
         if "file" in r and r.get("unlock") not in rows:
             errs.append(f"row {rid}: unlock must name a row id")
@@ -222,7 +232,7 @@ def validate_progress(rec: dict) -> list[str]:
     return errs
 
 
-def fold_progress(block: dict, events: list) -> dict:
+def fold_progress(block: dict, events: list, review_batch=None) -> dict:
     """Return a copy of an exported tree with each row's status and a progress summary."""
     if not isinstance(block, dict) or "rows" not in block:
         return block
@@ -245,7 +255,8 @@ def fold_progress(block: dict, events: list) -> dict:
         ks = [k.get("status", {}).get("state", "not_started") for k in kids]
         if not ks or all(s == "not_started" for s in ks):
             continue
-        state = ("blocked" if "blocked" in ks else "done" if all(s == "done" for s in ks) else "in_progress")
+        state = ("blocked" if "blocked" in ks else "done" if all(s == "done" for s in ks)
+                 else "review" if all(s in ("done", "review") for s in ks) else "in_progress")
         r["status"] = {"state": state, "date": max(k["status"]["date"] for k in kids if "status" in k), "note": ""}
     leaves = [r for r in rows if r["kind"] != "phase"]
     counted = [r for r in rows if r["kind"] in COUNTED]
@@ -262,6 +273,9 @@ def fold_progress(block: dict, events: list) -> dict:
         "items_done": sum(1 for r in counted if st(r) == "done"),
         "now": [r["id"] for r in order if st(r) == "in_progress"],
         "blocked": [r["id"] for r in order if st(r) == "blocked"],
+        "review": [r["id"] for r in order if st(r) == "review"],
+        "batched": (review_batch or {}).get("pending", 0),
+        "next_call": (review_batch or {}).get("next_call"),
         "next": next((r["id"] for r in order if st(r) == "not_started"), None),
         "last": None if last is None else {"row": last["row"], "date": last["date"], "state": last["state"], "note": last.get("note", "")},
     }
@@ -569,7 +583,7 @@ def build(eng_dir: str) -> dict:
         if name not in rec:
             raise RecordError(f"exports names {name!r}, which the record does not have")
         ctx = Ctx(rec, res)
-        block = apply_unlocks(fold_progress(rec[name], rec.get("progress", [])), eng_dir)
+        block = apply_unlocks(fold_progress(rec[name], rec.get("progress", []), rec.get("review_batch")), eng_dir)
         def walk(v):
             if isinstance(v, str):
                 return ctx.sub(v)
@@ -717,6 +731,14 @@ def self_test() -> int:
         assert {r["id"]: r for r in t["rows"]}["w1a"]["status"].get("reopened") == "2026-11-16", "reopen seam"
         assert t["progress"]["hours_done"] == 0
 
+        # review: ready for the client; counts as not done, rolls the phase up to review, lists in the summary
+        edit(lambda r: (r["progress"].append({"row": "w1a", "state": "review", "date": "2026-11-16", "note": ""}),
+                        r.update(review_batch={"pending": 3, "next_call": "2026-11-18"})))
+        write(eng)
+        t = json.load(open(os.path.join(eng, "out", "step1_tree.json"), encoding="utf-8"))
+        assert t["progress"]["review"] == ["w1a"] and t["progress"]["batched"] == 3, t["progress"]
+        assert t["progress"]["next_call"] == "2026-11-18" and t["progress"]["hours_done"] == 0, t["progress"]
+
         # gifts: listed but locked until the unlock row is done; the private path never reaches the export.
         # The test plants its own gift row so it never depends on which gifts the live record lists.
         edit(lambda r: r["step1_tree"]["rows"].append({"id": "w6e", "parent": "w6", "kind": "gift", "label": "test gift",
@@ -736,6 +758,7 @@ def self_test() -> int:
             (lambda r: r.update(progress=[{"row": "zz", "state": "done", "date": "2026-11-14"}]), "unknown row"),
             (lambda r: r.update(progress=[{"row": "w1a", "state": "finished", "date": "2026-11-14"}]), "state must be"),
             (lambda r: r.update(progress=[{"row": "w1a", "state": "in_progress", "date": "2026-11-14", "actual_hours": 1}]), "done entry only"),
+            (lambda r: r.update(review_batch={"pending": -1}), "whole number"),
             (lambda r: r.update(progress=[{"row": "w1a", "state": "done", "date": "2026-11-14"},
                                           {"row": "w1b", "state": "done", "date": "2026-11-13"}]), "append in order"),
             (lambda r: r["terms"].append({"id": "TX", "title": "x", "body": "{{nope}}"}), "unknown cite"),
@@ -747,7 +770,7 @@ def self_test() -> int:
             edit(bad)
             p = check(eng)
             assert p and want in p[0], (want, p)
-        print("engagement_render self-test: OK (fresh passes, idempotent, stale field named, hand edit caught, seam shown, progress folded and reopen seam shown, gift locked then released, 8 invalid records refused, actual hours kept off the export)")
+        print("engagement_render self-test: OK (fresh passes, idempotent, stale field named, hand edit caught, seam shown, progress folded and reopen seam shown, review state and batch count, gift locked then released, 9 invalid records refused, actual hours kept off the export)")
         return 0
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

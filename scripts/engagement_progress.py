@@ -8,11 +8,17 @@ Step 1 tab and its "Where things stand" band on myally.arcs.care read one block.
   python3 scripts/engagement_progress.py w1a start  "Reading the code"   # in progress
   python3 scripts/engagement_progress.py w1a done   "Read the code and database rules" --hours 2.5
   python3 scripts/engagement_progress.py w0b block  "Waiting on the GitHub invite"
+  python3 scripts/engagement_progress.py w1a review "The three piles are written up"  # ready for the client
   python3 scripts/engagement_progress.py w1a reset                        # back to not started
+  python3 scripts/engagement_progress.py --comments 3 --next-call 2026-11-11   # comments batched for the call
   python3 scripts/engagement_progress.py --list                           # where every row stands
   python3 scripts/engagement_progress.py --ship                           # PR + safe merge of what is logged
 
-States: start (in_progress), done, block (blocked), reset (not_started). --date YYYY-MM-DD backdates
+States: start (in_progress), review (ready for the client's review), done, block (blocked),
+reset (not_started). A review entry also writes a client notice to <engagement>/drafts/notices.md for
+the channel the client chose (record "notify_channel": tab, email or slack). Nothing is ever sent:
+Zach sends every client message. Slack is a stub until its connector is authorised and the client is
+known to use it. --comments N and --next-call DATE set the "batched for the next review call" line. --date YYYY-MM-DD backdates
 (default today). Log as often as you like; --ship once (say at the end of a working day) commits the
 record, its outputs and the hub on a fresh branch, opens a PR and runs scripts/safe_merge.sh.
 The site updates when Vercel finishes deploying main. Write the decision receipt from the template
@@ -35,9 +41,12 @@ import engagement_render as er  # noqa: E402
 
 DEFAULT_DIR = os.path.join(ROOT, "_ARTIFACTS", "engagements", "myally-ld")
 HUB = "public/myally-hub.html"
-ALIAS = {"start": "in_progress", "in_progress": "in_progress", "done": "done", "block": "blocked",
+ALIAS = {"start": "in_progress", "in_progress": "in_progress", "review": "review", "done": "done", "block": "blocked",
          "blocked": "blocked", "reset": "not_started", "not_started": "not_started"}
-WORD = {"not_started": "not started", "in_progress": "in progress", "done": "done", "blocked": "blocked"}
+WORD = {"not_started": "not started", "in_progress": "in progress", "review": "ready for review", "done": "done",
+        "blocked": "blocked"}
+TAB_URL = "https://myally.arcs.care/light-audit"
+CHANNELS = ("tab", "email", "slack")
 
 
 def run(cmd: list[str], check=True) -> subprocess.CompletedProcess:
@@ -72,6 +81,62 @@ def sync_and_gate(d: str) -> None:
         print(f"  gate ok: {name}")
 
 
+def slack_stub(text: str) -> str:
+    """Placeholder for a shared-channel post. Not wired: the Slack connector is not authorised and it is
+    not known whether the client uses Slack. It never posts; it says so, and the draft is the deliverable."""
+    return "slack: not wired (draft only; Zach posts it himself if the client uses a shared channel)"
+
+
+def write_notice(d: str, rec: dict, label: str, date: str) -> str:
+    """Append a client-facing notice draft for a review item. Never sends anything."""
+    channel = rec.get("notify_channel", "email")
+    if channel not in CHANNELS:
+        sys.exit(f"engagement_progress: notify_channel must be one of {CHANNELS}")
+    text = (f"Ready for your review on the Step 1 tab ({TAB_URL}): {label}. Send comments whenever suits you; "
+            f"I batch them for the next review call.")
+    if "\u2014" in text:
+        sys.exit("engagement_progress: notice has an em-dash")
+    os.makedirs(os.path.join(d, "drafts"), exist_ok=True)
+    path = os.path.join(d, "drafts", "notices.md")
+    with open(path, "a", encoding="utf-8") as fh:
+        fh.write(f"- {date} · channel {channel} · NOT SENT · {text}\n")
+    msg = f"  notice drafted for {channel} in {os.path.relpath(path, ROOT)} (not sent; you send it)"
+    if channel == "tab":
+        msg = "  channel is the tab: the band shows it; a notice draft is kept anyway in drafts/notices.md"
+    if channel == "slack":
+        msg += "\n  " + slack_stub(text)
+    return msg
+
+
+def apply_and_gate(d: str, before: str, rec: dict) -> None:
+    errs = er.validate_progress(rec)
+    if errs:
+        sys.exit("engagement_progress: refused: " + "; ".join(errs))
+    path = rec_path(d)
+    open(path, "w", encoding="utf-8").write(dump(rec))
+    try:
+        sync_and_gate(d)
+    except SystemExit:
+        open(path, "w", encoding="utf-8").write(before)  # leave the record as it was
+        er.write(d)
+        run([sys.executable, "scripts/myally_hub_sync.py"], check=False)
+        raise
+
+
+def set_batch(d: str, comments, next_call) -> None:
+    path = rec_path(d)
+    before = open(path, encoding="utf-8").read()
+    rec = json.loads(before)
+    rb = dict(rec.get("review_batch") or {"pending": 0, "next_call": None})
+    if comments is not None:
+        rb["pending"] = comments
+    if next_call is not None:
+        rb["next_call"] = next_call or None
+    rec["review_batch"] = rb
+    apply_and_gate(d, before, rec)
+    print(f"review batch: {rb['pending']} comment(s) for the call on {rb.get('next_call') or 'a date not yet set'}")
+
+
 def log(d: str, row: str, state: str, note: str, date: str, hours=None) -> None:
     path = rec_path(d)
     before = open(path, encoding="utf-8").read()
@@ -83,19 +148,13 @@ def log(d: str, row: str, state: str, note: str, date: str, hours=None) -> None:
     if hours is not None:
         entry["actual_hours"] = hours
     rec.setdefault("progress", []).append(entry)
-    errs = er.validate_progress(rec) + (["note has an em-dash"] if "\u2014" in note else [])
-    if errs:
-        sys.exit("engagement_progress: refused: " + "; ".join(errs))
-    open(path, "w", encoding="utf-8").write(dump(rec))
-    try:
-        sync_and_gate(d)
-    except SystemExit:
-        open(path, "w", encoding="utf-8").write(before)  # leave the record as it was
-        er.write(d)
-        run([sys.executable, "scripts/myally_hub_sync.py"], check=False)
-        raise
-    label = rows[row][1]["label"]
+    if "\u2014" in note:
+        sys.exit("engagement_progress: refused: note has an em-dash")
+    apply_and_gate(d, before, rec)
+    label = er.Ctx(rec, er.resolve(rec)).sub(rows[row][1]["label"])
     print(f"logged {row} {WORD[state]} on {date}: {label}" + (f" ({note})" if note else ""))
+    if state == "review":
+        print(write_notice(d, rec, label, date))
     print("  not live yet: run with --ship when you're ready to publish")
 
 
@@ -103,11 +162,12 @@ def listing(d: str) -> None:
     rec = json.load(open(rec_path(d), encoding="utf-8"))
     ctx = er.Ctx(rec, er.resolve(rec))
     for name in rec.get("exports", []):
-        block = er.fold_progress(rec[name], rec.get("progress", []))
+        block = er.fold_progress(rec[name], rec.get("progress", []), rec.get("review_batch"))
         if not isinstance(block, dict) or "rows" not in block:
             continue
         p = block["progress"]
-        print(f"{name}: {p['hours_done']} of {p['hours_total']} hours done, {p['items_done']} of {p['items_total']} items")
+        print(f"{name}: {p['hours_done']} of {p['hours_total']} hours done, {p['items_done']} of {p['items_total']} items, "
+              f"{len(p['review'])} ready for review, {p['batched']} comment(s) batched for {p['next_call'] or 'no call set'}")
         for r in block["rows"]:
             st = r.get("status", {})
             pad = "" if r["kind"] == "phase" else "  "
@@ -158,6 +218,8 @@ def main() -> int:
     ap.add_argument("--date", default=dt.date.today().isoformat())
     ap.add_argument("--hours", type=float, help="actual hours spent, on done (private; never shown to the client)")
     ap.add_argument("--dir", default=DEFAULT_DIR)
+    ap.add_argument("--comments", type=int, help="comments batched for the next review call")
+    ap.add_argument("--next-call", help="date of the next review call, YYYY-MM-DD (empty string clears it)")
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--ship", action="store_true")
     a = ap.parse_args()
@@ -165,13 +227,15 @@ def main() -> int:
     if a.list:
         listing(d)
         return 0
+    if a.comments is not None or a.next_call is not None:
+        set_batch(d, a.comments, a.next_call)
     if a.row:
         if not a.state:
-            ap.error("give a state: start, done, block or reset")
+            ap.error("give a state: start, review, done, block or reset")
         log(d, a.row, ALIAS[a.state], a.note.strip(), a.date, a.hours)
     if a.ship:
         ship(d)
-    elif not a.row:
+    elif not a.row and a.comments is None and a.next_call is None:
         ap.print_help()
     return 0
 
