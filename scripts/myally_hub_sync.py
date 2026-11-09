@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """myally_hub_sync.py: inline the engine's Step 1 tree into the myally.arcs.care hub.
 
-The "Light audit and code review" tab in public/myally-hub.html draws its rows from
+The "Light audit & MVP scoping" tab (Step 1) in public/myally-hub.html draws its rows from
 _ARTIFACTS/engagements/myally-ld/out/step1_tree.json (rendered from engagement.json by
 scripts/engagement_render.py). This copies that JSON between the /*S1:BEGIN*/ and /*S1:END*/
 sentinels, so the tab, the agreement and Exhibit A all cite one record.

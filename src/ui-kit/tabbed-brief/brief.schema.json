@@ -184,7 +184,7 @@
             "title",
             "block"
           ],
-          "description": "The cold-read header (rule 13a, kit 44): never folded, placed after the action row and before any detail.",
+          "description": "The cold-read header (rule 13a, kit 53): never folded, placed after the action row and before any detail.",
           "properties": {
             "id": {
               "type": "string",

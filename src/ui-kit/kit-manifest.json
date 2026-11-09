@@ -1145,7 +1145,7 @@
     },
     {
      "rule": ".section-label",
-     "twin": "44-cold-read",
+     "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 0.86
     }
@@ -1278,7 +1278,7 @@
     },
     {
      "rule": ".section-label",
-     "twin": "44-cold-read",
+     "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 0.86
     }
@@ -1405,7 +1405,7 @@
     },
     {
      "rule": ".section-label",
-     "twin": "44-cold-read",
+     "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 0.86
     }
@@ -1557,7 +1557,7 @@
     },
     {
      "rule": ".section-label",
-     "twin": "44-cold-read",
+     "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 0.86
     }
@@ -1719,7 +1719,7 @@
     },
     {
      "rule": ".section-label",
-     "twin": "44-cold-read",
+     "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 0.86
     }
@@ -2087,7 +2087,7 @@
     },
     {
      "rule": ".section-label",
-     "twin": "44-cold-read",
+     "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 1.0
     }
@@ -2262,7 +2262,7 @@
     },
     {
      "rule": ".section-label",
-     "twin": "44-cold-read",
+     "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 1.0
     }
@@ -2403,7 +2403,7 @@
     },
     {
      "rule": ".section-label",
-     "twin": "44-cold-read",
+     "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 1.0
     }
@@ -2522,7 +2522,7 @@
     },
     {
      "rule": ".section-label",
-     "twin": "44-cold-read",
+     "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 1.0
     }
@@ -2648,19 +2648,19 @@
     },
     {
      "rule": ".section-label",
-     "twin": "44-cold-read",
+     "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 1.0
     },
     {
      "rule": ".callout",
-     "twin": "44-cold-read",
+     "twin": "53-cold-read",
      "twin_rule": ".callout",
      "jaccard": 1.0
     },
     {
      "rule": ".callout b",
-     "twin": "44-cold-read",
+     "twin": "53-cold-read",
      "twin_rule": ".callout b",
      "jaccard": 1.0
     }
@@ -2790,7 +2790,7 @@
     },
     {
      "rule": ".section-label",
-     "twin": "44-cold-read",
+     "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 1.0
     }
@@ -2920,7 +2920,7 @@
     },
     {
      "rule": ".section-label",
-     "twin": "44-cold-read",
+     "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 1.0
     }
@@ -3107,7 +3107,7 @@
     },
     {
      "rule": ".section-label",
-     "twin": "44-cold-read",
+     "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 0.86
     }
@@ -3258,7 +3258,7 @@
     },
     {
      "rule": ".section-label",
-     "twin": "44-cold-read",
+     "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 0.86
     }
@@ -3551,7 +3551,14 @@
     "public/myally-debrief.html"
    ],
    "reuse": 3,
-   "near_duplicates": []
+   "near_duplicates": [
+    {
+     "rule": ".offer",
+     "twin": "49-pinned-card",
+     "twin_rule": ".pcard",
+     "jaccard": 0.8
+    }
+   ]
   },
   {
    "id": "42-shell-nav",
@@ -3607,13 +3614,419 @@
    ]
   },
   {
-   "id": "43-plan-matrix",
+   "id": "43-action-menu",
    "number": "43",
+   "name": "Action Menu",
+   "group": "Specimens",
+   "subtitle": "Molecule 43 · Put every way to get or discuss one document behind a single header button, each item named by format and purpose.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/43-action-menu.html",
+   "data_shape": [
+    "control",
+    "label"
+   ],
+   "fidelity": [],
+   "classes": [
+    "amenu",
+    "amenu-btn",
+    "amenu-cta",
+    "amenu-group",
+    "amenu-h",
+    "amenu-i",
+    "amenu-list"
+   ],
+   "prim_blocks": [
+    "43-action-menu"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": []
+  },
+  {
+   "id": "44-status-strip",
+   "number": "44",
+   "name": "Status Strip",
+   "group": "Specimens",
+   "subtitle": "Molecule 44 · Say in one line where the work stands: not started and what is next, or which day it is, how many hours are done and what waits on the reader.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/44-status-strip.html",
+   "data_shape": [
+    "state"
+   ],
+   "fidelity": [],
+   "classes": [
+    "is-done",
+    "is-now",
+    "is-top",
+    "sstrip",
+    "sstrip-det",
+    "sstrip-done",
+    "sstrip-line",
+    "sstrip-more",
+    "sstrip-seg",
+    "sstrip-segs"
+   ],
+   "prim_blocks": [
+    "44-status-strip"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": []
+  },
+  {
+   "id": "45-fact-tile",
+   "number": "45",
+   "name": "Fact Tile",
+   "group": "Specimens",
+   "subtitle": "Molecule 45 · Give one fact a label, a figure and a short caption, with the label outside the box so a row of tiles reads as one aligned band.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/45-fact-tile.html",
+   "data_shape": [
+    "scalar",
+    "table"
+   ],
+   "fidelity": [],
+   "classes": [
+    "ftile",
+    "ftile-cap",
+    "ftile-fig",
+    "ftile-lab",
+    "ftiles",
+    "ftiles-c",
+    "is-4",
+    "is-fit"
+   ],
+   "prim_blocks": [
+    "45-fact-tile"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": [
+    {
+     "rule": ".ftiles",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".ftiles",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".ftile",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile::before",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".ftile::before",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile-lab",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".ftile-lab",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile-fig",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".ftile-fig",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile-cap",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".ftile-cap",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "46-day-list",
+   "number": "46",
+   "name": "Day List",
+   "group": "Specimens",
+   "subtitle": "Molecule 46 · Tell the reader what happens on each day of a short plan, one plain sentence per day, from Before to After.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/46-day-list.html",
+   "data_shape": [],
+   "fidelity": [],
+   "classes": [
+    "daylist",
+    "daylist-d",
+    "daylist-h",
+    "daylist-t"
+   ],
+   "prim_blocks": [
+    "46-day-list"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": []
+  },
+  {
+   "id": "47-now-note",
+   "number": "47",
+   "name": "Now Note",
+   "group": "Specimens",
+   "subtitle": "Molecule 47 · Tell the reader, in one sentence at the top, what to do now, and let them dismiss it once read; a changed note comes back.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/47-now-note.html",
+   "data_shape": [
+    "delta",
+    "note"
+   ],
+   "fidelity": [],
+   "classes": [
+    "nnote",
+    "nnote-pill",
+    "nnote-x"
+   ],
+   "prim_blocks": [
+    "47-now-note"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": []
+  },
+  {
+   "id": "48-summary-disclosure",
+   "number": "48",
+   "name": "Summary Disclosure",
+   "group": "Specimens",
+   "subtitle": "Molecule 48 · Keep the whole plan one line tall until the reader asks for it: a title and a one-line summary when closed, the fact tiles and a quiet note when open.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/48-summary-disclosure.html",
+   "data_shape": [
+    "note"
+   ],
+   "fidelity": [],
+   "classes": [
+    "ftile",
+    "ftile-cap",
+    "ftile-fig",
+    "ftile-lab",
+    "ftiles",
+    "ftiles-c",
+    "is-4",
+    "is-fit",
+    "sumd",
+    "sumd-chev",
+    "sumd-note",
+    "sumd-s",
+    "sumd-t"
+   ],
+   "prim_blocks": [
+    "45-fact-tile",
+    "48-summary-disclosure"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": [
+    {
+     "rule": ".ftiles",
+     "twin": "45-fact-tile",
+     "twin_rule": ".ftiles",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile",
+     "twin": "45-fact-tile",
+     "twin_rule": ".ftile",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile::before",
+     "twin": "45-fact-tile",
+     "twin_rule": ".ftile::before",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile-lab",
+     "twin": "45-fact-tile",
+     "twin_rule": ".ftile-lab",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile-fig",
+     "twin": "45-fact-tile",
+     "twin_rule": ".ftile-fig",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile-cap",
+     "twin": "45-fact-tile",
+     "twin_rule": ".ftile-cap",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "49-pinned-card",
+   "number": "49",
+   "name": "Pinned Details Card",
+   "group": "Specimens",
+   "subtitle": "Organism 49 · Show the details of the row the reader picked without leaving the full-width grid: a card pinned bottom-right on wide screens, a block below the content on narrow ones.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/49-pinned-card.html",
+   "data_shape": [
+    "state",
+    "table"
+   ],
+   "fidelity": [],
+   "classes": [
+    "is-pinned",
+    "is-static",
+    "on",
+    "pcard",
+    "pcard-b",
+    "pcard-h",
+    "pcard-layout",
+    "pcard-meta",
+    "pcard-s",
+    "pcard-x"
+   ],
+   "prim_blocks": [
+    "49-pinned-card"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": [
+    {
+     "rule": ".pcard",
+     "twin": "41-offer-close",
+     "twin_rule": ".offer",
+     "jaccard": 0.8
+    }
+   ]
+  },
+  {
+   "id": "50-term-definition",
+   "number": "50",
+   "name": "Term Definition",
+   "group": "Specimens",
+   "subtitle": "Molecule 50 · Let a reader who does not know a word see its plain meaning in place, on hover, focus or tap, with a link to the full glossary entry.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/50-term-definition.html",
+   "data_shape": [],
+   "fidelity": [],
+   "classes": [
+    "term",
+    "term-b",
+    "term-go",
+    "term-tip",
+    "up"
+   ],
+   "prim_blocks": [
+    "50-term-definition"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": []
+  },
+  {
+   "id": "51-display-preferences",
+   "number": "51",
+   "name": "Display Preferences",
+   "group": "Specimens",
+   "subtitle": "Molecule 51 · Give every reader the theme switch and the reading options (easy-read font, larger text, roomy spacing) side by side in the header, remembered on their device.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/51-display-preferences.html",
+   "data_shape": [
+    "label"
+   ],
+   "fidelity": [],
+   "classes": [
+    "dprefs",
+    "dprefs-aa",
+    "dprefs-actions",
+    "dprefs-btns",
+    "dprefs-group",
+    "dprefs-label",
+    "dprefs-panel",
+    "dprefs-theme",
+    "dprefs-title",
+    "dprefs-trk",
+    "dprefs-ttl",
+    "is-static"
+   ],
+   "prim_blocks": [
+    "51-display-preferences"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": []
+  },
+  {
+   "id": "52-plan-matrix",
+   "number": "52",
    "name": "Plan Matrix",
    "group": "Specimens",
-   "subtitle": "Organism 43 · Lay out a role plan as duties against time marks, every cell a proposal the reader can edit, with how they would know it is working at each mark.",
+   "subtitle": "Organism 52 · Lay out a role plan as duties against time marks, every cell a proposal the reader can edit, with how they would know it is working at each mark.",
    "family": "kit",
-   "path": "src/ui-kit/recoil-report/43-plan-matrix.html",
+   "path": "src/ui-kit/recoil-report/52-plan-matrix.html",
    "data_shape": [
     "timeline"
    ],
@@ -3629,7 +4042,7 @@
     "pm-table"
    ],
    "prim_blocks": [
-    "43-plan-matrix"
+    "52-plan-matrix"
    ],
    "alignment": {
     "tokens": true,
@@ -3648,20 +4061,20 @@
    "near_duplicates": [
     {
      "rule": ".pm-khead",
-     "twin": "44-cold-read",
+     "twin": "53-cold-read",
      "twin_rule": ".cr-when",
      "jaccard": 0.8
     }
    ]
   },
   {
-   "id": "44-cold-read",
-   "number": "44",
+   "id": "53-cold-read",
+   "number": "53",
    "name": "Cold Read",
    "group": "Specimens",
-   "subtitle": "Organism 44 · Give a reader with zero context the whole page in one glance: who, what, where, when and why as labelled slots, how as before, during and after with real timing, and one line on how to read the rest.",
+   "subtitle": "Organism 53 · Give a reader with zero context the whole page in one glance: who, what, where, when and why as labelled slots, how as before, during and after with real timing, and one line on how to read the rest.",
    "family": "kit",
-   "path": "src/ui-kit/recoil-report/44-cold-read.html",
+   "path": "src/ui-kit/recoil-report/53-cold-read.html",
    "data_shape": [],
    "fidelity": [],
    "classes": [
@@ -3678,7 +4091,7 @@
    "prim_blocks": [
     "27-section-label",
     "31-callout",
-    "44-cold-read"
+    "53-cold-read"
    ],
    "alignment": {
     "tokens": true,
@@ -3798,7 +4211,7 @@
     },
     {
      "rule": ".cr-when",
-     "twin": "43-plan-matrix",
+     "twin": "52-plan-matrix",
      "twin_rule": ".pm-khead",
      "jaccard": 0.8
     }

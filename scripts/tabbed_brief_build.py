@@ -2,7 +2,7 @@
 The page is generated from four parts and never hand-edited:
   tokens    src/ui-kit/recoil-report/_tokens.css, inlined verbatim (sentinel line kept)
   kit       the @prim blocks of the parts the page uses, copied verbatim from src/ui-kit/recoil-report/NN-*.html
-            (27 section-label, 28 chip, 29 tile, 31 callout, 38 wordmark, 39 theme light remap, 42 shell-nav, 43 plan-matrix, 44 cold-read)
+            (27 section-label, 28 chip, 29 tile, 31 callout, 38 wordmark, 39 theme light remap, 42 shell-nav, 52 plan-matrix, 53 cold-read)
   template  src/ui-kit/tabbed-brief/shell.css + shell.js (frame and page organisms, no counterpart content)
   data      a JSON file valid against src/ui-kit/tabbed-brief/brief.schema.json (all copy; links as [text](url), bold as **text**)
   python3 scripts/tabbed_brief_build.py DATA.json -o OUT.html            write the full page (doctype, analytics if the data asks)
@@ -16,7 +16,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KIT = os.path.join(ROOT, "src/ui-kit/recoil-report")
 TDIR = os.path.join(ROOT, "src/ui-kit/tabbed-brief")
 SCHEMA = os.path.join(TDIR, "brief.schema.json")
-PARTS = ["27-section-label", "28-chip", "29-tile", "31-callout", "38-wordmark", "39-theme-toggle", "42-shell-nav", "43-plan-matrix", "44-cold-read"]
+PARTS = ["27-section-label", "28-chip", "29-tile", "31-callout", "38-wordmark", "39-theme-toggle", "42-shell-nav", "52-plan-matrix", "53-cold-read"]
 REGISTERED = {"_ARTIFACTS/tabbed-brief/gravity.json": "public/gravity-brief.html"}
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import precall_brief_build as pb  # the stdlib JSON Schema subset lives there; reuse it, do not fork it

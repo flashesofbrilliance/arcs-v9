@@ -1,0 +1,103 @@
+{
+  "number": "45",
+  "name": "Fact Tile",
+  "slug": "fact-tile",
+  "layer": "Molecule",
+  "job": "Give one fact a label, a figure and a short caption, with the label outside the box so a row of tiles reads as one aligned band.",
+  "anatomy": [
+    {
+      "part": "Label",
+      "role": "Above the box, left-aligned with its edge, 4px gap; mono-free sans caps, 0.75rem bold",
+      "token": "`cyan`"
+    },
+    {
+      "part": "Box",
+      "role": "Drawn behind the figure and caption rows only (a `::before` on the subgrid), so the label sits outside it",
+      "token": "`surface`, `border`, `ds-r-sm`"
+    },
+    {
+      "part": "Figure",
+      "role": "Headline size, bold, tabular figures, 12px from the box top",
+      "token": "`text`"
+    },
+    {
+      "part": "Caption",
+      "role": "0.9rem, 6px under the figure, 12px from the box bottom",
+      "token": "`text-secondary`"
+    },
+    {
+      "part": "Row",
+      "role": "A `.ftiles-c` container (container queries) holding the grid of tiles; each tile spans three subgrid rows so labels, figures and captions line up across the row",
+      "token": "row gap 14px"
+    }
+  ],
+  "states": [
+    {
+      "name": "Four tiles",
+      "args": [
+        4
+      ],
+      "note": "One column when narrow, two by two from a 28rem container, one row from 54rem, so no tile sits alone on a row. Container queries, so the tiles fit any column they are placed in."
+    },
+    {
+      "name": "Two tiles, uneven captions",
+      "args": [
+        2
+      ],
+      "note": "Subgrid keeps the figures level even when one caption wraps to two lines."
+    }
+  ],
+  "use_when": [
+    "A handful of headline facts (price, length, start, what you get) read better side by side than in a sentence.",
+    "Use four or two tiles so the breakpoints never leave an orphan; inside a summary disclosure, three or more fit with `auto-fit`."
+  ],
+  "avoid_when": [
+    "Do not repeat a fact the next block already states; drop the tile instead.",
+    "Do not use it for a probability or a stat with a source line; that is 29 Tile (kept unchanged for its four consumers).",
+    "Do not put the label inside the box or right-align it."
+  ],
+  "data": [
+    {
+      "field": "tiles[]",
+      "type": "[label, figure, caption]",
+      "required": true,
+      "note": "Label is one or two words; figure is short (`$4,800`, `5 days`); caption is one plain line."
+    }
+  ],
+  "access": [
+    "A `ul` with an `aria-label` (such as `Step 1 at a glance`); each tile is an `li` reading label, figure, caption in order.",
+    "All sizes are rem and the row uses `minmax(0,1fr)`, so the largest text size and roomy spacing wrap inside the box instead of overflowing.",
+    "Contrast: label `cyan` and caption `text-secondary` are AA on `surface` in both themes."
+  ],
+  "built_from": [
+    {
+      "name": "Kit tokens (atoms)",
+      "href": "_tokens.css"
+    },
+    {
+      "name": "Light remap (_tokens-light.css)",
+      "href": "_tokens-light.css"
+    },
+    {
+      "name": "29 Tile (sibling, unchanged)",
+      "href": "29-tile.html"
+    }
+  ],
+  "used_by": [
+    {
+      "name": "Approved My Ally Step 1 template (public/myally-hub.html, PR 2094)"
+    }
+  ],
+  "gates": [
+    "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+    "`kit_primitive_sync.py --check` (in scripts): every page that marks this block carries it unchanged.",
+    "`scripts/token_source_gate.py`, `scripts/component_source_gate.py` and `scripts/artifact_wrap_lint.py` on this page.",
+    "Reading-options check: 375 and 1280, light and dark, largest text size, roomy spacing and the easy-read font."
+  ],
+  "links": [
+    "_tokens-light.css",
+    "_kit-sr.css"
+  ],
+  "css": "/* @prim:begin 45-fact-tile */\n.ftiles-c{container-type:inline-size;min-width:0}\n.ftiles{display:grid;grid-template-columns:minmax(0,1fr);gap:14px 8px;margin:0;padding:0;list-style:none}\n@container (min-width:28rem){.ftiles{grid-template-columns:repeat(2,minmax(0,1fr))}}\n@container (min-width:54rem){.ftiles.is-4{grid-template-columns:repeat(4,minmax(0,1fr))}}\n.ftiles.is-fit{grid-template-columns:repeat(auto-fit,minmax(min(100%,13.75rem),1fr))}\n.ftile{position:relative;display:grid;grid-row:span 3;grid-template-rows:subgrid;row-gap:0;min-width:0;isolation:isolate}\n.ftile::before{content:\"\";grid-row:2/4;grid-column:1;border:1px solid var(--border);border-radius:var(--ds-r-sm);background:var(--surface);z-index:-1}\n.ftile-lab{grid-row:1;grid-column:1;padding:0 2px 4px;font-size:.75rem;font-weight:700;line-height:1.2;letter-spacing:.06em;text-transform:uppercase;color:var(--cyan)}\n.ftile-fig{grid-row:2;grid-column:1;padding:12px 14px 0;font-size:var(--fs-headline);font-weight:700;line-height:1.25;font-variant-numeric:tabular-nums;color:var(--text)}\n.ftile-cap{grid-row:3;grid-column:1;padding:6px 14px 12px;color:var(--text-secondary);font-size:.9rem;line-height:1.45;text-wrap:pretty}\n/* @prim:end 45-fact-tile */\n",
+  "demo": "var KI={dl:'<path d=\"M8 2.5v7.5M4.75 7 8 10.25 11.25 7M3 13.5h10\"/>',ext:'<path d=\"M9 2.5h4.5V7M13.5 2.5 7.5 8.5M11.5 9.5v3a1 1 0 01-1 1h-7a1 1 0 01-1-1v-7a1 1 0 011-1h3\"/>',cal:'<rect x=\"2.5\" y=\"3.5\" width=\"11\" height=\"10\" rx=\"1.5\"/><path d=\"M2.5 6.5h11M5.5 2v3M10.5 2v3\"/>',chev:'<path d=\"M4.5 6.5 8 10l3.5-3.5\"/>',right:'<path d=\"M6 3.5 10.5 8 6 12.5\"/>',x:'<path d=\"M4 4l8 8M12 4l-8 8\"/>'};\nfunction kIcon(k){return '<svg viewBox=\"0 0 16 16\" aria-hidden=\"true\" focusable=\"false\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\">'+KI[k]+'</svg>';}\nfunction kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar FT=[['Price','$4,800','Fixed, invoiced at signing'],['Length','5 working days','Day 1 starts once the start items are in'],['You get','A scoped MVP plan','Written up for your counsel and team'],['Start','Within a week','Of the signed agreement']];\nfunction kitFactTiles(host,rows,label){var c=document.createElement('div');c.className='ftiles-c';var u=document.createElement('ul');u.className='ftiles'+(rows.length===4?' is-4':'');u.setAttribute('aria-label',label);u.innerHTML=rows.map(function(r){return '<li class=\"ftile\"><span class=\"ftile-lab\">'+kEsc(r[0])+'</span><b class=\"ftile-fig\">'+kEsc(r[1])+'</b><span class=\"ftile-cap\">'+kEsc(r[2])+'</span></li>';}).join('');c.appendChild(u);host.appendChild(c);return u;}\nkitFactTiles(kSlot(),FT,'At a glance');\nSTATES.forEach(function(s,i){kitFactTiles(kSlot(i),s[0]===4?FT:[FT[0],FT[1]],'At a glance');});\n"
+}

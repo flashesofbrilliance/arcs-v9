@@ -175,7 +175,7 @@
 @media (prefers-reduced-motion: reduce) { .shnav-menu span, .shnav-menu span::before, .shnav-menu span::after { transition: none; } .shnav[data-mode="menu"].is-open .shnav-tabs { animation: none; } }
 @media print { .shnav-menu, .shnav-tabs { display: none !important; } }
 /* @prim:end 42-shell-nav */
-/* @prim:begin 43-plan-matrix */
+/* @prim:begin 52-plan-matrix */
 .pm { display: flex; flex-direction: column; gap: 12px; }
 .pm > * { margin: 0; }
 .pm-src, .pm-note { font-size: var(--fs-body); line-height: 1.55; color: var(--text-secondary); }
@@ -190,8 +190,8 @@
 .pm-k p { margin: 0; font-size: var(--fs-body); line-height: 1.5; color: var(--text); }
 .pm-k .pm-kl { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cyan); margin-bottom: 4px; }
 @media (max-width: 599px) { .pm-table thead { display: none; } .pm-table tr { display: block; padding: 12px 0; border-bottom: 1px solid var(--border); } .pm-table tr:last-child { border-bottom: 0; } .pm-table td { display: block; width: auto; padding: 2px 0; border: 0; } .pm-table td:first-child { width: auto; margin-bottom: 4px; } .pm-table td[data-label]:not(:first-child)::before { content: attr(data-label); display: block; font-size: var(--fs-label); font-weight: 600; color: var(--text-secondary); } }
-/* @prim:end 43-plan-matrix */
-/* @prim:begin 44-cold-read */
+/* @prim:end 52-plan-matrix */
+/* @prim:begin 53-cold-read */
 .cr { display: flex; flex-direction: column; gap: 20px; }
 .cr > * { margin: 0; }
 .cr > .callout { max-width: none; }
@@ -208,7 +208,7 @@
 .cr-what { font-size: var(--fs-body); line-height: 1.5; color: var(--text); }
 .cr-step + .cr-step::before { content: ""; position: absolute; left: -13px; top: 24px; width: 12px; height: 1px; background: var(--border); }
 @media (max-width: 599px) { .cr-slots { grid-template-columns: minmax(0, 1fr); } .cr-slots dd { border-top: 0; padding-top: 2px; } .cr-slots dt { padding-bottom: 0; line-height: 1.4; } .cr-how { grid-template-columns: minmax(0, 1fr); } .cr-step + .cr-step::before { left: 24px; top: -13px; width: 1px; height: 12px; } }
-/* @prim:end 44-cold-read */
+/* @prim:end 53-cold-read */
 /* tabbed-brief template layer (2026-11-09). Composes kit parts; owns only the frame and the page organisms.
    Tokens: src/ui-kit/recoil-report/_tokens.css (inlined first) and the kit 39 light remap. No literal colours here.
    Type ramp, five steps: label 0.6875rem (labels only, never prose) · small 0.875rem · body 1rem · section 1.25rem · display (serif).

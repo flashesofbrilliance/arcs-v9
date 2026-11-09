@@ -28,7 +28,7 @@ organisms  → recoil-report/NN-*.html (the 14 numbered @dsCard primitives):
              (16 to 20 are the Instrument Lab group, added 2026-10-15; 21 to 26 were promoted from _ARTIFACTS/phosphor.html on 2026-10-16.
               They use the DESIGN.md conformance tokens, and scripts/kit_primitive_sync.py --check keeps each @prim block identical to the page.)
              42 shell-nav (2026-11-09): the framed brief's section bar, tabs on wide screens and a dropdown menu below 1024px; specimen-built.
-             43 plan-matrix and 44 cold-read (2026-11-09): duties by time horizon with a know strip, and the rule-13a cold-read header; specimen-built.
+             52 plan-matrix and 53 cold-read (2026-11-09): duties by time horizon with a know strip, and the rule-13a cold-read header; specimen-built.
              The tabbed-brief template (src/ui-kit/tabbed-brief/) composes them; pages are generated from data by scripts/tabbed_brief_build.py.
 templates  → a composition of organisms a page declares once and snaps into (see templates.json)
 ```
@@ -155,3 +155,44 @@ generator can pull, paints no raw signal hex). Separation is near-duplicate shap
 Parts 38 (wordmark) and 39 (theme toggle) were promoted on 2026-11-04 from the Brooks one-pager and storyboard, each on its
 second real case (public/honest.html; the myally pages). The shapes with one case so far are listed as candidates in
 `_ARTIFACTS/counterpart-onepager/README.md`.
+
+## Page pattern: the client hub (parts 43 to 51, 2026-11-09)
+
+Promoted from the My Ally Step 1 tab Zach approved on 2026-11-09 (`public/myally-hub.html`, PR 2094): "clean above the
+fold, organized below the fold". Each part is a specimen (`src/ui-kit/specimens/<slug>.json` built by `kit_specimen.py`)
+whose `@prim` block a page inlines verbatim. Tokens come from `_tokens.css`; light mode is the 39 remap, which every
+specimen carries.
+
+**Order, top to bottom:**
+
+1. **Wordmark row** with **51 Display preferences** at its right: the theme switch and the "Aa" reading options side by
+   side; the panel opens under the Aa button.
+2. **44 Status strip** (`.is-top`, 0.85rem), directly under the wordmark row and above the header, on every tab. It is
+   engagement-wide status, not one tab's content: `Not started.` plus `Up next` before any progress, then day segments,
+   `Day N · X of Y hours done`, what is ready for review and the comments count.
+3. **Header strip**: meta (prepared for, from, status) with the **43 Action menu** at its right, then the tabs.
+4. **47 Now note**: one sentence that leads with the reader's next action; dismissible, remembered per note text.
+5. **48 Summary disclosure** ("The whole plan"): closed, a title and one exec line; open, **45 Fact tiles** and a quiet note.
+6. **45 Fact tiles** where facts stand alone (label outside the box, subgrid rows).
+7. **46 Day list** ("Your week"): Before, Day 1 to n, After, one sentence each.
+8. **See every item**: a disclosure holding the full-width grid plus the **49 Pinned details card** (bottom-right from
+   961px, in flow below that). **50 Term definition** marks terms of art anywhere in the copy.
+
+**Rules:**
+
+- **Rhythm:** one 28px gap between blocks (`margin:0` on the children); tight inside a group, generous between groups.
+- **Say it once, less text:** drop a tile or sentence the next block repeats; no pill that does not change a decision.
+- **Labels:** one word (Agreement, Details, Discuss), or `format, for purpose` in menus (PDF, for print · Word, for
+  counsel · Google Doc, for comments). Label left, action icon right; the call to action is the solid last item.
+- **Tabs collapse where they stop fitting, not at a phone breakpoint.** Measure the tab bar's natural width and set the
+  hamburger breakpoint above it (the hub's five tabs need about 754px, so it collapses at 900px and narrower). Reason:
+  tablets in portrait (768 to 834px) and narrow second-screen windows must get the hamburger, never a clipped tab.
+- **The action menu stays in the header above 560px** and moves into the hamburger panel, under the tabs, only at 560px
+  and below (`kitActionGroup` in 43).
+- **Status honesty:** never an empty 0% bar; a Details toggle only when something is behind it.
+- **Reading-options check on every change:** every block uses rem or em and the kit font tokens so 51 reaches it; check
+  at 375 and 1280, light and dark, at the largest text size with roomy spacing and the easy-read font, for clipping,
+  overlap, overflow and 44px targets; screen-reader pass (heading order, native disclosures, labelled regions, focus
+  returned on close, decorative icons `aria-hidden`).
+
+29 Tile and 39 Theme toggle stay unchanged for their consumers; 45 and 51 are their siblings for this pattern.

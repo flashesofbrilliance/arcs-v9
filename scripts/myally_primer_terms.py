@@ -63,6 +63,44 @@ NEW_ENTRIES = [
      "Time with me, one to one, booked in 30-minute slots, for any question.",
      "A standing appointment you can use or skip.",
      "4 hours of office hours a month come at no charge, to use however you like."),
+    # Step 1 tab sweep (2026-11-09): words on the tab a founder or counsel may not know. Meanings follow the
+    # Step 1 agreement's glossary (legal/step1-agreement-rev29.md) where it defines the word.
+    ("g-grp-the-building-blocks", "g-lovable-and-supabase", "g-remix", "Remix",
+     "Lovable's name for a copy of a project. Changes to the copy don't touch the original.",
+     "A photocopy you can write on.",
+     "I read a remix with no real family information in it, so your app stays as it is."),
+    ("g-grp-the-building-blocks", None, "g-stub", "Stub",
+     "A placeholder in the code: a screen or feature that looks built but does not do its job yet.",
+     "A door painted on a wall.",
+     "The Step 1 map of your spec marks each part as built, stubbed or missing."),
+    ("g-grp-who-can-see-what", None, "g-data-governance-plan", "Data governance plan",
+     "A written plan for family information: keeping each family's data apart, who can see what, consent, and what to keep out of the app.",
+     "House rules for the filing cabinet.",
+     "Pilot schools and families are likely to ask for one; your counsel confirms the answers."),
+    ("g-grp-working-together", None, "g-working-day", "Working day",
+     "Monday to Friday, not counting US federal holidays.",
+     "A business day at the bank.",
+     "Step 1's five days are counted this way."),
+    ("g-grp-working-together", None, "g-spec", "Spec",
+     "Your written description of what the app should do. Here, your integration spec.",
+     "The brief a campaign is built from.",
+     "I read the code against it, to see what is built, stubbed or missing."),
+    ("g-grp-working-together", None, "g-review-call", "Review call",
+     "A 30-minute call where we go through your batched comments together.",
+     "Going through a marked-up draft side by side.",
+     "It is part of Step 1, so it doesn't use your office hours."),
+    ("g-grp-working-together", None, "g-deliverables", "Deliverables",
+     "The written items I hand you, numbered 1 to 6 in section 2 of the Step 1 agreement.",
+     None,
+     "Your one round of changes applies to these."),
+    ("g-grp-working-together", None, "g-design-system", "Design system",
+     "A shared set of screen parts, such as buttons, cards and colours, with rules for using them.",
+     "A brand kit for screens.",
+     "Step 2 turns your existing screens into one, so new screens match."),
+    ("g-grp-decisions-and-honesty", None, "g-go-or-stop-memo", "Go or stop memo",
+     "A short written verdict on whether what is built can carry a pilot safely, with a ranked list of the problems to fix first.",
+     "A surveyor's report before you buy.",
+     "Step 1 ends with one, so you decide on Step 2 with it in hand."),
 ]
 
 # entry id -> phrases that point to it (case-insensitive, whole words). Only clear jargon, not everyday words.
@@ -71,16 +109,19 @@ TERMS = {
     "g-token": ["token", "tokens"], "g-prompt": ["prompt", "prompts"], "g-database": ["database"],
     "g-back-end": ["back end"], "g-front-end": ["front end"], "g-lock-in": ["lock-in"],
     "g-retrieval": ["retrieval"], "g-hallucination": ["hallucination"], "g-redaction": ["redaction"],
-    "g-version-control-branch": ["version control", "branch"], "g-environment-testing-live": ["environment"],
+    "g-version-control-branch": ["version control", "branch"], "g-environment-testing-live": ["environment", "environments"],
     "g-data-placement": ["data placement"], "g-evidence-trail": ["evidence trail"],
     "g-role-based-access": ["role-based access"], "g-audit-log": ["audit log"], "g-retention": ["retention"],
     "g-synthetic-data": ["synthetic data"], "g-hipaa": ["HIPAA"], "g-coppa": ["COPPA"], "g-ferpa": ["FERPA"],
     "g-baa": ["BAA"], "g-nda": ["NDA"], "g-cost-model": ["cost model"], "g-sprint": ["sprint"],
     "g-dependency": ["dependency"], "g-backlog": ["backlog"], "g-definition-of-done": ["definition of done"],
-    "g-checkpoint": ["checkpoint"], "g-handoff-pack": ["handoff pack"], "g-unit-economics": ["unit economics"],
+    "g-checkpoint": ["checkpoint"], "g-handoff-pack": ["handoff pack", "handoff"], "g-unit-economics": ["unit economics"],
     "g-github": ["GitHub"], "g-ci-cd": ["CI/CD"], "g-database-rules": ["database rules"],
     "g-data-separation": ["data separation", "kept apart"], "g-prototype": ["prototype"],
     "g-readout": ["readout"], "g-round-of-changes": ["round of changes"], "g-office-hours": ["office hours"],
+    "g-remix": ["remix"], "g-stub": ["stubbed", "stub"], "g-data-governance-plan": ["data governance plan", "governance plan"],
+    "g-working-day": ["working days", "working day"], "g-spec": ["integration spec", "spec"], "g-review-call": ["review call", "review calls"],
+    "g-deliverables": ["deliverables"], "g-design-system": ["design system"], "g-go-or-stop-memo": ["go or stop memo"],
 }
 
 GEN = re.compile(r'<span class="termwrap" data-gen="terms"><a [^>]*>(.*?)</a><span class="tip".*?<span class="tiphint">[^<]*</span></span></span>', re.S)
@@ -181,6 +222,11 @@ def hub_text(hub, primer):
     catch = "var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;"
     block = block.replace(catch, "var a=e.target.closest&&e.target.closest('a[href]');if(!a||a.classList.contains('gl'))return;")
     body = primer.replace("—", "-")    # the embed has always carried hyphens for the two token-comment dashes
+    # Inside the hub the Primer's own top bar (wordmark, MNDA button, theme toggle, menu) duplicates the hub's
+    # chrome and its MNDA link leads to a locked tab (Zach, 2026-11-09). Hide it in the embed only, and zero the
+    # sticky-header offset it sets, so in-page jumps still land right.
+    embed_css = '<style data-embed="hub">header.top{display:none!important}html{--hdr:0px!important}</style>'
+    body = body.replace("</head>", embed_css + "</head>", 1)
     new = body[:body.rindex("</body>")] + block + body[body.rindex("</body>"):]
     return hub[:m.start(2)] + html.escape(new, quote=True) + hub[m.end(2):]
 

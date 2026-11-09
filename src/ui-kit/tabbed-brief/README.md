@@ -24,7 +24,7 @@ Never hand-edit a generated page. Change the data (copy), the template layer her
 | | rank pill | kit 42 (`.shnav-pill`) | One pill for rank, in the tabs and the role headings. |
 | | button, switch | template (`.tb-btn`, `.tb-switch`) | Candidates for the kit once a second template uses them. |
 | Organisms | shell nav (tabs, dropdown menu) | kit 42 | Tabs from 1024px; menu below, half width from 600px. |
-| | plan matrix (duties by horizon, know strip) | kit 43 | Horizons are data. |
+| | plan matrix (duties by horizon, know strip) | kit 52 | Horizons are data. |
 | | hero (headline, lede, next step, actions) | template | Clean above the fold: one action row. |
 | | fold section (heading with button, tagline, body) | template | ARIA accordion pattern. |
 | | role tab (head, units with hairline spacers, callouts) | template | Becomes a fold below 1024px. |
