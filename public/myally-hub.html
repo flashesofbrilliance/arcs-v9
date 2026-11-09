@@ -256,7 +256,7 @@ button.chip:hover{border-color:var(--accent)}.chip.me{border-color:var(--accent)
 .shell{border:1px solid var(--line);border-radius:10px;background:var(--bg);box-shadow:none} .shell-bar{display:flex;flex-wrap:wrap;align-items:flex-end;gap:0 28px;padding:0 20px;background:var(--surface);border-bottom:1px solid var(--line);border-radius:10px 10px 0 0} .brand{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:.85rem;letter-spacing:.18em;color:var(--dim);padding:16px 0 15px;white-space:nowrap}.brand b{color:var(--accent);font-weight:700} .shell .tabs{margin:0 0 -1px;border-bottom:0} .shell-body{padding:20px} #pane-prop{margin:-20px}#pane-prop>.lede{margin:16px 20px}#pane-prop iframe{display:block;border:0!important;border-top:0!important;border-radius:0 0 10px 10px!important;height:auto;min-height:200px} @media (max-width:640px){.shell-bar{padding:0 12px;gap:0 16px}.brand{padding:12px 0 4px;width:100%}.shell-body{padding:14px}#pane-prop{margin:-14px}}
 
 /* type and hierarchy pass (design-debt.md) */
-.lede,.tabnote{font-size:.95rem}
+.lede,.tabnote{font-size:.95rem}.s1map .tabnote{font-size:1.05rem}
 .sum button{padding:12px 14px;display:grid;gap:2px;align-content:start}
 .sum b{font-size:1.05rem;font-weight:600}
 .sum span{font-size:.875rem}
@@ -554,7 +554,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <ul class="s1sum" id="s1sum" aria-label="Step 1 at a glance"></ul>
 <section class="s1week" aria-labelledby="s1wh"><h2 id="s1wh">Your week</h2><ol id="s1wk"></ol></section>
 <details class="s1plan s1all" id="s1all"><summary><svg class="chev" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg><span class="s1pt">See every item</span></summary>
-<div class="s1map"><div class="bar-top"><p class="tabnote" style="margin:0">Days are working days. Day 1 is the day after the agreement is signed and paid and all the start items are in. </p><span class="grow"></span><button type="button" class="btn" id="s1tog"><span class="tl">Close all</span></button></div>
+<div class="s1map"><div class="bar-top"><p class="tabnote" style="margin:0">Day 1 is the working day after signing, payment and the start items.</p><span class="grow"></span><button type="button" class="btn" id="s1tog"><span class="tl">Close all</span></button></div>
 <ul class="legend" aria-label="Key">
 <li><svg class="ico c-task"><use href="#i-task"/></svg>What I do</li>
 <li><svg class="ico c-ms"><use href="#i-ms"/></svg>What you get</li>
