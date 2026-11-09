@@ -600,6 +600,18 @@ footer p{text-align:left;}
   .named-x{position:static;transform:none;flex:none;}
 }
 @media print{.named{display:none;}}
+
+@media screen{
+  .named-v{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:start;column-gap:var(--sp-2);}
+  .why-pill{margin-top:2px;}
+  .named-x{margin-top:-6px;}
+}
+@media screen and (max-width:520px){
+  .named-v{grid-template-columns:auto minmax(0,1fr) auto;row-gap:var(--sp-1);}
+  .why-pill{grid-column:1;grid-row:1;}
+  .named-x{grid-column:3;grid-row:1;margin-top:-6px;}
+  .why-t{grid-column:1 / -1;grid-row:2;}
+}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
