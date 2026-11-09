@@ -569,7 +569,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 .cia td.num{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
 .cia .cgrid.acrd3{grid-template-columns:repeat(3,minmax(0,1fr))!important}@media (max-width:900px){.cia .cgrid.acrd3{grid-template-columns:1fr!important}}.cia .acrd3 .ccard h3{color:var(--accent)}.cia .qlist ol{margin:0;padding-left:24px}.cia .qlist li{margin-bottom:8px}
 @media (min-width:700px){.shell-head .shell-meta,.shell-head .shell-bar{position:static;margin-left:0;margin-right:0}.shell-head .shell-meta::before,.shell-head .shell-meta::after{content:none}.shell-head{position:sticky;top:0;z-index:21;margin:-13px -1px 0;padding-top:12px;background:var(--pg-bg,var(--bg))}.shell-head>.shell-meta{border:1px solid var(--line);border-radius:10px 10px 0 0}.shell-head>.shell-bar{border-left:1px solid var(--line);border-right:1px solid var(--line)}.shell-head.stuck>.shell-bar{box-shadow:0 4px 12px rgba(0,0,0,.08)}}@media(min-width:700px){.cia .cgrid:has(>.ccard:nth-child(4):last-child){grid-template-columns:repeat(2,minmax(0,1fr))!important}.cia .cgrid:has(>.ccard:nth-child(3):last-child),.cia .cgrid:has(>.ccard:nth-child(6):last-child){grid-template-columns:repeat(3,minmax(0,1fr))!important}}.cia .ccard>h3+p{margin-top:0}.cia .ccard>.pill{margin:0 0 10px}.cia .ccard>h3{font-size:1.0625rem;line-height:1.3;margin:0 0 4px}.cia .ccard>p{color:var(--quiet,var(--text))}#pane-primer .cia .lede,#pane-primer .cia>p{max-width:none}.cia td{text-wrap:wrap}.cia th{font-size:.8125rem;font-weight:600;letter-spacing:.01em;color:var(--quiet,var(--text))}.cia table.gt td:nth-child(2){font-size:.8125rem;line-height:1.45;color:var(--quiet,var(--text));white-space:normal}.cia table.gt td:first-child{font-weight:600;color:var(--text)}.cia .blk>summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:8px}.stamp{position:relative;padding-right:44px}.stamp-x{position:absolute;top:8px;right:8px;width:28px;height:28px;display:grid;place-items:center;font:inherit;font-size:1.125rem;line-height:1;color:var(--quiet,var(--text));background:none;border:0;border-radius:6px;cursor:pointer}.stamp-x:hover{background:var(--line)}.stamp-x:focus-visible{outline:2px solid var(--accent);outline-offset:2px}</style><style>
-/* ARCS ui-kit primitives, verbatim from src/ui-kit/recoil-report (28 chip, 29 tile, 32 evidence-ref, 38 wordmark, 39 theme-toggle light remap, 42 shell-nav) */
+/* ARCS ui-kit primitives, verbatim from src/ui-kit/recoil-report (28 chip, 29 tile, 31 callout, 32 evidence-ref, 38 wordmark, 39 theme-toggle light remap, 42 shell-nav) */
 /* @prim:begin 28-chip */
 .section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
 .chip { display: inline-flex; align-items: center; gap: 6px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: var(--ds-r-pill); border: 1px solid var(--border); color: var(--text-secondary); }
@@ -643,6 +643,13 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 @media (prefers-reduced-motion: reduce) { .shnav-menu span, .shnav-menu span::before, .shnav-menu span::after { transition: none; } .shnav[data-mode="menu"].is-open .shnav-tabs { animation: none; } }
 @media print { .shnav-menu, .shnav-tabs { display: none !important; } }
 /* @prim:end 42-shell-nav */
+/* @prim:begin 31-callout */
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.callout { max-width: var(--measure, 640px); background: var(--gold-bg); border: 1px solid var(--gold); border-radius: var(--ds-r-sm); padding: 12px 16px; color: var(--text-secondary); }
+.callout.red { background: var(--red-bg); border-color: var(--red); }
+.callout b { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-right: 6px; }
+.callout.red b { color: var(--red); }
+/* @prim:end 31-callout */
 
 /* host frame (2026-11-09): the artifact viewer styles body itself, so body carries the page colours explicitly */
 body{background:var(--bg);color:var(--text);margin:0;}
@@ -681,14 +688,31 @@ html.stacked details.seat{scroll-margin-top:16px;}
 .ovbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 .ovnote{flex-basis:100%;margin:0;color:var(--dim);font-size:.95em;}
 .cia details.ovsum{border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+/* role organism (2026-11-09): head, then units separated by a hairline spacer; one 28px unit padding, one 12px inner rhythm */
+.cia details.seat > .bd{display:flex;flex-direction:column;gap:0;}
+.cia details.seat > .bd > .cia-h1{margin:0 0 12px;}
+.cia details.seat > .bd > .lede{margin:0 0 28px;}
+.cia .unit{display:flex;flex-direction:column;gap:12px;padding:28px 0;border-top:1px solid var(--line);}
+.cia .unit > *{margin:0;}
+.cia .unit > h3.cia-h2{margin:0;}
+.cia .unit .tblwrap{margin:0;}
+.cia .unit .cgrid{margin:0;}
+.cia .unit .ref.plansrc{margin:0;}
+.cia .unit .plannote{margin:0;}
+.cia .unit .knowhead{margin:4px 0 0;}
+.cia details.seat > .bd > .callout{margin:0 0 8px;max-width:none;}
+.cia .know{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0;padding:0;}
+.cia .kcell{border:1px solid var(--line);border-radius:var(--ds-r-sm);padding:12px 14px;background:var(--surface);}
+.cia .kcell p{margin:0;font-size:.95rem;line-height:1.5;color:var(--text);}
+.cia .kcell .klabel{font-family:var(--ds-font-mono);font-size:var(--fs-label);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:0 0 4px;}
+@media (max-width:640px){.cia .know{grid-template-columns:minmax(0,1fr);}.cia table.gt.plan td:first-child{width:auto;}}
 /* the 90 / 120 / 240 plans */
 .cia table.gt.plan td{vertical-align:top;font-size:.95rem;line-height:1.5;color:var(--text);}
 .cia table.gt.plan td:first-child{font-weight:600;width:28%;}
 .cia table.gt.plan th{white-space:nowrap;}
+@media (max-width:640px){.cia table.gt.plan td:first-child{width:auto;}}
 .plannote{color:var(--dim);margin:0 0 12px;}
 .knowhead{font-weight:600;margin:16px 0 6px;color:var(--text);}
-.know{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:4px;color:var(--text);}
-.know strong{font-weight:600;}
 @media (max-width:560px){.ovbtn{flex:1 1 auto;}}
 html.stacked .wide-only{display:none;}
 html:not(.stacked) .stack-only{display:none;}
@@ -782,7 +806,7 @@ html:not(.stacked) .stack-only{display:none;}
 <div id="pane-principal" class="cia-pane seatpane" role="tabpanel" aria-labelledby="t-principal" hidden><div class="cia"><details class="blk seat" open><summary><h2 class="cia-h2">Principal, New Ventures</h2><span class="tk"><span class="pill">1st</span> My strongest fit</span></summary><div class="bd">
 <h2 class="cia-h1">Principal, New Ventures: my strongest fit.</h2>
 <p class="lede">The seat as your page describes it: break the bottleneck of every idea flowing through the CEO by owning hatches end to end. Spot the gap, write the case, pitch the investment committee, build the first prototype with AI coding tools, recruit the founders. A builder role, not research and not investing.</p>
-<h3 class="cia-h2">A 90, 120 and 240 Day Plan, for You to Edit</h3>
+<section class="unit"><h3 class="cia-h2">A 90, 120 and 240 Day Plan, for You to Edit</h3>
 <p class="ref plansrc">Rows paraphrase the "What You'll Do" list on <a href="https://gravity-labs.xyz/jobs-principal-new-ventures.html">your Principal page</a>. Every cell is my proposal, not a promise: change any of it.</p>
 <div class="tblwrap"><table class="gt plan">
 <thead><tr><th>Your page asks me to</th><th>By day 90</th><th>By day 120</th><th>By day 240</th></tr></thead><tbody>
@@ -795,14 +819,14 @@ html:not(.stacked) .stack-only{display:none;}
 <tr><td>Kill your darlings</td><td>Every killed hatch has a written reason</td><td>A first review of every pass</td><td>One pass reopened, or confirmed, as the market moved</td></tr>
 </tbody></table></div>
 <p class="knowhead">How you would know it is working</p>
-<ul class="know"><li><strong>Day 90:</strong> the theses, the first memo and the prototype exist, and you have read them.</li><li><strong>Day 120:</strong> the committee has seen a hatch from me.</li><li><strong>Day 240:</strong> a founder has signed, and the pass record has changed at least one call.</li></ul>
-<h3 class="cia-h2">How I Would Use ARCS in the Seat</h3>
+<div class="know"><div class="kcell"><p class="klabel">Day 90</p><p>The theses, the first memo and the prototype exist, and you have read them.</p></div><div class="kcell"><p class="klabel">Day 120</p><p>The committee has seen a hatch from me.</p></div><div class="kcell"><p class="klabel">Day 240</p><p>A founder has signed, and the pass record has changed at least one call.</p></div></div></section>
+<section class="unit"><h3 class="cia-h2">How I Would Use ARCS in the Seat</h3>
 <div class="cgrid">
 <div class="ccard"><h3>An alpha engine</h3><p class="ref">Built: the record and the recheck. Not shown yet: that it beats judgment alone.</p><p>Much of a studio's edge hides in what it passed on. ARCS records why each hatch was passed and checks it again as the market moves, so a pass that was wrong becomes a lead instead of a loss.</p></div>
 <div class="ccard"><h3>A risk-adjusted pipeline</h3><p class="ref">Built: a conviction score on every decision. Not shown yet: how accurate it is (my proof page marks it not yet).</p><p>Each hatch carries what we expect, how sure we are, and what would kill it, so the pipeline reads by risk as well as by excitement.</p></div>
 <div class="ccard"><h3>An antifragile test bench</h3><p class="ref">Built: pre-registered tests, run once, failures published (my October benchmark).</p><p>Every kill test is written down before it runs, so a failed test still pays: the next thesis starts from what it ruled out.</p></div>
-</div>
-<h3 class="cia-h2">What You Ask For, and What I Bring</h3>
+</div></section>
+<section class="unit"><h3 class="cia-h2">What You Ask For, and What I Bring</h3>
 <div class="tblwrap"><table class="gt prose">
 <thead><tr><th>You ask for</th><th>What I bring</th></tr></thead>
 <tbody>
@@ -812,19 +836,19 @@ html:not(.stacked) .stack-only{display:none;}
 <tr><td>A working prototype built with Claude Code or Cursor</td><td><a href="https://github.com/flashesofbrilliance/rfp-engine">RFP-O-Matic</a>, a public repo started 2026-11-02. It answers questions about a request for proposal and cites the exact clause, or says the document does not cover it.</td></tr>
 <tr><td>Where the AI got it wrong</td><td>Agents reported my quality gates green while running a stale copy of the checker from another branch, so a layout bug shipped repeatedly. I now make every gate run from the branch it is checking, and the fix is itself a check.</td></tr>
 <tr><td>A high kill rate</td><td>In October I pre-registered a retrieval benchmark, ran it once, published every result including the failures, and merged the one change that passed. Every belief I have had to overturn is on a <a href="https://status.arcs.care/beliefs">public ledger</a>, with the test that overturned it.</td></tr>
-</tbody></table></div>
-<h3 class="cia-h2">The Exercise You Ask For, Done Once</h3>
+</tbody></table></div></section>
+<section class="unit"><h3 class="cia-h2">The Exercise You Ask For, Done Once</h3>
 <div class="cgrid">
 <div class="ccard"><h3>Vault: the riskiest assumption</h3><p class="ref">src: the one-line description on your portfolio page; the team will know more</p><p>Lenders hold back on bitcoin-backed loans because collateral infrastructure is missing, rather than because of credit or regulatory appetite.</p></div>
 <div class="ccard"><h3>The kill test: under two weeks, under $10k</h3><p class="ref">Pre-registered before the first call</p><p>15 calls with credit leads at lenders that offer or are weighing these loans. Kill it if fewer than 2 of the 15 will sign a letter of intent for a pilot. Opinions are cheap; a signature is not.</p></div>
-</div>
-<p><strong>Gap.</strong> You also ask for two people I could call this week to quit and found with you. I would name them in conversation, not on a page. My network runs deeper in regulated finance and product than in crypto engineering.</p>
+</div></section>
+<p class="callout"><b>Gap</b>You also ask for two people I could call this week to quit and found with you. I would name them in conversation, not on a page. My network runs deeper in regulated finance and product than in crypto engineering.</p>
 </div></details></div></div>
 
 <div id="pane-eir" class="cia-pane seatpane" role="tabpanel" aria-labelledby="t-eir" hidden><div class="cia"><details class="blk seat"><summary><h2 class="cia-h2">Entrepreneur in Residence</h2><span class="tk"><span class="pill">2nd</span> A strong fit</span></summary><div class="bd">
 <h2 class="cia-h1">Entrepreneur in Residence: one wedge, not a category.</h2>
 <p class="lede">The seat as your page describes it: a six-month contract to source and validate hatches across DeFi, stablecoins, infrastructure and prediction markets, take them from a few sentences to an investment committee pitch, and by month six find one worth founding.</p>
-<h3 class="cia-h2">A 90, 120 and 240 Day Plan, for You to Edit</h3>
+<section class="unit"><h3 class="cia-h2">A 90, 120 and 240 Day Plan, for You to Edit</h3>
 <p class="ref plansrc">Rows paraphrase the "What You'll Do" list on <a href="https://gravity-labs.xyz/jobs-entrepreneur-in-residence.html">your EIR page</a>. Every cell is my proposal, not a promise: change any of it.</p>
 <p class="plannote">The seat is a six-month contract, so day 240 falls two months after it ends. I use that mark as the found-or-walk point, which leads into the Founder tab.</p>
 <div class="tblwrap"><table class="gt plan">
@@ -836,30 +860,30 @@ html:not(.stacked) .stack-only{display:none;}
 <tr><td>By month six, one idea worth founding</td><td>The top two candidates named</td><td>One chosen, with a design partner in conversation</td><td>Founding it, or a written walk with every kill handed over</td></tr>
 </tbody></table></div>
 <p class="knowhead">How you would know it is working</p>
-<ul class="know"><li><strong>Day 90:</strong> thirty theses and a first memo you have read.</li><li><strong>Day 120:</strong> a hatch in front of the committee.</li><li><strong>Day 240:</strong> a founding plan you can fund, or a clean handover of everything I killed and why.</li></ul>
-<h3 class="cia-h2">What You Ask For, and What I Bring</h3>
+<div class="know"><div class="kcell"><p class="klabel">Day 90</p><p>Thirty theses and a first memo you have read.</p></div><div class="kcell"><p class="klabel">Day 120</p><p>A hatch in front of the committee.</p></div><div class="kcell"><p class="klabel">Day 240</p><p>A founding plan you can fund, or a clean handover of everything I killed and why.</p></div></div></section>
+<section class="unit"><h3 class="cia-h2">What You Ask For, and What I Bring</h3>
 <div class="tblwrap"><table class="gt prose">
 <thead><tr><th>You ask for</th><th>What I bring</th></tr></thead>
 <tbody>
 <tr><td>A senior operator from a strong crypto company</td><td>At Grayscale I owned the investor-facing platform for a launch of 10 regulated digital-asset investment products, about $7B.</td></tr>
 <tr><td>A notable swing and miss</td><td>ARCS is my live swing: built since 2025, no revenue yet. My kill line for it: if no one pays for ARCS by 2027-03-31, I stop building it as a product and keep it as my own working tool.</td></tr>
 <tr><td>Intellectual honesty</td><td>My <a href="https://zach.md/proof">proof page</a> links 32 claims to the record behind each one, marks which records are private, and lists the one I cannot show yet.</td></tr>
-</tbody></table></div>
-<h3 class="cia-h2">The Wedge</h3>
+</tbody></table></div></section>
+<section class="unit"><h3 class="cia-h2">The Wedge</h3>
 <div class="cgrid">
 <div class="ccard"><h3>Receipts for agent spend</h3><p class="ref">A hypothesis, not a pitch</p><p>When an AI agent can move stablecoins for a company, every send is final. Wallet policy engines log which rule allowed a send. They do not log what the agent expected or whether it came true. That gap is the wedge.</p></div>
 <div class="ccard"><h3>First user, and why it is not built</h3><p class="ref">My read; to test</p><p>The treasury or compliance lead at a fintech piloting agent payments. ARCS has the receipt and the one-way-door check but no payment rails and no design partner, and your stealth agentic stablecoin payments company may already own this ground. I would ask first.</p></div>
 <div class="ccard"><h3>Kill it if</h3><p class="ref">Pre-registered</p><p>Fewer than 3 of 15 teams piloting agent payments say the approval trail is what keeps them from going live.</p></div>
-</div>
-<h3 class="cia-h2">What Would Make Me Commit, and What Would Make Me Walk</h3>
-<p>I commit when an idea passes the kill criteria I wrote in week one and a named design partner agrees to a pilot. If nothing survives by month six, I hand you the written kills. At one fund in thirty, those are the studio's data, not a wasted contract.</p>
-<p><strong>Gap.</strong> No crypto exit. My crypto depth is regulated product and go-to-market, not protocol engineering.</p>
+</div></section>
+<section class="unit"><h3 class="cia-h2">What Would Make Me Commit, and What Would Make Me Walk</h3>
+<p>I commit when an idea passes the kill criteria I wrote in week one and a named design partner agrees to a pilot. If nothing survives by month six, I hand you the written kills. At one fund in thirty, those are the studio's data, not a wasted contract.</p></section>
+<p class="callout"><b>Gap</b>No crypto exit. My crypto depth is regulated product and go-to-market, not protocol engineering.</p>
 </div></details></div></div>
 
 <div id="pane-founder" class="cia-pane seatpane" role="tabpanel" aria-labelledby="t-founder" hidden><div class="cia"><details class="blk seat"><summary><h2 class="cia-h2">Founder, Portfolio Company</h2><span class="tk"><span class="pill">3rd</span> A fit on one condition</span></summary><div class="bd">
 <h2 class="cia-h1">Founder: the seat I would reach through the EIR seat.</h2>
 <p class="lede">The seat as your page describes it: CEO or CTO of a hatch you have already validated and funded, with five to ten years of commitment and an outside raise within the first year.</p>
-<h3 class="cia-h2">A 90, 120 and 240 Day Plan, for You to Edit</h3>
+<section class="unit"><h3 class="cia-h2">A 90, 120 and 240 Day Plan, for You to Edit</h3>
 <p class="ref plansrc">Rows paraphrase the "What You'll Do" list on <a href="https://gravity-labs.xyz/jobs-founder-portfolio-company.html">your Founder page</a>. Every cell is my proposal, not a promise: change any of it.</p>
 <p class="plannote">Your page does not name the hatch, so this plan is a shape, not a commitment. I would want to meet the hatch and its design partners first.</p>
 <div class="tblwrap"><table class="gt plan">
@@ -872,26 +896,26 @@ html:not(.stacked) .stack-only{display:none;}
 <tr><td>Raise the next round</td><td>An investor list and a first draft of the story</td><td>Materials reviewed with you</td><td>In conversation with outside investors, inside the first year as your page sets</td></tr>
 </tbody></table></div>
 <p class="knowhead">How you would know it is working</p>
-<ul class="know"><li><strong>Day 90:</strong> a first user, and a plan you agreed.</li><li><strong>Day 120:</strong> a team forming and releases on a rhythm.</li><li><strong>Day 240:</strong> users who stay, and outside investors talking.</li></ul>
-<h3 class="cia-h2">What You Ask For, and What I Bring</h3>
+<div class="know"><div class="kcell"><p class="klabel">Day 90</p><p>A first user, and a plan you agreed.</p></div><div class="kcell"><p class="klabel">Day 120</p><p>A team forming and releases on a rhythm.</p></div><div class="kcell"><p class="klabel">Day 240</p><p>Users who stay, and outside investors talking.</p></div></div></section>
+<section class="unit"><h3 class="cia-h2">What You Ask For, and What I Bring</h3>
 <div class="tblwrap"><table class="gt prose">
 <thead><tr><th>You ask for</th><th>What I bring</th></tr></thead>
 <tbody>
 <tr><td>Repeat founder or senior fintech operator</td><td>The CEO seat, not the CTO seat. Co-founder once, GM of a turnaround once, then Grayscale.</td></tr>
 <tr><td>Selling to sophisticated customers and investors</td><td>Institutional digital-asset products at Grayscale; Fortune 500 advertisers at the ad network.</td></tr>
 <tr><td>Making a thesis you did not originate your own</td><td>Six years as an embedded product partner on other people's ventures, including a secure first-responder video product and five 5G ventures.</td></tr>
-</tbody></table></div>
-<h3 class="cia-h2">One Secret About Financial Services</h3>
-<p>Regulated firms keep the record of what they decided because the rules require it. Almost none keep what they expected to happen, so they cannot score their own judgment.</p>
-<p><strong>Condition.</strong> I would want to meet the hatch and its design partners before committing a decade. For me the natural route to this seat runs through the EIR seat first.</p>
+</tbody></table></div></section>
+<section class="unit"><h3 class="cia-h2">One Secret About Financial Services</h3>
+<p>Regulated firms keep the record of what they decided because the rules require it. Almost none keep what they expected to happen, so they cannot score their own judgment.</p></section>
+<p class="callout"><b>Condition</b>I would want to meet the hatch and its design partners before committing a decade. For me the natural route to this seat runs through the EIR seat first.</p>
 </div></details></div></div>
 
 <div id="pane-open" class="cia-pane seatpane" role="tabpanel" aria-labelledby="t-open" hidden><div class="cia"><details class="blk seat"><summary><h2 class="cia-h2">Open Application</h2><span class="tk"><span class="pill">Proposed</span> The seat I would choose</span></summary><div class="bd">
 <h2 class="cia-h1">Open Application: choose your own adventure.</h2>
 <p class="lede">Your open application asks what I would own that you do not staff today, and why you would move faster with me on it. My answer is a hatch desk.</p>
-<p>Most funds call this a deal desk or a platform role. I would run it as an AI-native platform team whose work compounds. I have done this job from the operator side for 20 years; here it would sit inside the studio and own the hatch pipeline: each memo, its kill criteria, and the record of every call.</p>
-<p>Every pass is written down with its reasons and checked again as the market moves. A pass that turns out wrong shows up before you miss the next idea like it, and each new thesis starts from what the last 29 taught. The call stays with you and comes faster, and it takes process off the bottleneck your Principal page names without taking the decisions.</p>
-<h3 class="cia-h2">A 90, 120 and 240 Day Plan, for You to Edit</h3>
+<section class="unit unit-lead"><p>Most funds call this a deal desk or a platform role. I would run it as an AI-native platform team whose work compounds. I have done this job from the operator side for 20 years; here it would sit inside the studio and own the hatch pipeline: each memo, its kill criteria, and the record of every call.</p>
+<p>Every pass is written down with its reasons and checked again as the market moves. A pass that turns out wrong shows up before you miss the next idea like it, and each new thesis starts from what the last 29 taught. The call stays with you and comes faster, and it takes process off the bottleneck your Principal page names without taking the decisions.</p></section>
+<section class="unit"><h3 class="cia-h2">A 90, 120 and 240 Day Plan, for You to Edit</h3>
 <p class="ref plansrc">Rows paraphrase the four stages of the hatch process on <a href="https://gravity-labs.xyz/about.html">your about page</a>. Every cell is my proposal, not a promise: change any of it.</p>
 <p class="plannote">Your open application lists what gets your attention, not duties, so the rows here follow the four stages of your hatch process.</p>
 <div class="tblwrap"><table class="gt plan">
@@ -902,8 +926,8 @@ html:not(.stacked) .stack-only{display:none;}
 <tr><td>Recruitment and launch</td><td>One place for each hatch's founder pipeline</td><td>Expected against actual, written up for each launch</td><td>A quarterly read-out of what the passes and launches taught</td></tr>
 </tbody></table></div>
 <p class="knowhead">How you would know it is working</p>
-<ul class="know"><li><strong>Day 90:</strong> every thesis and pass is on the record.</li><li><strong>Day 120:</strong> the first pass comes back as a lead, or is confirmed.</li><li><strong>Day 240:</strong> the team decides faster than it did before the desk existed.</li></ul>
-<p><strong>Gap.</strong> You do not staff this seat today, so it is the one to test hardest. A two-week trial on hatches you have already killed would show whether the receipts would have called them sooner.</p>
+<div class="know"><div class="kcell"><p class="klabel">Day 90</p><p>Every thesis and pass is on the record.</p></div><div class="kcell"><p class="klabel">Day 120</p><p>The first pass comes back as a lead, or is confirmed.</p></div><div class="kcell"><p class="klabel">Day 240</p><p>The team decides faster than it did before the desk existed.</p></div></div></section>
+<p class="callout"><b>Gap</b>You do not staff this seat today, so it is the one to test hardest. A two-week trial on hatches you have already killed would show whether the receipts would have called them sooner.</p>
 </div></details></div></div>
 
 </div>
