@@ -41,7 +41,9 @@ PRESETS = {
                        pdf="public/louisville-proposal.pdf",
                        pdf_href="/proposal/outside-read.pdf",
                        review_md="_ARTIFACTS/louisville-proposal/review-copy.md",
-                       review_pdf="public/louisville-proposal-review.pdf"),
+                       review_pdf="public/louisville-proposal-review.pdf",
+                       # the same text as plain Markdown, for AI tools and agents (served gated at /proposal/proposal.md)
+                       review_txt="public/louisville-proposal.md"),
 }
 
 # Review copy: the proposal as plain, numbered text for a reader who marks it up by hand
@@ -117,7 +119,7 @@ def main():
     ap.add_argument("--louisville", action="store_true", help="use the Louisville proposal paths")
     ap.add_argument("--source"); ap.add_argument("--hosted"); ap.add_argument("--pdf"); ap.add_argument("--send")
     ap.add_argument("--pdf-href", default="/proposal/outside-read.pdf")
-    ap.add_argument("--review-md"); ap.add_argument("--review-pdf")
+    ap.add_argument("--review-md"); ap.add_argument("--review-pdf"); ap.add_argument("--review-txt")
     ap.add_argument("--check", action="store_true", help="fail if the hosted copy differs from a fresh build")
     a = ap.parse_args()
     if a.louisville:
@@ -130,6 +132,12 @@ def main():
     with open(rel(a.source), encoding="utf-8") as f:
         src = f.read()
     send = send_copy(src)
+    # Guard (2026-11-09): a scripted copy edit once shipped "I\'m" to the counterpart. Refuse an
+    # escaped quote in the page's visible text (scripts and styles are skipped).
+    visible = re.sub(r"<(script|style)\b[^>]*>.*?</\1>", "", send, flags=re.S)
+    if re.search(r"\\['\"]", re.sub(r"<[^>]+>", "", visible)):
+        print("✖ proposal-build: escaped quote (\\' or \\\") in visible text; fix the source")
+        return 1
     hosted = hosted_copy(send, a.pdf_href)
 
     if a.check:
@@ -159,6 +167,9 @@ def main():
     if a.review_md and a.review_pdf:
         render_review(rel(a.review_md), rel(a.review_pdf))
         print(f"wrote {a.review_pdf}")
+    if a.review_md and a.review_txt:
+        shutil.copyfile(rel(a.review_md), rel(a.review_txt))
+        print(f"wrote {a.review_txt}")
     print(f"next: python3 scripts/page_gate.py --counterpart --matrix full {a.hosted}" + (f" {a.pdf}" if a.pdf else ""))
     return 0
 
