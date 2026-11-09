@@ -612,6 +612,11 @@ footer p{text-align:left;}
 .named-x:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
 .named[hidden]{display:none;}
 @media print{.named-x{display:none;} .named{margin:0 0 var(--sp-1);} .named-v{padding:6px 12px;}}
+/* "Why" as an eyebrow outside the card; the close button sits inside the card's corner */
+.named{display:flex;flex-direction:column;gap:var(--sp-1);}
+.named .named-why{margin:0;}
+.named-v{position:relative;}
+.named-x{top:50%;transform:translateY(-50%);}
 </style>
 </head>
 <body>
@@ -641,7 +646,7 @@ footer p{text-align:left;}
 <div class="pbody">
 
 <header>
-  <div class="named" id="why"><p class="named-v"><span class="named-why">Why</span>Confirmation bias, recency bias, the fox watching the henhouse. An outside audit checks your team's work; it doesn't replace it.</p><button type="button" class="named-x" aria-label="Dismiss"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></div>
+  <div class="named" id="why"><p class="named-why">Why</p><p class="named-v">Confirmation bias, recency bias, the fox watching the henhouse. An outside check, not a replacement.<button type="button" class="named-x" aria-label="Dismiss"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></p></div>
   <h1>An outside read on your AI build</h1>
   <p class="verdict">Where is your AI build on its arc, where is it least efficient, which hypotheses are failing?</p>
   <p class="verdict">I'd answer by tracing two real decisions, one technical and one business, from inputs to outcome, before the next 20,000-bag MOQ rides on it.</p>
