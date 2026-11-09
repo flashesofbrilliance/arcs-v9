@@ -57,9 +57,11 @@ const SUBDOMAIN_EXTRA: Record<string, Record<string, string>> = {
 const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // myally.arcs.care: one tabbed hub (Light audit and code review, Debrief, Proposal, Timeline, Primer). Every page path opens the hub,
   // which picks its tab from the path (bare host and unknown paths open Light audit and code review; /mnda-edits lands on Proposal). The Oct 15 plan (myally.html) is retired and no longer routed.
-  // The signed PDF maps to itself so the default rewrite does not swallow it. Gated end to end by the
+  // The signed PDF and the gift skills (public/myally-skills/, present only once released by
+  // scripts/myally_hub_sync.py after the Step 1 invoice is logged paid) map to themselves so the default
+  // rewrite does not swallow them. Gated end to end by the
   // myally passcode block in proxy() before this map is consulted.
-  'myally':    { '/light-audit': '/myally-hub.html', '/step-1': '/myally-hub.html', '/proposal': '/myally-hub.html', '/timeline': '/myally-hub.html', '/mnda-edits': '/myally-hub.html', '/primer': '/myally-hub.html', '/debrief': '/myally-hub.html', '/myally-mnda-signed.pdf': '/myally-mnda-signed.pdf', default: '/myally-hub.html' },
+  'myally':    { '/light-audit': '/myally-hub.html', '/step-1': '/myally-hub.html', '/proposal': '/myally-hub.html', '/timeline': '/myally-hub.html', '/mnda-edits': '/myally-hub.html', '/primer': '/myally-hub.html', '/debrief': '/myally-hub.html', '/myally-mnda-signed.pdf': '/myally-mnda-signed.pdf', '/myally-skills/rca.md': '/myally-skills/rca.md', '/myally-skills/token-savings-bank.md': '/myally-skills/token-savings-bank.md', '/myally-skills/state-sync.md': '/myally-skills/state-sync.md', default: '/myally-hub.html' },
   // success-academy.arcs.care — AI Product Manager bundle (2026-09-24): OPEN (ungated), noindex. root = positioning brief + fit score, /resume = viewer. Asset paths mapped to themselves so the default-page rewrite does not swallow the PDF/txt.
   // monday.arcs.care: RET RFP submission guide for the monday.com FDE panel (2026-10-26). Gated end to end by MONDAY_PASSCODE above; noindex. root = guide; /monday-guide-rc46.zip = the submitted ZIP (sha256 matches dist/submission-rc46.zip.sha256), mapped to itself so the default rewrite does not swallow it.
   // cia.arcs.care: candidate brief for the Culinary Institute of America architect role (2026-10-29). Gated by CIA_PASSCODE; noindex.
