@@ -3,7 +3,7 @@
 
 Two layers, both read-only:
   1. Unit checks on the Step 1 tree (out/step1_tree.json): parents exist, every row fits the
-     day columns, hours add up to the fee's hours, every kind has an icon and a legend entry.
+     day columns, every "Your week" id exists and starts on its day, hours add up to the fee's hours, every kind has an icon and a legend entry.
   2. A headless crawl (Playwright + installed Chrome, found the same way page_gate.py finds them)
      at 375, 800 and 1280 px: every tab shows one panel; locked tabs show only the note and hold no
      content; every Step 1 row
@@ -41,6 +41,20 @@ def unit() -> list:
             fails.append(f"row {r['id']}: start {r['start']} len {r['len']} runs past {cols} columns")
         if r["kind"] == "ms" and r["len"] != 0:
             fails.append(f"row {r['id']}: a milestone has len 0")
+    # "Your week" (step1_tree.week) summarizes rows by day: every id it cites must exist and start on that day,
+    # so the plain sentence cannot drift from the grid it stands in for (2026-11-09).
+    byid = {r["id"]: r for r in rows}
+    days = [w.get("day") for w in tree.get("week", [])]
+    if days != list(range(cols)):
+        fails.append(f"week: days are {days}, want one entry per column 0..{cols - 1}")
+    for w in tree.get("week", []):
+        if not w.get("text") or not w.get("ids"):
+            fails.append(f"week day {w.get('day')}: needs text and ids")
+        for i in w.get("ids", []):
+            if i not in byid:
+                fails.append(f"week day {w.get('day')}: row {i} does not exist")
+            elif byid[i]["start"] != w.get("day"):
+                fails.append(f"week day {w.get('day')}: row {i} starts on day {byid[i]['start']}")
     work = sum(r.get("hours", 0) for r in rows if r["parent"] and r["kind"] in ("task", "ms"))
     want = rec["fields"]["hours_step1"]["value"]
     if abs(work - want) > 1e-9:
@@ -113,6 +127,13 @@ const { chromium } = require('playwright');
       if (pf && pf.contentDocument && pf.contentDocument.body && pf.contentDocument.body.innerText.trim()) out.push('Proposal frame still has content');
       if (document.querySelectorAll('#pane-plan .row[data-id]').length) out.push('Timeline still has rows');
       document.getElementById('t-s1').click(); await sleep(100);
+      // "Your week" leads; the grid sits in a closed disclosure that opens to a working grid
+      const all = document.getElementById('s1all');
+      if (!all || all.open) out.push('"See every item" is missing or open by default');
+      if (document.querySelectorAll('#s1wk li').length !== 6) out.push('"Your week" does not list six days');
+      const sm = all && all.querySelector('summary');
+      if (sm && sm.getBoundingClientRect().height < 44) out.push('"See every item" is under 44px tall');
+      if (all) { all.open = true; await sleep(120); }
       const g = document.getElementById('s1g'), det = document.getElementById('s1detail');
       // every row opens its own details; clicking a workstream keeps it open
       const ids = [...g.querySelectorAll('.row[data-id]')].map(r => r.dataset.id);

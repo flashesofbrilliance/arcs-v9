@@ -794,7 +794,7 @@
         "get": "",
         "s2": "",
         "s3": "",
-        "note": "About 10 minutes on your side. The sprint starts the day after all three are in. If any land later, the dates move by the same amount.",
+        "note": "About 10 minutes on your side. The work starts on the working day after the last of these is in. If any land later, the dates move by the same amount.",
         "hours": 0
       },
       {
@@ -807,7 +807,7 @@
         "get": "",
         "s2": "",
         "s3": "",
-        "note": "I send the invoice when you sign. It is due before the sprint starts.",
+        "note": "I send the invoice when you sign. It is due before the work starts.",
         "hours": 0
       },
       {
@@ -1316,6 +1316,57 @@
         "label": "Comment in the shared doc"
       }
     },
+    "week": [
+      {
+        "day": 0,
+        "text": "You send 3 things (about 10 minutes)",
+        "ids": [
+          "w0a",
+          "w0b",
+          "w0c"
+        ]
+      },
+      {
+        "day": 1,
+        "text": "I read the code and your spec",
+        "ids": [
+          "w1a"
+        ]
+      },
+      {
+        "day": 2,
+        "text": "Data check; code sorted into 3 piles; 30-minute review call",
+        "ids": [
+          "w2a",
+          "w1c",
+          "w7a"
+        ]
+      },
+      {
+        "day": 3,
+        "text": "Governance plan; rough ranges",
+        "ids": [
+          "w3c",
+          "w4a"
+        ]
+      },
+      {
+        "day": 4,
+        "text": "Go or stop memo; {{walkthrough_minutes}}-minute readout",
+        "ids": [
+          "w5d",
+          "w6r"
+        ]
+      },
+      {
+        "day": 5,
+        "text": "One round of changes, then you choose",
+        "ids": [
+          "w6s",
+          "w6t"
+        ]
+      }
+    ],
     "glance": [
       [
         "Fee",
