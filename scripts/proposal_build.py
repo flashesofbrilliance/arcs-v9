@@ -49,7 +49,7 @@ PRESETS = {
 # Double-spaced body, a wide right margin for notes, ruled answer cells, page numbers.
 REVIEW_CSS = """
 @page{size:Letter;margin:0.9in 2.1in 0.9in 1in;
-  @bottom-left{content:"Review copy  \\00B7  Confidential, do not share";font:8pt Georgia,serif;color:#555;}
+  @bottom-left{content:"Review copy  \\00B7  Confidential";font:8pt Georgia,serif;color:#555;}
   @bottom-right{content:"Page " counter(page) " of " counter(pages);font:8pt Georgia,serif;color:#555;}}
 html{font:11.5pt/2 Georgia,"Times New Roman",serif;color:#111;}
 body{margin:0;}
