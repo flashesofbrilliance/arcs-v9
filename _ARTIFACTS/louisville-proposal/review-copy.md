@@ -23,6 +23,8 @@ Prepared for Brooks Thomas, Louisville Brands · Zach Harris · November 2026 ·
 
 ¶8. I'd read your build through what it decides. Every decision gets the same three things: What it relies on, what it can't see, and the date you'll know.
 
+Inputs (what it relies on) → Decision (what it can't see) → Outcome (the date you'll know), with a stop number agreed before the call.
+
 ## 02 The two decisions
 
 ¶9. You pick them. Here is what I'd suggest.
@@ -40,6 +42,7 @@ Prepared for Brooks Thomas, Louisville Brands · Zach Harris · November 2026 ·
 3. Read against the six things you said you want: Accuracy, efficiency, speed, cost, on-prem, and a single source of truth that isn't growing data bloat and tech debt.
 4. Next steps, each with a number for success and a date to check it.
 5. Honest marks: Anything two decisions can't show is marked as not checked, anything I'm unsure of is marked as unsure, and your pushback goes on the page.
+6. A stop number for each decision, agreed up front: The figure and date at which you'd call it wrong, so the next order doesn't go in without one.
 
 ¶13. A two-week sprint. About three and a half hours of your team's time, a little over four with the optional session.
 
@@ -47,7 +50,7 @@ Prepared for Brooks Thomas, Louisville Brands · Zach Harris · November 2026 ·
 |---|---|---|
 | Before | A mutual NDA, and total sales figures, nothing at customer level. | Your data stays with you. |
 | Week 1 | Kickoff with you, 60 minutes. A screen-share with whoever is on the warehouse and MCP side, including where the data lives and who can reach it, 90 minutes. Optional: 45 minutes with whoever owns where the data gets used next, your choice of who. | Both decisions traced in writing. |
-| Week 2 | The readout, 60 minutes, and your pushback on anything that's wrong. | The one page, the read against your six, and next steps, walked through together. |
+| Week 2 | The readout, 60 minutes, and your pushback on anything that's wrong. | The one page, the read against your six, and next steps, walked through together, plus a one-page field guide to the checks I used, so your team can run them on the next decision. |
 
 ¶14. **$5,000, half at kickoff and half at the readout.** You keep all of the work.
 

@@ -379,7 +379,7 @@ footer p{text-align:left;}
   main{counter-reset:sec;}
   details.blk > summary > .slabel::before{counter-increment:sec;content:counter(sec,decimal-leading-zero);display:block;margin-bottom:var(--sp-1);font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;color:var(--cyan);}
   .pbody > section.offerwrap{border-top:1px solid var(--border);padding-top:var(--sp-4);}
-  .offerwrap details.pbreak{border-top:1px solid var(--border);margin-top:var(--sp-3);padding-top:var(--sp-3);}
+  .offerwrap details.pbreak{border-top:1px solid var(--border);margin-top:var(--sp-5);padding-top:var(--sp-3);}
 }
 @media screen and (max-width:640px){
   body{padding-left:var(--sp-1);padding-right:var(--sp-1);}
@@ -403,7 +403,6 @@ footer p{text-align:left;}
   .offerwrap .bd > .spec > .specrow,.offerwrap .bd > .spec > .specrow:last-child{grid-template-columns:minmax(0,1fr);align-content:start;row-gap:var(--sp-1);padding:var(--sp-2) var(--sp-3);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);}
   .offerwrap .bd > .spec > .specrow dt{display:flex;align-items:center;gap:var(--sp-1);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);}
   .offerwrap .bd > .spec > .specrow dt::before{content:"";width:8px;height:8px;border-radius:var(--ds-r-pill);background:currentColor;flex-shrink:0;}
-  .offerwrap .bd > .spec > .specrow:nth-child(2) dt{color:var(--gold);}
 }
 @media screen and (max-width:640px){
   /* first phone screen: the opening paragraph at a reading size, so section 01 starts within the first screen */
@@ -429,6 +428,66 @@ footer p{text-align:left;}
 }
 @media screen and (max-width:640px){
   .offerwrap details.pbreak + .offer-eyebrow{margin-top:var(--sp-4);}
+}
+/* Organisms (screen only), one family across hook, line and sinker: the kit section-label eyebrow,
+   hairline rules, surface cards with a surface-2 header band.
+   Hook   "Signal Delta"    01 table card (kit 04-signal-delta-table, 27-section-label)
+   Line   "Decision Pair"   bridge eyebrow + serif statement + the two decision cards (27, 03 without its strip)
+   Sinker "Terms and Close" deliverables, the give/get card, the kit 41-offer-close card */
+@media screen{
+  .hgrid .hhead,.gg .gg-head > span,.offerwrap > .lockup .slabel,.offerwrap details.pbreak + .offer-eyebrow{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;}
+  .offerwrap > .lockup .slabel{color:var(--muted);}
+  .offerwrap > .lockup{gap:var(--sp-2);}
+  .offerwrap > .lockup + details.blk.sub{border-top:0;margin-top:var(--sp-3);}
+  .gg{margin-top:var(--sp-2);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);overflow:hidden;}
+  .gg-row{padding:var(--sp-2) var(--sp-3);}
+  .gg-row:last-child{border-bottom:0;}
+  .gg-head{padding:var(--sp-1) var(--sp-3);background:var(--surface-2);border-bottom:1px solid var(--border);color:var(--muted);}
+  .gg-head + .gg-row{border-top:0;}
+}
+@media screen and (max-width:640px){
+  .gg-head + .gg-row{border-top:0;}
+  .gg > .gg-row:nth-child(2){border-top:0;}
+}
+/* Trace diagram (the method in one row): inputs, decision, outcome, each with its mark, over the stop line.
+   HTML, not SVG, so it reflows to a column on phones and inherits the theme. */
+.trace{margin:var(--sp-1) 0 0;}
+.trace-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-3);}
+.trace-steps li{position:relative;display:flex;flex-direction:column;gap:4px;padding:var(--sp-2);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);}
+.trace-steps li + li::before{content:"\2192";position:absolute;left:calc(-1*var(--sp-3));width:var(--sp-3);top:50%;transform:translateY(-50%);text-align:center;color:var(--muted);}
+.trace-k{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);}
+.trace-v{color:var(--text);}
+.trace-stop{margin:var(--sp-2) 0 0;padding-top:var(--sp-1);border-top:1px dashed var(--muted);color:var(--secondary);font-size:var(--fs-label);font-family:var(--mono);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;text-align:center;}
+@media (max-width:640px){
+  .trace-steps{grid-template-columns:minmax(0,1fr);gap:var(--sp-3);}
+  .trace-steps li + li::before{content:"\2193";left:0;right:0;width:auto;top:calc(-1*var(--sp-3));transform:none;height:var(--sp-3);line-height:var(--sp-3);}
+}
+@media print{.trace{display:none;}} /* screen only: the sentence above it says the same thing on paper */
+/* Print fit after deliverable 06 and the field-guide line (2026-11-09): 03 flows on from page 2 instead of
+   forcing a page break, and the close card keeps itself whole. */
+@media print{
+  .offerwrap details.pbreak{break-before:auto;}
+  .offerwrap details.pbreak > summary{break-after:avoid;}
+  .plist li{padding:4px 0;line-height:1.35;}
+  .pnote{margin-top:var(--sp-1);}
+  .gg + .offer,.pnote + .offer{margin-top:var(--sp-1);}
+  .offer > *{padding:6px 14px;}
+  .gg-row{grid-template-columns:4.5rem minmax(0,1fr) minmax(0,1fr);}
+  .offer-ask{font-size:var(--fs-headline);line-height:1.4;}
+  .offer-price{font-size:var(--fs-body);}
+  .offer-proof{display:none;}
+}
+/* The time note sits between hairlines, the same rule the deliverables list uses between items (screen only). */
+@media screen{
+  .offerwrap .punch + .pnote{margin-top:0;padding:var(--sp-2) 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .offerwrap .punch + .pnote + .gg{margin-top:var(--sp-3);}
+}
+/* 02 is two short cards: always open, no chevron, and less air around it (screen only). */
+@media screen{
+  details.blk.fixed > summary{cursor:default;}
+  details.blk.fixed > summary::after{display:none;}
+  .offerwrap > .lockup + details.blk.sub{margin-top:var(--sp-2);}
+  .offerwrap details.pbreak{margin-top:var(--sp-4);}
 }
 </style>
 </head>
@@ -485,8 +544,16 @@ footer p{text-align:left;}
 </section>
 
 <section class="offerwrap">
-  <div class="lockup"><h2 class="slabel">If you want the outside read</h2><p class="deck">I'd read your build through what it decides. Every decision gets the same three things: What it relies on, what it can't see, and the date you'll know.</p></div>
-  <details class="blk sub" open>
+  <div class="lockup"><h2 class="slabel">If you want the outside read</h2><p class="deck">I'd read your build through what it decides. Every decision gets the same three things: What it relies on, what it can't see, and the date you'll know.</p>
+  <figure class="trace" aria-label="How one decision is traced">
+    <ol class="trace-steps">
+      <li><span class="trace-k">Inputs</span><span class="trace-v">What it relies on</span></li>
+      <li><span class="trace-k">Decision</span><span class="trace-v">What it can't see</span></li>
+      <li><span class="trace-k">Outcome</span><span class="trace-v">The date you'll know</span></li>
+    </ol>
+    <p class="trace-stop">Stop number, agreed before the call</p>
+  </figure></div>
+  <details class="blk sub fixed" open>
     <summary><h2 class="slabel">The two decisions</h2><span class="tk">You pick them. Here is what I'd suggest.</span></summary>
     <div class="bd">
   <dl class="spec">
@@ -505,6 +572,7 @@ footer p{text-align:left;}
       <li><span class="pn">03</span><span>Read against the six things you said you want: Accuracy, efficiency, speed, cost, on-prem, and a single source of truth that isn't growing data bloat and tech debt.</span></li>
       <li><span class="pn">04</span><span>Next steps, each with a number for success and a date to check it.</span></li>
       <li><span class="pn">05</span><span>Honest marks: Anything two decisions can't show is marked as not checked, anything I'm unsure of is marked as unsure, and your pushback goes on the page.</span></li>
+      <li><span class="pn">06</span><span>A stop number for each decision, agreed up front: The figure and date at which you'd call it wrong, so the next order doesn't go in without one.</span></li>
     </ol>
   </div>
   <p class="pnote">A two-week sprint. About three and a half hours of your team's time, a little over four with the optional session.</p>
@@ -512,7 +580,7 @@ footer p{text-align:left;}
     <div class="gg-row gg-head" role="row"><span role="columnheader"><span class="vh">When</span></span><span role="columnheader">What you give</span><span role="columnheader" class="c">What you get</span></div>
     <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Before</span><span class="gg-give" role="cell">A mutual NDA, and total sales figures, nothing at customer level.</span><span class="gg-get" role="cell">Your data stays with you.</span></div>
     <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 1</span><span class="gg-give" role="cell">Kickoff with you, 60 minutes. A screen-share with whoever is on the warehouse and MCP side, including where the data lives and who can reach it, 90 minutes. Optional: 45 minutes with whoever owns where the data gets used next, your choice of who.</span><span class="gg-get" role="cell">Both decisions traced in writing.</span></div>
-    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 2</span><span class="gg-give" role="cell">The readout, 60 minutes, and your pushback on anything that's wrong.</span><span class="gg-get" role="cell">The one page, the read against your six, and next steps, walked through together.</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 2</span><span class="gg-give" role="cell">The readout, 60 minutes, and your pushback on anything that's wrong.</span><span class="gg-get" role="cell">The one page, the read against your six, and next steps, walked through together, plus a one-page field guide to the checks I used, so your team can run them on the next decision.</span></div>
   </div>
     </div>
   </details>
@@ -535,7 +603,8 @@ footer p{text-align:left;}
 
 </main>
 <script>(function(){var d=document.documentElement,b=document.getElementById('themebtn');if(!b)return;var mq=window.matchMedia?matchMedia('(prefers-color-scheme: light)'):null;function cur(){var t=d.getAttribute('data-theme');if(t)return t;return mq&&mq.matches?'light':'dark';}function label(){var n=cur()==='light'?'dark':'light';b.setAttribute('data-next',n);b.setAttribute('aria-label','Switch to '+n+' mode');b.title='Switch to '+n+' mode';}b.hidden=false;label();b.addEventListener('click',function(){var n=cur()==='light'?'dark':'light';d.setAttribute('data-theme',n);try{localStorage.setItem('brooksTheme',n);}catch(e){}label();});if(mq&&mq.addEventListener)mq.addEventListener('change',label);})();</script>
-<script>(function(){var b=document.querySelector('.expall');var ds=[].slice.call(document.querySelectorAll('details.blk'));if(!b||!ds.length)return;function sync(){var all=ds.every(function(d){return d.open});b.textContent=all?'Collapse all':'Expand all';b.setAttribute('aria-expanded',all?'true':'false');}b.addEventListener('click',function(){var all=ds.every(function(d){return d.open});ds.forEach(function(d){d.open=!all});sync();});ds.forEach(function(d){d.addEventListener('toggle',sync)});window.addEventListener('beforeprint',function(){ds.forEach(function(d){d.open=true})});sync();})();</script>
+<script>(function(){var b=document.querySelector('.expall');var ds=[].slice.call(document.querySelectorAll('details.blk:not(.fixed)'));if(!b||!ds.length)return;function sync(){var all=ds.every(function(d){return d.open});b.textContent=all?'Collapse all':'Expand all';b.setAttribute('aria-expanded',all?'true':'false');}b.addEventListener('click',function(){var all=ds.every(function(d){return d.open});ds.forEach(function(d){d.open=!all});sync();});ds.forEach(function(d){d.addEventListener('toggle',sync)});window.addEventListener('beforeprint',function(){ds.forEach(function(d){d.open=true})});sync();})();</script>
 <script>(function(){window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-track]');if(!a)return;window.va('event',{name:a.getAttribute('data-track'),data:{href:a.getAttribute('href')||''}});});})();</script>
+<script>(function(){[].forEach.call(document.querySelectorAll('details.fixed > summary'),function(m){m.setAttribute('tabindex','-1');m.addEventListener('click',function(e){e.preventDefault();});});})();</script>
 </body>
 </html>
