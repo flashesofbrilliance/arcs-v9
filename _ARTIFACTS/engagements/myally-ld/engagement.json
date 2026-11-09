@@ -1279,6 +1279,37 @@
         "hours": 0
       }
     ],
+    "plan": {
+      "title": "The whole plan",
+      "rows": [
+        [
+          "Step 1",
+          "Five working days",
+          "Light audit and code review, {{fee_step1}} fixed. You choose the next step at the readout."
+        ],
+        [
+          "Steps 2 and 3",
+          "About three weeks",
+          "Customer journey and design system, then a working prototype, {{fee_step1}} each. Each starts only with your written yes."
+        ],
+        [
+          "Target",
+          "Mid-December",
+          "Handoff before the end of the year, counted from the day Step 1 starts."
+        ],
+        [
+          "After Step 3",
+          "While you demo",
+          "Office hours continue as offered. Maintenance is optional, quoted when you want it."
+        ]
+      ],
+      "note": "Going on through Steps 2 and 3 brings the no-charge research design, Alyce's first prompts and project admin, and the {{fee_step1}} credit toward a later build.",
+      "pdf": {
+        "href": "/myally-step1-agreement.pdf",
+        "label": "Download the Step 1 agreement (PDF)",
+        "note": "For your counsel's review. Once they're happy, I send a clean copy to sign."
+      }
+    },
     "glance": [
       [
         "Fee",
