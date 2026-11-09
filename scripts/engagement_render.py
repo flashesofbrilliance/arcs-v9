@@ -35,12 +35,15 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 ENG_GLOB = os.path.join(ROOT, "_ARTIFACTS", "engagements", "*", "engagement.json")
 TOKENS = os.path.join(ROOT, "src", "ui-kit", "recoil-report", "_tokens.css")
 SCHEMA = "engagement-record-v0"
+SCHEMA_V1 = "engagement-record-v1"  # adds the honest-proposals rules, see _validate_v1
 SOURCE_KINDS = {"sent", "email", "doc", "decision", "judgment", "call"}
-KINDS = {"money", "int", "days", "hours", "date", "text"}
+KINDS = {"money", "money_range", "int", "days", "hours", "date", "text"}
+BASES = {"stated", "measured", "judgment"}
 OPS = {"mul", "div", "add_days"}
 ALTITUDES = ["exec", "strategic", "operational", "tactical", "surgical"]
 CITE = re.compile(r"\{\{([^{}]+)\}\}")
 WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]
+DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 LOCK = "render.lock.json"
 
@@ -53,8 +56,8 @@ class RecordError(Exception):
 
 def validate(rec: dict) -> list[str]:
     errs = []
-    if rec.get("schema") != SCHEMA:
-        errs.append(f"schema must be {SCHEMA!r}")
+    if rec.get("schema") not in (SCHEMA, SCHEMA_V1):
+        errs.append(f"schema must be {SCHEMA!r} or {SCHEMA_V1!r}")
     for key in ("meta", "client", "fields", "terms", "lists", "assumptions", "altitudes", "cold_read"):
         if key not in rec:
             errs.append(f"missing top-level key {key!r}")
@@ -82,9 +85,67 @@ def validate(rec: dict) -> list[str]:
         if alt not in rec.get("altitudes", {}):
             errs.append(f"altitudes: missing {alt}")
     errs += validate_progress(rec)
+    if rec.get("schema") == SCHEMA_V1:
+        errs += _validate_v1(rec)
     blob = json.dumps(rec, ensure_ascii=False)
     if "—" in blob:
         errs.append("em-dash in the record (client copy rule: none)")
+    return errs
+
+
+def _validate_v1(rec: dict) -> list[str]:
+    """The honest-proposals rules a record can carry (spec: runtime/specs/engagement-record-v0.md, section v1)."""
+    errs, fields = [], rec.get("fields", {})
+    asm_ids = {a.get("id") for a in rec.get("assumptions", [])}
+    for fid, f in fields.items():
+        if f.get("kind") == "money_range" and "value" in f:
+            v = f["value"]
+            if not (isinstance(v, list) and len(v) == 2 and all(isinstance(x, (int, float)) for x in v) and v[0] < v[1]):
+                errs.append(f"field {fid}: a money_range value is [low, high] with low < high")
+    def fee_kind(p):
+        m = CITE.fullmatch((p.get("fee") or "").strip())
+        fid = m.group(1).split("|")[0].strip() if m else None
+        return fields.get(fid, {}).get("kind") if fid else None
+    phases = rec.get("phases", [])
+    if not phases:
+        errs.append("v1: phases[] is empty")
+    for i, p in enumerate(phases):
+        if not isinstance(p.get("paid"), bool):
+            errs.append(f"phase {p.get('id')}: paid must be true or false")
+        if i == 0 and fee_kind(p) != "money":
+            errs.append(f"phase {p.get('id')}: the paid first step cites one money field (a fixed fee, the price of finding out)")
+        if i > 0:
+            if fee_kind(p) != "money_range":
+                errs.append(f"phase {p.get('id')}: a later step cites one money_range field (a range, never a quote)")
+            linked = p.get("assumptions") or []
+            if not linked or any(a not in asm_ids for a in linked):
+                errs.append(f"phase {p.get('id')}: a range needs assumptions[] naming existing assumption ids")
+    np = rec.get("not_proven")
+    if not (isinstance(np, list) and np and all(x.get("id") and x.get("text") for x in np)):
+        errs.append("v1: not_proven[] must list at least one {id, text}; an empty list is itself a red flag")
+    leak = rec.get("leak", {})
+    if not isinstance(leak.get("ceiling_usd"), (int, float)) or leak["ceiling_usd"] <= 0:
+        errs.append("v1: leak.ceiling_usd must be a positive number (any figure at or above it is full-build pricing)")
+    if not any(t.get("id") == "reliance" for t in rec.get("terms", [])):
+        errs.append("v1: terms[] needs a term with id 'reliance' (a reliance disclaimer, never a sharing ban)")
+    ex = rec.get("ex_ante")
+    if ex is not None:
+        b = ex.get("basis") or {}
+        if not ex.get("expect") or not isinstance(ex.get("p"), (int, float)) or not 0 < ex["p"] < 1 \
+                or b.get("kind") not in BASES or not b.get("text") or not _is_date(ex.get("date")):
+            errs.append(f"v1: ex_ante needs expect, p (0 to 1), basis {{kind in {sorted(BASES)}, text}} and date")
+    if rec.get("close") is not None:
+        c = rec["close"]
+        if ex is None:
+            errs.append("v1: close without ex_ante (score a prediction that was written down first)")
+        if not c.get("what_happened") or not isinstance(c.get("held"), bool) or not _is_date(c.get("date")):
+            errs.append("v1: close needs what_happened, held (true or false) and date")
+    cr = rec.get("counsel_review")
+    if cr is not None and (not _is_date(cr.get("date")) or not cr.get("by_role") or not cr.get("template_version")):
+        errs.append("v1: counsel_review needs date, by_role and template_version")
+    g = rec.get("gauntlet")
+    if g is not None and (not _is_date(g.get("date")) or not g.get("ref") or not isinstance(g.get("open_findings"), int)):
+        errs.append("v1: gauntlet needs date, ref and open_findings (an int)")
     return errs
 
 
@@ -285,11 +346,15 @@ def resolve(rec: dict) -> dict:
 def fmt(kind: str, value, style: str = "") -> str:
     if kind == "money":
         return f"${value:,.0f}"
+    if kind == "money_range":
+        return f"${value[0]:,.0f} to ${value[1]:,.0f}"
     if kind == "date":
         d = dt.date.fromisoformat(value)
         if style == "nda":
             return f"{d.month}.{d.day}.{d.year % 100}"
         base = f"{MONTHS[d.month - 1]} {d.day}"
+        if style == "day":
+            return f"{DAYS[d.weekday()]} {base}"
         return f"{base}, {d.year}" if style == "long" else base
     if kind == "days" and style == "weeks":
         if value % 7 == 0 and value // 7 < len(WORDS):
@@ -442,7 +507,7 @@ def render_html(rec, resolved) -> tuple[str, set]:
     level(3, "Operational", "Steps and timing", table(
         ["Step", "Question", "Fee", "Status"],
         [[_e(p["name"]), _e(p["question"]), _e(s(p["fee"])), _e(p["status"])] for p in rec["phases"]]))
-    level(4, "Tactical", "Chelsea's asks, each with its answer", table(
+    level(4, "Tactical", f"{rec['client'].get('reply_to', 'The client')}'s asks, each with its answer", table(
         ["Ask", "From", "What they asked", "Answered by"],
         [[_e(x["short"]), _e(x["source"]["ref"]), _e(x["text"]), _e(", ".join(x["answered_by"]))] for x in rec["asks"]]))
     changes = {c["field"]: c for c in changes_since_sent(rec, resolved, set(rec["fields"]))}
@@ -464,6 +529,18 @@ def render_html(rec, resolved) -> tuple[str, set]:
     level(5, "Surgical", "Every value and where it came from",
           table(["Field", "What", "Value", "Source"], rows) + "<h2 class=\"label\">Assumptions</h2>"
           + table(["Id", "Assumption", "Test that would decide it", "Status"], asm))
+    if rec.get("not_proven"):
+        a.append("<section class=\"panel\"><h2 class=\"label\">Not proven yet</h2><ul>"
+                 + "".join(f"<li>{_e(s(x['text']))}</li>" for x in rec["not_proven"]) + "</ul></section>")
+    if rec.get("schema") == SCHEMA_V1:
+        ex, cr, g, cl = rec.get("ex_ante"), rec.get("counsel_review"), rec.get("gauntlet"), rec.get("close")
+        rows = [
+            ["Lawyer read the agreement", _e(f"{cr['date']}, {cr['by_role']}, template {cr['template_version']}") if cr else "not yet (blocks send)"],
+            ["Pre-send gauntlet", _e(f"{g['date']}, {g['ref']}, {g['open_findings']} open") if g else "not yet (blocks send)"],
+            ["Ex-ante", _e(f"{ex['expect']} (p {ex['p']}, {ex['basis']['kind']}: {ex['basis']['text']}; {ex['date']})") if ex else "not yet (blocks send)"],
+            ["Scored after reply", _e(f"{cl['date']}: {cl['what_happened']} (held: {cl['held']})") if cl else "open"],
+        ]
+        a.append("<h2 class=\"label\">Before send</h2>" + table(["Gate", "State"], rows))
     a.append(f"<h2 class=\"label\">Counsel notes</h2><p>{_e(rec.get('counsel_notes', ''))}</p>")
     a.append("</main></body></html>\n")
     return "".join(a), ctx.cites
@@ -588,7 +665,7 @@ def self_test() -> int:
         write(eng)
         again = {n: open(os.path.join(eng, "out", n), encoding="utf-8").read() for n in os.listdir(os.path.join(eng, "out"))}
         assert first == again, "render must be idempotent"
-        assert "fixed $1,500" in first["agreement.md"] and "by Nov 20" in first["reply.md"]
+        assert "fixed $1,500" in first["agreement.md"], "agreement must cite the Step 1 fee"
 
         edit(lambda r: r["fields"]["rate_ff"].update(value=150))
         p = check(eng)
@@ -605,13 +682,17 @@ def self_test() -> int:
         def moved(r):
             r["meta"]["last_sent"] = "2026-11-07"
             f = r["fields"]["access_by"]
+            f["value"], f["history"] = "2026-11-13", []  # fixed start, so record edits never break this test
             f["history"].append({"value": f["value"], "until": "2026-11-10", "source": f["source"]})
             f["value"] = "2026-11-20"
         edit(moved)
         write(eng)
         reply = open(os.path.join(eng, "out", "reply.md"), encoding="utf-8").read()
         assert "CHANGED SINCE LAST SENT" in reply and "access_by: was Nov 13, now Nov 20" in reply, reply[:600]
-        assert "by Nov 27" in reply, "deliver_by must follow access_by"
+        import datetime as _dt
+        _days = json.load(open(recp, encoding="utf-8"))["fields"]["duration_days"]["value"]
+        _want = _dt.date(2026, 11, 20) + _dt.timedelta(days=_days)
+        assert _want.strftime("%b ") + str(_want.day) in reply, "deliver_by must follow access_by"
         assert "changed 2026-11-10, was Nov 13" in open(os.path.join(eng, "out", "proposal.html")).read()
 
         # progress: done adds hours and rolls the phase up; a later non-done event shows the reopen seam
@@ -636,7 +717,13 @@ def self_test() -> int:
         assert {r["id"]: r for r in t["rows"]}["w1a"]["status"].get("reopened") == "2026-11-16", "reopen seam"
         assert t["progress"]["hours_done"] == 0
 
-        # gifts: listed but locked until the unlock row is done; the private path never reaches the export
+        # gifts: listed but locked until the unlock row is done; the private path never reaches the export.
+        # The test plants its own gift row so it never depends on which gifts the live record lists.
+        edit(lambda r: r["step1_tree"]["rows"].append({"id": "w6e", "parent": "w6", "kind": "gift", "label": "test gift",
+                                                         "start": 0, "len": 1, "hours": 0, "get": "", "s2": "", "s3": "",
+                                                         "note": "", "file": "gifts/rca.md", "unlock": "w0a"}))
+        write(eng)
+        t = json.load(open(os.path.join(eng, "out", "step1_tree.json"), encoding="utf-8"))
         g = {r["id"]: r for r in t["rows"]}["w6e"]
         assert g.get("locked") and "download" not in g and "file" not in g, g
         edit(lambda r: r["progress"].append({"row": "w0a", "state": "done", "date": "2026-11-17", "note": ""}))
