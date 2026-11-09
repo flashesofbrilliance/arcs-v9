@@ -208,8 +208,6 @@ header > .tools{grid-row:1;justify-self:end;display:flex;align-items:center;gap:
 @media print{
   .cover{display:flex;flex-direction:column;height:9.9in;break-after:page;}
   header > h1,header > .forline{display:none;}
-  .cover-mark{font-family:var(--mono);font-weight:700;letter-spacing:0.32em;font-size:var(--fs-body);color:var(--text);}
-  .cover-a{color:var(--cyan);}
   .cover-title{margin-top:auto;padding-bottom:var(--sp-3);display:flex;flex-direction:column;gap:var(--sp-1);}
   .cover-h{font-family:var(--sans);font-size:var(--fs-display);font-weight:700;letter-spacing:-0.02em;line-height:1.15;color:var(--text);}
   .cover-sub{font-family:var(--serif);font-size:var(--fs-step);line-height:1.35;color:var(--text-secondary);}
@@ -310,7 +308,11 @@ footer p{text-align:left;}
 @media print{
   .cover{height:9.35in;gap:0;}
   .cover-top{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:var(--sp-2);border-bottom:1px solid var(--border);}
-  .cover-date{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;color:var(--muted);}
+  .cover-date{margin-left:auto;font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;color:var(--muted);}
+  /* Field OS wordmark (src/ui/Wordmark.tsx grammar: ARCS heavy and wide, FIELD OS lighter), grayscale, centered in the cover field */
+  .cover-wm{margin-top:auto;display:flex;align-items:baseline;gap:0.45em;font-family:var(--mono);font-size:var(--fs-display);text-transform:uppercase;line-height:1;}
+  .cover-wm-a{color:var(--text);font-weight:800;letter-spacing:0.22em;}
+  .cover-wm-f{color:var(--muted);font-weight:400;letter-spacing:0.14em;}
   .cover-title{margin-top:auto;padding-bottom:var(--sp-4);gap:var(--sp-2);}
   .cover-for{font-family:var(--sans);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);}
   .cover-h{font-size:2.4rem;line-height:1.08;letter-spacing:-0.025em;}
@@ -318,8 +320,13 @@ footer p{text-align:left;}
   .cover-toc{list-style:none;margin:0;padding:var(--sp-2) 0 0;border-top:2px solid var(--gold);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:var(--sp-3);}
   .cover-toc li{display:flex;flex-direction:column;gap:4px;color:var(--text);font-weight:600;line-height:1.35;}
   .cover-toc .pn{font-family:var(--mono);font-weight:700;font-size:var(--fs-label);color:var(--cyan);}
-  .cover-meta{height:auto;border-top:0;margin-top:var(--sp-3);flex-direction:row;gap:var(--sp-2);font-size:var(--fs-label);}
-  .cover-meta p:first-child{font-weight:700;}
+  /* cover footer: same 3-column grid as the contents row above it, so every column edge lines up */
+  .cover-meta{height:auto;margin-top:var(--sp-4);padding-top:var(--sp-2);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:var(--sp-3);align-items:start;font-size:var(--fs-label);line-height:1.5;}
+  .cover-meta p{margin:0;}
+  .cover-meta .cm-who{display:flex;flex-direction:column;}
+  .cover-meta .cm-who b{color:var(--text);font-weight:700;}
+  .cover-meta .cm-conf{grid-column:3;justify-self:end;text-align:right;font-family:var(--sans);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text);}
+  .cover-sub{text-wrap:balance;}
   /* lede: the page's verdict, set as an opening paragraph */
   .verdict{font-size:var(--fs-step);line-height:1.4;margin-top:0;}
   .aside{color:var(--text-secondary);}
@@ -358,7 +365,8 @@ footer p{text-align:left;}
 <main class="page">
 
 <section class="cover" aria-label="Cover">
-  <div class="cover-top"><p class="cover-mark"><span class="cover-a">A</span>RCS</p><p class="cover-date">November 2026</p></div>
+  <div class="cover-top"><p class="cover-date">November 2026</p></div>
+  <p class="cover-wm" aria-label="ARCS Field OS"><span class="cover-wm-a">ARCS</span><span class="cover-wm-f">FIELD OS</span></p>
   <div class="cover-title">
     <p class="cover-for">Prepared for Brooks Thomas, Louisville Brands</p>
     <p class="cover-h">An outside read on your AI build</p>
@@ -369,7 +377,7 @@ footer p{text-align:left;}
     <li><span class="pn">02</span><span>The two decisions</span></li>
     <li><span class="pn">03</span><span>What $5,000 gets you</span></li>
   </ol>
-  <div class="cover-meta"><p>Zach Harris</p><p>zach.harris@gmail.com</p></div>
+  <div class="cover-meta"><p class="cm-who"><b>Zach Harris</b><span>zach.harris@gmail.com</span></p><p class="cm-conf">Confidential<br>Do not share</p></div>
 </section>
 
 
