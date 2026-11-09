@@ -250,7 +250,9 @@
       "Bash(vercel ls *)",
       "Bash(mdls *)",
       "Bash($HOME/.claude/skills/impeccable/scripts/impeccable detect *)",
-      "mcp__perplexity__search"
+      "mcp__perplexity__search",
+      "Bash(python3 scripts/proposal_build.py --louisville --check)",
+      "Bash(python3 scripts/counterpart_onepager_build.py --check)"
     ],
     "ask": [
       "Bash(git push:*)"
