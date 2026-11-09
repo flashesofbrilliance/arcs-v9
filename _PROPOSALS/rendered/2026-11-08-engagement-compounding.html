@@ -1,0 +1,201 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Engagement Compounding Design</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading lane (960px) with a single px measure for body text; ledes and tables span the lane. */
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --ink:#1b2330; --muted:#4f5b6b; --rule:#d9dee6;
+  --accent:#8a6410; --accent-soft:#f3ead3; --code:#eef1f5;
+  --f-display:"Newsreader", Georgia, "Times New Roman", serif;
+  --f-body:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --lane:960px; --measure:680px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0d1117; --surface:#141b24; --ink:#e2e8f0; --muted:#a3afbf; --rule:#263241;
+  --accent:#e0b84a; --accent-soft:#2a2414; --code:#1a2330; color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#0d1117; --surface:#141b24; --ink:#e2e8f0; --muted:#a3afbf; --rule:#263241;
+  --accent:#e0b84a; --accent-soft:#2a2414; --code:#1a2330; color-scheme:dark; }
+
+body{ background:var(--bg); color:var(--ink); font:16px/1.6 var(--f-body);
+  padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); padding-block:40px 72px; }
+main{ max-width:var(--lane); margin:0 auto; display:flex; flex-direction:column; gap:40px; }
+section{ display:flex; flex-direction:column; gap:14px; min-width:0; }
+h1,h2,h3{ font-family:var(--f-display); font-weight:600; line-height:1.15; text-wrap:balance; margin:0; }
+h1{ font-size:clamp(2rem, 5vw, 2.9rem); }
+h2{ font-size:1.6rem; padding-top:20px; border-top:1px solid var(--rule); }
+h3{ font-size:1.15rem; font-family:var(--f-body); }
+p,li{ max-width:var(--measure); text-wrap:pretty; margin:0; }
+ul,ol{ margin:0; padding-left:1.25em; display:flex; flex-direction:column; gap:6px; }
+.lede{ max-width:none; font-size:1.12rem; color:var(--ink); }
+.eyebrow{ font:500 .78rem/1.3 var(--f-mono); letter-spacing:.09em; text-transform:uppercase; color:var(--accent); max-width:none; }
+.meta{ font:400 .85rem/1.5 var(--f-mono); color:var(--muted); max-width:none; }
+.cold{ display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:14px; }
+.cold div{ background:var(--surface); border:1px solid var(--rule); border-radius:6px; padding:16px 18px; min-width:0; }
+.cold b{ display:block; font:500 .78rem/1.3 var(--f-mono); letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.cold p{ max-width:none; }
+pre{ background:var(--code); border-radius:6px; padding:16px; overflow-x:auto; font:400 .85rem/1.5 var(--f-mono); margin:0; }
+code{ font-family:var(--f-mono); font-size:.88em; background:var(--code); padding:1px 4px; border-radius:3px; }
+pre code{ background:none; padding:0; }
+.tw{ overflow-x:auto; border:1px solid var(--rule); border-radius:6px; background:var(--surface); }
+table{ border-collapse:collapse; width:100%; min-width:640px; font-size:.92rem; }
+th,td{ text-align:left; vertical-align:top; padding:10px 12px; border-bottom:1px solid var(--rule); }
+tr:last-child td{ border-bottom:0; }
+th{ font:500 .74rem/1.3 var(--f-mono); letter-spacing:.07em; text-transform:uppercase; color:var(--muted); }
+td.n{ font-family:var(--f-mono); color:var(--accent); white-space:nowrap; }
+.pill{ display:inline-block; font:500 .72rem/1.4 var(--f-mono); padding:1px 7px; border-radius:10px; white-space:nowrap; border:1px solid var(--rule); color:var(--muted); }
+.pill.yes{ border-color:var(--accent); color:var(--accent); }
+.rec{ background:var(--accent-soft); border-left:3px solid var(--accent); padding:16px 18px; border-radius:0 6px 6px 0; }
+.rec p{ max-width:none; }
+.ask ol{ gap:10px; }
+a{ color:var(--accent); }
+:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+@media (max-width:640px){ .eyebrow{ letter-spacing:.06em; } h2{ font-size:1.35rem; } }
+</style>
+</head><body>
+<main>
+<header style="display:flex;flex-direction:column;gap:12px">
+  <p class="eyebrow">Proposal, 2026-11-08 · status: waiting on Zach's go · nothing built</p>
+  <h1>Engagement compounding</h1>
+  <p class="lede">Five additions to the engagement record so every client leaves behind a measured cost of winning it, a measured gap between plan and reality, and parts the next client gets for free.</p>
+  <p class="meta">Markdown source: _PROPOSALS/2026-11-08-engagement-compounding-design.md</p>
+</header>
+
+<section class="cold" aria-label="Cold read">
+  <div><b>Why</b><p>Each client engagement so far was built by hand and kept nothing for the next one. My Ally shows the cost: about 30 to 45 unpaid hours (calls measured; work sessions estimated from 249 commits; emails at an assumed 15 minutes each) before a $1,500 first step. Counting Step 1's 12 hours, that is roughly $25 to $35 an hour. The number only exists because one agent dug it up once. PRL showed the same pattern earlier ($6,200 mostly on discovery). A lesson that lives in memory and not in a check repeats.</p></div>
+  <div><b>What</b><p>Five additions to the engagement record so that every engagement leaves three things behind: a measured cost of winning it, a measured gap between what I planned and what happened, and reusable parts (gift skills, a client page, a morning check) that the next client gets for free.</p></div>
+  <div><b>Why now</b><p>The pieces just landed or are in review: one record per engagement (merged), the honest-proposals v1 record format (PR 2072), and progress plus payment-released gifts (PR 2066). My Ally Step 1 starts within days, so its actual hours can be captured from the first one instead of reconstructed. The next engagement (Louisville or another) would otherwise copy My Ally's one-off scripts.</p></div>
+  <div><b>How</b><p>Before (now): this design. Nothing built. During (after your go): merge 2072, 2059, 2066 in that order, then build Move 1 and Move 2 during My Ally Step 1. After: Moves 3 to 5 start when a second engagement signs, not before. A claim that the calibration means ything waits for three finished steps.</p></div>
+</section>
+
+<p class="meta">How to read: Section 1 is the five moves in one table. Sections 2 to 6 are one move each. Section 7 is order and cost. Section 8 is what it will not do. Section 9 is the case against. Section 10 is what I need from you.</p>
+
+<section>
+  <h2>1. The five moves</h2>
+
+  <div class="tw" tabindex="0"><table>
+    <thead><tr><th>#</th><th>Move</th><th>What it builds</th><th>What it compounds into</th><th>When</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Hours ledger</td><td><code>investment</code> block in the record + <code>scripts/engagement_hours.py</code></td><td>Cost of winning each client, a discovery cap that warns before more free work</td><td>Now</td></tr>
+      <tr><td>2</td><td>Planned vs actual</td><td>actual hours on progress entries + <code>scripts/engagement_calibrate.py</code></td><td>Better ranges in the next proposal, by kind of work</td><td>Now (collects), report after 3 steps</td></tr>
+      <tr><td>3</td><td>Gift library</td><td><code>_ARTIFACTS/gift-skills/catalog.json</code>, rows reference a gift id</td><td>Every skill written becomes offerable to every client</td><td>Second engagement</td></tr>
+      <tr><td>4</td><td>One sync for every client page</td><td><code>scripts/engagement_sync.py</code>, the record names its page</td><td>A new client is a record, a page and one routing line</td><td>Second engagement</td></tr>
+      <tr><td>5</td><td>Morning evidence sweep</td><td>a section in the existing morning open-loops note</td><td>Progress and payment releases proposed before anyone asks</td><td>After Move 4</td></tr>
+    </tbody>
+  </table></div>
+
+</section>
+
+<section>
+  <h2>2. Move 1: hours ledger</h2>
+
+  <ul>
+    <li><b>Record.</b> An <code>investment</code> block, append-only like <code>progress</code>:<ul><li><code>calls[]</code>: <code>{date, minutes, source, basis}</code> where basis is <code>measured</code> (Granola or calendar duration) or <code>estimated</code>.</li><li><code>work_paths[]</code>: the repo paths that belong to this engagement (for My Ally: the hub, the record folder, the scaffold folder). Sessions are computed, not typed.</li><li><code>emails</code>: <code>{sent, minutes_each, basis: "assumed"}</code>.</li><li><code>paid_from</code>: the date the first paid step started. Hours before it are unpaid discovery.</li></ul></li>
+    <li><b>Script.</b> <code>engagement_hours.py --dir &lt;engagement&gt;</code> prints calls, sessions (commit clusters on <code>work_paths</code>, a gap over 90 minutes starts a new session, plus 30 minutes lead-in), emails, and a low/high total with each part's basis. It is the method the agent used on 2026-11-08, made repeatable. Stdlib, read-only.</li>
+    <li><b>Tripwire.</b> A <code>discovery_cap_hours</code> field (you set it; I suggest 10). When unpaid hours pass it, the script exits non-zero, <code>proposal_lint.py</code> (PR 2072) warns on any new client-facing draft, and the session-start sentry names the engagement. It warns; it does not block, since sometimes free work is a choice.</li>
+    <li><b>Never client-facing by default.</b> The number can go on a client page only by an explicit field, and then only as a range ("roughly 30 to 45 hours").</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2>3. Move 2: planned vs actual</h2>
+
+  <ul>
+    <li>Progress entries already carry the date a row finished. Add an optional <code>actual_hours</code> to <code>done</code> entries. The session that does the work logs it (the standing rule already says sessions log progress).</li>
+    <li><code>engagement_calibrate.py</code> reads every engagement and reports, by row kind (task, report, cost range, call): planned hours vs actual, planned day vs finished day, and how often a client gate (access, payment) was the delay.</li>
+    <li><b>No claim before three finished steps</b> (rule of three). Until then the report prints counts and says "not enough data". After that, honest-proposals v1 ranges can cite it as their source instead of judgment.</li>
+    <li>Private always: calibration never renders into a client page.</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2>4. Move 3: gift library</h2>
+
+  <ul>
+    <li><code>_ARTIFACTS/gift-skills/catalog.json</code>: one entry per skill with <code>id</code>, <code>repo</code>, <code>pinned_sha</code>, <code>path</code>, <code>license</code>, <code>fit</code> tags (non-technical team, builder, founder, finance), and a one-line plain-language "what it does for you".</li>
+    <li>Rows in a record name <code>gift: "&lt;id&gt;"</code> instead of copying a file; the unlock rule from PR 2066 stays per row.</li>
+    <li>The copy served to a client is fetched at the pinned commit, and a <code>--check</code> fails if it drifts, so a fix in the public repo is a deliberate re-pin, not a silent change on a client page.</li>
+    <li>honest-proposals can then suggest gifts by <code>fit</code> when drafting the "included at no charge" section.</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2>5. Move 4: one sync for every client page</h2>
+
+  <ul>
+    <li>Each record gets a <code>hub</code> block: page file, the marker block name, the download folder, the host.</li>
+    <li><code>scripts/engagement_sync.py</code> does what <code>myally_hub_sync.py</code> does today for any record with a <code>hub</code> block. <code>myally_hub_sync.py</code> stays as a two-line wrapper so nothing that calls it breaks (house rule: never overwrite a script in place for a breaking change).</li>
+    <li>Routing stays one explicit line per host in <code>src/proxy.ts</code>, so the surface catalog check keeps seeing every host.</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2>6. Move 5: morning evidence sweep</h2>
+
+  <ul>
+    <li>The existing weekday morning note (<code>arcs-open-loops-morning-note</code>) gains one section: for each engagement with an active step, new evidence since yesterday (a reply in the thread, a GitHub or Lovable invite, a payment notice), and the progress entries I propose from it, with the client-facing note already drafted.</li>
+    <li>It only proposes. Client-facing notes and payment releases go live when you say yes, in the session where you do.</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2>7. Order, dependencies and cost</h2>
+
+  <div class="tw" tabindex="0"><table>
+    <thead><tr><th>Step</th><th>Depends on</th><th>My estimate (judgment)</th></tr></thead>
+    <tbody>
+      <tr><td>Merge 2072, then 2059, then 2066 (rebased, the six remaining voice-gate lines fixed)</td><td>your go on each</td><td>1 to 2 hours of rebase and gates</td></tr>
+      <tr><td>Move 1</td><td>2072 merged</td><td>half a day</td></tr>
+      <tr><td>Move 2</td><td>Move 1, 2066 merged</td><td>2 hours to build; data accrues during Step 1</td></tr>
+      <tr><td>Move 3</td><td>a second engagement signs</td><td>half a day</td></tr>
+      <tr><td>Move 4</td><td>a second engagement signs</td><td>half a day</td></tr>
+      <tr><td>Move 5</td><td>Move 4</td><td>2 to 3 hours</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>Moves 1 and 2 are independent of each other in code but Move 2's report is only useful with Move 1's paid/unpaid split, so they ship together.</p>
+
+</section>
+
+<section>
+  <h2>8. What it will not do</h2>
+
+  <ul>
+    <li>Send, publish or bill anything. No invoicing system.</li>
+    <li>Put calibration or unpaid hours on a client page without an explicit field set by you.</li>
+    <li>Pool one client's data into another client's page.</li>
+    <li>Claim the estimates got better before three finished steps.</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2>9. The case against</h2>
+
+  <p>Building infrastructure for 1.5 clients is the same front-loading this design warns about. The answer is the trigger column: only Moves 1 and 2 are built now, because they cost a day, they start paying during My Ally Step 1, and they turn the unpaid-discovery lesson into a check that runs. Moves 3 to 5 wait for a second signed engagement; if none comes, they are never built, and nothing is lost.</p>
+
+</section>
+
+<section>
+  <h2>10. What I need from you</h2>
+
+  <ol>
+    <li>Go or no-go on the design.</li>
+    <li>The discovery cap in hours (my suggestion: 10).</li>
+    <li>Whether sessions should log actual hours per finished row (needed for Move 2).</li>
+    <li>Confirm the merge order: 2072, then 2059, then 2066.</li>
+  </ol>
+
+</section>
+
+</main>
+</body></html>
