@@ -159,6 +159,10 @@ fold, organized below the fold". Each part is a specimen (`src/ui-kit/specimens/
 whose `@prim` block a page inlines verbatim. Tokens come from `_tokens.css`; light mode is the 39 remap, which every
 specimen carries.
 
+These parts were promoted as a set on one case, an exception to the second-real-case rule above: Zach asked on
+2026-11-09 to "true up various uikit elements for future reuse because this template is really good". Part 51 has a second
+case (the Louisville proposal); 43 to 50 still have one.
+
 **Order, top to bottom:**
 
 1. **Wordmark row** with **51 Display preferences** at its right: the theme switch and the "Aa" reading options side by
