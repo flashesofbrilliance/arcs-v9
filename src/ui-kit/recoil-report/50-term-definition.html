@@ -8,6 +8,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Term Definition · Molecule 50</title>
 <link rel="stylesheet" href="_tokens.css">
+<link rel="stylesheet" href="_tokens-light.css">
+<link rel="stylesheet" href="_kit-sr.css">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 ::selection { background: var(--cyan-bg); color: var(--text); }
@@ -44,15 +46,6 @@ main { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; 
 .sp-rel a:hover { border-color: var(--text-secondary); }
 .sp-rel a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 .sp-gates code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
-/* @prim:begin 39-theme-toggle */
-:root{color-scheme:dark;}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}}
-:root[data-theme="light"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}
-.themebtn{display:inline-flex;align-items:center;min-height:44px;padding:0;margin:0 0 8px;font:inherit;font-size:var(--fs-body);color:var(--text-secondary);background:none;border:0;cursor:pointer;text-underline-offset:3px;}
-.themebtn:hover,.themebtn:focus-visible{color:var(--cyan);text-decoration:underline;}
-.themebtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
-@media print{:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;} .themebtn{display:none!important;} body{background:#fff!important;}}
-/* @prim:end 39-theme-toggle */
 /* @prim:begin 50-term-definition */
 .term{position:relative;display:inline}
 .term-b{all:unset;display:inline;cursor:pointer;text-decoration:underline dotted;text-decoration-color:color-mix(in srgb,currentColor 55%,transparent);text-underline-offset:3px;border-radius:var(--ds-r-xs)}
@@ -83,7 +76,7 @@ main { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; 
 <div class="sp-scroll" tabindex="0" role="region" aria-label="Data table"><table class="sp-table"><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Note</th></tr></thead><tbody><tr><td><code>term</code></td><td>string</td><td>yes</td><td>The word as it appears in the sentence.</td></tr><tr><td><code>def</code></td><td>string</td><td>yes</td><td>One or two plain sentences.</td></tr><tr><td><code>href</code></td><td>string</td><td>no</td><td>The full glossary entry, such as <code>#glossary-mvp</code>.</td></tr></tbody></table></div></section>
 <section id="sp-access" aria-labelledby="h-acc"><h2 class="section-label" id="h-acc">Access</h2><ul class="sp-list"><li>The term is a <code>&lt;button&gt;</code> with <code>aria-describedby</code> pointing at the tip, so screen readers read the definition on focus even while it is hidden, and <code>aria-expanded</code> for its open state.</li><li>Escape closes the tip and keeps focus on the term; a tap pins it; a tap elsewhere closes it.</li><li>JS keeps the tip inside its container and the viewport, flipping it above when there is no room below.</li><li>Rem sizes; roomy spacing raises its line height to 1.8.</li></ul></section>
 <section id="sp-relations" aria-labelledby="h-rel"><h2 class="section-label" id="h-rel">Relations</h2>
-<div class="sp-two"><div><h3 class="section-label">Built from</h3><div class="sp-rel"><a href="_tokens.css">Kit tokens (atoms)</a><a href="39-theme-toggle.html">39 Theme toggle (light remap)</a></div></div><div><h3 class="section-label">Used by</h3><div class="sp-rel"><span>Approved My Ally Step 1 template (public/myally-hub.html, PR 2094)</span></div></div></div></section>
+<div class="sp-two"><div><h3 class="section-label">Built from</h3><div class="sp-rel"><a href="_tokens.css">Kit tokens (atoms)</a><a href="_tokens-light.css">Light remap (_tokens-light.css)</a></div></div><div><h3 class="section-label">Used by</h3><div class="sp-rel"><span>Approved My Ally Step 1 template (public/myally-hub.html, PR 2094)</span></div></div></div></section>
 <section class="sp-gates" id="sp-gates" aria-labelledby="h-gates"><h2 class="section-label" id="h-gates">Gates</h2><ul class="sp-list"><li><code>kit_specimen.py --check</code> (in scripts): this page matches its spec.</li><li><code>kit_primitive_sync.py --check</code> (in scripts): every page that marks this block carries it unchanged.</li><li><code>scripts/token_source_gate.py</code>, <code>scripts/component_source_gate.py</code> and <code>scripts/artifact_wrap_lint.py</code> on this page.</li><li>Reading-options check: 375 and 1280, light and dark, largest text size, roomy spacing and the easy-read font.</li></ul></section>
 </main>
 <script src="_player.js"></script>

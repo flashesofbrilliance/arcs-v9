@@ -8,6 +8,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Action Menu · Molecule 43</title>
 <link rel="stylesheet" href="_tokens.css">
+<link rel="stylesheet" href="_tokens-light.css">
+<link rel="stylesheet" href="_kit-sr.css">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 ::selection { background: var(--cyan-bg); color: var(--text); }
@@ -44,15 +46,6 @@ main { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; 
 .sp-rel a:hover { border-color: var(--text-secondary); }
 .sp-rel a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 .sp-gates code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
-/* @prim:begin 39-theme-toggle */
-:root{color-scheme:dark;}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}}
-:root[data-theme="light"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}
-.themebtn{display:inline-flex;align-items:center;min-height:44px;padding:0;margin:0 0 8px;font:inherit;font-size:var(--fs-body);color:var(--text-secondary);background:none;border:0;cursor:pointer;text-underline-offset:3px;}
-.themebtn:hover,.themebtn:focus-visible{color:var(--cyan);text-decoration:underline;}
-.themebtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
-@media print{:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;} .themebtn{display:none!important;} body{background:#fff!important;}}
-/* @prim:end 39-theme-toggle */
 /* @prim:begin 43-action-menu */
 .amenu{position:relative;display:inline-block}
 .amenu-btn{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 10px;border:0;border-radius:var(--ds-r-sm);background:none;color:var(--cyan);font:inherit;font-weight:600;cursor:pointer}
@@ -89,7 +82,7 @@ main { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; 
 <div class="sp-scroll" tabindex="0" role="region" aria-label="Data table"><table class="sp-table"><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Note</th></tr></thead><tbody><tr><td><code>label</code></td><td>string</td><td>yes</td><td>The trigger word, such as <code>Agreement</code>.</td></tr><tr><td><code>items[]</code></td><td>{text, href, kind}</td><td>yes</td><td><code>text</code> reads <code>format, for purpose</code>; <code>kind</code> is <code>download</code> or <code>external</code> and picks the icon and the <code>download</code> or <code>target</code> attribute.</td></tr><tr><td><code>items[].aria</code></td><td>string</td><td>no</td><td>Longer accessible name, such as <code>PDF, for print: download the agreement</code>; external links add <code>(opens in a new tab)</code>.</td></tr><tr><td><code>cta</code></td><td>{text, href}</td><td>no</td><td>The solid last item, such as <code>Discuss</code> linking to a booking page.</td></tr></tbody></table></div></section>
 <section id="sp-access" aria-labelledby="h-acc"><h2 class="section-label" id="h-acc">Access</h2><ul class="sp-list"><li>Trigger is a <code>&lt;button&gt;</code> with <code>aria-expanded</code> and <code>aria-controls</code>; the panel is a plain list of links, not a <code>role=menu</code>, so links keep their native keyboard and screen-reader behaviour.</li><li>Opening moves focus to the first item; Escape closes and returns focus to the trigger; a click outside closes it.</li><li>Icons are <code>aria-hidden</code>; each link&#x27;s accessible name carries the format, the purpose and a new-tab warning when it applies.</li><li>Every item is 44px tall; focus ring is a 2px cyan outline. Sizes are rem, so the reading options scale it.</li><li>The phone group is a <code>role=group</code> labelled with the trigger word.</li></ul></section>
 <section id="sp-relations" aria-labelledby="h-rel"><h2 class="section-label" id="h-rel">Relations</h2>
-<div class="sp-two"><div><h3 class="section-label">Built from</h3><div class="sp-rel"><a href="_tokens.css">Kit tokens (atoms)</a><a href="39-theme-toggle.html">39 Theme toggle (light remap)</a></div></div><div><h3 class="section-label">Used by</h3><div class="sp-rel"><span>Approved My Ally Step 1 template (public/myally-hub.html, PR 2094)</span></div></div></div></section>
+<div class="sp-two"><div><h3 class="section-label">Built from</h3><div class="sp-rel"><a href="_tokens.css">Kit tokens (atoms)</a><a href="_tokens-light.css">Light remap (_tokens-light.css)</a></div></div><div><h3 class="section-label">Used by</h3><div class="sp-rel"><span>Approved My Ally Step 1 template (public/myally-hub.html, PR 2094)</span></div></div></div></section>
 <section class="sp-gates" id="sp-gates" aria-labelledby="h-gates"><h2 class="section-label" id="h-gates">Gates</h2><ul class="sp-list"><li><code>kit_specimen.py --check</code> (in scripts): this page matches its spec.</li><li><code>kit_primitive_sync.py --check</code> (in scripts): every page that marks this block carries it unchanged.</li><li><code>scripts/token_source_gate.py</code>, <code>scripts/component_source_gate.py</code> and <code>scripts/artifact_wrap_lint.py</code> on this page.</li><li>Reading-options check: 375 and 1280, light and dark, largest text size, roomy spacing and the easy-read font.</li></ul></section>
 </main>
 <script src="_player.js"></script>

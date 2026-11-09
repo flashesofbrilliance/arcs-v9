@@ -8,6 +8,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fact Tile · Molecule 45</title>
 <link rel="stylesheet" href="_tokens.css">
+<link rel="stylesheet" href="_tokens-light.css">
+<link rel="stylesheet" href="_kit-sr.css">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 ::selection { background: var(--cyan-bg); color: var(--text); }
@@ -44,15 +46,6 @@ main { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; 
 .sp-rel a:hover { border-color: var(--text-secondary); }
 .sp-rel a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 .sp-gates code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
-/* @prim:begin 39-theme-toggle */
-:root{color-scheme:dark;}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}}
-:root[data-theme="light"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}
-.themebtn{display:inline-flex;align-items:center;min-height:44px;padding:0;margin:0 0 8px;font:inherit;font-size:var(--fs-body);color:var(--text-secondary);background:none;border:0;cursor:pointer;text-underline-offset:3px;}
-.themebtn:hover,.themebtn:focus-visible{color:var(--cyan);text-decoration:underline;}
-.themebtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
-@media print{:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;} .themebtn{display:none!important;} body{background:#fff!important;}}
-/* @prim:end 39-theme-toggle */
 /* @prim:begin 45-fact-tile */
 .ftiles-c{container-type:inline-size;min-width:0}
 .ftiles{display:grid;grid-template-columns:minmax(0,1fr);gap:14px 8px;margin:0;padding:0;list-style:none}
@@ -82,7 +75,7 @@ main { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; 
 <div class="sp-scroll" tabindex="0" role="region" aria-label="Data table"><table class="sp-table"><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Note</th></tr></thead><tbody><tr><td><code>tiles[]</code></td><td>[label, figure, caption]</td><td>yes</td><td>Label is one or two words; figure is short (<code>$4,800</code>, <code>5 days</code>); caption is one plain line.</td></tr></tbody></table></div></section>
 <section id="sp-access" aria-labelledby="h-acc"><h2 class="section-label" id="h-acc">Access</h2><ul class="sp-list"><li>A <code>ul</code> with an <code>aria-label</code> (such as <code>Step 1 at a glance</code>); each tile is an <code>li</code> reading label, figure, caption in order.</li><li>All sizes are rem and the row uses <code>minmax(0,1fr)</code>, so the largest text size and roomy spacing wrap inside the box instead of overflowing.</li><li>Contrast: label <code>cyan</code> and caption <code>text-secondary</code> are AA on <code>surface</code> in both themes.</li></ul></section>
 <section id="sp-relations" aria-labelledby="h-rel"><h2 class="section-label" id="h-rel">Relations</h2>
-<div class="sp-two"><div><h3 class="section-label">Built from</h3><div class="sp-rel"><a href="_tokens.css">Kit tokens (atoms)</a><a href="39-theme-toggle.html">39 Theme toggle (light remap)</a><a href="29-tile.html">29 Tile (sibling, unchanged)</a></div></div><div><h3 class="section-label">Used by</h3><div class="sp-rel"><span>Approved My Ally Step 1 template (public/myally-hub.html, PR 2094)</span></div></div></div></section>
+<div class="sp-two"><div><h3 class="section-label">Built from</h3><div class="sp-rel"><a href="_tokens.css">Kit tokens (atoms)</a><a href="_tokens-light.css">Light remap (_tokens-light.css)</a><a href="29-tile.html">29 Tile (sibling, unchanged)</a></div></div><div><h3 class="section-label">Used by</h3><div class="sp-rel"><span>Approved My Ally Step 1 template (public/myally-hub.html, PR 2094)</span></div></div></div></section>
 <section class="sp-gates" id="sp-gates" aria-labelledby="h-gates"><h2 class="section-label" id="h-gates">Gates</h2><ul class="sp-list"><li><code>kit_specimen.py --check</code> (in scripts): this page matches its spec.</li><li><code>kit_primitive_sync.py --check</code> (in scripts): every page that marks this block carries it unchanged.</li><li><code>scripts/token_source_gate.py</code>, <code>scripts/component_source_gate.py</code> and <code>scripts/artifact_wrap_lint.py</code> on this page.</li><li>Reading-options check: 375 and 1280, light and dark, largest text size, roomy spacing and the easy-read font.</li></ul></section>
 </main>
 <script src="_player.js"></script>
