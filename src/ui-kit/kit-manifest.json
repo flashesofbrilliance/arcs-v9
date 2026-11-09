@@ -3469,7 +3469,7 @@
    "number": "42",
    "name": "Shell Nav",
    "group": "Specimens",
-   "subtitle": "Organism 42 · Move a reader between the sections of a framed brief: tabs in the shell bar on wide screens, and a small menu anchored to a button at the top right on narrow ones.",
+   "subtitle": "Organism 42 · Move a reader between the sections of a framed brief: tabs in the shell bar on wide screens, and a menu button with a dropdown under the bar on narrow ones.",
    "family": "kit",
    "path": "src/ui-kit/recoil-report/42-shell-nav.html",
    "data_shape": [
@@ -3481,6 +3481,7 @@
     "is-open",
     "shnav",
     "shnav-brand",
+    "shnav-current",
     "shnav-menu",
     "shnav-pill",
     "shnav-tab",

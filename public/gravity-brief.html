@@ -610,6 +610,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 /* @prim:begin 42-shell-nav */
 .shnav { position: relative; display: flex; align-items: center; gap: 24px; min-height: 52px; padding: 0 20px; }
 .shnav-brand { flex: none; font-size: var(--fs-label); }
+.shnav-current { display: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--ds-font-sans); font-size: var(--fs-body); font-weight: 600; color: var(--cyan); }
 .shnav { min-width: 0; }
 .shnav-tabs { display: flex; align-items: stretch; gap: 4px; margin-left: auto; min-width: 0; overflow-x: auto; scrollbar-width: none; }
 .shnav-tabs::-webkit-scrollbar { display: none; }
@@ -627,13 +628,16 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 .shnav-menu[aria-expanded="true"] span::before { transform: translateY(6px) rotate(45deg); }
 .shnav-menu[aria-expanded="true"] span::after { transform: translateY(-6px) rotate(-45deg); }
 .shnav-menu:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
-.shnav[data-mode="menu"] .shnav-menu { display: inline-grid; }
-.shnav[data-mode="menu"] .shnav-tabs { display: none; overflow: visible; position: absolute; top: calc(100% - 4px); right: 12px; z-index: 30; flex-direction: column; align-items: stretch; gap: 2px; margin: 0; width: max-content; min-width: 220px; max-width: calc(100vw - 32px); padding: 6px; background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-md); box-shadow: 0 12px 32px rgba(2, 4, 8, 0.28); }
+.shnav[data-mode="menu"] { justify-content: space-between; padding: 0 16px; }
+.shnav[data-mode="menu"] .shnav-menu { display: inline-grid; margin-right: -8px; }
+.shnav[data-mode="menu"] .shnav-brand { display: none; }
+.shnav[data-mode="menu"] .shnav-current { display: block; }
+.shnav[data-mode="menu"] .shnav-tabs { display: none; overflow: visible; position: absolute; top: 100%; left: 0; right: 0; z-index: 30; flex-direction: column; align-items: stretch; gap: 0; margin: 0; padding: 6px 0; background: var(--surface); border-bottom: 1px solid var(--border); box-shadow: 0 4px 12px rgba(2, 4, 8, 0.14); }
 .shnav[data-mode="menu"].is-open .shnav-tabs { display: flex; animation: shnav-in var(--dur-fast) var(--ease-out); }
-.shnav[data-mode="menu"] .shnav-tab { justify-content: space-between; text-align: left; border-bottom: 0; border-radius: var(--ds-r-sm); padding: 10px 12px; color: var(--text); }
-.shnav[data-mode="menu"] .shnav-tab:hover { background: var(--surface-2); }
+.shnav[data-mode="menu"] .shnav-tab { justify-content: flex-start; text-align: left; border-bottom: 0; border-radius: 0; padding: 12px 16px; color: var(--text-secondary); }
+.shnav[data-mode="menu"] .shnav-tab:hover { color: var(--text); background: var(--surface-2); }
 .shnav[data-mode="menu"] .shnav-tab[aria-current="true"] { color: var(--cyan); box-shadow: inset 3px 0 0 var(--cyan); }
-.shnav[data-mode="menu"] .shnav-tab:focus-visible { outline-offset: -2px; border-radius: var(--ds-r-sm); }
+.shnav[data-mode="menu"] .shnav-tab:focus-visible { outline-offset: -4px; border-radius: var(--ds-r-sm); }
 @keyframes shnav-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .shnav-menu span, .shnav-menu span::before, .shnav-menu span::after { transition: none; } .shnav[data-mode="menu"].is-open .shnav-tabs { animation: none; } }
 @media print { .shnav-menu, .shnav-tabs { display: none !important; } }
@@ -660,6 +664,31 @@ html.stacked details.seat{scroll-margin-top:16px;}
 .cia table.gt.prose td:nth-child(2){color:var(--text);font-size:.9rem;}
 .seat .tk .pill{text-transform:none;letter-spacing:.02em;}
 .shell-bar.shnav{padding:0 20px;}
+/* overview, clean above the fold (approved pattern 2026-11-09): next action, one action row, the summary folded; below: tiles then detail; one 28px gap */
+#pane-ov > .cia{display:flex;flex-direction:column;gap:28px;}
+#pane-ov > .cia > *{margin:0;}
+#pane-ov .ovbelow{display:flex;flex-direction:column;gap:28px;}
+#pane-ov .ovbelow > *{margin:0;}
+#pane-ov .cia-h1{margin:0;}
+#pane-ov .lede.ovstatus{font-size:1.05rem;line-height:1.6;color:var(--text);max-width:none;}
+.plansrc a{text-decoration:underline;text-underline-offset:3px;}
+.ovstatus strong{font-weight:600;}
+.ovact{display:flex;flex-wrap:wrap;align-items:center;gap:12px;}
+.ovbtn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--accent);font:inherit;font-weight:600;text-decoration:none;cursor:pointer;}
+.ovbtn.primary{background:var(--accent);border-color:var(--accent);color:var(--bg);}
+.ovbtn:hover{border-color:var(--accent);}
+.ovbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.ovnote{flex-basis:100%;margin:0;color:var(--dim);font-size:.95em;}
+.cia details.ovsum{border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+/* the 90 / 120 / 240 plans */
+.cia table.gt.plan td{vertical-align:top;font-size:.95rem;line-height:1.5;color:var(--text);}
+.cia table.gt.plan td:first-child{font-weight:600;width:28%;}
+.cia table.gt.plan th{white-space:nowrap;}
+.plannote{color:var(--dim);margin:0 0 12px;}
+.knowhead{font-weight:600;margin:16px 0 6px;color:var(--text);}
+.know{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:4px;color:var(--text);}
+.know strong{font-weight:600;}
+@media (max-width:560px){.ovbtn{flex:1 1 auto;}}
 html.stacked .wide-only{display:none;}
 html:not(.stacked) .stack-only{display:none;}
 .nextrole{margin:24px 0 0;}
@@ -700,10 +729,14 @@ html:not(.stacked) .stack-only{display:none;}
 <div class="toprow"><p class="sm-conf mast-conf"><span class="ctag">Private</span>Prepared for the Gravity Labs team and shared through Harrison Wright of Crossbridge Executive.</p><button type="button" class="themetog" id="themetog" aria-label="Theme: Auto"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><g class="sun"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></g><path class="moon" d="M15.5 12.6A6.5 6.5 0 017.4 4.5a6.5 6.5 0 108.1 8.1z"/><g class="auto"><circle cx="10" cy="10" r="6.5"/><path d="M10 3.5v13" /><path d="M10 3.5a6.5 6.5 0 010 13z" fill="currentColor" stroke="none"/></g></svg><span class="trk" aria-hidden="true"></span></button></div>
 <section class="shell" aria-label="Candidate positioning for Gravity Labs">
 <div class="shell-head"><div class="shell-meta"><dl><div><dt>Prepared for</dt><dd>The Gravity Labs team</dd></div><div><dt>From</dt><dd>Zach Harris</dd></div><div><dt>Updated</dt><dd><time datetime="2026-11-09">November 9, 2026</time></dd></div><div><dt>Status</dt><dd>Draft for discussion</dd></div></dl></div>
-<nav class="shell-bar shnav" id="shnav" aria-label="Sections" data-menu-below="1024"><span class="wordmark shnav-brand" aria-hidden="true"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></span><div class="shnav-tabs" id="viewtabs" aria-label="View"><button type="button" class="shnav-tab" role="tab" id="t-ov" aria-controls="pane-ov" data-target="pane-ov" aria-selected="true" aria-current="true">Overview</button><button type="button" class="shnav-tab" role="tab" id="t-principal" aria-controls="pane-principal" data-target="pane-principal" aria-selected="false" tabindex="-1">Principal<span class="shnav-pill">1st</span></button><button type="button" class="shnav-tab" role="tab" id="t-eir" aria-controls="pane-eir" data-target="pane-eir" aria-selected="false" tabindex="-1">EIR<span class="shnav-pill">2nd</span></button><button type="button" class="shnav-tab" role="tab" id="t-founder" aria-controls="pane-founder" data-target="pane-founder" aria-selected="false" tabindex="-1">Founder<span class="shnav-pill">3rd</span></button><button type="button" class="shnav-tab" role="tab" id="t-open" aria-controls="pane-open" data-target="pane-open" aria-selected="false" tabindex="-1">Open Application<span class="shnav-pill">Proposed</span></button></div><button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Jump to a role"><span></span></button></nav>
+<nav class="shell-bar shnav" id="shnav" aria-label="Sections" data-menu-below="1024"><span class="wordmark shnav-brand" aria-hidden="true"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></span><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs" aria-label="View"><button type="button" class="shnav-tab" role="tab" id="t-ov" aria-controls="pane-ov" data-target="pane-ov" aria-selected="true" aria-current="true">Overview</button><button type="button" class="shnav-tab" role="tab" id="t-principal" aria-controls="pane-principal" data-target="pane-principal" aria-selected="false" tabindex="-1">Principal<span class="shnav-pill">1st</span></button><button type="button" class="shnav-tab" role="tab" id="t-eir" aria-controls="pane-eir" data-target="pane-eir" aria-selected="false" tabindex="-1">EIR<span class="shnav-pill">2nd</span></button><button type="button" class="shnav-tab" role="tab" id="t-founder" aria-controls="pane-founder" data-target="pane-founder" aria-selected="false" tabindex="-1">Founder<span class="shnav-pill">3rd</span></button><button type="button" class="shnav-tab" role="tab" id="t-open" aria-controls="pane-open" data-target="pane-open" aria-selected="false" tabindex="-1">Open Application<span class="shnav-pill">Proposed</span></button></div><button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Jump to a role"><span></span></button></nav>
 </div><div class="shell-body">
 
-<div id="pane-ov" class="cia-pane" role="tabpanel" aria-labelledby="t-ov"><div class="stamp" data-k="now" role="note"><button type="button" class="stamp-x" aria-label="Dismiss">&#215;</button><span class="pill" data-k="now" aria-hidden="true">Now</span><p><span class="stamp-vh">Now: </span><strong>Start here.</strong> Who this is, what it covers, and the through-line. The four roles on your jobs page <span class="wide-only">are in the tabs above</span><span class="stack-only">follow below</span>, strongest fit first.</p></div><div class="cia"><h1 class="cia-h1"><span class="hl">One idea in thirty gets funded.</span> <span class="hl">The other twenty&#8209;nine are the work.</span></h1><p class="lede">Your about page says that for roughly every 30 ideas you go deep on, you fund one. I have spent 20 years in the trenches taking products from zero, which mostly means killing ideas honestly and fast, and the last year building a tool that records why each idea was passed on and checks it against what happened later, so a pass that turns out wrong becomes a lesson instead of a blind spot. This page maps me onto the four roles open on your jobs page, strongest fit first, with the proof and the gap for each.</p><div class="tiles" role="list" aria-label="At a glance">
+<div id="pane-ov" class="cia-pane" role="tabpanel" aria-labelledby="t-ov"><div class="cia"><h1 class="cia-h1"><span class="hl">One idea in thirty gets funded.</span> <span class="hl">The other twenty&#8209;nine are the work.</span></h1>
+<p class="lede ovstatus"><strong>Your next step:</strong> pick the seat that is live, or reshape one, and tell Harrison or me which.</p>
+<div class="ovact"><button type="button" class="ovbtn primary stamp-go" data-go="t-principal">Open the Principal plan</button><a class="ovbtn" href="#qs">Which seat is live?</a><p class="ovnote">Each role tab is a 90, 120 and 240 day plan built on your own job page, for you to edit.</p></div>
+<details class="blk ovsum"><summary><h2 class="cia-h2">The Short Version</h2><span class="tk">Twenty years of killing ideas honestly, and a tool that learns from every pass.</span></summary><div class="bd"><p>Your about page says that for roughly every 30 ideas you go deep on, you fund one. I have spent 20 years in the trenches taking products from zero, which mostly means killing ideas honestly and fast, and the last year building a tool that records why each idea was passed on and checks it against what happened later, so a pass that turns out wrong becomes a lesson instead of a blind spot. This page maps me onto the four roles open on your jobs page, strongest fit first, with the proof and the gap for each.</p></div></details>
+<div class="ovbelow"><div class="tiles" role="list" aria-label="At a glance">
 <div class="tile" role="listitem"><div class="v">10</div><div class="k">Regulated products</div><div class="ref">Digital-asset investment products at Grayscale, about $7B</div></div>
 <div class="tile" role="listitem"><div class="v">2</div><div class="k">Companies from zero</div><div class="ref">A co-founding and a turnaround, one acquired</div></div>
 <div class="tile" role="listitem"><div class="v">2 of 3</div><div class="k">Lines taken forward</div><div class="ref">AI health product lines tested at Twill Health</div></div>
@@ -714,9 +747,9 @@ html:not(.stacked) .stack-only{display:none;}
 <thead><tr><th>Question</th><th>Answer</th></tr></thead>
 <tbody>
 <tr><td>Who</td><td>Zach Harris. Product lead and founder: regulated digital assets at Grayscale, two companies built from nothing, and ARCS, which I build alone. For the Gravity Labs team, through Harrison Wright of Crossbridge Executive.</td></tr>
-<tr><td>What</td><td>How I map to each of the four roles on your jobs page, with proof you can open and the gap I would name myself.</td></tr>
+<tr><td>What</td><td>A 90, 120 and 240 day plan for each of the four roles on your jobs page, built on your own job pages so you can edit it, with proof and the gap I would name myself.</td></tr>
 <tr><td>Where</td><td>Remote from the New York metro, as all four roles are.</td></tr>
-<tr><td>When</td><td>Now, while all four roles are listed on your jobs page.<ul><li>Before: this page, November 9.</li><li>During: a 30-minute call with whoever owns the live seat.</li><li>After: within two days, a one-pager on the hatch I would test first, with its kill criteria.</li></ul></td></tr>
+<tr><td>When</td><td>Now, while all four roles are listed on your jobs page.<ul><li>Before: this page, November 9.</li><li>During: a 30-minute call with whoever owns the live seat.</li><li>After: the plan for the live seat, reshaped with you.</li></ul></td></tr>
 <tr><td>Why</td><td>Your studio runs on pressure-tested theses and a high kill rate. That is the work I have done for 20 years, and the reason I built ARCS.</td></tr>
 </tbody></table></div></div></details>
 
@@ -738,7 +771,7 @@ html:not(.stacked) .stack-only{display:none;}
 <tr><td>ARCS's decision scoring is accurate</td><td><span class="chip">Not yet</span></td><td>No record yet. Listed so the gap is visible.</td></tr>
 </tbody></table></div></div></details>
 
-<details class="blk" open><summary><h2 class="cia-h2">Two Questions for You</h2><span class="tk">The answers decide which tab matters.</span></summary><div class="bd"><div class="qlist"><ol>
+<details class="blk" id="qs" open><summary><h2 class="cia-h2">Two Questions for You</h2><span class="tk">The answers decide which tab matters.</span></summary><div class="bd"><div class="qlist"><ol>
 <li>Which of the four seats is live now? Your people page lists the EIR title alongside your CTO, so I would like to know whether this is a second EIR seat.</li>
 <li>For the Founder seat, which hatch is it for?</li>
 </ol></div><p>Resume and a 20-minute walkthrough of ARCS on request. Live work: <a href="https://good.arcs.care/rfp-engine">RFP-O-Matic with four short videos</a>, <a href="https://github.com/flashesofbrilliance/rfp-engine">its source</a>, and <a href="https://app.arcs.care">ARCS</a>.</p></div></details>
@@ -758,12 +791,31 @@ html:not(.stacked) .stack-only{display:none;}
 <tr><td>Retrieval benchmark, 2026-10-18 to 2026-10-20: pre-registered, run once, all results published, one change merged</td><td><span class="chip gold">On request</span></td><td>Private repository; walkthrough on request</td></tr>
 <tr><td>About one funded idea for every 30 explored in depth; role terms; portfolio one-liners</td><td><span class="chip green">Shown</span></td><td><a href="https://gravity-labs.xyz/about.html">gravity-labs.xyz</a> about, jobs and portfolio pages, read November 9, 2026</td></tr>
 </tbody></table></div></div></details>
-<p class="nextrole wide-only"><button type="button" class="stamp-go" data-go="t-principal">Next: Principal, my strongest fit</button></p>
-</div></div>
+</div></div></div>
 
 <div id="pane-principal" class="cia-pane seatpane" role="tabpanel" aria-labelledby="t-principal" hidden><div class="cia"><details class="blk seat" open><summary><h2 class="cia-h2">Principal, New Ventures</h2><span class="tk"><span class="pill">1st</span> My strongest fit</span></summary><div class="bd">
 <h2 class="cia-h1">Principal, New Ventures: my strongest fit.</h2>
 <p class="lede">The seat as your page describes it: break the bottleneck of every idea flowing through the CEO by owning hatches end to end. Spot the gap, write the case, pitch the investment committee, build the first prototype with AI coding tools, recruit the founders. A builder role, not research and not investing.</p>
+<h3 class="cia-h2">A 90, 120 and 240 Day Plan, for You to Edit</h3>
+<p class="ref plansrc">Rows paraphrase the "What You'll Do" list on <a href="https://gravity-labs.xyz/jobs-principal-new-ventures.html">your Principal page</a>. Every cell is my proposal, not a promise: change any of it.</p>
+<div class="tblwrap"><table class="gt plan">
+<thead><tr><th>Your page asks me to</th><th>By day 90</th><th>By day 120</th><th>By day 240</th></tr></thead><tbody>
+<tr><td>Generate and validate hatch ideas</td><td>30 one-line theses, each with its kill criteria written first</td><td>3 to 5 taken to one-pagers</td><td>A steady weekly flow, every pass recorded and rechecked</td></tr>
+<tr><td>Write the docs that move ideas forward</td><td>First investment memo, with its strongest counter-argument</td><td>A second memo, on a template the team reuses</td><td>The memo template is the team default</td></tr>
+<tr><td>Pitch Defy's investment committee</td><td>First hatch ready to pitch</td><td>First hatch pitched</td><td>Second hatch pitched</td></tr>
+<tr><td>Build MVPs with AI coding tools</td><td>One prototype in front of design partners</td><td>The prototype reworked on their feedback</td><td>A prototype handed to the founder hired for it</td></tr>
+<tr><td>Recruit founders</td><td>A founder candidate list for the first hatch</td><td>A shortlist of three CEO or CTO candidates</td><td>One founder signed</td></tr>
+<tr><td>Advise after launch</td><td>Not yet</td><td>Not yet</td><td>A standing weekly call with the founder I placed</td></tr>
+<tr><td>Kill your darlings</td><td>Every killed hatch has a written reason</td><td>A first review of every pass</td><td>One pass reopened, or confirmed, as the market moved</td></tr>
+</tbody></table></div>
+<p class="knowhead">How you would know it is working</p>
+<ul class="know"><li><strong>Day 90:</strong> the theses, the first memo and the prototype exist, and you have read them.</li><li><strong>Day 120:</strong> the committee has seen a hatch from me.</li><li><strong>Day 240:</strong> a founder has signed, and the pass record has changed at least one call.</li></ul>
+<h3 class="cia-h2">How I Would Use ARCS in the Seat</h3>
+<div class="cgrid">
+<div class="ccard"><h3>An alpha engine</h3><p class="ref">Built: the record and the recheck. Not shown yet: that it beats judgment alone.</p><p>Much of a studio's edge hides in what it passed on. ARCS records why each hatch was passed and checks it again as the market moves, so a pass that was wrong becomes a lead instead of a loss.</p></div>
+<div class="ccard"><h3>A risk-adjusted pipeline</h3><p class="ref">Built: a conviction score on every decision. Not shown yet: how accurate it is (my proof page marks it not yet).</p><p>Each hatch carries what we expect, how sure we are, and what would kill it, so the pipeline reads by risk as well as by excitement.</p></div>
+<div class="ccard"><h3>An antifragile test bench</h3><p class="ref">Built: pre-registered tests, run once, failures published (my October benchmark).</p><p>Every kill test is written down before it runs, so a failed test still pays: the next thesis starts from what it ruled out.</p></div>
+</div>
 <h3 class="cia-h2">What You Ask For, and What I Bring</h3>
 <div class="tblwrap"><table class="gt prose">
 <thead><tr><th>You ask for</th><th>What I bring</th></tr></thead>
@@ -786,6 +838,19 @@ html:not(.stacked) .stack-only{display:none;}
 <div id="pane-eir" class="cia-pane seatpane" role="tabpanel" aria-labelledby="t-eir" hidden><div class="cia"><details class="blk seat"><summary><h2 class="cia-h2">Entrepreneur in Residence</h2><span class="tk"><span class="pill">2nd</span> A strong fit</span></summary><div class="bd">
 <h2 class="cia-h1">Entrepreneur in Residence: one wedge, not a category.</h2>
 <p class="lede">The seat as your page describes it: a six-month contract to source and validate hatches across DeFi, stablecoins, infrastructure and prediction markets, take them from a few sentences to an investment committee pitch, and by month six find one worth founding.</p>
+<h3 class="cia-h2">A 90, 120 and 240 Day Plan, for You to Edit</h3>
+<p class="ref plansrc">Rows paraphrase the "What You'll Do" list on <a href="https://gravity-labs.xyz/jobs-entrepreneur-in-residence.html">your EIR page</a>. Every cell is my proposal, not a promise: change any of it.</p>
+<p class="plannote">The seat is a six-month contract, so day 240 falls two months after it ends. I use that mark as the found-or-walk point, which leads into the Founder tab.</p>
+<div class="tblwrap"><table class="gt plan">
+<thead><tr><th>Your page asks me to</th><th>By day 90</th><th>By day 120</th><th>By day 240</th></tr></thead><tbody>
+<tr><td>Generate and source hatches across crypto: DeFi, stablecoins, infra, prediction markets</td><td>30 one-line theses, kill criteria written first</td><td>5 one-pagers, at least one in a sector new to the portfolio</td><td>The full pass record handed over, rechecked as the market moves</td></tr>
+<tr><td>Take the best ideas from a few sentences to a one-pager, a memo and an IC pitch</td><td>First memo</td><td>First committee pitch</td><td>The hatch I would found, pitched with its founding plan</td></tr>
+<tr><td>Use the team and advisors as a sounding board, but drive the work</td><td>A short weekly written update</td><td>Advisor reviews on the top two hatches</td><td>A written found-or-walk decision, with reasons</td></tr>
+<tr><td>Spend time with the team and portfolio without being embedded</td><td>One working session with each live portfolio company</td><td>Help on one question for each, where asked</td><td>Not planned</td></tr>
+<tr><td>By month six, one idea worth founding</td><td>The top two candidates named</td><td>One chosen, with a design partner in conversation</td><td>Founding it, or a written walk with every kill handed over</td></tr>
+</tbody></table></div>
+<p class="knowhead">How you would know it is working</p>
+<ul class="know"><li><strong>Day 90:</strong> thirty theses and a first memo you have read.</li><li><strong>Day 120:</strong> a hatch in front of the committee.</li><li><strong>Day 240:</strong> a founding plan you can fund, or a clean handover of everything I killed and why.</li></ul>
 <h3 class="cia-h2">What You Ask For, and What I Bring</h3>
 <div class="tblwrap"><table class="gt prose">
 <thead><tr><th>You ask for</th><th>What I bring</th></tr></thead>
@@ -808,6 +873,20 @@ html:not(.stacked) .stack-only{display:none;}
 <div id="pane-founder" class="cia-pane seatpane" role="tabpanel" aria-labelledby="t-founder" hidden><div class="cia"><details class="blk seat"><summary><h2 class="cia-h2">Founder, Portfolio Company</h2><span class="tk"><span class="pill">3rd</span> A fit on one condition</span></summary><div class="bd">
 <h2 class="cia-h1">Founder: the seat I would reach through the EIR seat.</h2>
 <p class="lede">The seat as your page describes it: CEO or CTO of a hatch you have already validated and funded, with five to ten years of commitment and an outside raise within the first year.</p>
+<h3 class="cia-h2">A 90, 120 and 240 Day Plan, for You to Edit</h3>
+<p class="ref plansrc">Rows paraphrase the "What You'll Do" list on <a href="https://gravity-labs.xyz/jobs-founder-portfolio-company.html">your Founder page</a>. Every cell is my proposal, not a promise: change any of it.</p>
+<p class="plannote">Your page does not name the hatch, so this plan is a shape, not a commitment. I would want to meet the hatch and its design partners first.</p>
+<div class="tblwrap"><table class="gt plan">
+<thead><tr><th>Your page asks me to</th><th>By day 90</th><th>By day 120</th><th>By day 240</th></tr></thead><tbody>
+<tr><td>Own the company end to end</td><td>A 12-month plan for the hatch, agreed with you</td><td>Team, budget and milestones set against your tranche terms</td><td>Running the company toward its next tranche milestone</td></tr>
+<tr><td>Get to a first real user fast</td><td>A first user named and using the product</td><td>A small group of active users</td><td>Usage an outside investor would read as pull</td></tr>
+<tr><td>Live with customers</td><td>20 customer conversations, written up</td><td>The thesis restated in their words, with what was killed</td><td>A product reshaped by what they said, with the record of why</td></tr>
+<tr><td>Ship relentlessly</td><td>A first release to the first user</td><td>A weekly release rhythm</td><td>The product the next round is raised on</td></tr>
+<tr><td>Recruit your team, starting with a co-founder</td><td>The co-founder search under way with your search firm</td><td>A co-founder or first engineer signed</td><td>A core team of three</td></tr>
+<tr><td>Raise the next round</td><td>An investor list and a first draft of the story</td><td>Materials reviewed with you</td><td>In conversation with outside investors, inside the first year as your page sets</td></tr>
+</tbody></table></div>
+<p class="knowhead">How you would know it is working</p>
+<ul class="know"><li><strong>Day 90:</strong> a first user, and a plan you agreed.</li><li><strong>Day 120:</strong> a team forming and releases on a rhythm.</li><li><strong>Day 240:</strong> users who stay, and outside investors talking.</li></ul>
 <h3 class="cia-h2">What You Ask For, and What I Bring</h3>
 <div class="tblwrap"><table class="gt prose">
 <thead><tr><th>You ask for</th><th>What I bring</th></tr></thead>
@@ -826,6 +905,18 @@ html:not(.stacked) .stack-only{display:none;}
 <p class="lede">Your open application asks what I would own that you do not staff today, and why you would move faster with me on it. My answer is a hatch desk.</p>
 <p>Most funds call this a deal desk or a platform role. I would run it as an AI-native platform team whose work compounds. I have done this job from the operator side for 20 years; here it would sit inside the studio and own the hatch pipeline: each memo, its kill criteria, and the record of every call.</p>
 <p>Every pass is written down with its reasons and checked again as the market moves. A pass that turns out wrong shows up before you miss the next idea like it, and each new thesis starts from what the last 29 taught. The call stays with you and comes faster, and it takes process off the bottleneck your Principal page names without taking the decisions.</p>
+<h3 class="cia-h2">A 90, 120 and 240 Day Plan, for You to Edit</h3>
+<p class="ref plansrc">Rows paraphrase the four stages of the hatch process on <a href="https://gravity-labs.xyz/about.html">your about page</a>. Every cell is my proposal, not a promise: change any of it.</p>
+<p class="plannote">Your open application lists what gets your attention, not duties, so the rows here follow the four stages of your hatch process.</p>
+<div class="tblwrap"><table class="gt plan">
+<thead><tr><th>Your page asks me to</th><th>By day 90</th><th>By day 120</th><th>By day 240</th></tr></thead><tbody>
+<tr><td>Exploration: short theses, at volume</td><td>Every thesis logged with its date and its keep-or-pass reason</td><td>A monthly list of passes worth a second look</td><td>The pass record feeds each new thesis</td></tr>
+<tr><td>Deep dive: investment documents and founder decks</td><td>One shared template for the deep dive</td><td>Every deep dive starts from the closest past passes</td><td>Deep-dive time per hatch measured, and falling</td></tr>
+<tr><td>Gate check: the memo to the Defy investment committee</td><td>Each memo carries its kill criteria and what it expects</td><td>The first memo checked against what happened after</td><td>Every committee call has a record anyone can replay</td></tr>
+<tr><td>Recruitment and launch</td><td>One place for each hatch's founder pipeline</td><td>Expected against actual, written up for each launch</td><td>A quarterly read-out of what the passes and launches taught</td></tr>
+</tbody></table></div>
+<p class="knowhead">How you would know it is working</p>
+<ul class="know"><li><strong>Day 90:</strong> every thesis and pass is on the record.</li><li><strong>Day 120:</strong> the first pass comes back as a lead, or is confirmed.</li><li><strong>Day 240:</strong> the team decides faster than it did before the desk existed.</li></ul>
 <p><strong>Gap.</strong> You do not staff this seat today, so it is the one to test hardest. A two-week trial on hatches you have already killed would show whether the receipts would have called them sooner.</p>
 </div></details></div></div>
 
@@ -851,7 +942,7 @@ html:not(.stacked) .stack-only{display:none;}
 (function(){
 const render=()=>{},byId={},select=()=>{};
 /* nav: kit 42 shell nav. Tabs from 1024px; below that every pane stacks, seats collapse, and the menu jumps to them */
-function shnavInit(nav, o){o=o||{};var menu=nav.querySelector('.shnav-menu'),list=nav.querySelector('.shnav-tabs'),items=[].slice.call(list.querySelectorAll('.shnav-tab'));var below=+(nav.getAttribute('data-menu-below')||0),mq=below&&window.matchMedia?matchMedia('(max-width:'+(below-1)+'px)'):null;function isMenu(){return nav.getAttribute('data-mode')==='menu'}function close(f){nav.classList.remove('is-open');menu.setAttribute('aria-expanded','false');if(f)menu.focus()}function open(){nav.classList.add('is-open');menu.setAttribute('aria-expanded','true');(items.filter(function(b){return b.getAttribute('aria-current')==='true'})[0]||items[0]).focus()}function mode(){var m=o.forceMode||(mq&&mq.matches?'menu':'tabs');nav.setAttribute('data-mode',m);if(m==='menu'){list.removeAttribute('role');items.forEach(function(b){if(b.hasAttribute('aria-selected'))b.setAttribute('data-sel',b.getAttribute('aria-selected'));b.removeAttribute('aria-selected');b.removeAttribute('role');b.tabIndex=0})}else{close();list.setAttribute('role','tablist');items.forEach(function(b){var s=b.getAttribute('data-sel')||b.getAttribute('aria-selected')||'false';b.setAttribute('role','tab');b.setAttribute('aria-selected',s);b.tabIndex=s==='true'?0:-1})}if(o.onMode)o.onMode(m)}menu.addEventListener('click',function(e){e.stopPropagation();nav.classList.contains('is-open')?close():open()});document.addEventListener('click',function(e){if(isMenu()&&!nav.contains(e.target))close()});nav.addEventListener('keydown',function(e){if(e.key==='Escape'&&nav.classList.contains('is-open')){close(true);return}if(isMenu()||(e.key!=='ArrowRight'&&e.key!=='ArrowLeft'))return;var i=items.indexOf(document.activeElement);if(i<0)return;e.preventDefault();var n=items[(i+(e.key==='ArrowRight'?1:items.length-1))%items.length];n.focus();n.click()});items.forEach(function(b){b.addEventListener('click',function(){if(isMenu()){items.forEach(function(x){x.setAttribute('aria-current',x===b?'true':'false');x.setAttribute('data-sel',x===b?'true':'false')});close()}else{items.forEach(function(x){var on=x===b;x.setAttribute('aria-selected',String(on));x.setAttribute('data-sel',String(on));x.setAttribute('aria-current',String(on));x.tabIndex=on?0:-1})}if(o.onPick)o.onPick(b.getAttribute('data-target'),isMenu())})});if(mq&&mq.addEventListener)mq.addEventListener('change',mode);mode();return{mode:mode,close:close}}
+function shnavInit(nav, o){o=o||{};var menu=nav.querySelector('.shnav-menu'),list=nav.querySelector('.shnav-tabs'),items=[].slice.call(list.querySelectorAll('.shnav-tab'));var below=+(nav.getAttribute('data-menu-below')||0),mq=below&&window.matchMedia?matchMedia('(max-width:'+(below-1)+'px)'):null;function setCur(b){var c=nav.querySelector('.shnav-current');if(c&&b)c.textContent=(b.childNodes[0]&&b.childNodes[0].textContent||b.textContent).trim()}function isMenu(){return nav.getAttribute('data-mode')==='menu'}function close(f){nav.classList.remove('is-open');menu.setAttribute('aria-expanded','false');if(f)menu.focus()}function open(){nav.classList.add('is-open');menu.setAttribute('aria-expanded','true');(items.filter(function(b){return b.getAttribute('aria-current')==='true'})[0]||items[0]).focus()}function mode(){var m=o.forceMode||(mq&&mq.matches?'menu':'tabs');nav.setAttribute('data-mode',m);if(m==='menu'){list.removeAttribute('role');items.forEach(function(b){if(b.hasAttribute('aria-selected'))b.setAttribute('data-sel',b.getAttribute('aria-selected'));b.removeAttribute('aria-selected');b.removeAttribute('role');b.tabIndex=0})}else{close();list.setAttribute('role','tablist');items.forEach(function(b){var s=b.getAttribute('data-sel')||b.getAttribute('aria-selected')||'false';b.setAttribute('role','tab');b.setAttribute('aria-selected',s);b.tabIndex=s==='true'?0:-1})}if(o.onMode)o.onMode(m)}menu.addEventListener('click',function(e){e.stopPropagation();nav.classList.contains('is-open')?close():open()});document.addEventListener('click',function(e){if(isMenu()&&!nav.contains(e.target))close()});nav.addEventListener('keydown',function(e){if(e.key==='Escape'&&nav.classList.contains('is-open')){close(true);return}if(isMenu()||(e.key!=='ArrowRight'&&e.key!=='ArrowLeft'))return;var i=items.indexOf(document.activeElement);if(i<0)return;e.preventDefault();var n=items[(i+(e.key==='ArrowRight'?1:items.length-1))%items.length];n.focus();n.click()});items.forEach(function(b){b.addEventListener('click',function(){if(isMenu()){items.forEach(function(x){x.setAttribute('aria-current',x===b?'true':'false');x.setAttribute('data-sel',x===b?'true':'false')});close()}else{items.forEach(function(x){var on=x===b;x.setAttribute('aria-selected',String(on));x.setAttribute('data-sel',String(on));x.setAttribute('aria-current',String(on));x.tabIndex=on?0:-1})}setCur(b);if(o.onPick)o.onPick(b.getAttribute('data-target'),isMenu())})});if(mq&&mq.addEventListener)mq.addEventListener('change',mode);setCur(items.filter(function(b){return b.getAttribute('aria-current')==='true'||b.getAttribute('aria-selected')==='true'})[0]||items[0]);mode();return{mode:mode,close:close,setCur:setCur}}
 const docEl=document.documentElement,mq=matchMedia('(min-width: 1024px)'),panes=[...document.querySelectorAll('.cia-pane')];
 let cur='pane-ov';{const h=location.hash.slice(1);if(h&&document.getElementById('pane-'+h))cur='pane-'+h;}
 function alignMeta(){}
@@ -859,6 +950,7 @@ function show(id){cur=id;panes.forEach(p=>{p.hidden=p.id!==id;if(p.id===id){cons
 const nav=document.getElementById('shnav');
 const api=shnavInit(nav,{onMode:m=>{const stacked=m==='menu';docEl.classList.toggle('stacked',stacked);if(stacked)panes.forEach(p=>p.hidden=false);else{show(cur);const b=nav.querySelector('[data-target="'+cur+'"]');if(b)b.click()}if(window.__expSync)setTimeout(window.__expSync,0)},onPick:(t,isMenu)=>{if(!isMenu){show(t);setTimeout(alignMeta,30);return}const p=document.getElementById(t);const d=p.querySelector('details.seat');if(d)d.open=true;(d||p).scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});const sm=d&&d.querySelector('summary');if(sm)sm.focus({preventScroll:true})}});
 addEventListener('beforeprint',()=>{panes.forEach(p=>p.hidden=false)});
+document.querySelectorAll('a[href="#qs"]').forEach(a=>a.addEventListener('click',()=>{const q=document.getElementById('qs');if(q)q.open=true}));
 /* reading options */
 const root=document.documentElement,RK='gravityRead',ro=document.getElementById('readopts'),fab=document.getElementById('readfab');
 let st={};try{st=JSON.parse(localStorage.getItem(RK)||'{}')||{}}catch(e){}
