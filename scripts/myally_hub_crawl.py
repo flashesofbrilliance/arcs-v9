@@ -120,9 +120,10 @@ const { chromium } = require('playwright');
       for (const id of ids) {
         const row = document.getElementById('s1r-' + id); if (!row) continue;
         row.querySelector('.tx').click(); await sleep(10);
-        for (const b of [...det.querySelectorAll('.gl')]) {
+        for (const b of [...det.querySelectorAll('.dfn')]) {
           b.click(); await sleep(10); tipsSeen++;
           const t = b.nextElementSibling, tr = t.getBoundingClientRect(), dr = det.getBoundingClientRect();
+          if (b.getBoundingClientRect().width < b.scrollWidth - 1) out.push(`row ${id}: term "${b.textContent}" is squeezed and overlaps the next word`);
           if (t.hidden) out.push(`row ${id}: definition for "${b.textContent}" did not open`);
           else if (tr.left < dr.left - 1 || tr.right > dr.right + 1) out.push(`row ${id}: definition for "${b.textContent}" spills out of the panel`);
           if (/&[#a-z0-9]+;/i.test(t.textContent)) out.push(`row ${id}: definition shows raw HTML entities`);

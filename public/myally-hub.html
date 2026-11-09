@@ -415,6 +415,42 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 #s1g{--col:52px;--nm:240px}
 #pane-s1 .cells{padding-right:0}
 #s1tog{min-height:44px}
+/* Step 1 details panel (redesign 2026-11-08): a reading card. Title, one meta line, hairline sections. */
+#s1detail{border:1px solid var(--line);border-radius:10px;background:var(--surface);align-self:start;overflow:hidden;container-type:inline-size}
+#s1detail .pd-h{padding:14px 18px 16px;border-bottom:1px solid var(--line);background:var(--surface2)}
+#s1detail .pd-top{display:flex;justify-content:flex-end;margin:-6px -8px 4px}
+#s1detail .pd-back{display:inline-flex;align-items:center;gap:4px;min-height:36px;padding:0 10px;border:0;border-radius:6px;background:none;color:var(--dim);font:inherit;font-size:.85rem;font-weight:600;cursor:pointer}
+#s1detail .pd-back svg{width:14px;height:14px}
+#s1detail .pd-back:hover{color:var(--accent);background:var(--accent-bg)}
+#s1detail h2{margin:0;font-size:1.15rem;line-height:1.3;font-weight:650;letter-spacing:-.01em;text-wrap:balance}
+#s1detail .pd-meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 0;margin:8px 0 0;color:var(--dim);font-size:.875rem;font-variant-numeric:tabular-nums}
+#s1detail .pd-meta>span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+#s1detail .pd-meta>span+span::before{content:"";width:3px;height:3px;border-radius:50%;background:currentColor;opacity:.55;margin:0 10px}
+#s1detail .pd-kind{font-weight:600;color:var(--kc,var(--dim))}
+#s1detail .pd-kind svg{width:14px;height:14px}
+#s1detail .pd-sum{margin:8px 0 0;color:var(--dim);line-height:1.5;text-wrap:pretty}
+#s1detail .pd-b{padding:2px 18px 18px}
+#s1detail .pd-s{padding:14px 0;border-top:1px solid var(--line)}
+#s1detail .pd-s:first-child{border-top:0}
+#s1detail .pd-s h3{margin:0 0 6px;font-size:.8rem;font-weight:600;line-height:1.4;color:var(--dim)}
+#s1detail .pd-s p{margin:0;line-height:1.55;text-wrap:pretty}
+#s1detail .pd-note p{color:var(--dim)}
+#s1detail .pd-next{list-style:none;margin:2px 0 0;padding:0;display:grid;gap:12px}
+#s1detail .pd-next li{display:grid;grid-template-columns:24px minmax(0,1fr);gap:10px;align-items:start}
+#s1detail .pd-step{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent-bg);color:var(--accent);font-weight:700;font-size:.8rem;font-variant-numeric:tabular-nums}
+#s1detail .pd-next b{display:block;font-weight:600;line-height:1.35;margin:2px 0 3px}
+#s1detail .pd-list{list-style:none;margin:0 -6px;padding:0}
+#s1detail .pd-list li+li{border-top:1px solid var(--line)}
+#s1detail .pd-list button{display:grid;grid-template-columns:16px minmax(0,1fr) auto;gap:10px;align-items:start;width:100%;min-height:44px;padding:11px 6px;border:0;border-radius:6px;background:none;color:var(--text);font:inherit;line-height:1.45;text-align:left;cursor:pointer}
+#s1detail .pd-list button:hover{background:var(--accent-bg)}
+#s1detail .pd-list .ico{margin-top:3px}
+#s1detail .pd-hr{color:var(--dim);font-size:.85rem;white-space:nowrap;font-variant-numeric:tabular-nums}
+#s1detail .pd-foot{margin:14px 0 0;padding-top:14px;border-top:1px solid var(--line);color:var(--dim);font-size:.875rem}
+#s1detail .dfn{all:unset;display:inline;cursor:pointer;text-decoration:underline dotted;text-decoration-color:color-mix(in srgb,currentColor 55%,transparent);text-underline-offset:3px;border-radius:2px}
+#s1detail .dfn:hover,#s1detail .dfn[aria-expanded="true"]{color:var(--accent);text-decoration-style:solid;text-decoration-color:currentColor}
+#s1detail .dfn:focus-visible,#s1detail .pd-back:focus-visible,#s1detail .pd-list button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@container (min-width:520px){#s1detail .pd-s{display:grid;grid-template-columns:9.5rem minmax(0,1fr);gap:0 20px}#s1detail .pd-s h3{margin:2px 0 0}}
+
 .tabs .lk{width:13px;height:13px;margin-left:6px;vertical-align:-1px;opacity:.75}
 .lockbox{max-width:560px;margin:24px auto;padding:24px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
 .lockbox h2{display:flex;align-items:center;gap:8px;font-size:1.15rem;margin:0 0 8px}.lockbox h2 .lk{width:18px;height:18px;color:var(--accent)}
@@ -430,27 +466,27 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 #pane-s1 .b.gift{background:color-mix(in srgb,var(--accent) 30%,transparent);outline:1px solid var(--accent)}
 #pane-s1 .b.gap{background:transparent;outline:1.5px dashed var(--gap)}
 #pane-s1 .b.ms{display:none}
-#s1detail{border:1px solid var(--line);border-radius:6px;background:var(--surface);align-self:start;overflow:hidden}
+
 @media (min-width:1100px){#pane-s1 .layout{grid-template-columns:minmax(0,1fr) 360px}#s1detail{position:sticky;top:12px;max-height:calc(100dvh - 24px);overflow:auto}}
-#s1detail .s1b{padding:14px 16px}
-#s1detail section+section{margin-top:14px}
-#s1detail p,#s1detail ul{margin:0}
-#s1detail ul{padding-left:1.1em}
-#s1detail li+li{margin-top:4px}
-#s1detail .nx{display:grid;gap:8px}
-#s1detail .nx div{border-left:3px solid var(--accent);padding:2px 0 2px 10px}
-#s1detail .nx b{display:block;font-size:.8rem;color:var(--dim);letter-spacing:.02em}
-#s1detail .kids{display:flex;flex-wrap:wrap;gap:6px}
+
+
+
+
+
+
+
+
+
 #s1detail .termwrap{position:relative;display:inline}
-#s1detail .gl{font:inherit;color:inherit;background:none;border:0;padding:0;text-decoration:underline dotted;text-underline-offset:3px;cursor:pointer}
-#s1detail .gl:hover,#s1detail .gl[aria-expanded="true"]{color:var(--accent);text-decoration-style:solid}
+
+
 #s1detail .tip{position:absolute;z-index:5;left:0;top:calc(100% + 6px);width:max-content;max-width:min(280px,calc(100vw - 48px));background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:10px 12px;box-shadow:0 2px 8px rgba(0,0,0,.14);font-size:.9rem;line-height:1.45;font-weight:400;text-align:left}
 #s1detail .tip b{display:block;margin:0 0 2px}
 #s1detail .tipgo{display:block;margin-top:6px;font:inherit;font-weight:600;color:var(--accent);background:none;border:0;padding:4px 0;min-height:32px;cursor:pointer}
 /* Glance organism: one band of stat-tile molecules (label, figure, caption); subgrid rows align across tiles. */
 .s1sum{display:grid;grid-template-columns:1fr;gap:8px;margin:0 0 12px;padding:0;list-style:none}
 .s1sum .gt{display:grid;grid-row:span 3;grid-template-rows:subgrid;row-gap:2px;border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:12px 14px;min-width:0}
-.s1sum .gl{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.s1sum .glab{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
 /* The wordmark moved to the top row, so the tabs start at the left edge of the bar; the phone menu button keeps to the right. */
 .shell-bar>.tabs{margin-left:0}.shell-bar>.burger{margin-left:auto}
 .curtab{display:none}@media (max-width:560px){.curtab{display:block;font-weight:600;color:var(--accent);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
@@ -1739,17 +1775,25 @@ const chip=id=>{const m=byId[id];return `<button type="button" class="chip" data
 // G is written by scripts/myally_primer_terms.py from the Primer's own glossary, so there is one source.
 const G=/*GLOSS:BEGIN*/{"g-ai-model":{"d":"The program that reads a question and writes an answer.","p":["AI model"],"t":"AI model"},"g-api":{"d":"A doorway one program uses to ask another for something.","p":["API"],"t":"API"},"g-audit-log":{"d":"A diary of who did what and when.","p":["audit log"],"t":"Audit log"},"g-baa":{"d":"A contract between an organisation that handles health information and a service company that handles it for them.","p":["BAA"],"t":"BAA"},"g-back-end":{"d":"The part people do not see, where information is stored and rules are applied.","p":["back end"],"t":"Back end"},"g-backlog":{"d":"The to-do list, in priority order.","p":["backlog"],"t":"Backlog"},"g-checkpoint":{"d":"A test set in advance that says whether reality matches the plan.","p":["checkpoint"],"t":"Checkpoint"},"g-ci-cd":{"d":"Automatic checks and releases: each change is tested, then put live, without anyone doing it by hand.","p":["CI/CD"],"t":"CI/CD"},"g-coppa":{"d":"United States federal rules about collecting information from children online.","p":["COPPA"],"t":"COPPA"},"g-cost-model":{"d":"Your estimate of what Alyce will cost per family, for light, typical and heavy use.","p":["cost model"],"t":"Cost model"},"g-data-placement":{"d":"Deciding which kind of information may be kept in which service.","p":["data placement"],"t":"Data placement"},"g-data-separation":{"d":"Making sure one family can never see another family's information.","p":["data separation","kept apart"],"t":"Data separation"},"g-database":{"d":"An organised place where the app keeps its information.","p":["database"],"t":"Database"},"g-database-rules":{"d":"The settings that decide who may read or change each piece of stored information.","p":["database rules"],"t":"Database rules"},"g-definition-of-done":{"d":"A written checklist for what \"finished\" means.","p":["definition of done"],"t":"Definition of done"},"g-dependency":{"d":"One thing that must finish before another can start.","p":["dependency"],"t":"Dependency"},"g-environment-testing-live":{"d":"Separate copies of the app for practising and for real use.","p":["environment"],"t":"Environment (testing, live)"},"g-evidence-trail":{"d":"A record showing a safeguard is in place and when it was checked.","p":["evidence trail"],"t":"Evidence trail"},"g-ferpa":{"d":"United States federal rules about student education records.","p":["FERPA"],"t":"FERPA"},"g-front-end":{"d":"The part of the app people see and tap.","p":["front end"],"t":"Front end"},"g-github":{"d":"An online home for your app's code that keeps every version of it.","p":["GitHub"],"t":"GitHub"},"g-hallucination":{"d":"When an AI states something wrong in a confident voice.","p":["hallucination"],"t":"Hallucination"},"g-handoff-pack":{"d":"Everything I made, in your hands.","p":["handoff pack"],"t":"Handoff pack"},"g-hipaa":{"d":"United States federal privacy rules for certain health information held by certain organisations.","p":["HIPAA"],"t":"HIPAA"},"g-lock-in":{"d":"When leaving a supplier is costly.","p":["lock-in"],"t":"Lock-in"},"g-lovable-and-supabase":{"d":"The two services your app is built and stored on.","p":["Supabase","Lovable"],"t":"Lovable and Supabase"},"g-nda":{"d":"A signed agreement that keeps what you share confidential.","p":["NDA"],"t":"NDA"},"g-office-hours":{"d":"Time with me, one to one, booked in 30-minute slots, for any question.","p":["office hours"],"t":"Office hours"},"g-prompt":{"d":"The written instructions that tell the AI how to behave.","p":["prompt","prompts"],"t":"Prompt"},"g-prototype":{"d":"A working early version, made to test an idea with real people rather than to run at full scale.","p":["prototype"],"t":"Prototype"},"g-readout":{"d":"The meeting where I walk you through what I found.","p":["readout"],"t":"Readout"},"g-redaction":{"d":"Hiding private details before something is used or shared.","p":["redaction"],"t":"Redaction"},"g-retention":{"d":"How long information is kept.","p":["retention"],"t":"Retention"},"g-retrieval":{"d":"Alyce looking things up in the vault before answering.","p":["retrieval"],"t":"Retrieval"},"g-role-based-access":{"d":"Different people see different things based on who they are.","p":["role-based access"],"t":"Role-based access"},"g-round-of-changes":{"d":"One pass where you tell me what to change in something I delivered, and I change it.","p":["round of changes"],"t":"Round of changes"},"g-sprint":{"d":"A block of work with a fixed length and something to check at the end.","p":["sprint"],"t":"Sprint"},"g-synthetic-data":{"d":"Made-up information that looks real.","p":["synthetic data"],"t":"Synthetic data"},"g-token":{"d":"A small chunk of text the AI reads or writes. Usage is billed by the chunk. Also called the AI usage meter.","p":["token","tokens"],"t":"Token"},"g-unit-economics":{"d":"What each family costs you versus what each brings in.","p":["unit economics"],"t":"Unit economics"},"g-version-control-branch":{"d":"A record of every change to the app, with a safe side-copy to try changes before they go live. Also called change tracking.","p":["version control","branch"],"t":"Version control, branch"}}/*GLOSS:END*/;let seen=new Set();
 const GX=Object.entries(G).flatMap(([id,g])=>g.p.map(ph=>[id,ph])).sort((a,b)=>b[1].length-a[1].length);
-function gx(t){let s=esc(t);const marks=[];for(const [id,ph] of GX){if(seen.has(id))continue;const re=new RegExp('(^|[^\\w/-])('+ph.replace(/[.*+?^${}()|[\]\\/]/g,'\\$&')+')(?![\\w/-])','i');const m=re.exec(s);if(!m)continue;seen.add(id);marks.push(`<span class="termwrap"><button type="button" class="gl" aria-expanded="false" data-gid="${id}">${m[2]}</button><span class="tip" role="tooltip" hidden><b>${esc(G[id].t)}</b>${esc(G[id].d)}<button type="button" class="tipgo" data-primer="${id}">Full entry in the Primer</button></span></span>`);s=s.slice(0,m.index+m[1].length)+'\u0000'+(marks.length-1)+'\u0000'+s.slice(m.index+m[0].length)}return s.replace(/\u0000(\d+)\u0000/g,(_,i)=>marks[+i])}
-const nextHTML=n=>(n.s2||n.s3)?`<section><h3 class="dl">How it sets up the next steps</h3><div class="nx">${n.s2?`<div><b>${esc(D.s2)}</b>${gx(n.s2)}</div>`:''}${n.s3?`<div><b>${esc(D.s3)}</b>${gx(n.s3)}</div>`:''}</div></section>`:'';
+function gx(t){let s=esc(t);const marks=[];for(const [id,ph] of GX){if(seen.has(id))continue;const re=new RegExp('(^|[^\\w/-])('+ph.replace(/[.*+?^${}()|[\]\\/]/g,'\\$&')+')(?![\\w/-])','i');const m=re.exec(s);if(!m)continue;seen.add(id);marks.push(`<span class="termwrap"><button type="button" class="dfn" aria-expanded="false" data-gid="${id}">${m[2]}</button><span class="tip" role="tooltip" hidden><b>${esc(G[id].t)}</b>${esc(G[id].d)}<button type="button" class="tipgo" data-primer="${id}">Full entry in the Primer</button></span></span>`);s=s.slice(0,m.index+m[1].length)+'\u0000'+(marks.length-1)+'\u0000'+s.slice(m.index+m[0].length)}return s.replace(/\u0000(\d+)\u0000/g,(_,i)=>marks[+i])}
+const KC={task:'var(--accent)',ms:'var(--text)',gate:'var(--gate)',req:'var(--req)',gift:'var(--accent)',oh:'var(--req)',gap:'var(--gap)',phase:'var(--dim)'};
+const ICON=k=>`<svg class="ico c-${k}" aria-hidden="true"><use href="#i-${ico(k)}"/></svg>`;
+const row=id=>{const m=byId[id];return `<li><button type="button" data-go="${id}">${ICON(m.kind)}<span>${esc(m.label)}</span><span class="pd-hr">${m.hours?hrs(m.hours):''}</span></button></li>`};
+const sec=(t,inner,cls='')=>`<section class="pd-s${cls?' '+cls:''}"><h3>${t}</h3><div>${inner}</div></section>`;
+const nextHTML=n=>{const st=[[D.s2,n.s2,2],[D.s3,n.s3,3]].filter(x=>x[1]);return st.length?sec('How it sets up what comes next',`<ol class="pd-next">${st.map(([lab,txt,num])=>`<li><span class="pd-step" aria-hidden="true">${num}</span><div><b>${esc(lab)}</b><p>${gx(txt)}</p></div></li>`).join('')}</ol>`):''};
 function summary(){const gets=R.filter(n=>n.kind==='ms'),wait=R.filter(n=>n.parent==='w0');
- det.innerHTML=`<header class="dh"><h2 id="s1dh">Step 1 at a glance</h2></header><div class="s1b"><section><p>${esc(D.summary)}</p></section><section><h3 class="dl">What you get</h3><div class="kids">${gets.map(n=>chip(n.id)).join('')}</div></section><section><h3 class="dl">Waiting on you to start</h3><div class="kids">${wait.map(n=>chip(n.id)).join('')}</div></section><section><p class="dnote">You can stop after Step 1 and keep everything. Choose any row for its details.</p></section></div>`}
+ det.innerHTML=`<header class="pd-h"><h2 id="s1dh">Step 1 at a glance</h2><p class="pd-sum">${esc(D.summary)}</p></header><div class="pd-b">`+
+ sec('What you get',`<ul class="pd-list">${gets.map(n=>row(n.id)).join('')}</ul>`)+
+ sec('Waiting on you to start',`<ul class="pd-list">${wait.map(n=>row(n.id)).join('')}</ul>`)+
+ `<p class="pd-foot">You can stop after Step 1 and keep everything. Choose any row for its details.</p></div>`}
 function detail(id){const n=byId[id],ks=kids(id);seen=new Set();
- det.innerHTML=`<header class="dh"><svg class="ico c-${n.kind}" aria-hidden="true"><use href="#i-${ico(n.kind)}"/></svg><h2 id="s1dh">${esc(n.label)}</h2><span class="ty">${KIND[n.kind]}</span></header><div class="s1b">`+
- `<section><h3 class="dl">When</h3><p>${esc(when(n))}${n.hours?`, ${hrs(n.hours)} of my time`:''}</p></section>`+
- (n.get?`<section><h3 class="dl">What you get</h3><p>${gx(n.get)}</p></section>`:'')+nextHTML(n)+
- (n.note?`<section><h3 class="dl">${n.kind==='phase'?'About this':'Note'}</h3><p>${gx(n.note)}</p></section>`:'')+
- (ks.length?`<section><h3 class="dl">Inside</h3><div class="kids">${ks.map(k=>chip(k.id)).join('')}</div></section>`:'')+
- `<section><button type="button" class="btn" data-back="1">Back to Step 1 at a glance</button></section></div>`}
+ const meta=`<span class="pd-kind" style="--kc:${KC[n.kind]||'var(--dim)'}">${ICON(n.kind)}${KIND[n.kind]}</span><span>${esc(when(n))}</span>${n.hours?`<span>${hrs(n.hours)} of my time</span>`:''}`;
+ det.innerHTML=`<header class="pd-h"><div class="pd-top"><button type="button" class="pd-back" data-back="1"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4L6 8l4 4"/></svg>Back to Step 1 at a glance</button></div><h2 id="s1dh">${esc(n.label)}</h2><p class="pd-meta">${meta}</p></header><div class="pd-b">`+
+ (n.get?sec('What you get',`<p>${gx(n.get)}</p>`):'')+nextHTML(n)+
+ (n.note?sec(n.kind==='phase'?'About this':'Good to know',`<p>${gx(n.note)}</p>`,'pd-note'):'')+
+ (ks.length?sec('Inside this workstream',`<ul class="pd-list">${ks.map(k=>row(k.id)).join('')}</ul>`):'')+
+ (!n.get&&!n.note&&!ks.length&&!n.s2&&!n.s3?`<p class="pd-foot">Nothing more to add for this one.</p>`:'')+
+ `</div>`}
 function select(id,focus){sel=id;const n=byId[id];if(n&&n.parent)open.add(n.parent);render(focus);id?detail(id):summary()}
 // The twisty opens and closes a workstream; a click anywhere else on a row only selects it (and opens a closed workstream).
 g.addEventListener('click',e=>{const r=e.target.closest('.row[data-id]');if(!r)return;const id=r.dataset.id;if(byId[id].kind==='phase'){if(e.target.closest('.tw')){open.has(id)?open.delete(id):open.add(id)}else open.add(id)}select(id,true)});
@@ -1760,17 +1804,17 @@ g.addEventListener('keydown',e=>{const r=e.target.closest('.row[data-id]');if(!r
  else if(e.key==='ArrowLeft'){e.preventDefault();if(n.kind==='phase'&&open.has(id)){open.delete(id);select(id,true)}else if(n.parent)select(n.parent,true)}
  else if(e.key==='Enter'||e.key===' '){e.preventDefault();if(n.kind==='phase'){open.has(id)?open.delete(id):open.add(id)}select(id,true)}});
 function tipShow(b,on){const t=b.nextElementSibling;if(!t)return;t.hidden=!on;b.setAttribute('aria-expanded',String(on));if(on){t.style.left='0px';const r=t.getBoundingClientRect(),d=det.getBoundingClientRect();if(r.right>d.right-8)t.style.left=(d.right-8-r.right)+'px'}}
-let pin=null;const tipsOff=()=>{det.querySelectorAll('.gl[aria-expanded="true"]').forEach(b=>tipShow(b,false));pin=null};
-det.addEventListener('mouseover',e=>{const w=e.target.closest('.termwrap');if(w&&!pin)tipShow(w.querySelector('.gl'),true)});
-det.addEventListener('mouseout',e=>{const w=e.target.closest('.termwrap');if(w&&!pin&&!w.contains(e.relatedTarget))tipShow(w.querySelector('.gl'),false)});
+let pin=null;const tipsOff=()=>{det.querySelectorAll('.dfn[aria-expanded="true"]').forEach(b=>tipShow(b,false));pin=null};
+det.addEventListener('mouseover',e=>{const w=e.target.closest('.termwrap');if(w&&!pin)tipShow(w.querySelector('.dfn'),true)});
+det.addEventListener('mouseout',e=>{const w=e.target.closest('.termwrap');if(w&&!pin&&!w.contains(e.relatedTarget))tipShow(w.querySelector('.dfn'),false)});
 let quiet=false;
-det.addEventListener('focusin',e=>{const b=e.target.closest('.gl');if(b&&!pin&&!quiet)tipShow(b,true)});
-det.addEventListener('keydown',e=>{if(e.key==='Escape'){const b=pin||det.querySelector('.gl[aria-expanded="true"]');tipsOff();if(b){quiet=true;b.focus();quiet=false}}});
+det.addEventListener('focusin',e=>{const b=e.target.closest('.dfn');if(b&&!pin&&!quiet)tipShow(b,true)});
+det.addEventListener('keydown',e=>{if(e.key==='Escape'){const b=pin||det.querySelector('.dfn[aria-expanded="true"]');tipsOff();if(b){quiet=true;b.focus();quiet=false}}});
 det.addEventListener('click',e=>{const pg=e.target.closest('[data-primer]');if(pg){const id=pg.dataset.primer;tipsOff();document.getElementById('t-primer').click();const f=document.querySelector('#pane-primer iframe');setTimeout(()=>f&&f.contentWindow&&f.contentWindow.postMessage({primerGo:id},'*'),60);return}
- const gb=e.target.closest('.gl');if(gb){if(pin===gb){tipsOff()}else{tipsOff();pin=gb;tipShow(gb,true)}return}if(pin&&!e.target.closest('.termwrap'))tipsOff()});
+ const gb=e.target.closest('.dfn');if(gb){if(pin===gb){tipsOff()}else{tipsOff();pin=gb;tipShow(gb,true)}return}if(pin&&!e.target.closest('.termwrap'))tipsOff()});
 det.addEventListener('click',e=>{const c=e.target.closest('[data-go]');if(c){select(c.dataset.go,false);document.getElementById('s1r-'+c.dataset.go)?.scrollIntoView({block:'nearest'});return}if(e.target.closest('[data-back]')){sel=null;render();summary()}});
 tog.onclick=()=>{if(open.size)open.clear();else R.filter(n=>n.kind==='phase').forEach(n=>open.add(n.id));render()};
-document.getElementById('s1sum').innerHTML=D.glance.map(([l,f,c])=>`<li class="gt"><span class="gl">${esc(l)}</span><b class="gf">${esc(f)}</b><span class="gc">${esc(c)}</span></li>`).join('');
+document.getElementById('s1sum').innerHTML=D.glance.map(([l,f,c])=>`<li class="gt"><span class="glab">${esc(l)}</span><b class="gf">${esc(f)}</b><span class="gc">${esc(c)}</span></li>`).join('');
 render();summary();
 let lastW=0;new ResizeObserver(()=>{const w=wrapEl.clientWidth;if(w&&w!==lastW){lastW=w;render()}}).observe(wrapEl);
 })();
