@@ -1,0 +1,4 @@
+/* ARCS Recoil Report: screen-reader-only utility */
+/* One visually hidden class for kit parts 43 to 51, so the rule lives in one file instead of one copy per part.
+   Text in it is read by screen readers and takes no space on screen. */
+.kit-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}

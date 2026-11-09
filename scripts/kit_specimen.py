@@ -89,6 +89,7 @@ def build(spec, spec_path):
     n, name, layer = spec["number"], spec["name"], spec["layer"]
     slug = spec.get("slug") or name.lower().replace(" ", "-")
     css = CSS + spec.get("css", "")
+    links = "".join(f'<link rel="stylesheet" href="{e(h)}">\n' for h in spec.get("links", []))  # shared kit stylesheets, such as _tokens-light.css
     rows_anat = "".join(f'<tr><td class="sp-num">{i + 1}</td><th scope="row">{e(a["part"])}</th><td>{code(a["role"])}</td><td>{code(a["token"])}</td></tr>'
                         for i, a in enumerate(spec["anatomy"]))
     rows_data = "".join(f'<tr><td><code>{e(d["field"])}</code></td><td>{e(d["type"])}</td><td>{"yes" if d.get("required") else "no"}</td><td>{code(d["note"])}</td></tr>'
@@ -107,7 +108,7 @@ def build(spec, spec_path):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(name)} · {e(layer)} {e(n)}</title>
 <link rel="stylesheet" href="_tokens.css">
-<style>
+{links}<style>
 {css}</style>
 </head>
 <body>

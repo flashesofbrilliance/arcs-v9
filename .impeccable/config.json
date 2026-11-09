@@ -6,6 +6,16 @@
     "ignoreFiles": [],
     "ignoreValues": [
       {
+        "rule": "design-system-font-size",
+        "value": ".75rem",
+        "files": [
+          "src/ui-kit/recoil-report/45-fact-tile.html",
+          "src/ui-kit/recoil-report/48-summary-disclosure.html"
+        ],
+        "createdAt": "2026-11-09T19:00:00.000Z",
+        "reason": "Kit 45 fact tile label: the 0.75rem caps label Zach approved on the My Ally Step 1 tab (2026-11-09). The ramp's label step (0.6875rem) shrinks it below what he signed off; same MyAlly-world seam as the myally-hub font-size waiver. One value, two files."
+      },
+      {
         "rule": "design-system-color",
         "value": "*",
         "files": [
@@ -827,7 +837,16 @@
         "value": "*",
         "files": [
           "_ARTIFACTS/brooks-audit-onepager.html",
-          "src/ui-kit/recoil-report/39-theme-toggle.html"
+          "src/ui-kit/recoil-report/39-theme-toggle.html",
+          "src/ui-kit/recoil-report/43-action-menu.html",
+          "src/ui-kit/recoil-report/44-status-strip.html",
+          "src/ui-kit/recoil-report/45-fact-tile.html",
+          "src/ui-kit/recoil-report/46-day-list.html",
+          "src/ui-kit/recoil-report/47-now-note.html",
+          "src/ui-kit/recoil-report/48-summary-disclosure.html",
+          "src/ui-kit/recoil-report/49-pinned-card.html",
+          "src/ui-kit/recoil-report/50-term-definition.html",
+          "src/ui-kit/recoil-report/51-display-preferences.html"
         ],
         "createdAt": "2026-11-04T21:30:00.000Z",
         "reason": "Kit 39 theme toggle: the light remap (the myally.arcs.care pattern) is a deliberate second palette over the kit tokens, outside DESIGN.md by design; the recoil-report brand profile exempts design-system-color. Contrast stays live (page_gate checks it)."
