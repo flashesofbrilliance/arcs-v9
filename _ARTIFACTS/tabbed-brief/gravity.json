@@ -18,10 +18,16 @@
    "One idea in thirty gets funded.",
    "The other twenty-nine are the work."
   ],
-  "lede": "I have spent 20 years in the trenches taking products from zero, as a player, a coach and a pace car, and the last year building a tool that records why each idea was passed on and checks it against what happened later, so a pass that turns out wrong becomes a lesson instead of a blind spot.",
+  "lede": [
+   "Twenty years in the trenches.",
+   "Ships 0 → 1, fast.",
+   "Contrarian thinker and builder.",
+   "Built ARCS: every pass on record, checked against what happened.",
+   "Target: help people, squads and nodes become self-sovereign and anti-fragile."
+  ],
   "next_step": {
    "lead": "Let’s go.",
-   "text": "Pick the seat that is live, or reshape one, and tell Harrison or me which."
+   "text": "Pick a seat, or reshape one. Tell Harrison or me."
   },
   "actions": [
    {
@@ -82,7 +88,7 @@
      },
      {
       "type": "p",
-      "text": "**Not onchain.** The receipts ARCS keeps live in a Postgres table, not on a chain. Putting them onchain is a thesis I have not tested, and I would not claim otherwise."
+      "text": "**Not onchain.** ARCS receipts live in Postgres, not on a chain. Onchain is a thesis I have not tested."
      }
     ]
    },
@@ -96,13 +102,13 @@
       "type": "list",
       "ordered": true,
       "items": [
-       "Which of the four seats is live now? Your people page lists the EIR title alongside your CTO, so I would like to know whether this is a second EIR seat.",
-       "For the Founder seat, which hatch is it for?"
+       "Which seat is live now? Your people page lists an EIR beside your CTO: is this a second EIR seat?",
+       "Founder seat: which hatch?"
       ]
      },
      {
       "type": "p",
-      "text": "Resume and a 20-minute walkthrough of ARCS on request. Live work: [RFP-O-Matic with four short videos](https://good.arcs.care/rfp-engine), [its source](https://github.com/flashesofbrilliance/rfp-engine), [ARCS](https://app.arcs.care), and my [proof page](https://zach.md/proof), where each claim links to its record."
+      "text": "Resume and a 20-minute ARCS walkthrough on request. Live work: [RFP-O-Matic with four short videos](https://good.arcs.care/rfp-engine), [its source](https://github.com/flashesofbrilliance/rfp-engine), [ARCS](https://app.arcs.care), and my [proof page](https://zach.md/proof), where each claim links to its record."
      }
     ]
    }
@@ -115,23 +121,23 @@
     "slots": [
      [
       "Who",
-      "Zach Harris, product lead and founder: from regulated digital assets at Grayscale to ARCS, which I build alone."
+      "Zach Harris. Product lead and founder: Grayscale, two companies, ARCS."
      ],
      [
       "What",
-      "A 30, 90 and 180 day plan for each of your four open roles, built on your own job pages."
+      "A 30, 90 and 180 day plan per open role, on your own job pages."
      ],
      [
       "Where",
-      "Remote from the New York metro, as all four roles are."
+      "Remote, New York metro."
      ],
      [
       "When",
-      "Now: all four roles are listed on your jobs page today, and Harrison Wright offered to bring this to you."
+      "Now. Four roles open; Harrison Wright offered the intro."
      ],
      [
       "Why",
-      "Your studio runs on pressure-tested theses and a high kill rate. That is my work, and the reason I built ARCS."
+      "You run on tested theses and a high kill rate. So do I. It is why I built ARCS."
      ]
     ],
     "how": [
@@ -151,10 +157,10 @@
       "The plan for that seat, reshaped with you."
      ]
     ],
-    "read": "The overview first, then one tab per role, strongest fit first. Every plan cell is a proposal to edit."
+    "read": "Overview, then one tab per role, strongest fit first. Every plan cell is yours to edit."
    }
   },
-  "subhead": "Your about page says that for roughly every 30 ideas you go deep on, you fund one."
+  "subhead": "Your about page: of every 30 ideas you go deep on, you fund one."
  },
  "tabs": [
   {
@@ -164,7 +170,7 @@
    "rank": "1st",
    "tagline": "My strongest fit",
    "headline": "Principal, New Ventures: my strongest fit.",
-   "lede": "The seat as your page describes it: break the bottleneck of every idea flowing through the CEO by owning hatches end to end. Spot the gap, write the case, pitch the investment committee, build the first prototype with AI coding tools, recruit the founders. A builder role, not research and not investing.",
+   "lede": "Your page: own hatches end to end, so ideas stop queuing at the CEO. Spot the gap, write the case, pitch the committee, prototype with AI, recruit founders. Builder, not researcher or investor.",
    "units": [
     {
      "title": "A 30, 90 and 180 Day Plan",
@@ -229,7 +235,7 @@
      "blocks": [
       {
        "type": "p",
-       "text": "Your Idea Engine post says agents now produce memos six times faster, but the output is not always usable. Each use below is aimed at that gap."
+       "text": "Your Idea Engine post: agents write memos six times faster, but not always usable ones. Each use below aims at that gap."
       },
       {
        "type": "cards",
@@ -245,7 +251,7 @@
          "text": "Each hatch carries what the team expects, how sure it is, and what would kill it, so the pipeline reads by risk as well as by excitement."
         },
         {
-         "title": "An antifragile test bench",
+         "title": "An anti-fragile test bench",
          "ref": "Built: pre-registered tests, run once, failures published. Not shown yet: a kill test run on a Gravity hatch.",
          "text": "Every kill test is written down before it runs, so a failed test still pays: the next thesis starts from what it ruled out."
         }
@@ -351,7 +357,7 @@
    "rank": "2nd",
    "tagline": "A strong fit",
    "headline": "Entrepreneur in Residence: one wedge, not a category.",
-   "lede": "The seat as your page describes it: a six-month contract to source and validate hatches across DeFi, stablecoins, infrastructure and prediction markets, take them from a few sentences to an investment committee pitch, and by month six find one worth founding.",
+   "lede": "Your page: a six-month contract. Source and validate hatches in DeFi, stablecoins, infrastructure and prediction markets, take each from a few sentences to a committee pitch, and by month six find one worth founding.",
    "units": [
     {
      "title": "A 30, 90 and 180 Day Plan",
@@ -455,7 +461,7 @@
      "blocks": [
       {
        "type": "p",
-       "text": "I commit when an idea passes the kill criteria I wrote in week one and a named design partner agrees to a pilot. If nothing survives by month six, I hand you the written kills. At one fund in thirty, those are the studio’s data, not a wasted contract."
+       "text": "I commit when an idea passes the kill criteria I wrote in week one and a named design partner agrees to a pilot. If nothing survives by month six, you get the written kills. At one in thirty, those are data, not waste."
       }
      ]
     },
@@ -504,7 +510,7 @@
    "rank": "3rd",
    "tagline": "A fit on one condition",
    "headline": "Founder: the seat I would reach through the EIR seat.",
-   "lede": "The seat as your page describes it: CEO or CTO of a hatch you have already validated and funded, with five to ten years of commitment and an outside raise within the first year.",
+   "lede": "Your page: CEO or CTO of a hatch you have validated and funded. Five to ten years. An outside raise in year one.",
    "units": [
     {
      "title": "A 30, 90 and 180 Day Plan",
@@ -628,7 +634,7 @@
    "callouts": [
     {
      "label": "Condition",
-     "text": "I would want to meet the hatch and its design partners before committing a decade. For me the natural route to this seat runs through the EIR seat first."
+     "text": "I would meet the hatch and its design partners first. The natural route runs through the EIR seat."
     }
    ]
   },
@@ -639,22 +645,22 @@
    "rank": "Co-design",
    "tagline": "A sketch to co-design, in the open",
    "headline": "Open Application: choose your own adventure.",
-   "lede": "Your open application asks what I would own that you do not staff today, and why you would move faster with me on it. My answer is a hatch desk. I offer it as a sketch to build with you, in the open.",
+   "lede": "Your open application asks what I would own that you don't staff today, and why you'd move faster with me. My answer: a hatch desk, sketched to build with you, in the open.",
    "units": [
     {
      "title": "The Hatch Desk",
      "blocks": [
       {
        "type": "p",
-       "text": "Most funds call this a deal desk or a platform role. I would run it as an AI-native platform team whose work compounds. It would sit inside the studio and own the hatch pipeline: each memo, its kill criteria, and the record of every call."
+       "text": "Most funds call it a deal desk or a platform role. I would run it as an AI-native platform team whose work compounds, owning the hatch pipeline: each memo, its kill criteria, the record of every call."
       },
       {
        "type": "p",
-       "text": "Every pass is written down with its reasons and checked again as the market moves. A pass that turns out wrong shows up before you miss the next idea like it, and each new thesis starts from what the last 29 taught. The call stays with you and comes faster."
+       "text": "Every pass is logged with its reasons and rechecked as the market moves. A wrong pass surfaces before you miss the next one like it, and each thesis starts from what the last 29 taught. The call stays yours, and comes faster."
       },
       {
        "type": "p",
-       "text": "It would sit on top of the Idea Engine you already run: the agents find and draft, and the desk keeps the record of every call, so nothing it already does gets built twice."
+       "text": "It sits on top of your Idea Engine: the agents find and draft, the desk keeps the record. Nothing gets built twice."
       }
      ]
     },
@@ -732,7 +738,7 @@
    "callouts": [
     {
      "label": "Gap",
-     "text": "You do not staff this seat today, so it is the one to test hardest. A two-week trial on hatches you have already killed would show whether the record would have called them sooner."
+     "text": "You don't staff this seat today, so test it hardest: a two-week trial on hatches you already killed. Would the record have called them sooner?"
     }
    ]
   }
