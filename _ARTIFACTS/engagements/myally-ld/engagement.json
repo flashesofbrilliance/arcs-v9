@@ -1303,7 +1303,9 @@
       "pdf": {
         "href": "/myally-step1-agreement.pdf",
         "label": "Download the Step 1 agreement (PDF)",
-        "note": "For your counsel's review. Once they're happy, I send a clean copy to sign."
+        "note": "For your counsel's review. Once they're happy, I send a clean copy to sign.",
+        "docx": "/myally-step1-agreement.docx",
+        "docx_label": "Word version for redlines"
       },
       "call": {
         "href": "https://calendar.app.google/cTQkE1W2D8EPo8q59",
