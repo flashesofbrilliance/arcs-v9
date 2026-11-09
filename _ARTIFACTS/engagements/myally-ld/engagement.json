@@ -1279,6 +1279,43 @@
         "hours": 0
       }
     ],
+    "plan": {
+      "title": "The whole plan",
+      "summary": "Step 1 now, then Steps 2 and 3 in about three weeks, with handoff by mid-December.",
+      "rows": [
+        [
+          "Steps 2 and 3",
+          "About three weeks",
+          "Customer journey and design system, then a working prototype, {{fee_step1}} each. Each starts only with your written yes."
+        ],
+        [
+          "Target",
+          "Mid-December",
+          "Handoff before the end of the year, counted from the day Step 1 starts."
+        ],
+        [
+          "After Step 3",
+          "While you demo",
+          "Office hours continue as offered. Maintenance is optional, quoted when you want it."
+        ]
+      ],
+      "note": "Going on through Steps 2 and 3 brings the no-charge research design, Alyce's first prompts and project admin, and the {{fee_step1}} credit toward a later build.",
+      "pdf": {
+        "href": "/myally-step1-agreement.pdf",
+        "label": "Download the Step 1 agreement (PDF)",
+        "note": "For your counsel's review. Once they're happy, I send a clean copy to sign.",
+        "docx": "/myally-step1-agreement.docx",
+        "docx_label": "Word version for redlines"
+      },
+      "call": {
+        "href": "https://calendar.app.google/cTQkE1W2D8EPo8q59",
+        "label": "Book a quick call"
+      },
+      "doc": {
+        "href": "https://docs.google.com/document/d/1ynXK6zf9_Y575-owW9OmXcTUN4cRj-NCBVh-_ccNO4A/edit",
+        "label": "Comment in the shared doc"
+      }
+    },
     "glance": [
       [
         "Fee",
