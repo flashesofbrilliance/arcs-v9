@@ -399,6 +399,14 @@ footer p{text-align:left;}
   .hrow > .hc{border-left:0;padding-top:0;}
   .offerwrap .bd > .spec{grid-template-columns:minmax(0,1fr);}
 }
+
+@media screen{
+  .pbody > section.offerwrap{border-top:0;padding-top:0;}
+  .offerwrap > .lockup .deck{font-family:var(--serif);font-size:var(--fs-step);font-weight:500;line-height:1.45;color:var(--text);}
+}
+@media screen and (max-width:640px){
+  .offerwrap > .lockup .deck{font-size:var(--fs-headline);line-height:1.5;}
+}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>

@@ -411,6 +411,15 @@ footer p{text-align:left;}
   .hrow > .hc{border-left:0;padding-top:0;}
   .offerwrap .bd > .spec{grid-template-columns:minmax(0,1fr);}
 }
+/* The bridge into the offer ("If you want the outside read") is not a section: on screen it reads as a
+   second verdict, the same serif statement as the opening, with no rule above it. */
+@media screen{
+  .pbody > section.offerwrap{border-top:0;padding-top:0;}
+  .offerwrap > .lockup .deck{font-family:var(--serif);font-size:var(--fs-step);font-weight:500;line-height:1.45;color:var(--text);}
+}
+@media screen and (max-width:640px){
+  .offerwrap > .lockup .deck{font-size:var(--fs-headline);line-height:1.5;}
+}
 </style>
 </head>
 <body>
