@@ -23,7 +23,7 @@ Prepared for Brooks Thomas, Louisville Brands · Zach Harris · November 2026 ·
 
 ¶8. I read your build through what it decides. Each decision gets three marks: What it relies on, what it can't see, and the date you'll know.
 
-Inputs (what it relies on) → Decision (what it can't see) → Outcome (the date you'll know), with a stop number agreed before the call.
+Inputs (what it relies on) → Decision (what it can't see) → Outcome (the date you'll know), with a stop number: the figure that would prove the decision wrong, agreed before it's made.
 
 ## 02 The two decisions
 

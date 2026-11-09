@@ -617,6 +617,9 @@ footer p{text-align:left;}
 .named .named-why{margin:0;}
 .named-v{position:relative;}
 .named-x{top:50%;transform:translateY(-50%);}
+/* The stop line reads as a sentence, not a cryptic label: "call" was ambiguous (phone call or decision). */
+.trace-stop{font-family:var(--sans);font-size:var(--fs-body);font-weight:400;letter-spacing:0;text-transform:none;color:var(--text-secondary);}
+.trace-stop strong{color:var(--text);font-weight:600;}
 </style>
 </head>
 <body>
@@ -677,7 +680,7 @@ footer p{text-align:left;}
       <li><span class="trace-k">Decision</span><span class="trace-v">What it can't see</span></li>
       <li><span class="trace-k">Outcome</span><span class="trace-v">The date you'll know</span></li>
     </ol>
-    <p class="trace-stop">Stop number, agreed before the call</p>
+    <p class="trace-stop"><strong>Stop number:</strong> The figure that would prove the decision wrong, agreed before it's made.</p>
   </figure></div>
   <details class="blk sub fixed" open>
     <summary><h2 class="slabel">The two decisions</h2><span class="tk">You pick. My suggestions:</span></summary>
