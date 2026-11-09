@@ -176,10 +176,10 @@ def r_overview(d):
     lead = ('<p class="tb-go-h">%s</p>' % md(o["next_step"]["lead"])) if o["next_step"].get("lead") else ""
     return ('<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">\n<h1 class="tb-h1">%s</h1>\n%s<p class="tb-lede">%s</p>\n'
             '<div class="ftiles-c"><ul class="ftiles is-4" aria-label="At a glance">%s</ul></div>\n'
-            '<div class="tb-go">%s<p class="tb-go-t">%s</p>\n<div class="tb-actions">%s%s</div></div>\n'
+            '<div class="tb-go">%s<div class="tb-actions">%s</div><p class="tb-go-t">%s</p>%s</div>\n'
             '%s<div class="tb-expand%s"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>\n'
             '<div class="tb-folds">%s</div>\n</div>') % (h, ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"])) if o.get("subhead") else "", "".join('<span class="ln">%s</span>' % md(re.sub(r"(?<=[a-z])-(?=[a-z])", "‑", x)) for x in o["lede"]),
-         tiles, lead, md(o["next_step"]["text"]), "".join(acts), ('<p class="tb-note">%s</p>' % md(o["action_note"])) if o.get("action_note") else "", cr,
+         tiles, lead, "".join(acts), md(o["next_step"]["text"]), ('<p class="tb-note">%s</p>' % md(o["action_note"])) if o.get("action_note") else "", cr,
          " solo" if len(o["sections"]) < 2 else "", folds)
 
 
