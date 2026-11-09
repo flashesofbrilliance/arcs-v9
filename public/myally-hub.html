@@ -416,7 +416,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 #pane-s1 .cells{padding-right:0}
 #s1tog{min-height:44px}
 /* Step 1 details panel (redesign 2026-11-08): a reading card. Title, one meta line, hairline sections. */
-#s1detail{border:1px solid var(--line);border-radius:10px;background:var(--surface);align-self:start;overflow:hidden;container-type:inline-size}
+@media (max-width:960px){#s1detail{border:1px solid var(--line)}}#s1detail{border-radius:10px;background:var(--surface);align-self:start;overflow:hidden;container-type:inline-size}
 #s1detail .pd-h{padding:14px 18px 16px;border-bottom:1px solid var(--line);background:var(--surface2)}
 #s1detail .pd-top{display:flex;justify-content:flex-end;margin:-6px -8px 4px}
 #s1detail .pd-back{display:inline-flex;align-items:center;gap:4px;min-height:36px;padding:0 10px;border:0;border-radius:6px;background:none;color:var(--dim);font:inherit;font-size:.85rem;font-weight:600;cursor:pointer}
@@ -443,14 +443,15 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 #s1detail .pd-list li+li{border-top:1px solid var(--line)}
 #s1detail .pd-list button{display:grid;grid-template-columns:16px minmax(0,1fr) auto;gap:10px;align-items:start;width:100%;min-height:44px;padding:11px 6px;border:0;border-radius:6px;background:none;color:var(--text);font:inherit;line-height:1.45;text-align:left;cursor:pointer}
 #s1detail .pd-list button:hover{background:var(--accent-bg)}
-#s1detail .pd-list .ico{margin-top:3px}
+#s1detail .pd-list .ico{margin-top:3px}#s1detail .pd-list button>span{overflow-wrap:anywhere}
 #s1detail .pd-x{display:block;margin-top:2px;color:var(--dim);font-size:.875rem;line-height:1.45;text-wrap:pretty}
 #s1detail .pd-ok{list-style:none;display:flex;flex-wrap:wrap;gap:0 18px;margin:4px -6px 0;padding:8px 0 0;border-top:1px solid var(--line)}
 #s1detail .pd-list+.pd-ok{margin-top:0}
 #s1detail .pd-ok button{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 6px;border:0;border-radius:6px;background:none;color:var(--dim);font:inherit;font-size:.875rem;cursor:pointer}
 #s1detail .pd-ok button:hover{color:var(--text);background:var(--accent-bg)}
 #s1detail .pd-ok button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-#s1detail .pd-solo{display:block}
+#s1detail .pd-s.pd-solo{display:block}
+[data-space="roomy"] #s1detail :is(.pd-list button,.pd-x,.pd-ok button){line-height:1.8}
 #s1detail .pd-hr{color:var(--dim);font-size:.85rem;white-space:nowrap;font-variant-numeric:tabular-nums}
 #s1detail .pd-foot{margin:14px 0 0;padding-top:14px;border-top:1px solid var(--line);color:var(--dim);font-size:.875rem}
 #s1detail .dfn{all:unset;display:inline;cursor:pointer;text-decoration:underline dotted;text-decoration-color:color-mix(in srgb,currentColor 55%,transparent);text-underline-offset:3px;border-radius:2px}
@@ -474,7 +475,10 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 #pane-s1 .b.gap{background:transparent;outline:1.5px dashed var(--gap)}
 #pane-s1 .b.ms{display:none}
 
-@media (min-width:1100px){#pane-s1 .layout{grid-template-columns:minmax(0,1fr) 360px}#s1detail{position:sticky;top:12px;max-height:calc(100dvh - 24px);overflow:auto}}
+#pane-s1 .layout{grid-template-columns:minmax(0,1fr)}#s1detail .pd-close{display:none}
+/* 961px and up: the grid takes the full width and the details open as a card pinned bottom-right (half the window at most) when a row is chosen. Non-modal: rows stay clickable behind it. */
+@media (min-width:961px){#s1detail{position:fixed;align-self:auto;z-index:30;top:auto;right:16px;bottom:16px;width:min(25rem,440px,calc(100vw - 32px));max-height:50vh;overflow:auto;overscroll-behavior:contain;border-radius:12px;box-shadow:0 10px 12px -4px rgba(0,0,0,.26),0 2px 6px rgba(0,0,0,.10);transform:translateY(12px);opacity:0;visibility:hidden;transition:transform 160ms cubic-bezier(.2,.7,.2,1),opacity 160ms cubic-bezier(.2,.7,.2,1),visibility 0s linear 160ms}#s1detail.on{transform:none;opacity:1;visibility:visible;transition:transform 260ms cubic-bezier(.2,.7,.2,1),opacity 200ms cubic-bezier(.2,.7,.2,1),visibility 0s}#s1detail .pd-back{display:none}#s1detail .pd-close{display:inline-grid;place-items:center;width:44px;height:44px;margin:-4px -6px 0 0;border:0;border-radius:8px;background:none;color:var(--dim);cursor:pointer}#s1detail .pd-close svg{width:18px;height:18px}#s1detail .pd-close:hover{color:var(--text);background:var(--accent-bg)}#s1detail .pd-close:focus-visible{outline:3px solid var(--accent);outline-offset:2px}#s1detail .pd-h{position:relative}#s1detail .pd-top{position:absolute;top:10px;right:12px;margin:0}#s1detail h2{padding-right:44px}#s1detail h2:focus{outline:none}#s1detail h2:focus-visible{outline:3px solid var(--accent);outline-offset:4px;border-radius:2px}}
+@media (prefers-reduced-motion:reduce){#s1detail{transition:none!important}}
 
 
 
@@ -527,8 +531,8 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <div id="pane-s1" role="tabpanel" aria-labelledby="t-s1" hidden><div class="stamp" data-k="now" role="note"><span class="pill" data-k="now" aria-hidden="true">Now</span><p><span class="stamp-vh">Now: </span><strong>Step 1, which you said yes to on November 6.</strong> Start with the agreement: share it with your counsel, and bring any questions to a quick call.</p></div>
 <ul class="s1sum" id="s1sum" aria-label="Step 1 at a glance"></ul>
 <section class="s1week" aria-labelledby="s1wh"><h2 id="s1wh">Your week</h2><ol id="s1wk"></ol></section>
-<details class="s1plan s1all" id="s1all"><summary><svg class="chev" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg><span class="s1pt">See every item</span><span class="s1ps">Each task, deliverable and hour, by day</span></summary>
-<div class="s1map"><div class="bar-top"><p class="tabnote" style="margin:0">Days are working days. Day 1 is the day after the agreement is signed and paid and all the start items are in. Hours add up to the 12 in Step 1. Choose a row for its details.</p><span class="grow"></span><button type="button" class="btn" id="s1tog"><span class="tl">Close all</span></button></div>
+<details class="s1plan s1all" id="s1all"><summary><svg class="chev" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg><span class="s1pt">See every item</span></summary>
+<div class="s1map"><div class="bar-top"><p class="tabnote" style="margin:0">Days are working days. Day 1 is the day after the agreement is signed and paid and all the start items are in. </p><span class="grow"></span><button type="button" class="btn" id="s1tog"><span class="tl">Close all</span></button></div>
 <ul class="legend" aria-label="Key">
 <li><svg class="ico c-task"><use href="#i-task"/></svg>What I do</li>
 <li><svg class="ico c-ms"><use href="#i-ms"/></svg>What you get</li>
@@ -1798,13 +1802,13 @@ const ICON=k=>`<svg class="ico c-${k}" aria-hidden="true"><use href="#i-${ico(k)
 const row=(id,lab,sub)=>{const m=byId[id];return `<li><button type="button" data-go="${id}">${ICON(m.kind)}<span>${esc(lab||m.label)}${sub?`<span class="pd-x">${esc(sub)}</span>`:''}</span><span class="pd-hr">${m.hours?hrs(m.hours):''}</span></button></li>`};
 // A workstream reads as its children grouped by kind: what I need from you, what I do, what you get, what is left out, what is free.
 // Each item carries one quiet line (its get or note) so the group reads on its own; the full row is one click away.
-const GRP=[['gate','What I need from you',m=>m.get||m.note],['task','What I do',()=>''],['ms','What you get',m=>m.get],['gap','Not in Step 1',m=>m.note],['gift','Included at no charge',m=>m.get]];
+const GRP=[['gate','From you',m=>m.get],['task','What I do',()=>''],['ms','What you get',()=>''],['gap','Not included',m=>m.note],['gift','No charge',()=>'']];
 const unpre=m=>m.kind==='gap'?m.label.replace(/^Not in Step 1:\s*/,'').replace(/^./,c=>c.toUpperCase()):m.label;
-function groups(n,ks){const ok=ks.filter(k=>k.kind==='req');
+function groups(n,ks){const ok=ks.filter(k=>k.kind==='req'),solo=GRP.filter(([k])=>ks.some(m=>m.kind===k)).length<2;
  return GRP.map(([k,t,sub])=>{const its=ks.filter(m=>m.kind===k);if(!its.length&&!(k==='gate'&&ok.length))return '';
   const list=its.length?`<ul class="pd-list">${its.map(m=>row(m.id,unpre(m),sub(m))).join('')}</ul>`:'';
   const quiet=k==='gate'&&ok.length?`<ul class="pd-ok" aria-label="Not needed from you">${ok.map(m=>`<li><button type="button" data-go="${m.id}">${ICON('req')}${esc(m.label)}</button></li>`).join('')}</ul>`:'';
-  return t.toLowerCase()===n.label.toLowerCase()?`<section class="pd-s pd-solo"><div>${list}${quiet}</div></section>`:sec(t,list+quiet)}).join('')}
+  return solo?`<section class="pd-s pd-solo"><div>${list}${quiet}</div></section>`:sec(t,list+quiet)}).join('')}
 const sec=(t,inner,cls='')=>`<section class="pd-s${cls?' '+cls:''}"><h3>${t}</h3><div>${inner}</div></section>`;
 const nextHTML=n=>{const st=[[D.s2,n.s2,2],[D.s3,n.s3,3]].filter(x=>x[1]);return st.length?sec('How it sets up what comes next',`<ol class="pd-next">${st.map(([lab,txt,num])=>`<li><span class="pd-step" aria-hidden="true">${num}</span><div><b>${esc(lab)}</b><p>${gx(txt)}</p></div></li>`).join('')}</ol>`):''};
 function summary(){const gets=R.filter(n=>n.kind==='ms'),wait=R.filter(n=>n.parent==='w0');
@@ -1814,7 +1818,7 @@ function summary(){const gets=R.filter(n=>n.kind==='ms'),wait=R.filter(n=>n.pare
  `<p class="pd-foot">You can stop after Step 1 and keep everything. Choose any row for its details.</p></div>`}
 function detail(id){const n=byId[id],ks=kids(id),ph=n.kind==='phase';seen=new Set();
  const meta=(ph?'':`<span class="pd-kind" style="--kc:${KC[n.kind]||'var(--dim)'}">${ICON(n.kind)}${KIND[n.kind]}</span>`)+`<span>${esc(ph&&n.start===0&&n.len===1?'Before day 1':when(n))}</span>${n.hours?`<span>${hrs(n.hours)} of my time</span>`:''}`;
- det.innerHTML=`<header class="pd-h"><div class="pd-top"><button type="button" class="pd-back" data-back="1"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4L6 8l4 4"/></svg>Back to Step 1 at a glance</button></div><h2 id="s1dh">${esc(n.label)}</h2><p class="pd-meta">${meta}</p>${ph&&n.note?`<p class="pd-sum">${gx(n.note)}</p>`:''}</header><div class="pd-b">`+
+ det.innerHTML=`<header class="pd-h"><div class="pd-top"><button type="button" class="pd-back" data-back="1"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4L6 8l4 4"/></svg>Back to Step 1 at a glance</button><button type="button" class="pd-close" data-close="1" aria-label="Close details"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></div><h2 id="s1dh" tabindex="-1">${esc(n.label)}</h2><p class="pd-meta">${meta}</p>${ph&&n.note?`<p class="pd-sum">${gx(n.note)}</p>`:''}</header><div class="pd-b">`+
  (n.status?sec('Status',`<p>${esc(SW[n.status.state]||'Not started')}, ${esc(day(n.status.date))}${n.status.reopened?` (reopened ${esc(day(n.status.reopened))})`:''}${n.status.note?`: ${esc(n.status.note.replace(/[.\s]+$/,''))}`:''}.${n.status.state==='review'?' Comment whenever suits you; I batch comments for the next review call.':''}</p>`):'')+
  (n.download?sec('Download',`<p><a href="${esc(n.download)}" download>Download the skill file</a> (a text file you add to Claude)</p>`):n.locked?sec('Download','<p>Yours to download as soon as the Step 1 invoice is paid.</p>'):'')+
  (n.get?sec('What you get',`<p>${gx(n.get)}</p>`):'')+nextHTML(n)+
@@ -1822,7 +1826,13 @@ function detail(id){const n=byId[id],ks=kids(id),ph=n.kind==='phase';seen=new Se
  (ks.length?groups(n,ks):'')+
  (!n.get&&!n.note&&!ks.length&&!n.s2&&!n.s3&&!n.status?`<p class="pd-foot">Nothing more to add for this one.</p>`:'')+
  `</div>`}
-function select(id,focus){sel=id;const n=byId[id];if(n&&n.parent)open.add(n.parent);render(focus);id?detail(id):summary()}
+function select(id,focus){sel=id;const n=byId[id];if(n&&n.parent)open.add(n.parent);render(focus);id?detail(id):summary();sheet(!!id)}
+// The card (961px and up) pins bottom-right; focus moves into it when it opens and back to the row when it closes.
+const SH=matchMedia('(min-width:961px)');
+function sheet(on){if(!on||!SH.matches){det.classList.remove('on');return}if(!det.classList.contains('on')){det.classList.add('on');det.scrollTop=0;det.querySelector('h2')?.focus({preventScroll:true})}}
+function closeSheet(){const id=sel;sel=null;render();summary();det.classList.remove('on');const r=id&&document.getElementById('s1r-'+id);if(r){g.querySelectorAll('.row[data-id]').forEach(v=>v.tabIndex=-1);r.tabIndex=0;r.focus({preventScroll:true})}}
+SH.addEventListener('change',()=>sheet(!!sel));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!e.defaultPrevented&&det.classList.contains('on'))closeSheet()});
 // The twisty opens and closes a workstream; a click anywhere else on a row only selects it (and opens a closed workstream).
 g.addEventListener('click',e=>{const r=e.target.closest('.row[data-id]');if(!r)return;const id=r.dataset.id;if(byId[id].kind==='phase'){if(e.target.closest('.tw')){open.has(id)?open.delete(id):open.add(id)}else open.add(id)}select(id,true)});
 g.addEventListener('keydown',e=>{const r=e.target.closest('.row[data-id]');if(!r)return;const vis=[...g.querySelectorAll('.row[data-id]')],i=vis.indexOf(r),id=r.dataset.id,n=byId[id];
@@ -1837,10 +1847,10 @@ det.addEventListener('mouseover',e=>{const w=e.target.closest('.termwrap');if(w&
 det.addEventListener('mouseout',e=>{const w=e.target.closest('.termwrap');if(w&&!pin&&!w.contains(e.relatedTarget))tipShow(w.querySelector('.dfn'),false)});
 let quiet=false;
 det.addEventListener('focusin',e=>{const b=e.target.closest('.dfn');if(b&&!pin&&!quiet)tipShow(b,true)});
-det.addEventListener('keydown',e=>{if(e.key==='Escape'){const b=pin||det.querySelector('.dfn[aria-expanded="true"]');tipsOff();if(b){quiet=true;b.focus();quiet=false}}});
+det.addEventListener('keydown',e=>{if(e.key==='Escape'){const b=pin||det.querySelector('.dfn[aria-expanded="true"]');if(b)e.preventDefault();tipsOff();if(b){quiet=true;b.focus();quiet=false}}});
 det.addEventListener('click',e=>{const pg=e.target.closest('[data-primer]');if(pg){const id=pg.dataset.primer;tipsOff();document.getElementById('t-primer').click();const f=document.querySelector('#pane-primer iframe');setTimeout(()=>f&&f.contentWindow&&f.contentWindow.postMessage({primerGo:id},'*'),60);return}
  const gb=e.target.closest('.dfn');if(gb){if(pin===gb){tipsOff()}else{tipsOff();pin=gb;tipShow(gb,true)}return}if(pin&&!e.target.closest('.termwrap'))tipsOff()});
-det.addEventListener('click',e=>{const c=e.target.closest('[data-go]');if(c){select(c.dataset.go,false);document.getElementById('s1r-'+c.dataset.go)?.scrollIntoView({block:'nearest'});return}if(e.target.closest('[data-back]')){sel=null;render();summary()}});
+det.addEventListener('click',e=>{const c=e.target.closest('[data-go]');if(c){select(c.dataset.go,false);document.getElementById('s1r-'+c.dataset.go)?.scrollIntoView({block:'nearest'});return}if(e.target.closest('[data-close]')||(SH.matches&&e.target.closest('[data-back]'))){closeSheet();return}if(e.target.closest('[data-back]')){sel=null;render();summary()}});
 tog.onclick=()=>{if(open.size)open.clear();else R.filter(n=>n.kind==='phase').forEach(n=>open.add(n.id));render()};
 (function band(){if(!D.progress)return;const sum=document.getElementById('s1sum');const b=document.createElement('section');b.id='s1prog';b.setAttribute('aria-labelledby','s1progh');
  b.style.cssText='border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:12px 14px;margin:0 0 12px';
@@ -1863,7 +1873,7 @@ tog.onclick=()=>{if(open.size)open.clear();else R.filter(n=>n.kind==='phase').fo
  const d=document.createElement('details');d.id='s1plan';d.className='s1plan';
  d.innerHTML=`<summary><svg class="chev" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg><span class="s1pt">${esc(PL.title)}</span><span class="s1ps">${esc(PL.summary||'')}</span></summary><ul class="s1sum">`+PL.rows.map(([l,f,c])=>`<li class="gt"><span class="glab">${esc(l)}</span><b class="gf">${esc(f)}</b><span class="gc">${esc(c)}</span></li>`).join('')+`</ul>`+(PL.note?`<p class="s1pnote">${esc(PL.note)}</p>`:'');
  const bh=document.getElementById('s1progh'),band=bh?bh.parentNode.parentNode:document.getElementById('s1sum');band.parentNode.insertBefore(d,band)})();
-document.getElementById('s1wk').innerHTML=(D.week||[]).map(w=>`<li><span class="wd">${esc(D.weeks[w.day])}</span><span class="wt">${esc(w.text).replace(/(\d+)-(minute)/g,'$1\u2011$2')}</span></li>`).join('');
+document.getElementById('s1wk').innerHTML=(D.week||[]).map(w=>`<li><span class="wd">${esc(D.weeks[w.day])}<span class="vh">: </span></span><span class="wt">${esc(w.text).replace(/(\d+)-(minute)/g,'$1\u2011$2')}</span></li>`).join('');
 document.getElementById('s1all').addEventListener('toggle',()=>render());
 document.getElementById('s1sum').innerHTML=D.glance.map(([l,f,c])=>`<li class="gt"><span class="glab">${esc(l)}</span><b class="gf">${esc(f)}</b><span class="gc">${esc(c)}</span></li>`).join('');
 render();summary();

@@ -146,6 +146,23 @@ const { chromium } = require('playwright');
         const now = document.getElementById('s1r-' + id);
         if (now && now.getAttribute('aria-expanded') === 'false') out.push(`row ${id}: clicking the workstream closed it`);
       }
+      // 961px and up: details are a card pinned bottom-right; Escape and the close button shut it and focus returns to the row
+      if (innerWidth >= 961) {
+        const r0 = () => document.getElementById('s1r-' + ids[0]);  // re-query: every redraw replaces the rows
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); await sleep(30);
+        if (det.classList.contains('on')) out.push('sheet: Escape did not close it');
+        if (document.activeElement !== document.getElementById('s1r-' + ids[ids.length - 1])) out.push('sheet: focus did not return to the row');
+        r0().querySelector('.tx').click(); await sleep(450);
+        const dr = det.getBoundingClientRect();
+        if (!det.classList.contains('on')) out.push('sheet: choosing a row did not open it');
+        if (!det.contains(document.activeElement)) out.push('sheet: focus did not move into it');
+        if (dr.right > innerWidth + 1 || dr.bottom > innerHeight + 1 || dr.width < 320 || dr.width > 460 || dr.height > innerHeight / 2 + 1) out.push(`sheet: ${Math.round(dr.width)}x${Math.round(dr.height)} at ${Math.round(dr.left)},${Math.round(dr.top)}; want 320 to 460px wide, at most half the window tall, inside it`);
+        const cb = det.querySelector('[data-close]'), cr = cb && cb.getBoundingClientRect();
+        if (!cr || cr.width < 44 || cr.height < 44) out.push('sheet: close button missing or under 44px');
+        cb && cb.click(); await sleep(30);
+        if (det.classList.contains('on')) out.push('sheet: close button did not close it');
+        r0().querySelector('.tx').click(); await sleep(30);
+      } else if (getComputedStyle(det).position === 'fixed') out.push('details are a sheet below 961px');
       // hover definitions in the details panel: every one opens, stays inside the panel, and Escape closes it
       let tipsSeen = 0;
       for (const id of ids) {
@@ -211,7 +228,30 @@ const { chromium } = require('playwright');
           const h = a.getAttribute('href'); if (h.length > 1 && !f.contentDocument.getElementById(decodeURIComponent(h.slice(1)))) out.push(`${t}: dead link ${h}`);
         }
       }
-      document.getElementById('t-s1').click();
+      document.getElementById('t-s1').click(); await sleep(100);
+      // reading options (the "Aa" control): largest text, roomy spacing and the easy-read font reach the new
+      // pieces with nothing clipped, no sideways scroll, 44px targets and the sheet still scrolling
+      const de = document.documentElement;
+      de.setAttribute('data-size', 'xl'); de.setAttribute('data-space', 'roomy'); de.setAttribute('data-font', 'easy');
+      document.getElementById('s1all').open = true; await sleep(150);
+      document.getElementById('s1r-' + ids[0])?.querySelector('.tx').click(); await sleep(450);
+      const ro = [];
+      if (de.scrollWidth > innerWidth + 1) ro.push(`page scrolls sideways (${de.scrollWidth}px)`);
+      for (const el of document.querySelectorAll('.s1week li, .s1week .wt, #s1all>summary, #s1detail h2, #s1detail h3, #s1detail .pd-list button, #s1detail .pd-x, #s1detail .pd-ok button')) {
+        if (el.scrollWidth > el.clientWidth + 1) ro.push(`clipped text in ${el.className || el.tagName}: "${el.textContent.trim().slice(0, 30)}"`);
+      }
+      for (const el of document.querySelectorAll('#s1all>summary, #s1detail .pd-list button, #s1detail .pd-ok button, #s1detail [data-close]')) {
+        const b = el.getBoundingClientRect(); if (b.width && b.height < 44 - 0.5) ro.push(`target under 44px: "${(el.textContent.trim() || el.getAttribute('aria-label') || '').slice(0, 30)}" ${Math.round(b.height)}px`);
+      }
+      for (const q of ['.s1week li', '#s1detail h2', '#s1detail .pd-list button']) {
+        const el = document.querySelector(q); if (el && !/verdana/i.test(getComputedStyle(el).fontFamily)) ro.push(`${q} ignores the easy-read font`);
+      }
+      if (innerWidth >= 961) {
+        const dr = det.getBoundingClientRect();
+        if (getComputedStyle(det).overflowY !== 'auto' || dr.bottom > innerHeight + 1 || dr.height > innerHeight / 2 + 1 || det.scrollHeight <= det.clientHeight) ro.push(`sheet does not scroll inside the window (overflow ${getComputedStyle(det).overflowY}, bottom ${Math.round(dr.bottom)} of ${innerHeight}, ${det.className}, ${getComputedStyle(det).position})`);
+      }
+      ro.forEach(x => out.push('reading options: ' + x));
+      ['data-size', 'data-space', 'data-font'].forEach(k => de.removeAttribute(k));
       return out.concat(errs.map(e => 'script error: ' + e));
     }, [JSON.parse(process.env.LOCKED), JSON.parse(process.env.UNLOCK)]);
     r.forEach(x => fails.push(`${width}px: ${x}`));
