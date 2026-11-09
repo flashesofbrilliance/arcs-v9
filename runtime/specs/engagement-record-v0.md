@@ -75,6 +75,9 @@ Derive ops: `["mul", a, b]`, `["div", a, b]`, `["add_days", date, days]`; argume
 - The renderer folds progress into each exported tree: every row with entries gets `status`, phases roll up from their
   gate/task/ms/oh children, and a `progress` summary carries hours done of total, items done, now, blocked, next and
   the latest entry. The myally hub's Step 1 tab draws its "Where things stand" band and row pills from that block.
+- A `done` entry may carry `actual_hours` (private): the fold never exports it, so it never reaches a client
+  page. `scripts/engagement_calibrate.py` compares it with planned hours by row kind, counts only until three
+  steps have finished.
 - Log and publish with `scripts/engagement_progress.py` (`<row> start|done|block|reset "note"`, `--list`, `--ship`).
 
 ## Add an engagement

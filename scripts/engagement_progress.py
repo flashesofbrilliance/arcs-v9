@@ -6,7 +6,7 @@ folds it into out/step1_tree.json, and scripts/myally_hub_sync.py inlines that i
 Step 1 tab and its "Where things stand" band on myally.arcs.care read one block.
 
   python3 scripts/engagement_progress.py w1a start  "Reading the code"   # in progress
-  python3 scripts/engagement_progress.py w1a done   "Read the code and database rules"
+  python3 scripts/engagement_progress.py w1a done   "Read the code and database rules" --hours 2.5
   python3 scripts/engagement_progress.py w0b block  "Waiting on the GitHub invite"
   python3 scripts/engagement_progress.py w1a reset                        # back to not started
   python3 scripts/engagement_progress.py --list                           # where every row stands
@@ -72,14 +72,17 @@ def sync_and_gate(d: str) -> None:
         print(f"  gate ok: {name}")
 
 
-def log(d: str, row: str, state: str, note: str, date: str) -> None:
+def log(d: str, row: str, state: str, note: str, date: str, hours=None) -> None:
     path = rec_path(d)
     before = open(path, encoding="utf-8").read()
     rec = json.loads(before)
     rows = er.tree_rows(rec)
     if row not in rows:
         sys.exit(f"engagement_progress: unknown row {row!r}; try --list")
-    rec.setdefault("progress", []).append({"row": row, "state": state, "date": date, "note": note})
+    entry = {"row": row, "state": state, "date": date, "note": note}
+    if hours is not None:
+        entry["actual_hours"] = hours
+    rec.setdefault("progress", []).append(entry)
     errs = er.validate_progress(rec) + (["note has an em-dash"] if "\u2014" in note else [])
     if errs:
         sys.exit("engagement_progress: refused: " + "; ".join(errs))
@@ -153,6 +156,7 @@ def main() -> int:
     ap.add_argument("state", nargs="?", choices=sorted(ALIAS))
     ap.add_argument("note", nargs="?", default="")
     ap.add_argument("--date", default=dt.date.today().isoformat())
+    ap.add_argument("--hours", type=float, help="actual hours spent, on done (private; never shown to the client)")
     ap.add_argument("--dir", default=DEFAULT_DIR)
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--ship", action="store_true")
@@ -164,7 +168,7 @@ def main() -> int:
     if a.row:
         if not a.state:
             ap.error("give a state: start, done, block or reset")
-        log(d, a.row, ALIAS[a.state], a.note.strip(), a.date)
+        log(d, a.row, ALIAS[a.state], a.note.strip(), a.date, a.hours)
     if a.ship:
         ship(d)
     elif not a.row:

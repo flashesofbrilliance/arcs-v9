@@ -114,6 +114,8 @@ def _check_source(where, src) -> list[str]:
 # earlier events stay, so a row that goes from done back to in_progress shows "reopened DATE".
 # Row ids must exist in an exported tree (a block with "rows"). The fold below writes each row's
 # status into the exported JSON, so the Step 1 tab and the progress band read one block.
+# actual_hours (optional, on done entries) is private calibration data for engagement_calibrate.py:
+# the fold never copies it into the export, so it cannot reach a client page.
 
 STATES = ("not_started", "in_progress", "done", "blocked")
 COUNTED = {"gate", "task", "ms", "oh"}  # kinds that can be finished; gap, gift, req never "complete"
@@ -138,9 +140,12 @@ def validate_progress(rec: dict) -> list[str]:
             errs.append(f"row {rid}: unlock must name a row id")
     for i, e in enumerate(ev):
         w = f"progress[{i}]"
-        if not isinstance(e, dict) or set(e) - {"row", "state", "date", "note"}:
-            errs.append(f"{w}: keys are row, state, date, note")
+        if not isinstance(e, dict) or set(e) - {"row", "state", "date", "note", "actual_hours"}:
+            errs.append(f"{w}: keys are row, state, date, note, actual_hours")
             continue
+        if "actual_hours" in e and (e.get("state") != "done" or not isinstance(e["actual_hours"], (int, float))
+                                    or isinstance(e["actual_hours"], bool) or e["actual_hours"] < 0):
+            errs.append(f"{w}: actual_hours is a number of hours on a done entry only")
         if e.get("row") not in rows:
             errs.append(f"{w}: unknown row {e.get('row')!r} (not in any exported tree)")
         if e.get("state") not in STATES:
@@ -618,6 +623,11 @@ def self_test() -> int:
         t = json.load(open(os.path.join(eng, "out", "step1_tree.json"), encoding="utf-8"))
         rid = {r["id"]: r for r in t["rows"]}
         assert t["progress"]["hours_done"] == 2 and t["progress"]["now"] == ["w1b"], t["progress"]
+        edit(lambda r: r["progress"][0].update(actual_hours=2.5))
+        write(eng)
+        assert "actual_hours" not in open(os.path.join(eng, "out", "step1_tree.json"), encoding="utf-8").read(), \
+            "actual hours must never reach the export (client page)"
+        t = json.load(open(os.path.join(eng, "out", "step1_tree.json"), encoding="utf-8"))
         assert rid["w1"]["status"]["state"] == "in_progress" and rid["w1a"]["status"]["state"] == "done"
         assert check(eng) == [], "fresh render with progress must pass"
         edit(lambda r: r["progress"].append({"row": "w1a", "state": "in_progress", "date": "2026-11-16", "note": ""}))
@@ -638,6 +648,7 @@ def self_test() -> int:
         for bad, want in (
             (lambda r: r.update(progress=[{"row": "zz", "state": "done", "date": "2026-11-14"}]), "unknown row"),
             (lambda r: r.update(progress=[{"row": "w1a", "state": "finished", "date": "2026-11-14"}]), "state must be"),
+            (lambda r: r.update(progress=[{"row": "w1a", "state": "in_progress", "date": "2026-11-14", "actual_hours": 1}]), "done entry only"),
             (lambda r: r.update(progress=[{"row": "w1a", "state": "done", "date": "2026-11-14"},
                                           {"row": "w1b", "state": "done", "date": "2026-11-13"}]), "append in order"),
             (lambda r: r["terms"].append({"id": "TX", "title": "x", "body": "{{nope}}"}), "unknown cite"),
@@ -649,7 +660,7 @@ def self_test() -> int:
             edit(bad)
             p = check(eng)
             assert p and want in p[0], (want, p)
-        print("engagement_render self-test: OK (fresh passes, idempotent, stale field named, hand edit caught, seam shown, progress folded and reopen seam shown, gift locked then released, 7 invalid records refused)")
+        print("engagement_render self-test: OK (fresh passes, idempotent, stale field named, hand edit caught, seam shown, progress folded and reopen seam shown, gift locked then released, 8 invalid records refused, actual hours kept off the export)")
         return 0
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
