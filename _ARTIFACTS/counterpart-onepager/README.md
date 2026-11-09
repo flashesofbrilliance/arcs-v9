@@ -70,7 +70,8 @@ each claim the page makes to the parts and data paths that carry it (`kit:NN-slu
 `--check` refuses a block whose job row is missing, whose part or data path does not exist, or that leaves a
 rendered block unclaimed. `--receipt` prints an ex-ante `decision_receipt` template: one unconfirmed line per
 claim, the claim-to-part map in `refs`, and the backlog row's fates as the outcomes to score at close. Judgment
-fields stay `<REQUIRED ...>`, and the script writes nothing.
+fields stay `<REQUIRED ...>`, and the script writes nothing. `outcome.supersedes` names the stale ex-ante receipt the next one replaces; the template
+puts it in the `supersedes` column, never treats it as the live bet.
 
 Why: a part's second real case should be a second closed outcome on the same job, not a second page with similar
 CSS. With claims keyed to parts, a close can say which part carried the claim that landed or missed. With only a

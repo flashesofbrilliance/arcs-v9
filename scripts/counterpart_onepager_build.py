@@ -414,14 +414,12 @@ def receipt_sql(d):
     fates = ", ".join(row.get("fates", [])) or "<none on the row>"
     unconf = [f"{c['id']} lands with the reader: {c['claim']}" for c in o["claims"]]
     refs = [d["out"]] + [f"claim:{c['id']} parts={','.join(c['parts'])} data={','.join(c['data'])}" for c in o["claims"]]
-    if o.get("exante_receipt"):
-        refs.append("prior-exante:" + o["exante_receipt"])
     arr = lambda xs: "ARRAY[" + ", ".join(q(x) for x in xs) + "]"
     return f"""-- ex-ante decision_receipt template for {o['job_id']} (fill every <REQUIRED ...>; run via Supabase execute_sql). Not written by this script.
 -- Fates on the backlog row, to score at close: {fates}
--- If a prior ex-ante receipt exists, set supersedes to it rather than editing it (the ledger is append-only).
+-- supersedes names the stale ex-ante this one replaces; the old row stays (the ledger is append-only).
 INSERT INTO public.decision_receipt
-  (receipt_id, question, horizon, stakes, mode, what_confirmed, what_unconfirmed, operator, event_at, source_repo, refs, job_id, tool_id)
+  (receipt_id, question, horizon, stakes, mode, what_confirmed, what_unconfirmed, operator, event_at, source_repo, refs, job_id, tool_id, supersedes)
 VALUES (
   '<REQUIRED YYYY-MM-DD--<slug>-exante--ZH>',
   '<REQUIRED the send question, e.g. Send {d['title']}?>',
@@ -435,7 +433,8 @@ VALUES (
   'flashesofbrilliance/arcs-v9',
   {arr(refs)},
   {q(o['job_id'])},
-  'tool:script:counterpart_onepager_build.py'
+  'tool:script:counterpart_onepager_build.py',
+  {q(o['supersedes']) if o.get('supersedes') else 'NULL'}
 );"""
 
 

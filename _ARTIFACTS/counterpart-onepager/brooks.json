@@ -159,7 +159,8 @@
   "outcome": {
     "_comment": "Internal, never rendered. Which part carries which claim, keyed to the backlog job, so the close can score each claim against what the reader did. Fates are read from the backlog row, not repeated here. Validated by scripts/counterpart_onepager_build.py --check; print the ex-ante receipt template with --receipt.",
     "job_id": "job:backlog:brooks-audit-proposal-send",
-    "exante_receipt": "2026-11-04--brooks-audit-send-exante--ZH",
+    "supersedes": "2026-11-04--brooks-audit-send-exante--ZH",
+    "supersedes_note": "Stale since the offer changed (two decisions, stop numbers, the 3-page proposal and louisville.arcs.care); the next ex-ante, filed at send, supersedes it.",
     "claims": [
       {
         "id": "C1",
