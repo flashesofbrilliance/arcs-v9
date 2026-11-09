@@ -6,7 +6,7 @@ Prepared for Brooks Thomas, Louisville Brands · Zach Harris · November 2026 ·
 
 ¶1. You asked: where is your AI build on its arc, where is it least efficient, which hypotheses are failing? I'd answer by tracing two real decisions, one technical and one business, from inputs to outcome, before the next 20,000-bag MOQ rides on it.
 
-¶2. **You named it:** Confirmation bias, recency bias, the fox watching the henhouse. An outside audit checks your team's work; it doesn't replace it.
+¶2. **Why:** Confirmation bias, recency bias, the fox watching the henhouse. An outside check, not a replacement.
 
 ## 01 Questions worth putting to your team
 
@@ -23,7 +23,7 @@ Prepared for Brooks Thomas, Louisville Brands · Zach Harris · November 2026 ·
 
 ¶8. I read your build through what it decides. Each decision gets three marks: What it relies on, what it can't see, and the date you'll know.
 
-Inputs (what it relies on) → Decision (what it can't see) → Outcome (the date you'll know), with a stop number agreed before the call.
+Inputs (what it relies on) → Decision (what it can't see) → Outcome (the date you'll know), with a stop number: the figure that would prove the decision wrong, agreed before it's made.
 
 ## 02 The two decisions
 

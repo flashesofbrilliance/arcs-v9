@@ -51,7 +51,7 @@
   --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
 }
 
-:root{--measure:600px;--gut:24px;--font-body:system-ui,-apple-system,'Inter',sans-serif;--font-code:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;--font-head:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;color-scheme:light;--pg-bg:#f7f8fa;--pg-surface:#ffffff;--pg-surface2:#eef1f5;--pg-line:#d5dbe3;--pg-edge:#76808d;--pg-text:#1c2430;--pg-muted:#566170;--pg-dim:#475262;--pg-accent:#00606b;--pg-accent-bg:rgba(0,96,107,0.09);--pg-warn-bg:#fff3c4;--pg-warn-edge:#8a6d00}
+:root{--measure:720px;--gut:24px;--font-body:system-ui,-apple-system,'Inter',sans-serif;--font-code:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;--font-head:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;color-scheme:light;--pg-bg:#f7f8fa;--pg-surface:#ffffff;--pg-surface2:#eef1f5;--pg-line:#d5dbe3;--pg-edge:#76808d;--pg-text:#1c2430;--pg-muted:#566170;--pg-dim:#475262;--pg-accent:#00606b;--pg-accent-bg:rgba(0,96,107,0.09);--pg-warn-bg:#fff3c4;--pg-warn-edge:#8a6d00}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;--pg-bg:var(--bg);--pg-surface:var(--surface);--pg-surface2:#111827;--pg-line:var(--border);--pg-edge:#5f6f87;--pg-text:var(--text);--pg-muted:var(--muted);--pg-dim:var(--dimmed);--pg-accent:var(--cyan);--pg-accent-bg:var(--cyan-bg);--pg-warn-bg:var(--gold-bg);--pg-warn-edge:var(--gold)}}
 :root[data-theme="dark"]{color-scheme:dark;--pg-bg:var(--bg);--pg-surface:var(--surface);--pg-surface2:#111827;--pg-line:var(--border);--pg-edge:#5f6f87;--pg-text:var(--text);--pg-muted:var(--muted);--pg-dim:var(--dimmed);--pg-accent:var(--cyan);--pg-accent-bg:var(--cyan-bg);--pg-warn-bg:var(--gold-bg);--pg-warn-edge:var(--gold)}
 :root[data-theme="light"]{color-scheme:light;--pg-bg:#f7f8fa;--pg-surface:#ffffff;--pg-surface2:#eef1f5;--pg-line:#d5dbe3;--pg-edge:#76808d;--pg-text:#1c2430;--pg-muted:#566170;--pg-dim:#475262;--pg-accent:#00606b;--pg-accent-bg:rgba(0,96,107,0.09);--pg-warn-bg:#fff3c4;--pg-warn-edge:#8a6d00}
@@ -80,7 +80,7 @@ header.top .pill:hover,header.top .pill:focus-visible{color:var(--pg-accent);bor
 @media (max-width:900px){.alt{position:static}}
 .shell{display:block}
 .toc{display:none}
-@media (min-width:1100px){.shell{display:grid;grid-template-columns:15rem minmax(0,calc(var(--measure) + 2*var(--gut)));justify-content:center;column-gap:40px;align-items:start}.shell main.wrap{margin:0;max-width:none}.toc{display:block;position:sticky;top:calc(var(--hdr,57px) + 24px);max-height:calc(100vh - var(--hdr,57px) - 48px);overflow:auto;scrollbar-width:thin;padding:24px 0 24px var(--gut)}header.top .wrap.bar{max-width:calc(15rem + 40px + var(--measure) + 2*var(--gut))}}
+@media (min-width:960px){.shell{display:grid;grid-template-columns:15rem minmax(0,calc(var(--measure) + 2*var(--gut)));justify-content:center;column-gap:40px;align-items:start}.shell main.wrap{margin:0;max-width:none}.toc{display:block;position:sticky;top:calc(var(--hdr,57px) + 24px);max-height:calc(100vh - var(--hdr,57px) - 48px);overflow:auto;scrollbar-width:thin;padding:24px 0 24px var(--gut)}header.top .wrap.bar{max-width:calc(15rem + 40px + var(--measure) + 2*var(--gut))}}
 .back{margin:48px 0 0;font-weight:600}
 .toc-h{margin:0 0 8px;font-weight:700;color:var(--pg-text)}
 .toc ol{list-style:none;margin:0;padding:0}.toc ol ol{padding-left:12px;border-left:1px solid var(--pg-line);margin:2px 0 8px 2px}
@@ -162,8 +162,8 @@ html[data-font="easy"] h1{font-family:var(--font-body);font-weight:700}
 html[data-font="easy"] *{font-style:normal !important}
 html[data-font="easy"] a.gl{text-decoration:none;background:var(--pg-accent-bg)}
 html[data-font="easy"] a,html[data-font="easy"] .scopelist a{text-decoration:none}
-html[data-size="l"]{font-size:112.5%;--measure:676px}
-html[data-size="xl"]{font-size:125%;--measure:750px}
+html[data-size="l"]{font-size:112.5%;--measure:810px}
+html[data-size="xl"]{font-size:125%;--measure:900px}
 html[data-space="roomy"] :is(p,li,dd,dt,td,th,.dek,.lbl,.c,.altdesc,.tip){line-height:1.8;letter-spacing:.04em;word-spacing:.14em}
 html[data-space="roomy"] :is(p,li){margin-bottom:1.1em}
 @media (prefers-color-scheme: light){html[data-tone="warm"]:not([data-theme="dark"]){--pg-bg:#fbf6e9;--pg-surface:#fffdf6;--pg-surface2:#f3ecda}}

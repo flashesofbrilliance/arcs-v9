@@ -141,8 +141,10 @@ export default async function proxy(request: NextRequest) {
       return NextResponse.rewrite(url)
     }
     if (lvProposalPath) {
+      // proposal.md: the same text as plain Markdown for AI tools and agents (gated like the page).
       // review-copy.pdf: the double-spaced, numbered copy for marking up by hand (built by proposal_build.py)
-      url.pathname = pathname.endsWith('/review-copy.pdf') ? '/louisville-proposal-review.pdf'
+      url.pathname = pathname.endsWith('/proposal.md') ? '/louisville-proposal.md'
+        : pathname.endsWith('/review-copy.pdf') ? '/louisville-proposal-review.pdf'
         : pathname.endsWith('.pdf') ? '/louisville-proposal.pdf' : '/louisville-proposal.html'
       return NextResponse.rewrite(url)
     }

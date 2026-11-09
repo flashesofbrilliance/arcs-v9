@@ -254,7 +254,8 @@
       "Bash(python3 scripts/counterpart_onepager_build.py --check)",
       "Bash(python3 scripts/counterpart_onepager_build.py --check *)",
       "Bash(python3 scripts/tabbed_brief_build.py --check)",
-      "Bash(python3 scripts/tabbed_brief_build.py --check *)"
+      "Bash(python3 scripts/tabbed_brief_build.py --check *)",
+      "Bash(python3 scripts/proposal_build.py --louisville --check)"
     ],
     "ask": [
       "Bash(git push:*)"
