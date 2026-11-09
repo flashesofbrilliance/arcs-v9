@@ -1,7 +1,7 @@
 ---
 title: Engagement compounding (design, not built)
 date: 2026-11-08
-status: WAITING on Zach's go; nothing built
+status: Moves 1 and 2 APPROVED 2026-11-08 (Zach: "Go, cap at 10 hours"), built in PR 2076 and PR 2066; Moves 3 to 5 wait for a second signed engagement
 artifact: https://claude.ai/artifact/G8v6s8QTwK1HptYn39zwPN (private)
 rendered: _PROPOSALS/rendered/2026-11-08-engagement-compounding.html
 owner: Zach Harris
@@ -129,6 +129,6 @@ if none comes, they are never built, and nothing is lost.
 ## 10. What I need from you
 
 1. Go or no-go on the design.
-2. The discovery cap in hours (my suggestion: 10).
+2. The discovery cap in hours: 10 (Zach, 2026-11-08).
 3. Whether sessions should log actual hours per finished row (needed for Move 2).
 4. Confirm the merge order: 2072, then 2059, then 2066.
