@@ -1,4 +1,4 @@
-# An outside read on your AI build
+# A checkup on your AI build
 
 Prepared for Brooks Thomas, Louisville Brands · Zach Harris · November 2026 · Confidential
 
@@ -6,7 +6,7 @@ Prepared for Brooks Thomas, Louisville Brands · Zach Harris · November 2026 ·
 
 ¶1. You asked: where is your AI build on its arc, where is it least efficient, which hypotheses are failing? I'd answer by following two real decisions, one technical and one business, from what went in to how they turned out, before the next 20,000-bag MOQ rides on it.
 
-¶2. **Why:** Confirmation bias, recency bias, the fox watching the henhouse. An outside check, not a replacement.
+¶2. **Why:** Confirmation bias, recency bias, the fox watching the henhouse. An outside gut check, not a replacement.
 
 ## 01 Questions worth putting to your team
 
@@ -19,7 +19,7 @@ Prepared for Brooks Thomas, Louisville Brands · Zach Harris · November 2026 ·
 | ¶6. A missed simulation means bad data or a wrong hypothesis. | For the last miss, which was it, and can your setup tell next time? |
 | ¶7. No 20,000-bag MOQ without an early indicator. | Which flavor calls carry a number that says stop, agreed before the order? |
 
-## If you want the outside read
+## If you want the checkup
 
 ¶8. I read your build through what it decides. Each decision gets three marks: What it relied on, what it couldn't see, and when you'll know if it worked.
 
@@ -56,7 +56,7 @@ Inputs (what it relies on) → Decision (what it can't see) → Outcome (the dat
 
 ¶15. My RFP engine works the same way: Each answer cites its clause, says "not covered" when it can't, and logs its misses in public. good.arcs.care/rfp-engine
 
-¶16. Pick the two decisions and I'll send a start date, so the read lands before Q1 plans and the next MOQ lock.
+¶16. Pick the two decisions and I'll send a start date, so the checkup lands before Q1 plans and the next MOQ lock.
 
 ## Your answers and changes
 
