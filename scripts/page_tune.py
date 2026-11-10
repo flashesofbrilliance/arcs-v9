@@ -117,12 +117,12 @@ def load(paths, version=None):
             cs["tok"].update(tok); cs["wrap"].update(wrap)
             continue
         if isinstance(doc, list):
-            if all(isinstance(x, dict) and "op" in x for x in doc):
+            if all(isinstance(x, dict) and "path" in x for x in doc):
                 cs["ops"] += doc
-            elif all(isinstance(x, dict) and "old" in x for x in doc):
-                cs["pairs"] += doc
+            elif all(isinstance(x, dict) and ("old" in x or x.get("op") in STRUCT) for x in doc):
+                cs["pairs"] += doc  # Copy edits: {old, new[, html]} pairs, and line joins/removals {op: merge|remove, parts}
             else:
-                raise SystemExit("%s: a list, but neither JSON patch ops nor {old, new} pairs" % p)
+                raise SystemExit("%s: a list, but neither JSON patch ops nor Copy edits" % p)
             continue
         st = doc
         if "versions" in doc:
@@ -250,34 +250,55 @@ def masked(raw, mask):
     return re.sub(mask, lambda m: "\0" * len(m.group(0)), raw, flags=re.S) if mask else raw
 
 
+STRUCT = ("merge", "remove")  # line joins and removals from double-click editing (token_tuner_inline.run_span)
+
+
 def place_pairs(pairs, sources):
-    """Assign each pair to the first source holding its old text. A source is (kind, path) or (kind, path, mask regex);
-    masked regions of a text or html source are generated, so they never take a pair.
-    Returns ({path: [(kind, target, pair)]}, errors); target is a JSON pointer, or a match on the masked text."""
+    """Assign each edit to the first source holding it. A source is (kind, path) or (kind, path, mask regex); masked regions
+    of a text or html source are generated, so they never take an edit. Whole-element edits ({html: true}) and line joins or
+    removals ({op: merge|remove, parts}) change markup, so only html sources take them.
+    Returns ({path: [(kind, target, edit)]}, errors); target is a JSON pointer, or a cut (start, end, replacement)."""
     plan, errors = {}, []
     for i, pr in enumerate(pairs):
+        struct, as_html = pr.get("op") in STRUCT, bool(pr.get("html"))
         old = pr.get("old", "")
-        if not old.strip():
-            errors.append("pair %d: empty old text" % (i + 1)); continue
+        if not struct and not old.strip():
+            errors.append("edit %d: empty old text" % (i + 1)); continue
+        what = (pr.get("parts") or [""])[0] if struct else old
         done = False
         for src in sources:
             kind, path, mask = (tuple(src) + (None,))[:3]
+            if (struct or as_html) and kind != "html":
+                continue
             raw = open(path, encoding="utf-8").read()
+            if struct:
+                cut, why = tti.run_span(masked(raw, mask), pr)
+                if why and "found 0 times" in why:
+                    continue
+                if why:
+                    errors.append("edit %d in %s: %s" % (i + 1, rel(path), why))
+                else:
+                    plan.setdefault(path, []).append((kind, cut, pr))
+                done = True
+                break
             if kind in ("json", "json-html"):
                 sp = spans(raw)
                 found = [(ptr, h) for ptr, (a, b) in sp.items() if raw[a] == '"' for h in hits_in(json.loads(raw[a:b]), old)]
             else:
-                found = [(h, h) for h in hits_in(masked(raw, mask), old)]
+                pat = re.escape(old) if as_html else tti.text_pattern(old)
+                new = pr.get("new", "") if (as_html or kind != "html") else htmllib.escape(pr.get("new", ""), quote=False)
+                found = [((h.start(), h.end(), new), h) for h in re.finditer(pat, masked(raw, mask))]
             if not found:
                 continue
             if len(found) > 1:
-                errors.append("pair %d: old text found %d times in %s, need exactly 1: %r" % (i + 1, len(found), rel(path), old[:60]))
+                errors.append("edit %d: old text found %d times in %s, need exactly 1: %r" % (i + 1, len(found), rel(path), old[:60]))
             else:
                 plan.setdefault(path, []).append((kind, found[0][0], pr))
             done = True
             break
         if not done:
-            errors.append("pair %d: old text not in any source (%s): %r" % (i + 1, ", ".join(rel(x[1]) for x in sources), old[:60]))
+            kinds = "an html source" if (struct or as_html) else "any source"
+            errors.append("edit %d: not in %s (%s): %r" % (i + 1, kinds, ", ".join(rel(x[1]) for x in sources), what[:60]))
     return plan, errors
 
 
@@ -295,8 +316,8 @@ def apply_pairs_to(path, items):
             ops[ptr] = cur[:m.start()] + new + cur[m.end():]
         out, _ = json_write_ops(path, [{"op": "replace", "path": p, "value": v} for p, v in ops.items()])
         return out
-    # html escapes new text; plain text (Markdown) takes it literally. Matches were found on the masked text, same offsets.
-    cuts = sorted(((m.start(), m.end(), htmllib.escape(pr["new"], quote=False) if kind == "html" else pr["new"]) for _, m, pr in items), reverse=True)
+    # cuts were found on the masked text, same offsets; html text pairs arrive escaped, Markdown literal
+    cuts = sorted((cut for _, cut, _ in items), reverse=True)
     for (a, b, _), (c, d, _) in zip(cuts, cuts[1:]):
         if d > a:
             raise SystemExit("two edits overlap in %s" % rel(path))
@@ -437,6 +458,15 @@ def self_test():
     assert "<p>T &amp; J</p>" in apply_pairs_to(h, plan[h]), "html pairs escape new text"
     plan, err = place_pairs([{"old": "two", "new": "2"}], [("html", h, r"<p>two</p><p>two</p>")])
     assert err and "not in any source" in err[0], "a masked (generated) region never takes a pair"
+    h2 = os.path.join(d, "q.html")
+    open(h2, "w").write('<div>\n  <p class="deck">Line one</p>\n  <p>line &amp; two</p>\n  <p>three</p>\n</div>')
+    plan, err = place_pairs([{"op": "merge", "parts": ["Line one", "line &amp; two"], "new": "Line one line &amp; two"}], [("json", j), ("html", h2)])
+    assert not err and '<p class="deck">Line one line &amp; two</p>' in apply_pairs_to(h2, plan[h2]), ("a join lands in the html source", err)
+    plan, err = place_pairs([{"op": "remove", "parts": ["three"]}], [("json", j)])
+    assert err and "not in an html source" in err[0], "a join or removal never lands in data"
+    raw_ops = os.path.join(d, "e.json")
+    json.dump([{"op": "remove", "parts": ["three"]}], open(raw_ops, "w"))
+    assert load([raw_ops])["pairs"] and not load([raw_ops])["ops"], "Copy edits with joins are not read as a JSON patch"
     blk = put_block(open(h).read(), style_block("", {"--sp-2": "18px"}, {}), True)
     assert blk.index(B_START) < blk.index("</style>") and ":root{--sp-2:18px;}" in blk
     blk2 = put_block(blk, style_block(B_RE.search(blk).group(1), {"--gap": "4px"}, {":is(p,li,dd)": "pretty"}), True)
