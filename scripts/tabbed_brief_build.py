@@ -8,7 +8,7 @@ The page is generated from four parts and never hand-edited:
   python3 scripts/tabbed_brief_build.py DATA.json -o OUT.html            write the full page (doctype, analytics if the data asks)
   python3 scripts/tabbed_brief_build.py DATA.json --artifact OUT.html    write the Artifact body (no doctype, no analytics)
   python3 scripts/tabbed_brief_build.py DATA.json --tune OUT.html        internal copy with the tuner: ?tune sliders, ?edit text; refuses public/
-  python3 scripts/tabbed_brief_build.py DATA.json --apply PATCH.json     apply the JSON patch the tuner copies, then rebuild
+  python3 scripts/tabbed_brief_build.py DATA.json --apply EXPORT [...]   the tuner's exports back to source (scripts/page_tune.py), then rebuild
   python3 scripts/tabbed_brief_build.py --check                          exit 1 if a registered page differs from its data
   python3 scripts/tabbed_brief_build.py --self-test                      prove the validator rejects each bad shape
 Stdlib only.
@@ -22,7 +22,8 @@ PARTS = ["27-section-label", "28-chip", "31-callout", "45-fact-tile", "54-signal
 REGISTERED = {"_ARTIFACTS/tabbed-brief/gravity.json": "public/gravity-brief.html"}
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import precall_brief_build as pb  # the stdlib JSON Schema subset lives there; reuse it, do not fork it
-TUNE = [False]  # --tune build: each data string sits in a span carrying its JSON pointer (data-src) for the tuner's ?edit mode
+import page_tune as pt  # the shared --tune / --apply mechanics
+TUNE = [False]  # --tune build: [True, page base name]; pt.TUNE makes md() wrap each data string in its JSON pointer (data-src)
 
 
 def e(s):
@@ -34,7 +35,7 @@ def md(s, src=None):
     t = e(s)
     t = re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)", lambda m: '<a href="%s">%s</a>' % (m.group(2), m.group(1)), t)
     t = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", t)
-    return ('<span data-src="%s">%s</span>' % (e(src), t)) if (TUNE[0] and src) else t
+    return pt.span(t, src)
 
 
 def kit_block(name):
@@ -395,50 +396,24 @@ def write_pages(d, out, artifact=False):
 
 def tune_build(path, out):
     """Internal copy for hand tuning: data-src spans, the breakpoint's data pointer on <main>, and the tuner inlined first in <body>."""
-    import token_tuner_inline as tti
-    if os.path.abspath(out).startswith(os.path.join(ROOT, "public") + os.sep):
-        raise SystemExit("--tune output must not live under public/: the tuner is internal only")
+    pt.refuse_public(out)
     TUNE[:] = [True, re.sub(r"\.html$", "", os.path.basename(out))]
+    pt.TUNE[0] = True
     try:
         d = json.load(open(path, encoding="utf-8"))
         res = outputs(d, out)
     finally:
         TUNE[:] = [False]
+        pt.TUNE[0] = False
     for f, h in res.items():
-        h = h.replace('<main class="tb"', '<main data-bp="%d" data-bp-src="/stack_below" class="tb"' % stack_below(d), 1)
-        open(f, "w", encoding="utf-8").write(tti.inline(h))
-        print("wrote %s (open with ?tune, add &edit to edit text)" % f)
+        pt.tune_write(h, f, stack_below(d), "/stack_below")
     return res
 
 
-def apply_patch(data_path, patch_path):
-    """Apply an RFC 6902 patch (replace / add only, the two ops the tuner writes) to a data file, validate, keep the file's format."""
-    d = json.load(open(data_path, encoding="utf-8"))
-    ops = json.load(open(patch_path, encoding="utf-8"))
-    for op in ops:
-        if op.get("op") not in ("replace", "add"):
-            raise SystemExit("unsupported op %r (the tuner writes replace and add)" % op.get("op"))
-        keys = [k.replace("~1", "/").replace("~0", "~") for k in op["path"].split("/")[1:]]
-        cur = d
-        for k in keys[:-1]:
-            cur = cur[int(k)] if isinstance(cur, list) else cur[k]
-        last = keys[-1]
-        if isinstance(cur, list):
-            cur[int(last)] = op["value"]
-        elif op["op"] == "replace" and last not in cur:
-            raise SystemExit("replace on a missing key: %s" % op["path"])
-        else:
-            cur[last] = op["value"]
-    errs = validate(d)
-    if errs:
-        for x in errs:
-            print("✖ " + x)
-        raise SystemExit(1)
-    raw = open(data_path, encoding="utf-8").read()
-    m = re.search(r"\n( +)\"", raw)  # keep the file's own indent, so a one-field patch is a one-line diff
-    out = json.dumps(d, indent=len(m.group(1)) if m else 1, ensure_ascii=False) + ("\n" if raw.endswith("\n") else "")
-    open(data_path, "w", encoding="utf-8").write(out)
-    print("applied %d op(s) to %s" % (len(ops), data_path))
+def apply_patch(data_path, patch_paths, version=None):
+    """The tuner's exports back to source: text and the breakpoint to the data file, tokens and wrapping to shell.css."""
+    return pt.apply(patch_paths if isinstance(patch_paths, list) else [patch_paths], [("json", data_path)],
+                    style=("block", os.path.join(TDIR, "shell.css")), bp_ptr="/stack_below", bp_default=1024, version=version, validate=validate)
 
 
 def check():
@@ -481,8 +456,7 @@ def main(argv):
     ap.add_argument("data", nargs="?")
     ap.add_argument("-o", "--out")
     ap.add_argument("--artifact")
-    ap.add_argument("--tune", metavar="OUT.html")
-    ap.add_argument("--apply", metavar="PATCH.json")
+    pt.add_args(ap)
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args(argv)
@@ -493,7 +467,7 @@ def main(argv):
     if not a.data:
         ap.error("give a data file, --check or --self-test")
     if a.apply:
-        apply_patch(a.data, a.apply)
+        apply_patch(a.data, a.apply, a.version)
         rebuilt = [p for dp, p in REGISTERED.items() if os.path.abspath(os.path.join(ROOT, dp)) == os.path.abspath(a.data)]
         for p in rebuilt:
             build(a.data, os.path.join(ROOT, p))

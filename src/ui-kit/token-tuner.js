@@ -1,7 +1,7 @@
 /* arcs-token-tuner: live layout and text controls for a page, internal only.
    ?tune  sliders bound to the page's :root tokens, one slider per CSS breakpoint, text-wrap selects.
    ?edit  every element carrying data-src="/json/pointer" becomes editable (a --tune build of a data page emits those).
-   It writes CSS custom properties on <html>, rewrites the page's own @media rules, and adds one <style> for wrapping.
+   It writes CSS custom properties on <html>, rewrites the page's own @media and @container width rules (px or rem), and adds one <style> for wrapping.
    "Copy CSS" gives one line to paste after the page's last :root block. "Copy JSON" gives one RFC 6902 patch for the
    page's data file (text edits, and the breakpoint when <main data-bp-src> names its field); apply it with the builder.
    Breakpoints move for JS too: in tune mode window.matchMedia is wrapped so a query such as (max-width: 1023px) follows
@@ -13,7 +13,8 @@
    Double-click (tune mode, in Fit or in a frame): any text element without data-src becomes editable in place; Enter or
    Esc or a click away commits. "Copy edits" gives a JSON list of {old, new} text pairs, one per changed text node;
    apply it to the page's SOURCE with token_tuner_inline.py --apply-text edits.json SOURCE.html, which refuses any old
-   text that is missing or not unique. Never hand-edit a built file.
+   text that is missing or not unique. Or hand any export (Copy JSON, Copy CSS, Copy edits, Export versions) to the page's own
+   builder with --apply; scripts/page_tune.py routes each part to that page's source. Never hand-edit a built file.
    State autosaves (debounced, localStorage per page path, sessionStorage if that is blocked), text edits included, and
    comes back on reload. "Drop breadcrumb" snapshots it as v1, v2... with a time, an optional note and an empty "why"
    (reserved for a later prompt); any version restores, and "Export versions" gives JSON that --apply-text also takes.
@@ -100,11 +101,30 @@
       return o;
     };
   }
-  var mediaRules = [];
+  var mediaRules = [], contRules = [];
+  // @container width queries (kit 54 signal ledger, 55 sound bite): one key per width and unit, prefixed c
+  var CQ_RE = /\((min|max)-width:\s*(\d+(?:\.\d+)?)(px|rem)\)/g;
+  function ckey(v, u) { return 'c' + v + u; }
+  function cremap(text) {
+    return text.replace(CQ_RE, function (m, k, v, u) { var nk = BP[ckey(+v, u)]; return nk == null ? m : '(' + k + '-width: ' + nk + u + ')'; });
+  }
   function scan(rules) {
     [].forEach.call(rules || [], function (r) {
       if (r.media && r.cssRules) { mediaRules.push({ rule: r, orig: r.media.mediaText }); }
+      else if (r.cssRules && /^@container\b/.test(r.cssText || '')) {
+        contRules.push({ rule: r, orig: r.conditionText, cur: r.conditionText });
+      }
       if (r.cssRules) scan(r.cssRules);
+    });
+  }
+  // conditionText is read-only on CSSContainerRule, so a moved query replaces the rule in place
+  function applyCont() {
+    contRules.forEach(function (c) {
+      var t = cremap(c.orig); if (t === c.cur) return;
+      var par = c.rule.parentRule || c.rule.parentStyleSheet, i = [].indexOf.call(par.cssRules, c.rule);
+      if (i < 0) return;
+      var body = c.rule.cssText.slice(c.rule.cssText.indexOf('{'));
+      try { par.deleteRule(i); par.insertRule('@container ' + t + ' ' + body, i); c.rule = par.cssRules[i]; c.cur = t; } catch (e) { /* leave the rule as it was */ }
     });
   }
   [].forEach.call(document.styleSheets, function (s) { try { scan(s.cssRules); } catch (e) { /* cross-origin sheet: skip */ } });
@@ -118,6 +138,7 @@
     mediaRules.forEach(function (m) { var t = media(m.orig); if (m.rule.media.mediaText !== t) m.rule.media.mediaText = t; });
     menuEls.forEach(function (m) { var k = m.orig; m.el.setAttribute('data-menu-below', BP[k] != null ? BP[k] : k); });
     lists.forEach(function (o) { o._re(); });
+    applyCont();
   }
   if (TUNE) applyBP();
 
@@ -148,7 +169,10 @@
     }
     function done(el) { if (!el.hasAttribute('contenteditable')) return; el.removeAttribute('contenteditable'); collect(); }
     document.addEventListener('dblclick', function (e) {
-      var el = e.target && e.target.closest && e.target.closest(BLOCKS);
+      var t = e.target, el = t && t.closest && t.closest(BLOCKS);
+      // pages that set text in bare div/span (the Almanac): the element that directly holds the clicked text is editable too
+      if (!el && t && t.nodeType === 1 && !/^(SCRIPT|STYLE|BODY|HTML|MAIN)$/.test(t.tagName) &&
+          [].some.call(t.childNodes, function (n) { return n.nodeType === 3 && n.nodeValue.trim(); })) el = t;
       if (!el || el.closest('[data-src],[data-arcs-token-tuner]') || el.isContentEditable) return;
       e.preventDefault();
       touch(el);
@@ -258,6 +282,9 @@
     mediaRules.forEach(function (m) { var r; MQ_RE.lastIndex = 0; while ((r = MQ_RE.exec(m.orig))) keys[keyOf(r[1], +r[2])] = 1; });
     menuEls.forEach(function (m) { keys[m.orig] = 1; });
     var bpKeys = Object.keys(keys).map(Number).sort(function (a, b) { return a - b; });
+    var ckeys = {};
+    contRules.forEach(function (c) { var r; CQ_RE.lastIndex = 0; while ((r = CQ_RE.exec(c.orig))) ckeys[ckey(+r[2], r[3])] = { v: +r[2], u: r[3] }; });
+    var cKeys = Object.keys(ckeys).sort(function (a, b) { return (ckeys[a].u === 'rem' ? 16 : 1) * ckeys[a].v - (ckeys[b].u === 'rem' ? 16 : 1) * ckeys[b].v; });
 
     var editables = EDIT ? [].slice.call(document.querySelectorAll('[data-src]')) : [];
     var canPatch = editables.length > 0 || !!bpData;
@@ -413,7 +440,17 @@
         r.input.addEventListener('input', function () { applyBPRow(r); });
         bpRows.push(r); body.appendChild(row); applyBPRow(r, true);
       });
-      if (!bpKeys.length) { var none = document.createElement('div'); none.classList.add('r', 'off'); none.innerHTML = '<label>no px width queries</label>'; body.appendChild(none); }
+      cKeys.forEach(function (k) {
+        var c = ckeys[k], row = document.createElement('div'); row.classList.add('r');
+        var rem = c.u === 'rem', step = rem ? 0.25 : 4, min = rem ? 10 : 160, max = Math.max(rem ? 100 : 1600, c.v);
+        row.innerHTML = '<label for="ttbp' + k.replace('.', '_') + '">' + c.v + c.u + ' (container)</label><output></output>' +
+          '<input type="range" id="ttbp' + k.replace('.', '_') + '" min="' + min + '" max="' + max + '" step="' + step + '">';
+        var r = { key: k, orig: c.v, unit: c.u, input: row.querySelector('input'), out: row.querySelector('output'), row: row };
+        r.input.value = BP[k] != null ? BP[k] : c.v;
+        r.input.addEventListener('input', function () { applyBPRow(r); });
+        bpRows.push(r); body.appendChild(row); applyBPRow(r, true);
+      });
+      if (!bpKeys.length && !cKeys.length) { var none = document.createElement('div'); none.classList.add('r', 'off'); none.innerHTML = '<label>no width queries</label>'; body.appendChild(none); }
 
       /* wrapping */
       group('Wrapping');
@@ -490,10 +527,10 @@
       if (!quiet) refresh();
     }
     function applyBPRow(r, quiet) {
-      var v = parseFloat(r.input.value), changed = v !== r.key;
+      var o = r.orig != null ? r.orig : r.key, u = r.unit || 'px', v = parseFloat(r.input.value), changed = v !== o;
       if (changed) BP[r.key] = v; else delete BP[r.key];
       applyBP();
-      r.out.textContent = v + 'px' + (changed ? ' (was ' + r.key + 'px)' : '');
+      r.out.textContent = v + u + (changed ? ' (was ' + o + u + ')' : '');
       r.row.classList.toggle('changed', changed);
       if (!quiet) refresh();
     }
@@ -503,7 +540,7 @@
       var s = parts.length ? ':root{' + parts.join('') + '}' : '';
       wrapRows.forEach(function (r) { if (r.input.value) s += r.sel + '{text-wrap:' + r.input.value + '}'; });
       var loose = bpRows.filter(function (r) { return BP[r.key] != null && !(bpData && bpData.key === r.key); });
-      if (loose.length) s += '/* breakpoints, set in source: ' + loose.map(function (r) { return r.key + 'px to ' + BP[r.key] + 'px'; }).join(', ') + ' */';
+      if (loose.length) s += '/* breakpoints, set in source: ' + loose.map(function (r) { var u = r.unit || 'px'; return (r.orig != null ? r.orig : r.key) + u + (r.unit ? ' (container)' : '') + ' to ' + BP[r.key] + u; }).join(', ') + ' */';
       return s;
     }
     function ops() {
@@ -529,7 +566,7 @@
     function restoreState(st) {
       st = st || {};
       rows.forEach(function (r) { r.input.value = (st.tok && st.tok[r.name] != null) ? st.tok[r.name] : r.orig; applyTok(r, true); });
-      bpRows.forEach(function (r) { r.input.value = (st.bp && st.bp[r.key] != null) ? st.bp[r.key] : r.key; applyBPRow(r, true); });
+      bpRows.forEach(function (r) { var o = r.orig != null ? r.orig : r.key; r.input.value = (st.bp && st.bp[r.key] != null) ? st.bp[r.key] : o; applyBPRow(r, true); });
       wrapRows.forEach(function (r, i) { r.input.value = (st.wrap && st.wrap[i]) || ''; });
       if (wrapRows.length) applyWrap(true);
       setPrint(!!st.print); setVP(+st.vp || 0);
@@ -577,7 +614,7 @@
         e.target.setAttribute('aria-expanded', String(!min));
       } else if (act === 'reset') {
         rows.forEach(function (r) { r.input.value = r.orig; applyTok(r, true); });
-        bpRows.forEach(function (r) { r.input.value = r.key; applyBPRow(r, true); });
+        bpRows.forEach(function (r) { r.input.value = r.orig != null ? r.orig : r.key; applyBPRow(r, true); });
         wrapRows.forEach(function (r) { r.input.value = ''; });
         if (wrapRows.length) applyWrap(true);
         base.forEach(function (b) { b.el.innerHTML = b.html; mark(b); });

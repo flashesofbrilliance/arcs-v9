@@ -14,6 +14,9 @@ moved, its old and new value, and every output that cites it. A stale field is f
   python3 scripts/engagement_render.py --dir <slug-dir> # render one
   python3 scripts/engagement_render.py --check         # read-only; exit 1 on stale or invalid
   python3 scripts/engagement_render.py --self-test
+  python3 scripts/engagement_render.py --dir <slug-dir> --tune OUT.html       # internal proposal.html with the live editor
+  python3 scripts/engagement_render.py --dir <slug-dir> --apply EXPORT [...]  # its text edits back to engagement.json, re-render
+  (the client-facing MyAlly hub has its own --tune/--apply in scripts/myally_hub_sync.py, which re-renders through here)
 
 Stdlib only. Nothing here sends, publishes or writes outside the engagement folder.
 """
@@ -30,6 +33,9 @@ import re
 import shutil
 import sys
 import tempfile
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import page_tune as pt  # noqa: E402  the shared --tune / --apply mechanics
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 ENG_GLOB = os.path.join(ROOT, "_ARTIFACTS", "engagements", "*", "engagement.json")
@@ -781,9 +787,19 @@ def main() -> int:
     ap.add_argument("--dir", help="one engagement folder (default: every _ARTIFACTS/engagements/*)")
     ap.add_argument("--check", action="store_true", help="read-only; exit 1 when any output is stale or the record invalid")
     ap.add_argument("--self-test", action="store_true")
+    pt.add_args(ap)
     args = ap.parse_args()
     if args.self_test:
         return self_test()
+    if args.tune or args.apply:
+        if not args.dir:
+            ap.error("--tune and --apply need --dir")
+        d = os.path.abspath(args.dir)
+        if args.tune:
+            pt.tune_write(build(d)["outputs"]["proposal.html"][0], args.tune)
+            return 0
+        # the page's CSS is this script's own (no tuner tokens at :root), so only text has a sink
+        pt.apply(args.apply, [("json", os.path.join(d, "engagement.json"))], version=args.version, validate=validate)
     dirs = [os.path.abspath(args.dir)] if args.dir else sorted(os.path.dirname(p) for p in glob.glob(ENG_GLOB))
     if args.check:
         probs = [p for d in dirs for p in check(d)]

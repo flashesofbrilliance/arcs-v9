@@ -26,11 +26,16 @@ USAGE
   python3 scripts/proposal_build.py --source S --hosted public/X.html --check
   python3 scripts/proposal_build.py --louisville            # the Louisville proposal preset
   python3 scripts/proposal_build.py --louisville --check
+  python3 scripts/proposal_build.py --louisville --tune OUT.html     internal copy with the live editor (refuses public/)
+  python3 scripts/proposal_build.py --louisville --apply EXPORT [...] the editor's exports back to the source, then rebuild
+                                    (text to the source page; tokens and wrapping to a tuned block in its <style>)
 Before a multi-part copy edit to the source: run the sanity-check agent (.claude/agents/sanity-check.md).
 Then gate the outputs: python3 scripts/page_gate.py --counterpart --matrix full public/X.html public/X.pdf
 EXIT 0 ok · 1 --check drift or a build error
 """
 import argparse, os, re, shutil, subprocess, sys, tempfile
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import page_tune as pt  # the shared --tune / --apply mechanics
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SENTINEL = "/* ARCS Recoil Report — Design Tokens */"
@@ -121,6 +126,7 @@ def main():
     ap.add_argument("--pdf-href", default="/proposal/outside-read.pdf")
     ap.add_argument("--review-md"); ap.add_argument("--review-pdf"); ap.add_argument("--review-txt")
     ap.add_argument("--check", action="store_true", help="fail if the hosted copy differs from a fresh build")
+    pt.add_args(ap)
     a = ap.parse_args()
     if a.louisville:
         for k, v in PRESETS["louisville"].items():
@@ -129,6 +135,8 @@ def main():
     if not (a.source and a.hosted):
         ap.error("--source and --hosted are required (or --louisville)")
     rel = lambda p: p if os.path.isabs(p) else os.path.join(ROOT, p)
+    if a.apply:  # the source is hand HTML: text pairs and the tuned style block both land in it; then build as usual
+        pt.apply(a.apply, [("html", rel(a.source))], style=("block", rel(a.source)), version=a.version)
     with open(rel(a.source), encoding="utf-8") as f:
         src = f.read()
     send = send_copy(src)
@@ -139,6 +147,9 @@ def main():
         print("✖ proposal-build: escaped quote (\\' or \\\") in visible text; fix the source")
         return 1
     hosted = hosted_copy(send, a.pdf_href)
+    if a.tune:
+        pt.tune_write(hosted, a.tune)
+        return 0
 
     if a.check:
         try:
