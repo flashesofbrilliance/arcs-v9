@@ -4,9 +4,10 @@
     python3 scripts/token_tuner_inline.py FILE.html [...]           inline (or refresh) src/ui-kit/token-tuner.js first in <body>
     python3 scripts/token_tuner_inline.py --strip FILE.html [...]   remove it (do this before a counterpart send copy)
     python3 scripts/token_tuner_inline.py --check FILE.html [...]   exit 1 if a page carries a stale copy
-    python3 scripts/token_tuner_inline.py --apply-text EDITS.json SOURCE.html
+    python3 scripts/token_tuner_inline.py --apply-text EDITS.json SOURCE.html [--version N]
                                        apply the tuner's "Copy edits" list ([{old, new}] text pairs) to a page's SOURCE;
-                                       refuses (and writes nothing) if any old text is missing or not unique
+                                       refuses (and writes nothing) if any old text is missing or not unique. EDITS may
+                                       also be an "Export versions" file: the latest version's text edits, or version N
     python3 scripts/token_tuner_inline.py --self-test
 
 The tuner only runs when the page URL has ?tune or ?edit, so an internal page can keep it. It goes first in <body>,
@@ -85,6 +86,21 @@ def apply_text(src, edits):
     return src, []
 
 
+def pairs_from(doc, version=None):
+    """The [{old, new}] list from a Copy edits list or an Export versions object ({versions: [{v, state: {dbl}}]})."""
+    if isinstance(doc, list):
+        if version is not None:
+            raise ValueError("--version needs an Export versions file")
+        return doc
+    vs = doc.get("versions") or []
+    if not vs:
+        raise ValueError("no versions in the file")
+    pick = vs[-1] if version is None else next((v for v in vs if v.get("v") == version), None)
+    if pick is None:
+        raise ValueError(f"no version {version}; have {', '.join('v%s' % v.get('v') for v in vs)}")
+    return (pick.get("state") or {}).get("dbl") or []
+
+
 def has_tuner(html):
     return MARKER in html
 
@@ -106,6 +122,10 @@ def self_test():
     assert err and out == src, "apply-text refuses a missing old text"
     out, err = apply_text(src, [{"old": "one", "new": "<b>1</b>", "html": True}])
     assert not err and "<li><b>1</b></li>" in out, "apply-text takes an html pair verbatim"
+    exp = {"versions": [{"v": 1, "why": "", "state": {"dbl": [{"old": "one", "new": "1"}]}},
+                        {"v": 2, "why": "", "state": {"dbl": [{"old": "one", "new": "uno"}]}}]}
+    assert pairs_from(exp) == [{"old": "one", "new": "uno"}], "an export file applies its latest version"
+    assert pairs_from(exp, 1) == [{"old": "one", "new": "1"}], "--version picks one"
     print("token_tuner_inline self-test: ok")
 
 
@@ -113,11 +133,19 @@ def main(argv):
     if argv[:1] == ["--self-test"]:
         return self_test()
     if argv[:1] == ["--apply-text"]:
+        version = None
+        if "--version" in argv:
+            i = argv.index("--version")
+            version, argv = int(argv[i + 1]), argv[:i] + argv[i + 2:]
         if len(argv) != 3:
             print(__doc__)
             return 2
         with open(argv[1], encoding="utf-8") as fh:
-            edits = json.load(fh)
+            try:
+                edits = pairs_from(json.load(fh), version)
+            except ValueError as e:
+                print(f"✖ {e}")
+                return 1
         with open(argv[2], encoding="utf-8") as fh:
             src = fh.read()
         if has_tuner(src):
