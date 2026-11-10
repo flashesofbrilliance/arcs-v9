@@ -256,7 +256,13 @@
       "Bash(python3 scripts/tabbed_brief_build.py --check)",
       "Bash(python3 scripts/tabbed_brief_build.py --check *)",
       "Bash(python3 scripts/proposal_build.py --louisville --check)",
+      "Bash(python3 scripts/myally_hub_crawl.py *)",
       "Bash(python3 scripts/tabbed_brief_build.py --self-test)",
+      "Bash(bash scripts/leak_check.sh)",
+      "Bash(scripts/leak_check.sh)",
+      "Bash(python3 scripts/proposal_lint.py --self-test)",
+      "mcp__ccd_turn__update_plan",
+      "mcp__ccd_turn__wrap_up",
       "Bash(vercel whoami)",
       "Bash(vercel domains ls)",
       "Bash(vercel domains ls *)"
