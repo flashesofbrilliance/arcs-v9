@@ -98,7 +98,11 @@ TABLE_N = [0]  # each scroll region gets its own name (axe landmark-unique)
 def r_table(b):
     TABLE_N[0] += 1
     head = "".join("<th>%s</th>" % md(h) for h in b["head"])
-    rows = "".join("<tr>%s</tr>" % "".join(('<td data-label="%s">%s</td>' % (e(b["head"][i]), md(c))) if i else "<td>%s</td>" % md(c) for i, c in enumerate(r)) for r in b["rows"])
+    chips = b.get("chips") or []
+    def first(c, j):
+        k = chips[j] if j < len(chips) else ""
+        return '<td><span class="chip %s">%s</span></td>' % (k, md(c)) if k else "<td>%s</td>" % md(c)
+    rows = "".join("<tr>%s</tr>" % "".join(('<td data-label="%s">%s</td>' % (e(b["head"][i]), md(c))) if i else first(c, j) for i, c in enumerate(r)) for j, r in enumerate(b["rows"]))
     return '<div class="tb-scroll" tabindex="0" role="region" aria-label="Table %d: %s"><table class="tb-table"><thead><tr>%s</tr></thead><tbody>%s</tbody></table></div>' % (
         TABLE_N[0], e(", ".join(b["head"])), head, rows)
 
@@ -142,6 +146,8 @@ def r_blocks(bl, horizons, hlevel):
             how = '<div class="cr-howwrap"><p class="section-label" id="cr-how-l">How</p><ol class="cr-how" aria-labelledby="cr-how-l">%s</ol></div>' % how if how else ""
             read = '<p class="callout cr-read"><b>How to read</b>%s</p>' % md(b["read"]) if b.get("read") else ""
             out.append('<div class="cr"><dl class="cr-slots">%s</dl>%s%s</div>' % (slots, how, read))
+        elif t == "callout":
+            out.append('<p class="callout"><b>%s</b>%s</p>' % (md(b["lead"]), md(b["text"])))
         elif t == "list":
             tag = "ol" if b.get("ordered") else "ul"
             out.append('<%s class="tb-list">%s</%s>' % (tag, "".join("<li>%s</li>" % md(i) for i in b["items"]), tag))
@@ -262,11 +268,11 @@ def render(d, artifact=False, page=None):
     TABLE_N[0] = 0
     m = d["meta"]
     css = tokens() + "\n" + "".join(kit_block(p) for p in PARTS) + open(os.path.join(TDIR, "shell.css"), encoding="utf-8").read()
-    # pre-paint: one saved object per page (theme, font, size, space); light unless the reader chose dark
+    # pre-paint: one saved object per page (theme, font, size, space); the page's default_theme (light if unset) unless the reader chose
     head_js = ("<script>(function(){var d=document.documentElement,s={};try{var r=localStorage.getItem('%s')||'';"
                "s=r.charAt(0)==='{'?JSON.parse(r):(r?{theme:r}:{})}catch(e){}"
-               "d.setAttribute('data-theme',s.theme==='dark'?'dark':'light');"
-               "var A={font:'data-font',size:'data-size',space:'data-space'};for(var k in A){if(s[k]&&s[k]!=='std')d.setAttribute(A[k],s[k])}})();</script>") % d["storage_key"]
+               "d.setAttribute('data-theme',(s.theme||'%s')==='dark'?'dark':'light');"
+               "var A={font:'data-font',size:'data-size',space:'data-space'};for(var k in A){if(s[k]&&s[k]!=='std')d.setAttribute(A[k],s[k])}})();</script>") % (d["storage_key"], d.get("default_theme", "light"))
     meta = ('<dl class="tb-meta"><div class="opt"><dt>Prepared for</dt><dd>%s</dd></div><div><dt>From</dt><dd>%s</dd></div>'
             '%s%s</dl>') % (
         md(m["prepared_for"]), md(m["from"]),
@@ -286,7 +292,7 @@ def render(d, artifact=False, page=None):
         body = re.sub(r' role="tabpanel" aria-labelledby="t-[a-z0-9-]+"', "", body)  # a page, not a tab panel
         if t is not None:
             title = "%s · %s" % (t["name"], d["doc_title"])
-    main = ('<main class="tb" data-store="' + e(d["storage_key"]) + '"' + pages_attr + '>\n%s\n<section class="tb-frame" aria-label="%s">\n<div class="tb-head">%s\n%s</div>\n<div class="tb-body">\n%s\n</div>\n</section>\n</main>\n'
+    main = ('<main class="tb" data-store="' + e(d["storage_key"]) + '" data-default-theme="' + e(d.get("default_theme", "light")) + '"' + pages_attr + '>\n%s\n<section class="tb-frame" aria-label="%s">\n<div class="tb-head">%s\n%s</div>\n<div class="tb-body">\n%s\n</div>\n</section>\n</main>\n'
             '<script>%s</script>\n<script>%s</script>') % (top, e(d["doc_title"]), meta, nav, body, shnav_js()[len("<script>"):-len("</script>")],
                                                            open(os.path.join(TDIR, "shell.js"), encoding="utf-8").read())
     marks = "<!-- @arcs-template: tabbed-brief -->\n<!-- @arcs-mode: persuade -->\n"
