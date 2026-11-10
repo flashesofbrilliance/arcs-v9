@@ -178,8 +178,76 @@
     "open": true,
     "blocks": [
      {
+      "type": "ledger",
+      "groups": [
+       {
+        "label": "Shipped",
+        "rows": [
+         {
+          "chip": "Live",
+          "tone": "cyan",
+          "signal": "RFP-O-Matic",
+          "text": "Answers RFP questions and cites the clause, or says the document is silent. [Four short videos](https://good.arcs.care/rfp-engine) and [its source](https://github.com/flashesofbrilliance/rfp-engine)."
+         },
+         {
+          "chip": "Live",
+          "tone": "cyan",
+          "signal": "ARCS",
+          "text": "[The decision instrument](https://app.arcs.care) these receipts come from: question in, dated record out."
+         }
+        ]
+       },
+       {
+        "label": "In public",
+        "rows": [
+         {
+          "chip": "Essays",
+          "tone": "cyan",
+          "signal": "Notes from the Trenches",
+          "text": "[35 field notes](https://good.arcs.care/blog/nftt), each written from a dated record, failures included."
+         },
+         {
+          "chip": "Calls",
+          "tone": "cyan",
+          "signal": "Falsifiable predictions",
+          "text": "[Seven calls, seven falsifiers](https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers) and [four dates, one thesis](https://good.arcs.care/blog/nftt/four-dates-one-thesis-three-confirmations): each call written with what would prove it wrong."
+         },
+         {
+          "chip": "Beliefs",
+          "tone": "cyan",
+          "signal": "What I got wrong",
+          "text": "[A public ledger](https://status.arcs.care/beliefs) of beliefs I changed, each with the evidence that moved it."
+         },
+         {
+          "chip": "Proof",
+          "tone": "cyan",
+          "signal": "Every claim, marked",
+          "text": "[32 claims](https://zach.md/proof), each marked shown, on request, or not yet shown."
+         }
+        ]
+       },
+       {
+        "label": "Public goods and fine print",
+        "rows": [
+         {
+          "chip": "Open",
+          "tone": "cyan",
+          "signal": "Public goods",
+          "text": "[MIT-licensed tools](https://good.arcs.care) I built for my own work, free to use."
+         },
+         {
+          "chip": "Terms",
+          "tone": "cyan",
+          "signal": "Trust posture",
+          "text": "[Trust](https://arcs.care/trust), [privacy](https://arcs.care/privacy) and [terms](https://arcs.care/terms), in plain words."
+         }
+        ]
+       }
+      ]
+     },
+     {
       "type": "p",
-      "text": "[RFP-O-Matic with four short videos](https://good.arcs.care/rfp-engine), [its source](https://github.com/flashesofbrilliance/rfp-engine), [ARCS](https://app.arcs.care), and my [proof page](https://zach.md/proof). Resume and a 20-minute walkthrough on request."
+      "text": "Resume and a 20-minute walkthrough on request."
      },
      {
       "type": "callout",
