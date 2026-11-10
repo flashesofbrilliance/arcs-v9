@@ -1962,14 +1962,8 @@
    },
    "templates": [],
    "jobs": [],
-   "pages": [
-    "_ARTIFACTS/forge-monstro-ai-marketing-engineer/battle-card-monstro-ai-marketing-engineer.html",
-    "_ARTIFACTS/phosphor.html",
-    "_ARTIFACTS/resume-blacksmith/tear-sheet-amy.html",
-    "public/dj.html",
-    "public/myally-hub.html"
-   ],
-   "reuse": 5,
+   "pages": [],
+   "reuse": 0,
    "near_duplicates": []
   },
   {
@@ -2129,58 +2123,10 @@
    ],
    "jobs": [],
    "pages": [
-    "_ARTIFACTS/2026-09-26-loop-closing-wager/settle-card.html",
-    "_ARTIFACTS/arcs-12d-orbital.html",
-    "_ARTIFACTS/arcs-alexandria.html",
-    "_ARTIFACTS/arcs-knowledge-lattice.html",
-    "_ARTIFACTS/arcs-meta-audit-roadmap.html",
-    "_ARTIFACTS/arcs-tao-alchemist.html",
-    "_ARTIFACTS/arcs-tao-corpus.html",
-    "_ARTIFACTS/atlas/2026-09-08-adr-077-ziggurat.html",
-    "_ARTIFACTS/atlas/atlas.html",
-    "_ARTIFACTS/brooks-audit-onepager.html",
-    "_ARTIFACTS/brooks-pitch-storyboard.html",
-    "_ARTIFACTS/eightfold-scaffold.html",
-    "_ARTIFACTS/forge-aircall-fde/page.html",
-    "_ARTIFACTS/forge-morgan-stanley-devgen/page.html",
-    "_ARTIFACTS/mercury-bundle/pitch.html",
-    "_ARTIFACTS/pitch-us-bundle-ia.html",
-    "_ARTIFACTS/precall-brief/example.html",
-    "_ARTIFACTS/sentilink-bundle/pitch.html",
-    "_ARTIFACTS/sixty-second-read.html",
-    "_ARTIFACTS/sow-scaffold-2026-10-08/primer-view.html",
-    "_ARTIFACTS/sow-scaffold-2026-10-08/proposal-view.html",
-    "_ARTIFACTS/vision-films-hyperstition/hyperstition-atlas.html",
-    "public/blacksmith-observatory.html",
-    "public/blog-nftt-receipts-or-it-didnt-happen.html",
-    "public/blog-nftt-take-home-trap-dossier.html",
-    "public/build.html",
-    "public/chan.html",
-    "public/cia-brief.html",
-    "public/good-instruments.html",
-    "public/good.html",
-    "public/gravity-brief.html",
-    "public/growth-ai-observatory.html",
-    "public/mercury.html",
-    "public/monolith.html",
-    "public/myally-hub.html",
-    "public/myally-primer.html",
-    "public/myally.html",
-    "public/omakase/atom.html",
-    "public/pf-12d-orbital.html",
-    "public/pf-alexandria.html",
-    "public/pf-decision-geometry.html",
-    "public/pf-knowledge-lattice.html",
-    "public/robin-profile.html",
-    "public/scott-cut.html",
-    "public/sentilink.html",
-    "public/status.html",
-    "public/todd-logictree.html",
-    "public/yuri-profile.html",
     "scripts/counterpart_onepager_build.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 50,
+   "reuse": 2,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -4236,6 +4182,100 @@
      "jaccard": 0.8
     }
    ]
+  },
+  {
+   "id": "54-signal-ledger",
+   "number": "54",
+   "name": "Signal Ledger",
+   "group": "Specimens",
+   "subtitle": "Organism 54 · Lay out a bull and bear read as grouped rows, each naming the signal it rests on and its evidence, with observed rows kept apart from the author&#x27;s judgment.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/54-signal-ledger.html",
+   "data_shape": [
+    "evidence",
+    "state",
+    "table"
+   ],
+   "fidelity": [],
+   "classes": [
+    "chip",
+    "is-judgment",
+    "section-label",
+    "sl",
+    "sl-ev",
+    "sl-gh",
+    "sl-gn",
+    "sl-group",
+    "sl-key",
+    "sl-row",
+    "sl-rows",
+    "sl-sig"
+   ],
+   "prim_blocks": [
+    "54-signal-ledger"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-report",
+    "recoil-player",
+    "precall-brief"
+   ],
+   "jobs": [],
+   "pages": [
+    "public/gravity-brief.html",
+    "scripts/tabbed_brief_build.py"
+   ],
+   "reuse": 2,
+   "near_duplicates": []
+  },
+  {
+   "id": "55-sound-bite",
+   "number": "55",
+   "name": "Sound Bite",
+   "group": "Specimens",
+   "subtitle": "Molecule 55 · Put one real quote at a time in the hero, typed out fast, with who said it, so social proof reads in a glance without a wall of testimonials.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/55-sound-bite.html",
+   "data_shape": [
+    "timeline"
+   ],
+   "fidelity": [],
+   "classes": [
+    "is-live",
+    "is-off",
+    "is-typing",
+    "sb",
+    "sb-btn",
+    "sb-by",
+    "sb-ctl",
+    "sb-item",
+    "sb-list",
+    "sb-n",
+    "sb-off",
+    "sb-on",
+    "sb-src",
+    "sb-t"
+   ],
+   "prim_blocks": [
+    "55-sound-bite"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [
+    "public/gravity-brief.html",
+    "scripts/tabbed_brief_build.py"
+   ],
+   "reuse": 2,
+   "near_duplicates": []
   },
   {
    "id": "grammar-chips",

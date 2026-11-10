@@ -202,6 +202,36 @@
         "byline": {
           "type": "string",
           "description": "Optional: the author's name, one line under the headline (kit 27 register). Use it when the wordmark is the only name at the top."
+        },
+        "bites": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 5,
+          "description": "Optional: kit 55 sound bites in the hero. Real, attributed quotes only, verbatim from where they are published.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "text",
+              "name",
+              "role"
+            ],
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "bites_source": {
+          "type": "string",
+          "description": "Where the quotes are published, as a link."
         }
       }
     },
@@ -562,6 +592,71 @@
             }
           },
           "description": "Kit 31 gold callout: the page's stated limit."
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "groups"
+          ],
+          "description": "Kit 54 signal ledger: grouped rows, each naming the signal it rests on. Tones: plain (unsettled view), cyan (sourced, dated fact), gold (judgment or limit).",
+          "properties": {
+            "type": {
+              "const": "ledger"
+            },
+            "groups": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "label",
+                  "rows"
+                ],
+                "properties": {
+                  "label": {
+                    "type": "string"
+                  },
+                  "judgment": {
+                    "type": "boolean"
+                  },
+                  "rows": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "chip",
+                        "signal",
+                        "text"
+                      ],
+                      "properties": {
+                        "chip": {
+                          "type": "string"
+                        },
+                        "tone": {
+                          "enum": [
+                            "plain",
+                            "cyan",
+                            "gold"
+                          ]
+                        },
+                        "signal": {
+                          "type": "string"
+                        },
+                        "text": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       ]
     }
