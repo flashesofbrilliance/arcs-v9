@@ -2159,6 +2159,7 @@
     "public/cia-brief.html",
     "public/good-instruments.html",
     "public/good.html",
+    "public/gravity-brief.html",
     "public/growth-ai-observatory.html",
     "public/mercury.html",
     "public/monolith.html",
@@ -2179,7 +2180,7 @@
     "scripts/counterpart_onepager_build.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 49,
+   "reuse": 50,
    "near_duplicates": [
     {
      "rule": ".section-label",

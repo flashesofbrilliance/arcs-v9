@@ -66,7 +66,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
   color: var(--text); font: inherit; text-align: left; cursor: pointer; }
 .tb-fold-btn:hover { color: var(--cyan); }
 /* chevron as on MyAlly: left of the title, points right when closed, down when open */
-.tb-fold-btn::before { content: ""; flex: none; width: 8px; height: 8px; margin-top: 9px; border-right: 1.5px solid var(--text-secondary); border-bottom: 1.5px solid var(--text-secondary);
+.tb-fold-btn::before { content: ""; flex: none; width: 8px; height: 8px; margin-top: 9px; border-right: 1.5px solid var(--cyan); border-bottom: 1.5px solid var(--cyan);
   transform: rotate(-45deg); transition: transform var(--dur-base) var(--ease-out); }
 .tb-fold-btn[aria-expanded="true"]::before { transform: rotate(45deg); }
 .tb-fold-btn > span { display: flex; flex-direction: column; }
@@ -109,6 +109,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-table td { text-align: left; vertical-align: top; padding: 12px; line-height: 1.55; color: var(--text); border-bottom: 1px solid var(--border); }
 .tb-table td:first-child { font-weight: 600; width: 32%; }
 .tb-table tr:last-child td { border-bottom: 0; }
+.tb-table td:has(> .chip) { width: 1%; white-space: nowrap; } /* ledger rows: the chip names the side, the column fits it */
 
 /* cards */
 .tb-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap); } /* one column until tabs show; no orphaned third card */
@@ -134,6 +135,13 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
   .tb-table td[data-label]::before { content: attr(data-label); display: block; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); }
   .tb-top p { order: 3; flex-basis: 100%; }
   }
-/* from its first commit the file ended in two unclosed blocks (reduced motion, then print), which swallowed any rule
-   pasted after it (found 2026-11-10 by the token tuner's Copy CSS). Reduced motion is restored; the print rules were never written. */
+/* fact tiles as instrument readouts (Field OS): mono figures in signal cyan, tracked mono labels */
+.ftile-fig { font-family: var(--ds-font-mono); color: var(--cyan); letter-spacing: -0.01em; }
+.ftile-lab { font-family: var(--ds-font-mono); letter-spacing: 0.1em; color: var(--text-secondary); }
+/* four fact tiles sit 2x2 on a phone so the first screen reaches the ledger */
+@container (min-width: 18rem) { .ftiles.is-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container (min-width: 54rem) { .ftiles.is-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* the Limit callout fills its lane like its siblings (card_gutter_check) */
+.tb-fold-body .callout { max-width: none; margin: 0; }
+/* seam (2026-11-10): this file ended in a truncated '@media (prefers-reduced-motion) { @media print {' since it was created, which swallowed any rule added after it. Closed here as the reduced-motion rule it was meant to be. */
 @media (prefers-reduced-motion: reduce) { .tb-fold-btn::before, .stacked .seat-btn::before { transition: none; } }
