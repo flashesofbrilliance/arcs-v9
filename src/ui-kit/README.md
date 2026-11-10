@@ -200,3 +200,31 @@ case (the Louisville proposal); 43 to 50 still have one.
   returned on close, decorative icons `aria-hidden`).
 
 29 Tile and 39 Theme toggle stay unchanged for their consumers; 45 and 51 are their siblings for this pattern.
+
+## Construction rules: 54 Signal ledger and 55 Sound bite (2026-11-10)
+
+Built for the Gravity brief's Bull vs Bear and hero proof, from 27 Section label, 28 Chip and the kit tokens.
+
+**54 Signal ledger**
+
+- **Groups, not one table.** Observed rows come first, then the author's judgment, then how the read could be wrong. Each
+  group is a `section` with a 27 label and a row count. A judgment group carries a 2px gold rail on the left.
+- **Grid, by container width:** one column below 38rem (chip, then the signal on its own line, then the evidence, so left edges line up); two from 38rem
+  (chip over signal in a 10 to 14rem column, evidence beside it); three from 58rem (a 10rem chip column, a 9 to 13rem
+  signal column, evidence). Chips never wrap. It never squeezes into a table on a phone.
+- **Colour rule:** plain chip for a view the evidence has not settled (Bull, Bear); cyan for a sourced, dated fact (Rules);
+  gold for judgment and limits (Trigger, Call, Put, reading errors). Never green or red before a view settles: in ARCS
+  green means proven and red means failed.
+- **Lockup:** every row names the signal it rests on in mono, sentence case, with its grade in brackets (leading, lagging, noisy).
+  Every observed row cites its source inline; a row without one goes in the judgment group with My read or My view.
+- **Adding a row:** add it to the right group in the page data; the grid, rail and count follow. Rows were added to the
+  Gravity ledger only after Zach picked them.
+
+**55 Sound bite**
+
+- **Real quotes only**, verbatim from where they are published, each with name and role as published. Two to five.
+- **Motion:** types each quote fast (two characters per 16ms), holds 6.5s, then the next. Hover, focus and Pause hold it.
+  `prefers-reduced-motion` shows the quote whole, with no timer. The caret never blinks.
+- **Layout:** the untyped rest is laid out but transparent, and the quotes share one grid cell, so the box keeps the tallest
+  quote's height and nothing below moves. Without the script every quote shows as a list.
+- **Place:** in the hero under the byline, above the fact tiles; one per page.

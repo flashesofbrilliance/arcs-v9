@@ -18,7 +18,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KIT = os.path.join(ROOT, "src/ui-kit/recoil-report")
 TDIR = os.path.join(ROOT, "src/ui-kit/tabbed-brief")
 SCHEMA = os.path.join(TDIR, "brief.schema.json")
-PARTS = ["27-section-label", "28-chip", "31-callout", "45-fact-tile", "38-wordmark", "39-theme-toggle", "42-shell-nav", "51-display-preferences", "52-plan-matrix", "53-cold-read"]
+PARTS = ["27-section-label", "28-chip", "31-callout", "45-fact-tile", "54-signal-ledger", "55-sound-bite", "38-wordmark", "39-theme-toggle", "42-shell-nav", "51-display-preferences", "52-plan-matrix", "53-cold-read"]
 REGISTERED = {"_ARTIFACTS/tabbed-brief/gravity.json": "public/gravity-brief.html"}
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import precall_brief_build as pb  # the stdlib JSON Schema subset lives there; reuse it, do not fork it
@@ -49,6 +49,10 @@ def tokens():
     t = open(os.path.join(KIT, "_tokens.css"), encoding="utf-8").read()
     assert t.startswith("/* ARCS Recoil Report"), "token sentinel missing"
     return t
+
+
+def bite_js():
+    return json.load(open(os.path.join(ROOT, "src/ui-kit/specimens/sound-bite.json"), encoding="utf-8"))["tail_js"]
 
 
 def shnav_js():
@@ -133,6 +137,35 @@ def r_cards(b, hlevel, p=""):
     return '<div class="tb-cards">%s</div>' % "".join(out)
 
 
+def r_ledger(b, p, hlevel):
+    """kit 54 signal ledger: groups of rows, each a chip, the signal it rests on, and its evidence."""
+    gs = []
+    for gi, g in enumerate(b["groups"]):
+        gp = "%s/groups/%d" % (p, gi)
+        rows = "".join('<li class="sl-row"><div class="sl-key"><span class="chip%s">%s</span><span class="sl-sig">%s</span></div><p class="sl-ev">%s</p></li>' % (
+            "" if r.get("tone", "plain") == "plain" else " " + r["tone"], md(r["chip"], "%s/rows/%d/chip" % (gp, ri)),
+            md(r["signal"], "%s/rows/%d/signal" % (gp, ri)), md(r["text"], "%s/rows/%d/text" % (gp, ri))) for ri, r in enumerate(g["rows"]))
+        gid = "sl-%s-%d" % (re.sub(r"[^a-z0-9]+", "-", p.lower()).strip("-"), gi)
+        n = len(g["rows"])
+        gs.append('<section class="sl-group%s" aria-labelledby="%s"><div class="sl-gh"><h%d class="section-label" id="%s">%s</h%d><span class="sl-gn">%d %s</span></div><ul class="sl-rows">%s</ul></section>' % (
+            " is-judgment" if g.get("judgment") else "", gid, hlevel, gid, md(g["label"], gp + "/label"), hlevel, n, "row" if n == 1 else "rows", rows))
+    return '<div class="sl">%s</div>' % "".join(gs)
+
+
+def r_bites(o):
+    """kit 55 sound bite: real, attributed quotes, one at a time, typed fast."""
+    bs = o.get("bites")
+    if not bs:
+        return ""
+    items = "".join('<li class="sb-item"><blockquote class="sb-q" style="margin:0"><p class="sb-t">%s</p></blockquote><p class="sb-by"><b>%s</b><span>%s</span></p></li>' % (
+        md(x["text"], "/overview/bites/%d/text" % i), md(x["name"], "/overview/bites/%d/name" % i), md(x["role"], "/overview/bites/%d/role" % i)) for i, x in enumerate(bs))
+    src = o.get("bites_source")
+    src_html = '<span class="sb-src">%s</span>' % md(src, "/overview/bites_source") if src else ""
+    return ('<figure class="sb" aria-label="What colleagues say"><ul class="sb-list">%s</ul><div class="sb-ctl"><button type="button" class="sb-btn" data-sb-prev aria-label="Previous quote">Prev</button>'
+            '<span class="sb-n" aria-live="polite"></span><button type="button" class="sb-btn" data-sb-next aria-label="Next quote">Next</button>'
+            '<button type="button" class="sb-btn" data-sb-pause aria-pressed="false">Pause</button>%s</div></figure>\n') % (items, src_html)
+
+
 def r_blocks(bl, horizons, hlevel, base="", paths=None):
     """base: JSON pointer of the list (block i is base/i); paths overrides one pointer per block."""
     out = []
@@ -154,6 +187,8 @@ def r_blocks(bl, horizons, hlevel, base="", paths=None):
             how = '<div class="cr-howwrap"><p class="section-label" id="cr-how-l">How</p><ol class="cr-how" aria-labelledby="cr-how-l">%s</ol></div>' % how if how else ""
             read = '<p class="callout cr-read"><b>How to read</b>%s</p>' % md(b["read"], p + "/read") if b.get("read") else ""
             out.append('<div class="cr"><dl class="cr-slots">%s</dl>%s%s</div>' % (slots, how, read))
+        elif t == "ledger":
+            out.append(r_ledger(b, p, hlevel))
         elif t == "callout":
             out.append('<p class="callout"><b>%s</b>%s</p>' % (md(b["lead"], p + "/lead"), md(b["text"], p + "/text")))
         elif t == "list":
@@ -199,7 +234,7 @@ def r_overview(d):
             '<div class="ftiles-c"><ul class="ftiles is-4" aria-label="At a glance">%s</ul></div>\n'
             '%s'
             '%s<div class="tb-expand%s"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>\n'
-            '<div class="tb-folds">%s</div>\n</div>') % (h, ('<p class="tb-byline">%s</p>\n' % md(o["byline"], "/overview/byline")) if o.get("byline") else "", ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"], "/overview/subhead")) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(re.sub(r"(?<=[a-z])-(?=[a-z])", "‑", x), "/overview/lede/%d" % i) for i, x in enumerate(o["lede"]))) if o.get("lede") else "",
+            '<div class="tb-folds">%s</div>\n</div>') % (h, (('<p class="tb-byline">%s</p>\n' % md(o["byline"], "/overview/byline")) if o.get("byline") else "") + r_bites(o), ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"], "/overview/subhead")) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(re.sub(r"(?<=[a-z])-(?=[a-z])", "‑", x), "/overview/lede/%d" % i) for i, x in enumerate(o["lede"]))) if o.get("lede") else "",
          tiles, go, cr,
          " solo" if len(o["sections"]) < 2 else "", folds)
     if d.get("pages") and len(o["sections"]) < 2:
@@ -314,8 +349,9 @@ def render(d, artifact=False, page=None):
         if t is not None:
             title = "%s · %s" % (t["name"], d["doc_title"])
     main = ('<main class="tb" data-store="' + e(d["storage_key"]) + '" data-default-theme="' + e(d.get("default_theme", "light")) + '"' + pages_attr + '>\n%s\n<section class="tb-frame" aria-label="%s">\n<div class="tb-head">%s\n%s</div>\n<div class="tb-body">\n%s\n</div>\n</section>\n</main>\n'
-            '<script>%s</script>\n<script>%s</script>') % (top, e(d["doc_title"]), meta, nav, body, shnav_js()[len("<script>"):-len("</script>")],
-                                                           open(os.path.join(TDIR, "shell.js"), encoding="utf-8").read())
+            '<script>%s</script>\n<script>%s</script>%s') % (top, e(d["doc_title"]), meta, nav, body, shnav_js()[len("<script>"):-len("</script>")],
+                                                           open(os.path.join(TDIR, "shell.js"), encoding="utf-8").read(),
+                                                           ("\n" + bite_js()[:-len("</script>")] + ";[].forEach.call(document.querySelectorAll('.sb'),function(f){sbInit(f)});</script>") if 'class="sb"' in body else "")
     marks = "<!-- @arcs-template: tabbed-brief -->\n<!-- @arcs-mode: persuade -->\n"
     head = ('<title>%s</title>\n<meta name="robots" content="noindex, nofollow">\n%s\n<style>\n%s</style>\n') % (e(title), head_js, css)
     if artifact and page in (None, "ov"):
