@@ -72,6 +72,53 @@
     ]
    },
    {
+    "id": "bull-bear",
+    "title": "Bull vs Bear",
+    "tagline": "One ledger, read 2026-11-10: agent payments.",
+    "open": true,
+    "blocks": [
+     {
+      "type": "p",
+      "text": "Maxis pick a side. I name which signal each side rests on, and the date the evidence settles it."
+     },
+     {
+      "type": "table",
+      "head": [
+       "View",
+       "Signal it rests on",
+       "Evidence"
+      ],
+      "rows": [
+       [
+        "Bull",
+        "Transaction counts (leading, noisy)",
+        "[x402 reports](https://www.rzlt.io/blog/agentic-payments-2026-x402-explainer) over 165M agent transactions; Visa, Mastercard and Stripe all ship agent rails."
+       ],
+       [
+        "Bear",
+        "Volume with tests and wash trades removed",
+        "[Allium](https://nevermined.ai/blog/stablecoin-payments-ai-agents-statistics) puts real agent volume near $1.6M a month."
+       ],
+       [
+        "Rules",
+        "Regulatory calendar",
+        "The [OCC stablecoin rule](https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-92.html) takes effect 2027-01-18. The market-structure bill [failed 49 to 50](https://www.americanbanker.com/news/crypto-market-structure-bill-fails-in-senate-vote-49-50) on 2026-09-15."
+       ],
+       [
+        "Trigger",
+        "Who pays when an agent exceeds its mandate",
+        "[Unsettled](https://worldpay.com/en/insights/articles/agentic-commerce-liability-is-still-being-written): without a record of what the user asked, a dispute is a coin flip. The first network rule that requires an intent record decides it."
+       ],
+       [
+        "Call",
+        "Enter small, before the rule",
+        "Volume is the lagging bet. The liability rule is the leading one, and an intent record is what ARCS already writes."
+       ]
+      ]
+     }
+    ]
+   },
+   {
     "id": "receipts",
     "title": "Receipts",
     "tagline": "Live work, open to check.",
