@@ -203,7 +203,7 @@ header > .tools{grid-row:1;justify-self:end;display:flex;align-items:center;gap:
 .plist li{display:grid;grid-template-columns:2.25rem minmax(0,1fr);column-gap:var(--sp-1);padding:var(--sp-1) 0;color:var(--text-secondary);text-wrap:pretty;}
 .plist li + li{border-top:1px solid var(--border);}
 .plist .pn{font-family:var(--mono);font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;}
-.pnote{color:var(--text-secondary);margin-top:var(--sp-2);}
+.pnote{font-family:var(--serif);font-size:var(--fs-step);font-weight:500;line-height:1.45;color:var(--text);margin-top:var(--sp-2);} /* same voice as .offer-ask (Zach, 2026-11-10) */
 .pnote + .offer{margin-top:var(--sp-3);}
 @media print{
   .cover{display:flex;flex-direction:column;height:9.9in;break-after:page;}
@@ -468,7 +468,7 @@ footer p{text-align:left;}
   .gg + .offer,.pnote + .offer{margin-top:var(--sp-1);}
   .offer > *{padding:6px 14px;}
   .gg-row{grid-template-columns:4.5rem minmax(0,1fr) minmax(0,1fr);}
-  .offer-ask{font-size:var(--fs-headline);line-height:1.4;}
+  .offer-ask,.pnote{font-size:var(--fs-headline);line-height:1.4;}
   .offer-price{font-size:var(--fs-body);}
   .offer-proof{display:none;}
 }
@@ -655,13 +655,15 @@ footer p{text-align:left;}
   .offerwrap > .lockup + details.blk.sub{margin-top:var(--sp-3);}
   .offerwrap details.pbreak{break-before:page;}
   .offerwrap .specrow{padding:12px 0;}
-  .plist li{padding:5px 0;}
-  .pnote{margin-top:var(--sp-3);}
+  .plist li{padding:4px 0;}
+  .pnote{margin-top:var(--sp-3);line-height:1.35;}
   .gg{margin-top:var(--sp-2);}
-  .gg-row{padding-top:10px;padding-bottom:10px;}
+  .gg-row{padding-top:8px;padding-bottom:8px;}
   .gg > .gg-row:last-child{border-bottom-width:0;}
   .offerwrap > .offer{margin-top:var(--sp-4);}
-  .offer > *{padding:12px 16px;}
+  .offer > *{padding:10px 16px;}
+  .offerwrap details.pbreak + .offer-eyebrow{margin-top:var(--sp-3);}
+  .offer{break-inside:avoid;}
 }
 </style>
 </head>
@@ -757,7 +759,7 @@ footer p{text-align:left;}
   </div>
     </div>
   </details>
-  <p class="offer-eyebrow">To start</p>
+  <p class="offer-eyebrow">Next steps</p>
   <div class="offer">
     <div class="offer-head">
       <p class="offer-price"><span class="offer-fig">$5,000</span>: Half at kickoff, half at the readout.</p>
@@ -767,7 +769,7 @@ footer p{text-align:left;}
       <p>My RFP engine works the same way: Each answer cites its clause, says "not covered" when it can't, and logs its misses in public.</p>
       <a data-track="rfp_engine_click" class="offer-link" href="https://good.arcs.care/rfp-engine">good.arcs.care/rfp-engine<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
     </div>
-    <p class="offer-ask">Pick the two decisions and I'll send a start date, so the checkup lands before Q1 plans and the next MOQ lock.</p>
+    <p class="offer-ask">If it fits, the next step is a short call to pick the two decisions. From there, a start date that lands before Q1 plans and the next MOQ lock.</p>
   </div>
 </section>
 

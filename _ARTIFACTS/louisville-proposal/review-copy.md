@@ -56,7 +56,7 @@ Inputs (what it relies on) → Decision (what it can't see) → Outcome (the dat
 
 ¶15. My RFP engine works the same way: Each answer cites its clause, says "not covered" when it can't, and logs its misses in public. good.arcs.care/rfp-engine
 
-¶16. Pick the two decisions and I'll send a start date, so the checkup lands before Q1 plans and the next MOQ lock.
+¶16. **Next steps:** If it fits, the next step is a short call to pick the two decisions. From there, a start date that lands before Q1 plans and the next MOQ lock.
 
 ## Your answers and changes
 
