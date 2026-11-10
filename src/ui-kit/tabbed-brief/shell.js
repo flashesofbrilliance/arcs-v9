@@ -1,22 +1,23 @@
 /* tabbed-brief template behaviour (2026-11-09). Needs kit 42 shnavInit loaded first. Interaction rules: src/ui-kit/tabbed-brief/README.md */
 (function () {
   var doc = document.documentElement, root = document.querySelector('.tb'), KEY = (root && root.getAttribute('data-store')) || 'tbTheme';
+  var DEF = (root && root.getAttribute('data-default-theme')) === 'dark' ? 'dark' : 'light';
   var reduce = function () { return matchMedia('(prefers-reduced-motion: reduce)').matches; };
 
-  /* header controls (kit 51): theme switch + reading options, one saved object per page, light by default */
+  /* header controls (kit 51): theme switch + reading options, one saved object per page, the page's default theme until the reader picks one */
   var st = {}; try { var raw = localStorage.getItem(KEY) || ''; st = raw.charAt(0) === '{' ? JSON.parse(raw) : (raw ? { theme: raw } : {}); } catch (e) {}
   var ATTR = { font: 'data-font', size: 'data-size', space: 'data-space' };
   var tg = document.querySelector('.dprefs-theme'), aa = document.querySelector('.dprefs-aa'), panel = aa && document.getElementById(aa.getAttribute('aria-controls'));
   function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
   function applyPrefs() {
-    doc.setAttribute('data-theme', st.theme === 'dark' ? 'dark' : 'light');
+    var th = st.theme || DEF; doc.setAttribute('data-theme', th === 'dark' ? 'dark' : 'light');
     for (var k in ATTR) { var v = st[k]; if (v && v !== 'std') doc.setAttribute(ATTR[k], v); else doc.removeAttribute(ATTR[k]); }
-    if (tg) tg.setAttribute('aria-pressed', String(st.theme === 'dark'));
+    if (tg) tg.setAttribute('aria-pressed', String(th === 'dark'));
     if (panel) [].forEach.call(panel.querySelectorAll('button[data-k]'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === (st[b.getAttribute('data-k')] || 'std'))); });
   }
   function place() { var r = aa.getBoundingClientRect(), vw = doc.clientWidth; panel.style.top = Math.round(r.bottom + 8) + 'px'; panel.style.right = Math.max(16, Math.min(Math.round(vw - r.right), vw - panel.offsetWidth - 16)) + 'px'; }
   function openPrefs(o) { panel.hidden = !o; aa.setAttribute('aria-expanded', String(o)); if (o) { place(); (panel.querySelector('button[aria-pressed="true"]') || panel.querySelector('button')).focus(); } else aa.focus(); }
-  if (tg) tg.addEventListener('click', function () { st.theme = st.theme === 'dark' ? 'light' : 'dark'; save(); applyPrefs(); });
+  if (tg) tg.addEventListener('click', function () { st.theme = (st.theme || DEF) === 'dark' ? 'light' : 'dark'; save(); applyPrefs(); });
   if (aa && panel) {
     aa.addEventListener('click', function () { openPrefs(panel.hidden); });
     panel.addEventListener('click', function (e) {

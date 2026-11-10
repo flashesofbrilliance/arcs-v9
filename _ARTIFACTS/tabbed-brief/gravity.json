@@ -22,55 +22,25 @@
    {
     "v": "10",
     "k": "Regulated products",
-    "note": "Digital-asset investment products at Grayscale, about $7B"
+    "note": "Digital-asset investment products at Grayscale, ~$7B"
    },
    {
     "v": "$0 → $2M+",
     "k": "Zero to one",
-    "note": "Co-founded; profitable in 24 months. Then a turnaround, acquired"
+    "note": "Co-founded; profitable in 24 months. Earlier, GM of a turnaround, acquired"
    },
    {
     "v": "32",
-    "k": "Claims with records",
-    "note": "Every claim on my proof page links to its evidence"
+    "k": "Claims, each marked",
+    "note": "On my proof page: shown, on request, or not yet shown"
    },
    {
-    "v": "1 run",
+    "v": "Once each",
     "k": "Pre-registered",
-    "note": "Benchmark rules written first, run once, every failure published"
+    "note": "Rules written first, each test run once, every failure published"
    }
   ],
   "sections": [
-   {
-    "id": "week-one",
-    "title": "Week One",
-    "tagline": "What I would do in the first week.",
-    "open": true,
-    "blocks": [
-     {
-      "type": "p",
-      "text": "Your Idea Engine post: agents write memos six times faster, and not every memo is usable. Ideas are getting cheap. Trusting them is not. ARCS builds conviction the way an oak builds rings: every pass with its reason, every kill test written before it runs, every overturned belief kept on the record. The rings are what hold the tree up."
-     },
-     {
-      "type": "cards",
-      "cards": [
-       {
-        "title": "Your pass list, on the record",
-        "text": "Each idea you passed gets its reason and a recheck date. When the market moves, a wrong pass comes back as a lead, not a loss."
-       },
-       {
-        "title": "A kill test, written today",
-        "ref": "Dated 2026-11-10, before any call.",
-        "text": "Coda's riskiest assumption: banks will take crypto deposits once compliance is solved. 15 calls with bank digital-asset leads; kill it if fewer than 2 will sign a pilot letter. Under two weeks and $10k."
-       },
-       {
-        "title": "The agent-payments wedge",
-        "text": "When an AI agent sends stablecoins, the send is final. Policy engines log which rule allowed it, not what the agent intended or whether it came true. ARCS writes that record today."
-       }
-      ]
-     }
-    ]
-   },
    {
     "id": "bull-bear",
     "title": "Bull vs Bear",
@@ -79,7 +49,7 @@
     "blocks": [
      {
       "type": "p",
-      "text": "Maxis pick a side. I name which signal each side rests on, and the date the evidence settles it."
+      "text": "Crypto theses pick a side. I name which signal each side rests on, and what would settle it."
      },
      {
       "type": "table",
@@ -92,28 +62,65 @@
        [
         "Bull",
         "Transaction counts (leading, noisy)",
-        "[x402 reports](https://www.rzlt.io/blog/agentic-payments-2026-x402-explainer) over 165M agent transactions; Visa, Mastercard and Stripe all ship agent rails."
+        "[x402 reported](https://www.rzlt.io/blog/agentic-payments-2026-x402-explainer) over 165M agent transactions by April, about half of them tests."
        ],
        [
         "Bear",
         "Volume with tests and wash trades removed",
-        "[Allium](https://nevermined.ai/blog/stablecoin-payments-ai-agents-statistics) puts real agent volume near $1.6M a month."
+        "On [Allium's strictest filter](https://nevermined.ai/blog/stablecoin-payments-ai-agents-statistics), real agent volume is near $1.6M a month."
        ],
        [
         "Rules",
         "Regulatory calendar",
-        "The [OCC stablecoin rule](https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-92.html) takes effect 2027-01-18. The market-structure bill [failed 49 to 50](https://www.americanbanker.com/news/crypto-market-structure-bill-fails-in-senate-vote-49-50) on 2026-09-15."
+        "The [OCC stablecoin rule](https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-92.html) takes effect 2027-01-18. A [procedural vote](https://www.americanbanker.com/news/crypto-market-structure-bill-fails-in-senate-vote-49-50) on the market-structure bill failed 49 to 50 on 2026-09-15."
        ],
        [
         "Trigger",
         "Who pays when an agent exceeds its mandate",
-        "[Unsettled](https://worldpay.com/en/insights/articles/agentic-commerce-liability-is-still-being-written): without a record of what the user asked, a dispute is a coin flip. The first network rule that requires an intent record decides it."
+        "[Unsettled](https://worldpay.com/en/insights/articles/agentic-commerce-liability-is-still-being-written): without a record of what the user asked, a dispute is close to a coin flip. My view: the first network rule that requires an intent record decides it."
        ],
        [
         "Call",
         "Enter small, before the rule",
-        "Volume is the lagging bet. The liability rule is the leading one, and an intent record is what ARCS already writes."
+        "Volume is the lagging bet. The liability rule is the leading one."
        ]
+      ],
+      "chips": [
+       "plain",
+       "plain",
+       "cyan",
+       "gold",
+       "gold"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "week-one",
+    "title": "Week One",
+    "tagline": "What I would do in the first week.",
+    "open": true,
+    "blocks": [
+     {
+      "type": "p",
+      "text": "[Your Idea Engine post](https://kylelibra.substack.com/p/how-to-find-startup-ideas): a good memo now comes 6x faster, and some still come out unusable. Ideas are getting cheap. Trusting them is not. ARCS builds conviction the way an oak builds rings: every pass with its reason, every kill test written before it runs, every overturned belief kept on the record. The rings are what hold the tree up."
+     },
+     {
+      "type": "cards",
+      "cards": [
+       {
+        "title": "Your pass list, on the record",
+        "text": "Each idea you passed gets its reason and a recheck date. When the market moves, a wrong pass comes back as a lead, not a loss."
+       },
+       {
+        "title": "How I would test Coda",
+        "ref": "From your portfolio page's one line; you know more. Written 2026-11-10.",
+        "text": "The riskiest assumption I see: banks will take crypto deposits once compliance is solved. 15 calls with bank digital-asset leads; kill it if fewer than 2 will sign a pilot letter. Under two weeks and $10k."
+       },
+       {
+        "title": "The agent-payments wedge",
+        "text": "When an AI agent sends stablecoins, the send is final. Policy engines log which rule allowed it, not what the agent intended or whether it came true. ARCS already writes a cousin of that record for human decisions: what was asked, why, and what happened."
+       }
       ]
      }
     ]
@@ -129,8 +136,9 @@
       "text": "[RFP-O-Matic with four short videos](https://good.arcs.care/rfp-engine), [its source](https://github.com/flashesofbrilliance/rfp-engine), [ARCS](https://app.arcs.care), and my [proof page](https://zach.md/proof). Resume and a 20-minute walkthrough on request."
      },
      {
-      "type": "p",
-      "text": "**What I cannot show yet:** a paying ARCS user. If none by 2027-03-31, it stops as a product and stays my working tool."
+      "type": "callout",
+      "lead": "Limit",
+      "text": "No paying ARCS user yet. If none by 2027-03-31, it stops as a product and stays my working tool."
      }
     ]
    }
@@ -239,7 +247,7 @@
        "rows": [
         [
          "Early-stage startup experience",
-         "Co-founder, 2012 to 2016: $0 to profitable in 24 months. GM of a turnaround, 2010 to 2012: $4,500 to over $1M a month, acquired."
+         "Co-founder, 2012 to 2016: $0 to profitable in 24 months. GM of a turnaround, 2010 to 2011: $4,500 to over $1M a month, acquired."
         ],
         [
          "Crypto experience, a thesis not a meme",
@@ -674,5 +682,6 @@
    ]
   }
  ],
- "pages": true
+ "pages": true,
+ "default_theme": "dark"
 }

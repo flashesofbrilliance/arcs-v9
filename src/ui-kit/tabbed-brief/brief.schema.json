@@ -212,6 +212,13 @@
     "pages": {
       "type": "boolean",
       "description": "One page per pane: the overview at the output path, each role beside it (site: <name>-<id>.html served at /<id>; Artifact: <id>.html)."
+    },
+    "default_theme": {
+      "enum": [
+        "light",
+        "dark"
+      ],
+      "description": "Optional: the theme a reader sees before choosing one. Light when left out."
     }
   },
   "$defs": {
@@ -370,6 +377,20 @@
                   "type": "string"
                 }
               }
+            },
+            "chips": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "plain",
+                  "cyan",
+                  "green",
+                  "gold",
+                  "red",
+                  ""
+                ]
+              },
+              "description": "Optional: one chip colour per row; the row's first cell renders as a kit 28 chip. Gold marks judgment or a limit, never evidence. Plain (no signal colour) for a view the evidence has not settled; green and red mean proven and failed."
             }
           }
         },
@@ -509,6 +530,28 @@
               "type": "string"
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "lead",
+            "text"
+          ],
+          "properties": {
+            "type": {
+              "const": "callout"
+            },
+            "lead": {
+              "type": "string",
+              "description": "One or two words in the kit 31 label, for example Limit."
+            },
+            "text": {
+              "type": "string"
+            }
+          },
+          "description": "Kit 31 gold callout: the page's stated limit."
         }
       ]
     }
