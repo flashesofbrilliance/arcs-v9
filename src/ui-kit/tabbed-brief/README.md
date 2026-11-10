@@ -63,3 +63,19 @@ Spacing: 28px between blocks and units, 12px inside a unit, hairline spacer betw
 The schema is `brief.schema.json`. Text allows two inline marks only, `[text](https://url)` and `**bold**`; no raw HTML. The
 builder also refuses a plan row without one cell per horizon, a table row that does not match its header, a duplicate tab id, an
 action to a missing tab or section, and any em-dash.
+
+## Tuning by hand (internal only)
+
+`python3 scripts/tabbed_brief_build.py DATA.json --tune /some/scratch/name.html` writes an internal copy (it refuses `public/`).
+Serve that folder and open a page with `?tune&edit`:
+
+- **Tokens.** `--lh` (line height), `--sp-4` (section rhythm), `--gap` (card gap), `--ls` (letter-spacing) and `--fs-body` move live.
+- **Breakpoints.** One slider per px width the page's media queries use. The 1024px one is the stack breakpoint (`stack_below` in
+  the data, default 1024): the tabs fold into the menu and the cards stack below it. The slider moves the CSS rules and the nav's
+  JS together.
+- **Wrapping.** `text-wrap` for headings and for body text.
+- **Text.** Every data string is editable in place (Enter is blocked: one string, one line; bold and links survive).
+
+Copy CSS gives one line: paste it at the end of `shell.css`. Copy JSON gives one patch for the data file: save it and run
+`python3 scripts/tabbed_brief_build.py DATA.json --apply patch.json`, which applies it, validates, keeps the file's format and
+rebuilds the registered page. The tuner never reaches a counterpart page: `page_gate.py --counterpart` fails any page carrying it.

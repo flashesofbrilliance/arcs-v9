@@ -219,6 +219,12 @@
         "dark"
       ],
       "description": "Optional: the theme a reader sees before choosing one. Light when left out."
+    },
+    "stack_below": {
+      "type": "integer",
+      "minimum": 600,
+      "maximum": 1440,
+      "description": "Width in px below which the tabs fold into the menu and the roles stack. Default 1024. The token tuner's breakpoint slider writes this field in its JSON patch."
     }
   },
   "$defs": {

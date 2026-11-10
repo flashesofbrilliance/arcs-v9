@@ -7,6 +7,8 @@ The page is generated from four parts and never hand-edited:
   data      a JSON file valid against src/ui-kit/tabbed-brief/brief.schema.json (all copy; links as [text](url), bold as **text**)
   python3 scripts/tabbed_brief_build.py DATA.json -o OUT.html            write the full page (doctype, analytics if the data asks)
   python3 scripts/tabbed_brief_build.py DATA.json --artifact OUT.html    write the Artifact body (no doctype, no analytics)
+  python3 scripts/tabbed_brief_build.py DATA.json --tune OUT.html        internal copy with the tuner: ?tune sliders, ?edit text; refuses public/
+  python3 scripts/tabbed_brief_build.py DATA.json --apply PATCH.json     apply the JSON patch the tuner copies, then rebuild
   python3 scripts/tabbed_brief_build.py --check                          exit 1 if a registered page differs from its data
   python3 scripts/tabbed_brief_build.py --self-test                      prove the validator rejects each bad shape
 Stdlib only.
@@ -20,18 +22,19 @@ PARTS = ["27-section-label", "28-chip", "31-callout", "45-fact-tile", "38-wordma
 REGISTERED = {"_ARTIFACTS/tabbed-brief/gravity.json": "public/gravity-brief.html"}
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import precall_brief_build as pb  # the stdlib JSON Schema subset lives there; reuse it, do not fork it
+TUNE = [False]  # --tune build: each data string sits in a span carrying its JSON pointer (data-src) for the tuner's ?edit mode
 
 
 def e(s):
     return html.escape(str(s), quote=True)
 
 
-def md(s):
-    """Escape, then allow two inline marks only: [text](https://...) and **bold**."""
+def md(s, src=None):
+    """Escape, then allow two inline marks only: [text](https://...) and **bold**. src: the JSON pointer of s (used by --tune only)."""
     t = e(s)
     t = re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)", lambda m: '<a href="%s">%s</a>' % (m.group(2), m.group(1)), t)
     t = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", t)
-    return t
+    return ('<span data-src="%s">%s</span>' % (e(src), t)) if (TUNE[0] and src) else t
 
 
 def kit_block(name):
@@ -95,77 +98,82 @@ def validate(d):
 TABLE_N = [0]  # each scroll region gets its own name (axe landmark-unique)
 
 
-def r_table(b):
+def r_table(b, p=""):
     TABLE_N[0] += 1
-    head = "".join("<th>%s</th>" % md(h) for h in b["head"])
+    head = "".join("<th>%s</th>" % md(h, "%s/head/%d" % (p, i)) for i, h in enumerate(b["head"]))
     chips = b.get("chips") or []
     def first(c, j):
         k = chips[j] if j < len(chips) else ""
-        return '<td><span class="chip %s">%s</span></td>' % (k, md(c)) if k else "<td>%s</td>" % md(c)
-    rows = "".join("<tr>%s</tr>" % "".join(('<td data-label="%s">%s</td>' % (e(b["head"][i]), md(c))) if i else first(c, j) for i, c in enumerate(r)) for j, r in enumerate(b["rows"]))
+        q = "%s/rows/%d/0" % (p, j)
+        return '<td><span class="chip %s">%s</span></td>' % (k, md(c, q)) if k else "<td>%s</td>" % md(c, q)
+    rows = "".join("<tr>%s</tr>" % "".join(('<td data-label="%s">%s</td>' % (e(b["head"][i]), md(c, "%s/rows/%d/%d" % (p, j, i)))) if i else first(c, j) for i, c in enumerate(r)) for j, r in enumerate(b["rows"]))
     return '<div class="tb-scroll" tabindex="0" role="region" aria-label="Table %d: %s"><table class="tb-table"><thead><tr>%s</tr></thead><tbody>%s</tbody></table></div>' % (
         TABLE_N[0], e(", ".join(b["head"])), head, rows)
 
 
-def r_plan(b, horizons):
+def r_plan(b, horizons, p=""):
     hs = "".join("<th>By day %d</th>" % h for h in horizons)
     rows = ""
-    for r in b["rows"]:
-        cells = "<td>%s</td>" % md(r[0]) + "".join('<td data-label="By day %d">%s</td>' % (horizons[i], md(c)) for i, c in enumerate(r[1:]))
+    for j, r in enumerate(b["rows"]):
+        cells = "<td>%s</td>" % md(r[0], "%s/rows/%d/0" % (p, j)) + "".join('<td data-label="By day %d">%s</td>' % (horizons[i], md(c, "%s/rows/%d/%d" % (p, j, i + 1))) for i, c in enumerate(r[1:]))
         rows += "<tr>%s</tr>" % cells
-    know = "".join('<div class="pm-k"><p class="pm-kl">Day %d</p><p>%s</p></div>' % (horizons[i], md(k)) for i, k in enumerate(b.get("know", [])))
+    know = "".join('<div class="pm-k"><p class="pm-kl">Day %d</p><p>%s</p></div>' % (horizons[i], md(k, "%s/know/%d" % (p, i))) for i, k in enumerate(b.get("know", [])))
     know = ('<p class="pm-khead">How you would know it is working</p><div class="pm-know">%s</div>' % know) if know else ""
-    note = '<p class="pm-note">%s</p>' % md(b["note"]) if b.get("note") else ""
+    note = '<p class="pm-note">%s</p>' % md(b["note"], p + "/note") if b.get("note") else ""
     return ('<div class="pm"><p class="pm-src">%s</p>%s<table class="pm-table"><thead><tr><th>Your page asks me to</th>%s</tr></thead>'
-            '<tbody>%s</tbody></table>%s</div>') % (md(b["source"]), note, hs, rows, know)
+            '<tbody>%s</tbody></table>%s</div>') % (md(b["source"], p + "/source"), note, hs, rows, know)
 
 
-def r_cards(b, hlevel):
+def r_cards(b, hlevel, p=""):
     out = []
-    for c in b["cards"]:
-        ref = '<p class="tb-card-ref">%s</p>' % md(c["ref"]) if c.get("ref") else ""
-        out.append('<div class="tb-card"><h%d class="tb-card-t">%s</h%d>%s<p>%s</p></div>' % (hlevel, md(c["title"]), hlevel, ref, md(c["text"])))
+    for k, c in enumerate(b["cards"]):
+        q = "%s/cards/%d" % (p, k)
+        ref = '<p class="tb-card-ref">%s</p>' % md(c["ref"], q + "/ref") if c.get("ref") else ""
+        out.append('<div class="tb-card"><h%d class="tb-card-t">%s</h%d>%s<p>%s</p></div>' % (hlevel, md(c["title"], q + "/title"), hlevel, ref, md(c["text"], q + "/text")))
     return '<div class="tb-cards">%s</div>' % "".join(out)
 
 
-def r_blocks(bl, horizons, hlevel):
+def r_blocks(bl, horizons, hlevel, base="", paths=None):
+    """base: JSON pointer of the list (block i is base/i); paths overrides one pointer per block."""
     out = []
-    for b in bl:
+    for n, b in enumerate(bl):
         t = b["type"]
+        p = paths[n] if paths else "%s/%d" % (base, n)
         if t == "p":
-            out.append('<p class="tb-p">%s</p>' % md(b["text"]))
+            out.append('<p class="tb-p">%s</p>' % md(b["text"], p + "/text"))
         elif t == "table":
-            out.append(r_table(b))
+            out.append(r_table(b, p))
         elif t == "plan":
-            out.append(r_plan(b, horizons))
+            out.append(r_plan(b, horizons, p))
         elif t == "cards":
-            out.append(r_cards(b, hlevel))
+            out.append(r_cards(b, hlevel, p))
         elif t == "coldread":
-            slots = "".join('<dt class="section-label">%s</dt><dd>%s</dd>' % (md(k), md(v)) for k, v in b["slots"])
-            how = "".join('<li class="cr-step"><p class="section-label">%s</p><p class="cr-when">%s</p><p class="cr-what">%s</p></li>' % (md(a), md(w), md(x)) for a, w, x in b.get("how", []))
+            slots = "".join('<dt class="section-label">%s</dt><dd>%s</dd>' % (md(k, "%s/slots/%d/0" % (p, i)), md(v, "%s/slots/%d/1" % (p, i))) for i, (k, v) in enumerate(b["slots"]))
+            how = "".join('<li class="cr-step"><p class="section-label">%s</p><p class="cr-when">%s</p><p class="cr-what">%s</p></li>' % (
+                md(a, "%s/how/%d/0" % (p, i)), md(w, "%s/how/%d/1" % (p, i)), md(x, "%s/how/%d/2" % (p, i))) for i, (a, w, x) in enumerate(b.get("how", [])))
             how = '<div class="cr-howwrap"><p class="section-label" id="cr-how-l">How</p><ol class="cr-how" aria-labelledby="cr-how-l">%s</ol></div>' % how if how else ""
-            read = '<p class="callout cr-read"><b>How to read</b>%s</p>' % md(b["read"]) if b.get("read") else ""
+            read = '<p class="callout cr-read"><b>How to read</b>%s</p>' % md(b["read"], p + "/read") if b.get("read") else ""
             out.append('<div class="cr"><dl class="cr-slots">%s</dl>%s%s</div>' % (slots, how, read))
         elif t == "callout":
-            out.append('<p class="callout"><b>%s</b>%s</p>' % (md(b["lead"]), md(b["text"])))
+            out.append('<p class="callout"><b>%s</b>%s</p>' % (md(b["lead"], p + "/lead"), md(b["text"], p + "/text")))
         elif t == "list":
             tag = "ol" if b.get("ordered") else "ul"
-            out.append('<%s class="tb-list">%s</%s>' % (tag, "".join("<li>%s</li>" % md(i) for i in b["items"]), tag))
+            out.append('<%s class="tb-list">%s</%s>' % (tag, "".join("<li>%s</li>" % md(it, "%s/items/%d" % (p, i)) for i, it in enumerate(b["items"])), tag))
     return "\n".join(out)
 
 
-def r_fold(s, horizons):
+def r_fold(s, horizons, p=""):
     sid = s["id"]
     op = "true" if s.get("open") else "false"
     hid = "" if s.get("open") else " hidden"
     return ('<section class="tb-fold" id="%s"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="%s" aria-controls="%s-body">'
             '<span><span class="tb-fold-t">%s</span><span class="tb-tag">%s</span></span></button></h2>'
-            '<div class="tb-fold-body" id="%s-body"%s>%s</div></section>') % (sid, op, sid, md(s["title"]), md(s["tagline"]), sid, hid, r_blocks(s["blocks"], horizons, 3))
+            '<div class="tb-fold-body" id="%s-body"%s>%s</div></section>') % (sid, op, sid, md(s["title"], p + "/title"), md(s["tagline"], p + "/tagline"), sid, hid, r_blocks(s["blocks"], horizons, 3, p + "/blocks"))
 
 
 def r_overview(d):
     o = d["overview"]
-    h = "".join('<span class="hl">%s</span>' % md(re.sub(r"(?<=[a-z])-(?=[a-z])", "‑", x)) for x in o["headline"])
+    h = "".join('<span class="hl">%s</span>' % md(re.sub(r"(?<=[a-z])-(?=[a-z])", "‑", x), "/overview/headline/%d" % i) for i, x in enumerate(o["headline"]))
     acts = []
     for a in o.get("actions", []):
         cls = "tb-btn primary" if a.get("primary") else "tb-btn"
@@ -173,24 +181,25 @@ def r_overview(d):
             acts.append('<a class="%s" href="#%s" data-go-tab="%s">%s</a>' % (cls, a["tab"], a["tab"], md(a["label"])))
         else:
             acts.append('<a class="%s" href="#%s" data-go-section="%s">%s</a>' % (cls, a["section"], a["section"], md(a["label"])))
-    tiles = "".join('<li class="ftile"><span class="ftile-lab">%s</span><span class="ftile-fig">%s</span><span class="ftile-cap">%s</span></li>' % (md(t["k"]), md(t["v"]), md(t["note"])) for t in o["tiles"])
-    folds = "\n".join(r_fold(s, d["horizons"]) for s in o["sections"])
+    tiles = "".join('<li class="ftile"><span class="ftile-lab">%s</span><span class="ftile-fig">%s</span><span class="ftile-cap">%s</span></li>' % (
+        md(t["k"], "/overview/tiles/%d/k" % i), md(t["v"], "/overview/tiles/%d/v" % i), md(t["note"], "/overview/tiles/%d/note" % i)) for i, t in enumerate(o["tiles"]))
+    folds = "\n".join(r_fold(s, d["horizons"], "/overview/sections/%d" % i) for i, s in enumerate(o["sections"]))
     cr = ""
     if o.get("coldread"):
         c = o["coldread"]
-        cr = '<section class="tb-coldread" id="%s" aria-labelledby="%s-h"><h2 class="tb-h2" id="%s-h">%s</h2>%s</section>\n' % (c["id"], c["id"], c["id"], md(c["title"]), r_blocks([c["block"]], d["horizons"], 3))
+        cr = '<section class="tb-coldread" id="%s" aria-labelledby="%s-h"><h2 class="tb-h2" id="%s-h">%s</h2>%s</section>\n' % (c["id"], c["id"], c["id"], md(c["title"], "/overview/coldread/title"), r_blocks([c["block"]], d["horizons"], 3, paths=["/overview/coldread/block"]))
     # order is the 7-second read: claim, who, proof, one action; detail folds below
     ns = o.get("next_step", {})
-    lead = ('<p class="tb-go-h">%s</p>' % md(ns["lead"])) if ns.get("lead") else ""
-    cap = ('<p class="tb-go-t">%s</p>' % md(ns["text"])) if ns.get("text") else ""
-    note = ('<p class="tb-note">%s</p>' % md(o["action_note"])) if o.get("action_note") else ""
+    lead = ('<p class="tb-go-h">%s</p>' % md(ns["lead"], "/overview/next_step/lead")) if ns.get("lead") else ""
+    cap = ('<p class="tb-go-t">%s</p>' % md(ns["text"], "/overview/next_step/text")) if ns.get("text") else ""
+    note = ('<p class="tb-note">%s</p>' % md(o["action_note"], "/overview/action_note")) if o.get("action_note") else ""
     acts_html = ('<div class="tb-actions">%s</div>' % "".join(acts)) if acts else ""
     go = ('<div class="tb-go">%s%s%s%s</div>\n' % (lead, acts_html, cap, note)) if (lead or acts_html or cap or note) else ""
     out = ('<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">\n<h1 class="tb-h1">%s</h1>\n%s%s'
             '<div class="ftiles-c"><ul class="ftiles is-4" aria-label="At a glance">%s</ul></div>\n'
             '%s'
             '%s<div class="tb-expand%s"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>\n'
-            '<div class="tb-folds">%s</div>\n</div>') % (h, ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"])) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(re.sub(r"(?<=[a-z])-(?=[a-z])", "‑", x)) for x in o["lede"])) if o.get("lede") else "",
+            '<div class="tb-folds">%s</div>\n</div>') % (h, ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"], "/overview/subhead")) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(re.sub(r"(?<=[a-z])-(?=[a-z])", "‑", x), "/overview/lede/%d" % i) for i, x in enumerate(o["lede"]))) if o.get("lede") else "",
          tiles, go, cr,
          " solo" if len(o["sections"]) < 2 else "", folds)
     if d.get("pages") and len(o["sections"]) < 2:
@@ -198,22 +207,22 @@ def r_overview(d):
     return out
 
 
-def r_tab(t, horizons, i, page=False):
+def r_tab(t, horizons, i, page=False, p=""):
     tid = t["id"]
-    units = "\n".join('<section class="unit"><h3 class="tb-h3">%s</h3>%s</section>' % (md(u["title"]), r_blocks(u["blocks"], horizons, 4)) for u in t["units"])
-    calls = "".join('<p class="callout"><b>%s</b>%s</p>' % (md(c["label"]), md(c["text"])) for c in t.get("callouts", []))
+    units = "\n".join('<section class="unit"><h3 class="tb-h3">%s</h3>%s</section>' % (md(u["title"], "%s/units/%d/title" % (p, k)), r_blocks(u["blocks"], horizons, 4, "%s/units/%d/blocks" % (p, k))) for k, u in enumerate(t["units"]))
+    calls = "".join('<p class="callout"><b>%s</b>%s</p>' % (md(c["label"], "%s/callouts/%d/label" % (p, k)), md(c["text"], "%s/callouts/%d/text" % (p, k))) for k, c in enumerate(t.get("callouts", [])))
     calls = '<div class="seat-callouts">%s</div>' % calls if calls else ""
     op = "true" if i == 0 else "false"
     if page:
         # a role on its own page: no fold, the seat name shows as the eyebrow; headings step h1, h2, h3
-        units = "\n".join('<section class="unit"><h2 class="tb-h3">%s</h2>%s</section>' % (md(u["title"]), r_blocks(u["blocks"], horizons, 3)) for u in t["units"])
+        units = "\n".join('<section class="unit"><h2 class="tb-h3">%s</h2>%s</section>' % (md(u["title"], "%s/units/%d/title" % (p, k)), r_blocks(u["blocks"], horizons, 3, "%s/units/%d/blocks" % (p, k))) for k, u in enumerate(t["units"]))
         return ('<div id="pane-%s" class="tb-pane seat">\n<div class="seat-head"><p class="section-label seat-name">%s</p><h1 class="seat-h">%s</h1></div>\n'
                 '<div class="seat-body" id="seat-%s-body"><p class="seat-lede">%s</p>\n%s\n%s</div>\n</div>') % (
-            tid, md(t["name"]), md(t["headline"]), tid, md(t["lede"]), units, calls)
+            tid, md(t["name"], p + "/name"), md(t["headline"], p + "/headline"), tid, md(t["lede"], p + "/lede"), units, calls)
     return ('<div id="pane-%s" class="tb-pane seat" role="tabpanel" aria-labelledby="t-%s">\n<div class="seat-head"><h2 class="seat-h">'
             '<button type="button" class="seat-btn" aria-expanded="%s" aria-controls="seat-%s-body"><span><span class="seat-eyebrow">%s%s</span>'
             '<span class="seat-title">%s</span></span></button></h2></div>\n<div class="seat-body" id="seat-%s-body"><p class="seat-lede">%s</p>\n%s\n%s</div>\n</div>') % (
-        tid, tid, op, tid, md(t["name"]), ('<span class="shnav-pill">%s</span>' % md(t["rank"])) if t.get("rank") else "", md(t["headline"]), tid, md(t["lede"]), units, calls)
+        tid, tid, op, tid, md(t["name"], p + "/name"), ('<span class="shnav-pill">%s</span>' % md(t["rank"], p + "/rank")) if t.get("rank") else "", md(t["headline"], p + "/headline"), tid, md(t["lede"], p + "/lede"), units, calls)
 
 
 # kit 51 display preferences: the global header control (theme switch + reading options), same on every template
@@ -237,7 +246,10 @@ def dprefs_panel():
 
 
 def page_hrefs(d, artifact):
-    """Where each page lives: on the site a path per role; in the Artifact a sibling file per role."""
+    """Where each page lives: on the site a path per role; in the Artifact a sibling file per role; in a --tune build a sibling file that keeps ?tune."""
+    if TUNE[0]:
+        base = TUNE[1]
+        return dict([("ov", base + ".html?tune&edit")] + [(t["id"], "%s-%s.html?tune&edit" % (base, t["id"])) for t in d["tabs"]])
     ov = "./" if artifact else "/"
     return dict([("ov", ov)] + [(t["id"], ("%s.html" if artifact else "/%s") % t["id"]) for t in d["tabs"]])
 
@@ -245,8 +257,8 @@ def page_hrefs(d, artifact):
 def r_nav_links(d, cur, hrefs):
     items = [("ov", d["overview"]["label"])] + [(t["id"], t["label"]) for t in d["tabs"]]
     tabs = "".join('<a class="shnav-tab" href="%s" data-target="pane-%s" aria-current="%s">%s</a>' % (e(hrefs[i]), i, "page" if i == cur else "false", md(lab)) for i, lab in items)
-    return ('<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Pages" data-menu-below="1024"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs">%s</div>'
-            '<button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Go to a page"><span></span></button></nav></div>') % tabs
+    return ('<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Pages" data-menu-below="%d"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs">%s</div>'
+            '<button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Go to a page"><span></span></button></nav></div>') % (stack_below(d), tabs)
 
 
 def r_nav(d):
@@ -254,8 +266,13 @@ def r_nav(d):
     for t in d["tabs"]:
         tabs.append('<button type="button" class="shnav-tab" role="tab" id="t-%s" aria-controls="pane-%s" data-target="pane-%s" aria-selected="false" tabindex="-1">%s%s</button>' % (
             t["id"], t["id"], t["id"], md(t["label"]), ('<span class="shnav-pill">%s</span>' % md(t["rank"])) if t.get("rank") else ""))
-    return ('<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Sections" data-menu-below="1024"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs" aria-label="View">%s</div>'
-            '<button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Jump to a section"><span></span></button></nav></div>') % "".join(tabs)
+    return ('<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Sections" data-menu-below="%d"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs" aria-label="View">%s</div>'
+            '<button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Jump to a section"><span></span></button></nav></div>') % (stack_below(d), "".join(tabs))
+
+
+def stack_below(d):
+    """Width below which the tabs fold into the menu and the roles stack (shell.css writes 1024; data may move it)."""
+    return int(d.get("stack_below", 1024))
 
 
 def date_long(iso):
@@ -267,7 +284,11 @@ def date_long(iso):
 def render(d, artifact=False, page=None):
     TABLE_N[0] = 0
     m = d["meta"]
-    css = tokens() + "\n" + "".join(kit_block(p) for p in PARTS) + open(os.path.join(TDIR, "shell.css"), encoding="utf-8").read()
+    shell = open(os.path.join(TDIR, "shell.css"), encoding="utf-8").read().replace("(min-width: 1024px)", "(min-width: %dpx)" % stack_below(d))
+    rules = re.sub(r"/\*.*?\*/", "", shell, flags=re.S)  # braces quoted in comments do not count
+    if rules.count("{") != rules.count("}"):  # an unclosed block swallows every rule after it, including a pasted tuner line
+        raise SystemExit("shell.css: %d '{' but %d '}' outside comments; close the open block" % (rules.count("{"), rules.count("}")))
+    css = tokens() + "\n" + "".join(kit_block(p) for p in PARTS) + shell
     # pre-paint: one saved object per page (theme, font, size, space); the page's default_theme (light if unset) unless the reader chose
     head_js = ("<script>(function(){var d=document.documentElement,s={};try{var r=localStorage.getItem('%s')||'';"
                "s=r.charAt(0)==='{'?JSON.parse(r):(r?{theme:r}:{})}catch(e){}"
@@ -283,11 +304,11 @@ def render(d, artifact=False, page=None):
         line, DPREFS_ROW, dprefs_panel())
     title = d["doc_title"]
     if page is None:
-        body, nav, pages_attr = "\n".join([r_overview(d)] + [r_tab(t, d["horizons"], i) for i, t in enumerate(d["tabs"])]), r_nav(d), ""
+        body, nav, pages_attr = "\n".join([r_overview(d)] + [r_tab(t, d["horizons"], i, p="/tabs/%d" % i) for i, t in enumerate(d["tabs"])]), r_nav(d), ""
     else:
         # one pane per page; the nav links between pages
         t = next((x for x in d["tabs"] if x["id"] == page), None)
-        body = r_overview(d) if t is None else r_tab(t, d["horizons"], 0, page=True)
+        body = r_overview(d) if t is None else r_tab(t, d["horizons"], 0, page=True, p="/tabs/%d" % d["tabs"].index(t))
         nav, pages_attr = r_nav_links(d, page, page_hrefs(d, artifact)), ' data-pages="1"'
         body = re.sub(r' role="tabpanel" aria-labelledby="t-[a-z0-9-]+"', "", body)  # a page, not a tab panel
         if t is not None:
@@ -336,6 +357,54 @@ def write_pages(d, out, artifact=False):
     return res
 
 
+def tune_build(path, out):
+    """Internal copy for hand tuning: data-src spans, the breakpoint's data pointer on <main>, and the tuner inlined first in <body>."""
+    import token_tuner_inline as tti
+    if os.path.abspath(out).startswith(os.path.join(ROOT, "public") + os.sep):
+        raise SystemExit("--tune output must not live under public/: the tuner is internal only")
+    TUNE[:] = [True, re.sub(r"\.html$", "", os.path.basename(out))]
+    try:
+        d = json.load(open(path, encoding="utf-8"))
+        res = outputs(d, out)
+    finally:
+        TUNE[:] = [False]
+    for f, h in res.items():
+        h = h.replace('<main class="tb"', '<main data-bp="%d" data-bp-src="/stack_below" class="tb"' % stack_below(d), 1)
+        open(f, "w", encoding="utf-8").write(tti.inline(h))
+        print("wrote %s (open with ?tune, add &edit to edit text)" % f)
+    return res
+
+
+def apply_patch(data_path, patch_path):
+    """Apply an RFC 6902 patch (replace / add only, the two ops the tuner writes) to a data file, validate, keep the file's format."""
+    d = json.load(open(data_path, encoding="utf-8"))
+    ops = json.load(open(patch_path, encoding="utf-8"))
+    for op in ops:
+        if op.get("op") not in ("replace", "add"):
+            raise SystemExit("unsupported op %r (the tuner writes replace and add)" % op.get("op"))
+        keys = [k.replace("~1", "/").replace("~0", "~") for k in op["path"].split("/")[1:]]
+        cur = d
+        for k in keys[:-1]:
+            cur = cur[int(k)] if isinstance(cur, list) else cur[k]
+        last = keys[-1]
+        if isinstance(cur, list):
+            cur[int(last)] = op["value"]
+        elif op["op"] == "replace" and last not in cur:
+            raise SystemExit("replace on a missing key: %s" % op["path"])
+        else:
+            cur[last] = op["value"]
+    errs = validate(d)
+    if errs:
+        for x in errs:
+            print("✖ " + x)
+        raise SystemExit(1)
+    raw = open(data_path, encoding="utf-8").read()
+    m = re.search(r"\n( +)\"", raw)  # keep the file's own indent, so a one-field patch is a one-line diff
+    out = json.dumps(d, indent=len(m.group(1)) if m else 1, ensure_ascii=False) + ("\n" if raw.endswith("\n") else "")
+    open(data_path, "w", encoding="utf-8").write(out)
+    print("applied %d op(s) to %s" % (len(ops), data_path))
+
+
 def check():
     bad = 0
     for data, page in REGISTERED.items():
@@ -376,6 +445,8 @@ def main(argv):
     ap.add_argument("data", nargs="?")
     ap.add_argument("-o", "--out")
     ap.add_argument("--artifact")
+    ap.add_argument("--tune", metavar="OUT.html")
+    ap.add_argument("--apply", metavar="PATCH.json")
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args(argv)
@@ -385,6 +456,16 @@ def main(argv):
         return check()
     if not a.data:
         ap.error("give a data file, --check or --self-test")
+    if a.apply:
+        apply_patch(a.data, a.apply)
+        rebuilt = [p for dp, p in REGISTERED.items() if os.path.abspath(os.path.join(ROOT, dp)) == os.path.abspath(a.data)]
+        for p in rebuilt:
+            build(a.data, os.path.join(ROOT, p))
+            print("rebuilt " + p)
+        return 0
+    if a.tune:
+        tune_build(a.data, a.tune)
+        return 0
     if a.artifact:
         build(a.data, a.artifact, artifact=True)
         print("wrote " + a.artifact)

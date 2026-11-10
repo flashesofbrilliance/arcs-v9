@@ -2159,6 +2159,7 @@
     "public/cia-brief.html",
     "public/good-instruments.html",
     "public/good.html",
+    "public/gravity-brief.html",
     "public/growth-ai-observatory.html",
     "public/mercury.html",
     "public/monolith.html",
@@ -2179,7 +2180,7 @@
     "scripts/counterpart_onepager_build.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 49,
+   "reuse": 50,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -3464,10 +3465,12 @@
    "number": "40",
    "name": "Token Tuner",
    "group": "Tools",
-   "subtitle": "Internal only. Open with ?tune: sliders bound to :root tokens (measure, spacing, type, line-height), Copy CSS gives one line to paste back.",
+   "subtitle": "Internal only. ?tune: sliders for :root tokens, one per CSS breakpoint, text-wrap selects; Copy CSS gives one line. ?edit: data-src text editable in place; Copy JSON gives one data patch.",
    "family": "kit",
    "path": "src/ui-kit/recoil-report/40-token-tuner.html",
-   "data_shape": [],
+   "data_shape": [
+    "table"
+   ],
    "fidelity": [],
    "classes": [
     "lane"
@@ -3482,7 +3485,8 @@
    },
    "templates": [],
    "jobs": [
-    "token-tuner-kit"
+    "token-tuner-kit",
+    "token-tuner-wysiwyg"
    ],
    "pages": [
     "_ARTIFACTS/docs-reconciliation.html",
@@ -4019,6 +4023,7 @@
    "jobs": [],
    "pages": [
     "_ARTIFACTS/louisville-proposal/source.html",
+    "public/good-rfp-engine.html",
     "public/gravity-brief-eir.html",
     "public/gravity-brief-founder.html",
     "public/gravity-brief-open.html",
@@ -4027,7 +4032,7 @@
     "public/louisville-proposal.html",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 8,
+   "reuse": 9,
    "near_duplicates": []
   },
   {
