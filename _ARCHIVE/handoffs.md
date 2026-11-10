@@ -1,3 +1,99 @@
+# Handoff — v3.142.0 (2026-10-28)
+
+> > Monday FDE arc (2026-10-20 to 2026-10-27): handoff provenance bench, walkthrough prep, the 2026-10-26 panel walkthrough and recoil close, and the follow-up guide at monday.arcs.care (nav click events, rc46 ZIP hosted behind the gate).
+
+## Goal / true north
+Win the monday.com FDE walkthrough on Mon 2026-10-26 (2:30-3:30 PM ET) and move to an offer by early November, starting mid-November or sooner.
+
+## What changed
+- #1629 merged with --merge (`3d144a22`): raw results of the single run (all but H8) and `_PATTERNS/2026-10-18-provenance-retrieval-results.md`. Receipt 2026-10-18--provenance-bench-results-pr1629--ZH.
+- #1745 merged with --merge (`517ae98a`): the H8 run, `h8.json`, a one-line `load_librarian` fix, report addendum. Receipt 2026-10-20--provenance-bench-h8-pr1745--ZH.
+- #1588 merged with --merge (`d39c9ec2`): Operator 21 Librarian posting-list lineage index. Receipt 2026-10-20--librarian-lineage-index-pr1588--ZH.
+- PR #1791 merged (ae652139): the intention in _STATE/intentions.jsonl, five domino rows, PANEL-BRIEF.md. Receipt 2026-10-22--monday-offer-intention-pr1791--ZH.
+- PR #1792 open: reviewer leave-behind added to the monday-walkthrough-2026-10-26 row (one-line diff).
+- Graded demo boards (account assessment-lab-assignment): board descriptions and a Call ID column tooltip were added, each labelled "added Oct 22, after submission". No item was changed.
+- Enterprise backlog board created: https://zachharriss-team.monday.com/boards/18436626672 (12 gap items, each with a talking point).
+- monday.arcs.care live, passcode-gated (MONDAY_PASSCODE). Guide order: the case, Not proven yet, Live (video, 720p note), Code, Evidence, Agent. PRs #1817 (58fcc978), #1818 (37aa6ac0), #1819 (7cc11948); receipts 2026-10-26--monday-guide-{host-pr1817,polish-pr1818,nav-labels-pr1819}--ZH.
+- Panel video re-cut (2:18, "On the running build"), unlisted at https://youtu.be/uUjJlXOusNw; thumbnail in ~/ret-rfp-explainer-rig/out-dry/.
+- Recoil close updated: open by default, liability posture under-credited, guardrail ask met at Kamran's scope. Odds about 0.65 to 0.68 (judgment). File _ARTIFACTS/forge-monday-fde/walkthrough/2026-10-26-recoil-close.md is UNTRACKED on this branch.
+- Email to Sam: written and sent by Zach, around 6:15 PM ET 2026-10-26.
+- PR 1825 merged (head 0866ac1a, merge 445a46b8): public/monday-guide.html fires a Vercel custom event `nav_click` {label, href} on nav link clicks. Live behind the passcode (verified with an unlock cookie).
+- Merged over a fe-smoke check stuck pending with 0s run time (Actions limit), on Zach's explicit "merge it anyway". Receipt 2026-10-27--monday-guide-nav-events-pr1825--ZH records that.
+- Trap order T1, T2, T5, T3, T4 kept as submitted (golden.json order), per Zach.
+
+## Current state
+- Vercel analytics query API returns 404 "Web Analytics not found" for arcs-v9 (by name and by ids); /_vercel/insights/script.js serves 200. Custom events need the Pro plan; unconfirmed whether nav_click records.
+- Mixmax shows bulk opens and clicks at 5:20pm and 5:40pm from Virginia: read as Safe Links style scanners, not reader interest.
+
+## Decisions made
+- Zach: merge on Vercel-only checks; merge 1588 only after H8 passed.
+- Run H8 only once the machine was quiet; it took four waits and one fresh worktree. Not run under load 15 or higher.
+- Zach: the deck follows the brief's sections 1.1-1.5; the spoken frame is the video's six beats. No net-new frameworks.
+- Zach: the timeline follows Sam's agenda with a buffer: hellos 0-2, slides 2-12, demo and code 12-27, their questions 27-45, buffer 45-50, his questions 50-60.
+- Zach: the code review is comments-first (file, rule, test, gap). The table-stakes items are named out loud. Production hardening: give his own lean first, then take it to internal peer review.
+- Zach: after the freeze, no more changes to the graded boards.
+- Zach: keep trap order as submitted; merge PR 1825 over the pending check.
+
+## Open decisions (waiting on Zach)
+1. Zach: the tower's decision queue (HUD rulings A1, compass anti-distillation A2, ADR-085 A3, stale backlog fates A4, and the one-way doors) in `_PROPOSALS/2026-10-19-tower-decision-queue.md` on the tower's branch.
+2. Zach: run the live e2e, then the launcher, the tooltip check and the eval (Apple Note list).
+3. Zach: say the six beats out loud with a timer, recorded on his phone.
+4. Zach: set the old Cheat Sheet artifact to private; unpin the old Comet tabs.
+5. Zach: merge PR #1792.
+6. Zach: check Vercel dashboard (arcs-v9, Analytics, Events) for nav_click; it is the only human-only signal on the guide.
+
+## Open (other)
+1. Commit the skeptic's re-score script so the check can be rerun (currently scratch only).
+2. universe-atlas-tokens row still OPEN; the canon atlas HTML stays uncommitted (token_source_gate).
+3. The skill-building session (local_7315d7c8) is waiting on Zach's now-or-after-Monday answer.
+4. rc46 Start page row 05 (Package your final submission) does not point to proof-of-one-answer.html as the "what done looks like" reference. Proposed fix: one cell, plus a mirror line on monday.arcs.care. Waiting on Zach's go (rc46 is already submitted).
+5. Ex-ante receipt for the leadership call (row monday-leadership-call); Wednesday 10-28 prep (Elevate, seeing Sam).
+6. Optional: stack the 4-column guide tables on mobile.
+7. Optional: relabel the guide's one-answer bullet to "What one finished answer looks like (traced):".
+
+## Next action
+Wait for a reply from Sam or the panel; read nav_click in the Vercel dashboard (arcs-v9, Analytics, Events).
+
+## Cold-start recipe
+- Read _ARTIFACTS/forge-monday-fde/walkthrough/2026-10-26-recoil-close.md and memory project_monday_fde_strategic_deployments.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: lead of 20261020T181720Z--claude-handoff-provenance-bench.md
+> Ran the pre-registered provenance-retrieval benchmark once, published every result including the failures, and merged the one change that passed (the Librarian lineage index).
+
+### Notes: lead of 20261022T194426Z--claude-monday-interview-prep.md
+### Shavasana — handoff pause, 2026-10-22 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/monday-prep-handoff), receipts in digest: no digest file.
+- **Inhale** (what came in): 0 falsification rows today, 1 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: mirror (inhale, no exhale).
+- **Sycophancy check**: agreement 2 / dissent 1 (ratio 1.0) → OK: dissent present.
+- **Cold re-read (canary on the draft frag.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+- Attachment release: every claim cites a PR, board id, path or file; kept. Somatic: not asked. Disposition: release.
+
+### Notes: lead of 20261027T131837Z--claude-monday-prep-handoff.md
+> monday FDE post-call session (2026-10-26 to 10-27): panel follow-up shipped; Zach sent it to Sam.
+
+### Notes: lead of 20261028T001502Z--claude-monday-prep-handoff.md
+> Monday guide follow-up session (2026-10-27, part 2): nav click tracking shipped on the guide; analytics and email-open signals read.
+
+### Notes: Lessons
+- Read the whole organizer thread and the archive before planning; the first agenda was wrong.
+- Mirror what reviewers already saw; repeated restructuring after a freeze is soothing, not preparing.
+- Verify every sheet claim against the code. Caught today: "answered with a source", "3 seconds", a contradictory "No" on the real RFP, and an agenda that summed past 60 minutes.
+- Reuse the project's own artifacts (README gap list, golden.json, DECISIONS.md, KINTSUGI, catalog.json) rather than rebuilding them.
+
+> Molted from `_HANDOFFS/fragments/20261020T181720Z--claude-handoff-provenance-bench.md` (branch `claude/handoff-provenance-bench`, head `eb749100`); `_HANDOFFS/fragments/20261022T194426Z--claude-monday-interview-prep.md` (branch `claude/monday-interview-prep`, head `ae652139`); `_HANDOFFS/fragments/20261027T131837Z--claude-monday-prep-handoff.md` (branch `claude/monday-prep-handoff`, head `185ba01e`); `_HANDOFFS/fragments/20261028T001502Z--claude-monday-prep-handoff.md` (branch `claude/monday-prep-handoff`, head `874f14e4`).
+
+---
+
 # Handoff — v3.141.0 (2026-10-20)
 
 > > Shared-intention session (2026-10-20): designed the step after backlog induction (one shared intention, horizons, altitude drill-down, domino line), built a read-only risk underwriter, proved the outcome plumbing, and bridged decision-receipt outcomes into the Accountant.
