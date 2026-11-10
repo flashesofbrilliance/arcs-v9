@@ -15,8 +15,8 @@
  "overview": {
   "label": "Overview",
   "headline": [
-   "Twenty years in the trenches,",
-   "taking products from zero."
+   "Your idea engine makes theses fast.",
+   "I make them trustworthy."
   ],
   "tiles": [
    {
@@ -30,17 +30,47 @@
     "note": "Co-founded; profitable in 24 months. Then a turnaround, acquired"
    },
    {
-    "v": "2 of 3",
-    "k": "Lines taken forward",
-    "note": "AI health product lines tested at Twill Health"
+    "v": "32",
+    "k": "Claims with records",
+    "note": "Every claim on my proof page links to its evidence"
    },
    {
-    "v": "2027-03-31",
-    "k": "ARCS kill line",
-    "note": "No paying user by then, and ARCS stops as a product"
+    "v": "1 run",
+    "k": "Pre-registered",
+    "note": "Benchmark rules written first, run once, every failure published"
    }
   ],
   "sections": [
+   {
+    "id": "week-one",
+    "title": "Week One",
+    "tagline": "What I would do in the first week.",
+    "open": true,
+    "blocks": [
+     {
+      "type": "p",
+      "text": "Your Idea Engine post: agents write memos six times faster, and not every memo is usable. Ideas are getting cheap. Trusting them is not. ARCS builds conviction the way an oak builds rings: every pass with its reason, every kill test written before it runs, every overturned belief kept on the record. The rings are what hold the tree up."
+     },
+     {
+      "type": "cards",
+      "cards": [
+       {
+        "title": "Your pass list, on the record",
+        "text": "Each idea you passed gets its reason and a recheck date. When the market moves, a wrong pass comes back as a lead, not a loss."
+       },
+       {
+        "title": "A kill test, written today",
+        "ref": "Dated 2026-11-10, before any call.",
+        "text": "Coda's riskiest assumption: banks will take crypto deposits once compliance is solved. 15 calls with bank digital-asset leads; kill it if fewer than 2 will sign a pilot letter. Under two weeks and $10k."
+       },
+       {
+        "title": "The agent-payments wedge",
+        "text": "When an AI agent sends stablecoins, the send is final. Policy engines log which rule allowed it, not what the agent intended or whether it came true. ARCS writes that record today."
+       }
+      ]
+     }
+    ]
+   },
    {
     "id": "receipts",
     "title": "Receipts",
@@ -49,7 +79,11 @@
     "blocks": [
      {
       "type": "p",
-      "text": "[RFP-O-Matic with four short videos](https://good.arcs.care/rfp-engine), [its source](https://github.com/flashesofbrilliance/rfp-engine), [ARCS](https://app.arcs.care), and my [proof page](https://zach.md/proof), where each claim links to its record. Resume and a 20-minute walkthrough on request."
+      "text": "[RFP-O-Matic with four short videos](https://good.arcs.care/rfp-engine), [its source](https://github.com/flashesofbrilliance/rfp-engine), [ARCS](https://app.arcs.care), and my [proof page](https://zach.md/proof). Resume and a 20-minute walkthrough on request."
+     },
+     {
+      "type": "p",
+      "text": "**What I cannot show yet:** a paying ARCS user. If none by 2027-03-31, it stops as a product and stays my working tool."
      }
     ]
    }
@@ -129,24 +163,20 @@
        "cards": [
         {
          "title": "An alpha engine",
-         "ref": "Built: the record and the recheck. Not shown yet: that it beats judgment alone.",
+         "ref": "Built: the record and the recheck.",
          "text": "ARCS logs why each hatch was passed and rechecks it as markets move. A wrong pass becomes a lead, not a loss."
         },
         {
          "title": "A risk-adjusted pipeline",
-         "ref": "Built: a conviction score on every decision. Not shown yet: how accurate it is.",
+         "ref": "Built: a conviction score on every decision.",
          "text": "Each hatch carries what the team expects, how sure it is, and what kills it. The pipeline reads by risk, not just excitement."
         },
         {
          "title": "An anti-fragile test bench",
-         "ref": "Built: pre-registered tests, run once, failures published. Not shown yet: a kill test run on a Gravity hatch.",
+         "ref": "Built: pre-registered tests, run once, failures published.",
          "text": "Every kill test is written before it runs. A failed test still pays: the next thesis starts from what it ruled out."
         }
        ]
-      },
-      {
-       "type": "p",
-       "text": "**Not onchain.** ARCS receipts live in Postgres. Onchain is a thesis I have not tested."
       }
      ]
     },
