@@ -6,6 +6,10 @@
    page's data file (text edits, and the breakpoint when <main data-bp-src> names its field); apply it with the builder.
    Breakpoints move for JS too: in tune mode window.matchMedia is wrapped so a query such as (max-width: 1023px) follows
    the slider, which is why the inliner puts this script first in <body>, before the page's own scripts.
+   Viewport: Mobile 375, Tablet 768, Desktop 1280 render the page in an iframe of the same URL (?tune&tuneframe), so
+   its own @media rules and matchMedia answer to that width, not the window's; Fit drops the frame. The frame reads the
+   panel's saved state and the panel pushes every change to it. Print applies the page's @media print rules (and turns
+   @media screen off) so PDF layout can be tuned; @page size and margins are not simulated, so pick the width yourself.
    Inline it with scripts/token_tuner_inline.py; page_gate.py --counterpart fails any page that still carries it.
    Source of truth: src/ui-kit/token-tuner.js. Kit primitive: src/ui-kit/recoil-report/40-token-tuner.html. */
 (function () {
@@ -35,6 +39,10 @@
   var saved = {};
   try { saved = JSON.parse(sessionStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
   var BP = saved.bp || {};          // breakpoint key -> new key, only the moved ones
+  var PRINT = !!saved.print;        // print preview: @media print on, @media screen off
+  var FRAME = TUNE && /[?&]tuneframe(=|&|$)/.test(Q) && window.parent !== window;
+  var VPS = [['Mobile', 375], ['Tablet', 768], ['Desktop', 1280], ['Fit', 0]];
+  function fmt(n, unit) { return (Math.round(n * 10000) / 10000) + unit; }
 
   /* ---------- breakpoints: one key per width; (max-width: 1023px) pairs with (min-width: 1024px) ---------- */
   var MQ_RE = /\((min|max)-width:\s*(\d+(?:\.\d+)?)px\)/g;
@@ -45,20 +53,30 @@
       return nk == null ? m : '(' + k + '-width: ' + (nk + (v - key)) + 'px)';
     });
   }
+  // print preview, one comma-separated query at a time: print -> all, screen -> not all (and the reverse under "not")
+  function printify(text) {
+    return text.split(',').map(function (q) {
+      var neg = /^\s*not\s/i.test(q);
+      if (/\bprint\b/i.test(q)) return neg ? 'not all' : q.replace(/\bonly\s+/i, '').replace(/\bprint\b/i, 'all');
+      if (/\bscreen\b/i.test(q)) return neg ? q.replace(/\bnot\s+screen\b/i, 'all') : 'not all';
+      return q;
+    }).join(',');
+  }
+  function media(text) { return PRINT ? printify(remap(text)) : remap(text); }
   // matchMedia follows the sliders: a wrapped list re-evaluates and fires 'change' when its remapped answer flips
   var realMM = window.matchMedia ? window.matchMedia.bind(window) : null, lists = [];
   if (TUNE && realMM) {
     window.matchMedia = function (q) {
       q = String(q);
-      if (!/-width:\s*[\d.]+px/.test(q)) return realMM(q);
-      var cur = realMM(remap(q)), ls = [], o = { media: q, onchange: null };
+      if (!/-width:\s*[\d.]+px|\b(print|screen)\b/.test(q)) return realMM(q);
+      var cur = realMM(media(q)), ls = [], o = { media: q, onchange: null };
       Object.defineProperty(o, 'matches', { get: function () { return cur.matches; } });
       function fire() { var ev = { matches: cur.matches, media: q }; ls.forEach(function (f) { f.call(o, ev); }); if (o.onchange) o.onchange(ev); }
       o.addEventListener = function (t, f) { if (t === 'change') ls.push(f); };
       o.removeEventListener = function (t, f) { var i = ls.indexOf(f); if (i > -1) ls.splice(i, 1); };
       o.addListener = function (f) { ls.push(f); };
       o.removeListener = function (f) { o.removeEventListener('change', f); };
-      o._re = function () { var was = cur.matches; cur.removeEventListener('change', fire); cur = realMM(remap(q)); cur.addEventListener('change', fire); if (cur.matches !== was) fire(); };
+      o._re = function () { var was = cur.matches; cur.removeEventListener('change', fire); cur = realMM(media(q)); cur.addEventListener('change', fire); if (cur.matches !== was) fire(); };
       cur.addEventListener('change', fire);
       lists.push(o);
       return o;
@@ -73,14 +91,40 @@
   }
   [].forEach.call(document.styleSheets, function (s) { try { scan(s.cssRules); } catch (e) { /* cross-origin sheet: skip */ } });
   var menuEls = [];
+  function collectMenus() {
+    [].forEach.call(document.querySelectorAll('[data-menu-below]'), function (el) {
+      menuEls.push({ el: el, orig: +el.getAttribute('data-menu-below') });
+    });
+  }
   function applyBP() {
-    mediaRules.forEach(function (m) { var t = remap(m.orig); if (m.rule.media.mediaText !== t) m.rule.media.mediaText = t; });
+    mediaRules.forEach(function (m) { var t = media(m.orig); if (m.rule.media.mediaText !== t) m.rule.media.mediaText = t; });
     menuEls.forEach(function (m) { var k = m.orig; m.el.setAttribute('data-menu-below', BP[k] != null ? BP[k] : k); });
     lists.forEach(function (o) { o._re(); });
   }
   if (TUNE) applyBP();
 
   function ready(fn) { if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn); else fn(); }
+
+  /* ---------- frame mode: no panel; mirror the panel's saved state, re-read on every push from the parent ---------- */
+  if (FRAME) {
+    var wrapF = null, menusDone = false;
+    window.__arcsTunerSync = function () {
+      var s = {};
+      try { s = JSON.parse(sessionStorage.getItem(KEY) || '{}') || {}; } catch (e) { s = {}; }
+      BP = s.bp || {}; PRINT = !!s.print;
+      SPEC.forEach(function (sp) {
+        var v = s.tok && s.tok[sp[0]];
+        if (v != null) root.style.setProperty(sp[0], fmt(v, sp[1])); else root.style.removeProperty(sp[0]);
+      });
+      if (!wrapF) { wrapF = document.createElement('style'); wrapF.setAttribute('data-arcs-token-tuner', 'wrap'); document.head.appendChild(wrapF); }
+      wrapF.textContent = WRAPS.map(function (w, i) { var v = s.wrap && s.wrap[i]; return v ? w[1] + '{text-wrap:' + v + '!important}' : ''; }).join('');
+      if (!menusDone && document.readyState !== 'loading') { collectMenus(); menusDone = true; }
+      applyBP();
+    };
+    window.__arcsTunerSync();
+    ready(window.__arcsTunerSync);
+    return;
+  }
   ready(build);
 
   function build() {
@@ -97,14 +141,11 @@
       if (!m || m[2] !== unit) return null;
       return parseFloat(m[1]);
     }
-    function fmt(n, unit) { return (Math.round(n * 10000) / 10000) + unit; }
     function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
     var main = document.querySelector('[data-bp-src]');
     var bpData = main ? { key: +main.getAttribute('data-bp'), path: main.getAttribute('data-bp-src') } : null;
-    [].forEach.call(document.querySelectorAll('[data-menu-below]'), function (el) {
-      menuEls.push({ el: el, orig: +el.getAttribute('data-menu-below') });
-    });
+    collectMenus();
     if (TUNE) applyBP();
     var keys = {};
     mediaRules.forEach(function (m) { var r; MQ_RE.lastIndex = 0; while ((r = MQ_RE.exec(m.orig))) keys[keyOf(r[1], +r[2])] = 1; });
@@ -139,12 +180,21 @@
       '.out{width:100%;box-sizing:border-box;font:inherit;color:var(--text,CanvasText);background:var(--bg,Canvas);border:1px solid var(--border,GrayText);border-radius:var(--ds-r-sm,6px);padding:5px}' +
       '.msg{color:var(--green,CanvasText);min-height:1em}' +
       '.p.min .b,.p.min .c,.p.min .f [data-act]:not([data-act=min]){display:none}' +
-      '@media print{.p{display:none}}' +
+      '.v{display:flex;flex-wrap:wrap;gap:4px;padding:8px 10px 0}' +
+      'button[aria-pressed=true]{border-color:var(--cyan,LinkText);color:var(--cyan,LinkText)}' +
+      '.st{position:fixed;inset:0;z-index:2147483646;overflow:auto;background:var(--surface-2,GrayText)}' +
+      '.st[hidden]{display:none}' +
+      '.st iframe{display:block;margin:0 auto;height:100%;border:0;border-left:1px solid var(--border,GrayText);border-right:1px solid var(--border,GrayText);background:var(--bg,Canvas)}' +
+      '@media print{.p,.st{display:none}}' +
       '</style>' +
+      (TUNE ? '<div class="st" hidden><iframe title="This page at the chosen viewport width"></iframe></div>' : '') +
       '<div class="p" role="region" aria-label="Token tuner">' +
       '<div class="h"><b>' + (TUNE ? 'Token tuner' : 'Text editor') + '</b><span class="f"><button type="button" data-act="copy">Copy CSS</button>' +
       (canPatch ? '<button type="button" data-act="copyjson">Copy JSON</button>' : '') +
       '<button type="button" data-act="reset">Reset</button><button type="button" data-act="min" aria-expanded="true">Hide</button></span></div>' +
+      (TUNE ? '<div class="v" role="group" aria-label="Viewport">' + VPS.map(function (v) {
+        return '<button type="button" data-vp="' + v[1] + '" aria-pressed="false"' + (v[1] ? ' title="' + v[1] + 'px wide"' : ' title="The window width, no frame"') + '>' + v[0] + (v[1] ? ' ' + v[1] : '') + '</button>';
+      }).join('') + '<button type="button" data-act="print" aria-pressed="false" title="Apply the page\'s @media print rules">Print</button></div>' : '') +
       '<div class="c"><input class="out" data-out="css" readonly aria-label="Changed tokens and rules as one CSS line" value="">' +
       (canPatch ? '<input class="out" data-out="json" readonly aria-label="Changed data as one JSON patch" value="">' : '') +
       '<div class="msg" aria-live="polite"></div></div>' +
@@ -154,7 +204,27 @@
     var body = shadow.querySelector('.b');
     var out = shadow.querySelector('[data-out=css]'), outJ = shadow.querySelector('[data-out=json]');
     var msg = shadow.querySelector('.msg');
-    var rows = [], bpRows = [], wrapRows = [];
+    var rows = [], bpRows = [], wrapRows = [], showVW = function () {};
+    var VP = +saved.vp || 0, stage = shadow.querySelector('.st'), frame = stage && stage.querySelector('iframe');
+    function frameSync() { try { if (VP && frame.contentWindow.__arcsTunerSync) frame.contentWindow.__arcsTunerSync(); } catch (e) {} }
+    function setVP(w) {
+      VP = w;
+      [].forEach.call(shadow.querySelectorAll('[data-vp]'), function (b) { b.setAttribute('aria-pressed', String(+b.getAttribute('data-vp') === w)); });
+      if (!stage) return;
+      stage.hidden = !w;
+      root.style.overflow = w ? 'hidden' : '';
+      if (w) {
+        frame.style.width = w + 'px';
+        if (!frame.getAttribute('src')) frame.setAttribute('src', location.pathname + location.search + '&tuneframe');
+      }
+      showVW();
+    }
+    function setPrint(on) {
+      PRINT = on;
+      var b = shadow.querySelector('[data-act=print]'); if (b) b.setAttribute('aria-pressed', String(on));
+      lists.forEach(function (o) { o._re(); });
+      applyBP(); showVW();
+    }
     function group(t) { var g = document.createElement('p'); g.classList.add('g'); g.textContent = t; body.appendChild(g); return g; }
 
     /* tokens */
@@ -188,7 +258,7 @@
 
       /* breakpoints */
       var vw = group('Breakpoints');
-      var showVW = function () { vw.textContent = 'Breakpoints (viewport ' + root.clientWidth + 'px)'; };
+      showVW = function () { vw.textContent = 'Breakpoints (viewport ' + (VP || root.clientWidth) + 'px' + (PRINT ? ', print' : '') + ')'; };
       showVW(); addEventListener('resize', showVW);
       bpKeys.forEach(function (k) {
         var row = document.createElement('div'); row.classList.add('r');
@@ -304,10 +374,11 @@
       out.value = cssLine();
       var o = ops();
       if (outJ) outJ.value = o.length ? JSON.stringify(o) : '';
-      var keep = { tok: {}, bp: BP, wrap: wrapRows.map(function (r) { return r.input.value; }), text: {} };
+      var keep = { vp: VP, print: PRINT, tok: {}, bp: BP, wrap: wrapRows.map(function (r) { return r.input.value; }), text: {} };
       rows.forEach(function (r) { if (r.row.classList.contains('changed')) keep.tok[r.name] = parseFloat(r.input.value); });
       base.forEach(function (b) { var now = toMd(b.el); if (now !== b.md) keep.text[b.path] = now; });
       try { sessionStorage.setItem(KEY, JSON.stringify(keep)); } catch (e) {}
+      frameSync();
     }
     function say(t) { msg.textContent = t; }
     function copy(t, field, done) {
@@ -324,6 +395,9 @@
 
     shadow.addEventListener('click', function (e) {
       var act = e.target && e.target.getAttribute && e.target.getAttribute('data-act');
+      var vp = e.target && e.target.getAttribute && e.target.getAttribute('data-vp');
+      if (vp != null) { setVP(+vp); refresh(); return; }
+      if (act === 'print') { setPrint(!PRINT); refresh(); return; }
       if (act === 'min') {
         var p = shadow.querySelector('.p'), min = p.classList.toggle('min');
         e.target.textContent = min ? 'Show' : 'Hide';
@@ -343,6 +417,8 @@
       }
     });
 
+    if (TUNE) { setPrint(PRINT); setVP(VP); }
+    if (frame) frame.addEventListener('load', frameSync);
     refresh();
     (document.body || root).appendChild(host);
   }
