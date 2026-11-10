@@ -72,10 +72,32 @@ Serve that folder and open a page with `?tune&edit`:
 - **Tokens.** `--lh` (line height), `--sp-4` (section rhythm), `--gap` (card gap), `--ls` (letter-spacing) and `--fs-body` move live.
 - **Breakpoints.** One slider per px width the page's media queries use. The 1024px one is the stack breakpoint (`stack_below` in
   the data, default 1024): the tabs fold into the menu and the cards stack below it. The slider moves the CSS rules and the nav's
-  JS together.
+  JS together. Container queries (kit 54 signal ledger at 38rem and 58rem, kit 55 sound bite) get their own sliders, marked
+  "(container)"; they move live, but their widths live in the kit file, so a moved one is reported "set in source by hand".
 - **Wrapping.** `text-wrap` for headings and for body text.
 - **Text.** Every data string is editable in place (Enter is blocked: one string, one line; bold and links survive).
 
-Copy CSS gives one line: paste it at the end of `shell.css`. Copy JSON gives one patch for the data file: save it and run
-`python3 scripts/tabbed_brief_build.py DATA.json --apply patch.json`, which applies it, validates, keeps the file's format and
-rebuilds the registered page. The tuner never reaches a counterpart page: `page_gate.py --counterpart` fails any page carrying it.
+Hand the exports back with `python3 scripts/tabbed_brief_build.py DATA.json --apply EXPORT [...]`. It takes any mix of Copy JSON
+(the data patch), Copy CSS (the line, saved as a .css file), Copy edits, or Export versions (the latest breadcrumb, or `--version N`).
+Text and `stack_below` go to the data file, edited in place so a one-field change is a one-line diff; tokens and wrapping go to
+a tuned block at the end of `shell.css` (`/* arcs-tuned:start */`), merged on each apply. It validates, then rebuilds the
+registered page; if any part is refused, nothing is written. The tuner never reaches a counterpart page:
+`page_gate.py --counterpart` fails any page carrying it.
+
+The same two flags work on every page builder; the mechanics live once in `scripts/page_tune.py`. Where each part lands:
+
+| Builder | Page | Text goes to | Tokens and wrapping go to |
+|---|---|---|---|
+| `tabbed_brief_build.py DATA` | Gravity brief | DATA (by JSON pointer, `?edit`) | `shell.css` tuned block |
+| `proposal_build.py --louisville` | Louisville proposal | `source.html` | `source.html` tuned block |
+| `myally_hub_sync.py` | MyAlly hub | the hub HTML (synced Step 1 block masked), else `engagement.json` | the hub's tuned block |
+| `engagement_render.py --dir D` | internal proposal.html | `D/engagement.json` | refused (CSS is in the script) |
+| `counterpart_onepager_build.py DATA` | Brooks one-pager | DATA (fields are HTML, so new text is escaped) | DATA `tokens` |
+| `precall_brief_build.py DATA` | pre-call brief | DATA | `page.tpl` tuned block (every brief) |
+| `blog_render.py POST.md` | NFTT post | POST.md | refused (no tuner tokens on the page) |
+| `research_render.py [OUT] DIGESTS` | Almanac | the digest that holds the text | refused (no tuner tokens) |
+| `milestone_render.py DATA` | milestone map | DATA | refused (no tuner tokens) |
+
+Text from double-click goes to the first source that holds it, and must be there exactly once; text the builder computes (a
+cite-substituted value, a derived row) is not in any source, so the pair is refused and named. Builders with no data source
+(hand-written pages served straight from public/) take `scripts/token_tuner_inline.py --apply-text` against their own file.

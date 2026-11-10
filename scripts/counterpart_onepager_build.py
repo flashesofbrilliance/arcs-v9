@@ -14,9 +14,13 @@ The page is rebuilt from the ui-kit levels, never hand-edited:
   python3 scripts/counterpart_onepager_build.py --check                                        exit 1 if any page differs
                                                                                                or an outcome block is unsound
   python3 scripts/counterpart_onepager_build.py --receipt [data.json]                          print the ex-ante receipt template
+  python3 scripts/counterpart_onepager_build.py DATA.json --tune OUT.html                      internal copy with the live editor
+  python3 scripts/counterpart_onepager_build.py DATA.json --apply EXPORT [...]                 text and tokens back to DATA, rebuild
 Stdlib only.
 """
 import json, os, re, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import page_tune as pt  # noqa: E402  the shared --tune / --apply mechanics
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KIT = os.path.join(ROOT, "src/ui-kit/recoil-report")
@@ -439,6 +443,18 @@ VALUES (
 
 
 def main(argv):
+    if "--tune" in argv or "--apply" in argv:
+        import argparse
+        ap = argparse.ArgumentParser(description="counterpart_onepager_build --tune / --apply")
+        ap.add_argument("data")
+        pt.add_args(ap)
+        a = ap.parse_args(argv)
+        if a.tune:
+            pt.tune_write(build(json.load(open(a.data, encoding="utf-8"))), a.tune)
+            return 0
+        # fields are trusted authored HTML, so new text is escaped; token sliders land in the data's own "tokens"
+        pt.apply(a.apply, [("json-html", a.data)], style=("json-tokens", a.data, "tokens"), version=a.version, validate=validate)
+        argv = [a.data]
     if "--receipt" in argv:
         for p in [a for a in argv if not a.startswith("--")] or sorted(os.path.join(DATA, f) for f in os.listdir(DATA) if f.endswith(".json")):
             d = json.load(open(p, encoding="utf-8"))

@@ -7,6 +7,9 @@ a layout bug — there is no layout to break, only data to fill.
 
   milestone_render.py <data.json> <out.html> [--dry-run]
   milestone_render.py --self-test
+  milestone_render.py <data.json> [<out.html>] --tune TUNED.html      internal copy with the live editor (refuses public/)
+  milestone_render.py <data.json> [<out.html>] --apply EXPORT [...]   text edits back to data.json, then rebuild
+  (the template declares no tuner tokens, so slider moves are refused by name)
 
 The data JSON must match window.MILESTONE_DATA (schema documented in the template head).
 Stdlib only.
@@ -18,6 +21,13 @@ TEMPLATE = os.path.join(ROOT, "_ARTIFACTS/milestones/_template.html")
 MARKER = "__MILESTONE_DATA__"
 
 
+
+def _pt():
+    """page_tune, imported only for --tune/--apply (the self-test runs a lone copy of this script, without it)."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import page_tune
+    return page_tune
+
 def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(prog="milestone_render.py",
                                  description="Inject a data JSON into the frozen milestone template.")
@@ -26,6 +36,9 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--dry-run", action="store_true",
                     help="render in memory and report; write nothing")
     ap.add_argument("--self-test", action="store_true", help="run the argv contract self-test")
+    ap.add_argument("--tune", metavar="OUT.html", help="internal copy with the live editor inlined; refuses public/")
+    ap.add_argument("--apply", nargs="+", metavar="EXPORT", help="write the editor's exports back to the source, then rebuild")
+    ap.add_argument("--version", type=int, help="with --apply on an Export versions file: that version, not the latest")
     return ap
 
 
@@ -101,6 +114,13 @@ def main(argv=None) -> int:
         if a.data or a.out or a.dry_run:
             ap.error("--self-test takes no other arguments")
         return self_test()
+    if a.data and a.tune:
+        _pt().tune_write(render(a.data)[1], a.tune)
+        return 0
+    if a.data and a.apply:
+        _pt().apply(a.apply, [("json", a.data)], version=a.version)
+        if not a.out:
+            return 0
     if not a.data or not a.out:
         ap.error("usage: milestone_render.py <data.json> <out.html>")
     data, html = render(a.data)

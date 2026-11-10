@@ -14,12 +14,16 @@ scratchpad, and publish them as private Artifacts.
   python3 scripts/precall_brief_build.py DATA.json --gate          also run artifact_wrap_lint + page_gate --matrix full
   python3 scripts/precall_brief_build.py --check                   exit 1 if the example is invalid or its page differs
   python3 scripts/precall_brief_build.py --self-test               prove the validator rejects each bad shape
+  python3 scripts/precall_brief_build.py DATA.json --tune OUT.html          internal copy with the live editor (refuses public/)
+  python3 scripts/precall_brief_build.py DATA.json --apply EXPORT [...]     text to DATA, tokens and wrapping to page.tpl, rebuild
 
 The written page is a full document (doctype, lang, charset, viewport prepended to the template), so the file the
 gates pass is the file that gets published.
 Stdlib only.
 """
 import argparse, copy, html, json, os, re, subprocess, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import page_tune as pt  # noqa: E402  the shared --tune / --apply mechanics
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOKENS = os.path.join(ROOT, "src/ui-kit/recoil-report/_tokens.css")
@@ -191,6 +195,7 @@ def main():
     ap.add_argument("--gate", action="store_true")
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--self-test", action="store_true")
+    pt.add_args(ap)
     a = ap.parse_args()
     if a.self_test:
         return self_test()
@@ -202,6 +207,11 @@ def main():
         print("precall-brief: example valid and current"); return 0
     if not a.data:
         ap.error("give a data file, --check or --self-test")
+    if a.tune:
+        pt.tune_write(render(load(a.data)), a.tune)
+        return 0
+    if a.apply:  # the template is shared by every brief, so a tuned block there tunes them all
+        pt.apply(a.apply, [("json", a.data)], style=("block", TEMPLATE), version=a.version, validate=validate)
     page = render(load(a.data))
     out = a.out or re.sub(r"\.json$", "", a.data) + ".html"
     open(out, "w", encoding="utf-8").write(page)

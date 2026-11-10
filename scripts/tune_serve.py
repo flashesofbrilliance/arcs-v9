@@ -108,7 +108,8 @@ def apply(url, edits_path, force_built=False):
     built = [w for w in writers(rel) if re.search(r"(build|emit|sync|render|forge)", w)]
     if built and not force_built:
         print(f"✖ {rel} is written by {', '.join(built)}; apply the edits to that builder's source instead")
-        print(f"  (python3 scripts/token_tuner_inline.py --apply-text {edits_path} <source>, then rebuild), or pass --force-built")
+        print(f"  (that builder's own --apply {edits_path} routes each edit to its source and rebuilds: scripts/page_tune.py,")
+        print(f"  table in src/ui-kit/tabbed-brief/README.md; or token_tuner_inline.py --apply-text on a hand source), or pass --force-built")
         return 1
     return tti.main(["--apply-text", edits_path, os.path.join(ROOT, rel)])
 
