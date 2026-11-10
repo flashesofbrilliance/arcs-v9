@@ -1142,6 +1142,12 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
     }
    ]
   },
@@ -1269,6 +1275,12 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
     }
    ]
   },
@@ -1390,6 +1402,12 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
     }
    ]
   },
@@ -1536,6 +1554,12 @@
      "twin": "36-change",
      "twin_rule": ".sp-list",
      "jaccard": 0.8
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
     }
    ]
   },
@@ -1692,6 +1716,12 @@
      "twin": "36-change",
      "twin_rule": ".sp-table thead th",
      "jaccard": 0.83
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
     }
    ]
   },
@@ -1972,8 +2002,10 @@
    "jobs": [
     "ui-kit-promote-molecules"
    ],
-   "pages": [],
-   "reuse": 0,
+   "pages": [
+    "scripts/tabbed_brief_build.py"
+   ],
+   "reuse": 1,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2052,6 +2084,12 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
     }
    ]
   },
@@ -2138,9 +2176,10 @@
     "public/status.html",
     "public/todd-logictree.html",
     "public/yuri-profile.html",
-    "scripts/counterpart_onepager_build.py"
+    "scripts/counterpart_onepager_build.py",
+    "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 48,
+   "reuse": 49,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2219,6 +2258,12 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
     }
    ]
   },
@@ -2351,6 +2396,12 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
     }
    ]
   },
@@ -2464,6 +2515,12 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
     }
    ]
   },
@@ -2500,25 +2557,12 @@
    ],
    "jobs": [],
    "pages": [
-    "_ARTIFACTS/audit-report/cold-1.html",
-    "_ARTIFACTS/audit-report/readme-cold-1.html",
-    "_ARTIFACTS/brooks-audit-onepager.html",
-    "_ARTIFACTS/brooks-pitch-storyboard.html",
-    "_ARTIFACTS/engagements/example-fictional/out/proposal.html",
-    "_ARTIFACTS/engagements/myally-ld/out/proposal.html",
-    "public/blog-til-a-draft-is-not-a-verb.html",
-    "public/blog-til-apple-openai.html",
-    "public/blog-til-closing-the-loop.html",
-    "public/blog-til-one-day-99-merges.html",
-    "public/blog-til-zim.html",
-    "public/good-agent-receipts-audit.html",
-    "public/good-audit-sample.html",
-    "public/prl-status-tidio.html",
     "scripts/audit_report_build.py",
     "scripts/counterpart_onepager_build.py",
-    "scripts/kit_pull.py"
+    "scripts/kit_pull.py",
+    "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 17,
+   "reuse": 4,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2597,6 +2641,24 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".callout",
+     "twin": "53-cold-read",
+     "twin_rule": ".callout",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".callout b",
+     "twin": "53-cold-read",
+     "twin_rule": ".callout b",
+     "jaccard": 1.0
     }
    ]
   },
@@ -2634,15 +2696,13 @@
    "pages": [
     "_ARTIFACTS/atlas/concordance.html",
     "_ARTIFACTS/louisville-atlas.html",
-    "_ARTIFACTS/louisville-proposal/source.html",
     "_ARTIFACTS/terrain-atlas.html",
     "_ARTIFACTS/ticket-zach-north-star-resonance-gradient-field.html",
     "public/cia-brief.html",
-    "public/louisville-proposal.html",
     "public/proof.html",
     "scripts/counterpart_onepager_build.py"
    ],
-   "reuse": 9,
+   "reuse": 7,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2721,6 +2781,12 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
     }
    ]
   },
@@ -2845,6 +2911,12 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
     }
    ]
   },
@@ -3026,6 +3098,12 @@
      "twin": "36-change",
      "twin_rule": ".sp-table thead th",
      "jaccard": 0.83
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
     }
    ]
   },
@@ -3171,6 +3249,12 @@
      "twin": "34-manifold",
      "twin_rule": ".btn",
      "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
     }
    ]
   },
@@ -3328,17 +3412,17 @@
    "templates": [],
    "jobs": [],
    "pages": [
-    "_ARTIFACTS/brooks-pitch-storyboard.html",
-    "_ARTIFACTS/sow-scaffold-2026-10-08/primer-view.html",
-    "_ARTIFACTS/sow-scaffold-2026-10-08/proposal-view.html",
-    "public/honest.html",
-    "public/myally-mnda-edits.html",
-    "public/myally-primer.html",
-    "public/myally-proposal.html",
-    "public/myally.html"
+    "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 8,
-   "near_duplicates": []
+   "reuse": 1,
+   "near_duplicates": [
+    {
+     "rule": ".wordmark",
+     "twin": "42-shell-nav",
+     "twin_rule": ".wordmark",
+     "jaccard": 1.0
+    }
+   ]
   },
   {
    "id": "39-theme-toggle",
@@ -3369,11 +3453,10 @@
    "jobs": [],
    "pages": [
     "_ARTIFACTS/brooks-audit-onepager.html",
-    "_ARTIFACTS/louisville-proposal/source.html",
-    "public/louisville-proposal.html",
-    "scripts/counterpart_onepager_build.py"
+    "scripts/counterpart_onepager_build.py",
+    "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 4,
+   "reuse": 3,
    "near_duplicates": []
   },
   {
@@ -3466,6 +3549,63 @@
      "twin": "49-pinned-card",
      "twin_rule": ".pcard",
      "jaccard": 0.8
+    }
+   ]
+  },
+  {
+   "id": "42-shell-nav",
+   "number": "42",
+   "name": "Shell Nav",
+   "group": "Specimens",
+   "subtitle": "Organism 42 · Move a reader between the sections of a framed brief: tabs in the shell bar on wide screens, and a menu button with a dropdown under the bar on narrow ones.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/42-shell-nav.html",
+   "data_shape": [
+    "control",
+    "percent"
+   ],
+   "fidelity": [],
+   "classes": [
+    "is-open",
+    "shnav",
+    "shnav-brand",
+    "shnav-current",
+    "shnav-menu",
+    "shnav-pill",
+    "shnav-tab",
+    "shnav-tabs",
+    "wa",
+    "wf",
+    "wordmark"
+   ],
+   "prim_blocks": [
+    "38-wordmark",
+    "42-shell-nav"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "tabbed-brief"
+   ],
+   "jobs": [],
+   "pages": [
+    "public/gravity-brief-eir.html",
+    "public/gravity-brief-founder.html",
+    "public/gravity-brief-open.html",
+    "public/gravity-brief-principal.html",
+    "public/gravity-brief.html",
+    "scripts/tabbed_brief_build.py"
+   ],
+   "reuse": 6,
+   "near_duplicates": [
+    {
+     "rule": ".wordmark",
+     "twin": "38-wordmark",
+     "twin_rule": ".wordmark",
+     "jaccard": 1.0
     }
    ]
   },
@@ -3574,10 +3714,14 @@
     "pullable": true,
     "no_raw_signal_hex": true
    },
-   "templates": [],
+   "templates": [
+    "tabbed-brief"
+   ],
    "jobs": [],
-   "pages": [],
-   "reuse": 0,
+   "pages": [
+    "scripts/tabbed_brief_build.py"
+   ],
+   "reuse": 1,
    "near_duplicates": [
     {
      "rule": ".ftiles",
@@ -3715,7 +3859,9 @@
     "pullable": true,
     "no_raw_signal_hex": true
    },
-   "templates": [],
+   "templates": [
+    "tabbed-brief"
+   ],
    "jobs": [],
    "pages": [],
    "reuse": 0,
@@ -3871,9 +4017,220 @@
    },
    "templates": [],
    "jobs": [],
-   "pages": [],
-   "reuse": 0,
+   "pages": [
+    "_ARTIFACTS/louisville-proposal/source.html",
+    "public/gravity-brief-eir.html",
+    "public/gravity-brief-founder.html",
+    "public/gravity-brief-open.html",
+    "public/gravity-brief-principal.html",
+    "public/gravity-brief.html",
+    "public/louisville-proposal.html",
+    "scripts/tabbed_brief_build.py"
+   ],
+   "reuse": 8,
    "near_duplicates": []
+  },
+  {
+   "id": "52-plan-matrix",
+   "number": "52",
+   "name": "Plan Matrix",
+   "group": "Specimens",
+   "subtitle": "Organism 52 · Lay out a role plan as duties against time marks, every cell a proposal the reader can edit, with how they would know it is working at each mark.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/52-plan-matrix.html",
+   "data_shape": [
+    "timeline"
+   ],
+   "fidelity": [],
+   "classes": [
+    "pm",
+    "pm-k",
+    "pm-khead",
+    "pm-kl",
+    "pm-know",
+    "pm-note",
+    "pm-src",
+    "pm-table"
+   ],
+   "prim_blocks": [
+    "52-plan-matrix"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "tabbed-brief"
+   ],
+   "jobs": [],
+   "pages": [
+    "public/gravity-brief-eir.html",
+    "public/gravity-brief-founder.html",
+    "public/gravity-brief-open.html",
+    "public/gravity-brief-principal.html",
+    "scripts/tabbed_brief_build.py"
+   ],
+   "reuse": 5,
+   "near_duplicates": [
+    {
+     "rule": ".pm-khead",
+     "twin": "53-cold-read",
+     "twin_rule": ".cr-when",
+     "jaccard": 0.8
+    }
+   ]
+  },
+  {
+   "id": "53-cold-read",
+   "number": "53",
+   "name": "Cold Read",
+   "group": "Specimens",
+   "subtitle": "Organism 53 · Give a reader with zero context the whole page in one glance: who, what, where, when and why as labelled slots, how as before, during and after with real timing, and one line on how to read the rest.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/53-cold-read.html",
+   "data_shape": [],
+   "fidelity": [],
+   "classes": [
+    "callout",
+    "cr",
+    "cr-how",
+    "cr-howwrap",
+    "cr-read",
+    "cr-slots",
+    "cr-step",
+    "cr-what",
+    "cr-when",
+    "red",
+    "section-label"
+   ],
+   "prim_blocks": [
+    "27-section-label",
+    "31-callout",
+    "53-cold-read"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-report",
+    "recoil-player",
+    "counterpart-onepager"
+   ],
+   "jobs": [
+    "hud-high-signal-field",
+    "readme-cold-read-to-video"
+   ],
+   "pages": [
+    "scripts/tabbed_brief_build.py"
+   ],
+   "reuse": 1,
+   "near_duplicates": [
+    {
+     "rule": ".section-label",
+     "twin": "16-instrument-panel",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "17-altitude-ladder",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "18-contact-sheet",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "19-gate-ladder",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "20-transport",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "27-section-label",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "28-chip",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "29-tile",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "30-button",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "31-callout",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".callout",
+     "twin": "31-callout",
+     "twin_rule": ".callout",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".callout b",
+     "twin": "31-callout",
+     "twin_rule": ".callout b",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "32-evidence-ref",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "33-led",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "34-manifold",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "35-backlog-graph",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".cr-when",
+     "twin": "52-plan-matrix",
+     "twin_rule": ".pm-khead",
+     "jaccard": 0.8
+    }
+   ]
   },
   {
    "id": "grammar-chips",

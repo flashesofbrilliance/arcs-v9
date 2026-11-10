@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 280,
-  "hosts": 61,
+  "rows": 285,
+  "hosts": 62,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 224,
+   "product page": 229,
    "gated": 28
   },
   "next_config_hosts": 85,
-  "proxy_hosts": 24,
+  "proxy_hosts": 26,
   "app_routes": 47,
   "missing_purpose": 21,
-  "unlisted": 83
+  "unlisted": 88
  },
  "retired_hosts": [
   "ahmed-ext.arcs.care",
@@ -74,6 +74,7 @@
   "public/blacksmith-resume.html",
   "public/cia-gate.html",
   "public/dioptra-gate.html",
+  "public/gravity-gate.html",
   "public/louisville-gate.html",
   "public/louisville-proposal-gate.html",
   "public/louisville-proposal.html",
@@ -3548,6 +3549,106 @@
    "last_commit": "2026-10-30"
   },
   {
+   "host": "gravity.arcs.care",
+   "path": "/",
+   "catch_all": true,
+   "destination": "/gravity-brief.html",
+   "pattern": false,
+   "file": "public/gravity-brief.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Zach Harris for Gravity Labs",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Zach Harris for Gravity Labs",
+   "kind": "product page",
+   "last_commit": "2026-11-09"
+  },
+  {
+   "host": "gravity.arcs.care",
+   "path": "/eir",
+   "catch_all": false,
+   "destination": "/gravity-brief-eir.html",
+   "pattern": false,
+   "file": "public/gravity-brief-eir.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Entrepreneur in Residence · Zach Harris for Gravity Labs",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Entrepreneur in Residence · Zach Harris for Gravity Labs",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "gravity.arcs.care",
+   "path": "/founder",
+   "catch_all": false,
+   "destination": "/gravity-brief-founder.html",
+   "pattern": false,
+   "file": "public/gravity-brief-founder.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Founder, Portfolio Company · Zach Harris for Gravity Labs",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Founder, Portfolio Company · Zach Harris for Gravity Labs",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "gravity.arcs.care",
+   "path": "/open",
+   "catch_all": false,
+   "destination": "/gravity-brief-open.html",
+   "pattern": false,
+   "file": "public/gravity-brief-open.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Open Application · Zach Harris for Gravity Labs",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Open Application · Zach Harris for Gravity Labs",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "gravity.arcs.care",
+   "path": "/principal",
+   "catch_all": false,
+   "destination": "/gravity-brief-principal.html",
+   "pattern": false,
+   "file": "public/gravity-brief-principal.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Principal, New Ventures · Zach Harris for Gravity Labs",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Principal, New Ventures · Zach Harris for Gravity Labs",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
    "host": "growth-ai.arcs.care",
    "path": "/",
    "catch_all": true,
@@ -3849,7 +3950,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": "2026-10-29"
+   "last_commit": "2026-11-09"
   },
   {
    "host": "myally.arcs.care",
@@ -3869,7 +3970,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": "2026-10-29"
+   "last_commit": "2026-11-09"
   },
   {
    "host": "myally.arcs.care",
@@ -3889,7 +3990,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": "2026-10-29"
+   "last_commit": "2026-11-09"
   },
   {
    "host": "myally.arcs.care",
@@ -3909,7 +4010,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": "2026-10-29"
+   "last_commit": "2026-11-09"
   },
   {
    "host": "myally.arcs.care",
@@ -3929,7 +4030,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": "2026-10-29"
+   "last_commit": "2026-11-09"
   },
   {
    "host": "myally.arcs.care",
@@ -3949,7 +4050,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": "2026-10-29"
+   "last_commit": "2026-11-09"
   },
   {
    "host": "myally.arcs.care",
@@ -3969,7 +4070,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": "2026-10-29"
+   "last_commit": "2026-11-09"
   },
   {
    "host": "myally.arcs.care",
@@ -3989,7 +4090,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": "2026-10-29"
+   "last_commit": "2026-11-09"
   },
   {
    "host": "omakase.arcs.care",
@@ -5219,7 +5320,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-11-05"
+   "last_commit": "2026-11-09"
   },
   {
    "host": "todd-call.arcs.care",
