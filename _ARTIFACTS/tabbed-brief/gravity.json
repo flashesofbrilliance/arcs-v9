@@ -30,14 +30,14 @@
     "note": "Co-founded; profitable in 24 months. Earlier, GM of a turnaround, acquired"
    },
    {
-    "v": "32",
-    "k": "Claims, each marked",
-    "note": "On my proof page: shown, on request, or not yet shown"
+    "v": "23 of 32",
+    "k": "Claims, public record",
+    "note": "Every claim about me links to its record; 8 on request, 1 not yet shown"
    },
    {
-    "v": "Once each",
-    "k": "Pre-registered",
-    "note": "Rules written first, each test run once, every failure published"
+    "v": "48",
+    "k": "Beliefs killed",
+    "note": "By a runnable test since June; 20 became rules I now work by"
    }
   ],
   "sections": [
@@ -97,13 +97,43 @@
           "chip": "Call",
           "tone": "gold",
           "signal": "Enter small, before the rule",
-          "text": "Volume is the lagging bet. The liability rule is the leading one. My read: 1 in 3 that a card network or issuer requires an intent record by 2027-06-30. I will post the outcome either way."
+          "text": "Volume is the lagging bet. The liability rule is the leading one. My read: 1 in 3 that Visa, Mastercard or a top-10 US card issuer has a rule in effect by 2027-06-30 requiring a record of what the user told the agent. Announcements without an effective date do not count. Gravity can resolve it; I will post the outcome either way."
          },
          {
           "chip": "Put",
           "tone": "gold",
           "signal": "The other 2 in 3",
-          "text": "If the rule is late, the loss is small: ARCS already writes the record for human decisions. Long the liability record layer; short raw counts as proof of use."
+          "text": "If the rule is late, the loss is small: about 2.7 weeks of my time. ARCS already writes an append-only record for human decisions, not yet a signed agent mandate. Long the liability record layer; short raw counts as proof of use."
+         }
+        ]
+       },
+       {
+        "label": "Salvo, 2026-11-10: 30,000 runs each way",
+        "judgment": true,
+        "rows": [
+         {
+          "chip": "Bomb",
+          "tone": "gold",
+          "signal": "Ruin, one-way doors (BAR)",
+          "text": "Holds. The stake is a public call, not a build; any build is time-boxed."
+         },
+         {
+          "chip": "Fire",
+          "tone": "gold",
+          "signal": "Cross-examination (COURT, Loki)",
+          "text": "Leaked: no resolution rule, so the odds read 0.24 to 0.62 by wording. Fixed: the rule above. As written, the middle 90% of runs is 0.17 to 0.46; 1 in 3 sits inside."
+         },
+         {
+          "chip": "Water",
+          "tone": "gold",
+          "signal": "Drift over time (LAB, KKL)",
+          "text": "Leaks: the base rate of a network rule drives most of the spread. I re-mark the odds at each Visa and Mastercard rules release."
+         },
+         {
+          "chip": "Air gap",
+          "tone": "gold",
+          "signal": "Conflict of interest (Funhouse)",
+          "text": "Leaked: I build the remedy and grade my own call. Fixed: the interest is stated, Gravity resolves, and the Put no longer overstates what ARCS writes."
          }
         ]
        },
@@ -178,8 +208,82 @@
     "open": true,
     "blocks": [
      {
+      "type": "ledger",
+      "groups": [
+       {
+        "label": "In the trenches",
+        "rows": [
+         {
+          "chip": "Live",
+          "tone": "cyan",
+          "signal": "Build telemetry",
+          "text": "[Day 0 to day 210](https://status.arcs.care): 6,195 commits by Nov 5, built solo and run in production. Every number is read from the repository."
+         },
+         {
+          "chip": "Live",
+          "tone": "cyan",
+          "signal": "RFP-O-Matic",
+          "text": "Answers RFP questions and cites the clause, or says the document is silent. [Four short videos](https://good.arcs.care/rfp-engine) and [its source](https://github.com/flashesofbrilliance/rfp-engine)."
+         },
+         {
+          "chip": "Live",
+          "tone": "cyan",
+          "signal": "ARCS",
+          "text": "[The decision instrument](https://app.arcs.care) these receipts come from: question in, dated record out."
+         }
+        ]
+       },
+       {
+        "label": "In public",
+        "rows": [
+         {
+          "chip": "Kills",
+          "tone": "cyan",
+          "signal": "My own kill rate",
+          "text": "[48 beliefs I held, killed by a test](https://status.arcs.care/beliefs) since June, about 10 a month. 20 changed the rulebook. Most hatches die; so do most of my beliefs, and the record keeps why."
+         },
+         {
+          "chip": "Proof",
+          "tone": "cyan",
+          "signal": "Don't trust, verify",
+          "text": "[Every claim I make about myself](https://zach.md/proof), each linked to its record: 23 public, 8 on request, and the 1 I cannot show yet, named."
+         },
+         {
+          "chip": "Essays",
+          "tone": "cyan",
+          "signal": "Notes from the Trenches",
+          "text": "[35 field notes](https://good.arcs.care/blog/nftt), each written from a dated record, failures included."
+         },
+         {
+          "chip": "Calls",
+          "tone": "cyan",
+          "signal": "Falsifiable predictions, scored",
+          "text": "Of 9 resolved calls since January, 2 hit, 1 partly hit and 6 missed; 9 are still open. My 85 to 90% crypto calls ran hot, so every call now ships with its falsifier and a lower number, like the 1 in 3 above. Method: [seven calls, seven falsifiers](https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers)."
+         }
+        ]
+       },
+       {
+        "label": "Public goods and fine print",
+        "rows": [
+         {
+          "chip": "Open",
+          "tone": "cyan",
+          "signal": "Public goods",
+          "text": "[MIT-licensed tools](https://good.arcs.care) I built for my own work, free to use."
+         },
+         {
+          "chip": "Terms",
+          "tone": "cyan",
+          "signal": "Trust posture",
+          "text": "[Trust](https://arcs.care/trust), [privacy](https://arcs.care/privacy) and [terms](https://arcs.care/terms), in plain words."
+         }
+        ]
+       }
+      ]
+     },
+     {
       "type": "p",
-      "text": "[RFP-O-Matic with four short videos](https://good.arcs.care/rfp-engine), [its source](https://github.com/flashesofbrilliance/rfp-engine), [ARCS](https://app.arcs.care), and my [proof page](https://zach.md/proof). Resume and a 20-minute walkthrough on request."
+      "text": "Resume and a 20-minute walkthrough on request."
      },
      {
       "type": "callout",
