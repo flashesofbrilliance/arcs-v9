@@ -232,6 +232,10 @@
         "bites_source": {
           "type": "string",
           "description": "Where the quotes are published, as a link."
+        },
+        "bites_still": {
+          "type": "boolean",
+          "description": "Optional: show the sound bite whole, with no typing and no timer (one focal point in the hero)."
         }
       }
     },

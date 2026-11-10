@@ -228,3 +228,5 @@ Built for the Gravity brief's Bull vs Bear and hero proof, from 27 Section label
 - **Layout:** the untyped rest is laid out but transparent, and the quotes share one grid cell, so the box keeps the tallest
   quote's height and nothing below moves. Without the script every quote shows as a list.
 - **Place:** in the hero under the byline, above the fact tiles; one per page.
+- **Still mode** (`bites_still` in the tabbed brief): one quote, whole, no typing, no timer, no buttons; the others sit
+  behind the source link. The Gravity hero uses it (brand gate, Zach's call, 2026-11-10): one focal point beside the claim.
