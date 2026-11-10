@@ -36,6 +36,10 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
    its own @media rules and matchMedia answer to that width, not the window's; Fit drops the frame. The frame reads the
    panel's saved state and the panel pushes every change to it. Print applies the page's @media print rules (and turns
    @media screen off) so PDF layout can be tuned; @page size and margins are not simulated, so pick the width yourself.
+   Double-click (tune mode, in Fit or in a frame): any text element without data-src becomes editable in place; Enter or
+   Esc or a click away commits. "Copy edits" gives a JSON list of {old, new} text pairs, one per changed text node;
+   apply it to the page's SOURCE with token_tuner_inline.py --apply-text edits.json SOURCE.html, which refuses any old
+   text that is missing or not unique. Never hand-edit a built file.
    Inline it with scripts/token_tuner_inline.py; page_gate.py --counterpart fails any page that still carries it.
    Source of truth: src/ui-kit/token-tuner.js. Kit primitive: src/ui-kit/recoil-report/40-token-tuner.html. */
 (function () {
@@ -131,6 +135,59 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
 
   function ready(fn) { if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn); else fn(); }
 
+  /* ---------- double-click text editing, for pages without data-src: pairs of old and new text-node values ---------- */
+  var BLOCKS = 'p,li,h1,h2,h3,h4,h5,h6,td,th,dt,dd,figcaption,blockquote,summary,caption,label,button,a';
+  function dblEdit(report) {
+    var touched = [];   // touched: {el, html, nodes:[[node, value]]}
+    var st = document.createElement('style'); st.setAttribute('data-arcs-token-tuner', 'dbl');
+    st.textContent = '[data-tt-dbl][contenteditable]{outline:1px solid var(--cyan,LinkText);outline-offset:2px;cursor:text}' +
+      '[data-tt-dbl]:not([contenteditable]){outline:1px solid var(--gold,Highlight);outline-offset:2px}';
+    (document.head || root).appendChild(st);
+    function collect() {
+      var list = [];
+      touched.forEach(function (t) {
+        var live = t.nodes.every(function (n) { return t.el.contains(n[0]); });
+        var count = 0, w = document.createTreeWalker(t.el, NodeFilter.SHOW_TEXT); while (w.nextNode()) count++;
+        if (live && count === t.nodes.length) {
+          t.nodes.forEach(function (n) { if (n[0].nodeValue !== n[1]) list.push({ old: n[1], new: n[0].nodeValue }); });
+        } else if (t.el.innerHTML !== t.html) {
+          list.push({ old: t.html, new: t.el.innerHTML, html: true });   // structure changed: whole element
+        }
+        if (t.el.innerHTML !== t.html) t.el.setAttribute('data-tt-dbl', ''); else t.el.removeAttribute('data-tt-dbl');
+      });
+      report(list);
+    }
+    function done(el) { if (!el.hasAttribute('contenteditable')) return; el.removeAttribute('contenteditable'); collect(); }
+    document.addEventListener('dblclick', function (e) {
+      var el = e.target && e.target.closest && e.target.closest(BLOCKS);
+      if (!el || el.closest('[data-src],[data-arcs-token-tuner]') || el.isContentEditable) return;
+      e.preventDefault();
+      var t = touched.filter(function (x) { return x.el === el; })[0];
+      if (!t) {
+        t = { el: el, html: el.innerHTML, nodes: [] };
+        var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); while (w.nextNode()) t.nodes.push([w.currentNode, w.currentNode.nodeValue]);
+        touched.push(t);
+      }
+      el.setAttribute('data-tt-dbl', ''); el.setAttribute('contenteditable', 'true'); el.focus();
+      el.addEventListener('blur', function () { done(el); }, { once: true });
+    }, true);
+    document.addEventListener('keydown', function (e) {
+      var el = e.target && e.target.closest && e.target.closest('[data-tt-dbl][contenteditable]'); if (!el) return;
+      e.stopPropagation();
+      if (e.key === 'Enter' || e.key === 'Escape') { e.preventDefault(); done(el); el.blur(); }
+    }, true);
+    document.addEventListener('click', function (e) {
+      var el = e.target && e.target.closest && e.target.closest('[data-tt-dbl][contenteditable]');
+      if (el) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
+    return {
+      reset: function () {
+        touched.forEach(function (t) { t.el.innerHTML = t.html; t.el.removeAttribute('data-tt-dbl'); t.el.removeAttribute('contenteditable'); });
+        touched = []; report([]);
+      }
+    };
+  }
+
   /* ---------- frame mode: no panel; mirror the panel's saved state, re-read on every push from the parent ---------- */
   if (FRAME) {
     var wrapF = null, menusDone = false;
@@ -149,6 +206,10 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
     };
     window.__arcsTunerSync();
     ready(window.__arcsTunerSync);
+    ready(function () {
+      var ed = dblEdit(function (list) { try { parent.__arcsTunerText(list); } catch (e) {} });
+      window.__arcsTunerTextReset = ed.reset;
+    });
     return;
   }
   ready(build);
@@ -217,18 +278,22 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
       '<div class="p" role="region" aria-label="Token tuner">' +
       '<div class="h"><b>' + (TUNE ? 'Token tuner' : 'Text editor') + '</b><span class="f"><button type="button" data-act="copy">Copy CSS</button>' +
       (canPatch ? '<button type="button" data-act="copyjson">Copy JSON</button>' : '') +
+      (TUNE ? '<button type="button" data-act="copytext" title="Double-click text on the page to edit it">Copy edits</button>' : '') +
       '<button type="button" data-act="reset">Reset</button><button type="button" data-act="min" aria-expanded="true">Hide</button></span></div>' +
       (TUNE ? '<div class="v" role="group" aria-label="Viewport">' + VPS.map(function (v) {
         return '<button type="button" data-vp="' + v[1] + '" aria-pressed="false"' + (v[1] ? ' title="' + v[1] + 'px wide"' : ' title="The window width, no frame"') + '>' + v[0] + (v[1] ? ' ' + v[1] : '') + '</button>';
       }).join('') + '<button type="button" data-act="print" aria-pressed="false" title="Apply the page\'s @media print rules">Print</button></div>' : '') +
       '<div class="c"><input class="out" data-out="css" readonly aria-label="Changed tokens and rules as one CSS line" value="">' +
       (canPatch ? '<input class="out" data-out="json" readonly aria-label="Changed data as one JSON patch" value="">' : '') +
+      (TUNE ? '<input class="out" data-out="text" readonly aria-label="Text edits as old and new pairs" placeholder="double-click text to edit it" value="">' : '') +
       '<div class="msg" aria-live="polite"></div></div>' +
       '<div class="b"></div>' +
       '</div>';
 
     var body = shadow.querySelector('.b');
-    var out = shadow.querySelector('[data-out=css]'), outJ = shadow.querySelector('[data-out=json]');
+    var out = shadow.querySelector('[data-out=css]'), outJ = shadow.querySelector('[data-out=json]'), outT = shadow.querySelector('[data-out=text]');
+    var textEdits = { top: [], frame: [] }, dbl = null;
+    function textList() { return textEdits.top.concat(textEdits.frame); }
     var msg = shadow.querySelector('.msg');
     var rows = [], bpRows = [], wrapRows = [], showVW = function () {};
     var VP = +saved.vp || 0, stage = shadow.querySelector('.st'), frame = stage && stage.querySelector('iframe');
@@ -398,6 +463,7 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
     }
     function refresh() {
       out.value = cssLine();
+      if (outT) { var tl = textList(); outT.value = tl.length ? JSON.stringify(tl) : ''; }
       var o = ops();
       if (outJ) outJ.value = o.length ? JSON.stringify(o) : '';
       var keep = { vp: VP, print: PRINT, tok: {}, bp: BP, wrap: wrapRows.map(function (r) { return r.input.value; }), text: {} };
@@ -434,16 +500,24 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
         wrapRows.forEach(function (r) { r.input.value = ''; });
         if (wrapRows.length) applyWrap(true);
         base.forEach(function (b) { b.el.innerHTML = b.html; mark(b); });
+        if (dbl) dbl.reset();
+        try { if (frame && frame.contentWindow.__arcsTunerTextReset) frame.contentWindow.__arcsTunerTextReset(); } catch (err) {}
         refresh();
         say('Reset to the page values.');
       } else if (act === 'copy') {
         copy(cssLine(), out, 'Copied. Paste it after the page\'s last :root block.');
+      } else if (act === 'copytext') {
+        copy(outT.value, outT, 'Copied. Save it as edits.json, then run token_tuner_inline.py --apply-text edits.json SOURCE.html.');
       } else if (act === 'copyjson') {
         copy(outJ.value, outJ, 'Copied. Save it as patch.json, then run the builder with --apply patch.json.');
       }
     });
 
-    if (TUNE) { setPrint(PRINT); setVP(VP); }
+    if (TUNE) {
+      dbl = dblEdit(function (list) { textEdits.top = list; refresh(); });
+      window.__arcsTunerText = function (list) { textEdits.frame = list; refresh(); };
+      setPrint(PRINT); setVP(VP);
+    }
     if (frame) frame.addEventListener('load', frameSync);
     refresh();
     (document.body || root).appendChild(host);
