@@ -138,6 +138,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 /* fact tiles as instrument readouts (Field OS): mono figures in signal cyan, tracked mono labels */
 .ftile-fig { font-family: var(--ds-font-mono); color: var(--cyan); letter-spacing: -0.01em; }
 .ftile-lab { font-family: var(--ds-font-mono); letter-spacing: 0.1em; color: var(--text-secondary); }
+/* byline: the author's name under the claim, so the page reads as a person, not a vendor */
+.tb-byline { margin: -18px 0 18px; font-family: var(--ds-font-mono); font-size: var(--fs-body); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); }
 /* four fact tiles sit 2x2 on a phone so the first screen reaches the ledger */
 @container (min-width: 18rem) { .ftiles.is-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container (min-width: 54rem) { .ftiles.is-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }

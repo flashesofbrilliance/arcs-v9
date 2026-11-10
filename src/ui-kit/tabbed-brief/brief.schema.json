@@ -198,6 +198,10 @@
           "type": "string",
           "minLength": 1,
           "description": "Optional H2 line between the headline and the lede (the source of the headline claim)."
+        },
+        "byline": {
+          "type": "string",
+          "description": "Optional: the author's name, one line under the headline (kit 27 register). Use it when the wordmark is the only name at the top."
         }
       }
     },

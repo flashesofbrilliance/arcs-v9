@@ -195,11 +195,11 @@ def r_overview(d):
     note = ('<p class="tb-note">%s</p>' % md(o["action_note"], "/overview/action_note")) if o.get("action_note") else ""
     acts_html = ('<div class="tb-actions">%s</div>' % "".join(acts)) if acts else ""
     go = ('<div class="tb-go">%s%s%s%s</div>\n' % (lead, acts_html, cap, note)) if (lead or acts_html or cap or note) else ""
-    out = ('<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">\n<h1 class="tb-h1">%s</h1>\n%s%s'
+    out = ('<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">\n<h1 class="tb-h1">%s</h1>\n%s%s%s'
             '<div class="ftiles-c"><ul class="ftiles is-4" aria-label="At a glance">%s</ul></div>\n'
             '%s'
             '%s<div class="tb-expand%s"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>\n'
-            '<div class="tb-folds">%s</div>\n</div>') % (h, ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"], "/overview/subhead")) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(re.sub(r"(?<=[a-z])-(?=[a-z])", "‑", x), "/overview/lede/%d" % i) for i, x in enumerate(o["lede"]))) if o.get("lede") else "",
+            '<div class="tb-folds">%s</div>\n</div>') % (h, ('<p class="tb-byline">%s</p>\n' % md(o["byline"], "/overview/byline")) if o.get("byline") else "", ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"], "/overview/subhead")) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(re.sub(r"(?<=[a-z])-(?=[a-z])", "‑", x), "/overview/lede/%d" % i) for i, x in enumerate(o["lede"]))) if o.get("lede") else "",
          tiles, go, cr,
          " solo" if len(o["sections"]) < 2 else "", folds)
     if d.get("pages") and len(o["sections"]) < 2:
