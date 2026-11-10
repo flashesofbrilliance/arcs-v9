@@ -30,14 +30,14 @@
     "note": "Co-founded; profitable in 24 months. Earlier, GM of a turnaround, acquired"
    },
    {
-    "v": "32",
-    "k": "Claims, each marked",
-    "note": "On my proof page: shown, on request, or not yet shown"
+    "v": "23 of 32",
+    "k": "Claims, public record",
+    "note": "Every claim about me links to its record; 8 on request, 1 not yet shown"
    },
    {
-    "v": "Once each",
-    "k": "Pre-registered",
-    "note": "Rules written first, each test run once, every failure published"
+    "v": "48",
+    "k": "Beliefs killed",
+    "note": "By a runnable test since June; 20 became rules I now work by"
    }
   ],
   "sections": [
@@ -207,6 +207,18 @@
         "label": "In public",
         "rows": [
          {
+          "chip": "Kills",
+          "tone": "cyan",
+          "signal": "My own kill rate",
+          "text": "[48 beliefs I held, killed by a test](https://status.arcs.care/beliefs) since June, about 10 a month. 20 changed the rulebook. Most hatches die; so do most of my beliefs, and the record keeps why."
+         },
+         {
+          "chip": "Proof",
+          "tone": "cyan",
+          "signal": "Don't trust, verify",
+          "text": "[Every claim I make about myself](https://zach.md/proof), each linked to its record: 23 public, 8 on request, and the 1 I cannot show yet, named."
+         },
+         {
           "chip": "Essays",
           "tone": "cyan",
           "signal": "Notes from the Trenches",
@@ -217,18 +229,6 @@
           "tone": "cyan",
           "signal": "Falsifiable predictions, scored",
           "text": "Of 9 resolved calls since January, 2 hit, 1 partly hit and 6 missed; 9 are still open. My 85 to 90% crypto calls ran hot, so every call now ships with its falsifier and a lower number, like the 1 in 3 above. Method: [seven calls, seven falsifiers](https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers)."
-         },
-         {
-          "chip": "Beliefs",
-          "tone": "cyan",
-          "signal": "What I got wrong",
-          "text": "[48 beliefs overturned](https://status.arcs.care/beliefs) since June, 20 of them changed my rulebook. Each one met a runnable test and failed it."
-         },
-         {
-          "chip": "Proof",
-          "tone": "cyan",
-          "signal": "Every claim, marked",
-          "text": "[32 claims](https://zach.md/proof), each marked shown, on request, or not yet shown."
          }
         ]
        },
