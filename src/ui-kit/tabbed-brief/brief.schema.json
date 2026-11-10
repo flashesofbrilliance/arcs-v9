@@ -212,6 +212,12 @@
     "pages": {
       "type": "boolean",
       "description": "One page per pane: the overview at the output path, each role beside it (site: <name>-<id>.html served at /<id>; Artifact: <id>.html)."
+    },
+    "stack_below": {
+      "type": "integer",
+      "minimum": 600,
+      "maximum": 1440,
+      "description": "Width in px below which the tabs fold into the menu and the roles stack. Default 1024. The token tuner's breakpoint slider writes this field in its JSON patch."
     }
   },
   "$defs": {
