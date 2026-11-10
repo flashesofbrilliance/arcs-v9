@@ -262,7 +262,10 @@
       "Bash(scripts/leak_check.sh)",
       "Bash(python3 scripts/proposal_lint.py --self-test)",
       "mcp__ccd_turn__update_plan",
-      "mcp__ccd_turn__wrap_up"
+      "mcp__ccd_turn__wrap_up",
+      "Bash(vercel whoami)",
+      "Bash(vercel domains ls)",
+      "Bash(vercel domains ls *)"
     ],
     "ask": [
       "Bash(git push:*)"
