@@ -181,8 +181,14 @@
       "type": "ledger",
       "groups": [
        {
-        "label": "Shipped",
+        "label": "In the trenches",
         "rows": [
+         {
+          "chip": "Live",
+          "tone": "cyan",
+          "signal": "Build telemetry",
+          "text": "[Day 0 to day 210](https://status.arcs.care): 6,195 commits by Nov 5, built solo and run in production. Every number is read from the repository."
+         },
          {
           "chip": "Live",
           "tone": "cyan",
