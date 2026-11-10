@@ -155,7 +155,7 @@
     var out = shadow.querySelector('[data-out=css]'), outJ = shadow.querySelector('[data-out=json]');
     var msg = shadow.querySelector('.msg');
     var rows = [], bpRows = [], wrapRows = [];
-    function group(t) { var g = document.createElement('p'); g.className = 'g'; g.textContent = t; body.appendChild(g); return g; }
+    function group(t) { var g = document.createElement('p'); g.classList.add('g'); g.textContent = t; body.appendChild(g); return g; }
 
     /* tokens */
     if (TUNE) {
@@ -200,7 +200,7 @@
         r.input.addEventListener('input', function () { applyBPRow(r); });
         bpRows.push(r); body.appendChild(row); applyBPRow(r, true);
       });
-      if (!bpKeys.length) { var none = document.createElement('div'); none.className = 'r off'; none.innerHTML = '<label>no px width queries</label>'; body.appendChild(none); }
+      if (!bpKeys.length) { var none = document.createElement('div'); none.classList.add('r', 'off'); none.innerHTML = '<label>no px width queries</label>'; body.appendChild(none); }
 
       /* wrapping */
       group('Wrapping');
