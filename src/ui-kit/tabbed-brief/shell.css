@@ -1,9 +1,11 @@
 /* tabbed-brief template layer (2026-11-09). Composes kit parts; owns only the frame and the page organisms.
    Tokens: src/ui-kit/recoil-report/_tokens.css (inlined first) and the kit 39 light remap. No literal colours here.
    Type ramp, five steps: label 0.6875rem (labels only, never prose) · small 0.875rem · body 1rem · section 1.25rem · display (serif).
-   Breakpoints, two: 600px (phone) and 1024px (tabs; set by kit 42 data-menu-below). */
+   Breakpoints, two: 600px (phone) and 1024px (tabs). The builder replaces every (min-width: 1024px) here and kit 42 data-menu-below with the data's stack_below. */
 html { font-size: 100%; }
-body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6;
+/* hand-tuning tokens (the ?tune sliders move these): body line-height, section rhythm, card gap, letter-spacing */
+:root { --lh: 1.6; --sp-4: 28px; --gap: 12px; --ls: 0em; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: var(--lh); letter-spacing: var(--ls);
   padding-block: 32px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
   -webkit-font-smoothing: antialiased; }
 a { color: var(--cyan); text-decoration: underline; text-underline-offset: 3px; }
@@ -26,7 +28,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-meta dd { margin: 0; font-size: var(--fs-label); font-weight: 600; color: var(--text); }
 .tb-navwrap { background: var(--surface); box-shadow: 0 1px 0 var(--border); }
 .tb-body { padding: 24px 20px 32px; }
-.tb-pane { display: flex; flex-direction: column; gap: 28px; }
+.tb-pane { display: flex; flex-direction: column; gap: var(--sp-4); }
 .tb-pane > * { margin: 0; }
 
 /* hero */
@@ -36,7 +38,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .cr-howwrap > .section-label { margin: 0 0 12px; }
 .tb-lede .ln { display: block; }
 .tb-lede .ln + .ln { margin-top: 6px; }
-.tb-lede { margin: 0; font-size: var(--fs-headline); line-height: 1.6; color: var(--text); text-wrap: pretty; }
+.tb-lede { margin: 0; font-size: var(--fs-headline); line-height: var(--lh); color: var(--text); text-wrap: pretty; }
 .tb-next { margin: 0; font-size: var(--fs-body); color: var(--text); }
 .tb-next strong { font-weight: 600; }
 /* the call to action: one loud block, mono at display size, inside a heavy ink border */
@@ -83,8 +85,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .seat-eyebrow { display: none; }
 .seat-name { margin: 0; } /* the seat name above a role page headline (pages mode) */
 .seat-title { font: inherit; text-wrap: balance; }
-.seat-lede { margin: 0 0 28px; font-size: var(--fs-headline); line-height: 1.6; color: var(--text); text-wrap: pretty; }
-.unit { display: flex; flex-direction: column; gap: 12px; padding: 28px 0; border-top: 1px solid var(--border); }
+.seat-lede { margin: 0 0 var(--sp-4); font-size: var(--fs-headline); line-height: var(--lh); color: var(--text); text-wrap: pretty; }
+.unit { display: flex; flex-direction: column; gap: 12px; padding: var(--sp-4) 0; border-top: 1px solid var(--border); }
 .unit > * { margin: 0; }
 .tb-h3 { margin: 0; font-size: var(--fs-headline); font-weight: 600; line-height: 1.35; color: var(--text); }
 .seat-callouts { display: flex; flex-direction: column; gap: 12px; padding-top: 4px; }
@@ -110,7 +112,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-table td:has(> .chip) { width: 1%; white-space: nowrap; } /* ledger rows: the chip names the side, the column fits it */
 
 /* cards */
-.tb-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; } /* one column until tabs show; no orphaned third card */
+.tb-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap); } /* one column until tabs show; no orphaned third card */
 @media (min-width: 1024px) { .tb-cards { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); } }
 .tb-card { border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); padding: 16px; display: flex; flex-direction: column; gap: 8px; }
 .tb-card > * { margin: 0; }
@@ -118,7 +120,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-card-ref { font-size: var(--fs-body); line-height: 1.5; color: var(--text-secondary); }
 .tb-card p:last-child { font-size: var(--fs-body); line-height: 1.55; color: var(--text); }
 .tb-list { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 8px; }
-.tb-p { margin: 0; font-size: var(--fs-body); line-height: 1.6; color: var(--text); }
+.tb-p { margin: 0; font-size: var(--fs-body); line-height: var(--lh); color: var(--text); }
 
 @media (max-width: 599px) {
   body { padding-block: 16px 48px; }
