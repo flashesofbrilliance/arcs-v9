@@ -46,8 +46,11 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
    Inline it with scripts/token_tuner_inline.py; page_gate.py --counterpart fails any page that still carries it.
    Source of truth: src/ui-kit/token-tuner.js. Kit primitive: src/ui-kit/recoil-report/40-token-tuner.html. */
 (function () {
-  var Q = location.search, TUNE = /[?&]tune(=|&|$)/.test(Q), EDIT = /[?&]edit(=|&|$)/.test(Q);
+  // window.__arcsTuneForce (set by the bookmarklet, scripts/tune_serve.py) starts tune mode on a page with no ?tune
+  var Q = location.search, FORCE = !!window.__arcsTuneForce;
+  var TUNE = FORCE || /[?&]tune(=|&|$)/.test(Q), EDIT = /[?&]edit(=|&|$)/.test(Q);
   if (!TUNE && !EDIT) return;
+  var SELF = (document.currentScript && document.currentScript.src) || '';   // empty when inlined
   if (window.__arcsTokenTuner) return;
   window.__arcsTokenTuner = true;
 
@@ -157,9 +160,14 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
     st.textContent = '[data-tt-dbl][contenteditable]{outline:1px solid var(--cyan,LinkText);outline-offset:2px;cursor:text}' +
       '[data-tt-dbl]:not([contenteditable]){outline:1px solid var(--gold,Highlight);outline-offset:2px}';
     (document.head || root).appendChild(st);
+    var ops = [];       // structural undo stack: {k:'merge', a, b} or {k:'remove', el, parent, next}
     function collect() {
       var list = [];
       touched.forEach(function (t) {
+        if (t.into) return;                                   // merged into another line; reported there
+        var parts = t.parts || [t.html];
+        if (t.removed) { list.push({ op: 'remove', parts: parts }); return; }
+        if (parts.length > 1) { list.push({ op: 'merge', parts: parts, new: t.el.innerHTML }); return; }
         var live = t.nodes.every(function (n) { return t.el.contains(n[0]); });
         var count = 0, w = document.createTreeWalker(t.el, NodeFilter.SHOW_TEXT); while (w.nextNode()) count++;
         if (live && count === t.nodes.length) {
@@ -172,7 +180,46 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
       last = JSON.stringify(list);
       report(list);
     }
-    function done(el) { if (!el.hasAttribute('contenteditable')) return; el.removeAttribute('contenteditable'); collect(); }
+    function blank(el) { return !el.textContent.replace(/[\s ​]+/g, '') && !el.querySelector('img,svg,video,iframe,input'); }
+    function done(el) {
+      if (!el.hasAttribute('contenteditable')) return;
+      el.removeAttribute('contenteditable');
+      var t = touch(el);
+      if (!t.into && el.isConnected && blank(el)) {          // a line left with no text is removed
+        t.removed = true; ops.push({ k: 'remove', el: el, parent: el.parentNode, next: el.nextSibling }); el.remove();
+      }
+      collect();
+    }
+    function edge(el, atEnd) {                                // caret collapsed at the start (or end) of el?
+      var s = getSelection(); if (!s.rangeCount || !s.isCollapsed) return false;
+      var r = s.getRangeAt(0), x = document.createRange(); x.selectNodeContents(el);
+      if (atEnd) x.setStart(r.endContainer, r.endOffset); else x.setEnd(r.startContainer, r.startOffset);
+      return !x.toString().replace(/[​]/g, '').length;
+    }
+    function sib(el, next) {
+      var s = next ? el.nextElementSibling : el.previousElementSibling;
+      return s && s.matches(BLOCKS) && !s.closest('[data-src],[data-arcs-token-tuner]') ? s : null;
+    }
+    function editable(el) {
+      if (el.hasAttribute('contenteditable')) return;
+      el.setAttribute('data-tt-dbl', ''); el.setAttribute('contenteditable', 'true');
+      el.addEventListener('blur', function () { done(el); }, { once: true });
+    }
+    function merge(a, b) {                                    // b's content joins the end of a; b leaves the page
+      var ta = touch(a), tb = touch(b);
+      ta.parts = (ta.parts || [ta.html]).concat(tb.parts || [tb.html]);
+      tb.into = ta;
+      var at = a.textContent, bt = b.textContent, mark = document.createTextNode('');
+      if (at && bt && !/\s$/.test(at) && !/^\s/.test(bt)) a.appendChild(document.createTextNode(' '));
+      a.appendChild(mark);
+      while (b.firstChild) a.appendChild(b.firstChild);
+      ops.push({ k: 'merge', a: a, b: b });
+      b.removeAttribute('contenteditable'); b.remove();
+      editable(a); a.focus();
+      var r = document.createRange(); r.setStartAfter(mark); r.collapse(true);
+      var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      collect();
+    }
     document.addEventListener('dblclick', function (e) {
       var el = e.target && e.target.closest && e.target.closest(BLOCKS);
       if (!el || el.closest('[data-src],[data-arcs-token-tuner]') || el.isContentEditable) return;
@@ -184,7 +231,11 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
     document.addEventListener('keydown', function (e) {
       var el = e.target && e.target.closest && e.target.closest('[data-tt-dbl][contenteditable]'); if (!el) return;
       e.stopPropagation();
-      if (e.key === 'Enter' || e.key === 'Escape') { e.preventDefault(); done(el); el.blur(); }
+      if (e.key === 'Enter' || e.key === 'Escape') { e.preventDefault(); done(el); el.blur(); return; }
+      // Backspace at a line's start joins it onto the line above; Delete at its end pulls the next line up
+      var other;
+      if (e.key === 'Backspace' && edge(el, false) && (other = sib(el, false))) { e.preventDefault(); merge(other, el); }
+      else if (e.key === 'Delete' && edge(el, true) && (other = sib(el, true))) { e.preventDefault(); merge(el, other); }
     }, true);
     document.addEventListener('click', function (e) {
       var el = e.target && e.target.closest && e.target.closest('[data-tt-dbl][contenteditable]');
@@ -200,6 +251,12 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
       return t;
     }
     function revert() {
+      for (var i = ops.length - 1; i >= 0; i--) {             // undo joins and removals newest first
+        var o = ops[i];
+        if (o.k === 'merge') o.a.parentNode && o.a.parentNode.insertBefore(o.b, o.a.nextSibling);
+        else if (o.parent) o.parent.insertBefore(o.el, o.next && o.next.parentNode === o.parent ? o.next : null);
+      }
+      ops = [];
       touched.forEach(function (t) { t.el.innerHTML = t.html; t.el.removeAttribute('data-tt-dbl'); t.el.removeAttribute('contenteditable'); });
       touched = [];
     }
@@ -214,6 +271,21 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
         revert();
         var missing = [];
         list.forEach(function (pr) {
+          if (pr.op) {                                        // a join or a removal: find the run of lines by their original html
+            var heads = [].filter.call(document.querySelectorAll(BLOCKS), function (el) { return el.innerHTML === pr.parts[0] && !el.closest('[data-arcs-token-tuner]'); });
+            var run = heads.length === 1 ? [heads[0]] : null;
+            for (var k = 1; run && k < pr.parts.length; k++) {
+              var nx = run[k - 1].nextElementSibling;
+              if (nx && nx.innerHTML === pr.parts[k]) run.push(nx); else run = null;
+            }
+            if (!run) { missing.push(pr); return; }
+            var ta = touch(run[0]);
+            run.slice(1).forEach(function (b) { var tb = touch(b); tb.into = ta; ops.push({ k: 'merge', a: run[0], b: b }); b.remove(); });
+            ta.parts = pr.parts.slice();
+            if (pr.op === 'remove') { ta.removed = true; ops.push({ k: 'remove', el: run[0], parent: run[0].parentNode, next: run[0].nextSibling }); run[0].remove(); }
+            else { run[0].innerHTML = pr.new; run[0].setAttribute('data-tt-dbl', ''); }
+            return;
+          }
           if (pr.html) {
             var els = [].filter.call(document.querySelectorAll(BLOCKS), function (el) { return el.innerHTML === pr.old && !el.closest('[data-arcs-token-tuner]'); });
             if (els.length !== 1) { missing.push(pr); return; }
@@ -363,7 +435,20 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
       root.style.overflow = w ? 'hidden' : '';
       if (w) {
         frame.style.width = w + 'px';
-        if (!frame.getAttribute('src')) frame.setAttribute('src', location.pathname + location.search + '&tuneframe');
+        if (!frame.getAttribute('src')) {
+          var fq = /[?&]tune(=|&|$)/.test(location.search) ? location.search : (location.search ? location.search + '&tune' : '?tune');
+          frame.setAttribute('src', location.pathname + fq + '&tuneframe');
+          // a page that does not carry the tuner (opened from the bookmarklet) gets it injected into the frame too
+          if (SELF || window.__arcsTuneSrc) frame.addEventListener('load', function () {
+            try {
+              var fw = frame.contentWindow, fd = frame.contentDocument;
+              if (fw.__arcsTokenTuner) return;
+              var s = fd.createElement('script');
+              if (SELF) s.src = SELF; else { fw.__arcsTuneSrc = window.__arcsTuneSrc; s.textContent = window.__arcsTuneSrc; }
+              (fd.body || fd.documentElement).appendChild(s);
+            } catch (e) {}
+          });
+        }
       }
       showVW();
     }
