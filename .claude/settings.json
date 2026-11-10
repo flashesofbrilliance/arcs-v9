@@ -255,7 +255,11 @@
       "Bash(python3 scripts/counterpart_onepager_build.py --check *)",
       "Bash(python3 scripts/tabbed_brief_build.py --check)",
       "Bash(python3 scripts/tabbed_brief_build.py --check *)",
-      "Bash(python3 scripts/proposal_build.py --louisville --check)"
+      "Bash(python3 scripts/proposal_build.py --louisville --check)",
+      "Bash(python3 scripts/tabbed_brief_build.py --self-test)",
+      "Bash(vercel whoami)",
+      "Bash(vercel domains ls)",
+      "Bash(vercel domains ls *)"
     ],
     "ask": [
       "Bash(git push:*)"
