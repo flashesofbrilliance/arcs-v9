@@ -643,6 +643,26 @@ footer p{text-align:left;}
   .named-x{grid-column:3;grid-row:1;margin-top:-6px;}
   .why-t{grid-column:1 / -1;grid-row:2;}
 }
+/* print breathing room 2026-11-10 (Zach): one lede lockup, airier rows, clear gaps before the bridge and the price card. Print only. */
+@media print{
+  .pbody > header{display:block;}
+  .pbody > header > .verdict{display:inline;font-size:var(--fs-headline);line-height:1.5;margin:0;}
+  .pbody > header > .verdict + .verdict::before{content:" ";}
+  .pbody > header{padding-bottom:var(--sp-3);}
+  .hrow > div{padding:10px 0;}
+  section.offerwrap{margin-top:var(--sp-3);}
+  .offerwrap > .lockup{gap:6px;}
+  .offerwrap > .lockup + details.blk.sub{margin-top:var(--sp-3);}
+  .offerwrap details.pbreak{break-before:page;}
+  .offerwrap .specrow{padding:12px 0;}
+  .plist li{padding:5px 0;}
+  .pnote{margin-top:var(--sp-3);}
+  .gg{margin-top:var(--sp-2);}
+  .gg-row{padding-top:10px;padding-bottom:10px;}
+  .gg > .gg-row:last-child{border-bottom-width:0;}
+  .offerwrap > .offer{margin-top:var(--sp-4);}
+  .offer > *{padding:12px 16px;}
+}
 </style>
 </head>
 <body>
