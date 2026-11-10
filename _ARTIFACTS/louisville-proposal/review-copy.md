@@ -37,26 +37,26 @@ Inputs (what it relies on) → Decision (what it can't see) → Outcome (the dat
 
 ¶12. Every deliverable, and the time it takes.
 
-1. Each decision written up: What it relied on, what it couldn't see, and when you'll know if it worked. If one has played out, it sits beside the result.
+1. Each decision written up with its three marks and the number that would tell you to stop, agreed up front. If one has played out, it sits beside the result.
 2. One page: Where the build stands, what's least efficient, which hypotheses aren't holding.
-3. A read against the six things you said matter: Accuracy, efficiency, speed, cost, on-prem, one source of truth without bloat or tech debt.
+3. A read against the five things you said matter: Accuracy, efficiency, speed, cost on your own on-prem setup, one source of truth without bloat or tech debt.
 4. Next steps with dates, each with a number that shows it worked.
 5. Honest marks: What's unchecked, what's unsure, and your pushback, all on the page.
-6. For each decision, the number that would tell you to stop, agreed up front.
+6. A one-page field guide so your team can rerun the checks.
 
 ¶13. Two weeks. About 3.5 hours of your team's time, a little over 4 with the optional session.
 
 | When | What you give | What you get |
 |---|---|---|
-| Before | Mutual NDA; total sales figures only, nothing at customer level. | Your data stays with you. |
+| Before | Mutual NDA; total sales figures only, nothing at customer level. | Customer-level data stays with you. |
 | Week 1 | Kickoff with you, 60 min. Screen-share with your warehouse and MCP lead: Where data lives, who can reach it, 90 min. Optional: 45 min with whoever owns where the data goes next. | Both decisions written up. |
-| Week 2 | Readout, 60 min, and your pushback. | The one page, the read against the six things you said matter, next steps, and a one-page field guide so your team can rerun the checks. |
+| Week 2 | Readout, 60 min, and your pushback. | The rest of the list above, with your pushback on the page. |
 
 ¶14. **$5,000: Half at kickoff, half at the readout.** You keep the work.
 
 ¶15. My RFP engine works the same way: Each answer cites its clause, says "not covered" when it can't, and logs its misses in public. good.arcs.care/rfp-engine
 
-¶16. Pick the two decisions and I'll send a start date, so the checkup lands before Q1 plans and the next MOQ lock.
+¶16. **Next steps:** If it fits, the next step is a short call to pick the two decisions. From there, a start date that lands before Q1 plans and the next MOQ lock.
 
 ## Your answers and changes
 

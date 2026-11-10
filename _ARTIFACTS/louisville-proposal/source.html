@@ -203,7 +203,7 @@ header > .tools{grid-row:1;justify-self:end;display:flex;align-items:center;gap:
 .plist li{display:grid;grid-template-columns:2.25rem minmax(0,1fr);column-gap:var(--sp-1);padding:var(--sp-1) 0;color:var(--text-secondary);text-wrap:pretty;}
 .plist li + li{border-top:1px solid var(--border);}
 .plist .pn{font-family:var(--mono);font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;}
-.pnote{color:var(--text-secondary);margin-top:var(--sp-2);}
+.pnote{font-family:var(--serif);font-size:var(--fs-step);font-weight:500;line-height:1.45;color:var(--text);margin-top:var(--sp-2);} /* same voice as .offer-ask (Zach, 2026-11-10) */
 .pnote + .offer{margin-top:var(--sp-3);}
 @media print{
   .cover{display:flex;flex-direction:column;height:9.9in;break-after:page;}
@@ -468,7 +468,7 @@ footer p{text-align:left;}
   .gg + .offer,.pnote + .offer{margin-top:var(--sp-1);}
   .offer > *{padding:6px 14px;}
   .gg-row{grid-template-columns:4.5rem minmax(0,1fr) minmax(0,1fr);}
-  .offer-ask{font-size:var(--fs-headline);line-height:1.4;}
+  .offer-ask,.pnote{font-size:var(--fs-headline);line-height:1.4;}
   .offer-price{font-size:var(--fs-body);}
   .offer-proof{display:none;}
 }
@@ -655,14 +655,27 @@ footer p{text-align:left;}
   .offerwrap > .lockup + details.blk.sub{margin-top:var(--sp-3);}
   .offerwrap details.pbreak{break-before:page;}
   .offerwrap .specrow{padding:12px 0;}
-  .plist li{padding:5px 0;}
-  .pnote{margin-top:var(--sp-3);}
+  .plist li{padding:4px 0;}
+  .pnote{margin-top:var(--sp-3);line-height:1.35;}
   .gg{margin-top:var(--sp-2);}
-  .gg-row{padding-top:10px;padding-bottom:10px;}
+  .gg-row{padding-top:8px;padding-bottom:8px;}
   .gg > .gg-row:last-child{border-bottom-width:0;}
   .offerwrap > .offer{margin-top:var(--sp-4);}
-  .offer > *{padding:12px 16px;}
+  .offer > *{padding:10px 16px;}
+  .offerwrap details.pbreak + .offer-eyebrow{margin-top:var(--sp-3);}
+  .offer{break-inside:avoid;}
+  /* impeccable + brand review 2026-11-10: align bridge and card to the content line, card as a rule not a box, quieter wordmark, no numbers on an unordered list */
+  .offerwrap > .lockup,.offerwrap > .offer{margin-left:2.25rem;}
+  .offer{border-radius:0;border-width:1.5px 0 0;border-color:var(--text);}
+  .offer > *{padding-left:0;padding-right:0;}
+  .cover-wm{font-size:var(--fs-headline);}
+  .plist .pn{display:none;}
+  .plist li{grid-template-columns:minmax(0,1fr);padding:5px 0;}
 }
+.offerwrap .deck{text-wrap:pretty;}
+.pnote{text-wrap:balance;}
+.gg-give > span{display:block;}
+.gg-give > span + span{margin-top:4px;}
 </style>
 </head>
 <body>
@@ -740,24 +753,24 @@ footer p{text-align:left;}
     <div class="bd">
   <div class="punch">
     <ol class="plist">
-      <li><span class="pn">01</span><span>Each decision written up: What it relied on, what it couldn't see, and when you'll know if it worked. If one has played out, it sits beside the result.</span></li>
+      <li><span class="pn">01</span><span>Each decision written up with its three marks and the number that would tell you to stop, agreed up front. If one has played out, it sits beside the result.</span></li>
       <li><span class="pn">02</span><span>One page: Where the build stands, what's least efficient, which hypotheses aren't holding.</span></li>
-      <li><span class="pn">03</span><span>A read against the six things you said matter: Accuracy, efficiency, speed, cost, on-prem, one source of truth without bloat or tech debt.</span></li>
+      <li><span class="pn">03</span><span>A read against the five things you said matter: Accuracy, efficiency, speed, cost on your own on-prem setup, one source of truth without bloat or tech debt.</span></li>
       <li><span class="pn">04</span><span>Next steps with dates, each with a number that shows it worked.</span></li>
       <li><span class="pn">05</span><span>Honest marks: What's unchecked, what's unsure, and your pushback, all on the page.</span></li>
-      <li><span class="pn">06</span><span>For each decision, the number that would tell you to stop, agreed up front.</span></li>
+      <li><span class="pn">06</span><span>A one-page field guide so your team can rerun the checks.</span></li>
     </ol>
   </div>
   <p class="pnote">Two weeks. About 3.5 hours of your team's time, a little over 4 with the optional session.</p>
   <div class="gg" role="table" aria-label="What you give and what you get">
     <div class="gg-row gg-head" role="row"><span role="columnheader"><span class="vh">When</span></span><span role="columnheader">What you give</span><span role="columnheader" class="c">What you get</span></div>
-    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Before</span><span class="gg-give" role="cell">Mutual NDA; total sales figures only, nothing at customer level.</span><span class="gg-get" role="cell">Your data stays with you.</span></div>
-    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 1</span><span class="gg-give" role="cell">Kickoff with you, 60 min.<br>Screen-share with your warehouse and MCP lead: Where data lives, who can reach it, 90 min.<br>Optional: 45 min with whoever owns where the data goes next.</span><span class="gg-get" role="cell">Both decisions written up.</span></div>
-    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 2</span><span class="gg-give" role="cell">Readout, 60 min, and your pushback.</span><span class="gg-get" role="cell">The one page, the read against the six things you said matter, next steps, and a one-page field guide so your team can rerun the checks.</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Before</span><span class="gg-give" role="cell">Mutual NDA; total sales figures only, nothing at customer level.</span><span class="gg-get" role="cell">Customer-level data stays with you.</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 1</span><span class="gg-give" role="cell"><span>Kickoff with you, 60 min.</span><span>Screen-share with your warehouse and MCP lead: Where data lives, who can reach it, 90 min.</span><span>Optional: 45 min with whoever owns where the data goes next.</span></span><span class="gg-get" role="cell">Both decisions written up.</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 2</span><span class="gg-give" role="cell">Readout, 60 min, and your pushback.</span><span class="gg-get" role="cell">The rest of the list above, with your pushback on the page.</span></div>
   </div>
     </div>
   </details>
-  <p class="offer-eyebrow">To start</p>
+  <p class="offer-eyebrow">Next steps</p>
   <div class="offer">
     <div class="offer-head">
       <p class="offer-price"><span class="offer-fig">$5,000</span>: Half at kickoff, half at the readout.</p>
@@ -767,7 +780,7 @@ footer p{text-align:left;}
       <p>My RFP engine works the same way: Each answer cites its clause, says "not covered" when it can't, and logs its misses in public.</p>
       <a data-track="rfp_engine_click" class="offer-link" href="https://good.arcs.care/rfp-engine">good.arcs.care/rfp-engine<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
     </div>
-    <p class="offer-ask">Pick the two decisions and I'll send a start date, so the checkup lands before Q1 plans and the next MOQ lock.</p>
+    <p class="offer-ask">If it fits, the next step is a short call to pick the two decisions. From there, a start date that lands before Q1 plans and the next MOQ lock.</p>
   </div>
 </section>
 
