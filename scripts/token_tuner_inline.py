@@ -61,10 +61,48 @@ def text_pattern(old):
     return "".join(parts)
 
 
+def inner_pattern(h):
+    """Pattern for one element's inner html as the browser reported it: text-only content matches any entity form."""
+    if "<" not in h:
+        return r"\s*" + text_pattern(h.strip()) + r"\s*" if h.strip() else r"\s*(?:<br\s*/?>)?\s*"
+    return re.escape(h)
+
+
+def run_span(src, e):
+    """Locate a run of adjacent sibling elements by their inner html (e['parts']) and return the replacement span.
+    merge: the run becomes the first element holding e['new']; remove: the run and its line leave the source."""
+    parts = e.get("parts") or []
+    if not parts:
+        return None, "join or removal with no parts"
+    pat = r"(<([A-Za-z][\w-]*)\b[^>]*>)" + inner_pattern(parts[0]) + r"</\2>"
+    for p in parts[1:]:
+        pat += r"\s*<([A-Za-z][\w-]*)\b[^>]*>" + inner_pattern(p) + r"</[A-Za-z][\w-]*>"
+    hits = list(re.finditer(pat, src))
+    if len(hits) != 1:
+        return None, f"{e['op']}: lines found {len(hits)} times, need exactly 1: {parts[0][:60]!r}"
+    m = hits[0]
+    if e["op"] == "merge":
+        return (m.start(), m.end(), m.group(1) + e.get("new", "") + "</" + m.group(2) + ">"), None
+    a, b = m.start(), m.end()
+    ls = src.rfind("\n", 0, a) + 1
+    if not src[ls:a].strip():                          # the run starts its line: take the indent and the newline too
+        a = ls
+        if src[b:b + 1] == "\n":
+            b += 1
+    return (a, b, ""), None
+
+
 def apply_text(src, edits):
     """Apply [{old, new[, html]}] pairs to src. Returns (new_src, errors); on any error src is returned unchanged."""
     errors, spans = [], []
     for i, e in enumerate(edits):
+        if e.get("op") in ("merge", "remove"):
+            span, why = run_span(src, e)
+            if why:
+                errors.append(f"edit {i + 1}: {why}")
+            else:
+                spans.append(span)
+            continue
         old, new = e.get("old", ""), e.get("new", "")
         if not old.strip():
             errors.append(f"edit {i + 1}: empty old text")
@@ -122,6 +160,15 @@ def self_test():
     assert err and out == src, "apply-text refuses a missing old text"
     out, err = apply_text(src, [{"old": "one", "new": "<b>1</b>", "html": True}])
     assert not err and "<li><b>1</b></li>" in out, "apply-text takes an html pair verbatim"
+    two = '<div>\n  <p class="deck">Line one</p>\n  <p class="deck">line &amp; two</p>\n  <p>three</p>\n</div>'
+    out, err = apply_text(two, [{"op": "merge", "parts": ["Line one", "line &amp; two"], "new": "Line one line &amp; two"}])
+    assert not err and '<p class="deck">Line one line &amp; two</p>\n  <p>three</p>' in out, ("merge joins two lines", out, err)
+    out, err = apply_text(two, [{"op": "remove", "parts": ["line &amp; two"]}])
+    assert not err and out == '<div>\n  <p class="deck">Line one</p>\n  <p>three</p>\n</div>', ("remove drops the line", out, err)
+    out, err = apply_text('<p>a</p>\n<p class="deck"></p>\n<p>b</p>', [{"op": "remove", "parts": ["<br>"]}])
+    assert err, "an emptied line reported as <br> needs its original html, so a bare <br> is refused unless it matches"
+    out, err = apply_text(two, [{"op": "merge", "parts": ["Line one", "three"], "new": "x"}])
+    assert err and out == two, "a join refuses lines that are not adjacent"
     exp = {"versions": [{"v": 1, "why": "", "state": {"dbl": [{"old": "one", "new": "1"}]}},
                         {"v": 2, "why": "", "state": {"dbl": [{"old": "one", "new": "uno"}]}}]}
     assert pairs_from(exp) == [{"old": "one", "new": "uno"}], "an export file applies its latest version"
