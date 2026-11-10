@@ -351,7 +351,7 @@ def render(d, artifact=False, page=None):
     main = ('<main class="tb" data-store="' + e(d["storage_key"]) + '" data-default-theme="' + e(d.get("default_theme", "light")) + '"' + pages_attr + '>\n%s\n<section class="tb-frame" aria-label="%s">\n<div class="tb-head">%s\n%s</div>\n<div class="tb-body">\n%s\n</div>\n</section>\n</main>\n'
             '<script>%s</script>\n<script>%s</script>%s') % (top, e(d["doc_title"]), meta, nav, body, shnav_js()[len("<script>"):-len("</script>")],
                                                            open(os.path.join(TDIR, "shell.js"), encoding="utf-8").read(),
-                                                           ("\n" + bite_js()[:-len("</script>")] + ";[].forEach.call(document.querySelectorAll('.sb'),function(f){sbInit(f)});</script>") if 'class="sb"' in body else "")
+                                                           ("\n" + bite_js()[:-len("</script>")] + ";[].forEach.call(document.querySelectorAll('.sb'),function(f){sbInit(f,%s)});</script>" % ("{still:true}" if d["overview"].get("bites_still") else "{}")) if 'class="sb"' in body else "")
     marks = "<!-- @arcs-template: tabbed-brief -->\n<!-- @arcs-mode: persuade -->\n"
     head = ('<title>%s</title>\n<meta name="robots" content="noindex, nofollow">\n%s\n<style>\n%s</style>\n') % (e(title), head_js, css)
     if artifact and page in (None, "ov"):
