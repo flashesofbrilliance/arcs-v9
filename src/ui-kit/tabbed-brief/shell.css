@@ -145,5 +145,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 @container (min-width: 54rem) { .ftiles.is-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 /* the Limit callout fills its lane like its siblings (card_gutter_check) */
 .tb-fold-body .callout { max-width: none; margin: 0; }
+/* callouts inside a tab's units fill the lane too (they stopped at the 640px kit measure, short of their sibling tables and ledgers) */
+.unit .callout { max-width: none; }
 /* seam (2026-11-10): this file ended in a truncated '@media (prefers-reduced-motion) { @media print {' since it was created, which swallowed any rule added after it. Closed here as the reduced-motion rule it was meant to be. */
 @media (prefers-reduced-motion: reduce) { .tb-fold-btn::before, .stacked .seat-btn::before { transition: none; } }
