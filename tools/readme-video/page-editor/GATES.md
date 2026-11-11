@@ -9,7 +9,7 @@ Six cards, 111.1 s, in Zach's voice clone (takes in `voice/TAKES.md`).
 | Brand-line-producer | PASS (wrap-lint, tokens, motion, card-gutter, Impeccable, 0 em-dashes), after two BLOCK rounds |
 | R1 prose claims, human pass | Done card by card against the README section; every line traces to it |
 | R7 register, human pass | Done: no royal we, no hype, sentence case |
-| Stage 6 audio gate | NEXT: not built; Zach listens once and says so (not done yet) |
+| Stage 6 audio gate | Not built; Zach listened to the final cut and said "Audio passes" (2026-11-11) |
 
 R8: every card's video stream equals its take plus the 0.8 s pad (measured with ffprobe, v:0).
 
