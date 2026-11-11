@@ -56,6 +56,9 @@ const P: React.CSSProperties = { fontFamily: T.sans, fontSize: 13.5, color: T.fg
 const H2: React.CSSProperties = { fontFamily: T.sans, fontSize: 15, fontWeight: 600, color: T.fg1, margin: '0 0 10px' }
 const card = (accent?: string): React.CSSProperties => ({
   border: `1px solid ${accent ? `${accent}55` : T.border}`, borderRadius: 8, background: T.surface, padding: '16px 18px',
+  // Print: a tall card may split, but its border repeats on each page; the
+  // rows, list items and key/value pairs inside never split.
+  boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone',
 })
 const TH: React.CSSProperties = { fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', color: T.fg3, textTransform: 'uppercase', textAlign: 'left', padding: '8px 10px', borderBottom: `1px solid ${T.border}`, verticalAlign: 'bottom' }
 const TD: React.CSSProperties = { fontFamily: T.sans, fontSize: 12.5, color: T.fg1, lineHeight: 1.55, padding: '9px 10px', borderBottom: `1px solid ${T.border}`, verticalAlign: 'top' }
@@ -66,16 +69,16 @@ function Table({ head, rows }: { head: unknown[]; rows: unknown[][] }) {
     <div style={{ overflowX: 'auto' }}>
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead><tr>{head.map((h, i) => <th key={i} style={TH}><H html={h} /></th>)}</tr></thead>
-        <tbody>{rows.map((r, i) => <tr key={i}>{r.map((c, j) => <td key={j} style={TD}><H html={c} /></td>)}</tr>)}</tbody>
+        <tbody>{rows.map((r, i) => <tr key={i} style={{ breakInside: 'avoid' }}>{r.map((c, j) => <td key={j} style={TD}><H html={c} /></td>)}</tr>)}</tbody>
       </table>
     </div>
   )
 }
 
-function Card({ h2, accent, children }: { h2?: unknown; accent?: string; children: React.ReactNode }) {
+function Card({ h2, accent, keep, children }: { h2?: unknown; accent?: string; keep?: boolean; children: React.ReactNode }) {
   return (
-    <div style={card(accent)}>
-      {s(h2) && <h3 style={{ ...H2, color: accent ?? T.fg1 }}><H html={h2} /></h3>}
+    <div style={keep ? { ...card(accent), breakInside: 'avoid' } : card(accent)}>
+      {s(h2) && <h3 style={{ ...H2, color: accent ?? T.fg1, breakAfter: 'avoid' }}><H html={h2} /></h3>}
       {children}
     </div>
   )
@@ -103,7 +106,7 @@ function Chart({ series }: { series: Series[] }) {
   const xAt = (i: number) => pad + (n > 1 ? (i / (n - 1)) * (W - 2 * pad) : 0)
   const yAt = (v: number) => Hh - pad - Math.max(0, Math.min(1, v)) * (Hh - 2 * pad)
   return (
-    <div style={{ margin: '10px 0' }}>
+    <div style={{ margin: '10px 0', breakInside: 'avoid' }}>
       <svg viewBox={`0 0 ${W} ${Hh}`} style={{ width: '100%', height: 'auto', display: 'block' }} role="img" aria-label="Belief trajectory">
         {[0, 0.5, 1].map((g) => (
           <g key={g}>
@@ -143,7 +146,7 @@ function Block({ b, raw }: { b: Raw; raw: Raw }) {
           <Intro v={b.intro} />
           <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
             {arr(b.items).filter(isRec).map((it, i) => (
-              <li key={i} style={{ display: 'flex', gap: 10, alignItems: 'baseline' }}>
+              <li key={i} style={{ display: 'flex', gap: 10, alignItems: 'baseline', breakInside: 'avoid' }}>
                 <span style={{ width: 7, height: 7, borderRadius: '50%', background: DOT[s(it.dot)] ?? T.fg4, flexShrink: 0, transform: 'translateY(-1px)' }} />
                 <H html={it.html ?? it.text} style={{ ...P, margin: 0 }} />
               </li>
@@ -160,8 +163,8 @@ function Block({ b, raw }: { b: Raw; raw: Raw }) {
         <Card h2={b.h2} accent={t === 'receipt' ? T.gold : undefined}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {rows.map(([k, v], i) => (
-              <div key={i}>
-                <div style={{ fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', color: T.fg3, textTransform: 'uppercase', marginBottom: 3 }}><H html={k} /></div>
+              <div key={i} style={{ breakInside: 'avoid' }}>
+                <div style={{ fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', color: T.fg3, textTransform: 'uppercase', marginBottom: 3, breakAfter: 'avoid' }}><H html={k} /></div>
                 <H html={v} style={{ ...P, margin: 0, color: T.fg1, display: 'block' }} />
               </div>
             ))}
@@ -199,7 +202,7 @@ function Block({ b, raw }: { b: Raw; raw: Raw }) {
     }
     case 'worked_example':
       return (
-        <Card h2={b.h2}>
+        <Card h2={b.h2} keep>
           <Intro v={b.intro} />
           <Chart series={readSeries(raw).series} />
           <Intro v={b.close} />
@@ -282,30 +285,49 @@ function Cover({ raw }: { raw: Raw }) {
   )
 }
 
+// Module order, one rule for every war-room report (2026-11-11). Read top-down:
+//   1. Where it stands: the opportunity note and next steps (the action, first).
+//   2. What the counterpart saw: tabs whose blocks are all audience 'both'
+//      (e.g. Gasmi's answer / how it works / first 30 days), in authored order.
+//   3. The method, in lifecycle order: Pre-Call, Ex-Ante (the prediction), Forge
+//      (the call's claims adjudicated), Recoil (prediction scored), War Game
+//      (forward risk), Defensibility.
+//   4. Any other tab, in authored order; then the Deeper Strata appendix.
+// The authored page.tabs order no longer decides the print order; scripts/
+// recoil_brief.py keeps its own tab bar.
+const METHOD_RANK: Record<string, number> = { pre: 1, exante: 2, forge: 3, recoil: 4, wargame: 5, defense: 6 }
+type Group = { id: string; label: string; blocks: Raw[] }
+function groupRank(g: Group): number {
+  if (g.id in METHOD_RANK) return 20 + METHOD_RANK[g.id]
+  if (g.blocks.length && g.blocks.every((b) => s(b.audience) === 'both')) return 10
+  return 30
+}
+
 export function WarRoomReport({ raw }: { raw: Raw }) {
   const page = isRec(raw.page) ? raw.page : {}
   const blocks = arr(page.blocks).filter(isRec)
   const tabs = arr(page.tabs).filter(isRec).map((t) => ({ id: s(t.id), label: s(t.label) }))
-  // Tab order from page.tabs; blocks with no/unknown tab land in a trailing group in authored order.
+  // Blocks with no/unknown tab land in their own group, ranked like any other tab.
   const known = new Set(tabs.map((t) => t.id))
-  const groups = tabs.map((t) => ({ ...t, blocks: blocks.filter((b) => s(b.tab) === t.id) }))
+  const authored: Group[] = tabs.map((t) => ({ ...t, blocks: blocks.filter((b) => s(b.tab) === t.id) }))
   const loose = blocks.filter((b) => !known.has(s(b.tab)))
-  if (loose.length) groups.push({ id: 'brief', label: tabs.length ? 'Unfiled' : 'Brief', blocks: loose })
+  if (loose.length) authored.push({ id: 'brief', label: tabs.length ? 'Unfiled' : 'Brief', blocks: loose })
+  // Stable sort: equal ranks keep authored order.
+  const groups = authored
+    .filter((g) => g.blocks.length)
+    .map((g, i) => ({ g, i }))
+    .sort((a, b) => groupRank(a.g) - groupRank(b.g) || a.i - b.i)
+    .map((x) => x.g)
   const opp = isRec(raw.opportunity) ? raw.opportunity : {}
   const nextSteps = arr(raw.next_steps).filter(isRec)
+  const hasNext = Boolean(s(opp.note) || nextSteps.length > 0)
+  const offset = hasNext ? 2 : 1
 
   return (
     <div>
       <Cover raw={raw} />
-      {groups.filter((g) => g.blocks.length).map((g, i) => (
-        <Sec key={g.id} id={`w-${g.id}`} idx={String(i + 1).padStart(2, '0')} label={g.label} title={g.label} accent={T.cyan}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {g.blocks.map((b, j) => <Block key={j} b={b} raw={raw} />)}
-          </div>
-        </Sec>
-      ))}
-      {(s(opp.note) || nextSteps.length > 0) && (
-        <Sec id="w-next" idx={String(groups.filter((g) => g.blocks.length).length + 1).padStart(2, '0')} label="Next Steps" title="Opportunity & Next Steps" accent={T.green}>
+      {hasNext && (
+        <Sec id="w-next" idx="01" label="Where it stands" title="Opportunity & Next Steps" accent={T.green}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {s(opp.note) && <Card h2="Opportunity note"><p style={{ ...P, whiteSpace: 'pre-wrap' }}><H html={opp.note} /></p></Card>}
             {nextSteps.length > 0 && (
@@ -316,6 +338,13 @@ export function WarRoomReport({ raw }: { raw: Raw }) {
           </div>
         </Sec>
       )}
+      {groups.map((g, i) => (
+        <Sec key={g.id} id={`w-${g.id}`} idx={String(i + offset).padStart(2, '0')} label={g.label} title={g.label} accent={T.cyan}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {g.blocks.map((b, j) => <Block key={j} b={b} raw={raw} />)}
+          </div>
+        </Sec>
+      ))}
     </div>
   )
 }
