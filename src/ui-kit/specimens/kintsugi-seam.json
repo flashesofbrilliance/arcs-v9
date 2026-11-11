@@ -1,0 +1,84 @@
+{
+ "number": "64",
+ "name": "Kintsugi Seam",
+ "slug": "kintsugi-seam",
+ "layer": "Molecule",
+ "job": "Show a break in the work visibly, with what broke, how it was found, the repair and the guard that stops it recurring, joined to the next seam by a gold line.",
+ "anatomy": [
+  {
+   "part": "Seam line",
+   "role": "A 1px gold rule between seams: the repaired break (ROM primitive 6, Kintsugi)",
+   "token": "`gold`"
+  },
+  {
+   "part": "Key",
+   "role": "Seam id and when it was found, mono, sentence case, gold",
+   "token": "`gold`"
+  },
+  {
+   "part": "Rows",
+   "role": "A `dl`: Break, Found, Repair, Guard; the term in a 6rem column from a 30rem container",
+   "token": "`text-secondary`, `text`"
+  }
+ ],
+ "states": [
+  {
+   "name": "Repaired",
+   "args": [
+    2,
+    "100%"
+   ],
+   "note": "Two seams, joined by the gold line."
+  },
+  {
+   "name": "Phone width",
+   "args": [
+    1,
+    "20rem"
+   ],
+   "note": "Below 30rem each term sits above its text."
+  }
+ ],
+ "use_when": [
+  "The work broke and was repaired, and the reader should see the break, not a silent patch.",
+  "A doubt was raised and withdrawn: the withdrawal is a seam too."
+ ],
+ "avoid_when": [
+  "Do not hide a break in prose; every break gets all four rows, with Repair saying Not applied when it was not.",
+  "Gold here is the repair seam, a limit that was hit; do not use the seam gold for decoration."
+ ],
+ "data": [
+  {
+   "field": "seams[]",
+   "type": "{key, break, found, repair, guard}",
+   "required": true,
+   "note": "`repair` names what was done or says Not applied."
+  }
+ ],
+ "access": [
+  "Each seam is a definition list, so a screen reader pairs Break, Found, Repair and Guard with their text.",
+  "The gold line is decoration over a structure that already separates the seams."
+ ],
+ "built_from": [
+  {
+   "name": "Kit tokens (atoms)",
+   "href": "_tokens.css"
+  }
+ ],
+ "used_by": [
+  {
+   "name": "Recoil: Zach x Brian, 2026-11-11 (_ARTIFACTS/recoil-brian-2026-11-11.html), template recoil-skim"
+  }
+ ],
+ "gates": [
+  "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+  "`kit_primitive_sync.py --check`: every page that marks this block carries it line for line.",
+  "`artifact_wrap_lint.py` and `page_gate.py` on every page that carries it; sweep 360 to 1440, including 700 to 1000."
+ ],
+ "links": [
+  "_tokens-light.css",
+  "_kit-sr.css"
+ ],
+ "css": ":root { --fs-label: 0.75rem; --fs-body: 0.9375rem; } /* recoil-skim steps: label 12px, body 15px (arc weld spec 4.3); move into _tokens.css with recoil-token-unify */\n/* composed with, from 28-chip, 32-evidence-ref and 37-fidelity-grain */\n.chip { display: inline-flex; align-items: center; gap: 6px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: var(--ds-r-pill); border: 1px solid var(--border); color: var(--text-secondary); }\n.chip.cyan { color: var(--cyan); border-color: var(--cyan); background: var(--cyan-bg); }\n.chip.green { color: var(--green); border-color: var(--green); background: var(--green-bg); }\n.chip.gold { color: var(--gold); border-color: var(--gold); background: var(--gold-bg); }\n.chip.red { color: var(--red); border-color: var(--red); background: var(--red-bg); }\n.ref { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--dimmed); }\n.grain { font-weight: 300; letter-spacing: 0.02em; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E\"); }\n.moire { font-weight: 300; letter-spacing: 0.03em; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.02 0.6' numOctaves='1'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E\"); }\n/* @prim:begin 64-kintsugi-seam */\n.seams { container-type: inline-size; display: flex; flex-direction: column; }\n.seam { display: flex; flex-direction: column; gap: 12px; }\n.seam + .seam { border-top: 1px solid var(--gold); padding-top: 16px; margin-top: 16px; }\n.seam-k { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.02em; color: var(--gold); }\n.seam-rows { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px 16px; }\n.seam-rows dt { padding-top: 4px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); }\n.seam-rows dd { margin-bottom: 8px; color: var(--text); }\n.seam-rows code { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text); overflow-wrap: anywhere; }\n@container (min-width: 30rem) { .seam-rows { grid-template-columns: 6rem minmax(0, 1fr); } .seam-rows dd { margin-bottom: 0; } }\n/* @prim:end 64-kintsugi-seam */\n",
+ "demo": "function kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar KS=[['Seam G53 · found 2026-11-11, about 12:40 ET','A git config value that older git rejects.','Every git command failed in one shell.','Not applied: move it to the global config.','Test a config change with every git that reads the repo.'],['Withdrawn · a 5-second run','A run was called too short to file its pull request.','The branch has a commit after the logged finish.','Doubt withdrawn.','A run log records the wake, not the whole run.']];\nfunction kitSeams(host,n){var w=document.createElement('div');w.className='seams';w.innerHTML=KS.slice(0,n).map(function(s){return '<div class=\"seam\"><span class=\"seam-k\">'+kEsc(s[0])+'</span><dl class=\"seam-rows\"><dt>Break</dt><dd>'+kEsc(s[1])+'</dd><dt>Found</dt><dd>'+kEsc(s[2])+'</dd><dt>Repair</dt><dd>'+kEsc(s[3])+'</dd><dt>Guard</dt><dd>'+kEsc(s[4])+'</dd></dl></div>'}).join('');host.appendChild(w);return w}\nkitSeams(kSlot(),2);\nSTATES.forEach(function(a,i){var b=document.createElement('div');b.style.maxWidth=a[1];kSlot(i).appendChild(b);kitSeams(b,a[0])});"
+}
