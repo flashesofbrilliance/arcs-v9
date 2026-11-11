@@ -6,13 +6,13 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 285,
+  "rows": 287,
   "hosts": 62,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 229,
+   "product page": 231,
    "gated": 28
   },
   "next_config_hosts": 85,
@@ -2920,6 +2920,46 @@
   },
   {
    "host": "good.arcs.care",
+   "path": "/blog/nftt/the-posted-rate",
+   "catch_all": false,
+   "destination": "/blog-nftt-the-posted-rate.html",
+   "pattern": false,
+   "file": "public/blog-nftt-the-posted-rate.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "The Posted Rate · NFTT",
+   "description": "A narrated video cost 32 cents in voice credits, and only one of the four parts of the build posted a rate before the spend.",
+   "index": "index",
+   "unlisted": false,
+   "purpose": "A narrated video cost 32 cents in voice credits, and only one of the four parts of the build posted a rate before the spend.",
+   "kind": "product page",
+   "last_commit": "2026-11-11"
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/blog/nftt/the-posted-rate/full",
+   "catch_all": false,
+   "destination": "/blog-nftt-the-posted-rate.html",
+   "pattern": false,
+   "file": "public/blog-nftt-the-posted-rate.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "The Posted Rate · NFTT",
+   "description": "A narrated video cost 32 cents in voice credits, and only one of the four parts of the build posted a rate before the spend.",
+   "index": "index",
+   "unlisted": false,
+   "purpose": "A narrated video cost 32 cents in voice credits, and only one of the four parts of the build posted a rate before the spend.",
+   "kind": "product page",
+   "last_commit": "2026-11-11"
+  },
+  {
+   "host": "good.arcs.care",
    "path": "/blog/nftt/the-pre-mortem-that-asked-to-be-wrong",
    "catch_all": false,
    "destination": "/blog-nftt-the-pre-mortem-that-asked-to-be-wrong.html",
@@ -3423,7 +3463,7 @@
    "unlisted": false,
    "purpose": "An open RFP answering engine that cites the exact clause or refuses. Python standard library only, runs locally as an MCP server.",
    "kind": "product page",
-   "last_commit": "2026-11-02"
+   "last_commit": "2026-11-10"
   },
   {
    "host": "good.arcs.care",
@@ -3566,7 +3606,7 @@
    "unlisted": true,
    "purpose": "Zach Harris for Gravity Labs",
    "kind": "product page",
-   "last_commit": "2026-11-09"
+   "last_commit": "2026-11-11"
   },
   {
    "host": "gravity.arcs.care",
@@ -3586,7 +3626,7 @@
    "unlisted": true,
    "purpose": "Entrepreneur in Residence · Zach Harris for Gravity Labs",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-11-10"
   },
   {
    "host": "gravity.arcs.care",
@@ -3606,7 +3646,7 @@
    "unlisted": true,
    "purpose": "Founder, Portfolio Company · Zach Harris for Gravity Labs",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-11-10"
   },
   {
    "host": "gravity.arcs.care",
@@ -3626,7 +3666,7 @@
    "unlisted": true,
    "purpose": "Open Application · Zach Harris for Gravity Labs",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-11-10"
   },
   {
    "host": "gravity.arcs.care",
@@ -3646,7 +3686,7 @@
    "unlisted": true,
    "purpose": "Principal, New Ventures · Zach Harris for Gravity Labs",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-11-10"
   },
   {
    "host": "growth-ai.arcs.care",
