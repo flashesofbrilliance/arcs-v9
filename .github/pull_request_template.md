@@ -4,6 +4,14 @@
 ## What & why
 <!-- One or two sentences. The decision, not the diff. -->
 
+## Design brief
+<!-- REQUIRED at 800+ changed lines, 10+ files, or several parts: write
+     _PROPOSALS/<date>-<slug>-design.md with `pr: <number>` and `artifact: <url>` in its
+     frontmatter (spec, requirements, implementation plan), publish it as a private Artifact,
+     and cite the path here. Mechanical or generated changes: write `design-brief: skip <reason>`.
+     Checked by scripts/pr_brief_check.py at session start; update the brief's status when this merges. -->
+- Brief: <!-- _PROPOSALS/... | design-brief: skip <reason> -->
+
 ## Blast radius
 - [ ] Touches `public/**` or `next.config.ts` (prospect-facing / routing)
 - [ ] Touches API routes, auth, schema, or env
