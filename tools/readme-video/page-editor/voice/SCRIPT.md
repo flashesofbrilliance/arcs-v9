@@ -16,7 +16,7 @@ Double-click text to edit it. Move the sliders. Then copy what changed: the edit
 
 ## 04
 
-Where does each change land? That depends on the builder. The Gravity brief takes text into its data, and tokens into a tuned block of its stylesheet. Louisville puts both in its source. A blog post takes text, and refuses tokens. Text the builder computes is in no source, so it is refused, and named.
+Where does each change land? Text goes to the first source that holds it, edited in place, so a one-field change is a one-line diff. Tokens and wrapping go to a tuned block in the stylesheet; a page with no tuner tokens refuses them. Computed text is in no source, so it is refused, and named.
 
 ## 05
 

@@ -5,7 +5,7 @@ Six cards, 114.9 s, in Zach's voice clone (takes in `voice/TAKES.md`).
 
 | Gate | Result |
 |---|---|
-| Text checker (`scripts/readme_video_check.py`, R0 to R11), on the timed takes | 0 FAIL, 0 WARN, 11 INFO |
+| Text checker (`scripts/readme_video_check.py`, R0 to R11), on the timed takes | 0 FAIL, 1 WARN (card 4 has no take yet), 11 INFO |
 | Brand-line-producer | PASS (wrap-lint, tokens, motion, card-gutter, Impeccable, 0 em-dashes), after two BLOCK rounds |
 | R1 prose claims, human pass | Done card by card against the README section; every line traces to it |
 | R7 register, human pass | Done: no royal we, no hype, sentence case |
@@ -22,4 +22,4 @@ disputed: the rules doc, rule 1, allows it for references, and Zach's 2026-11-01
 (2) BLOCK, the lede inherited a tight line height in Impeccable's reading. Fixed with `line-height: 1.5`. (3) PASS.
 Seam: the template `tools/readme-video/arcs-v9/build.cjs` has the same h1 1.15 and the same lede with no line height.
 
-Names: Gravity and Louisville appear only as example builders; the My Ally hub is left out (declared in keep.json).
+Card 4 rewritten on Zach's ask (2026-11-11): where each part lands, by kind of part (text, style, refused), not by page; no page or client names remain. Its first take is kept as voice/04.v1-by-page.mp3 (gitignored) and card 4 falls back to the system voice until it is re-voiced. On the new card 4: Impeccable rc 0, wrap lint and card gutter clean; the brand-line-producer has not re-read it yet.
