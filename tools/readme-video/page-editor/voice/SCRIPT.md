@@ -16,7 +16,7 @@ Double-click text to edit it. Move the sliders. Then copy what changed: the edit
 
 ## 04
 
-Where does each change land? Text goes to the first source that holds it, edited in place, so a one-field change is a one-line diff. Tokens and wrapping go to a tuned block in the stylesheet; a page with no tuner tokens refuses them. Computed text is in no source, so it is refused, and named.
+Where does each change land? Text goes back to the first source that holds it. Tokens and wrapping go to the place the builder names, usually a tuned block; a page with no tuner tokens refuses them. Computed text is in no source, so it is refused, and named.
 
 ## 05
 

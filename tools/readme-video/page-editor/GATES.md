@@ -22,4 +22,9 @@ disputed: the rules doc, rule 1, allows it for references, and Zach's 2026-11-01
 (2) BLOCK, the lede inherited a tight line height in Impeccable's reading. Fixed with `line-height: 1.5`. (3) PASS.
 Seam: the template `tools/readme-video/arcs-v9/build.cjs` has the same h1 1.15 and the same lede with no line height.
 
-Card 4 rewritten on Zach's ask (2026-11-11): where each part lands, by kind of part (text, style, refused), not by page; no page or client names remain. Its first take is kept as voice/04.v1-by-page.mp3 (gitignored) and card 4 falls back to the system voice until it is re-voiced. On the new card 4: Impeccable rc 0, wrap lint and card gutter clean; the brand-line-producer has not re-read it yet.
+Card 4 rewritten on Zach's ask (2026-11-11): where each part lands, by kind of part (text, style, refused), not by page; no page or client names remain. Its first take is kept as voice/04.v1-by-page.mp3 (gitignored) and card 4 falls back to the system voice until it is re-voiced. On the new card 4: Impeccable rc 0, wrap lint and card gutter clean; the brand-line-producer BLOCKED it once (two overclaims in the v2 wording, already voiced), then PASSED the fixed wording.
+
+Seam (kintsugi): card 4's v2 wording was voiced before the brand gate read it, and the gate then found two claims wider than the
+README. The checker cannot see prose overreach (R1 is a human pass), so the skill's order (brand gate at stage 8, after voice)
+let 312 credits buy a take that overclaims. Cheapest fix: run the brand-line-producer's claim check on SCRIPT.md before every
+stage 5 spend, including a re-voice of a single card.
