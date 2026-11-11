@@ -1,17 +1,17 @@
-# Gate report: live page editor walkthrough (draft, system voice)
+# Gate report: live page editor walkthrough
 
 Source (the ceiling): `src/ui-kit/tabbed-brief/README.md`, "Tuning by hand (internal only)", as hardened in PR 2136.
-Six cards, 100.5 s with the macOS `say` draft voice. No paid takes exist yet.
+Six cards, 114.9 s, in Zach's voice clone (takes in `voice/TAKES.md`).
 
 | Gate | Result |
 |---|---|
-| Text checker (`scripts/readme_video_check.py`, R0 to R11) | 0 FAIL, 6 WARN, 11 INFO |
+| Text checker (`scripts/readme_video_check.py`, R0 to R11), on the timed takes | 0 FAIL, 0 WARN, 11 INFO |
 | Brand-line-producer | PASS (wrap-lint, tokens, motion, card-gutter, Impeccable, 0 em-dashes), after two BLOCK rounds |
 | R1 prose claims, human pass | Done card by card against the README section; every line traces to it |
 | R7 register, human pass | Done: no royal we, no hype, sentence case |
-| Stage 6 audio gate | NEXT: not built; needs Zach's ear once the takes exist |
+| Stage 6 audio gate | NEXT: not built; Zach listens once and says so (not done yet) |
 
-WARN left as is: R8 on all six cards, "no recorded take; build falls back to a system voice". Expected before stage 5.
+R8: every card's video stream equals its take plus the 0.8 s pad (measured with ffprobe, v:0).
 
 INFO: R3 numbers on screen but not said (route labels, port 8799, list counts); R6 acronyms JSON, CSS, URL to confirm by ear;
 R2 narration stems not in the README (both, depends, flag, itself, land, local, puts, style, them, your), read as wording, not
