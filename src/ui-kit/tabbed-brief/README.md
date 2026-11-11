@@ -66,6 +66,27 @@ action to a missing tab or section, and any em-dash.
 
 ## Tuning by hand (internal only)
 
+The live page editor (`src/ui-kit/token-tuner.js`) lets you move layout sliders and edit text on a rendered page, then hands
+the changes back to the page's source. A built page is never edited by hand. There are two ways in.
+
+**Route 1, the builder (every slider, text by data field).** Run the page's builder with `--tune OUT.html` (an internal copy;
+it refuses any path under `public/`). Serve the folder (`python3 -m http.server --directory /some/scratch`) and open the copy
+with `?tune&edit`. Double-click text to edit it, move the sliders, then press Copy edits, Copy JSON or Copy CSS (or Drop
+breadcrumb, then Export versions). Save what you copied to a file and run the same builder with `--apply FILE`.
+
+**Route 2, the bookmarklet (any page, text only).** Run `python3 scripts/tune_serve.py`, open http://127.0.0.1:8799/ and drag
+"ARCS tune" to the bookmarks bar. Click it on any page: the tuner runs in that page without the page carrying it. Double-click
+text, Copy edits, save it, then `python3 scripts/tune_serve.py --apply URL edits.json`. When the file behind the URL is built
+by a script, it refuses and names that script, so the edit goes to the builder's source instead (Louisville and the My Ally hub
+are routed to their source for you). Limit: the bookmarklet loads after the page's own scripts, so JS-side breakpoints do not
+follow the slider; CSS `@media` rules do. Re-drag it after `token-tuner.js` changes.
+
+**Guards.** Old text must be found exactly once in the source, or nothing is written. `page_gate.py --counterpart` fails any page
+that still carries the tuner. A moved container width (and, on builders with no data breakpoint, a moved media width) is
+reported "set in source by hand"; it is not written.
+
+The rest of this section is the builder route in detail, starting with this builder.
+
 `python3 scripts/tabbed_brief_build.py DATA.json --tune /some/scratch/name.html` writes an internal copy (it refuses `public/`).
 Serve that folder and open a page with `?tune&edit`:
 

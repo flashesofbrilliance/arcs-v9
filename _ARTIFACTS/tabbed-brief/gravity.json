@@ -15,8 +15,8 @@
  "overview": {
   "label": "Overview",
   "headline": [
-   "Your idea engine fills the funnel.",
-   "ARCS tests the top and de-risks the bottom."
+   "The filter is the hard part.",
+   "I keep the record of which calls held up."
   ],
   "tiles": [
    {
@@ -108,32 +108,20 @@
         ]
        },
        {
-        "label": "Salvo, 2026-11-10: 30,000 runs each way",
+        "label": "How I tested the call, 2026-11-10",
         "judgment": true,
         "rows": [
          {
-          "chip": "Bomb",
+          "chip": "Wording",
           "tone": "gold",
-          "signal": "Ruin, one-way doors (BAR)",
-          "text": "Holds. The stake is a public call, not a build; any build is time-boxed."
+          "signal": "The odds moved with the wording",
+          "text": "When I first wrote the call, the odds read 0.24 to 0.62 depending on wording, so I wrote the resolution rule above before picking a number. The base rate of a network rule drives most of what spread is left; I re-mark at each Visa and Mastercard rules release."
          },
          {
-          "chip": "Fire",
+          "chip": "Conflict",
           "tone": "gold",
-          "signal": "Cross-examination (COURT, Loki)",
-          "text": "Leaked: no resolution rule, so the odds read 0.24 to 0.62 by wording. Fixed: the rule above. As written, the middle 90% of runs is 0.17 to 0.46; 1 in 3 sits inside."
-         },
-         {
-          "chip": "Water",
-          "tone": "gold",
-          "signal": "Drift over time (LAB, KKL)",
-          "text": "Leaks: the base rate of a network rule drives most of the spread. I re-mark the odds at each Visa and Mastercard rules release."
-         },
-         {
-          "chip": "Air gap",
-          "tone": "gold",
-          "signal": "Conflict of interest (Funhouse)",
-          "text": "Leaked: I build the remedy and grade my own call. Fixed: the interest is stated, Gravity resolves, and the Put no longer overstates what ARCS writes."
+          "signal": "I build the thing that would benefit",
+          "text": "So I am not the one who should grade it. Gravity resolves it, and the Put says what ARCS does not do yet."
          }
         ]
        },
@@ -195,7 +183,7 @@
        },
        {
         "title": "The agent-payments wedge",
-        "text": "When an AI agent sends stablecoins, the send is final. Policy engines log which rule allowed it, not what the agent intended or whether it came true. ARCS already writes a cousin of that record for human decisions: what was asked, why, and what happened."
+        "text": "A regulated stablecoin can be frozen, but not charged back, and nothing records what the user told the agent. When a send goes wrong, the issuer can freeze it with no record of intent to rule on. ARCS already writes a cousin of that record for human decisions: what was asked, why, and what happened."
        }
       ]
      }
@@ -293,7 +281,11 @@
    }
   ],
   "bites_source": "[More recommendations](https://zachharris.xyz)",
-  "bites_still": true
+  "bites_still": true,
+  "lede": [
+   "I'm Zach Harris, a crypto product lead (10 regulated products at Grayscale), applying to Gravity Labs. Each open seat has its own page below; if one fits, I'd like a conversation with whoever owns that hire.",
+   "Why: [your Idea Engine post](https://kylelibra.substack.com/p/how-to-find-startup-ideas) (2026-09-21) says tuning the filter is the hardest part. ARCS is a tool I built that keeps a dated record of each call and whether it came true."
+  ]
  },
  "tabs": [
   {
@@ -301,8 +293,8 @@
    "label": "Principal",
    "name": "Principal, New Ventures",
    "tagline": "My strongest fit",
-   "headline": "Break the CEO bottleneck.",
-   "lede": "Your page: own hatches end to end, so ideas stop queuing at the CEO. Builder, not researcher or investor.",
+   "headline": "Own a hatch end to end, from memo to launch.",
+   "lede": "Your page: own hatches end to end, from memo to launch. Builder, not researcher or investor.",
    "units": [
     {
      "title": "30 / 90 / 180",
@@ -560,7 +552,7 @@
         {
          "title": "Receipts for agent spend",
          "ref": "A hypothesis, not a pitch.",
-         "text": "When an AI agent moves stablecoins, every send is final. Policy engines log which rule allowed it, not what the agent expected or whether it came true. That gap is the wedge."
+         "text": "A regulated stablecoin can be frozen, but not charged back, and nothing records what the user told the agent. Policy engines log which rule allowed a send, not what the agent expected or whether it came true. That gap is the wedge."
         },
         {
          "title": "First user, and why it is not built",
@@ -834,5 +826,5 @@
   }
  ],
  "pages": true,
- "default_theme": "dark"
+ "default_theme": "light"
 }
