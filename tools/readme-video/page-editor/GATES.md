@@ -1,11 +1,11 @@
 # Gate report: live page editor walkthrough
 
 Source (the ceiling): `src/ui-kit/tabbed-brief/README.md`, "Tuning by hand (internal only)", as hardened in PR 2136.
-Six cards, 114.9 s, in Zach's voice clone (takes in `voice/TAKES.md`).
+Six cards, 111.1 s, in Zach's voice clone (takes in `voice/TAKES.md`).
 
 | Gate | Result |
 |---|---|
-| Text checker (`scripts/readme_video_check.py`, R0 to R11), on the timed takes | 0 FAIL, 1 WARN (card 4 has no take yet), 11 INFO |
+| Text checker (`scripts/readme_video_check.py`, R0 to R11), on the timed takes | 0 FAIL, 0 WARN, 11 INFO |
 | Brand-line-producer | PASS (wrap-lint, tokens, motion, card-gutter, Impeccable, 0 em-dashes), after two BLOCK rounds |
 | R1 prose claims, human pass | Done card by card against the README section; every line traces to it |
 | R7 register, human pass | Done: no royal we, no hype, sentence case |
