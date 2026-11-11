@@ -50,12 +50,15 @@
   ];
   // plain names for the tokens; a page's data-tune-labels map wins over these
   var NAMES = {
-    '--measure': 'Body text width', '--sp-1': 'Tightest spacing', '--sp-2': 'Small spacing', '--sp-3': 'Medium spacing',
-    '--sp-4': 'Space between blocks', '--sp-5': 'Space between sections', '--gap': 'Gap between cards and columns',
-    '--fs-step': 'Heading size steps', '--fs-body': 'Body text size', '--lh': 'Line spacing', '--ls': 'Letter spacing'
+    '--measure': 'Text column width', '--sp-1': 'Tiny gap (inside a line or label)', '--sp-2': 'Small gap (between lines in a card)',
+    '--sp-3': 'Medium gap (between paragraphs)', '--sp-4': 'Large gap (between blocks)', '--sp-5': 'Section gap (between page sections)',
+    '--gap': 'Space between columns and cards', '--fs-step': 'Heading and callout size', '--fs-body': 'Body text size',
+    '--lh': 'Line spacing', '--ls': 'Letter spacing'
   };
+  // what a reader sees for a value: px as is, rem as "× normal" (1rem is the normal text size), a bare ratio as "×"
+  function show(n, unit) { var v = Math.round(n * 1000) / 1000; return unit === 'rem' ? v + ' × normal' : unit === '' ? v + '×' : v + (unit === 'px' ? ' px' : unit); }
   // text-wrap groups: one select each, applied with one injected rule
-  var WRAPS = [['Headings', ':is(h1,h2,h3,h4)', 'Heading line breaks'], ['Body', ':is(p,li,dd)', 'Paragraph line breaks']];
+  var WRAPS = [['Headings', ':is(h1,h2,h3,h4)', 'How headings break across lines'], ['Body', ':is(p,li,dd)', 'How paragraphs break across lines']];
   var WRAP_OPTS = [['', 'As the page sets it'], ['balance', 'Even line lengths'], ['pretty', 'Avoid one word alone on the last line'], ['wrap', 'Plain wrapping'], ['stable', 'Plain, steady while typing']];
   var root = document.documentElement;
   var KEY = 'arcsTokenTuner:' + location.pathname, VKEY = 'arcsTokenTuner:versions:' + location.pathname;
@@ -453,17 +456,26 @@
     var PAGE_LABELS = {};
     try { var lj = document.querySelector('script[type="application/json"][data-tune-labels]'); if (lj) PAGE_LABELS = JSON.parse(lj.textContent) || {}; } catch (e) { /* a broken map falls back to generated names */ }
     function plain(raw, fallback) { return PAGE_LABELS[raw] || fallback || raw; }
-    function bpName(k) { return 'Layout switch at ' + k + 'px (' + (k <= 480 ? 'small phones' : k <= 800 ? 'phones' : k <= 1100 ? 'tablets' : 'wide screens') + ')'; }
-    // a container query gets the name of what it styles: ".offer-card .pnote" -> "Offer card pnote"
+    function bpName(k) { return 'Below ' + k + ' px, ' + (k <= 480 ? 'small phone' : k <= 800 ? 'phone and small tablet' : k <= 1100 ? 'tablet and small laptop' : 'laptop'); }
+    // the first few words of the element a rule styles, e.g. "If it fits the…"
+    function words(sel) {
+      var el = null;
+      try { el = sel && document.querySelector(sel.split(',')[0]); } catch (e) {}
+      var t = el ? (el.innerText || el.textContent).replace(/\s+/g, ' ').trim().split(' ') : [];   // innerText keeps the gaps between cells
+      return t.length ? '"' + t.slice(0, 5).join(' ') + (t.length > 5 ? '…' : '') + '"' : '';
+    }
+    // a container query is named after where it lives on the page: 'Where "If it fits the…" sits, below 40 × normal'
     function contName(k) {
-      var sel = '';
+      var w = '';
       contRules.some(function (c) {
         var r; CQ_RE.lastIndex = 0;
-        while ((r = CQ_RE.exec(c.orig))) if (ckey(+r[2], r[3]) === k && c.rule.cssRules && c.rule.cssRules[0]) { sel = c.rule.cssRules[0].selectorText || ''; return true; }
+        while ((r = CQ_RE.exec(c.orig))) if (ckey(+r[2], r[3]) === k) {
+          [].some.call(c.rule.cssRules || [], function (s) { w = words(s.selectorText); return !!w; });
+          if (w) return true;
+        }
         return false;
       });
-      var words = sel.split(',')[0].replace(/[.#>:+~\[\]()="*]/g, ' ').replace(/[-_]+/g, ' ').trim().replace(/\s+/g, ' ');
-      return words ? 'Layout of ' + words.charAt(0).toUpperCase() + words.slice(1) + ' below ' + ckeys[k].v + ckeys[k].u : null;
+      return (w ? 'Where ' + w + ' sits, below ' : 'Card layout, below ') + show(ckeys[k].v, ckeys[k].u) + ' wide';
     }
     function lockBtn(r, id, name) {
       r.id = id;
@@ -578,7 +590,7 @@
       cKeys.forEach(function (k) {
         var c = ckeys[k], row = document.createElement('div'); row.classList.add('r');
         var rem = c.u === 'rem', step = rem ? 0.25 : 4, min = rem ? 10 : 160, max = Math.max(rem ? 100 : 1600, c.v);
-        var nm = plain(c.v + c.u, contName(k) || 'Card layout switch at ' + c.v + c.u);
+        var nm = plain(c.v + c.u, contName(k));
         row.innerHTML = '<label for="ttbp' + k.replace('.', '_') + '" title="' + esc('@container width ' + c.v + c.u) + '">' + esc(nm) + '</label><output></output>' +
           '<input type="range" id="ttbp' + k.replace('.', '_') + '" min="' + min + '" max="' + max + '" step="' + step + '">';
         var r = { key: k, orig: c.v, unit: c.u, input: row.querySelector('input'), out: row.querySelector('output'), row: row };
@@ -667,7 +679,7 @@
       var changed = Math.abs(v - r.orig) > 1e-9;
       if (changed) root.style.setProperty(r.name, fmt(v, r.unit));
       else root.style.removeProperty(r.name);
-      r.out.textContent = fmt(v, r.unit) + (changed ? ' (was ' + fmt(r.orig, r.unit) + ')' : '');
+      r.out.textContent = show(v, r.unit) + (changed ? ' (was ' + show(r.orig, r.unit) + ')' : '');
       r.row.classList.toggle('changed', changed);
       if (!quiet) refresh();
     }
@@ -675,7 +687,7 @@
       var o = r.orig != null ? r.orig : r.key, u = r.unit || 'px', v = parseFloat(r.input.value), changed = v !== o;
       if (changed) BP[r.key] = v; else delete BP[r.key];
       applyBP();
-      r.out.textContent = v + u + (changed ? ' (was ' + o + u + ')' : '');
+      r.out.textContent = show(v, u) + (changed ? ' (was ' + show(o, u) + ')' : '');
       r.row.classList.toggle('changed', changed);
       if (!quiet) refresh();
     }
