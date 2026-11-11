@@ -32,7 +32,7 @@
    {
     "v": "23 of 32",
     "k": "Claims, public record",
-    "note": "Every claim about me links to its record; 8 on request, 1 not yet shown"
+    "note": "32 claims about my work, each linked to its record: 8 on request, 1 not yet shown"
    },
    {
     "v": "48",
@@ -59,7 +59,7 @@
         "[ARCS](https://app.arcs.care), with its [build history](https://status.arcs.care) and [beliefs ledger](https://status.arcs.care/beliefs): question in, dated record out. The one I am most excited about."
        ],
        [
-        "2026-09-02",
+        "2026-08-18",
         "[Notes from the Trenches](https://good.arcs.care/blog/nftt): 35 field notes since the first one."
        ],
        [
@@ -86,7 +86,7 @@
     "blocks": [
      {
       "type": "p",
-      "text": "[Kyle Libra's Idea Engine post](https://kylelibra.substack.com/p/how-to-find-startup-ideas): a good memo 6x faster than six months ago, some still unusable. Its footnote 4 is about tuning the agents' filters, and says that is getting easier. I work one step later: for each memo that passes or dies, a dated note of what it expected and whether that came true."
+      "text": "[Kyle Libra's Idea Engine post](https://kylelibra.substack.com/p/how-to-find-startup-ideas): a good memo 6x faster than six months ago; the raw drafts are at times unusable. Its footnote 4 is about tuning the agents' filters, and says that is getting easier. I work one step later: for each memo that passes or dies, a dated note of what it expected and whether that came true."
      },
      {
       "type": "cards",
@@ -98,11 +98,11 @@
        {
         "title": "How I would test Coda",
         "ref": "From your portfolio page's one line; you know more. Written 2026-11-10.",
-        "text": "[Kyle's everything-bank post](https://kylelibra.substack.com/p/the-race-to-be-the-new-everything) puts net interest income at about 54% of JPM's revenue. I'd test whether that, more than compliance, is what keeps banks from taking crypto deposits. 15 calls with bank digital-asset and compliance leads; kill it if fewer than 2 will sign a pilot letter of intent. Under two weeks and $10k."
+        "text": "[Kyle's everything-bank post](https://kylelibra.substack.com/p/the-race-to-be-the-new-everything) puts net interest income at about 54% of JPM's Q4 2024 revenue. I'd test whether that, more than compliance, is what keeps banks from taking crypto deposits. 15 calls with bank digital-asset and compliance leads; kill it if fewer than 2 will sign a pilot letter of intent. Under two weeks and $10k."
        },
        {
         "title": "The agent-payments wedge",
-        "text": "A stablecoin send has no chargeback, and issuers freeze on legal process, not on a customer's complaint. Spend rules record what the agent was allowed to do. Nothing records what it expected or whether that came true. That second half is the wedge."
+        "text": "A stablecoin send has no chargeback, and stablecoin issuers freeze on legal process, not on a customer's complaint. Spend rules record what the agent was allowed to do. Nothing records what it expected or whether that came true. That second half is the wedge."
        }
       ]
      }
@@ -152,7 +152,7 @@
           "chip": "Rules",
           "tone": "plain",
           "signal": "Who owns distribution",
-          "text": "Coinbase owns the user and started x402; Visa and Mastercard are the toll road. My read: whoever owns the user and eats the loss writes the liability rule into the rail's rulebook, not the issuer of the dollar."
+          "text": "My read: the liability rule gets written where the loss lands. On cards that is Visa and Mastercard's rulebook, pushed by the card issuers who eat the fraud. On-chain there is no rulebook yet. The call below counts only the card side, because I can check it."
          }
         ]
        },
@@ -188,7 +188,7 @@
           "chip": "Wording",
           "tone": "gold",
           "signal": "The odds moved with the wording",
-          "text": "When I first wrote the call, the odds read 0.24 to 0.62 depending on wording, so I wrote the resolution rule above before picking a number. The base rate of a network rule drives most of what spread is left; I re-mark at each Visa and Mastercard rules release."
+          "text": "My own estimate swung from about 1 in 4 to about 3 in 5 depending on how the rule was worded, so I wrote the resolution rule above before picking a number. The inputs were my judgment, not data; the simulation is on request. The base rate of a network rule drives most of what spread is left; I re-mark at each Visa and Mastercard rules release."
          },
          {
           "chip": "Conflict",
@@ -215,16 +215,16 @@
           "text": "Visa and Mastercard run agent payments on tokenized cards ([PYMNTS](https://www.pymnts.com/credit-cards/2026/cards-make-their-case-in-an-agentic-world/)). None of it shows on-chain, so on-chain volume undercounts agent demand."
          },
          {
-          "chip": "Inlier",
+          "chip": "Undercount",
           "tone": "gold",
           "signal": "Untested",
           "text": "An operator's agents paying its own services look like wash trades, so the strict filter may drop real use. I have not tested this."
          },
          {
-          "chip": "AML/KYC",
+          "chip": "Overtaken",
           "tone": "gold",
           "signal": "Someone else closes the gap",
-          "text": "If wallet providers ship mandate logs first, the gap closes without me."
+          "text": "If spend-rule vendors start logging what the agent expected next to what happened, the gap closes without me."
          }
         ]
        }
@@ -260,7 +260,7 @@
           "chip": "Running",
           "tone": "cyan",
           "signal": "ARCS",
-          "text": "[The tool these records come from](https://app.arcs.care): you ask a question; it writes a dated record. [5 outside users, 10 saved decisions, 0 outcomes closed yet](https://status.arcs.care) as of 2026-11-04. Nobody outside has used the outcome loop."
+          "text": "[The tool these records come from](https://app.arcs.care): you ask a question; it writes a dated record. [11 saved decisions from outside users, 0 outcomes closed](https://status.arcs.care); 5 people behind them, from a production read on request. Nobody outside has logged an outcome yet."
          }
         ]
        },
@@ -277,7 +277,7 @@
           "chip": "Proof",
           "tone": "cyan",
           "signal": "Don't trust, verify",
-          "text": "[Every claim I make about myself](https://zach.md/proof), each linked to its record: 23 public, 8 on request, and the 1 I cannot show yet, named."
+          "text": "[32 claims about my work](https://zach.md/proof), each linked to its record: 23 public, 8 on request, and the 1 I cannot show yet, named."
          },
          {
           "chip": "Essays",
@@ -289,7 +289,7 @@
           "chip": "Calls",
           "tone": "cyan",
           "signal": "Falsifiable predictions, scored",
-          "text": "From 20 dated calls in my LinkedIn articles since January (the ledger is on request): 9 resolved, 2 hit, 1 partly, 6 missed; 9 still open, 2 unverified. My 85 to 90% crypto calls ran hot, so every call now ships with its falsifier and a lower number, like the 1 in 3 above. Method: [seven calls, seven falsifiers](https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers). Same shape as Mogg, a dated YES or NO resolved by the world, but mine is 20 calls since January, not 10 a day."
+          "text": "From 20 calls in my LinkedIn articles since January (ledger on request): 9 resolved, 2 hit (one weak), 1 partly, 6 missed; 9 open, 2 unverified. The falsifiers held; my 85 to 90% confidence did not, so every new call ships with a lower number, like the 1 in 3 above. Method: [seven calls, seven falsifiers](https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers). Same shape as Mogg, a dated YES or NO resolved by the world, but 20 calls in ten months, not 10 a day."
          }
         ]
        },
@@ -416,7 +416,7 @@
         {
          "title": "Tests written before they run",
          "ref": "Built: tests written before they run, run once, failures published.",
-         "text": "Every kill test is written before it runs. A failed test still pays: the next thesis starts from what it ruled out."
+         "text": "A failed test still pays: the next thesis starts from what it ruled out."
         }
        ]
       }
@@ -454,7 +454,7 @@
         ],
         [
          "A high kill rate",
-         "In October I wrote a retrieval benchmark before running it, ran it once, published every failure, and merged the one change that passed. Overturned beliefs are dated on a [public timeline](https://status.arcs.care/beliefs); the test behind each is on request."
+         "In October I wrote a retrieval benchmark before running it, ran it once, and kept every failure in the record (on request). Overturned beliefs are dated on a [public timeline](https://status.arcs.care/beliefs); the test behind each is on request."
         ]
        ]
       }
@@ -469,7 +469,7 @@
         {
          "title": "Coda Network: the riskiest assumption",
          "ref": "From the one-line description on your portfolio page; the team will know more.",
-         "text": "[Kyle's everything-bank post](https://kylelibra.substack.com/p/the-race-to-be-the-new-everything) puts net interest income at about 54% of JPM's revenue. I'd test whether that, more than compliance, is what keeps banks from taking crypto deposits."
+         "text": "[Kyle's everything-bank post](https://kylelibra.substack.com/p/the-race-to-be-the-new-everything) puts net interest income at about 54% of JPM's Q4 2024 revenue. I'd test whether that, more than compliance, is what keeps banks from taking crypto deposits."
         },
         {
          "title": "The kill test: under two weeks, under $10k",
@@ -596,7 +596,7 @@
         {
          "title": "Receipts for agent spend",
          "ref": "A hypothesis, not a pitch.",
-         "text": "A stablecoin send has no chargeback, and issuers freeze on legal process, not on a customer's complaint. Spend rules record what the agent was allowed to do. Nothing records what it expected or whether that came true. That second half is the wedge."
+         "text": "A stablecoin send has no chargeback, and stablecoin issuers freeze on legal process, not on a customer's complaint. Spend rules record what the agent was allowed to do. Nothing records what it expected or whether that came true. That second half is the wedge."
         },
         {
          "title": "First user, and why it is not built",
@@ -605,7 +605,7 @@
         {
          "title": "Kill it if",
          "ref": "Kill rule, written before any calls.",
-         "text": "Fewer than 3 of 15 teams piloting agent payments say the approval trail is what keeps them from going live."
+         "text": "Fewer than 3 of 15 teams piloting agent payments say that not knowing what the agent expected, checked against what happened, keeps them from going live."
         }
        ]
       }
@@ -792,7 +792,7 @@
       },
       {
        "type": "p",
-       "text": "Every pass is logged with its reasons and rechecked as markets move. A wrong pass surfaces before you miss the next one like it. The call stays yours, and comes faster."
+       "text": "Every pass would be logged with its reasons and a recheck date. The bet is that a recheck finds a pass worth reopening; the two-week test below says whether it does. The call stays yours."
       },
       {
        "type": "p",
