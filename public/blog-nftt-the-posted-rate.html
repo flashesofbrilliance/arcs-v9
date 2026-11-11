@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>The Posted Rate · NFTT</title>
+<meta property="article:published_time" content="2026-09-02T16:37:28-04:00">
+<meta name="description" content="A narrated video cost 32 cents in voice credits, and only one of the four parts of the build posted a rate before the spend.">
+<meta name="robots" content="index">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#748699;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --red:#FF4D6D; --gold:#FFD700;
+    --redact:#26303d;
+    --serif:"Newsreader","Newsreader Fallback",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono","IBM Plex Mono Fallback",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; font-weight:400;
+    -webkit-font-smoothing:antialiased; letter-spacing:.005em;
+  }
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+
+  /* classification rails */
+  .cls{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--dim); display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+    border-bottom:1px solid var(--border); padding:12px 0; margin-bottom:44px}
+  .cls b{color:var(--red); font-weight:600}
+  .cls .sp{margin-left:auto}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block}
+
+  header.hero{padding-block:20px 10px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.6rem,8vw,4.1rem); line-height:1.02;
+    letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  h1 em{font-style:italic; font-weight:500; color:var(--cyan)}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic;
+    margin:0 0 8px; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:52px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim);
+    display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em;
+    margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px}
+  .lead::first-letter{
+    font-weight:600; font-size:3.5em; line-height:.82; float:left;
+    padding:.02em .09em 0 0; color:var(--cyan);
+  }
+  em{font-style:italic}
+  .vox{font-style:italic; color:var(--text)}
+
+  /* redaction */
+  .rd{background:var(--redact); color:transparent; border-radius:2px; padding:.02em .2em;
+    user-select:none; box-shadow:inset 0 0 0 1px var(--border-2); -webkit-user-select:none}
+  .rd::selection{background:var(--redact)}
+  .rdrow{display:inline-flex; gap:7px; flex-wrap:wrap; vertical-align:-2px; margin:0 .1em}
+  .rdrow span{background:var(--redact); border-radius:2px; height:1.05em; display:inline-block;
+    box-shadow:inset 0 0 0 1px var(--border-2)}
+
+  /* threat vector card */
+  .vector{border:1px solid color-mix(in srgb,var(--red) 32%,var(--border-2));
+    background:linear-gradient(180deg,rgba(255,77,109,.05),var(--bg)); border-radius:12px;
+    padding:22px 24px; margin:44px 0; font-family:var(--mono)}
+  .vector h3{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--red); font-weight:600; margin:0 0 4px; display:flex; align-items:center; gap:9px}
+  .vector .sub{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim);
+    margin:0 0 18px}
+  .vector dl{display:grid; grid-template-columns:auto 1fr; gap:9px 16px; margin:0; font-size:13px; line-height:1.5}
+  .vector dt{color:var(--cyan-dim); letter-spacing:.06em; text-transform:uppercase; font-size:10.5px; padding-top:2px; white-space:nowrap}
+  .vector dd{margin:0; color:var(--text)}
+  .vector dd .df{color:var(--muted)}
+  .vector .dispo{margin-top:16px; padding-top:14px; border-top:1px solid var(--border);
+    font-size:12px; color:var(--muted); letter-spacing:.04em}
+  .vector .dispo b{color:var(--gold); font-weight:600}
+  @media(max-width:520px){.vector dl{grid-template-columns:1fr; gap:3px 0} .vector dt{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan);
+    font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text)}
+
+  /* operational instrument panels, interleaved through the prose */
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2);
+    border-radius:10px; padding:20px 22px; margin:40px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 15px; font-weight:600; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .step b.df{color:var(--muted)}
+  .panel .step em{color:var(--cyan); font-style:italic}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:11.5px;
+    white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  /* ledger rows: single column, label as a heading with a divider (2026-09-29) */
+  .panel .step{grid-template-columns:1fr; gap:4px 0}
+  .panel .step .k{white-space:normal; border-top:1px solid var(--border); padding-top:14px; margin-top:10px}
+  .panel .step .k:first-child{border-top:0; padding-top:0; margin-top:0}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0}
+  .panel .sev{font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--red);
+    border:1px solid var(--red); border-radius:4px; padding:1px 6px; font-weight:600}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  footer{margin:64px 0 80px; padding-top:22px; border-top:1px solid var(--border);
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; color:var(--dim); line-height:1.9}
+  footer b{color:var(--muted); font-weight:500}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan);
+    text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px;
+    display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px;
+    display:block; margin-bottom:6px}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+  /* lede spans the full lane, edge to edge with the heading (design-full-width-lede-matches-heading) */
+  .standfirst{max-width:none}
+</style>
+<link rel="preload" href="/fonts/newsreader-normal-200-800-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* fonts_selfhost:begin (generated; edit scripts/fonts_selfhost.py) */
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-italic-200-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-italic-200-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-normal-200-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-normal-200-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader Fallback';src:local('Times New Roman'),local('Liberation Serif'),local('Tinos');size-adjust:105.48%;ascent-override:69.68%;descent-override:25.12%;line-gap-override:0.00%;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-400-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-400-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-500-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-500-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-600-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-600-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-700-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-700-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono Fallback';src:local('Courier New'),local('Liberation Mono'),local('Cousine');size-adjust:99.98%;ascent-override:102.52%;descent-override:27.50%;line-gap-override:0.00%;}
+/* fonts_selfhost:end */
+</style>
+
+<!-- tao-waiver: a proverb from this post (candidate: "a rate is a promise from the seller; a count is a fact about me") is held for Zach; minting is a canon decision -->
+<div class="wrap">
+  <div class="cls">
+    <span class="dot" aria-hidden="true"></span>
+    <span>Field Account</span>
+    <span>Receipts Included</span>
+    <span class="sp"><b>One rate in four</b></span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">Notes from the Trenches // A worked ledger</p>
+    <h1>The Posted Rate</h1>
+    <p class="standfirst">A two-minute video cost about a quarter, or so I read it. The booth said 32 cents. The gap is small, and it sent me looking for the rate on every other part of the build. Most parts had none.</p>
+    <p class="byline">Worked example: a narrated walkthrough of a live page editor, made 2026-11-11 &middot; Every number cites its record; the ones without a record say so</p>
+  </header>
+
+  <section>
+    <span class="num">I · The booth</span>
+    <p class="lead">A traveller at an exchange counter reads two numbers: the rate on the board before the trade, and the slip after it. If the slip disagrees with the board, something was charged that was not posted. The question I wanted to test was narrow. Does an AI-native build have a board for each of its parts, a quoted unit rate before the spend and a receipt after, so that cost can be read the way a traveller reads a rate?</p>
+    <p>The test case was small on purpose. Six cards, six lines of narration in a clone of my own voice, a render, a design gate run by a second model, and the session that drove all of it. Four facets: voice, model calls, review, render. Each one either had a posted rate or it did not.</p>
+  </section>
+
+  <section>
+    <span class="num">II · Voice had a board</span>
+    <p>The voice tool will price a line before it speaks it. Asked for an estimate on card one, it answered 211 credits for 4.22 US cents, and charged nothing. That one quote is the board: 0.02 cents a credit. Card one then billed at 211 credits, to the credit. Board and slip agreed.</p>
+    <p>The other five cards were never quoted. I extrapolated from card one by a rule of thumb, one credit per character, and came to about 1,540. The six takes billed 1,615, which is 75 over. The difference was the delivery tag at the head of each line, about twenty characters a card, which I had counted on card one and then forgot was a cost on every card. A rule of thumb is a rate I posted to myself. It was close, and it was not the board.</p>
+    <p>Then I read 1,615 credits as about a quarter. At the posted rate it is 32 cents. The tool had told me its rate; I converted at a rate I remembered. That is the oldest error at any counter, and it costs nothing to make when the sums are cents.</p>
+
+    <div class="panel">
+      <h4>Voice, board and slip</h4>
+      <div class="step">
+        <span class="k">Quote</span><b>card 1: 211 credits for 4.22 cents, so 0.02 cents a credit (estimate call, no charge)</b>
+        <span class="k">Slip, card 1</span><b>211 credits. Matched the quote exactly.</b>
+        <span class="k">Forecast, six</span><b>about 1,540 credits, by one credit a character. Not a quote.</b>
+        <span class="k">Slip, six</span><b>211 + 251 + 288 + 321 + 264 + 280 = 1,615 credits, about 32 cents. 75 over the forecast.</b>
+        <span class="k">My read</span><b>"about a quarter". Off by about 7 cents, at my rate, not the board's.</b>
+      </div>
+      <p>Source: the take ledger <code>voice/TAKES.md</code> and the tool's own estimate and billing replies in the session record.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">III · The price of a changed mind</span>
+    <p>After the takes were in, one card was rewritten. Its first take, 321 credits, was kept on disk and set aside. The new line was forecast at about 313 credits and billed at 312. The board was good again. Voice for the whole video came to 1,927 credits, about 38.5 cents, of which 321 bought a sentence I chose not to say.</p>
+    <p>A rate prices a take. It does not price a decision to take it again. That cost lives in the person, not in the booth.</p>
+  </section>
+
+  <section>
+    <span class="num">IV · Model calls had a count and no board</span>
+    <p>The session that wrote the cards, ran the gates, voiced the takes and cut the video made 62 calls to the model over about twenty-six minutes. The record counts every token. It wrote 44,861. It read 16,064,897 from cache, the same context handed back to itself call after call, about 358 tokens re-read for every one written. It wrote another 324,166 into the cache. Only 146 went in fresh.</p>
+    <p>None of that had a posted rate in the session. The work runs on a flat plan, so the marginal token reads as free until the plan's ceiling, where it reads as a stall. That ceiling has a history here: a weekly cap stopped a scheduled morning job on 2026-09-30 and 10-01. So the true unit is not cents. It is a share of a week. A traveller would call this a currency with no counter: you can count your coins exactly, and no one will tell you what they are worth until you run out.</p>
+    <blockquote>A rate is a promise from the seller. A count is a fact about me. Only one of them was on offer for most of the build.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">V · Review and render</span>
+    <p>The design gate was a second model, read-only, asked to pass or block the frames. It blocked twice, once on a heading's leading and once on a paragraph's line height, then passed, and was later asked to re-read the rewritten card. Its record: 24 calls, 16,600 tokens written, 1,661,140 read from cache, 187,933 written to cache. Same flat plan, same absent board.</p>
+    <p>The render ran on my own machine. Each full build, with the audio download and the text check folded into the same step, finished inside 21 seconds. The render alone was never timed on its own, and local compute posts no rate at all. It is the cheapest facet I can see and the one I cannot price.</p>
+
+    <div class="panel">
+      <h4>Four facets, one board</h4>
+      <div class="step">
+        <span class="k">Voice</span><b>posted: 0.02 cents a credit. Slip: 1,927 credits, about 38.5 cents.</b>
+        <span class="k">Model calls</span><b>unposted. Count: 62 calls; 44,861 out; 16,064,897 cache read; 324,166 cache write; 146 in.</b>
+        <span class="k">Review</span><b>unposted. Count: 24 calls; 16,600 out; 1,661,140 cache read; 187,933 cache write.</b>
+        <span class="k">Render</span><b>unposted. Each build step under 21 s wall, render not split out.</b>
+        <span class="k">My ear</span><b>unposted, and not yet spent: the one listen the audio gate asks for has not happened.</b>
+      </div>
+      <p>Token counts are summed from the session and subagent records up to 09:34 UTC, 2026-11-11, one count per model reply.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">VI · What the test says</span>
+    <p>The thesis holds for one facet in four, and even there only where I asked. The voice tool posts a rate and honours it: card one billed exactly at its quote. Where I skipped the quote and used my own rule, I was about 5 percent light; the rewrite, forecast the same way, landed within a credit. Where I converted in my head, I was about a fifth of the bill light.</p>
+    <p>For the rest, the thesis fails in an instructive way. The largest volume in the build, sixteen million tokens re-read, had no price on it in any currency I could spend. The facet with the cleanest board was the cheapest one. The exchange-rate habit is still worth keeping, but it has to be split in two. Where a board exists, read it before the trade and keep the slip. Where none exists, record the count in its own unit and mark the conversion unconfirmed, rather than invent a rate so the ledger looks whole.</p>
+    <p>The next build can do one thing better for almost nothing: ask for the quote on every line, not the first, since asking was free.</p>
+  </section>
+
+  <section>
+    <span class="num">VII · Unconfirmed</span>
+    <div class="panel">
+      <h4>Held out of the totals</h4>
+      <div class="step">
+        <span class="k">Plan</span><b>the flat plan is taken from my own notes (switched 2026-09-13), not re-checked on the day.</b>
+        <span class="k">Token dollars</span><b>no conversion: no per-token rate was posted in the session, and a list price would be a guess at what was not paid.</b>
+        <span class="k">Earlier drafts</span><b>work done before this session's record began is not counted.</b>
+        <span class="k">Render time</span><b>an upper bound only; the download and the check share the step.</b>
+        <span class="k">Credit plan</span><b>the 0.02 cents a credit is the tool's quote for this account on this day, not a list price.</b>
+      </div>
+    </div>
+  </section>
+
+  <div class="more">
+    <a href="https://good.arcs.care/blog/nftt">
+      <span class="lbl">More from the trenches</span>
+      Read the rest of the series &#8594;
+    </a>
+  </div>
+
+  <footer>
+    <b>Field account, 2026.</b> Every figure above cites the take ledger or the session record; figures without a record are listed as unconfirmed.<br>
+    No conversion is shown where no rate was posted.
+  </footer>
+</div>
+<script defer src="/_vercel/insights/script.js"></script>
+</html>
