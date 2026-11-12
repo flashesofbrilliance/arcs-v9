@@ -37,7 +37,7 @@ export default function ReportActions() {
   }
   return (
     <div
-      className="no-print"
+      data-print="hide"
       style={{ display: "flex", gap: 8, justifyContent: "flex-end", marginBottom: 14, flexWrap: "wrap" }}
     >
       <button type="button" style={btn} onClick={copy}>
@@ -50,7 +50,14 @@ export default function ReportActions() {
       >
         ⤓ EXPORT · SAVE AS PDF
       </button>
-      <style>{`@media print { .no-print { display: none !important } }`}</style>
+      {/* Print sheet for the report (inline styles cannot reach @page or the root).
+          Dark page, edge to edge: the root background paints the page margins, and
+          color-adjust keeps the dark tokens when "background graphics" is off.
+          Break rules live inline on the blocks (WarRoomReport, primitives). */}
+      <style>{`@media print {
+  @page { size: letter; margin: 14mm 0; background: ${t.case} }
+  html, body { background: ${t.case} !important; -webkit-print-color-adjust: exact; print-color-adjust: exact }
+}`}</style>
     </div>
   )
 }
