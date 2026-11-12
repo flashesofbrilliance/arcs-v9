@@ -217,6 +217,8 @@ for _name, _owns, _print, _row in [
 import recoil_decompose as decompose  # noqa: E402  (R7: J1 decompose, J2 verbs, J3 deconstruct)
 decompose.install(sys.modules[__name__])
 NotRun = decompose.NotRun
+PLUGINS = []  # stage modules after R7: each has install(svc) -> module and self_test(svc, check, snap)
+PLUGINS.append(__import__("recoil_stage_j4").install(sys.modules[__name__]))  # R8: J4 hypercube
 
 
 EM_DASH = chr(0x2014)
@@ -599,6 +601,8 @@ def self_test() -> int:
 
     # 7b. the real J1 to J3 stages (scripts/recoil_decompose.py)
     decompose.self_test(sys.modules[__name__], check, snap)
+    for plugin in PLUGINS:
+        plugin.self_test(sys.modules[__name__], check, snap)
 
     # 8. dry run on the Gasmi fixture through the real registry: validates via the v2 adapter, writes nothing
     gasmi = os.path.join(GENERATED, "2026-10-29-gasmi.json")
@@ -616,8 +620,8 @@ def self_test() -> int:
           "J1 decomposes Gasmi (UNCHANGED when a local run already did)")
     check(all(any(ln.startswith(f"{n} ") and "NOT RUN (dry run" in ln for ln in out) for n in ("J2", "J3")),
           "J2 and J3 report NOT RUN on a dry run (no model call)")
-    check(all(any(ln.startswith(f"{n} ") and "NOT BUILT" in ln for ln in out) for n in ORDER[3:8]),
-          "J4 to J8 report NOT BUILT")
+    check(all(any(ln.startswith(f"{n} ") and "NOT BUILT" in ln for ln in out)
+              for n in ORDER[3:8] if not STAGES[n].built), "J4 to J8 stages not yet built report NOT BUILT")
     check(any(ln.startswith("Render") for ln in out), "Render runs the existing renderer")
 
     print(f"\nself-test: {'PASS' if not fails else 'FAIL'} ({len(fails)} failing)")
