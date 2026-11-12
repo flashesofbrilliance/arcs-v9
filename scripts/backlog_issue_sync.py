@@ -28,13 +28,6 @@ tool, so the script works on files:
   debt pull --out FILE               # issues (label debt) -> ArtifactData batch writes (rows mirror
                                      # issues: title, severity, status, issue, url). One direction only.
 --check, --dry-run and board are read-only: they never write the backlog and never call gh.
-
-Reconcile mode (2026-11-12): the issue follows its row's state, read from origin/main.
-  reconcile [--json] [--file F]   # plan only (read-only, one `gh issue list`); exit 1 when actions are due
-  reconcile --apply               # DONE -> close completed; COMPOSTED/SUPERSEDED -> close not planned (with a
-                                  # comment naming the row); HELD/HOLDING -> label held; BLOCKED -> label blocked;
-                                  # held removed when the row leaves HELD/HOLDING. A closed issue on a live row is
-                                  # reported, never reopened. Never writes the backlog file.
 """
 from __future__ import annotations
 
@@ -229,85 +222,6 @@ def debt_pull(out: Path) -> int:
     return 0
 
 
-# Reconcile mode (2026-11-12, row ssot-cross-store-reconcile): the issue follows its row's state.
-# The row on origin/main is the SSOT (ADR-065); this only ever moves issues, never the backlog file.
-CLOSE_REASON = {"DONE": "completed", "COMPOSTED": "not planned", "SUPERSEDED": "not planned"}
-PARKED_LABEL = {"HELD": "held", "HOLDING": "held", "BLOCKED": "blocked"}
-
-
-def main_rows(path: Path | None) -> list[dict]:
-    """Rows as merged on origin/main (copies are written from main only), or from --file."""
-    if path:
-        text = path.read_text(encoding="utf-8")
-    else:
-        p = subprocess.run(["git", "show", "origin/main:_QUEUE/induced-backlog.jsonl"],
-                           capture_output=True, text=True, cwd=ROOT)
-        if p.returncode != 0:
-            raise RuntimeError(f"git show origin/main backlog: {p.stderr.strip()[:200]}")
-        text = p.stdout
-    return [json.loads(l) for l in text.splitlines() if l.strip()]
-
-
-def reconcile_plan(all_rows: list[dict], issues: list[dict]) -> list[dict]:
-    by_num = {i["number"]: i for i in issues}
-    plan = []
-    for r in all_rows:
-        n, st = r.get("gh_issue"), r.get("state", "")
-        if not (r.get("id") and n):
-            continue
-        i = by_num.get(int(n))
-        if not i:
-            plan.append({"kind": "missing", "row": r["id"], "issue": n, "state": st}); continue
-        labels = {l["name"] for l in i.get("labels", [])}
-        is_open = i.get("state") == "OPEN"
-        if st in CLOSE_REASON and is_open:
-            plan.append({"kind": "close", "row": r["id"], "issue": n, "state": st, "reason": CLOSE_REASON[st],
-                         "note": str(r.get("status_note", ""))[:300]})
-        elif st not in CLOSE_REASON and not is_open:
-            plan.append({"kind": "reopen?", "row": r["id"], "issue": n, "state": st})  # report only
-        if is_open and st in PARKED_LABEL and PARKED_LABEL[st] not in labels:
-            plan.append({"kind": "label", "row": r["id"], "issue": n, "state": st, "label": PARKED_LABEL[st]})
-        if "held" in labels and PARKED_LABEL.get(st) != "held":
-            plan.append({"kind": "unlabel", "row": r["id"], "issue": n, "state": st, "label": "held"})
-    return plan
-
-
-def reconcile(path: Path | None, apply: bool, as_json: bool) -> int:
-    all_rows = main_rows(path)
-    issues = json.loads(gh("issue", "list", "-R", REPO, "--state", "all", "--limit", "3000",
-                           "--json", "number,state,labels"))
-    plan = reconcile_plan(all_rows, issues)
-    acts = [p for p in plan if p["kind"] in ("close", "label", "unlabel")]
-    if as_json:
-        print(json.dumps({k: sum(1 for p in plan if p["kind"] == k)
-                          for k in ("close", "label", "unlabel", "reopen?", "missing")}))
-    else:
-        for p in plan:
-            extra = p.get("reason") or p.get("label") or ""
-            print(f"{'apply' if apply and p in acts else 'plan '} {p['kind']:<8} #{p['issue']:<5} {p['state']:<10} {extra:<12} {p['row']}")
-        print(f"reconcile: {len(acts)} action(s), {len(plan) - len(acts)} report-only")
-    if not apply:
-        return 1 if acts else 0
-    if any(p["kind"] == "label" for p in acts):
-        have = {l["name"] for l in json.loads(gh("label", "list", "-R", REPO, "-L", "300", "--json", "name"))}
-        if "held" not in have:
-            gh("label", "create", "held", "-R", REPO, "--color", "bfd4f2",
-               "--description", "Backlog row is parked (HELD/HOLDING); set by backlog_issue_sync.py reconcile")
-    for p in acts:
-        n = str(p["issue"])
-        if p["kind"] == "close":
-            comment = (f"Closed to match backlog row `{p['row']}` on origin/main, state **{p['state']}**."
-                       + (f"\n\n> {p['note']}" if p["note"] else "")
-                       + "\n\n_scripts/backlog_issue_sync.py reconcile; the backlog row is the SSOT (ADR-065)._")
-            gh("issue", "close", n, "-R", REPO, "--reason", p["reason"], "--comment", comment)
-        elif p["kind"] == "label":
-            gh("issue", "edit", n, "-R", REPO, "--add-label", p["label"])
-        else:
-            gh("issue", "edit", n, "-R", REPO, "--remove-label", p["label"])
-        print(f"done {p['kind']} #{n}", file=sys.stderr)
-    return 0
-
-
 def build_parser():
     import argparse
     ap = argparse.ArgumentParser(prog="backlog_issue_sync.py",
@@ -322,10 +236,6 @@ def build_parser():
     dp.add_argument("direction", choices=("push", "pull"))
     dp.add_argument("--rows", type=Path, help="push: ArtifactData out_dir holding <doc_id>.json rows")
     dp.add_argument("--out", type=Path, help="pull: where to write the batch-writes JSON")
-    rp = sub.add_parser("reconcile", help="issue state follows row state: close, label held (plan by default)")
-    rp.add_argument("--apply", action="store_true", help="run the planned gh close/label calls")
-    rp.add_argument("--json", action="store_true", help="print counts as one JSON line (for /loops)")
-    rp.add_argument("--file", type=Path, help="read rows from this file instead of origin/main")
     return ap
 
 
@@ -346,10 +256,6 @@ def main(argv: list[str]) -> int:
         if not a.out:
             ap.error("debt pull needs --out FILE")
         return debt_pull(a.out)
-    if a.cmd == "reconcile":
-        if a.check or a.dry_run:
-            ap.error("reconcile plans by default (exit 1 when actions are due); --apply runs them")
-        return reconcile(a.file, a.apply, a.json)
     if a.cmd == "board" and (a.check or a.dry_run):
         ap.error("board takes no --check/--dry-run")
     all_rows = rows()
@@ -425,48 +331,6 @@ def self_test() -> int:
         rows_after = [json.loads(l) for l in backlog.read_text(encoding="utf-8").splitlines() if l.strip()]
         ok("real sync (stubbed gh) writes the number back", r.returncode == 0 and rows_after[0].get("gh_issue") == 42)
         ok("real sync called gh issue create once", log.exists() and log.read_text().count("issue create") == 1)
-
-        # reconcile: rows on a fixture file, gh stub answers `issue list` / `label list` with fixtures
-        fx = tmp / "rows.jsonl"
-        fx.write_text("".join(json.dumps(x) + "\n" for x in [
-            {"id": "done-row", "state": "DONE", "gh_issue": 1, "status_note": "DONE: landed"},
-            {"id": "compost-row", "state": "COMPOSTED", "gh_issue": 2},
-            {"id": "held-row", "state": "HELD", "gh_issue": 3},
-            {"id": "blocked-row", "state": "BLOCKED", "gh_issue": 4},
-            {"id": "ok-row", "state": "OPEN", "gh_issue": 5},
-            {"id": "unheld-row", "state": "READY", "gh_issue": 6},
-            {"id": "reopen-row", "state": "OPEN", "gh_issue": 7},
-            {"id": "in-sync", "state": "HELD", "gh_issue": 8}]), encoding="utf-8")
-        iss = [{"number": n, "state": s, "labels": [{"name": l} for l in ls]} for n, s, ls in [
-            (1, "OPEN", []), (2, "OPEN", []), (3, "OPEN", []), (4, "OPEN", []), (5, "OPEN", []),
-            (6, "OPEN", ["held"]), (7, "CLOSED", []), (8, "OPEN", ["held"])]]
-        (tmp / "issues.json").write_text(json.dumps(iss), encoding="utf-8")
-        gh.write_text('#!/bin/sh\necho "$@" >> "%s"\n'
-                      'case "$1 $2" in "issue list") cat "%s";; "label list") echo "[]";; '
-                      '*) echo https://github.com/x/y/issues/42;; esac\n' % (log, tmp / "issues.json"), encoding="utf-8")
-        log.unlink()
-        r = run("reconcile", "--file", str(fx))
-        ok("reconcile plan exits 1 when actions are due", r.returncode == 1 and "5 action(s)" in r.stdout)
-        ok("reconcile plan reports reopen without acting", "reopen? " in r.stdout and "#7" in r.stdout)
-        ok("reconcile plan calls only issue list", log.read_text().strip().splitlines() and
-           all(l.startswith("issue list") for l in log.read_text().strip().splitlines()))
-        r = run("reconcile", "--file", str(fx), "--json")
-        ok("reconcile --json counts", json.loads(r.stdout.strip().splitlines()[-1]) ==
-           {"close": 2, "label": 2, "unlabel": 1, "reopen?": 1, "missing": 0})
-        ok("reconcile with --check exits 2", run("--check", "reconcile").returncode == 2)
-        log.unlink()
-        fx_before = _snapshot([fx])
-        r = run("reconcile", "--file", str(fx), "--apply")
-        calls = log.read_text()
-        ok("apply closes DONE as completed", r.returncode == 0 and "issue close 1 -R" in calls and "completed" in calls)
-        ok("apply closes COMPOSTED as not planned", "issue close 2 -R flashesofbrilliance/arcs-v9 --reason not planned" in calls)
-        ok("apply labels held and blocked", "issue edit 3 -R flashesofbrilliance/arcs-v9 --add-label held" in calls
-           and "issue edit 4 -R flashesofbrilliance/arcs-v9 --add-label blocked" in calls)
-        ok("apply removes held from a live row", "issue edit 6 -R flashesofbrilliance/arcs-v9 --remove-label held" in calls)
-        ok("apply creates the held label when missing", "label create held" in calls)
-        ok("apply never touches in-sync or reopen issues", " 7 " not in calls and " 8 " not in calls
-           and "issue close 5" not in calls and "issue reopen" not in calls)
-        ok("apply never writes the rows file", _snapshot([fx]) == fx_before)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     print(f"backlog_issue_sync self-test: {total - fails}/{total}")
