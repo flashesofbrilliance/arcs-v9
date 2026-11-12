@@ -88,7 +88,7 @@ A copy never writes back to its owner. A copy that is newer than its owner count
 
 ### 4.2 Extend `scripts/backlog_issue_sync.py` (no new tool)
 
-Add a `reconcile` subcommand next to `debt pull`:
+Unbuilt proposal. Ground: today the script is create-only and never rewrites an issue (its docstring, `scripts/backlog_issue_sync.py` lines 2-12, on origin/main `1992584b`), which is why the 25 closes in appendix A1 never happened. Add a `reconcile` subcommand next to `debt pull`:
 
 - `reconcile --check`: read-only; exit 1 on any row/issue mismatch; print the counts in section 1's first five rows. Pure `gh issue list` plus the backlog file.
 - `reconcile --dry-run` (default): print each planned `gh` call.
