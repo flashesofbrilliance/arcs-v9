@@ -945,7 +945,11 @@
         ],
         "createdAt": "2026-11-09T20:00:00.000Z",
         "reason": "Gravity tabbed brief (tabbed-brief template): every size is a DESIGN.md ramp token (label, body, headline, display). The ramp's own body-to-headline step is 1.243, just under the detector's 1.25 target; passing would need an off-ramp size. Kit-level follow-up: retune --fs-headline or the target, then drop this waiver."
-      }
+      },
+      {"rule": "tiny-text", "value": "*", "files": ["public/recoil-ext/2026-10-29-gasmi.html"], "createdAt": "2026-11-12T15:10:00.000Z", "reason": "Generator-origin CSS: the scripts/recoil_brief.py external template predates the kit type ramp and radius scale. Waived for this one twin so the already-sent Dioptra link opens (2026-11-12); fix the mold in recoil_brief.py, regenerate, then drop. Seam in _PATTERNS/kintsugi-visual-grammar-seams.md."},
+      {"rule": "all-caps-body", "value": "*", "files": ["public/recoil-ext/2026-10-29-gasmi.html"], "createdAt": "2026-11-12T15:10:00.000Z", "reason": "Generator-origin CSS: the scripts/recoil_brief.py external template predates the kit type ramp and radius scale. Waived for this one twin so the already-sent Dioptra link opens (2026-11-12); fix the mold in recoil_brief.py, regenerate, then drop. Seam in _PATTERNS/kintsugi-visual-grammar-seams.md."},
+      {"rule": "design-system-radius", "value": "*", "files": ["public/recoil-ext/2026-10-29-gasmi.html"], "createdAt": "2026-11-12T15:10:00.000Z", "reason": "Generator-origin CSS: the scripts/recoil_brief.py external template predates the kit type ramp and radius scale. Waived for this one twin so the already-sent Dioptra link opens (2026-11-12); fix the mold in recoil_brief.py, regenerate, then drop. Seam in _PATTERNS/kintsugi-visual-grammar-seams.md."},
+      {"rule": "design-system-font-size", "value": "*", "files": ["public/recoil-ext/2026-10-29-gasmi.html"], "createdAt": "2026-11-12T15:10:00.000Z", "reason": "Generator-origin CSS: the scripts/recoil_brief.py external template predates the kit type ramp and radius scale. Waived for this one twin so the already-sent Dioptra link opens (2026-11-12); fix the mold in recoil_brief.py, regenerate, then drop. Seam in _PATTERNS/kintsugi-visual-grammar-seams.md."}
     ]
   },
   "hook": {

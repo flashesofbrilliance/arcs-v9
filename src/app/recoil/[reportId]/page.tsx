@@ -13,6 +13,12 @@ import ReportActions from "./ReportActions"
 // kit as the static RECOIL_SAMPLE demo at /recoil.
 export const dynamic = "force-dynamic"
 
+function externalTwin(reportId: string): string | null {
+  const safe = reportId.replace(/[^a-zA-Z0-9_-]/g, "")
+  const rel = `/recoil-ext/${safe}.html`
+  return fs.existsSync(path.join(process.cwd(), "public", rel)) ? rel : null
+}
+
 function loadReport(reportId: string): RecoilReportRaw | null {
   const safe = reportId.replace(/[^a-zA-Z0-9_-]/g, "")
   const file = path.join(process.cwd(), "runtime", "recoil", "generated", `${safe}.json`)
@@ -43,8 +49,15 @@ export default async function DynamicRecoilReportPage({
   // generated reports without a magic-link session).
   if (process.env.NODE_ENV !== "development") {   // fail-closed: unset/test/preview/staging all gate (matches /warroom)
     const session = await auth()
-    if (!session?.user?.email) redirect("/compass?next=/recoil/" + (await params).reportId)
-    if (!isAdmin(session)) notFound()
+    if (!isAdmin(session)) {
+      // A war-room link sent to a counterpart opens its counterpart-safe twin
+      // (built by scripts/recoil_ext_build.sh, audience:"both" content only).
+      // Reports without a twin keep the sign-in gate.
+      const ext = externalTwin((await params).reportId)
+      if (ext) redirect(ext)
+      if (!session?.user?.email) redirect("/compass?next=/recoil/" + (await params).reportId)
+      notFound()
+    }
   }
 
   const { reportId } = await params

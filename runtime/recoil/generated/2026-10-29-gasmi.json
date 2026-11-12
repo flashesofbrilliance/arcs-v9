@@ -27,7 +27,12 @@
    "date": "2026-11-04",
    "with": "Doug Rosa (Dioptra talent), 36 min, Teams",
    "source": "Granola 4eae3077-a377-4645-9a52-6c4230579634; Gmail thread 1a19ccc405f37e3f"
-  }
+  },
+  "external_sets": [
+   "page.header.eyebrow=Zach Harris &#183; Under the hood",
+   "page.header.sub=The working file I kept for last week's call, with my notes about people removed.",
+   "meta.doc_title=Zach Harris - Under the hood"
+  ]
  },
  "opportunity": {
   "audience": "internal",
@@ -175,6 +180,26 @@
   },
   "tabs": [
    {
+    "id": "hood",
+    "label": "Under the hood"
+   },
+   {
+    "id": "exante",
+    "label": "1 Predict"
+   },
+   {
+    "id": "forge",
+    "label": "2 Check"
+   },
+   {
+    "id": "recoil",
+    "label": "3 Update"
+   },
+   {
+    "id": "defense",
+    "label": "4 Translate"
+   },
+   {
     "id": "answer",
     "label": "The answer"
    },
@@ -191,27 +216,127 @@
     "label": "Pre-Call"
    },
    {
-    "id": "exante",
-    "label": "Ex-Ante"
-   },
-   {
-    "id": "forge",
-    "label": "Forge"
-   },
-   {
-    "id": "recoil",
-    "label": "Recoil"
-   },
-   {
     "id": "wargame",
     "label": "War Game"
-   },
-   {
-    "id": "defense",
-    "label": "Defensibility"
    }
   ],
   "blocks": [
+   {
+    "tab": "hood",
+    "audience": "both",
+    "type": "prose",
+    "h2": "What this page is",
+    "p": [
+     "Before and after every conversation that matters, I keep a working file. This is the one I kept for last week's call, with one change: my notes about people are removed. What is left is the method: what I predicted, how I checked my own reads against the transcript, and what I changed my mind about.",
+     "It is the same discipline I would bring to Contract OS. Write the prediction down before the event, check it afterward against something outside my own head, and keep the corrections visible instead of smoothing them over.",
+     "Each numbered tab is one step, in order. The last three tabs are the brief I sent last week."
+    ]
+   },
+   {
+    "tab": "exante",
+    "audience": "both",
+    "type": "receipt",
+    "h2": "The prediction, filed before the call",
+    "fields": [
+     {
+      "label": "The question",
+      "value": "One sharpened question the conversation should help answer."
+     },
+     {
+      "label": "What I expect to see",
+      "value": "A specific, dated outcome, written down before the call so it can be scored after."
+     },
+     {
+      "label": "Planned move",
+      "value": "What I intend to lead with, decided in advance rather than in the moment."
+     },
+     {
+      "label": "Belief most likely to change",
+      "value": "The one I hold least firmly, named so I notice when it moves."
+     },
+     {
+      "label": "What would prove me wrong",
+      "value": "A falsifier with a date. If it happens, the prediction failed, and I record that."
+     }
+    ]
+   },
+   {
+    "tab": "exante",
+    "audience": "both",
+    "type": "prose",
+    "h2": "Why bother",
+    "p": [
+     "Without a written prediction, every outcome looks like what I expected. With one, I find out how often I am right, and the misses teach me more than the hits. It is the same rule I use for a release: the pass rules are frozen before the benchmark runs."
+    ]
+   },
+   {
+    "tab": "forge",
+    "audience": "both",
+    "type": "prose",
+    "h2": "Checking my own reads",
+    "p": [
+     "After the call I wrote down my reads of how it went. Then an independent reviewer, an agent that pulled the transcript itself rather than my notes, ruled on each one. Grounded means the transcript forces it. Inference means it is my read and nothing forces it. Struck means I overreached, and the read is corrected."
+    ]
+   },
+   {
+    "tab": "forge",
+    "audience": "both",
+    "type": "table",
+    "h2": "A sample of the rulings",
+    "columns": [
+     "My read",
+     "Ruling",
+     "Why"
+    ],
+    "rows": [
+     [
+      "Trust and evals never came up",
+      "STRUCK",
+      "They came up from both sides: narrow context per agent, guardrails, and my own answer on trust and traceability."
+     ],
+     [
+      "I gave revenue numbers",
+      "INFERENCE, corrected",
+      "The 40% figure is a lift in product-qualified leads, and $7B is assets launched. Neither is revenue."
+     ],
+     [
+      "Part of my pitch overlaps a team that already exists",
+      "GROUNDED",
+      "The legal engineers already are the forward-deployed engineers, as I heard on the call [35:32]."
+     ]
+    ],
+    "note": "In all, two of my reads were struck and one was downgraded to inference."
+   },
+   {
+    "tab": "recoil",
+    "audience": "both",
+    "type": "list",
+    "h2": "What I changed my mind about",
+    "intro": "My own beliefs only. Each moved because of something said on the call.",
+    "items": [
+     {
+      "dot": "c",
+      "html": "<strong>The seat.</strong> I came in framing the role as part product owner, part forward-deployed engineer. The legal engineers already do the second job, so I now read the seat as product ownership plus triage of the feature requests the enablement lawyers bring back."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>Revenue.</strong> I expected to be pressed for revenue proof early. I was not, and the numbers I offered were not revenue numbers anyway. It is still the gap I would name first, so it stays on my list."
+     },
+     {
+      "dot": "",
+      "html": "<strong>My own read of the call.</strong> I was more confident in my post-call notes than the transcript allowed. I now treat my first read of any conversation as a draft."
+     }
+    ]
+   },
+   {
+    "tab": "recoil",
+    "audience": "both",
+    "type": "prose",
+    "h2": "Why the corrections matter",
+    "p": [
+     "The corrections are the most useful output. Pitching myself as part forward-deployed engineer would have missed, because that work already has an owner. An error like that is cheap to fix before the next conversation and expensive after it."
+    ]
+   },
    {
     "tab": "answer",
     "type": "prose",
@@ -297,7 +422,7 @@
      },
      {
       "dot": "g",
-      "html": "<strong>Week 4:</strong> one written decision doc, argued with the founders before it is a decision: the next bet, the deal it serves, the metric it moves, and what we will not build."
+      "html": "<strong>Week 4:</strong> one written decision doc, argued with the founders before it is a decision: the next bet, the deal it serves, the metric it moves, and <span data-voice=\"joint\">what we will not build</span>."
      }
     ]
    },
@@ -684,11 +809,11 @@
    {
     "tab": "defense",
     "type": "rosetta",
-    "audience": "internal",
+    "audience": "both",
     "_doc": "ROSETTA: translate your method into THEIR native register (their framework <-> yours). This is the trust move for a rigor-driven counterpart.",
     "h2": "The same model, both directions",
-    "left": "Their world",
-    "right": "This engine",
+    "left": "Contract OS, as described to me",
+    "right": "How I work",
     "rows": [
      [
       "Clause split into 5 to 50 narrow agents",
@@ -772,6 +897,15 @@
     "p": [
      "The corrections are the most useful output. Pitching myself as part forward-deployed engineer would have failed in front of Farah, because her legal engineers already do that work. My own post-call read was wrong twice (the onsite hedge, trust never discussed), and an independent re-read caught it. Both kinds of error are cheap to fix before the next call and expensive after it.",
      "Lossless test, in their words: I sort the feature requests your enablement lawyers bring back, decide what gets built, what becomes process and what waits, and I check each decision later against what customers actually used."
+    ]
+   },
+   {
+    "tab": "defense",
+    "audience": "both",
+    "type": "prose",
+    "h2": "In plain words",
+    "p": [
+     "Restated without my vocabulary: I sort the feature requests the enablement lawyers bring back, decide what gets built, what becomes process and what waits, and check each decision later against what customers actually used."
     ]
    }
   ]
