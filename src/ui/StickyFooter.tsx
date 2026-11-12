@@ -24,6 +24,7 @@ export function SiteFooter() {
   if (pathname === '/hud' || pathname === '/trust' || pathname === '/privacy' || pathname === '/terms') return null
   return (
     <footer
+      data-print="hide"
       style={{
         display: 'flex', justifyContent: 'center', gap: '1.5rem',
         padding: `1.5rem 1.5rem calc(${FOOTER_H}px + 1.5rem + env(safe-area-inset-bottom))`,
@@ -57,6 +58,7 @@ export function StickyFooter({
   if (pathname === '/hud' || pathname.startsWith('/jobs') || dismissed) return null
   return (
     <div
+      data-print="hide"
       style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50,
         height: `calc(${FOOTER_H}px + env(safe-area-inset-bottom))`,
