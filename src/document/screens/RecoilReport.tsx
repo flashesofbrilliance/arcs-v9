@@ -10,7 +10,7 @@ import { ScenarioStack } from '../patterns/ScenarioStack'
 import { AsideBox, type AsideVariant } from '../patterns/AsideBox'
 import { ProcessSteps } from '../patterns/ProcessSteps'
 import { WarRoomReport, isWarRoomShape, stripGate, WARROOM_RENDERED_KEYS } from './WarRoomReport'
-import { font, radius } from "@/ui/tokens"
+import { radius } from "@/ui/tokens"
 
 export interface RecoilReportProps { data?: Partial<typeof RECOIL_SAMPLE> }
 
@@ -316,7 +316,7 @@ function StrataValue({ v, depth, amber }: { v: unknown; depth: number; amber: st
   if (v == null) return null
   if (typeof v !== 'object') {
     return (
-      <p style={{ fontFamily: T.sans, fontSize: font.ramp.body, color: T.fg3, lineHeight: 1.7, margin: '3px 0', whiteSpace: 'pre-wrap' }}>
+      <p style={{ fontFamily: T.sans, fontSize: T.fsBody, color: T.fg3, lineHeight: 1.7, margin: '3px 0', whiteSpace: 'pre-wrap' }}>
         {String(v)}
       </p>
     )
@@ -336,7 +336,7 @@ function StrataValue({ v, depth, amber }: { v: unknown; depth: number; amber: st
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       {Object.entries(v as Record<string, unknown>).map(([k, item]) => (
         <div key={k}>
-          <div style={{ fontFamily: T.mono, fontSize: font.ramp.label, fontWeight: 700, color: `${amber}CC`, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 3 }}>
+          <div style={{ fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, color: `${amber}CC`, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 3 }}>
             {strataLabel(k)}
           </div>
           <div style={{ paddingLeft: depth < 3 ? 10 : 6, borderLeft: `1px solid ${amber}22` }}>
@@ -395,21 +395,21 @@ function DeepStrata({ raw, skip = [], idx = '07' }: { raw: RecoilReportRaw; skip
                 }}
               >
                 <span style={{
-                  fontFamily: T.mono, fontSize: font.ramp.label, fontWeight: 700, letterSpacing: '0.1em',
+                  fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.1em',
                   color: crystal ? T.cyan : amber, border: `1px solid ${crystal ? 'rgba(0,240,255,0.35)' : `${amber}40`}`,
                   borderRadius: radius.xs, padding: '2px 6px', flexShrink: 0,
                 }}>S{i}</span>
-                <span style={{ fontFamily: T.mono, fontSize: font.ramp.label, fontWeight: 700, letterSpacing: '0.08em', color: crystal ? T.fg1 : T.fg2, textTransform: 'uppercase' }}>
+                <span style={{ fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.08em', color: crystal ? T.fg1 : T.fg2, textTransform: 'uppercase' }}>
                   {strataLabel(s.name)}
                 </span>
-                <span style={{ fontFamily: T.mono, fontSize: font.ramp.label, color: crystal ? T.cyan : `${amber}AA`, letterSpacing: '0.12em', flexShrink: 0 }}>
+                <span style={{ fontFamily: T.mono, fontSize: T.fsLabel, color: crystal ? T.cyan : `${amber}AA`, letterSpacing: '0.12em', flexShrink: 0 }}>
                   {s.tag}
                 </span>
                 <span style={{ flex: 1 }} />
-                <span style={{ fontFamily: T.mono, fontSize: font.ramp.label, color: T.fg4, flexShrink: 0 }}>
+                <span style={{ fontFamily: T.mono, fontSize: T.fsLabel, color: T.fg3, flexShrink: 0 }}>
                   {(bytes / 1024).toFixed(1)} KB
                 </span>
-                <span style={{ fontFamily: T.mono, fontSize: font.ramp.label, color: T.fg4, flexShrink: 0 }}>{isOpen ? '▾' : '▸'}</span>
+                <span style={{ fontFamily: T.mono, fontSize: T.fsLabel, color: T.fg3, flexShrink: 0 }}>{isOpen ? '▾' : '▸'}</span>
               </button>
               {isOpen && (
                 <div style={{
@@ -471,35 +471,35 @@ function ReceiptLifecycle({ lc }: { lc: Lifecycle }) {
   const open = lc.state === 'OPEN'
   const stateColor = open ? T.cyan : T.green
   const label = (t: string) => (
-    <div style={{ fontFamily: T.mono, fontSize: font.ramp.label, fontWeight: 700, color: T.fg4, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 4 }}>{t}</div>
+    <div style={{ fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, color: T.fg3, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 4 }}>{t}</div>
   )
   return (
     <Sec id="r-lifecycle" idx="00" label="Receipt Lifecycle" title="Meeting Object — Ex-Ante Open / Ex-Post Close" accent={stateColor}>
       {/* state chip + timestamps */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14, flexWrap: 'wrap' }}>
-        <span style={{ fontFamily: T.mono, fontSize: font.ramp.label, fontWeight: 700, letterSpacing: '0.12em', color: stateColor, border: `1px solid ${stateColor}55`, borderRadius: radius.xs, padding: '3px 8px' }}>
+        <span style={{ fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.12em', color: stateColor, border: `1px solid ${stateColor}55`, borderRadius: radius.xs, padding: '3px 8px' }}>
           RECEIPT · {lc.state}
         </span>
-        {lc.opened && <span style={{ fontFamily: T.mono, fontSize: font.ramp.label, color: T.fg4 }}>opened {lc.opened}</span>}
-        {lc.closed && <span style={{ fontFamily: T.mono, fontSize: font.ramp.label, color: T.fg4 }}>closed {lc.closed}</span>}
+        {lc.opened && <span style={{ fontFamily: T.mono, fontSize: T.fsLabel, color: T.fg3 }}>opened {lc.opened}</span>}
+        {lc.closed && <span style={{ fontFamily: T.mono, fontSize: T.fsLabel, color: T.fg3 }}>closed {lc.closed}</span>}
       </div>
 
       {/* ex-ante — the frozen bearing */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 16 }}>
         <div style={{ borderLeft: `2px solid ${T.cyan}`, paddingLeft: 12 }}>
           {label('Hypothesis · ex-ante bearing')}
-          <p style={{ fontFamily: T.sans, fontSize: font.ramp.body, color: T.fg1, lineHeight: 1.65, margin: 0, whiteSpace: 'pre-wrap' }}>{lc.hypothesis}</p>
+          <p style={{ fontFamily: T.sans, fontSize: T.fsBody, color: T.fg1, lineHeight: 1.65, margin: 0, whiteSpace: 'pre-wrap' }}>{lc.hypothesis}</p>
         </div>
         <div style={{ borderLeft: `2px solid ${T.gold}`, paddingLeft: 12 }}>
           {label('Stated preference · desired outcome')}
-          <p style={{ fontFamily: T.sans, fontSize: font.ramp.body, color: T.fg1, lineHeight: 1.65, margin: 0, whiteSpace: 'pre-wrap' }}>{lc.statedPreference}</p>
+          <p style={{ fontFamily: T.sans, fontSize: T.fsBody, color: T.fg1, lineHeight: 1.65, margin: 0, whiteSpace: 'pre-wrap' }}>{lc.statedPreference}</p>
         </div>
         {lc.agenda && lc.agenda.length > 0 && (
           <div style={{ borderLeft: `2px solid ${T.steel}`, paddingLeft: 12 }}>
             {label('Agenda · what gets tested in the room')}
             <ul style={{ margin: 0, paddingLeft: 16 }}>
               {lc.agenda.map((a, i) => (
-                <li key={i} style={{ fontFamily: T.sans, fontSize: font.ramp.body, color: T.fg2, lineHeight: 1.6 }}>{a}</li>
+                <li key={i} style={{ fontFamily: T.sans, fontSize: T.fsBody, color: T.fg2, lineHeight: 1.6 }}>{a}</li>
               ))}
             </ul>
           </div>
@@ -511,16 +511,16 @@ function ReceiptLifecycle({ lc }: { lc: Lifecycle }) {
       <div style={{ border: `1px solid ${T.border}`, borderRadius: radius.sm, overflow: 'hidden' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', background: T.shell, borderBottom: `1px solid ${T.border}` }}>
           {['Expecting to see', 'Revealed', 'Δ Belief'].map((h) => (
-            <div key={h} style={{ fontFamily: T.mono, fontSize: font.ramp.label, fontWeight: 700, letterSpacing: '0.1em', color: T.fg3, textTransform: 'uppercase', padding: '8px 12px' }}>{h}</div>
+            <div key={h} style={{ fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.1em', color: T.fg3, textTransform: 'uppercase', padding: '8px 12px' }}>{h}</div>
           ))}
         </div>
         {lc.diff.map((row, i) => (
-          <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', borderBottom: i < lc.diff.length - 1 ? `1px solid ${T.border}` : 'none' }}>
-            <div style={{ fontFamily: T.sans, fontSize: font.ramp.body, color: T.fg1, lineHeight: 1.55, padding: '10px 12px', borderRight: `1px solid ${T.border}` }}>{row.expecting}</div>
-            <div style={{ fontFamily: T.sans, fontSize: font.ramp.body, lineHeight: 1.55, padding: '10px 12px', borderRight: `1px solid ${T.border}`, color: row.revealed ? T.fg1 : T.fg4, fontStyle: row.revealed ? 'normal' : 'italic' }}>
+          <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', breakInside: 'avoid', borderBottom: i < lc.diff.length - 1 ? `1px solid ${T.border}` : 'none' }}>
+            <div style={{ fontFamily: T.sans, fontSize: T.fsBody, color: T.fg1, lineHeight: 1.55, padding: '10px 12px', borderRight: `1px solid ${T.border}` }}>{row.expecting}</div>
+            <div style={{ fontFamily: T.sans, fontSize: T.fsBody, lineHeight: 1.55, padding: '10px 12px', borderRight: `1px solid ${T.border}`, color: row.revealed ? T.fg1 : T.fg3, fontStyle: row.revealed ? 'normal' : 'italic' }}>
               {row.revealed ?? 'PENDING · fill post-call'}
             </div>
-            <div style={{ fontFamily: T.sans, fontSize: font.ramp.body, lineHeight: 1.55, padding: '10px 12px', color: row.beliefUpdate ? T.green : T.fg4, fontStyle: row.beliefUpdate ? 'normal' : 'italic' }}>
+            <div style={{ fontFamily: T.sans, fontSize: T.fsBody, lineHeight: 1.55, padding: '10px 12px', color: row.beliefUpdate ? T.green : T.fg3, fontStyle: row.beliefUpdate ? 'normal' : 'italic' }}>
               {row.beliefUpdate ?? '—'}
             </div>
           </div>
@@ -575,7 +575,7 @@ export function RecoilReportFromData({ data }: { data: RecoilReportRaw }) {
           {d.loadBearingQuote.text}
         </QuoteBlock>
         {significance && (
-          <p style={{ fontFamily: T.sans, fontSize: font.ramp.body, color: T.fg3, lineHeight: 1.65, marginTop: 10 }}>{significance}</p>
+          <p style={{ fontFamily: T.sans, fontSize: T.fsBody, color: T.fg3, lineHeight: 1.65, marginTop: 10 }}>{significance}</p>
         )}
       </Sec>
 

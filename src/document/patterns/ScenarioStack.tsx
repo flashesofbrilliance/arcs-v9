@@ -32,19 +32,19 @@ export function ScenarioStack({ scenarios }: ScenarioStackProps) {
     <div>
       <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
         {Object.values(SCFG).map(c => (
-          <button key={c.key} onClick={() => setActive(c.key)} style={{ height: 30, padding: '0 14px', borderRadius: 7, cursor: 'pointer', fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
-            background: active === c.key ? DIM(c.color) : 'transparent', color: active === c.key ? c.color : T.fg4, border: `1px solid ${active === c.key ? BDR(c.color) : T.border}`, transition: 'all .14s' }}>
+          <button key={c.key} onClick={() => setActive(c.key)} style={{ height: 30, padding: '0 14px', borderRadius: 7, cursor: 'pointer', fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
+            background: active === c.key ? DIM(c.color) : 'transparent', color: active === c.key ? c.color : T.fg3, border: `1px solid ${active === c.key ? BDR(c.color) : T.border}`, transition: 'all .14s' }}>
             {c.label}
           </button>
         ))}
       </div>
-      <div key={active} style={{ animation: 'fade .2s ease-out', padding: '18px 20px', borderRadius: 10, background: T.surface, border: `1px solid ${BDR(cfg.color)}` }}>
+      <div key={active} style={{ breakInside: 'avoid', animation: 'fade .2s ease-out', padding: '18px 20px', borderRadius: 10, background: T.surface, border: `1px solid ${BDR(cfg.color)}` }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
           <Pill accent={cfg.color}>{cfg.label}</Pill>
-          {s.title && <span style={{ fontFamily: T.sans, fontSize: 15, fontWeight: 600, color: T.fg1 }}>{s.title}</span>}
+          {s.title && <span style={{ fontFamily: T.sans, fontSize: T.fsBody, fontWeight: 600, color: T.fg1 }}>{s.title}</span>}
         </div>
-        <p style={{ fontFamily: T.sans, fontSize: 14, color: T.fg2, lineHeight: 1.7 }}>{s.body}</p>
-        {s.note && <div style={{ marginTop: 10, padding: '7px 11px', borderRadius: 5, background: DIM(cfg.color), fontFamily: T.mono, fontSize: 11, color: cfg.color, letterSpacing: '0.04em', lineHeight: 1.5 }}>{s.note}</div>}
+        <p style={{ fontFamily: T.sans, fontSize: T.fsBody, color: T.fg2, lineHeight: 1.7 }}>{s.body}</p>
+        {s.note && <div style={{ marginTop: 10, padding: '7px 11px', borderRadius: 5, background: DIM(cfg.color), fontFamily: T.mono, fontSize: T.fsLabel, color: cfg.color, letterSpacing: '0.04em', lineHeight: 1.5 }}>{s.note}</div>}
       </div>
     </div>
   )
