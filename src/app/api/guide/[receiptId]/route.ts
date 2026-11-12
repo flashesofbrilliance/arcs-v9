@@ -7,6 +7,7 @@ import { z } from "zod"
 import { clampText } from "@/lib/sanitize"
 import { rateLimit, clientIp } from "@/lib/ratelimit"
 import { MODELS } from "@/lib/claude-models"
+import { parseGuideReply } from "@/lib/guide-response"
 
 export const dynamic = "force-dynamic"
 
@@ -253,19 +254,11 @@ export async function POST(
   }
 
   const raw = response.content.filter((c) => c.type === "text").map((c) => (c.type === "text" ? c.text : "")).join("")
-  const cleaned = raw.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "").trim()
-  const parsed = JSON.parse(cleaned) as {
-    guide_title: string
-    bet_label: string
-    total_prep_hours: string
-    outcome_target?: {
-      outcome_statement: string
-      leading_indicator: string
-      kpi_label: string
-      failure_signal: string
-    }
-    stages: unknown[]
+  const reply = parseGuideReply(raw)
+  if (!reply.ok) {
+    return NextResponse.json({ error: `Guide response malformed (${reply.reason}) - retry` }, { status: 502 })
   }
+  const parsed = reply.guide
 
   const ot = parsed.outcome_target
 
