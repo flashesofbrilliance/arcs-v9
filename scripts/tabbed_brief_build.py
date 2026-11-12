@@ -317,8 +317,8 @@ def page_hrefs(d, artifact):
 def r_nav_links(d, cur, hrefs):
     items = [("ov", d["overview"]["label"])] + [(t["id"], t["label"]) for t in d["tabs"]]
     tabs = "".join('<a class="shnav-tab" href="%s" data-target="pane-%s" aria-current="%s">%s</a>' % (e(hrefs[i]), i, "page" if i == cur else "false", md(lab)) for i, lab in items)
-    return ('<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Pages" data-menu-below="%d"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs">%s</div>'
-            '<button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Go to a page"><span></span></button></nav></div>') % (stack_below(d), tabs)
+    return ('<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Pages" data-menu-below="%d"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs">%s</div>%s'
+            '<button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Go to a page"><span></span></button></nav></div>') % (stack_below(d), tabs, r_name(d))
 
 
 def r_nav(d):
@@ -326,8 +326,16 @@ def r_nav(d):
     for t in d["tabs"]:
         tabs.append('<button type="button" class="shnav-tab" role="tab" id="t-%s" aria-controls="pane-%s" data-target="pane-%s" aria-selected="false" tabindex="-1">%s%s</button>' % (
             t["id"], t["id"], t["id"], md(t["label"]), ('<span class="shnav-pill">%s</span>' % md(t["rank"])) if t.get("rank") else ""))
-    return ('<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Sections" data-menu-below="%d"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs" aria-label="View">%s</div>'
-            '<button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Jump to a section"><span></span></button></nav></div>') % (stack_below(d), "".join(tabs))
+    return ('<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Sections" data-menu-below="%d"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs" aria-label="View">%s</div>%s'
+            '<button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Jump to a section"><span></span></button></nav></div>') % (stack_below(d), "".join(tabs), r_name(d))
+
+
+def r_name(d):
+    """The author's name, large, at the right end of the tab row (replaces the From line in the meta strip)."""
+    if not d.get("masthead"):
+        return ""
+    sub = ('<span class="tb-name-sub">%s</span>' % md(d["masthead_sub"], "/masthead_sub")) if d.get("masthead_sub") else ""
+    return '<p class="tb-name"><span class="tb-name-main">%s</span>%s</p>' % (md(d["masthead"], "/masthead"), sub)
 
 
 def stack_below(d):
@@ -354,9 +362,9 @@ def render(d, artifact=False, page=None):
                "s=r.charAt(0)==='{'?JSON.parse(r):(r?{theme:r}:{})}catch(e){}"
                "d.setAttribute('data-theme',(s.theme||'%s')==='dark'?'dark':'light');"
                "var A={font:'data-font',size:'data-size',space:'data-space'};for(var k in A){if(s[k]&&s[k]!=='std')d.setAttribute(A[k],s[k])}})();</script>") % (d["storage_key"], d.get("default_theme", "light"))
-    meta = ('<dl class="tb-meta"><div class="opt"><dt>Prepared for</dt><dd>%s</dd></div><div><dt>From</dt><dd>%s</dd></div>'
+    meta = ('<dl class="tb-meta"><div class="opt"><dt>Prepared for</dt><dd>%s</dd></div>%s'
             '%s%s</dl>') % (
-        md(m["prepared_for"]), md(m["from"]),
+        md(m["prepared_for"]), "" if d.get("masthead") else '<div><dt>From</dt><dd>%s</dd></div>' % md(m["from"]),
         ('<div><dt>Updated</dt><dd><time datetime="%s">%s</time></dd></div>' % (e(m["updated"]), date_long(m["updated"]))) if m.get("updated") else "",
         ('<div class="opt"><dt>Status</dt><dd>%s</dd></div>' % md(m["status"])) if m.get("status") else "")
     line = ('<span class="chip cyan">Private</span><p>%s</p>' % md(d["top_line"])) if d.get("top_line") else ""
