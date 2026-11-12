@@ -217,6 +217,8 @@ for _name, _owns, _print, _row in [
 import recoil_decompose as decompose  # noqa: E402  (R7: J1 decompose, J2 verbs, J3 deconstruct)
 decompose.install(sys.modules[__name__])
 NotRun = decompose.NotRun
+PLUGINS = []  # stage modules after R7: each has install(svc) -> module and self_test(svc, check, snap)
+PLUGINS.append(__import__("recoil_stage_j4").install(sys.modules[__name__]))  # R8: J4 hypercube
 
 
 EM_DASH = chr(0x2014)
@@ -600,6 +602,8 @@ def self_test() -> int:
 
     # 7b. the real J1 to J3 stages (scripts/recoil_decompose.py)
     decompose.self_test(sys.modules[__name__], check, snap)
+    for plugin in PLUGINS:
+        plugin.self_test(sys.modules[__name__], check, snap)
 
     # 8. dry run on the Gasmi fixture through the real registry: validates via the v2 adapter, writes nothing
     gasmi = os.path.join(GENERATED, "2026-10-29-gasmi.json")
