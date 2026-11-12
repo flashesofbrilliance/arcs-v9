@@ -21,15 +21,27 @@ Edges point from the newer, derived node to the older, source node, and each nam
 that evidence it. An item with no atom to stand on gets a node with t null and no edges, and is
 listed in `unanchored`.
 
+J5 also emits the recoil-beats timeline (row recoil-runner-beats; schema runtime/specs/recoil-beats.md,
+used as is) so any run plays in the existing recoil player with no new player code. Written under the run
+directory, beside the run's other prints:
+  runtime/recoil/runs/<stem>/beats.json     a recoil data file: meta, beliefs, beats (one beat per atom time)
+  runtime/recoil/runs/<stem>/player.html    src/ui-kit/recoil-report/recoil-player.html with this run's data
+  runtime/recoil/runs/<stem>/_player.js and _tokens.css   the template's script and tokens, copied beside it
+A belief's move lands on the beat of its earliest evidencing atom (the same rule as x-kairos); a kairos
+pin sits on the beat of each atlas kairos mark, its id is that atom's id and its label names the atom.
+A belief that moved with no atom keeps its prior in the player and is named in meta.note.
+
 Gates (spec 6.1, plus the row's):
   every edge has evidence, and every evidence id is an atom in the file
   no edge goes backward in time, and the graph is acyclic
   the kairos list matches the SSOT's atlas.kairos, and the rule in x-kairos finds no other move
   render states equal the x-fidelity rule recomputed; v1 tier shape kept; schema valid
+  beats: valid under check_beats (scripts/recoil_brief.py); one pin per atlas kairos mark, each on its atom
 """
 from __future__ import annotations
 
 import copy
+import html
 import json
 import os
 import re
@@ -44,12 +56,16 @@ import recoil_ssot_v2 as v2  # noqa: E402
 SCHEMA_PATH = os.path.join(ROOT, "runtime", "specs", "arcs-atlas-v2.schema.json")
 SCHEMA_ID = "arcs.atlas.v2"
 GENERATED = os.path.join("runtime", "recoil", "generated")
-VERSION = "1"
+RUNS_DIR = os.path.join("runtime", "recoil", "runs")
+VERSION = "2"  # 2: also emits beats.json and player.html (recoil-runner-beats)
 TIERS = [("Atoms", "atom"), ("People", "person"), ("Claims", "claim"), ("Beliefs", "belief"), ("Decisions", "decision")]
 TIER_OF = {kind: i for i, (_, kind) in enumerate(TIERS)}
 WORST = ["A", "B", "C", "D", "E", "NS"]
 BRACKET = re.compile(r"\[([^\]]+)\]")
 TS = re.compile(r"(?<![\d:])(\d{1,2}:\d{2}(?::\d{2})?)(?![\d:])")
+PLAYER_DIR = os.path.join(ROOT, "src", "ui-kit", "recoil-report")
+PLAYER_ASSETS = ("_player.js", "_tokens.css")  # the template's relative src and href, copied beside the page
+CONVICTION = {"LOW": "LOW", "MED": "MEDIUM", "MEDIUM": "MEDIUM", "HIGH": "HIGH"}
 Gate = None  # set by install(); the self-test uses a local stand-in
 
 
@@ -378,6 +394,136 @@ def check(atlas: dict, doc: dict, schema: dict | None = None) -> tuple[bool, lis
     return not bad, lines
 
 
+# --------------------------------------------------------------------------- beats (recoil-runner-beats)
+
+def build_beats(doc: dict, atlas: dict) -> dict:
+    """A recoil-beats data file from the SSOT and its atlas. Deterministic; nothing invented."""
+    meta = doc.get("meta") or {}
+    atoms = sorted((a for a in (doc.get("call") or {}).get("atoms") or [] if isinstance(a, dict) and a.get("id")),
+                   key=lambda a: (secs(a["t"]), a["id"]))
+    groups: list[list[dict]] = []
+    for a in atoms:
+        if groups and secs(groups[-1][0]["t"]) == secs(a["t"]):
+            groups[-1].append(a)
+        else:
+            groups.append([a])
+    beat_of = {a["id"]: i for i, g in enumerate(groups) for a in g}
+    anchors: dict[str, list[str]] = {}
+    for e in atlas.get("edges") or []:
+        if e["kind"] == "updates":
+            anchors.setdefault(e["to"].split(":", 1)[1], []).extend(e["evidence"])
+    beats = []
+    for i, g in enumerate(groups):
+        s = secs(g[0]["t"])
+        speakers = list(dict.fromkeys(a["speaker"] for a in g))
+        quote = " / ".join(a["text"] for a in g)
+        b = {"id": g[0]["id"], "t_start": s, "t_end": secs(groups[i + 1][0]["t"]) if i + 1 < len(groups) else s,
+             "speaker": " and ".join(speakers), "summary": f"Says \"{quote}\".",
+             "evidence": quote}
+        auds = {a.get("audience") for a in g}
+        if auds == {"both"}:
+            b["audience"] = "both"
+        elif auds - {None, "both"}:
+            b["audience"] = sorted(auds - {None, "both"})[0]
+        beats.append(b)
+    beliefs, unanchored = [], []
+    for bl in doc.get("beliefs") or []:
+        if not isinstance(bl, dict) or not bl.get("id"):
+            continue
+        conf = bl.get("confidence") or []
+        out = {"id": bl["id"], "claim": bl.get("claim") or bl["id"]}
+        for k in ("audience",):
+            if bl.get(k):
+                out[k] = bl[k]
+        if conf:
+            out["confidence"] = conf
+        if CONVICTION.get(str(bl.get("conviction") or "").upper()):
+            out["conviction"] = CONVICTION[str(bl["conviction"]).upper()]
+        beliefs.append(out)
+        if len(conf) != 2 or conf[0] == conf[1]:
+            continue
+        ids = [x for x in anchors.get(bl["id"]) or [] if x in beat_of]
+        if not ids:
+            unanchored.append(f"{bl['id']} moved {conf[0]} to {conf[1]} but cites no atom; the player shows its prior")
+            continue
+        aid = min(ids, key=lambda x: (beat_of[x], x))
+        beats[beat_of[aid]].setdefault("belief_deltas", []).append({"belief": bl["id"], "to": conf[1]})
+    for k in atlas.get("kairos") or []:
+        b = beats[beat_of[k["atom"]]]
+        label = f"{k['id']} at atom {k['atom']} ({k['t']}): {k['node'].split(':', 1)[1]} {k['from']} to {k['to']}"
+        b["kairos"] = {"label": label if "kairos" not in b else b["kairos"]["label"] + "; " + label, "lock": "open"}
+    note = (f"Generated by stage J5 from {atlas['source']['ssot']} (atlas {atlas['source'].get('input_hash')}). "
+            "One beat per atom time; each beat id is its atom id. Internal: carries the SSOT's audience tags.")
+    if unanchored:
+        note += " Unanchored: " + "; ".join(unanchored) + "."
+    return {"meta": {k: meta[k] for k in ("report_id", "counterpart", "company", "date") if meta.get(k)} | {"note": note},
+            "beliefs": beliefs, "beats": beats}
+
+
+def player_page(beats_doc: dict) -> str:
+    """The recoil player template with this run's data swapped in for the demo's two data lines."""
+    import recoil_brief as rb
+    import backlog_graph as bg
+    errs = rb.check_beats(beats_doc)
+    if errs:
+        raise ValueError("beats invalid: " + "; ".join(errs))
+    proj = rb.project_player(beats_doc, "internal")
+    rows = [{"id": f"n{i}-" + slug(" ".join((st.get("text") or "").split()[:4]))[:32], "jtbd": (st.get("text") or "")[:200], "state": "OPEN", "depends_on": [],
+             "route": {"tool": "NOT-RESOLVED"}} for i, st in enumerate(beats_doc.get("_next_steps") or [], 1)]
+    os.environ.setdefault("BACKLOG_RIPENESS_GH_STUB", "{}")
+    import datetime as _dt
+    day = beats_doc["meta"].get("date") or "2026-01-01"
+    graph = bg.build(rows, _dt.date.fromisoformat(day)) if rows else {"today": day, "rows": 0, "active": 0, "nodes": []}
+    tpl = open(os.path.join(PLAYER_DIR, "recoil-player.html"), encoding="utf-8").read().split("\n")
+    p_lines = [i for i, ln in enumerate(tpl) if ln.startswith("var P=")]
+    g_lines = [i for i, ln in enumerate(tpl) if ln.startswith("var G=")]
+    if len(p_lines) != 1 or len(g_lines) != 1:
+        raise ValueError("player template: expected exactly one 'var P=' and one 'var G=' line")
+    heads = [i for i, ln in enumerate(tpl) if ln.startswith('<header class="pl-head">')]
+    if len(heads) != 1 or not (tpl[heads[0] + 1].startswith("<p>") and tpl[heads[0] + 1].endswith("</p></header>")):
+        raise ValueError("player template: expected the header lede on the line after <header class=\"pl-head\">")
+    m = beats_doc["meta"]
+    moved = [b for b in beats_doc["beliefs"] if len(b.get("confidence") or []) == 2
+             and b["confidence"][0] != b["confidence"][1]]
+    placed = {d["belief"] for bt in beats_doc["beats"] for d in bt.get("belief_deltas") or []}
+    who = ", ".join(x for x in (m.get("counterpart"), m.get("company"), m.get("date")) if x) or m.get("report_id", "")
+    lede = (f"{who}. {len(moved)} of {len(beats_doc['beliefs'])} beliefs moved; {len(placed)} land on a moment in the "
+            "call, the rest keep their prior here. Each card is what I heard, in the order I heard it, and how far it "
+            "moved the belief. Built by stage J5 from the recoil run. Internal.")
+    tpl[heads[0] + 1] = "<p>" + html.escape(lede) + "</p></header>"
+    js = lambda o: json.dumps(o, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")  # noqa: E731
+    tpl[p_lines[0]] = "var P=" + js(proj) + ";"
+    tpl[g_lines[0]] = "var G=" + js(graph) + ";"
+    return "\n".join(tpl)
+
+
+def beats_files(doc: dict, atlas: dict, run_dir: str) -> dict:
+    """{repo-relative path: text} for the three player files of this run."""
+    bd = build_beats(doc, atlas)
+    page = player_page(bd | {"_next_steps": doc.get("next_steps") or []})
+    return {os.path.join(run_dir, "beats.json"): dump(bd),
+            os.path.join(run_dir, "player.html"): page,
+            **{os.path.join(run_dir, f): open(os.path.join(PLAYER_DIR, f), encoding="utf-8").read() for f in PLAYER_ASSETS}}
+
+
+def check_beats_export(bd: dict, atlas: dict) -> tuple[bool, list[str]]:
+    import recoil_brief as rb
+    bad = [f"beats: {e}" for e in rb.check_beats(bd)]
+    atoms = {n["ref"] for n in atlas.get("nodes") or [] if n["kind"] == "atom"}
+    pins = [b for b in bd.get("beats") or [] if b.get("kairos")]
+    for b in bd.get("beats") or []:
+        if b["id"] not in atoms:
+            bad.append(f"beats: {b['id']} is not an atom in the atlas")
+    for b in pins:
+        if f"atom {b['id']}" not in b["kairos"]["label"]:
+            bad.append(f"beats: kairos pin on {b['id']} does not name its atom")
+    want = sorted({k["atom"] for k in atlas.get("kairos") or []})
+    if sorted(b["id"] for b in pins) != want:
+        bad.append(f"beats: pins on {sorted(b['id'] for b in pins)}, atlas kairos atoms {want}")
+    n = len(bd.get("beats") or [])
+    return not bad, bad or [f"J5 beats: {n} beats, {len(pins)} kairos pin(s), each on its atom; check_beats OK"]
+
+
 # --------------------------------------------------------------------------- stage hooks
 
 def dump(obj: dict) -> str:
@@ -389,6 +535,9 @@ def j5_run(ctx, doc: dict) -> dict:
     atlas, ssot_atlas = build(doc, ssot_rel, prior_kairos=(doc.get("atlas") or {}).get("kairos"))
     ctx.atlas_v2 = (ssot_atlas["file"], atlas)
     ctx.write(ssot_atlas["file"], dump(atlas))
+    ctx.beats_v1 = beats_files(doc, atlas, ctx.run_dir)
+    for rel, text in ctx.beats_v1.items():
+        ctx.write(rel, text)
     return {"atlas": ssot_atlas}
 
 
@@ -403,7 +552,17 @@ def j5_gate(ctx, doc: dict):
         on_disk = open(full, encoding="utf-8").read() if os.path.exists(full) else ""
         if on_disk != dump(atlas):
             ok, lines = False, lines + [f"J5 atlas: {rel} on disk differs from the export"]
+    files = getattr(ctx, "beats_v1", None) or {}
+    bd = json.loads(next((t for r, t in files.items() if r.endswith("beats.json")), "{}"))
+    b_ok, b_lines = check_beats_export(bd, atlas)
+    ok, lines = ok and b_ok, lines + b_lines
+    if ok and not ctx.dry_run:
+        for r, t in files.items():
+            f = os.path.join(ctx.root, r)
+            if not os.path.exists(f) or open(f, encoding="utf-8").read() != t:
+                ok, lines = False, lines + [f"J5 beats: {r} on disk differs from the export"]
     lines.append(f"J5 file: {rel}" + (" (dry run: not written)" if ctx.dry_run else ""))
+    lines += [f"J5 file: {r}" for r in files if os.path.basename(r) not in PLAYER_ASSETS]
     return Gate(ok, lines)
 
 
@@ -531,6 +690,9 @@ def self_test() -> int:
             rc, out = svc.run(rel, only="J5", root=td)
             ok(rc == 0 and any("UNCHANGED" in x for x in out) and open(apath, encoding="utf-8").read() == before,
                "runner: a rerun with no new input is UNCHANGED")
+            rd = os.path.join(td, RUNS_DIR, "2026-11-12-selftest")
+            ok(all(os.path.exists(os.path.join(rd, f)) for f in ("beats.json", "player.html") + PLAYER_ASSETS),
+               "runner: beats.json, player.html and its assets land under runtime/recoil/runs/<stem>/")
     finally:
         svc.STAGES.clear()
         svc.STAGES.update(saved)
@@ -538,7 +700,32 @@ def self_test() -> int:
     # the Gasmi fixture through the real registry, dry run: J5 builds and gates, writes nothing
     rc, out = svc.run(os.path.join(GENERATED, "2026-10-29-gasmi.json"), until="J5", dry_run=True)
     j5 = [x for x in out if x.startswith("J5")]
-    ok(any(x.startswith("J5 atlas: PASS") for x in j5), "Gasmi: J5 PASS on a dry run (" + (j5[0] if j5 else "no J5") + ")")
+    ok(any(x.startswith(("J5 atlas: PASS", "J5 atlas: UNCHANGED")) for x in j5),
+       "Gasmi: J5 PASS on a dry run, UNCHANGED when a local run already did (" + (j5[0] if j5 else "no J5") + ")")
+    # beats (recoil-runner-beats): the existing player's schema, fed from the same atlas
+    import recoil_brief as rb
+    bd = build_beats(doc, atlas)
+    ok(rb.check_beats(bd) == [], "beats: the export passes check_beats (schema used as is)")
+    ok([b["id"] for b in bd["beats"]] == ["a001", "a002", "a004"], "beats: one beat per atom time, id = first atom")
+    ok(bd["beats"][1]["evidence"] == "budget is 40k / 40k", "beats: atoms at one time share a beat, quotes joined")
+    ok(bd["beats"][1].get("belief_deltas") == [{"belief": "P1", "to": 0.9}], "beats: P1 moves on its anchor atom a002")
+    ok("atom a002" in bd["beats"][1]["kairos"]["label"] and bd["beats"][1]["kairos"]["lock"] == "open",
+       "beats: the kairos pin names its atom")
+    ok(bd["beats"][0].get("belief_deltas") == [{"belief": "P3", "to": 0.55}] and "kairos" not in bd["beats"][0],
+       "beats: P3's sub-threshold move lands on its atom with no pin")
+    ok("P2 moved 0.5 to 0.8 but cites no atom" in bd["meta"]["note"], "beats: an unanchored move is named in meta.note")
+    ok(check_beats_export(bd, atlas)[0], "beats: export gate passes")
+    bad = copy.deepcopy(bd)
+    bad["beats"][1]["kairos"]["label"] = "k01 somewhere"
+    ok(not check_beats_export(bad, atlas)[0], "beats gate refuses a pin that does not name its atom")
+    bad = copy.deepcopy(bd)
+    del bad["beats"][1]["kairos"]
+    ok(not check_beats_export(bad, atlas)[0], "beats gate refuses a missing pin for an atlas kairos mark")
+    page = player_page(bd | {"_next_steps": doc["next_steps"]})
+    ok(page.count("\nvar P=") == 1 and "Rowan" not in page and "made-up" not in page and "a002" in page,
+       "player page: the demo data and lede are replaced by this run's")
+    ok(rb.check_beats({"beliefs": [], "beats": [{"id": "x"}]}) != [], "check_beats is live (refuses a bad beat)")
+
     print(f"\nself-test: {'PASS' if not fails else 'FAIL'} ({len(fails)} failing)")
     return 1 if fails else 0
 
