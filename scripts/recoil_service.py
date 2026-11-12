@@ -620,8 +620,8 @@ def self_test() -> int:
           "J1 decomposes Gasmi (UNCHANGED when a local run already did)")
     check(all(any(ln.startswith(f"{n} ") and "NOT RUN (dry run" in ln for ln in out) for n in ("J2", "J3")),
           "J2 and J3 report NOT RUN on a dry run (no model call)")
-    check(all(any(ln.startswith(f"{n} ") and "NOT BUILT" in ln for ln in out)
-              for n in ORDER[3:8] if not STAGES[n].built), "J4 to J8 stages not yet built report NOT BUILT")
+    check(all(any(ln.startswith(f"{n} ") and "NOT BUILT" in ln for ln in out) for n in ORDER[3:8] if not STAGES[n].built),
+          "J4 to J8 report NOT BUILT")
     check(any(ln.startswith("Render") for ln in out), "Render runs the existing renderer")
 
     print(f"\nself-test: {'PASS' if not fails else 'FAIL'} ({len(fails)} failing)")
