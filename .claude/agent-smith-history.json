@@ -1,0 +1,23 @@
+{
+  "history": [
+    {
+      "date": "2026-11-03",
+      "agentSmithVersion": "2.5.1",
+      "score": 6.4,
+      "pillars": {
+        "security": 5,
+        "instructions": 6,
+        "configuration": 7,
+        "context": 6,
+        "extensions": 8,
+        "hooks": 7,
+        "mcp": 6
+      },
+      "findings": {
+        "critical": 2,
+        "important": 8,
+        "suggestions": 7
+      }
+    }
+  ]
+}
