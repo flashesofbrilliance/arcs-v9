@@ -244,7 +244,7 @@ On Zach's "go ahead" for the spend, the runner ran J1 to J4 on the Gasmi SSOT wi
 | 0 invented cells | Met. The gate allows none. |
 | At least 3 filled cells on one real call | Met. 9 cells of 3,125. |
 | A rerun shows J4 UNCHANGED at no new cost | Met. J1 to J4 UNCHANGED, no new calls. |
-| A cold reader agrees with at least 2 of 3 sampled cells | Not run yet. This needs a person. |
+| A cold reader agrees with at least 2 of 3 sampled cells | Met. Zach agreed with 3 of 3 ("All three agree", 2026-11-12). |
 
 What real answers showed:
 - J3 dropped 8 of the model's 14 claims because they cite no atom. The gate did its job.
@@ -252,4 +252,4 @@ What real answers showed:
 - J4 ran at version 1, with the fixed operator mapping. PR 2177 replaces that mapping with a judged axis, so J4 runs once more after 2177 merges.
 - The runner prints no spend figure. That is a gap for the budget gate's audit.
 - Rerun after PR 2201 (2026-11-12, on Zach's "I'm good with all them"): J1 to J4 UNCHANGED, no model calls, no spend. PR 2201 changed only `meta.external_sets`, `page.tabs` and `page.blocks`, which no stage reads.
-- Cold-reader sample (seed 20261112): `C.Tactical.LAB.analyze.L1`, `W.Surgical.KKL.recapitulate.L1`, `H.Tactical.LAB.analyze.L1`, put to Zach for his read.
+- Cold-reader sample (seed 20261112): `C.Tactical.LAB.analyze.L1`, `W.Surgical.KKL.recapitulate.L1`, `H.Tactical.LAB.analyze.L1`, Zach agreed with all three. The spend-figure gap is repair row `recoil-runner-spend-figure`.
