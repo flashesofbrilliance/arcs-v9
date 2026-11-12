@@ -360,8 +360,9 @@ def render(d, artifact=False, page=None):
         ('<div><dt>Updated</dt><dd><time datetime="%s">%s</time></dd></div>' % (e(m["updated"]), date_long(m["updated"]))) if m.get("updated") else "",
         ('<div class="opt"><dt>Status</dt><dd>%s</dd></div>' % md(m["status"])) if m.get("status") else "")
     line = ('<span class="chip cyan">Private</span><p>%s</p>' % md(d["top_line"])) if d.get("top_line") else ""
-    top = ('<header class="tb-top"><span class="wordmark tb-brand"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></span>%s%s</header>\n%s') % (
-        line, DPREFS_ROW, dprefs_panel())
+    name = ('<p class="tb-name">%s</p>' % md(d["masthead"], "/masthead")) if d.get("masthead") else ""
+    top = ('<header class="tb-top"><span class="wordmark tb-brand"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></span>%s%s%s</header>\n%s') % (
+        line, name, DPREFS_ROW, dprefs_panel())
     title = d["doc_title"]
     if page is None:
         body, nav, pages_attr = "\n".join([r_overview(d)] + [r_tab(t, d["horizons"], i, p="/tabs/%d" % i) for i, t in enumerate(d["tabs"])]), r_nav(d), ""

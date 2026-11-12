@@ -19,6 +19,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .dprefs-ttl { display: none; } /* as on MyAlly: icon and track only; aria-label keeps the name */
 .tb-brand { font-size: var(--fs-body); margin-right: auto; }
 .tb-top p { margin: 0; flex: 1 1 320px; font-size: var(--fs-body); color: var(--text-secondary); }
+/* masthead: the author's name, large, top right beside the display preferences */
+.tb-top .tb-name { margin: 0 0 0 auto; flex: none; font-family: var(--ds-font-mono); font-size: var(--fs-headline); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); }
+.tb-name + .dprefs { margin-left: 0; }
 .tb-frame { border: 1px solid var(--border); border-radius: var(--ds-r-md); background: var(--bg); }
 .tb-head { position: sticky; top: 0; z-index: 20; border-radius: var(--ds-r-md) var(--ds-r-md) 0 0; }
 .tb-meta { margin: 0; display: flex; flex-wrap: wrap; gap: 2px 22px; padding: 8px 20px; background: var(--surface-2); border-bottom: 1px solid var(--border);
