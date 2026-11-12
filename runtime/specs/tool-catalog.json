@@ -7,18 +7,18 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 296,
+  "script": 302,
   "skill": 28,
   "workflow": 2
  },
- "total": 428,
+ "total": 434,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 586,
+   "WIRED": 591,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 2,
+   "INSTALLED-UNUSED": 3,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
@@ -28,6 +28,14 @@
     "surface": "repo",
     "kind": "script",
     "name": "jobs_posting_liveness.mjs",
+    "why": "no hook/command/task/CI/doc references it",
+    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
+   },
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "repo",
+    "kind": "script",
+    "name": "recoil_page.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -1468,6 +1476,14 @@
   },
   {
    "kind": "script",
+   "name": "forecast_base_rates.py",
+   "path": "scripts/forecast_base_rates.py",
+   "jtbd": "forecast_base_rates: empirical base rates for the three peer follow-up forecasts the recoil pages make.",
+   "invoke": "python3 scripts/forecast_base_rates.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "forensic_scan.py",
    "path": "scripts/forensic_scan.py",
    "jtbd": "ARCS v9 Deep Forensic Scan",
@@ -2484,11 +2500,35 @@
   },
   {
    "kind": "script",
+   "name": "recoil_ext_build.sh",
+   "path": "scripts/recoil_ext_build.sh",
+   "jtbd": "Build the counterpart-safe twin of a war-room report: public/recoil-ext/<id>.html.",
+   "invoke": "scripts/recoil_ext_build.sh",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "recoil_hypercube_explorer.py",
+   "path": "scripts/recoil_hypercube_explorer.py",
+   "jtbd": "recoil_hypercube_explorer: build the J4 hypercube explorer page (backlog row recoil-hypercube-index, R8).",
+   "invoke": "python3 scripts/recoil_hypercube_explorer.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "recoil_induce.py",
    "path": "scripts/recoil_induce.py",
    "jtbd": "recoil_induce.py: induce candidate backlog rows from a recoil report or war room. Stdlib only, no model calls.",
    "invoke": "python3 scripts/recoil_induce.py",
    "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "recoil_page.py",
+   "path": "scripts/recoil_page.py",
+   "jtbd": "recoil_page: one recoil SSOT (v2, or six-tab v1 through the adapter) to a single-file HTML page.",
+   "invoke": "python3 scripts/recoil_page.py",
+   "state": "INSTALLED-UNUSED"
   },
   {
    "kind": "script",
@@ -2504,6 +2544,22 @@
    "path": "scripts/recoil_ssot_v2.py",
    "jtbd": "Recoil SSOT v2: validator, v1 adapter and sweep (stdlib only).",
    "invoke": "python3 scripts/recoil_ssot_v2.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "recoil_stage_j4.py",
+   "path": "scripts/recoil_stage_j4.py",
+   "jtbd": "recoil_stage_j4: stage J4 of the recoil call service, the ADR-060 hypercube index (backlog row",
+   "invoke": "python3 scripts/recoil_stage_j4.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "recoil_stage_j5.py",
+   "path": "scripts/recoil_stage_j5.py",
+   "jtbd": "Recoil call service, stage J5: explode the SSOT into an arcs.atlas.v2 knowledge graph (stdlib only).",
+   "invoke": "python3 scripts/recoil_stage_j5.py",
    "state": "WIRED"
   },
   {
