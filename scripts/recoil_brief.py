@@ -274,7 +274,12 @@ STACK_CSS = """
 .stack .tbl .yours{color:var(--muted);width:46%;}
 .stack .arrow{color:var(--cyan);font-family:var(--mono);}
 .stack .foot{font-size:0.8125rem;color:var(--muted);text-align:center;}
-.stack .stamp{text-align:center;font-family:var(--mono);font-size:var(--fs-label);color:var(--dimmed);}"""
+.stack .stamp{text-align:center;font-family:var(--mono);font-size:var(--fs-label);color:var(--dimmed);}
+.stack button.amenu-i{width:100%;border:0;background:none;font:inherit;text-align:left;cursor:pointer;}
+.stack .tb-top .amenu{margin-left:auto;}.stack .tb-top .amenu+.dprefs{margin-left:0;}
+.stack .shnav-tabs .amenu-group{display:none;}
+@media (max-width:560px){.stack .tb-top .amenu{display:none;}.stack .shnav.is-open .shnav-tabs .amenu-group{display:block;margin-top:6px;border-top:1px solid var(--border);}}
+@media print{.stack .tb-top,.stack .tb-head,#dprefs{display:none!important;}.stack .tb-frame{border:0;}.stack .card{break-inside:avoid;}.sec{padding:24px 0;}}"""
 
 
 def _chart_svg(series):
@@ -391,6 +396,25 @@ STACK_JS = ("<script>(function(){var links=[].slice.call(document.querySelectorA
             "addEventListener('scroll',upd,{passive:true});addEventListener('hashchange',upd);upd()})();</script>\n")
 
 
+# kit 43 action menu (src/ui-kit/README.md): the header trigger above 560px, the same items in the hamburger panel below.
+# Items are buttons, not links: both act on this page. The copied link is this public page's own address, never a gated one.
+AM_ITEMS = [("print", "PDF, for print", "dl"), ("copy", "Link, to share", "right")]
+AM_ICON = {k: '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">%s</svg>' % v
+           for k, v in {"dl": '<path d="M8 2.5v7.5M4.75 7 8 10.25 11.25 7M3 13.5h10"/>', "right": '<path d="M6 3.5 10.5 8 6 12.5"/>',
+                        "chev": '<path d="M4.5 6.5 8 10l3.5-3.5"/>'}.items()}
+AM_JS = ("<script>(function(){var w=document.querySelector('.tb-top .amenu');if(!w)return;var b=w.querySelector('.amenu-btn'),m=w.querySelector('.amenu-list'),nav=document.getElementById('shnav');"
+         "function set(o,f){m.hidden=!o;b.setAttribute('aria-expanded',String(o));if(o&&f){var a=m.querySelector('.amenu-i');if(a)a.focus()}if(!o&&f)b.focus()}"
+         "b.addEventListener('click',function(e){e.stopPropagation();set(m.hidden,true)});"
+         "document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!m.hidden)set(false,true)});"
+         "document.addEventListener('click',function(e){if(!w.contains(e.target))set(false)});"
+         "function legacy(t){return new Promise(function(ok,no){var x=document.createElement('textarea');"
+         "x.value=t;x.setAttribute('readonly','');x.style.position='fixed';x.style.opacity='0';document.body.appendChild(x);x.select();try{document.execCommand('copy')?ok():no()}catch(e){no(e)}document.body.removeChild(x)})}"
+         "function copy(t){if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(t).catch(function(){return legacy(t)});return legacy(t)}"
+         "[].forEach.call(document.querySelectorAll('[data-act]'),function(i){i.addEventListener('click',function(){var s=i.querySelector('span'),t=s.textContent;"
+         "if(i.getAttribute('data-act')==='print'){set(false);if(nav&&nav.classList.contains('is-open'))nav.querySelector('.shnav-menu').click();window.print();return}"
+         "copy(location.origin+location.pathname).then(function(){s.textContent='Link copied'},function(){s.textContent='Copy failed: '+location.origin+location.pathname}).then(function(){setTimeout(function(){s.textContent=t},2500)})})})})();</script>\n")
+
+
 def render_stack(data, audience, series, insights, prov):
     """layout "stack": numbered sections in one scroll inside the kit counterpart frame (see STACK_CSS)."""
     import html as _h
@@ -404,26 +428,29 @@ def render_stack(data, audience, series, insights, prov):
     shell = open(os.path.join(tbb.TDIR, "shell.css"), encoding="utf-8").read().replace("(min-width: 1024px)", "(min-width: %dpx)" % STACK_MENU_BELOW)
     base = CSS.split("\n", 2)[2]                           # recoil_brief's own token line drops out: the kit tokens lead
     base = "\n".join(l for l in base.split("\n") if not l.startswith("body{"))
-    css = tbb.tokens() + "\n" + "".join(tbb.kit_block(p) for p in ("38-wordmark", "39-theme-toggle", "42-shell-nav", "51-display-preferences")) + shell + base + STACK_CSS
+    css = tbb.tokens() + "\n" + "".join(tbb.kit_block(p) for p in ("38-wordmark", "39-theme-toggle", "42-shell-nav", "43-action-menu", "51-display-preferences")) + shell + base + STACK_CSS
     head_js = ("<script>(function(){var d=document.documentElement,s={};try{var r=localStorage.getItem('%s')||'';"
                "s=r.charAt(0)==='{'?JSON.parse(r):(r?{theme:r}:{})}catch(e){}"
                "d.setAttribute('data-theme',(s.theme||'dark')==='dark'?'dark':'light');"
                "var A={font:'data-font',size:'data-size',space:'data-space'};for(var k in A){if(s[k]&&s[k]!=='std')d.setAttribute(A[k],s[k])}})();</script>") % key
+    am = "".join('<button type="button" class="amenu-i" data-act="%s"><span>%s</span>%s</button>' % (act, txt, AM_ICON[ic]) for act, txt, ic in AM_ITEMS)
     links = "".join('<a class="shnav-tab" href="#s-%s" data-target="s-%s" aria-current="%s">%s</a>' % (i, i, "true" if n == 0 else "false", lab)
                     for n, (i, lab) in enumerate(labels))
     nav = ('<div class="tb-head"><div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Sections" data-menu-below="%d"><span class="shnav-current" aria-hidden="true"></span>'
-           '<div class="shnav-tabs" id="viewtabs">%s</div><button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Jump to a section"><span></span></button></nav></div></div>') % (STACK_MENU_BELOW, links)
+           '<div class="shnav-tabs" id="viewtabs">%s<div class="amenu-group" role="group" aria-label="Share"><p class="amenu-h" aria-hidden="true">Share</p>%s</div></div><button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Jump to a section"><span></span></button></nav></div></div>') % (STACK_MENU_BELOW, links, am)
     secs = []
     for k, (tb, (i, lab)) in enumerate(zip(tabs, labels), 1):
         body = "".join(_render_block(b, data, audience, series, insights, prov) for b in vblocks if b.get("tab") == i)
         secs.append(f'<section class="sec" id="s-{i}" aria-labelledby="h-{i}"><div class="sec-hd"><span>{k:02d} &#183; {lab}</span><i></i></div>'
                     f'<h2 id="h-{i}">{lab}</h2><div class="sec-body">{body}</div></section>')
     card = f'<div class="hd-card"><p class="eyebrow">{hdr["eyebrow"]}</p><h1>{hdr["title"]}</h1><p class="sub">{hdr["sub"]}</p></div>'
-    top = ('<header class="tb-top"><span class="wordmark tb-brand"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></span>%s</header>\n%s') % (tbb.DPREFS_ROW, tbb.dprefs_panel())
+    amenu = ('<div class="amenu"><button type="button" class="amenu-btn" aria-expanded="false" aria-controls="am-share"><span>Share</span>%s</button>'
+             '<div id="am-share" class="amenu-list" hidden>%s</div></div>') % (AM_ICON["chev"], am)
+    top = ('<header class="tb-top"><span class="wordmark tb-brand"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></span>%s%s</header>\n%s') % (amenu, tbb.DPREFS_ROW, tbb.dprefs_panel())
     title = meta.get("doc_title", "Recoil Report")
     main = ('<main class="tb stack" data-store="%s" data-default-theme="dark" data-pages="1">\n%s\n<section class="tb-frame" aria-label="%s">\n%s\n'
             '<div class="tb-body">\n%s\n%s\n</div>\n</section>\n</main>\n') % (key, top, _h.escape(re.sub(r"<[^>]+>|&#183;", " ", hdr["title"])), nav, card, "\n".join(secs))
-    js = tbb.shnav_js() + "\n<script>" + open(os.path.join(tbb.TDIR, "shell.js"), encoding="utf-8").read() + "</script>\n" + STACK_JS
+    js = tbb.shnav_js() + "\n<script>" + open(os.path.join(tbb.TDIR, "shell.js"), encoding="utf-8").read() + "</script>\n" + STACK_JS + AM_JS
     return ('<!DOCTYPE html>\n<!-- @arcs-template: recoil-twin -->\n<!-- @arcs-mode: persuade -->\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
             '<meta name="color-scheme" content="light dark">\n<meta name="robots" content="noindex, nofollow">\n<title>%s</title>\n%s\n<style>\n%s\n</style>\n'
             '<script defer src="/_vercel/insights/script.js"></script>\n</head>\n<body>\n%s%s%s\n</body>\n</html>\n') % (title, head_js, css, main, js, DWELL_JS)
