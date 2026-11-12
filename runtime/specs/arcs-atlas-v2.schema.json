@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/flashesofbrilliance/arcs-v9/runtime/specs/arcs-atlas-v2.schema.json",
+  "title": "ARCS atlas v2",
+  "description": "A call's knowledge graph, terraformed into tiers for the HUD ziggurat. A superset of arcs.atlas.v1 (schema, built, gate, title, note, tiers with name, docs and gate), so a v1 loader can still draw the terraces: tiers[].docs is a node count and tiers[].gate keeps the v1 vocabulary. v2 adds nodes, typed edges with evidence and time, kairos marks, and a fidelity rule from edge count and grade to a render state per tier. Exported by stage J5 (scripts/recoil_stage_j5.py) from an arcs.recoil.ssot.v2 record. Spec: _PROPOSALS/2026-11-11-recoil-call-service-arc-weld.md sections 3 (J5 to J8), 4.5 and 6.1. Keywords starting with x- are annotations read by J5; standard validators ignore them. The x-fidelity and x-kairos thresholds were written on 2026-11-12, before any atlas was counted (memory pre-register-rule-before-counting); change them only in a commit of their own, never in the commit that counts.",
+  "type": "object",
+  "required": ["schema", "built", "gate", "title", "tiers", "nodes", "edges", "kairos", "fidelity"],
+  "properties": {
+    "schema": { "const": "arcs.atlas.v2" },
+    "built": { "description": "When the atlas was built. J5 writes the SSOT's meta.date so a rerun on the same input is byte-equal.", "type": "string", "minLength": 1 },
+    "gate": { "description": "v1 overall gate. GREEN when every tier gate is pass, RED when any tier gate is fail, else YELLOW.", "enum": ["GREEN", "YELLOW", "RED"] },
+    "title": { "type": "string", "minLength": 1 },
+    "note": { "type": "string" },
+    "source": {
+      "description": "The SSOT the atlas came from.",
+      "type": "object",
+      "required": ["ssot", "report_id"],
+      "properties": {
+        "ssot": { "description": "Repo-relative path of the SSOT record J5 read.", "type": "string", "minLength": 1 },
+        "report_id": { "type": "string", "minLength": 1 },
+        "input_hash": { "description": "Hash of the SSOT keys J5 read; equal hashes mean equal atlases.", "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "tiers": {
+      "description": "Terraces, base (index 0) to apex. Fixed order: atoms, people, claims, beliefs, decisions. Every tier is always present, so an empty tier shows FLAT rather than vanishing.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": { "$ref": "#/$defs/tier" }
+    },
+    "nodes": { "type": "array", "items": { "$ref": "#/$defs/node" } },
+    "edges": { "type": "array", "items": { "$ref": "#/$defs/edge" } },
+    "kairos": { "description": "Moments where a belief moved. Equal, id for id, to the SSOT's atlas.kairos.", "type": "array", "items": { "$ref": "#/$defs/kairos" } },
+    "fidelity": {
+      "description": "The rule actually applied (a copy of x-fidelity at export time), so the file explains its own render states.",
+      "$ref": "#/$defs/fidelity_rule"
+    },
+    "unanchored": {
+      "description": "Items J5 could not place on the timeline: nodes with t null, and belief moves with no atom to anchor a kairos mark. Printed, never hidden.",
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "additionalProperties": false,
+  "x-fidelity": {
+    "description": "Render state per tier, set by code. Count only cross-tier edges incident to the tier (an edge between two nodes on the same terrace cuts no facet, spec 4.5). An edge is countable when its grade letter is in countable_letters. FLAT: the tier has no nodes. GRAIN: fewer than degraded_min_edges countable edges. SHARP: at least sharp_min_edges countable edges and at least sharp_min_share of them graded in sharp_letters. DEGRADED: everything else. GRAIN prints its sample size n. v1 tier gate: SHARP pass, DEGRADED warn, GRAIN warn, FLAT fail.",
+    "countable_letters": ["A", "B", "C"],
+    "sharp_letters": ["A", "B"],
+    "degraded_min_edges": 3,
+    "sharp_min_edges": 8,
+    "sharp_min_share": 0.5,
+    "v1_gate": { "SHARP": "pass", "DEGRADED": "warn", "GRAIN": "warn", "FLAT": "fail" }
+  },
+  "x-kairos": {
+    "description": "A belief moved when it has both a before and an after confidence and they differ by at least min_move (rounded to 2 places). The mark sits at the earliest atom that evidences the belief: beliefs[].atoms when present, else atoms whose timestamp the belief's evidence prose cites in brackets. A move with no such atom is listed in unanchored, not marked.",
+    "min_move": 0.1
+  },
+  "$defs": {
+    "grade": {
+      "description": "Same shape as the SSOT grade: letter A to E or NS, a one-line basis, and n the sample size.",
+      "type": "object",
+      "required": ["letter", "basis"],
+      "properties": {
+        "letter": { "enum": ["A", "B", "C", "D", "E", "NS"] },
+        "basis": { "type": "string", "minLength": 1 },
+        "n": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "t": {
+      "description": "Offset from call start, [h:]m:ss, or null when the item is not anchored in the call.",
+      "type": ["string", "null"],
+      "pattern": "^([0-9]+:)?[0-9]{1,2}:[0-9]{2}$"
+    },
+    "tier": {
+      "type": "object",
+      "required": ["name", "docs", "gate", "render", "edges", "n"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "docs": { "description": "v1 field: here, the node count on this terrace.", "type": "integer", "minimum": 0 },
+        "gate": { "enum": ["pass", "warn", "fail"] },
+        "kind": { "enum": ["atom", "person", "claim", "belief", "decision"] },
+        "render": { "enum": ["SHARP", "DEGRADED", "GRAIN", "FLAT"] },
+        "edges": { "description": "Countable cross-tier edges incident to this tier.", "type": "integer", "minimum": 0 },
+        "sharp_edges": { "description": "Of those, the ones graded in sharp_letters.", "type": "integer", "minimum": 0 },
+        "n": { "description": "Sample size printed when the tier renders as grain: the countable edge count.", "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "node": {
+      "type": "object",
+      "required": ["id", "tier", "kind", "t", "label", "ref"],
+      "properties": {
+        "id": { "description": "kind:ref, for example atom:a001, person:doug-rosa, belief:P4.", "type": "string", "pattern": "^(atom|person|claim|belief|decision):[^\\s]+$" },
+        "tier": { "type": "integer", "minimum": 0 },
+        "kind": { "enum": ["atom", "claim", "person", "belief", "decision"] },
+        "t": { "$ref": "#/$defs/t" },
+        "s": { "description": "t in seconds, for the time scrubber.", "type": "integer", "minimum": 0 },
+        "label": { "type": "string", "minLength": 1 },
+        "ref": { "description": "The SSOT id it came from (a name for a person, the next_steps index for a decision).", "type": "string", "minLength": 1 },
+        "grade": { "$ref": "#/$defs/grade" },
+        "audience": { "enum": ["internal", "both"] }
+      },
+      "additionalProperties": false
+    },
+    "edge": {
+      "description": "Points from the newer, derived node to the older, source node. kinds: said_by (atom to the person who said it), part_of (a non-utterance atom to its utterance), cites (claim to atom), moves (claim to the belief it moves), updates (atom to a belief it evidences), decided_from (decision to atom), owned_by (decision to its owner). t is when the edge was cut: the latest evidence atom.",
+      "type": "object",
+      "required": ["id", "from", "to", "kind", "t", "s", "evidence", "grade"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^e[0-9]{3,}$" },
+        "from": { "type": "string", "minLength": 1 },
+        "to": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["said_by", "part_of", "cites", "moves", "updates", "decided_from", "owned_by"] },
+        "t": { "type": "string", "pattern": "^([0-9]+:)?[0-9]{1,2}:[0-9]{2}$" },
+        "s": { "type": "integer", "minimum": 0 },
+        "evidence": { "description": "Atom ids. At least one; each must be an atom node in this file.", "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^a[0-9]{3,}$" } },
+        "grade": { "$ref": "#/$defs/grade" }
+      },
+      "additionalProperties": false
+    },
+    "kairos": {
+      "type": "object",
+      "required": ["id", "node", "atom", "t", "s", "what", "from", "to", "grade"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^k[0-9]{2,}$" },
+        "node": { "description": "The belief node that moved.", "type": "string", "pattern": "^belief:" },
+        "atom": { "type": "string", "pattern": "^a[0-9]{3,}$" },
+        "t": { "type": "string", "pattern": "^([0-9]+:)?[0-9]{1,2}:[0-9]{2}$" },
+        "s": { "type": "integer", "minimum": 0 },
+        "what": { "description": "What moved, in one line.", "type": "string", "minLength": 1 },
+        "from": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "to": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "grade": { "$ref": "#/$defs/grade" }
+      },
+      "additionalProperties": false
+    },
+    "fidelity_rule": {
+      "type": "object",
+      "required": ["countable_letters", "sharp_letters", "degraded_min_edges", "sharp_min_edges", "sharp_min_share"],
+      "properties": {
+        "countable_letters": { "type": "array", "items": { "enum": ["A", "B", "C", "D", "E", "NS"] } },
+        "sharp_letters": { "type": "array", "items": { "enum": ["A", "B", "C", "D", "E", "NS"] } },
+        "degraded_min_edges": { "type": "integer", "minimum": 0 },
+        "sharp_min_edges": { "type": "integer", "minimum": 0 },
+        "sharp_min_share": { "type": "number", "minimum": 0, "maximum": 1 },
+        "min_move": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": false
+    }
+  }
+}
