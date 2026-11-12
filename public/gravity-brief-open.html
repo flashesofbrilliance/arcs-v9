@@ -439,6 +439,19 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 
 /* the "More recommendations" link clears the 24px touch-target floor (page_gate phone warning) */
 .sb-src a { display: inline-block; padding: 6px 0; }
+
+/* receipt card (2026-11-12): the page's proof object, one real dated call above the tiles.
+   Judgment, so gold; a dashed rule reads as a perforated ticket, not decoration. */
+.rcpt { margin: 8px 0 12px; padding: 20px 24px; border: 1px solid var(--gold); border-radius: var(--ds-r-sm); background: var(--gold-bg); }
+.rcpt-meta { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0 0 12px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; color: var(--text-secondary); }
+.rcpt-meta span:first-child { color: var(--gold); }
+.rcpt-claim { margin: 0; font-size: var(--fs-display); line-height: 1.25; font-weight: 600; color: var(--text); }
+.rcpt-rows { display: grid; grid-template-columns: max-content 1fr; gap: 8px 16px; margin: 16px 0 0; padding-top: 14px; border-top: 1px dashed var(--gold); font-size: var(--fs-body); }
+.rcpt-rows dt { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; color: var(--gold); padding-top: 3px; }
+.rcpt-rows dd { margin: 0; color: var(--text); }
+.rcpt-ask { margin: 0 0 24px; font-size: var(--fs-headline); line-height: 1.45; color: var(--text); }
+.rcpt-mail { display: inline-block; padding: 4px 0; font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--cyan); }
+@media (max-width: 520px) { .rcpt { padding: 16px; } .rcpt-rows { grid-template-columns: 1fr; gap: 2px; } .rcpt-rows dd { margin-bottom: 8px; } }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>

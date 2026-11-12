@@ -15,8 +15,8 @@
  "overview": {
   "label": "Overview",
   "headline": [
-   "Ideas are getting cheap. Trusting them is not.",
-   "I keep a dated record of which calls held up."
+   "Most ideas should die.",
+   "I'll tell you which, in writing, with a date."
   ],
   "tiles": [
    {
@@ -140,7 +140,7 @@
           "chip": "My call",
           "tone": "gold",
           "signal": "Enter small, before the rule",
-          "text": "Volume is the lagging bet; the liability rule is the leading one. My read: 1 in 3 that Visa, Mastercard or a top-10 US card issuer has a rule in effect by 2027-06-30 requiring a record of what the user told the agent. Announcements without an effective date do not count. I will post the outcome either way."
+          "text": "Volume is the lagging bet; the liability rule is the leading one. My read is the call at the top of this page: 1 in 3 by 2027-06-30."
          },
          {
           "chip": "If I'm wrong",
@@ -320,6 +320,16 @@
     ],
     "read": "Each day ends in something dated you can check. The seat tabs carry 30, 90 and 180 days."
    }
+  },
+  "receipt": {
+   "kind": "Call",
+   "written": "2026-11-10",
+   "resolves": "2027-06-30",
+   "claim": "1 in 3: Visa, Mastercard or a top-10 US card issuer has a rule in effect requiring a record of what the user told the agent.",
+   "kill": "No such rule in effect by 2027-06-30. Announcements without an effective date do not count.",
+   "status": "Open. Gravity can resolve it; I will post the outcome either way.",
+   "ask": "Send me one idea you passed on. In two weeks you get a card like this back: keep or kill, and the test that decided it.",
+   "ask_href": "mailto:zach.harris@gmail.com"
   }
  },
  "tabs": [

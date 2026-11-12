@@ -245,6 +245,18 @@ def r_overview(d):
             '<div class="tb-folds">%s</div>\n</div>') % (h, (('<p class="tb-byline">%s</p>\n' % md(o["byline"], "/overview/byline")) if o.get("byline") else "") + ("" if o.get("bites_at") == "end" else r_bites(o)), ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"], "/overview/subhead")) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(nbh(x), "/overview/lede/%d" % i) for i, x in enumerate(o["lede"]))) if o.get("lede") else "",
          tiles, go, cr,
          " solo" if len(o["sections"]) < 2 else "", folds)
+    if o.get("receipt"):  # the proof object: one real dated call, above the tiles
+        r = o["receipt"]
+        ask = ""
+        if r.get("ask"):
+            link = ('<a class="rcpt-mail" href="%s">%s</a>' % (e(r["ask_href"]), e(r.get("ask_label") or r["ask_href"].replace("mailto:", "")))) if r.get("ask_href") else ""
+            ask = '<p class="rcpt-ask">%s %s</p>' % (md(r["ask"], "/overview/receipt/ask"), link)
+        card = ('<section class="rcpt" aria-labelledby="rcpt-claim"><p class="rcpt-meta"><span>%s</span><span>Written %s</span><span>Resolves %s</span></p>'
+                '<p class="rcpt-claim" id="rcpt-claim">%s</p><dl class="rcpt-rows"><dt>Kill it if</dt><dd>%s</dd><dt>Status</dt><dd>%s</dd></dl></section>\n%s\n') % (
+            md(r["kind"], "/overview/receipt/kind"), md(r["written"], "/overview/receipt/written"), md(r["resolves"], "/overview/receipt/resolves"),
+            md(r["claim"], "/overview/receipt/claim"), md(r["kill"], "/overview/receipt/kill"), md(r["status"], "/overview/receipt/status"), ask)
+        assert '<div class="ftiles-c">' in out
+        out = out.replace('<div class="ftiles-c">', card + '<div class="ftiles-c">', 1)
     if o.get("bites_at") == "end" and o.get("bites"):  # evidence first, then what colleagues say
         assert out.endswith("</div>\n</div>")
         out = out[:-len("</div>")] + r_bites(o) + "</div>"
