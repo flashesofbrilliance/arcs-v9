@@ -121,7 +121,10 @@ def self_test():
         return json.dumps({"id": "r%d" % i, "state": "OPEN", "status_note": note + " →"}, ensure_ascii=False)
 
     with tempfile.TemporaryDirectory() as d:
-        env = dict(os.environ, GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM="1", GIT_TERMINAL_PROMPT="0")
+        # Strip GIT_DIR/GIT_INDEX_FILE/GIT_WORK_TREE etc.: under a pre-commit hook they point at the real
+        # repo, so the scratch repo's commands would act on it and every case fails (seen 2026-11-12).
+        env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+        env.update(GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM="1", GIT_TERMINAL_PROMPT="0")
 
         def git(*a):
             return subprocess.run(["git", "-C", d] + list(a), capture_output=True, text=True, env=env)
