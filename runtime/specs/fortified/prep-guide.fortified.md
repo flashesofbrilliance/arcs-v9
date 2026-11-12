@@ -105,3 +105,5 @@ Design choices from the original that survive as intent: stage names written fro
 - **It described a system as built that was not.** The spec called a reference "proven" and drew a Brief-driven pipeline with typed receipts. The repo has none of those files, and the guide reads the Receipt. A builder trusting the spec would wire the wrong inputs.
 - **It invited fabricated sources about real people.** It told the model to name source types it never consulted, while also saying the model does no research (372) and never fabricates (729). The two rules cannot both hold without retrieval.
 - **It promised safety the code does not have.** "Output validated against StageData before storing" (~392) and clean error states (~881-893) are not built; the live route trusts raw model JSON.
+
+Grounds: ledger runtime/specs/fortified/ledgers/prep.json; the unguarded parse at src/app/api/guide/[receiptId]/route.ts:257; the single model call with no tools at route.ts:241; the absence of `publicContextSources` anywhere in src (`grep -rn publicContextSources src` returns nothing).

@@ -87,6 +87,8 @@ Each item is untested. None may gate a build or appear in copy as a result.
 | "Grounded in ... field transcripts" (952). No transcript is cited by id; the White Paper has no altitude content. | List the transcript ids, or drop the claim. |
 | Seven ROM-LTE candidates (926-934). ROM is a seven-primitive constitutional set; promotion is earned through a gate. | Keep as candidate ADRs; promote one only with its passing test. |
 
+Grounds: ledger runtime/specs/fortified/ledgers/lte.json (claims marked UNVERIFIABLE and UNSOURCED-SELF-GRADE); the code these hypotheses would test lives in operators/arcs_lte.py; no test file for it exists (`ls operators/tests | grep -i lte` returns nothing). Each row above is unconfirmed until that test exists.
+
 ## Gaps and open questions
 
 Build gaps:

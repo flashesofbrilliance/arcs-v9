@@ -22,6 +22,8 @@ status: DRAFT for Zach's review
 
 No one can build the product this spec describes from it today. Its central object does not exist: the repo's SAGE is a Discernment operator ("is this signal or noise?") that runs first in the operator pipeline as a fail-open, advisory pre-screen whose output users never see. The spec instead sells an L4/L5 "truth-extraction engine," a standalone `/api/sage/*` product, and a new stack (Next 15, Tailwind, Supabase Auth, Railway, OpenAI embeddings, new receipt tables) that contradicts the repo on every line. Whether SAGE should exist as a service at all is a HELD decision with no data behind it yet. What a builder can use: the NOTOMATION stance (SAGE never decides), the signal-versus-noise purpose, and the idea of a tamper-evident receipt, which the repo already carries in other models. Everything else is a hypothesis or needs a ruling from Zach.
 
+Grounds: operators/arcs_operators_sage.py (the Discernment operator and its header), operators/operator_client.py (SAGE first in the SAGE, LAB, BAR, CURATOR pipeline), operators/docs/PERIODIC-TABLE.md (no Sage operator), backlog rows svc-sage-should-it-exist-decision and op25-sage-naming-ruling, ledger runtime/specs/fortified/ledgers/sage.json.
+
 ## What holds
 
 | Statement | Evidence |
@@ -78,6 +80,8 @@ No one can build the product this spec describes from it today. Its central obje
 | iOS share-sheet target and haptics from a PWA (L605) | Not checked. Verify on caniuse or a device. |
 | Competitors have "None" on every moat row (L664) | Not searched. Needs dated product pages, or soften. |
 | The spec's closing self-grade | Removed. No rubric, rater or evidence was given. |
+
+Grounds: ledger runtime/specs/fortified/ledgers/sage.json (UNVERIFIABLE and self-grade claims); calculate_nci in operators/arcs_primitives.py takes no text input, so no text-grading NCI exists to test against. All rows above are unconfirmed.
 
 ## Gaps and open questions
 
