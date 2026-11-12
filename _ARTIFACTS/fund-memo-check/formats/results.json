@@ -1,0 +1,430 @@
+[
+ {
+  "stage": "raw",
+  "file": "01_lpa.txt",
+  "result": "loaded, 3 clauses"
+ },
+ {
+  "stage": "raw",
+  "file": "02_lpa_plain.md",
+  "result": "SKIPPED SILENTLY (0 documents, no error)"
+ },
+ {
+  "stage": "raw",
+  "file": "03_lpa_idiomatic.md",
+  "result": "SKIPPED SILENTLY (0 documents, no error)"
+ },
+ {
+  "stage": "raw",
+  "file": "04_lpa_legal_features.txt",
+  "result": "REFUSED: 04_lpa_legal_features.txt: UnreadableDocument"
+ },
+ {
+  "stage": "raw",
+  "file": "05_lpa_typed.docx",
+  "result": "SKIPPED SILENTLY (0 documents, no error)"
+ },
+ {
+  "stage": "raw",
+  "file": "06_lpa_autonumber.docx",
+  "result": "SKIPPED SILENTLY (0 documents, no error)"
+ },
+ {
+  "stage": "raw",
+  "file": "07_lpa_tracked_changes.docx",
+  "result": "SKIPPED SILENTLY (0 documents, no error)"
+ },
+ {
+  "stage": "raw",
+  "file": "08_lpa_text.pdf",
+  "result": "SKIPPED SILENTLY (0 documents, no error)"
+ },
+ {
+  "stage": "raw",
+  "file": "09_lpa_compare_redline.pdf",
+  "result": "SKIPPED SILENTLY (0 documents, no error)"
+ },
+ {
+  "stage": "raw",
+  "file": "10_lpa_scanned.pdf",
+  "result": "SKIPPED SILENTLY (0 documents, no error)"
+ },
+ {
+  "stage": "raw",
+  "file": "11_term_sheet_table.docx",
+  "result": "SKIPPED SILENTLY (0 documents, no error)"
+ },
+ {
+  "stage": "forced",
+  "file": "05_lpa_typed.docx",
+  "result": "REFUSED (UnreadableDocument)"
+ },
+ {
+  "stage": "forced",
+  "file": "06_lpa_autonumber.docx",
+  "result": "REFUSED (UnreadableDocument)"
+ },
+ {
+  "stage": "forced",
+  "file": "07_lpa_tracked_changes.docx",
+  "result": "REFUSED (UnreadableDocument)"
+ },
+ {
+  "stage": "forced",
+  "file": "08_lpa_text.pdf",
+  "result": "REFUSED (UnreadableDocument)"
+ },
+ {
+  "stage": "forced",
+  "file": "09_lpa_compare_redline.pdf",
+  "result": "REFUSED (UnreadableDocument)"
+ },
+ {
+  "stage": "forced",
+  "file": "10_lpa_scanned.pdf",
+  "result": "REFUSED (UnreadableDocument)"
+ },
+ {
+  "stage": "forced",
+  "file": "11_term_sheet_table.docx",
+  "result": "REFUSED (UnreadableDocument)"
+ },
+ {
+  "stage": "converted",
+  "file": "01_lpa.txt",
+  "ingest": "ok",
+  "clauses": [
+   "8.1",
+   "8.2",
+   "8.3"
+  ],
+  "8.1 fee figures": [
+   "2.0%"
+  ],
+  "8.3": "ar organizational expenses up to $1,500,000; any excess is borne by the manager.",
+  "leaks": []
+ },
+ {
+  "stage": "converted",
+  "file": "02_lpa_plain.md",
+  "ingest": "ok",
+  "clauses": [
+   "8.1",
+   "8.2",
+   "8.3"
+  ],
+  "8.1 fee figures": [
+   "2.0%"
+  ],
+  "8.3": "ar organizational expenses up to $1,500,000; any excess is borne by the manager.",
+  "leaks": []
+ },
+ {
+  "stage": "converted",
+  "file": "03_lpa_idiomatic.md",
+  "ingest": "REFUSED (UnreadableDocument)",
+  "clauses": [],
+  "8.1 fee figures": [],
+  "8.3": "",
+  "leaks": []
+ },
+ {
+  "stage": "converted",
+  "file": "04_lpa_legal_features.txt",
+  "ingest": "REFUSED (UnreadableDocument)",
+  "clauses": [],
+  "8.1 fee figures": [],
+  "8.3": "",
+  "leaks": []
+ },
+ {
+  "stage": "converted",
+  "file": "03_lpa_idiomatic.pandoc.txt",
+  "ingest": "REFUSED (UnreadableDocument)",
+  "clauses": [],
+  "8.1 fee figures": [],
+  "8.3": "",
+  "leaks": []
+ },
+ {
+  "stage": "converted",
+  "file": "04_lpa_legal_features.restyled.txt",
+  "ingest": "ok",
+  "clauses": [
+   "1.1",
+   "8.1",
+   "8.3"
+  ],
+  "8.1 fee figures": [],
+  "8.3": "l closing after december 31, 2026. [1] subject to the fee offset in section 8.2.",
+  "leaks": [
+   "struck $1,500,000"
+  ]
+ },
+ {
+  "stage": "converted",
+  "file": "05_lpa_typed.pandoc-accept.txt",
+  "ingest": "ok",
+  "clauses": [
+   "8.1",
+   "8.2",
+   "8.3"
+  ],
+  "8.1 fee figures": [
+   "2.0%"
+  ],
+  "8.3": "ar organizational expenses up to $1,500,000; any excess is borne by the manager.",
+  "leaks": []
+ },
+ {
+  "stage": "converted",
+  "file": "05_lpa_typed.textutil.txt",
+  "ingest": "ok",
+  "clauses": [
+   "8.1",
+   "8.2",
+   "8.3"
+  ],
+  "8.1 fee figures": [
+   "2.0%"
+  ],
+  "8.3": "ar organizational expenses up to $1,500,000; any excess is borne by the manager.",
+  "leaks": []
+ },
+ {
+  "stage": "converted",
+  "file": "06_lpa_autonumber.pandoc-accept.txt",
+  "ingest": "REFUSED (UnreadableDocument)",
+  "clauses": [],
+  "8.1 fee figures": [],
+  "8.3": "",
+  "leaks": []
+ },
+ {
+  "stage": "converted",
+  "file": "06_lpa_autonumber.textutil.txt",
+  "ingest": "REFUSED (UnreadableDocument)",
+  "clauses": [],
+  "8.1 fee figures": [],
+  "8.3": "",
+  "leaks": []
+ },
+ {
+  "stage": "converted",
+  "file": "07_lpa_tracked_changes.pandoc-accept.txt",
+  "ingest": "ok",
+  "clauses": [
+   "8.1",
+   "8.2",
+   "8.3"
+  ],
+  "8.1 fee figures": [
+   "1.75%"
+  ],
+  "8.3": "xcess is borne by the manager. [1] reduced to 1.25% after the fifth anniversary.",
+  "leaks": [
+   "footnote 1.25%",
+   "struck $1,500,000"
+  ]
+ },
+ {
+  "stage": "converted",
+  "file": "07_lpa_tracked_changes.pandoc-all.txt",
+  "ingest": "ok",
+  "clauses": [
+   "8.1",
+   "8.2",
+   "8.3"
+  ],
+  "8.1 fee figures": [
+   "1.50%",
+   "1.75%",
+   "2.0%"
+  ],
+  "8.3": "xcess is borne by the manager. [1] reduced to 1.25% after the fifth anniversary.",
+  "leaks": [
+   "comment 1.50%",
+   "footnote 1.25%",
+   "struck $1,500,000"
+  ]
+ },
+ {
+  "stage": "converted",
+  "file": "07_lpa_tracked_changes.pandoc-reject.txt",
+  "ingest": "ok",
+  "clauses": [
+   "8.1",
+   "8.2",
+   "8.3"
+  ],
+  "8.1 fee figures": [
+   "2.0%"
+  ],
+  "8.3": "xcess is borne by the manager. [1] reduced to 1.25% after the fifth anniversary.",
+  "leaks": [
+   "footnote 1.25%",
+   "struck $1,500,000"
+  ]
+ },
+ {
+  "stage": "converted",
+  "file": "07_lpa_tracked_changes.textutil.txt",
+  "ingest": "ok",
+  "clauses": [
+   "8.1",
+   "8.2",
+   "8.3"
+  ],
+  "8.1 fee figures": [
+   "1.75%"
+  ],
+  "8.3": "tional expenses up to $1,500,000 $2,000,000; any excess is borne by the manager.",
+  "leaks": [
+   "struck $1,500,000"
+  ]
+ },
+ {
+  "stage": "converted",
+  "file": "08_lpa_text.pdftotext-layout.txt",
+  "ingest": "ok",
+  "clauses": [
+   "8.1",
+   "8.2",
+   "8.3"
+  ],
+  "8.1 fee figures": [
+   "2.0%"
+  ],
+  "8.3": "izational expenses up to $1,500,000; any excess is borne by the manager. page 42",
+  "leaks": [
+   "header",
+   "page no."
+  ]
+ },
+ {
+  "stage": "converted",
+  "file": "08_lpa_text.pdftotext.txt",
+  "ingest": "ok",
+  "clauses": [
+   "8.1",
+   "8.2",
+   "8.3"
+  ],
+  "8.1 fee figures": [
+   "2.0%"
+  ],
+  "8.3": "izational expenses up to $1,500,000; any excess is borne by the manager. page 42",
+  "leaks": [
+   "header",
+   "page no."
+  ]
+ },
+ {
+  "stage": "converted",
+  "file": "08_lpa_text.pypdf.txt",
+  "ingest": "ok",
+  "clauses": [
+   "8.1",
+   "8.2",
+   "8.3"
+  ],
+  "8.1 fee figures": [
+   "2.0%"
+  ],
+  "8.3": "ar organizational expenses up to $1,500,000; any excess is borne by the manager.",
+  "leaks": [
+   "header",
+   "page no."
+  ]
+ },
+ {
+  "stage": "converted",
+  "file": "09_lpa_compare_redline.pdftotext-layout.txt",
+  "ingest": "ok",
+  "clauses": [
+   "8.1",
+   "8.2"
+  ],
+  "8.1 fee figures": [
+   "1.75%",
+   "2.0%"
+  ],
+  "8.3": "",
+  "leaks": []
+ },
+ {
+  "stage": "converted",
+  "file": "09_lpa_compare_redline.pdftotext.txt",
+  "ingest": "ok",
+  "clauses": [
+   "8.1",
+   "8.2"
+  ],
+  "8.1 fee figures": [
+   "1.75%",
+   "2.0%"
+  ],
+  "8.3": "",
+  "leaks": []
+ },
+ {
+  "stage": "converted",
+  "file": "09_lpa_compare_redline.pypdf.txt",
+  "ingest": "ok",
+  "clauses": [
+   "8.1",
+   "8.2"
+  ],
+  "8.1 fee figures": [
+   "1.75%",
+   "2.0%"
+  ],
+  "8.3": "",
+  "leaks": []
+ },
+ {
+  "stage": "converted",
+  "file": "10_lpa_scanned.pdftotext-layout.txt",
+  "ingest": "REFUSED (UnreadableDocument)",
+  "clauses": [],
+  "8.1 fee figures": [],
+  "8.3": "",
+  "leaks": []
+ },
+ {
+  "stage": "converted",
+  "file": "10_lpa_scanned.pdftotext.txt",
+  "ingest": "REFUSED (UnreadableDocument)",
+  "clauses": [],
+  "8.1 fee figures": [],
+  "8.3": "",
+  "leaks": []
+ },
+ {
+  "stage": "converted",
+  "file": "10_lpa_scanned.pypdf.txt",
+  "ingest": "REFUSED (UnreadableDocument)",
+  "clauses": [],
+  "8.1 fee figures": [],
+  "8.3": "",
+  "leaks": []
+ },
+ {
+  "stage": "converted",
+  "file": "11_term_sheet_table.pandoc-accept.txt",
+  "ingest": "REFUSED (UnreadableDocument)",
+  "clauses": [],
+  "8.1 fee figures": [],
+  "8.3": "",
+  "leaks": []
+ },
+ {
+  "stage": "converted",
+  "file": "11_term_sheet_table.textutil.txt",
+  "ingest": "REFUSED (UnreadableDocument)",
+  "clauses": [],
+  "8.1 fee figures": [],
+  "8.3": "",
+  "leaks": []
+ }
+]

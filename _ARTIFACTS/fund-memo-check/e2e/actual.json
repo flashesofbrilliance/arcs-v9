@@ -1,0 +1,92 @@
+[
+ {
+  "line": 1,
+  "figure": "2.0%",
+  "status": "STALE",
+  "clauses": [],
+  "stale": [
+   "8.1 -> governed by A1.1"
+  ],
+  "review": []
+ },
+ {
+  "line": 2,
+  "figure": "$25,000,000",
+  "status": "NOT COVERED",
+  "clauses": [],
+  "stale": [],
+  "review": [
+   "8.3 (amendment A1.2 unclassified)"
+  ]
+ },
+ {
+  "line": 2,
+  "figure": "$437,500",
+  "status": "NOT COVERED",
+  "clauses": [],
+  "stale": [],
+  "review": [
+   "8.3 (amendment A1.2 unclassified)"
+  ]
+ },
+ {
+  "line": 3,
+  "figure": "100%",
+  "status": "TRACED + NEEDS REVIEW",
+  "clauses": [
+   "9.2"
+  ],
+  "stale": [],
+  "review": [
+   "8.3 (amendment A1.2 unclassified)"
+  ]
+ },
+ {
+  "line": 4,
+  "figure": "8%",
+  "status": "TRACED",
+  "clauses": [
+   "9.1"
+  ],
+  "stale": [],
+  "review": []
+ },
+ {
+  "line": 5,
+  "figure": "20%",
+  "status": "TRACED + NEEDS REVIEW",
+  "clauses": [
+   "9.2"
+  ],
+  "stale": [],
+  "review": [
+   "8.3 (amendment A1.2 unclassified)"
+  ]
+ },
+ {
+  "line": 6,
+  "figure": "10",
+  "status": "NOT COVERED",
+  "clauses": [],
+  "stale": [],
+  "review": []
+ },
+ {
+  "line": 7,
+  "figure": "$1.5",
+  "status": "NOT COVERED",
+  "clauses": [],
+  "stale": [],
+  "review": [
+   "8.3 (amendment A1.2 unclassified)"
+  ]
+ },
+ {
+  "line": 8,
+  "figure": "march 1, 2031",
+  "status": "NOT COVERED",
+  "clauses": [],
+  "stale": [],
+  "review": []
+ }
+]
