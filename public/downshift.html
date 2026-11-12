@@ -834,6 +834,9 @@ body { font-family: var(--ds-font-sans); }
 .navwrap .secnav a { display: block; padding: 10px 16px; min-height: 44px; box-sizing: border-box; box-shadow: none; }
 .navwrap .secnav a[aria-current="true"] { box-shadow: inset 3px 0 0 var(--cyan); }
 @media (prefers-reduced-motion: reduce) { .navbtn-bars span { transition: none; } }
+
+/* Chevron always in the last grid column, first row, so a fold with no chip (Zach's facts) lines up with the rest (comment ea97d63c, 2026-11-12). */
+.fold > summary::after { grid-column: -2 / -1; grid-row: 1; }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
