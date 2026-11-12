@@ -23,6 +23,9 @@ CLASSNAME_ALLOW = {
 CSS_ALLOW = {
     "src/app/globals.css",  # reset + keyframes + font tokens
     "src/ui-kit/recoil-report/_tokens.css",  # artifact token kit (gotcha #13)
+    "src/ui-kit/recoil-report/_tokens-light.css",  # kit light remap linked after _tokens.css (parts 43 to 51)
+    "src/ui-kit/recoil-report/_kit-sr.css",  # one screen-reader-only class shared by kit parts 43 to 51
+    "src/ui-kit/tabbed-brief/shell.css",  # tabbed-brief template layer (scripts/tabbed_brief_build.py), artifact-only
 }
 TAILWIND = re.compile(r"@tailwind|@apply\b|from ['\"]tailwind|require\(['\"]tailwind")
 

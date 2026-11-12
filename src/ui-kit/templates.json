@@ -159,6 +159,122 @@
         ".panel"
       ],
       "min_signatures": 3
+    },
+    "counterpart-onepager": {
+      "mode": "persuade",
+      "kind": "persuasion-surface",
+      "description": "Cold or warm proposal one-pager for one counterpart: offer hero (title, serif verdict, aside, kit 29 tiles, kit 28 chip), a case switcher on the real decision (kit 24 segmented control driving panels, pure CSS), a heard/check paired-row grid, a sans-value receipt table (08 adapted), one ask (kit 31 callout), a depth checklist, kit 39 theme toggle. Built only by scripts/counterpart_onepager_build.py from a data file in _ARTIFACTS/counterpart-onepager/; never hand-edited. Lockup, heard/check grid, case switcher, sans receipt table and depth checklist are candidates until a second page needs them.",
+      "canonical_examples": [
+        "_ARTIFACTS/brooks-audit-onepager.html"
+      ],
+      "data_example": "_ARTIFACTS/counterpart-onepager/brooks.json",
+      "generator": "scripts/counterpart_onepager_build.py",
+      "signature_selectors": [
+        ".lockup",
+        ".hgrid",
+        ".seg-wrap",
+        ".receipt-table",
+        ".tiles",
+        ".callout",
+        "details.depth",
+        ".themebtn"
+      ],
+      "min_signatures": 5
+    },
+    "tool-index": {
+      "mode": "read",
+      "kind": "catalog",
+      "description": "Hub page that lists tools as cards linking out, grouped under one section label per stated maturity. Wears no --tool-accent: a hub carries no tool swatch. public/good.html (rendered by scripts/connector_render.py) shares the same card grammar, which is the second page the fork rule requires.",
+      "canonical_examples": [
+        "public/good-instruments.html"
+      ],
+      "signature_selectors": [
+        ".sec-lbl",
+        ".cards",
+        ".card",
+        ".cbar",
+        ".cbody",
+        ".chead",
+        ".cname",
+        ".cfoot"
+      ],
+      "min_signatures": 4
+    },
+    "precall-brief": {
+      "mode": "operate",
+      "kind": "instrument-dashboard",
+      "description": "Private pre-call prep page for one call: pinned freeze note, a one-column cockpit in stop-loss order (Tripwires, Ask first, Decide go/stop, Say; each item a headline, lede, bullets and a Details jump to a card), four lanes in call order (Before, Opening, Interview, Debrief; the current phase opens first), foldable cards with paired-row unfold, evidence-only chips (STATED, JUDGMENT, UNVERIFIED), an ex-ante predictions table with a Basis column and a Brier score, one disclosure component (.disc), dark-first with a light toggle. The tripwire, ask-first and go/stop sections are the identity-verification layer and are required by the schema. Built only by scripts/precall_brief_build.py from page.tpl plus a data file valid against brief.schema.json; never hand-edited. Real briefs name real people and stay private (data in _ARTIFACTS/precall-brief/private/, gitignored).",
+      "canonical_examples": [
+        "_ARTIFACTS/precall-brief/example.html"
+      ],
+      "data_example": "_ARTIFACTS/precall-brief/example.json",
+      "schema": "src/ui-kit/precall-brief/brief.schema.json",
+      "generator": "scripts/precall_brief_build.py",
+      "skill": ".claude/skills/precall-page/SKILL.md",
+      "signature_selectors": [
+        ".cockpit",
+        ".csec",
+        ".citem",
+        ".disc",
+        ".lane-head",
+        ".card-sum",
+        ".chip",
+        ".pinned",
+        "#brief-data"
+      ],
+      "min_signatures": 6
+    },
+    "tabbed-brief": {
+      "mode": "persuade",
+      "kind": "persuasion-surface",
+      "description": "Tabbed counterpart brief generated from data by scripts/tabbed_brief_build.py (schema src/ui-kit/tabbed-brief/brief.schema.json): kit 38 wordmark and kit 51 display preferences, a framed document with a meta strip, kit 42 shell nav (tabs from 1024px, dropdown below), a hero (headline, lede, next step, one action row), kit 45 fact tiles, fold sections, and one role tab per option with kit 52 plan matrix, fact tables, cards and kit 31 callouts. Template layer: src/ui-kit/tabbed-brief/shell.css and shell.js. Never hand-edited.",
+      "canonical_examples": [
+        "public/gravity-brief.html"
+      ],
+      "signature_selectors": [
+        ".shnav",
+        ".tb-meta",
+        ".ftiles",
+        ".tb-fold",
+        ".pm"
+      ],
+      "min_signatures": 3
+    },
+    "recoil-skim": {
+      "mode": "operate",
+      "kind": "instrument-dashboard",
+      "description": "Post-call recoil read skim first (arc weld spec 4.1, _PROPOSALS/2026-11-11-recoil-call-service-arc-weld.md): a header (eyebrow, title, lede, Y state and NCI chips), one glance ledger whose first row is the next move (kit 24 segmented control and 30 buttons; nothing is sent from the page), then kit 56 folds in groups (Decide, Evidence, System, Method) whose summaries state their verdict, holding kit 57 ledger rows, 59 claim checks, 60 heat takes, 61 options, 62 attributed notes, 63 operator passes and 64 kintsugi seams, with one 58 toast for the standing guard. Label step 12px; colour has one meaning; grade D and unscored items render grain with no motion.",
+      "canonical_examples": [
+        "_ARTIFACTS/recoil-brian-2026-11-11.html"
+      ],
+      "signature_selectors": [
+        ".fold-verdict",
+        ".ledger-row",
+        ".claim-v",
+        ".take-text",
+        ".option-name",
+        ".note-panel",
+        ".pass-v",
+        ".seam-rows",
+        ".toast-msg"
+      ],
+      "min_signatures": 5
+    },
+    "recoil-twin": {
+      "mode": "persuade",
+      "kind": "persuasion-surface",
+      "description": "Counterpart twin of a war-room report, generated by scripts/recoil_brief.py (layout stack; scripts/recoil_ext_build.sh) from the SSOT with audience 'both' content only. The tabbed-brief frame (kit 38 wordmark, kit 51 reading options with the kit 39 theme switch, kit 42 nav as section links that fold into a menu below 1024px) around a header card and numbered sections in one scroll, the war-room look of 2026-11-11. Never hand-edited.",
+      "canonical_examples": [
+        "public/recoil-ext/2026-10-29-gasmi.html"
+      ],
+      "signature_selectors": [
+        ".shnav",
+        ".dprefs",
+        ".hd-card",
+        ".sec-hd",
+        ".sec-body"
+      ],
+      "min_signatures": 5
     }
   }
 }

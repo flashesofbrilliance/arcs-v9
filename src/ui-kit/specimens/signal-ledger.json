@@ -1,0 +1,122 @@
+{
+ "number": "54",
+ "name": "Signal Ledger",
+ "slug": "signal-ledger",
+ "layer": "Organism",
+ "job": "Lay out a bull and bear read as grouped rows, each naming the signal it rests on and its evidence, with observed rows kept apart from the author's judgment.",
+ "anatomy": [
+  {
+   "part": "Group header",
+   "role": "27 Section label (h3) left, row count right, one hairline under it",
+   "token": "`text-secondary`, `border`"
+  },
+  {
+   "part": "Row",
+   "role": "A list item on one hairline; three columns from a 58rem container (chip, signal, evidence), two from 38rem (chip over signal, evidence), one below",
+   "token": "`border`"
+  },
+  {
+   "part": "Chip",
+   "role": "28 Chip naming the view (Bull, Bear, Rules, Call); never wraps, so the chip column is 10rem wide at three columns",
+   "token": "plain, `cyan`, `gold`"
+  },
+  {
+   "part": "Signal",
+   "role": "Mono, sentence case (caps on a long label fail the all-caps rule) label: what the view rests on, with its grade in brackets (leading, lagging, noisy)",
+   "token": "`text-secondary`, `--ds-font-mono`"
+  },
+  {
+   "part": "Evidence",
+   "role": "Body text with the source linked inline; a dated figure where one exists",
+   "token": "`text`"
+  },
+  {
+   "part": "Judgment rail",
+   "role": "A 2px gold rule down the left of a judgment group's rows",
+   "token": "`gold`"
+  }
+ ],
+ "states": [
+  {
+   "name": "Observed and judgment",
+   "args": [
+    "two",
+    "100%"
+   ],
+   "note": "Two groups. Observed rows carry neutral or cyan chips; the judgment group carries gold chips and the gold rail."
+  },
+  {
+   "name": "Phone width",
+   "args": [
+    "two",
+    "22rem"
+   ],
+   "note": "Below 38rem each row stacks: chip, then the signal on its own line, then the evidence, so every row's left edge lines up. Never a squeezed table."
+  },
+  {
+   "name": "Tablet width",
+   "args": [
+    "two",
+    "44rem"
+   ],
+   "note": "From 38rem the chip sits over its signal in a left column and the evidence takes the rest."
+  }
+ ],
+ "use_when": [
+  "A view on a market or a decision is argued from both sides and each side should name the signal it rests on.",
+  "The author's own call must read as judgment, apart from what was observed."
+ ],
+ "avoid_when": [
+  "Do not colour a view green or red before it has settled: in ARCS green means proven and red means failed.",
+  "Do not use it for a plain fact table with no sides; that is a table.",
+  "Do not put a row in a judgment group without the word that marks it as yours (My read, My view)."
+ ],
+ "data": [
+  {
+   "field": "groups[]",
+   "type": "{label, judgment?, rows[]}",
+   "required": true,
+   "note": "`label` is one or two words (Observed, My judgment, Reading errors); `judgment: true` draws the gold rail."
+  },
+  {
+   "field": "rows[]",
+   "type": "{chip, tone, signal, text}",
+   "required": true,
+   "note": "`tone` is `plain` (unsettled view), `cyan` (a sourced, dated fact) or `gold` (judgment or a limit). Every observed row cites its source in `text`."
+  }
+ ],
+ "access": [
+  "Each group is a `section` labelled by its h3; rows are a `ul`, so a screen reader announces the count.",
+  "The grid uses `minmax(0,1fr)` and rem sizes, so the largest text size and roomy spacing wrap inside the row.",
+  "Colour is never the only signal: the chip names the view and the judgment group says My judgment in its label."
+ ],
+ "built_from": [
+  {
+   "name": "Kit tokens (atoms)",
+   "href": "_tokens.css"
+  },
+  {
+   "name": "27 Section label",
+   "href": "27-section-label.html"
+  },
+  {
+   "name": "28 Chip",
+   "href": "28-chip.html"
+  }
+ ],
+ "used_by": [
+  {
+   "name": "Gravity Labs brief, Bull vs Bear (public/gravity-brief.html)"
+  }
+ ],
+ "gates": [
+  "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+  "`artifact_wrap_lint.py`, `card_gutter_check.mjs` and `page_gate.py` on every page that carries it; sweep 360 to 1440, including 700 to 1000."
+ ],
+ "links": [
+  "_tokens-light.css",
+  "_kit-sr.css"
+ ],
+ "css": "/* @prim:begin 54-signal-ledger */\n.sl{container-type:inline-size;min-width:0;display:flex;flex-direction:column;gap:28px}\n.sl > *{margin:0}\n.sl-group{min-width:0}\n.sl-gh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:0 0 10px;border-bottom:1px solid var(--border)}\n.sl-gh .section-label{margin:0}\n.sl-gn{font-family:var(--ds-font-mono);font-size:var(--fs-label);letter-spacing:.08em;color:var(--text-secondary)}\n.sl-rows{list-style:none;margin:0;padding:0}\n.sl-group.is-judgment .sl-rows{border-left:2px solid var(--gold);padding-left:14px}\n.sl-row{display:grid;grid-template-columns:minmax(0,1fr);gap:6px 20px;align-items:start;padding:14px 0;border-bottom:1px solid var(--border)}\n.sl-row:last-child{border-bottom:0}\n.sl-key{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0}\n.sl-key .chip{flex:none;white-space:nowrap}\n.sl-sig{font-family:var(--ds-font-mono);font-size:var(--fs-body);font-weight:600;letter-spacing:.02em;line-height:1.45;color:var(--text-secondary);min-width:0}\n.sl-ev{margin:0;min-width:0;line-height:1.55;color:var(--text);text-wrap:pretty}\n@container (min-width:38rem){.sl-row{grid-template-columns:minmax(10rem,14rem) minmax(0,1fr)}.sl-key{flex-direction:column;align-items:flex-start}}\n@container (min-width:58rem){.sl-row{grid-template-columns:10rem minmax(9rem,13rem) minmax(0,1fr)}.sl-key{display:contents}.sl-key .chip{justify-self:start}}\n/* @prim:end 54-signal-ledger */\n",
+ "demo": "function slEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nvar SLG=[{label:'Observed',rows:[['Bull','plain','Transaction counts (leading, noisy)','165M agent transactions by April, about half of them tests.'],['Bear','plain','Volume, tests removed','Near $1.6M a month on the strictest filter.'],['Rules','cyan','Regulatory calendar','The stablecoin rule takes effect 2027-01-18.']]},{label:'My judgment',judgment:true,rows:[['Call','gold','Enter small, before the rule','My read: 1 in 3 by 2027-06-30. I will post the outcome either way.']]}];\nfunction kitSignalLedger(host,groups){var w=document.createElement('div');w.className='sl';w.innerHTML=groups.map(function(g,gi){var id='slg-'+Math.random().toString(36).slice(2,8);return '<section class=\"sl-group'+(g.judgment?' is-judgment':'')+'\" aria-labelledby=\"'+id+'\"><div class=\"sl-gh\"><h3 class=\"section-label\" id=\"'+id+'\">'+slEsc(g.label)+'</h3><span class=\"sl-gn\">'+g.rows.length+(g.rows.length===1?' row':' rows')+'</span></div><ul class=\"sl-rows\">'+g.rows.map(function(r){return '<li class=\"sl-row\"><div class=\"sl-key\"><span class=\"chip'+(r[1]&&r[1]!=='plain'?' '+r[1]:'')+'\">'+slEsc(r[0])+'</span><span class=\"sl-sig\">'+slEsc(r[2])+'</span></div><p class=\"sl-ev\">'+slEsc(r[3])+'</p></li>'}).join('')+'</ul></section>'}).join('');host.appendChild(w);return w}\nkitSignalLedger(kSlot(),SLG);\ndocument.querySelectorAll('[data-state]').forEach(function(el,i){var a=STATES[i];var g=a[0]==='one'?[SLG[0]]:SLG;var box=document.createElement('div');box.style.maxWidth=a[1];el.appendChild(box);kitSignalLedger(box,g)});\nfunction kSlot(){return document.querySelector('[data-stage]')}"
+}

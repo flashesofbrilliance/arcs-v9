@@ -23,8 +23,8 @@ counterpart-gauntlet (what / why / do from the first screen only). This script i
 verdict (see memory mechanized-frontend-gate-is-tripwire-not-verdict).
 
 Calibration contract (must hold or the gate is wrong, not the pages):
-  public/ahmed-ext.html            -> FAIL   (counterpart said "lost", twice)
-  public/saul.html                 -> FAIL   (counterpart's live A/B preferred the ChatGPT version)
+  _ARCHIVE/retired-surfaces/2026-11-04/public/ahmed-ext.html            -> FAIL   (counterpart said "lost", twice)
+  _ARCHIVE/retired-surfaces/2026-11-04/public/saul.html                 -> FAIL   (counterpart's live A/B preferred the ChatGPT version)
   the verdict-first re-render      -> PASS   (the acceptance test; Ahmed reads it in < 2 minutes)
 
 Usage: python3 scripts/cold_reader_gate.py <page.html> [...] [--json] [--fold-chars 1200]

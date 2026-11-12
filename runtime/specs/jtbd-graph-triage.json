@@ -3,30 +3,6 @@
  "holds": [
   {
    "rule": "ORPHAN-TOOL",
-   "id": "tool:surface:myally.arcs.care/proposal",
-   "reason": "MyAlly proposal page shipped as a draft 2026-10-26 before a MyAlly job row existed",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-10-26",
-   "resolve_by": "2026-11-09"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:surface:myally.arcs.care/timeline",
-   "reason": "MyAlly hub timeline route shipped as a draft 2026-10-27 before a MyAlly job row existed",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-10-27",
-   "resolve_by": "2026-11-09"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:surface:myally.arcs.care/debrief",
-   "reason": "MyAlly hub debrief route shipped 2026-10-27 before a MyAlly job row existed",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-10-27",
-   "resolve_by": "2026-11-09"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
    "id": "tool:agent:grug",
    "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
    "row": "jtbd-graph-triage-2026-10-20",
@@ -36,14 +12,6 @@
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:command:arcs-mode",
-   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-10-31",
-   "resolve_by": "2026-11-14"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:script:adr_dewy_watch.py",
    "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
    "row": "jtbd-graph-triage-2026-10-20",
    "added": "2026-10-31",
@@ -84,14 +52,6 @@
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:sre-review",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
-   "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:agent:claims-skeptic",
    "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
    "row": "jtbd-standing-tools",
    "added": "2026-11-03",
@@ -148,14 +108,6 @@
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:dream-scout",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
-   "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:script:backlog_append.py",
    "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
    "row": "jtbd-standing-tools",
    "added": "2026-11-03",
@@ -335,6 +287,22 @@
    "reason": "kept by Zach 2026-11-03 as seed candidate for the receipt -> deceipt sweep; no tool yet, so the job stays orphaned until the sweep or classifier is built",
    "row": "jtbd-graph-triage-2026-10-20",
    "added": "2026-11-03",
+   "resolve_by": "2026-11-17"
+  },
+  {
+   "rule": "ORPHAN-JOB",
+   "id": "job:backlog:prl-phase-1-2",
+   "reason": "row minted 2026-11-05 from receipts; its work ran in Zapier and Tidio, which have no tool atom",
+   "row": "prl-phase-1-2",
+   "added": "2026-11-05",
+   "resolve_by": "2026-11-12"
+  },
+  {
+   "rule": "ORPHAN-JOB",
+   "id": "job:backlog:recoil-player-template",
+   "reason": "row minted 2026-11-05 from the PR 1826 receipt; the template is demo data, not a catalogued tool",
+   "row": "uikit-recoil-player",
+   "added": "2026-11-05",
    "resolve_by": "2026-11-17"
   }
  ]

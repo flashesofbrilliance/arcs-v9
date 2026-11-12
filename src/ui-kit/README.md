@@ -27,6 +27,9 @@ organisms  → recoil-report/NN-*.html (the 14 numbered @dsCard primitives):
                           21 big-button-grid · 22 pad-grid · 23 step-sequencer · 24 segmented-control · 25 resolution-ladder · 26 beat-check
              (16 to 20 are the Instrument Lab group, added 2026-10-15; 21 to 26 were promoted from _ARTIFACTS/phosphor.html on 2026-10-16.
               They use the DESIGN.md conformance tokens, and scripts/kit_primitive_sync.py --check keeps each @prim block identical to the page.)
+             42 shell-nav (2026-11-09): the framed brief's section bar, tabs on wide screens and a dropdown menu below 1024px; specimen-built.
+             52 plan-matrix and 53 cold-read (2026-11-09): duties by time horizon with a know strip, and the rule-13a cold-read header; specimen-built.
+             The tabbed-brief template (src/ui-kit/tabbed-brief/) composes them; pages are generated from data by scripts/tabbed_brief_build.py.
 templates  → a composition of organisms a page declares once and snaps into (see templates.json)
 ```
 
@@ -49,6 +52,8 @@ drives composition).
 | `resume-print` | `resume` | print / paper | `public/vico-resume.html` |
 | `instrument-lab` | `operate` | instrument explainer | `_ARTIFACTS/raw-capture.html` |
 | `tool-getting-started` | `read` | tool explainer, one swatch per tool | `public/good-rfp-engine.html` |
+| `counterpart-onepager` | `persuade` | counterpart proposal one-pager, built from a data file | `_ARTIFACTS/brooks-audit-onepager.html` |
+| `tabbed-brief` | `persuade` | tabbed counterpart brief in the cia / myally shell | `public/gravity-brief.html` |
 
 Modes are defined in `scripts/slop_lint.py` `MODE_SPEC` (specificity floors; burstiness is
 mode-independent). `essay`/`reflective`/`longform` carry the low 0.10 floor for evidence-dense prose;
@@ -146,3 +151,118 @@ generator can pull, paints no raw signal hex). Separation is near-duplicate shap
 - `python3 scripts/kit_pull.py harvest` writes `kit-harvest.json`: rule shapes, flocks of rules that travel together,
   and textures repeated across at least two page families outside the kit. A one-off earns no mold; promote on the
   second real case. Part 37 was the first promotion (the audit report and the good-case pages share the grain).
+
+Parts 38 (wordmark) and 39 (theme toggle) were promoted on 2026-11-04 from the Brooks one-pager and storyboard, each on its
+second real case (public/honest.html; the myally pages). The shapes with one case so far are listed as candidates in
+`_ARTIFACTS/counterpart-onepager/README.md`.
+
+## Page pattern: the client hub (parts 43 to 51, 2026-11-09)
+
+Promoted from the My Ally Step 1 tab Zach approved on 2026-11-09 (`public/myally-hub.html`, PR 2094): "clean above the
+fold, organized below the fold". Each part is a specimen (`src/ui-kit/specimens/<slug>.json` built by `kit_specimen.py`)
+whose `@prim` block a page inlines verbatim. Tokens come from `_tokens.css`; light mode is the 39 remap, which every
+specimen carries.
+
+These parts were promoted as a set on one case, an exception to the second-real-case rule above: Zach asked on
+2026-11-09 to "true up various uikit elements for future reuse because this template is really good". Part 51 has a second
+case (the Louisville proposal); 43 to 50 still have one.
+
+**Order, top to bottom:**
+
+1. **Wordmark row** with **51 Display preferences** at its right: the theme switch and the "Aa" reading options side by
+   side; the panel opens under the Aa button.
+2. **44 Status strip** (`.is-top`, 0.85rem), directly under the wordmark row and above the header, on every tab. It is
+   engagement-wide status, not one tab's content: `Not started.` plus `Up next` before any progress, then day segments,
+   `Day N · X of Y hours done`, what is ready for review and the comments count.
+3. **Header strip**: meta (prepared for, from, status) with the **43 Action menu** at its right, then the tabs.
+4. **47 Now note**: one sentence that leads with the reader's next action; dismissible, remembered per note text.
+5. **48 Summary disclosure** ("The whole plan"): closed, a title and one exec line; open, **45 Fact tiles** and a quiet note.
+6. **45 Fact tiles** where facts stand alone (label outside the box, subgrid rows).
+7. **46 Day list** ("Your week"): Before, Day 1 to n, After, one sentence each.
+8. **See every item**: a disclosure holding the full-width grid plus the **49 Pinned details card** (bottom-right from
+   961px, in flow below that). **50 Term definition** marks terms of art anywhere in the copy.
+
+**Rules:**
+
+- **Rhythm:** one 28px gap between blocks (`margin:0` on the children); tight inside a group, generous between groups.
+- **Say it once, less text:** drop a tile or sentence the next block repeats; no pill that does not change a decision.
+- **Labels:** one word (Agreement, Details, Discuss), or `format, for purpose` in menus (PDF, for print · Word, for
+  counsel · Google Doc, for comments). Label left, action icon right; the call to action is the solid last item.
+- **Tabs collapse where they stop fitting, not at a phone breakpoint.** Measure the tab bar's natural width and set the
+  hamburger breakpoint above it (the hub's five tabs need about 754px, so it collapses at 900px and narrower). Reason:
+  tablets in portrait (768 to 834px) and narrow second-screen windows must get the hamburger, never a clipped tab.
+- **The action menu stays in the header above 560px** and moves into the hamburger panel, under the tabs, only at 560px
+  and below (`kitActionGroup` in 43).
+- **Status honesty:** never an empty 0% bar; a Details toggle only when something is behind it.
+- **Reading-options check on every change:** every block uses rem or em and the kit font tokens so 51 reaches it; check
+  at 375 and 1280, light and dark, at the largest text size with roomy spacing and the easy-read font, for clipping,
+  overlap, overflow and 44px targets; screen-reader pass (heading order, native disclosures, labelled regions, focus
+  returned on close, decorative icons `aria-hidden`).
+
+29 Tile and 39 Theme toggle stay unchanged for their consumers; 45 and 51 are their siblings for this pattern.
+
+## Construction rules: 54 Signal ledger and 55 Sound bite (2026-11-10)
+
+Built for the Gravity brief's Bull vs Bear and hero proof, from 27 Section label, 28 Chip and the kit tokens.
+
+**54 Signal ledger**
+
+- **Groups, not one table.** Observed rows come first, then the author's judgment, then how the read could be wrong. Each
+  group is a `section` with a 27 label and a row count. A judgment group carries a 2px gold rail on the left.
+- **Grid, by container width:** one column below 38rem (chip, then the signal on its own line, then the evidence, so left edges line up); two from 38rem
+  (chip over signal in a 10 to 14rem column, evidence beside it); three from 58rem (a 10rem chip column, a 9 to 13rem
+  signal column, evidence). Chips never wrap. It never squeezes into a table on a phone.
+- **Colour rule:** plain chip for a view the evidence has not settled (Bull, Bear); cyan for a sourced, dated fact (Rules);
+  gold for judgment and limits (Trigger, Call, Put, reading errors). Never green or red before a view settles: in ARCS
+  green means proven and red means failed.
+- **Lockup:** every row names the signal it rests on in mono, sentence case, with its grade in brackets (leading, lagging, noisy).
+  Every observed row cites its source inline; a row without one goes in the judgment group with My read or My view.
+- **Adding a row:** add it to the right group in the page data; the grid, rail and count follow. Rows were added to the
+  Gravity ledger only after Zach picked them.
+
+**55 Sound bite**
+
+- **Real quotes only**, verbatim from where they are published, each with name and role as published. Two to five.
+- **Motion:** types each quote fast (two characters per 16ms), holds 6.5s, then the next. Hover, focus and Pause hold it.
+  `prefers-reduced-motion` shows the quote whole, with no timer. The caret never blinks.
+- **Layout:** the untyped rest is laid out but transparent, and the quotes share one grid cell, so the box keeps the tallest
+  quote's height and nothing below moves. Without the script every quote shows as a list.
+- **Place:** in the hero under the byline, above the fact tiles; one per page.
+- **Still mode** (`bites_still` in the tabbed brief): one quote, whole, no typing, no timer, no buttons; the others sit
+  behind the source link. The Gravity hero uses it (brand gate, Zach's call, 2026-11-10): one focal point beside the claim.
+
+## Construction rules: 56 to 64, the recoil-skim set (2026-11-11)
+
+Built for the post-call recoil skim (template `recoil-skim`, first page `_ARTIFACTS/recoil-brian-2026-11-11.html`) under
+backlog row `recoil-kit-reconcile`. The v3 Brian page carried these nine as page-only CSS labelled 42 to 50, numbers that
+belong to other parts; they now live here under free numbers, each generated by `scripts/kit_specimen.py` from its spec in
+`specimens/`. Spec: `_PROPOSALS/2026-11-11-recoil-call-service-arc-weld.md` sections 4.2 and 4.3.
+
+| # | Part | Layer | Replaces on the v3 page |
+|---|---|---|---|
+| 56 | Fold | Organism | "42-fold" |
+| 57 | Ledger row | Molecule | "43-ledger-row" (also the glance table and the forecasts, which were a receipt table and probability bars) |
+| 58 | Toast | Molecule | "44-toast" (the stop-loss) |
+| 59 | Claim check | Molecule | "45-claim-check" |
+| 60 | Heat take | Molecule | "46-heat-take" |
+| 61 | Option | Molecule | "47-option" |
+| 62 | Attributed notes | Organism | "48-attributed-notes" |
+| 63 | Operator pass | Molecule | "49-operator-pass" |
+| 64 | Kintsugi seam | Molecule | "50-kintsugi-seam" |
+
+- **Label 12px, body 15px.** The blocks use `var(--fs-label)` and `var(--fs-body)`; the recoil-skim page and these specimens set
+  them to 0.75rem and 0.9375rem outside the block (a 1.25 step). They move into `_tokens.css` with backlog row
+  `recoil-token-unify`, and the per-page line goes then.
+- **Sentence case past a word or two:** keys, claim keys, seam keys and meta lines are mono at 0.02em, not caps; caps stay on
+  one-word labels (Head, Found, Break). Row separators are drawn between rows (`.take + .take`), never as a border removed
+  from the first row.
+- **One meaning per colour:** red a failed check, gold a limit, green proven, cyan an action or focus, plain (steel) unknown,
+  magenta a paradox (two records disagree). The heat take is a five-pip meter in one ink, never a green-to-red ladder; owner
+  chips are plain; a changed ruling is cyan. Gold on 64 is the repair seam.
+- **Fidelity by state, set from data:** grade D and unscored rows take 37 `grain` (lighter weight, texture, full opacity) and
+  print their sample size (`n = 0`); nothing on grain animates. A forecast is a 57 grain row, not a bar.
+- **One `.row`:** pages compose 28 and 30, whose `.row` lines are identical; leave 33 LED out of a page that uses `.row`
+  (its `.row` gap differs) or the page carries two definitions.
+- **Container queries, not viewport media:** each block sets `container-type: inline-size` and switches columns at 38rem
+  (30rem for 64, 22rem for 62's lines), so a block reads the same in a narrow fold and on a phone.
+- **Print:** 56 hides its chevron in print and the page opens every fold before printing; 58 prints in the flow.

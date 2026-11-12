@@ -40,16 +40,6 @@
             }
           ],
           "destination": "/todd-logictree.html"
-        },
-        {
-          "source": "/runtime",
-          "has": [
-            {
-              "type": "host",
-              "value": "julia.arcs.care"
-            }
-          ],
-          "destination": "/julia-runtime.html"
         }
       ],
       "headers": [

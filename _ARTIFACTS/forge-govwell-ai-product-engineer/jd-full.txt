@@ -1,0 +1,129 @@
+AI Product Engineer
+🏛️ ABOUT GOVWELL
+
+We the people — and the taxpayers — deserve good government. Yet today, interacting with government services is often frustrating and inefficient. GovWell is building the AI operating system transforming how governments serve communities, starting with local agencies.
+
+GovWell replaces legacy software for municipalities and counties, empowering public servants to radically streamline public services and cut internal processing time for permits and licenses by up to 95%.
+
+Founded in 2023, GovWell powers 5,000+ mission-critical processes for agencies in 35+ states serving millions of residents. The company has raised $35M in funding from Insight Partners, Work-Bench, and Bienville Capital, and the team works in person at GovWell HQ in New York City. Read more about our founding story in TechCrunch https://techcrunch.com/2024/07/29/govwell-is-bringing-automation-and-efficiency-to-local-governments/.
+
+
+
+
+
+🌟 ROLE OVERVIEW
+
+GovWell already has AI in production doing real work inside government: Our AI AutoCheck reviews permit applications against local building codes, and our AI Community Assistant automatically answers resident and staff questions about permitting and licensing. Both are live, both are improving fast, and both are still early enough that the engineers who join this team now will define the kind of impact that AI can have at GovWell.
+
+GovWell is hiring AI Product Engineers to grow our AI product line beyond AutoCheck and the AI Community Assistant. You'll work across both existing products — closing reliability gaps and expanding their coverage — while helping define what AI-powered government software looks like next. The two products we've shipped are the beginning of a much larger surface area, not the ceiling.
+
+We have a hybrid work culture that combines regular in-person collaboration at our New York City office (3+ days per week) with flexibility to work remotely.
+
+ 
+
+
+
+☀️ WHY GOVWELL?
+
+ - A mission that matters: Building AI-powered products to fix outdated government systems isn’t just a technical challenge—it’s a historic opportunity to improve our foundational relationship with government and ensure trillions of tax dollars result in high quality services. WATCH: Mission & Vision with CEO & Co-Founder Troy LeCaire https://www.loom.com/share/3d733b22ca0d4fa6be241e0cdd36311a
+
+ - Real-world impact: GovWell’s product is the system of record for government services that affect millions of Americans. From streamlining permitting for small businesses to accelerating affordable housing development, your work will make an immediate difference.
+
+ - Join a startup in hyper-growth: We’ve found product-market fit and are scaling the business very quickly (6X ARR growth in the last year). As an early team member, you’ll learn what it takes to build a successful startup. You’ll work closely with the founders while enjoying exceptional autonomy and ownership over your work.
+
+
+
+
+
+
+
+💻 WHAT YOU’LL DO
+
+ - Expand AI AutoCheck's coverage and accuracy — last quarter it addressed nearly thousands of applications across 100+ customers with a 4.4/5 govstaff satisfaction score. Closing the gap between "good today" and "reviewers trust it completely" is real, immediate work.
+
+ - Improve AI Community Assistant's retrieval grounding and evaluation infrastructure so its answers hold up as we expand to more jurisdictions, more languages, and more question types.
+
+ - Use real production usage data — not synthetic benchmarks — to decide what to fix next; both products already have paying customers depending on the answers being right.
+
+ - Explore what comes after AutoCheck and AI Community Assistant. Nothing here is locked in, and you'll have real input into what gets built next rather than executing a roadmap someone else already wrote.
+
+ - Ship to production quickly and iterate based on what actually happens once real government staff and residents use it.
+
+
+
+
+🧠 WHO YOU ARE
+
+ - You've built with LLMs beyond prompt-wrapping — retrieval-augmented generation, evaluation harnesses, or reliability/hallucination mitigation in a system real users depended on.
+
+ - You know the difference between a demo that impresses in a meeting and a system reliable enough that a government reviewer will actually trust its output — and you're energized by closing that gap, not just building the demo.
+
+ - You're comfortable owning ambiguity: there's no existing playbook for "AI reviewer for municipal permitting," and part of the job is writing it as you go.
+
+ - You have real product judgment — you can help decide what GovWell's AI surface area looks like next, not just implement a spec.
+
+ - Strong full-stack ability: you're shipping UI, API, and the retrieval/model infrastructure underneath it, not working purely in a notebook.
+
+ - Values-aligned: you embody our Core Values. https://govwell.com/careers#core-values
+
+
+
+
+🖥️ OUR TECH STACK
+
+ - RedwoodJS
+
+ - React
+
+ - TypeScript
+
+ - Node.js
+
+ - GraphQL
+
+ - PostgreSQL
+
+ - AWS
+
+
+
+
+🤖 OUR AI STACK
+
+ - Custom evaluation harness for hallucination detection and answer-quality scoring, tracked against explicit pass-rate targets
+
+ - Jurisdiction-aware retrieval — every municipality's codes, ordinances, and review standards are configured and grounded per-customer, not a single shared knowledge base
+
+ - Multi-model orchestration across Google Gemini and OpenAI, routed by task
+
+
+
+
+💸 COMPENSATION AND BENEFITS
+
+Compensation within the posted salary band will be commensurate with experience. All offers will include:
+
+ - Competitive base salary.
+
+ - Equity / stock options.
+
+ - Medical, dental, and vision insurance.
+
+ - 401(k) program.
+
+ - Flexible PTO.
+
+
+
+
+➡️ CLICK HERE TO MEET THE ENGINEERING TEAM https://govwell.com/team?departments_equal=Product
+
+Below: a picture of the entire GovWell team celebrating our Series A with a boat cruise on the Hudson!
+
+[https://app.ashbyhq.com/api/images/user-content/f93a714e-af55-4014-821f-383f2b9c1799/1331038d-1296-4569-b066-631f359d7eb3/Screenshot%202026-07-29%20at%2011.14.55%E2%80%AFAM.png]
+
+
+
+#LI-AC1
+
+ 

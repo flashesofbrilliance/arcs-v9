@@ -149,13 +149,75 @@ if [ -n "$gen_good" ] && [ -f scripts/connector_render.py ] && command -v python
     exit 1
   fi
 fi
+# Engagement records (2026-11-06): the reply, agreement, Exhibit A and five-altitude page under
+# _ARTIFACTS/engagements/<slug>/out/ render from one engagement.json. --check fails when a cited
+# value moved and its outputs were not regenerated (names the field and every output citing it),
+# or an output was hand-edited. Fix: edit the record, run scripts/engagement_render.py, re-stage.
+# myally hub: the "Light audit and code review" tab inlines out/step1_tree.json. Fix: python3 scripts/myally_hub_sync.py, re-stage.
+hub_eng=$(git diff --cached --name-only -- _ARTIFACTS/engagements/myally-ld public/myally-hub.html scripts/myally_hub_sync.py 2>/dev/null || true)
+if [ -n "$hub_eng" ] && [ -f scripts/myally_hub_sync.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/myally_hub_sync.py --check; then
+    echo "✖ commit blocked: the myally hub's Step 1 tab is stale against its engagement record." >&2
+    exit 1
+  fi
+fi
+# myally Primer: the hub's embedded copy and the hover definitions must match public/myally-primer.html.
+pri_eng=$(git diff --cached --name-only -- public/myally-primer.html public/myally-hub.html scripts/myally_primer_terms.py 2>/dev/null || true)
+if [ -n "$pri_eng" ] && [ -f scripts/myally_primer_terms.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/myally_primer_terms.py --check; then
+    echo "✖ commit blocked: the Primer and its copy in the hub disagree. Fix: python3 scripts/myally_primer_terms.py, re-stage." >&2
+    exit 1
+  fi
+fi
+# myally hub interaction crawl (unit checks + headless clicks at 375/800/1280, about 12s).
+if [ -n "$hub_eng" ] && [ -f scripts/myally_hub_crawl.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/myally_hub_crawl.py; then
+    echo "✖ commit blocked: the myally hub crawl found a broken interaction (see above)." >&2
+    exit 1
+  fi
+fi
+gen_eng=$(git diff --cached --name-only -- _ARTIFACTS/engagements scripts/engagement_render.py 2>/dev/null || true)
+if [ -n "$gen_eng" ] && [ -f scripts/engagement_render.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/engagement_render.py --check; then
+    echo "✖ commit blocked: an engagement output is stale against its record (see above)." >&2
+    exit 1
+  fi
+  if git diff --cached --name-only -- scripts/engagement_render.py | grep -q . && ! python3 scripts/engagement_render.py --self-test >/dev/null 2>&1; then
+    echo "✖ commit blocked: scripts/engagement_render.py --self-test failed." >&2
+    exit 1
+  fi
+fi
+# Honest proposals (2026-11-08): every engagement-record-v1 record also passes scripts/proposal_lint.py
+# (typed figures, sharing bans, full-build leak before the paid step, we/our voice, em-dash).
+gen_pl=$(git diff --cached --name-only -- _ARTIFACTS/engagements scripts/engagement_render.py scripts/proposal_lint.py 2>/dev/null || true)
+if [ -n "$gen_pl" ] && [ -f scripts/proposal_lint.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/proposal_lint.py; then
+    echo "✖ commit blocked: a v1 engagement fails the honest-proposals lint (see above)." >&2
+    exit 1
+  fi
+  if git diff --cached --name-only -- scripts/proposal_lint.py scripts/engagement_render.py | grep -q . && ! python3 scripts/proposal_lint.py --self-test >/dev/null 2>&1; then
+    echo "✖ commit blocked: scripts/proposal_lint.py --self-test failed." >&2
+    exit 1
+  fi
+fi
 # Backlog state enum (2026-10-10): every _QUEUE/induced-backlog.jsonl row carries `state` from
 # runtime/specs/backlog-status.json, prose in `status_note`, and RUNNING rows carry claimed_by + claimed_at.
+# --added (2026-11-08): rows new vs HEAD also need route.tool + trigger (route at induction, execute at pickup).
 gen_bl=$(git diff --cached --name-only -- _QUEUE/induced-backlog.jsonl runtime/specs/backlog-status.json scripts/backlog_status_check.py 2>/dev/null || true)
 if [ -n "$gen_bl" ] && [ -f scripts/backlog_status_check.py ] && command -v python3 >/dev/null 2>&1; then
-  if ! python3 scripts/backlog_status_check.py --check; then
-    echo "✖ commit blocked: induced-backlog row(s) missing a valid state (see FAIL lines above)." >&2
+  if ! python3 scripts/backlog_status_check.py --check --added; then
+    echo "✖ commit blocked: induced-backlog row(s) missing a valid state, or a new row missing route.tool / trigger (see FAIL lines above)." >&2
     echo "  set \`state\` from runtime/specs/backlog-status.json; keep prose in \`status_note\`." >&2
+    echo "  new rows: route at induction (the FAIL line proposes one; --propose lists them), execute at pickup." >&2
+    exit 1
+  fi
+fi
+# Backlog merge driver (2026-11-12, gotcha 15): two throwaway branches in a temp repo prove the backlog
+# fixture conflicts without the driver and merges clean by row id with it. ~2s; runs on every commit.
+if [ -f scripts/backlog_merge_by_id.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/backlog_merge_by_id.py --self-test >/dev/null 2>&1; then
+    python3 scripts/backlog_merge_by_id.py --self-test >&2 || true
+    echo "✖ commit blocked: scripts/backlog_merge_by_id.py --self-test failed (backlog merge driver or its .gitattributes line)." >&2
     exit 1
   fi
 fi
@@ -328,6 +390,40 @@ if [ -f scripts/page_gate.py ] && command -v python3 >/dev/null 2>&1; then
     if ! echo "$pages" | tr '\n' '\0' | xargs -0 python3 scripts/page_gate.py --static --no-wrap-lint; then
       echo "✖ commit blocked: a NEW page is missing doctype / charset / viewport or carries mojibake (see above)." >&2
       echo "  put <!doctype html> and <meta charset=\"utf-8\"> on the first two lines, add the viewport meta, then re-stage." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# proposal-build drift: a proposal's hosted page is GENERATED from its source by
+# scripts/proposal_build.py. If either is staged, the hosted copy must match a fresh build, so a
+# hand edit to public/ cannot be silently clobbered by the next regeneration (2026-11-06).
+if [ -f scripts/proposal_build.py ] && command -v python3 >/dev/null 2>&1; then
+  if git diff --cached --name-only | grep -qE '^(public/louisville-proposal\.html|_ARTIFACTS/louisville-proposal/source\.html)$'; then
+    if ! python3 scripts/proposal_build.py --louisville --check; then
+      echo "✖ commit blocked: edit _ARTIFACTS/louisville-proposal/source.html, then rebuild with scripts/proposal_build.py --louisville" >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# page-gate (pdf): any ADDED or CHANGED PDF under public/ or _ARTIFACTS/ must have pages, a real
+# title, tags, embedded fonts, no em-dash or mojibake in its text, and only https:// or mailto:
+# links. Banked 2026-11-06: the Louisville proposal PDF shipped with no gate looking at it. Skips
+# cleanly (exit 2, not a block) on a machine without poppler; the next machine with it catches it.
+if [ -f scripts/page_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  pdfs=$(git diff --cached --name-only --diff-filter=ACM -- 'public/*.pdf' 'public/**/*.pdf' '_ARTIFACTS/*.pdf' '_ARTIFACTS/**/*.pdf' 2>/dev/null || true)
+  if [ -n "$pdfs" ]; then
+    set +e
+    old_ifs=$IFS; IFS=$'\n'
+    python3 scripts/page_gate.py $pdfs
+    rc=$?
+    IFS=$old_ifs
+    set -e
+    if [ "$rc" -eq 1 ]; then
+      echo "✖ commit blocked: a staged PDF failed the page gate (see above). Fix the source page and re-render." >&2
       exit 1
     fi
   fi
@@ -528,6 +624,12 @@ if [ -f scripts/token_source_gate.py ] && command -v python3 >/dev/null 2>&1; th
     fi
     rm -rf "$tmpd"
   fi
+  # Document kit tokens (2026-11-11): src/document/tokens.ts is generated from _tokens.css (+ DOC_EXTRA in the gate); a hand edit fails.
+  doc_tok=$(git diff --cached --name-only -- src/document/tokens.ts src/ui-kit/recoil-report/_tokens.css scripts/token_source_gate.py 2>/dev/null || true)
+  if [ -n "$doc_tok" ] && ! python3 scripts/token_source_gate.py --doc-ts; then
+    echo "✖ commit blocked: src/document/tokens.ts is generated. Edit _tokens.css or DOC_EXTRA, run python3 scripts/token_source_gate.py --doc-ts --write, re-stage." >&2
+    exit 1
+  fi
 fi
 
 # Motion policy gate (2026-10-16): pages that move read the --mo-* motion and safety tokens from
@@ -626,6 +728,31 @@ fi
 if [ -f scripts/kit_specimen.py ] && git diff --cached --name-only -- 'src/ui-kit/specimens/*' 'src/ui-kit/recoil-report/*' 'scripts/kit_specimen.py' | grep -q .; then
   if ! python3 scripts/kit_specimen.py --check; then
     echo "✖ commit blocked: a kit specimen page differs from its spec. Edit the spec and run python3 scripts/kit_specimen.py --all." >&2
+    exit 1
+  fi
+fi
+
+# Counterpart one-pagers are generated (2026-11-04): each page must match its data file in _ARTIFACTS/counterpart-onepager/
+# rendered through the counterpart-onepager template, so a hand edit or a kit change that moves the page is caught.
+if [ -f scripts/counterpart_onepager_build.py ] && git diff --cached --name-only -- '_ARTIFACTS/counterpart-onepager/*' '_ARTIFACTS/brooks-audit-onepager.html' 'src/ui-kit/recoil-report/*' 'src/ui-kit/specimens/*' 'scripts/counterpart_onepager_build.py' | grep -q .; then
+  if ! python3 scripts/counterpart_onepager_build.py --check; then
+    echo "✖ commit blocked: a counterpart one-pager differs from its data. Edit the data JSON and run python3 scripts/counterpart_onepager_build.py." >&2
+    exit 1
+  fi
+fi
+
+# Pre-call briefs are generated (2026-11-06): the example must validate against the brief schema and match its built page,
+# so a template, schema or kit token change that moves the page is caught. Real briefs stay in the gitignored private/ folder.
+if [ -f scripts/precall_brief_build.py ] && git diff --cached --name-only -- '_ARTIFACTS/precall-brief/*' 'src/ui-kit/precall-brief/*' 'src/ui-kit/recoil-report/_tokens.css' 'scripts/precall_brief_build.py' | grep -q .; then
+  if ! python3 scripts/precall_brief_build.py --check; then
+    echo "✖ commit blocked: the pre-call brief example differs from its data or is invalid. Run python3 scripts/precall_brief_build.py _ARTIFACTS/precall-brief/example.json." >&2
+    exit 1
+  fi
+fi
+# tabbed-brief: generated pages must match their data and the template (2026-11-09). Never hand-edit a generated page.
+if [ -f scripts/tabbed_brief_build.py ] && git diff --cached --name-only -- '_ARTIFACTS/tabbed-brief/*' 'src/ui-kit/tabbed-brief/*' 'src/ui-kit/recoil-report/*' 'src/ui-kit/specimens/shell-nav.json' 'public/gravity-brief.html' 'scripts/tabbed_brief_build.py' 'scripts/precall_brief_build.py' | grep -q .; then
+  if ! python3 scripts/tabbed_brief_build.py --check; then
+    echo "✖ commit blocked: a tabbed-brief page differs from its data or template. Rebuild it with python3 scripts/tabbed_brief_build.py DATA.json -o PAGE.html." >&2
     exit 1
   fi
 fi
@@ -1166,6 +1293,30 @@ if [ -n "$jg" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/universe_j
     exit 1
   fi
   rm -f /tmp/jtbd-check.$$
+fi
+
+# Share-control gate (2026-11-12, Frustration Gate): a share button on a gated page must emit a
+# minted share path, never the page's own URL (four recurrences; see scripts/share_control_gate.py).
+sc=$(git diff --cached --name-only -- src scripts/share_control_gate.py 2>/dev/null || true)
+if [ -n "$sc" ] && [ -f scripts/share_control_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/share_control_gate.py || ! python3 scripts/share_control_gate.py --self-test >/dev/null; then
+    echo "✖ commit blocked: a share control copies a gated URL (python3 scripts/share_control_gate.py)." >&2
+    exit 1
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# public-share gate (Kintsugi seam 2026-11-12, PR 2194 exposed the Gasmi war room on a
+# signed-out link; backlog recoil-public-share-gate). A staged public-shares.json, its
+# projection, or a shared report's SSOT re-renders every share's signed-out payload with
+# the real projection and blocks on any leak class or an entry without a gauntlet ref.
+ps=$(git diff --cached --name-only -- runtime/recoil/public-shares.json src/lib/recoilPublicShare.ts scripts/recoil_public_share_gate.py scripts/recoil_public_share_render.mjs 'runtime/recoil/generated/*.json' 2>/dev/null || true)
+if [ -n "$ps" ] && [ -f scripts/recoil_public_share_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! command -v node >/dev/null 2>&1 || ! python3 scripts/recoil_public_share_gate.py --staged || ! python3 scripts/recoil_public_share_gate.py --self-test >/dev/null; then
+    echo "✖ commit blocked: a public recoil share fails its signed-out render check (python3 scripts/recoil_public_share_gate.py --staged)." >&2
+    echo "  a strip list is not a gate: tag the SSOT audience \"both\" and cite the gauntlet run on the entry." >&2
+    exit 1
+  fi
 fi
 
 # Ripple ledger (2026-10-16): warn, never block, when a staged path touches a one-way door that is not yet de-risked.

@@ -94,6 +94,16 @@ earns (WORLD.md's render-at-earned-fidelity, applied to the ledger itself).
 | Etymology-sequencer | **dictionary** | wrong dictionary edition applied to a stratum | BAR/KKL CANON_COLLISION (v3.1.0); Y-gate enum migration (EPHEMERAL et al. survive in old strata); "code wins over doc" standing memory | glossary as single source + rename tombstones ("X → renamed Y, date") + Kairos-locked spec versioning | canon-collision escalation discipline (never resolve under write-lock) |
 | Ventriloquy *(admitted 2026-08-29)* | **speaker** | one voice's words re-read as another's — dominant strain: Zach's own framing re-attributed to a warm counterpart (stored resonance reads as shared authorship; infection rate correlates with warmth). Payload is autoimmune: recoil scores its own echo, the belief-updater degrades to a mirror | Jeben/Spock fusion (corrected 2026-08-23, human recall); Yuri 5-altitude guardrail (2026-08-05); Yuri consent-stance fabrication (2026-08-09 — passed BOTH the impeccable detector and the register gauntlet); Yuri bookmark misattribution reaching the witness stub (2026-08-29, caught by Zach live); ayesha SSOT `MISATTRIBUTED_FIT` riskFlag | speaker-provenance lambda ("paternity test"): every counterpart-attributed quote/stance must match a `Them:`/named turn in the source transcript — `Me:`-match = CONTAMINATED, no match = UNSOURCED; quote-attribution additionally requires source-read-this-session (jog-vs-rewind rule) | pre-send gauntlet (forge/recoil-ship, blocking) + sixty-second-read settle beat — *detector in build (task_ce99d3fd) per epistemic-sequencer precedent*; retro-sweep hit-rate → `_PATTERNS/2026-08-29-adr-033-registry-parity-sweep.md` |
 
+### Ventriloquy note: agreement in interleaved transcripts (amendment 2026-11-04, PROPOSED)
+
+*Not a new member (fails admission criterion 1: same dropped coordinate, speaker). Filed as a note per the gate below. Pending Zach's ratification.*
+
+In an interleaved transcript, a counterpart's listening tokens ("Yeah. Yeah.") or their finishing of their own earlier question is not agreement with the turn before it. Rendering it as agreement ("We agreed X") moves Zach's claim into the counterpart's mouth: the speaker coordinate dropped at the turn boundary. **Rule:** a counterpart-attributed agreement needs the counterpart's own affirmative on the claim itself, in their own turn. A turn that only completes their prior sentence counts as theirs, not as assent to Zach's.
+
+**Receipt:** Brooks Thomas audit page, 2026-11-04. Line 93 (Zach: sunk cost) sat between Brooks's line 92 question and his line 94 completion of it ("...or where are your hypotheses failing? Yeah. Yeah. Yeah."); the draft row read "We agreed sunk cost is the biggest trap." Caught by the counterpart gauntlet's provenance facet before any send; `attribution_provenance_lint.py` did not flag it (the quote was not verbatim, so there was nothing to match).
+
+**Mitigation gap:** the lint matches quotes, not stances. Seed candidate: a transcript-provenance lint that checks speaker turn and line order across interleaved turns, plus units vs currency in figures (the same transcript rendered 20,000 bags as "$20,000"). Enforcement point until then: the gauntlet provenance facet (blocking, pre-send).
+
 ## The Admission Gate (anti-sprawl)
 
 A candidate joins the family ONLY with all four:

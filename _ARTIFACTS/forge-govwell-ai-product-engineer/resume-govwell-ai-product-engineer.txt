@@ -1,0 +1,45 @@
+Zach Harris
+Product engineer building LLM systems end to end: retrieval, evaluation, and routing
+New York Metro · zach.harris@gmail.com · linkedin.com/in/zharris · github.com/flashesofbrilliance
+
+Product engineer who ships the whole stack of an LLM product alone: the interface, the API, the Postgres layer, and the
+model calls underneath, with an evaluation step in front of every model change. I built ARCS on Claude, a live decision
+system at app.arcs.care, and I publish what my own tests show, including the designs they rejected. Earlier I led regulated
+products where a wrong answer is expensive, including a $7B launch at Grayscale.
+EXPERIENCE
+ARCS, Founder and Builder                                                                                      2025 to Present
+  Built and run a live LLM decision system on Claude, solo and end to end: TypeScript and Next.js interface, API routes,
+  Prisma and Postgres, magic-link auth, Python services, and a Model Context Protocol (MCP) server.
+  I split the work between code and model. The model returns structured output, and deterministic code computes the
+  decision state from it. Each job names a model role, one file holds every model id, and a pre-commit check blocks any id
+  elsewhere.
+  Evaluate before switching models. For the paid brief I ran an eval on real receipts. Opus named the non-obvious
+  mechanism in 5 of 5, Sonnet read templated, so the brief moved to Opus and the other routes stayed on cheaper tiers.
+  Pre-registered a retrieval benchmark for source lineage, ran it once, and published every result. Two of the proposed
+  designs failed their bars and were not adopted, and the index that passed was merged. The run recorded 0 confident-
+  wrong answers in 800 cases.
+  Built page gates that fail the build on rendering defects across viewport widths, and trace failing checks to root cause
+  before merge.
+Grayscale Investments (Digital Currency Group), Product Lead                                                2024 to 2025
+  Owned the investor-facing platform for ten SEC and FINRA regulated digital-asset products, a $7B portfolio; built role-
+  based access and pre-deployment gates so no unapproved content could ship.
+  Ran releases across four time zones and cut release-cycle time 35 percent with automated QA.
+Mañana, Product Partner (independent practice)                                                              2020 to Present
+  Embedded 0-to-1 partner on regulated client work: Axon (first-responder video launch), GoPro (EMEA and APAC
+  growth), Verizon Media (five 5G venture assessments), Twill Health (three AI-enabled product lines tested, two
+  validated). Client sprints now run on ARCS.
+Squat New York, Head of Product Innovation and Tech Lead                                                       2019 to 2020
+  Sole product and technology partner for a behavioral health client: rebuilt the platform front end and back end,
+  discovery through relaunch, with HIPAA and accessibility requirements built in from the start.
+Women's Tennis Association, Head of Product and Strategic Partnerships                                    2016 to 2018
+   Built real-time fan-behavior scoring that ran in under 120 milliseconds on a global consumer platform.
+Earlier: Children's Tumor Foundation, Senior Director, Data and Strategy (2018 to 2019); IBRShop, Co-founder and EVP,
+eCommerce (2012 to 2016); Selectable Media, General Manager (2010 to 2011).
+SKILLS
+LLM systems: Claude API and tool use, MCP servers, structured output, model-tier routing, evaluation runs on real data,
+pre-registered benchmarks, retrieval and lineage indexes.
+Full stack: TypeScript, React, Next.js, Node.js, Python, SQL, Prisma, Postgres (Supabase), Auth.js, Vercel, Git and GitHub,
+CI/CD.
+EDUCATION
+Oberlin College, Bachelor of Arts, Studio Art. MIT xPRO, Designing and Building AI Products and Services.
+

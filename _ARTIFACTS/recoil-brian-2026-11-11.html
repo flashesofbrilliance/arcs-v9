@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- @arcs-template: recoil-skim -->
+<!-- @arcs-mode: operate -->
+<title>Recoil: Zach x Brian, 2026-11-11</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   the ui-kit compounding sweep note for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion durations and easing. Defined in DESIGN.md "Motion and safety" (promoted 2026-10-19). */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+</style>
+<style>
+/* Kit primitives, copied from src/ui-kit/recoil-report; kit_primitive_sync.py --check diffs each block against its kit file. */
+/* from src/ui-kit/recoil-report/24-segmented-control.html */
+/* @prim:begin 24-segmented-control */
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; border: 1px solid var(--border); border-radius: var(--ds-r-md); overflow: hidden; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label { text-align: center; font-size: var(--fs-body); line-height: 1.25; padding: 10px 6px; cursor: pointer; color: var(--text-secondary); background: var(--elevated); border-left: 1px solid var(--border); }
+.seg label:first-of-type { border-left: 0; }
+.seg input:checked + label { background: var(--cyan-bg); color: var(--text); box-shadow: inset 0 -2px 0 var(--cyan); }
+.seg input:focus-visible + label { outline: 2px solid var(--cyan); outline-offset: -2px; }
+/* @prim:end 24-segmented-control */
+
+/* from src/ui-kit/recoil-report/27-section-label.html */
+/* @prim:begin 27-section-label */
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+/* @prim:end 27-section-label */
+
+/* from src/ui-kit/recoil-report/28-chip.html */
+/* @prim:begin 28-chip */
+.chip { display: inline-flex; align-items: center; gap: 6px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: var(--ds-r-pill); border: 1px solid var(--border); color: var(--text-secondary); }
+.chip.cyan { color: var(--cyan); border-color: var(--cyan); background: var(--cyan-bg); }
+.chip.green { color: var(--green); border-color: var(--green); background: var(--green-bg); }
+.chip.gold { color: var(--gold); border-color: var(--gold); background: var(--gold-bg); }
+.chip.red { color: var(--red); border-color: var(--red); background: var(--red-bg); }
+.row { display: flex; flex-wrap: wrap; gap: 8px; }
+/* @prim:end 28-chip */
+
+/* from src/ui-kit/recoil-report/30-button.html */
+/* @prim:begin 30-button */
+.btn { font: inherit; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-sm); min-height: 44px; padding: 0 16px; cursor: pointer; transition: border-color var(--dur-fast) var(--ease-out); }
+.btn:hover { border-color: var(--cyan); }
+.btn:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.btn[aria-pressed="true"] { background: var(--cyan-bg); border-color: var(--cyan); }
+.btn:disabled { color: var(--dimmed); border-style: dashed; cursor: not-allowed; }
+@media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+/* @prim:end 30-button */
+
+/* from src/ui-kit/recoil-report/32-evidence-ref.html */
+/* @prim:begin 32-evidence-ref */
+.ref { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--dimmed); }
+.ref a { color: var(--cyan); text-decoration: none; }
+.ref a:hover, .ref a:focus-visible { text-decoration: underline; }
+/* @prim:end 32-evidence-ref */
+
+/* from src/ui-kit/recoil-report/37-fidelity-grain.html */
+/* @prim:begin 37-fidelity-grain */
+.sharp { font-weight: 500; letter-spacing: normal; }
+.degraded { font-weight: 400; letter-spacing: 0.01em; }
+.grain { font-weight: 300; letter-spacing: 0.02em; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"); }
+.moire { font-weight: 300; letter-spacing: 0.03em; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.02 0.6' numOctaves='1'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E"); }
+/* @prim:end 37-fidelity-grain */
+
+/* from src/ui-kit/recoil-report/56-fold.html */
+/* @prim:begin 56-fold */
+.folds { display: flex; flex-direction: column; gap: 8px; }
+.fold-group { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 16px 0 4px; }
+.fold-group:first-child { margin-top: 0; }
+.fold-group-name { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); }
+.fold-group-note { color: var(--text-secondary); }
+.fold { container-type: inline-size; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-sm); }
+.fold > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) 16px; gap: 8px 16px; align-items: center; padding: 16px; }
+.fold > summary::-webkit-details-marker { display: none; }
+.fold > summary::after { content: ""; grid-column: 2; grid-row: 1; justify-self: end; width: 8px; height: 8px; border-right: 1.5px solid var(--text-secondary); border-bottom: 1.5px solid var(--text-secondary); transform: rotate(-45deg); transition: transform var(--dur-base) var(--ease-out); }
+.fold[open] > summary::after { transform: rotate(45deg); }
+.fold > summary:hover::after { border-color: var(--cyan); }
+.fold > summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: var(--ds-r-sm); }
+.fold[open] > summary { border-bottom: 1px solid var(--border); }
+.fold-title { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.fold-title h2 { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-secondary); }
+.fold-verdict { color: var(--text); }
+.fold > summary .chip { grid-column: 1; grid-row: 2; justify-self: start; }
+@container (min-width: 38rem) { .fold > summary { grid-template-columns: minmax(0, 1fr) auto 16px; } .fold > summary::after { grid-column: 3; } .fold > summary .chip { grid-column: 2; grid-row: 1; justify-self: end; } }
+.fold-body { padding: 16px 16px 20px; display: flex; flex-direction: column; gap: 12px; }
+@media print { .fold > summary::after { display: none; } }
+@media (prefers-reduced-motion: reduce) { .fold > summary::after { transition: none; } }
+/* @prim:end 56-fold */
+
+/* from src/ui-kit/recoil-report/57-ledger-row.html */
+/* @prim:begin 57-ledger-row */
+.ledger { container-type: inline-size; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-sm); overflow: hidden; }
+.ledger-row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px 16px; padding: 12px 16px; border-top: 1px solid var(--border); }
+.ledger-row:first-child { border-top: 0; }
+.lr-key { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.02em; line-height: 1.5; color: var(--text-secondary); }
+.lr-body { display: flex; flex-direction: column; gap: 8px; min-width: 0; color: var(--text); }
+.lr-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.ledger-row.moire { background-color: var(--magenta-bg); }
+.ledger-row.moire .lr-key { color: var(--magenta); }
+@container (min-width: 38rem) { .ledger-row { grid-template-columns: minmax(8rem, 22%) minmax(0, 1fr); } }
+/* @prim:end 57-ledger-row */
+
+/* from src/ui-kit/recoil-report/58-toast.html */
+/* @prim:begin 58-toast */
+.toast { position: fixed; right: 20px; bottom: 20px; z-index: 50; width: min(380px, calc(100vw - 32px)); display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px 12px; padding: 12px 12px 16px 16px; background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-sm); animation: toast-in var(--dur-base) var(--ease-out) both; }
+.toast[hidden] { display: none; }
+.toast.gold { border-color: var(--gold); }
+.toast.red { border-color: var(--red); }
+.toast-title { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); }
+.toast.gold .toast-title { color: var(--gold); }
+.toast.red .toast-title { color: var(--red); }
+.toast-close { grid-column: 2; grid-row: 1; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin: -8px -4px -8px 0; border: 0; border-radius: var(--ds-r-xs); background: transparent; color: var(--text-secondary); cursor: pointer; }
+.toast-close:hover { color: var(--cyan); background: var(--surface); }
+.toast-close:focus-visible { outline: 2px solid var(--cyan); outline-offset: 1px; }
+.toast-msg { grid-column: 1 / -1; color: var(--text); line-height: 1.5; }
+.toast-meta { grid-column: 1 / -1; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 600; letter-spacing: 0.02em; color: var(--text-secondary); }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .toast { animation: none; } }
+@media print { .toast { position: static; width: auto; margin-top: 16px; } }
+/* @prim:end 58-toast */
+
+/* from src/ui-kit/recoil-report/59-claim-check.html */
+/* @prim:begin 59-claim-check */
+.claims { container-type: inline-size; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-sm); overflow: hidden; }
+.claim { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px 16px; align-items: start; padding: 16px; border-top: 1px solid var(--border); }
+.claim:first-child { border-top: 0; }
+.claim-said, .claim-record { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.claim-k { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.02em; color: var(--text-secondary); }
+.claim > .chip { justify-self: start; }
+.claim-v { font-family: var(--ds-font-mono); font-size: var(--fs-headline); font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; color: var(--text); }
+.claim-note { color: var(--text-secondary); }
+.claim.sharp .claim-v { color: var(--green); }
+.claim.degraded .claim-v { color: var(--gold); font-weight: 500; }
+.claim.grain .claim-v { color: var(--text-secondary); font-weight: 300; }
+.claim.slip .claim-v { color: var(--red); }
+@container (min-width: 38rem) { .claim { grid-template-columns: minmax(0, 1fr) 7rem minmax(0, 1.25fr); } }
+/* @prim:end 59-claim-check */
+
+/* from src/ui-kit/recoil-report/60-heat-take.html */
+/* @prim:begin 60-heat-take */
+.takes { container-type: inline-size; display: flex; flex-direction: column; }
+.take { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px 16px; align-items: baseline; }
+.take + .take { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+.heat { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); }
+.heat-pips { display: inline-flex; gap: 3px; }
+.heat-pips b { width: 6px; height: 6px; border-radius: 50%; border: 1px solid var(--text-secondary); }
+.heat-pips b.on { background: var(--text); border-color: var(--text); }
+.take-text { color: var(--text); }
+@container (min-width: 38rem) { .take { grid-template-columns: 9rem minmax(0, 1fr); } }
+/* @prim:end 60-heat-take */
+
+/* from src/ui-kit/recoil-report/61-option.html */
+/* @prim:begin 61-option */
+.options { container-type: inline-size; display: grid; gap: 12px; }
+.option { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-sm); padding: 16px; display: grid; gap: 12px; }
+.option.lead { border-color: var(--cyan); }
+.option-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.option-id { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); }
+.option.lead .option-id { color: var(--cyan); }
+.option-name { font-size: var(--fs-headline); font-weight: 600; }
+.option-cost { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 600; letter-spacing: 0.02em; color: var(--text-secondary); white-space: nowrap; }
+.hhw { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+.hhw > div { background: var(--elevated); border-radius: var(--ds-r-xs); padding: 8px 12px; display: flex; flex-direction: column; gap: 4px; }
+.hhw dt { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); }
+.hhw dd { color: var(--text); }
+@container (min-width: 38rem) { .option-cost { margin-left: auto; } .hhw { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+/* @prim:end 61-option */
+
+/* from src/ui-kit/recoil-report/62-attributed-notes.html */
+/* @prim:begin 62-attributed-notes */
+.notes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 16px; }
+.note-panel { container-type: inline-size; background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-sm); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.note-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; }
+.note-head h3 { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); }
+.note-src { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--text-secondary); }
+.note-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.note-list li { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px 12px; color: var(--text-secondary); }
+.note-list b { color: var(--text); font-weight: 600; }
+.note-ts { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-variant-numeric: tabular-nums; color: var(--text-secondary); white-space: nowrap; }
+@container (min-width: 22rem) { .note-list li { grid-template-columns: minmax(0, 1fr) auto; } }
+/* @prim:end 62-attributed-notes */
+
+/* from src/ui-kit/recoil-report/63-operator-pass.html */
+/* @prim:begin 63-operator-pass */
+.passes { container-type: inline-size; display: flex; flex-direction: column; }
+.pass { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px 16px; }
+.pass + .pass { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+.pass-k { display: block; margin-bottom: 4px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); }
+.pass p { color: var(--text); }
+.pass code { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text); overflow-wrap: anywhere; }
+.pass-v { margin-right: 6px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.pass-v.held { color: var(--green); }
+.pass-v.changed { color: var(--cyan); }
+.pass-v.broke { color: var(--red); }
+@container (min-width: 38rem) { .pass { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr); } }
+/* @prim:end 63-operator-pass */
+
+/* from src/ui-kit/recoil-report/64-kintsugi-seam.html */
+/* @prim:begin 64-kintsugi-seam */
+.seams { container-type: inline-size; display: flex; flex-direction: column; }
+.seam { display: flex; flex-direction: column; gap: 12px; }
+.seam + .seam { border-top: 1px solid var(--gold); padding-top: 16px; margin-top: 16px; }
+.seam-k { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.02em; color: var(--gold); }
+.seam-rows { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px 16px; }
+.seam-rows dt { padding-top: 4px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); }
+.seam-rows dd { margin-bottom: 8px; color: var(--text); }
+.seam-rows code { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text); overflow-wrap: anywhere; }
+@container (min-width: 30rem) { .seam-rows { grid-template-columns: 6rem minmax(0, 1fr); } .seam-rows dd { margin-bottom: 0; } }
+/* @prim:end 64-kintsugi-seam */
+</style>
+<style>
+/* Page layer, recoil-skim template: layout and the next-move control only. Every component rule above is a kit block. */
+:root { --fs-label: 0.75rem; --fs-body: 0.9375rem; --measure: 680px; } /* label 12px, body 15px (arc weld spec 4.3); one px measure for the column */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--bg); color-scheme: dark; }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+::selection { background: var(--cyan-bg); color: var(--text); }
+a { color: var(--cyan); text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+.wrap { max-width: calc(var(--measure) + 48px); margin: 0 auto; padding: 32px 24px 160px; display: flex; flex-direction: column; gap: 24px; }
+.hero { display: flex; flex-direction: column; gap: 12px; }
+.hero .section-label { margin-bottom: 0; }
+.hero h1 { font-family: var(--ds-font-display); font-size: var(--fs-display); font-weight: 600; line-height: 1.15; text-wrap: balance; }
+.hero .lede { max-width: none; font-size: var(--fs-headline); line-height: 1.5; color: var(--text-secondary); }
+.controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.controls p { color: var(--text-secondary); }
+.nm { display: flex; flex-direction: column; gap: 12px; }
+.nm-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.02em; color: var(--text-secondary); }
+.nm-note { width: 100%; resize: vertical; font: inherit; line-height: 1.55; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-sm); padding: 12px 16px; }
+.nm a.btn { display: inline-flex; align-items: center; text-decoration: none; }
+.btn.nm-primary { background: var(--cyan-bg); border-color: var(--cyan); color: var(--cyan); }
+.btn[hidden] { display: none; }
+.sub { margin-top: 8px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.02em; color: var(--text); }
+.lr-body > span > a { display: inline-block; padding: 13px 4px; margin: -13px 0; }
+.toast[data-wait] { display: none; }
+@media (max-width: 760px) { .wrap { padding: 20px 16px 160px; gap: 16px; } .seg label { font-size: var(--fs-label); } }
+@media print { .wrap { max-width: none; padding: 0; } .controls, .nm .row, .nm-note, .nm-label { display: none; } .ledger-row, .claim, .take, .pass, .seam, .option, .note-list li { break-inside: avoid; } .fold > summary { break-after: avoid; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<header class="hero">
+  <p class="section-label">Recoil · post-call · Zach only</p>
+  <h1>Brian K. Smith: a peer call that surfaced a second user</h1>
+  <p class="ref">2026-11-11, 11:00 ET (Eastern Time) · Zach x Brian · Granola note 8000dd5f</p>
+  <p class="lede">Y state yellow, a fork: the User1 question is open (User1 is the second user of the job tool, after Zach as User0). Net Coherence Index (NCI): not scored. The skim below answers the page in five lines; open any fold for the evidence.</p>
+  <div class="row"><span class="chip gold">Y · Yellow · fork</span><span class="chip grain">NCI · not scored · n = 0</span></div>
+</header>
+
+<section aria-labelledby="g">
+  <h2 class="section-label" id="g">At a glance</h2>
+  <div class="ledger">
+    <div class="ledger-row"><div class="lr-key">Next move</div><div class="lr-body">
+      <div class="nm">
+        <div class="seg" role="radiogroup" aria-label="Pick the next move">
+          <input type="radio" name="nm" id="nm-a" value="a"><label for="nm-a">A · Close the loop</label>
+          <input type="radio" name="nm" id="nm-b" value="b" checked><label for="nm-b">B · Ask, do not build</label>
+          <input type="radio" name="nm" id="nm-c" value="c"><label for="nm-c">C · Park it</label>
+        </div>
+        <p data-why></p>
+        <label class="nm-label" for="nm-note" data-label>Draft note to Brian, edit before you copy</label>
+        <textarea class="nm-note" id="nm-note" rows="5" spellcheck="true"></textarea>
+        <div class="row">
+          <button class="btn nm-primary" type="button" data-copy>Copy note</button>
+          <a class="btn" data-gmail href="https://mail.google.com/mail/?view=cm&amp;fs=1" target="_blank" rel="noopener">Open draft in Gmail</a>
+          <a class="btn" href="#f-opts">Compare options</a>
+        </div>
+        <p class="ref" data-status aria-live="polite">Nothing is sent from this page. Gmail opens with no recipient; add it yourself. Paste your Granola share link where the note says so.</p>
+      </div>
+    </div></div>
+    <div class="ledger-row"><div class="lr-key">Signal</div><div class="lr-body"><span>At [80:52] he said he almost built your job tool. ADR-077 (Architecture Decision Record 77) names that class: User1. <a href="#f-signal">Evidence</a></span></div></div>
+    <div class="ledger-row"><div class="lr-key">Owed</div><div class="lr-body"><span>Times for next week are his; the transcript is yours. Granola's summary got 2 of 7 owners wrong. <a href="#f-owed">Ledger</a></span></div></div>
+    <div class="ledger-row"><div class="lr-key">Your numbers</div><div class="lr-body"><span>216 days and 6,547 commits hold. "270-something services" is 280 surfaces. <a href="#f-claims">Checks</a></span></div></div>
+    <div class="ledger-row"><div class="lr-key">Pre-call</div><div class="lr-body"><div class="lr-chips"><span class="chip red">4 of 7 failed</span></div><span>Nothing was prepared. The morning digest detects calls; nothing builds the prep. <a href="#f-wiring">Wiring</a></span></div></div>
+  </div>
+</section>
+
+<div class="controls">
+  <p>11 folds in 4 groups, then the sources. S1 to S6 name the sources, listed at the foot.</p>
+  <div class="row"><button class="btn" type="button" data-all="open">Open all</button><button class="btn" type="button" data-all="close">Close all</button></div>
+</div>
+
+<div class="folds">
+<div class="fold-group"><span class="fold-group-name">Decide</span><span class="fold-group-note">what to do next, closest to the control above</span></div>
+
+<details class="fold" id="f-opts">
+  <summary><div class="fold-title"><h2>Live options</h2><span class="fold-verdict">A close the loop · B ask, do not build · C park it</span></div><span class="chip cyan">You pick</span></summary>
+  <div class="fold-body">
+    <div class="options">
+      <div class="option"><div class="option-head"><span class="option-id">Option A</span><span class="option-name">Close the loop</span><span class="option-cost">about 10 min</span></div><p>Send the transcript and a two-line note; wait for his times.</p><dl class="hhw"><div><dt>Head</dt><dd>Keeps the one promise</dd></div><div><dt>Heart</dt><dd>Warm</dd></div><div><dt>Wallet</dt><dd>$0</dd></div></dl></div>
+      <div class="option lead"><div class="option-head"><span class="option-id">Option B · leads</span><span class="option-name">Ask, do not build</span><span class="option-cost">about 15 min</span></div><p>Same note plus one question: what did your experience database need to do that a spreadsheet can't? File the answer as User1 evidence.</p><dl class="hhw"><div><dt>Head</dt><dd>Tests [80:52] with no surface</dd></div><div><dt>Heart</dt><dd>Treats him as a builder</dd></div><div><dt>Wallet</dt><dd>$0</dd></div></dl></div>
+      <div class="option"><div class="option-head"><span class="option-id">Option C</span><span class="option-name">Park it</span><span class="option-cost">about 5 min</span></div><p>Add Brian as a User1 tenant and the kid MPC (music production center, a sampler) collab to PARKED for the Friday 11-13 triage.</p><dl class="hhw"><div><dt>Head</dt><dd>Follows rule R-012</dd></div><div><dt>Heart</dt><dd>Defers the fun part</dd></div><div><dt>Wallet</dt><dd>Protects the client week</dd></div></dl></div>
+    </div>
+  </div>
+</details>
+
+<details class="fold" id="f-mqw">
+  <summary><div class="fold-title"><h2>Qi · Ma · Wuwei</h2><span class="fold-verdict">Feed his curation, leave room for his answer, do not push the tool</span></div><span class="chip grain">Lens · grade D</span></summary>
+  <div class="fold-body">
+    <p class="ref">The meta-audit's three lenses applied to the call. Qi: where energy lives, feed it. Ma: deliberate emptiness, do not fill early. Wuwei: do not force, let evidence accumulate. My reading of the transcript, not a measurement, so every row is grain.</p>
+    <div class="ledger">
+      <div class="ledger-row grain"><div class="lr-key">Qi · rose</div><div class="lr-body"><div class="lr-chips"><span class="chip">Feed it</span></div><span>His energy climbed on curation and scene, not on rights: the music influencer idea, four lineup artists who played his living room, and the moment he said he almost built your tool.</span><span class="ref">S1 [37:14], [46:30], [80:52]</span></div></div>
+      <div class="ledger-row grain"><div class="lr-key">Qi · fell</div><div class="lr-body"><div class="lr-chips"><span class="chip">Starved</span></div><span>It dropped on licensing and on the ARCS cosmology: "kind of in the weeds", "good fodder" for later, and "I'm catching up".</span><span class="ref">S1 [34:43], [36:32], [77:41]</span></div></div>
+      <div class="ledger-row grain"><div class="lr-key">Ma · filled</div><div class="lr-body"><div class="lr-chips"><span class="chip">Filled early</span></div><span>Three long stretches of you talking: the ARCS premise, the one-line challenge, and the spark-plug riff. Little room left for him.</span><span class="ref">S1 [13:51] to [18:31], [69:29] to [71:34], [73:25] to [77:34]</span></div></div>
+      <div class="ledger-row grain"><div class="lr-key">Ma · held</div><div class="lr-body"><div class="lr-chips"><span class="chip">Room left</span></div><span>The call's best signal came right after you asked one open question and waited: "Has that resume thing been helpful?" He answered with his own nearly built database.</span><span class="ref">S1 [78:01] to [81:32]</span></div></div>
+      <div class="ledger-row grain"><div class="lr-key">Wuwei · forced</div><div class="lr-body"><div class="lr-chips"><span class="chip">Pushed</span></div><span>After he pushed back on Subvert and on licensing, you offered two more large ideas, the catalog DAO (decentralized autonomous organization) and the public domain sample library.</span><span class="ref">S1 [25:41], [34:43], [38:05], [57:17]</span></div></div>
+      <div class="ledger-row grain"><div class="lr-key">Wuwei · flowed</div><div class="lr-body"><div class="lr-chips"><span class="chip">Let it come</span></div><span>He asked for the follow-up himself: "do you want to go ahead and schedule a time to talk next week".</span><span class="ref">S1 [83:01]</span></div></div>
+      <div class="ledger-row"><div class="lr-key">For the next note</div><div class="lr-body"><div class="lr-chips"><span class="chip cyan">Applies all three</span></div><span>Option B already fits: it feeds his curation (Qi), asks one question and stops (Ma), and offers no tool or tenant (Wuwei). Let his answer decide what comes next.</span><span class="ref">Live options</span></div></div>
+    </div>
+  </div>
+</details>
+
+<details class="fold" id="f-prob">
+  <summary><div class="fold-title"><h2>Next call forecasts</h2><span class="fold-verdict">Times 60%, call 65%, tool export 25%, no base rate yet</span></div><span class="chip grain">Grade D · n = 0</span></summary>
+  <div class="fold-body">
+    <div class="ledger">
+      <div class="ledger-row grain"><div class="lr-key">Times by Fri 11-13</div><div class="lr-body"><div class="lr-chips"><span class="chip">Grade D</span><span class="chip">n = 0</span></div><span>60%: Brian sends times by Friday 11-13.</span></div></div>
+      <div class="ledger-row grain"><div class="lr-key">Call by Fri 11-20</div><div class="lr-body"><div class="lr-chips"><span class="chip">Grade D</span><span class="chip">n = 0</span></div><span>65%: a follow-up call happens by Friday 11-20.</span></div></div>
+      <div class="ledger-row grain"><div class="lr-key">Export by 11-27</div><div class="lr-body"><div class="lr-chips"><span class="chip">Grade D</span><span class="chip">n = 0</span></div><span>25%: offered, he runs his LinkedIn export through the tool by 11-27.</span></div></div>
+    </div>
+    <p class="ref">Claude's estimates, not filed, with no base rate yet (backlog row forecast-base-rates). Antithesis to the 25%: he nearly built it and is job hunting now; the signal for it is that he asks for access unprompted.</p>
+  </div>
+</details>
+
+<details class="fold" id="f-heat">
+  <summary><div class="fold-title"><h2>Hot takes</h2><span class="fold-verdict">Send the transcript; do not build him a tenant</span></div><span class="chip">Mild to loco</span></summary>
+  <div class="fold-body">
+    <div class="takes">
+      <div class="take"><span class="heat"><span class="heat-pips" aria-hidden="true"><b class="on"></b><b></b><b></b><b></b><b></b></span>Mild</span><p class="take-text">You owe him one thing, the transcript, and you offered it. Send it.</p></div>
+      <div class="take"><span class="heat"><span class="heat-pips" aria-hidden="true"><b class="on"></b><b class="on"></b><b></b><b></b><b></b></span>Medium</span><p class="take-text">He asked which tools you use and got the cosmology. He said he is "catching up". For someone who thinks distribution beats implementation, the 30-second version lands harder.</p></div>
+      <div class="take"><span class="heat"><span class="heat-pips" aria-hidden="true"><b class="on"></b><b class="on"></b><b class="on"></b><b></b><b></b></span>Caliente</span><p class="take-text">The one-line challenge was right and pointed at the wrong person. You said at [17:50] you have not articulated ARCS as clearly. He gave his in one breath.</p></div>
+      <div class="take"><span class="heat"><span class="heat-pips" aria-hidden="true"><b class="on"></b><b class="on"></b><b class="on"></b><b class="on"></b><b></b></span>Fuego</span><p class="take-text">The best product signal of the week came from a friend on a music call. A second user who nearly built your tool is a design partner, not a show and tell.</p></div>
+      <div class="take"><span class="heat"><span class="heat-pips" aria-hidden="true"><b class="on"></b><b class="on"></b><b class="on"></b><b class="on"></b><b class="on"></b></span>Loco</span><p class="take-text">Do not build him a tenant. A friend dogfooding a gated tool is the most tempting no-revenue surface on the board.</p></div>
+    </div>
+  </div>
+</details>
+
+<div class="fold-group"><span class="fold-group-name">Evidence</span><span class="fold-group-note">what the decision rests on, strongest first</span></div>
+
+<details class="fold" id="f-signal">
+  <summary><div class="fold-title"><h2>Signal</h2><span class="fold-verdict">He was about to build your tool</span></div><span class="chip green">Grade A</span></summary>
+  <div class="fold-body">
+    <div class="ledger">
+      <div class="ledger-row sharp"><div class="lr-key">[80:52] he said</div><div class="lr-body"><span>He "almost built something very similar" and was about to make a tagged database of his experience so an AI could tailor his resume to each job description "with the provenance going back to" where each experience came from.</span><span class="ref">S1 [80:52] to [81:32]</span></div></div>
+      <div class="ledger-row sharp"><div class="lr-key">Prior art</div><div class="lr-body"><span>ADR-077 line 25 calls the job tool "the User0 instance" of a general talent-placement primitive, and names the class (User0 → User1). Brian is the first live candidate for User1.</span><span class="ref">_DECISIONS/ADR-077-prime-invariant-reverse-jtbd-magnetize-the-tool.md:25</span></div></div>
+    </div>
+  </div>
+</details>
+
+<details class="fold" id="f-owed">
+  <summary><div class="fold-title"><h2>Commitments ledger</h2><span class="fold-verdict">The ball is with Brian on times; the transcript is yours</span></div><span class="chip">2 of 7 owners wrong</span></summary>
+  <div class="fold-body">
+    <p class="ref">The first chip names the owner, the second the status. A magenta row is one where the transcript and Granola's summary disagree.</p>
+    <div class="ledger">
+      <div class="ledger-row moire"><div class="lr-key">Times for next week</div><div class="lr-body"><div class="lr-chips"><span class="chip">Brian</span><span class="chip">Summary wrong</span></div><span>Brian asked to schedule; you said "shoot me some times that work on your end". Granola assigned it to you.</span><span class="ref">S1 [83:01] to [83:06]</span></div></div>
+      <div class="ledger-row moire"><div class="lr-key">Share the transcript</div><div class="lr-body"><div class="lr-chips"><span class="chip">Zach</span><span class="chip">Summary missed it</span></div><span>You offered it at the start so he would not need notes. The only promise you made out loud.</span><span class="ref">S1 [5:05]</span></div></div>
+      <div class="ledger-row"><div class="lr-key">Show and tell</div><div class="lr-body"><div class="lr-chips"><span class="chip">Both</span><span class="chip">Open</span></div><span>Current builds on both sides at the next call.</span><span class="ref">S1 [83:06]</span></div></div>
+      <div class="ledger-row"><div class="lr-key">Dogfood the job tool</div><div class="lr-body"><div class="lr-chips"><span class="chip">Zach proposed</span><span class="chip">Not accepted</span></div><span>You asked if he would export his LinkedIn data. He said "Amazing" and moved to scheduling.</span><span class="ref">S1 [81:34] to [83:01]</span></div></div>
+      <div class="ledger-row moire"><div class="lr-key">Subvert, Austin, Yancy</div><div class="lr-body"><div class="lr-chips"><span class="chip">Zach suggested</span><span class="chip">Summary overstated</span></div><span>He pushed back: no mobile app, and no one doing it "correctly". No commitment from him.</span><span class="ref">S1 [24:33] to [26:19]</span></div></div>
+      <div class="ledger-row"><div class="lr-key">One invariant line</div><div class="lr-body"><div class="lr-chips"><span class="chip">Brian</span><span class="chip">Soft yes</span></div><span>Your challenge. He answered with a frame right after: a bonfire people see and haul logs onto.</span><span class="ref">S1 [70:36], [72:55] to [73:16]</span></div></div>
+      <div class="ledger-row"><div class="lr-key">Kid MPC collab</div><div class="lr-body"><div class="lr-chips"><span class="chip">Idea</span><span class="chip">Parked</span></div><span>Floated by you; he said "that'll be cool". PARKED under rule R-012.</span><span class="ref">S1 [83:06] to [84:18]</span></div></div>
+    </div>
+  </div>
+</details>
+
+<details class="fold" id="f-claims">
+  <summary><div class="fold-title"><h2>Your claims on the call</h2><span class="fold-verdict">2 hold, 1 wrong unit, 2 unchecked, 1 slip</span></div><span class="chip red">1 slip</span></summary>
+  <div class="fold-body">
+    <div class="claims">
+      <div class="claim sharp"><div class="claim-said"><span class="claim-k">You said · [21:20]</span><span>"in 216 days"</span></div><span class="chip green">Sharp</span><div class="claim-record"><span class="claim-v">216 days</span><span class="claim-note">First commit 471d5739 on 2026-04-09.</span><span class="ref">git log --reverse origin/main</span></div></div>
+      <div class="claim sharp"><div class="claim-said"><span class="claim-k">You said · [21:20]</span><span>"over 6,500 commits"</span></div><span class="chip green">Sharp</span><div class="claim-record"><span class="claim-v">6,547</span><span class="claim-note">On origin/main on the day of the call.</span><span class="ref">git rev-list --count origin/main</span></div></div>
+      <div class="claim degraded"><div class="claim-said"><span class="claim-k">You said · [21:20]</span><span>"270-something product services"</span></div><span class="chip gold">Degraded</span><div class="claim-record"><span class="claim-v">280 surfaces</span><span class="claim-note">The tool catalog lists 411 tools. Right size, wrong unit: say surfaces.</span><span class="ref">runtime/specs/surface-catalog.json · tool-catalog.json</span></div></div>
+      <div class="claim grain"><div class="claim-said"><span class="claim-k">You said · [64:07]</span><span>The status page has a beliefs view</span></div><span class="chip">Unchecked</span><div class="claim-record"><span class="claim-v">Not checked</span><span class="claim-note">Not opened live yet.</span><span class="ref">S1 [64:07]</span></div></div>
+      <div class="claim grain"><div class="claim-said"><span class="claim-k">You said · [71:34]</span><span>"Question Compass that's free"</span></div><span class="chip">Unchecked</span><div class="claim-record"><span class="claim-v">Not checked</span><span class="claim-note">Not opened live yet.</span><span class="ref">S1 [71:34]</span></div></div>
+      <div class="claim slip"><div class="claim-said"><span class="claim-k">You said · [38:05]</span><span>"Frankie Knuckles from Detroit"</span></div><span class="chip red">Slip</span><div class="claim-record"><span class="claim-v">Chicago</span><span class="claim-note">He is the Chicago house figure. Harmless in a riff; costly in anything written.</span><span class="ref">general knowledge</span></div></div>
+    </div>
+  </div>
+</details>
+
+<details class="fold" id="f-brian">
+  <summary><div class="fold-title"><h2>What Brian brought</h2><span class="fold-verdict">Builder, job hunting, thinks distribution beats implementation</span></div><span class="chip">His words</span></summary>
+  <div class="fold-body">
+    <div class="notes-grid">
+      <div class="note-panel"><div class="note-head"><h3>Background</h3><span class="note-src">His words, unverified</span></div><ul class="note-list">
+        <li><span><b>Building twins startup.</b> Sold in 2021, he left in 2024; the buyer shut the one profitable product.</span><span class="note-ts">[5:16]</span></li>
+        <li><span><b>Triple net leases.</b> Owners pass utility costs to tenants, so efficiency had no buyer.</span><span class="note-ts">[8:39]</span></li>
+        <li><span><b>Hiring.</b> His best engineers had no computer science degree; he is a Georgia Tech mechanical engineer.</span><span class="note-ts">[20:04]</span></li>
+        <li><span><b>Job search.</b> Getting interviews through targeted cold email and his network.</span><span class="note-ts">[78:26]</span></li>
+      </ul></div>
+      <div class="note-panel"><div class="note-head"><h3>Campfire and music</h3><span class="note-src">His words, unverified</span></div><ul class="note-list">
+        <li><span><b>Belief.</b> Distribution beats implementation now. "Strong belief, loosely held."</span><span class="note-ts">[22:36]</span></li>
+        <li><span><b>Model.</b> Co-op, open source, about $3 a month, DJs first, no exit.</span><span class="note-ts">[23:34]</span></li>
+        <li class="grain"><span><b>Beatport figure.</b> "$100 million a year", his number, unverified.</span><span class="note-ts">[28:54]</span></li>
+        <li><span><b>Cadence.</b> Two beats in two weeks, aiming for one a week; bookings are hard.</span><span class="note-ts">[47:13]</span></li>
+      </ul></div>
+    </div>
+  </div>
+</details>
+
+<div class="fold-group"><span class="fold-group-name">System</span><span class="fold-group-note">what this call exposed about your own setup</span></div>
+
+<details class="fold" id="f-wiring">
+  <summary><div class="fold-title"><h2>Pre-call wiring</h2><span class="fold-verdict">A smoke detector, not a sous-chef</span></div><span class="chip red">4 of 7 failed</span></summary>
+  <div class="fold-body">
+    <div class="ledger">
+      <div class="ledger-row"><div class="lr-key">Morning digest</div><div class="lr-body"><div class="lr-chips"><span class="chip green">Ran</span></div><span>7:16 to 7:17 AM ET, succeeded. Its step 4 flags outside meetings that need an ex-ante receipt.</span></div></div>
+      <div class="ledger-row"><div class="lr-key">Flagged this call?</div><div class="lr-body"><div class="lr-chips"><span class="chip">Unknown</span></div><span>Unconfirmed. Its email copy was not found in Gmail; check the 7:17 AM push.</span></div></div>
+      <div class="ledger-row"><div class="lr-key">Ex-ante receipt</div><div class="lr-body"><div class="lr-chips"><span class="chip red">Failed</span></div><span>None. R-023 is a different call.</span></div></div>
+      <div class="ledger-row"><div class="lr-key">Recoil record</div><div class="lr-body"><div class="lr-chips"><span class="chip red">Failed</span></div><span>No SSOT (single source of truth) file; the newest in runtime/recoil/generated is 2026-10-29.</span></div></div>
+      <div class="ledger-row"><div class="lr-key">Pre-call page</div><div class="lr-body"><div class="lr-chips"><span class="chip red">Failed</span></div><span>None; _ARTIFACTS/precall-brief holds only the example.</span></div></div>
+      <div class="ledger-row"><div class="lr-key">Granola notes</div><div class="lr-body"><div class="lr-chips"><span class="chip red">Failed</span></div><span>The private notes were empty.</span></div></div>
+      <div class="ledger-row"><div class="lr-key">Client heads-up</div><div class="lr-body"><div class="lr-chips"><span class="chip green">Held</span></div><span>Brian is out of scope by design. Correct.</span></div></div>
+    </div>
+    <p class="ref">S4 scheduled tasks · S5 working tree · S6 receipts addendum 11-11 · Gmail searched for the last day</p>
+  </div>
+</details>
+
+<details class="fold" id="f-seam">
+  <summary><div class="fold-title"><h2>Kintsugi</h2><span class="fold-verdict">A git config break, a doubt withdrawn, and this page's own false provenance</span></div><span class="chip gold">3 seams</span></summary>
+  <div class="fold-body">
+    <div class="seams">
+      <div class="seam"><span class="seam-k">Seam G53 · Claude's break, found 2026-11-11, about 12:40 ET</span><dl class="seam-rows"><dt>Break</dt><dd>The push fix for R-020 wrote <code>autoSetupMerge = simple</code> into the repo's git config; git before 2.37 rejects that value.</dd><dt>Found</dt><dd>Every git command failed in the device shell (git 2.34.1). Your Mac's git accepts it.</dd><dt>Repair</dt><dd>Not applied: move the setting to the Mac's global git config. A read-only git shim was used meanwhile.</dd><dt>Guard</dt><dd>Test a git config change with every git that reads the repo.</dd></dl></div>
+      <div class="seam"><span class="seam-k">Withdrawn · the 5-second dream run</span><dl class="seam-rows"><dt>Break</dt><dd>The earlier recoil doc called a 5-second run too short to file pull request 2134.</dd><dt>Found</dt><dd>The branch has a commit at 06:25 UTC, after the logged finish.</dd><dt>Repair</dt><dd>Doubt withdrawn here and in the receipts addendum.</dd><dt>Guard</dt><dd>A run log records the wake, not the whole run: check the branch before doubting.</dd></dl></div>
+      <div class="seam"><span class="seam-k">Provenance · this page's v3 glass box</span><dl class="seam-rows"><dt>Break</dt><dd>The v3 page said its fold and ledger row were in the kit as 42 and 43, that the recoil-skim template was registered, and that the component gate passed.</dd><dt>Found</dt><dd>In the repo, 42 is shell nav and 43 is action menu; nine of the page's primitives existed only on the page, and the gate failed on an unknown template (arc weld spec, section 1).</dd><dt>Repair</dt><dd>This rebuild lands them as kit 56 to 64 with specimens and registers recoil-skim (backlog row recoil-kit-reconcile).</dd><dt>Guard</dt><dd><code>kit_primitive_sync.py --check</code> fails any page block that no kit file owns or that differs from its kit file.</dd></dl></div>
+    </div>
+  </div>
+</details>
+
+<div class="fold-group"><span class="fold-group-name">Method</span><span class="fold-group-note">how this page was made</span></div>
+
+<details class="fold" id="f-glass">
+  <summary><div class="fold-title"><h2>Glass box</h2><span class="fold-verdict">v3 made in a chat session; v4 rebuilt from kit 56 to 64; gates below ran on v4</span></div><span class="chip">How it was made</span></summary>
+  <div class="fold-body">
+    <p>Version 3 of this page was made in a chat session. Its agents were read from .claude/agents and run by hand. The passes below are as that session recorded them; they were not rerun for version 4. Version 4 keeps the content and re-pours it from the kit, with the counterpart's email address and one sensitive personal fact taken out.</p>
+
+    <div class="sub">Passes recorded by the v3 session</div>
+    <div class="passes">
+      <div class="pass"><div><span class="pass-k">Impeccable · conductor</span><p>Distill: everything visible at once, no progressive disclosure</p></div><div><span class="pass-k">Found</span><p>v2 opened all 11 sections, about 5,600 px at 1280; the next move sat in section 8.</p></div><div><span class="pass-k">Ruling</span><p><span class="pass-v changed">Changed</span>A one-screen skim; each section a closed fold that states its verdict.</p></div></div>
+      <div class="pass"><div><span class="pass-k">Sanity check</span><p>Job: you, read cold, decide the next move</p></div><div><span class="pass-k">Found</span><p>The first screen did not answer it.</p></div><div><span class="pass-k">Ruling</span><p><span class="pass-v changed">Changed</span>Next move is the first row of the glance.</p></div></div>
+      <div class="pass"><div><span class="pass-k">Craft floor</span><p>Bans the hero-metric template</p></div><div><span class="pass-k">Found</span><p>v2 opened with five big-number tiles.</p></div><div><span class="pass-k">Ruling</span><p><span class="pass-v changed">Changed</span>Tiles cut; numbers moved into the lines they support.</p></div></div>
+      <div class="pass"><div><span class="pass-k">Grug</span><p>Does each part need to exist?</p></div><div><span class="pass-k">Found</span><p>Tiles repeated the ledger; the lede restated the signal.</p></div><div><span class="pass-k">Ruling</span><p><span class="pass-v changed">Changed</span>Both cut.</p></div></div>
+      <div class="pass"><div><span class="pass-k">Chief loki</span><p>Summary lines must match their bodies</p></div><div><span class="pass-k">Ran</span><p>Counted every fold.</p></div><div><span class="pass-k">Ruling</span><p><span class="pass-v broke">Broke</span>One miss: the hint said 9 folds; there were 10. Fixed.</p></div></div>
+      <div class="pass"><div><span class="pass-k">Chief bayesian</span><p>Audit every prior</p></div><div><span class="pass-k">Found</span><p>The three forecasts have no base rate.</p></div><div><span class="pass-k">Ruling</span><p><span class="pass-v changed">Changed</span>Labelled no base rate yet; now backlog row forecast-base-rates.</p></div></div>
+      <div class="pass"><div><span class="pass-k">Claims skeptic</span><p>Prove each claim against the record</p></div><div><span class="pass-k">Ran</span><p>Re-read S1 behind every quote kept.</p></div><div><span class="pass-k">Ruling</span><p><span class="pass-v held">Held</span>Quotes stand; the client name left the guard.</p></div></div>
+      <div class="pass"><div><span class="pass-k">Chief conductor</span><p>Rank the surviving paths</p></div><div><span class="pass-k">Found</span><p>Pull first, push only for the guard.</p></div><div><span class="pass-k">Ruling</span><p><span class="pass-v changed">Changed</span>The stop-loss is the one standing element, now a toast.</p></div></div>
+      <div class="pass"><div><span class="pass-k">Chief loki · facts</span><p>"Over 6,500 commits" is inflated</p></div><div><span class="pass-k">Ran</span><p><code>git rev-list --count origin/main</code></p></div><div><span class="pass-k">Ruling</span><p><span class="pass-v held">Held</span>6,547 that day.</p></div></div>
+      <div class="pass"><div><span class="pass-k">Chief loki · facts</span><p>Granola's owners are right</p></div><div><span class="pass-k">Ran</span><p>Read S1 at [5:05], [24:33], [83:01] to [83:06]</p></div><div><span class="pass-k">Ruling</span><p><span class="pass-v broke">Broke</span>Two owners wrong, one promise missing.</p></div></div>
+    </div>
+
+    <div class="sub">What changed in v4</div>
+    <div class="ledger">
+      <div class="ledger-row"><div class="lr-key">Kit</div><div class="lr-body"><span>Nine page-only primitives landed as kit 56 Fold, 57 Ledger row, 58 Toast, 59 Claim check, 60 Heat take, 61 Option, 62 Attributed notes, 63 Operator pass and 64 Kintsugi seam, each with a specimen. Template recoil-skim registered.</span><span class="ref">src/ui-kit/recoil-report/56-fold.html to 64-kintsugi-seam.html · src/ui-kit/specimens · src/ui-kit/templates.json</span></div></div>
+      <div class="ledger-row"><div class="lr-key">Colour</div><div class="lr-body"><span>One meaning per colour: red only for a failed check, gold only for a limit (the stop-loss is gold now), green only for proven, cyan for an action, plain for unknown, magenta where two records disagree. Owner chips and lens readings went plain; heat is a pip count, not a colour ladder.</span><span class="ref">Arc weld spec 4.3</span></div></div>
+      <div class="ledger-row"><div class="lr-key">Fidelity</div><div class="lr-body"><span>Grade D forecasts render as grain rows with n = 0, not sharp bars with a sweep. NCI not scored renders grain, not red.</span><span class="ref">Kit 37 fidelity grain</span></div></div>
+      <div class="ledger-row"><div class="lr-key">Type and measure</div><div class="lr-body"><span>Label step 12px and body 15px; one font set (the kit's ds stacks); one px measure of 680px for the column; acronyms expanded on first use.</span><span class="ref">Page layer</span></div></div>
+      <div class="ledger-row"><div class="lr-key">Removed</div><div class="lr-body"><span>The counterpart's email address from the page script; one sensitive personal fact; the legacy header, probability bar, receipt table, stop-loss and gate list blocks, with their dead rules.</span><span class="ref">Brand line producer review, 2026-11-11</span></div></div>
+    </div>
+
+    <div class="sub">Gates on v4</div>
+    <p>Run in the repo on 2026-11-11 before the pull request: component_source_gate PASS against recoil-skim (9 of 9 signature selectors); token_source_gate PASS; inline tokens identical to the kit; kit_primitive_sync: all 15 blocks identical to their kit files; artifact_wrap_lint clean; page_gate PASS; kit_specimen check 26 of 26. Browser pass at 375 and 1280: no horizontal overflow, no console errors, labels at 12px. Not yet run on v4: the impeccable and brand line producer reviews (backlog rows recoil-component-set and recoil-brian-acceptance run them). Visible em-dashes 0.</p>
+  </div>
+</details>
+</div>
+
+<footer>
+  <details class="fold" id="f-sources">
+    <summary><div class="fold-title"><h2>Sources</h2><span class="fold-verdict">6 sources, all read by the v3 session</span></div><span class="chip">S1 to S6</span></summary>
+    <div class="fold-body">
+      <p class="ref">S1 Granola transcript 8000dd5f, 101,233 characters, read in full · S2 Granola summary, corrected where S1 disagrees · S3 two Gmail threads with Brian, read in full · S4 scheduled tasks list · S5 arcs-v9 working tree and origin/main · S6 claude/BOOT.md and claude/RECEIPTS-addendum-2026-11-11.md</p>
+      <p class="ref">Companion doc: claude/RECOIL-brian-2026-11-11.md in the Getting Organized project. Private. Not for Brian as written.</p>
+    </div>
+  </details>
+</footer>
+
+<div class="toast gold" role="status" data-toast>
+  <span class="toast-title">Stop-loss</span>
+  <button class="toast-close" type="button" aria-label="Dismiss stop-loss" data-toast-close><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+  <p class="toast-msg">No Brian tenant, page or demo before the Friday 11-13 triage (rule R-012). Income first: the Friday 11 AM client call.</p>
+  <span class="toast-meta">2026-11-11 · 16:00 ET · set by this recoil</span>
+</div>
+</main>
+<script>
+(function () {
+  var folds = document.querySelectorAll('details.fold');
+  document.querySelectorAll('[data-all]').forEach(function (b) {
+    b.addEventListener('click', function () { var open = b.getAttribute('data-all') === 'open'; folds.forEach(function (d) { d.open = open; }); });
+  });
+  function openId(id) { var el = id && document.getElementById(id); if (el && el.tagName === 'DETAILS') el.open = true; }
+  window.addEventListener('hashchange', function () { openId(location.hash.slice(1)); });
+  openId(location.hash.slice(1));
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) { a.addEventListener('click', function () { openId(a.getAttribute('href').slice(1)); }); });
+  window.addEventListener('beforeprint', function () { folds.forEach(function (d) { d.open = true; }); });
+  var MOVES = {
+    a: { why: "Keep the one promise you made out loud. About 10 minutes, no build.", label: "Draft note to Brian, edit before you copy", mail: true,
+         note: "Hey man, great talk. Here's the Granola transcript I mentioned so you don't need your Farcaster notes: [paste Granola share link]\n\nShoot me a couple of times next week for the show and tell." },
+    b: { why: "Keep the promise and test the [80:52] signal with one question. About 15 minutes, no surface.", label: "Draft note to Brian, edit before you copy", mail: true,
+         note: "Hey man, great talk. Here's the Granola transcript I mentioned so you don't need your Farcaster notes: [paste Granola share link]\n\nShoot me a couple of times next week for the show and tell. Also curious: what did you want your experience database to do that you couldn't get anywhere else?" },
+    c: { why: "Hold both ideas for the Friday 11-13 triage. About 5 minutes, nothing goes to Brian yet.", label: "PARKED rows, edit before you copy", mail: false,
+         note: "PARKED (2026-11-11, from the Brian recoil): Brian as User1 design partner for the job tool (ADR-077:25). Triage Fri 11-13.\nPARKED (2026-11-11): kid MPC / DJ app collab with Brian. Triage Fri 11-13." }
+  };
+  var note = document.getElementById('nm-note'), why = document.querySelector('[data-why]'), lab = document.querySelector('[data-label]'),
+      gm = document.querySelector('[data-gmail]'), st = document.querySelector('[data-status]'), cp = document.querySelector('[data-copy]');
+  function gmail() { gm.href = 'https://mail.google.com/mail/?view=cm&fs=1&su=' + encodeURIComponent('transcript from today') + '&body=' + encodeURIComponent(note.value); }
+  function pick(k) { var m = MOVES[k]; why.textContent = m.why; lab.textContent = m.label; note.value = m.note; gm.hidden = !m.mail; cp.textContent = m.mail ? 'Copy note' : 'Copy PARKED rows'; gmail(); }
+  document.querySelectorAll('input[name="nm"]').forEach(function (r) { r.addEventListener('change', function () { pick(r.value); }); });
+  note.addEventListener('input', gmail);
+  function blocked() { note.select(); st.textContent = 'Copy was blocked here; the text is selected, press Cmd+C.'; }
+  cp.addEventListener('click', function () {
+    try { navigator.clipboard.writeText(note.value).then(function () { st.textContent = 'Copied. Paste your Granola share link before you send.'; }, blocked); } catch (e) { blocked(); }
+  });
+  pick('b');
+  var toast = document.querySelector('[data-toast]');
+  try { if (sessionStorage.getItem('recoil-brian-toast') === 'off') toast.hidden = true; } catch (e) {}
+  function hideToast() { toast.hidden = true; try { sessionStorage.setItem('recoil-brian-toast', 'off'); } catch (e) {} }
+  document.querySelector('[data-toast-close]').addEventListener('click', hideToast);
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && !toast.hidden) hideToast(); });
+  if (window.matchMedia && window.matchMedia('(max-width: 760px)').matches && 'IntersectionObserver' in window) {
+    toast.setAttribute('data-wait', '');
+    new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) toast.setAttribute('data-wait', ''); else toast.removeAttribute('data-wait'); }); }).observe(document.querySelector('.nm'));
+  }
+})();
+</script>
+</body>
+</html>

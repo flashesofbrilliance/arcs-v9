@@ -2,27 +2,43 @@
  "schema": "tool-catalog-v1",
  "note": "Harvested one-line JTBDs, never inferred. Deterministic — no wall-clock. Regenerate with: python3 scripts/tool_catalog_emit.py",
  "counts": {
-  "agent": 27,
+  "agent": 31,
   "command": 18,
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 274,
-  "skill": 25,
+  "script": 302,
+  "skill": 28,
   "workflow": 2
  },
- "total": 399,
+ "total": 434,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 556,
+   "WIRED": 591,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 1,
+   "INSTALLED-UNUSED": 3,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
   "gaps": [
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "repo",
+    "kind": "script",
+    "name": "jobs_posting_liveness.mjs",
+    "why": "no hook/command/task/CI/doc references it",
+    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
+   },
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "repo",
+    "kind": "script",
+    "name": "recoil_page.py",
+    "why": "no hook/command/task/CI/doc references it",
+    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
+   },
    {
     "state": "INSTALLED-UNUSED",
     "surface": "user",
@@ -132,6 +148,14 @@
   },
   {
    "kind": "skill",
+   "name": "honest-proposals-zach",
+   "path": ".claude/skills/honest-proposals-zach/SKILL.md",
+   "jtbd": "Zach's PRIVATE overlay on the honest-proposals method (never publish). Use whenever Zach writes a client proposal, reply, services agreement or Exhibit A from an engagement record. Layers his terms, voice, Connecticut agreement habits, coun",
+   "invoke": "/honest-proposals-zach",
+   "state": "WIRED"
+  },
+  {
+   "kind": "skill",
    "name": "impeccable",
    "path": ".claude/skills/impeccable/SKILL.md",
    "jtbd": "Use when the user wants to design, redesign, shape, critique, audit, polish, clarify, distill, harden, optimize, adapt, animate, colorize, extract, or otherwise improve a frontend interface. Covers websites, landing pages, dashboards, produ",
@@ -188,6 +212,14 @@
   },
   {
    "kind": "skill",
+   "name": "precall-page",
+   "path": ".claude/skills/precall-page/SKILL.md",
+   "jtbd": "Build the private pre-call prep page for one upcoming call (interview, intro, sales call) from the precall-brief template. Gathers calendar, Gmail, Granola and the JD, fills the brief JSON (identity checks, tripwires, go/stop rule, lines to",
+   "invoke": "/precall-page",
+   "state": "WIRED"
+  },
+  {
+   "kind": "skill",
    "name": "prl-page-factory",
    "path": ".claude/skills/prl-page-factory/SKILL.md",
    "jtbd": "Stamp a new PRL client-facing status page (or edit an existing one) that conforms exactly to the proven prl.arcs.care design system — atomic design layers at Todd's register (pilot-checklist, BLUF-first, plain language), spanning the exec→s",
@@ -240,6 +272,14 @@
    "path": ".claude/skills/sbom-payload-scan/SKILL.md",
    "jtbd": ">",
    "invoke": "/sbom-payload-scan",
+   "state": "WIRED"
+  },
+  {
+   "kind": "skill",
+   "name": "scrum",
+   "path": ".claude/skills/scrum/SKILL.md",
+   "jtbd": "The scrum master ritual, an exoskeleton for cadence. `/scrum` (or `/scrum standup`) is the 2-minute daily check; `/scrum groom` is the 25-minute weekly groom (fate old rows, commit at most 5, revisit one rule). Use at the start of a work da",
+   "invoke": "/scrum",
    "state": "WIRED"
   },
   {
@@ -444,6 +484,14 @@
   },
   {
    "kind": "agent",
+   "name": "best-practices-clerk",
+   "path": ".claude/agents/best-practices-clerk.md",
+   "jtbd": "Best-practices review of a small fixed-fee consulting or services agreement. Walks a standard-terms checklist (scope, exclusions, outside costs, payment, IP, confidentiality, warranties, liability, indemnity, termination, disputes, boilerpl",
+   "invoke": "Agent subagent_type=best-practices-clerk",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
    "name": "brand-line-producer",
    "path": ".claude/agents/brand-line-producer.md",
    "jtbd": "Render-time brand gate. Run before any ARCS page, artifact or video frame is rendered, published or shipped. Runs the repo's own gates, then judges only what they cannot see (voice, earned fidelity, video kit level, cross-surface consistenc",
@@ -596,6 +644,14 @@
   },
   {
    "kind": "agent",
+   "name": "paralegal",
+   "path": ".claude/agents/paralegal.md",
+   "jtbd": "Document-integrity review of a services agreement before it goes to counsel or a signer. Checks the mechanics a paralegal checks - parties and entity names, defined terms, cross-references, numbering, dates and day-of-week arithmetic, amoun",
+   "invoke": "Agent subagent_type=paralegal",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
    "name": "platform-standards-auditor",
    "path": ".claude/agents/platform-standards-auditor.md",
    "jtbd": "Audits GitHub (and any other platform/harness — Vercel, Supabase, Claude Code config, CI) for features we already pay for but don't use, and for homegrown tooling that duplicates a platform-native capability. Use when standing up a new work",
@@ -644,10 +700,26 @@
   },
   {
    "kind": "agent",
+   "name": "sanity-check",
+   "path": ".claude/agents/sanity-check.md",
+   "jtbd": "Plan-time brief check for counterpart artifacts (proposal, leave-behind, page). Run before applying any multi-part copy plan or polish round. Given the counterpart's verbatim ask and the plan, draft or diff, it answers one question - does t",
+   "invoke": "Agent subagent_type=sanity-check",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
    "name": "scenario-runner",
    "path": ".claude/agents/scenario-runner.md",
    "jtbd": "[CANDIDATE] Run ONE case (best, base or worst) with a pre-mortem, post-mortem and probability graph.",
    "invoke": "Agent subagent_type=scenario-runner",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "scrum-master",
+   "path": ".claude/agents/scrum-master.md",
+   "jtbd": "[CANDIDATE] Read-only scrum master. Runs scripts/scrum.py board (or standup) and returns the groom agenda with a proposed default for every decision: fates for the oldest rows, at most 5 rows to commit, and a keep/loosen/cut/move verdict on",
+   "invoke": "Agent subagent_type=scrum-master",
    "state": "WIRED"
   },
   {
@@ -1108,6 +1180,14 @@
   },
   {
    "kind": "script",
+   "name": "compounding_fit.py",
+   "path": "scripts/compounding_fit.py",
+   "jtbd": "compounding_fit: run the pre-registered compounding fit. Stdlib, read-only, no model calls.",
+   "invoke": "python3 scripts/compounding_fit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "concordance_render.py",
    "path": "scripts/concordance_render.py",
    "jtbd": "concordance_render.py — the Concordance: where does concept X appear across the corpus.",
@@ -1124,6 +1204,14 @@
   },
   {
    "kind": "script",
+   "name": "contract_format.py",
+   "path": "scripts/contract_format.py",
+   "jtbd": "Format a plain-language agreement (markdown) into a counsel-ready Word file and PDF.",
+   "invoke": "python3 scripts/contract_format.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "corpus_adapter_louisville.py",
    "path": "scripts/corpus_adapter_louisville.py",
    "jtbd": "corpus_adapter_louisville.py — pilot adapter: Louisville engagement corpus → catalog.",
@@ -1136,6 +1224,14 @@
    "path": "scripts/corrections_link.py",
    "jtbd": "corrections_link.py — git-ground the believability ledger's \"unlinked corrections\".",
    "invoke": "python3 scripts/corrections_link.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "counterpart_onepager_build.py",
+   "path": "scripts/counterpart_onepager_build.py",
+   "jtbd": "counterpart_onepager_build: render a counterpart one-pager from the counterpart-onepager template plus a data file.",
+   "invoke": "python3 scripts/counterpart_onepager_build.py",
    "state": "WIRED"
   },
   {
@@ -1260,6 +1356,38 @@
   },
   {
    "kind": "script",
+   "name": "engagement_calibrate.py",
+   "path": "scripts/engagement_calibrate.py",
+   "jtbd": "engagement_calibrate.py: planned vs actual across every engagement, by kind of work.",
+   "invoke": "python3 scripts/engagement_calibrate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "engagement_hours.py",
+   "path": "scripts/engagement_hours.py",
+   "jtbd": "engagement_hours.py: how many hours an engagement has cost, and how many of them were unpaid.",
+   "invoke": "python3 scripts/engagement_hours.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "engagement_progress.py",
+   "path": "scripts/engagement_progress.py",
+   "jtbd": "engagement_progress.py: log progress on an engagement row, re-render, sync the hub, gate.",
+   "invoke": "python3 scripts/engagement_progress.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "engagement_render.py",
+   "path": "scripts/engagement_render.py",
+   "jtbd": "engagement_render.py: one engagement record -> reply, agreement, Exhibit A, five-altitude page.",
+   "invoke": "python3 scripts/engagement_render.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "era_b1_probe.py",
    "path": "scripts/era_b1_probe.py",
    "jtbd": "Pre-registered (before run): K1 ordering abs64<abs128<abs256 and oversharp gap (abs256-abs64)/32>=0.15;",
@@ -1348,6 +1476,14 @@
   },
   {
    "kind": "script",
+   "name": "forecast_base_rates.py",
+   "path": "scripts/forecast_base_rates.py",
+   "jtbd": "forecast_base_rates: empirical base rates for the three peer follow-up forecasts the recoil pages make.",
+   "invoke": "python3 scripts/forecast_base_rates.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "forensic_scan.py",
    "path": "scripts/forensic_scan.py",
    "jtbd": "ARCS v9 Deep Forensic Scan",
@@ -1384,6 +1520,14 @@
    "path": "scripts/fork_lineage_check.sh",
    "jtbd": "Fork Lineage drift check (J17) — conditional action.",
    "invoke": "scripts/fork_lineage_check.sh",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "gauntlet_brief.py",
+   "path": "scripts/gauntlet_brief.py",
+   "jtbd": "gauntlet_brief.py: one page shape for every counterpart gauntlet.",
+   "invoke": "python3 scripts/gauntlet_brief.py",
    "state": "WIRED"
   },
   {
@@ -1884,6 +2028,30 @@
   },
   {
    "kind": "script",
+   "name": "myally_hub_crawl.py",
+   "path": "scripts/myally_hub_crawl.py",
+   "jtbd": "myally_hub_crawl.py: unit checks and an interaction crawl for public/myally-hub.html.",
+   "invoke": "python3 scripts/myally_hub_crawl.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "myally_hub_sync.py",
+   "path": "scripts/myally_hub_sync.py",
+   "jtbd": "myally_hub_sync.py: inline the engine's Step 1 tree into the myally.arcs.care hub.",
+   "invoke": "python3 scripts/myally_hub_sync.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "myally_primer_terms.py",
+   "path": "scripts/myally_primer_terms.py",
+   "jtbd": "myally_primer_terms.py: keep the My Ally Primer's glossary, its hover definitions and the hub's copy in step.",
+   "invoke": "python3 scripts/myally_primer_terms.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "neighbor_scan.py",
    "path": "scripts/neighbor_scan.py",
    "jtbd": "neighbor_scan: before a change lands, list who else holds it, and after, who to tell.",
@@ -2020,6 +2188,14 @@
   },
   {
    "kind": "script",
+   "name": "page_tune.py",
+   "path": "scripts/page_tune.py",
+   "jtbd": "page_tune: the shared --tune / --apply mechanics for every page builder (one copy; builders call it, never fork it).",
+   "invoke": "python3 scripts/page_tune.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "phosphor_build.py",
    "path": "scripts/phosphor_build.py",
    "jtbd": "phosphor_build: build the single-file Phosphor page from its sources (stdlib only).",
@@ -2076,6 +2252,14 @@
   },
   {
    "kind": "script",
+   "name": "precall_brief_build.py",
+   "path": "scripts/precall_brief_build.py",
+   "jtbd": "precall_brief_build: render a pre-call brief page from the precall-brief template plus a data file.",
+   "invoke": "python3 scripts/precall_brief_build.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "press_run.py",
    "path": "scripts/press_run.py",
    "jtbd": "press_run: stage the weekly go/no-go digest. Schedules the staging, never the publishing.",
@@ -2120,6 +2304,22 @@
    "path": "scripts/proof_emit.py",
    "jtbd": "proof_emit: render resume.arcs.care/proof (an infinite-zoom proof ledger) from one claims file.",
    "invoke": "python3 scripts/proof_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "proposal_build.py",
+   "path": "scripts/proposal_build.py",
+   "jtbd": "proposal_build.py: one source page -> the hosted page, a send copy and the PDF.",
+   "invoke": "python3 scripts/proposal_build.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "proposal_lint.py",
+   "path": "scripts/proposal_lint.py",
+   "jtbd": "proposal_lint.py: the honest-proposals checks over one engagement's text and rendered outputs.",
+   "invoke": "python3 scripts/proposal_lint.py",
    "state": "WIRED"
   },
   {
@@ -2292,10 +2492,74 @@
   },
   {
    "kind": "script",
+   "name": "recoil_decompose.py",
+   "path": "scripts/recoil_decompose.py",
+   "jtbd": "Recoil call service stages J1 decompose, J2 verbs, J3 deconstruct (stdlib only).",
+   "invoke": "python3 scripts/recoil_decompose.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "recoil_ext_build.sh",
+   "path": "scripts/recoil_ext_build.sh",
+   "jtbd": "Build the counterpart-safe twin of a war-room report: public/recoil-ext/<id>.html.",
+   "invoke": "scripts/recoil_ext_build.sh",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "recoil_hypercube_explorer.py",
+   "path": "scripts/recoil_hypercube_explorer.py",
+   "jtbd": "recoil_hypercube_explorer: build the J4 hypercube explorer page (backlog row recoil-hypercube-index, R8).",
+   "invoke": "python3 scripts/recoil_hypercube_explorer.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "recoil_induce.py",
    "path": "scripts/recoil_induce.py",
    "jtbd": "recoil_induce.py: induce candidate backlog rows from a recoil report or war room. Stdlib only, no model calls.",
    "invoke": "python3 scripts/recoil_induce.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "recoil_page.py",
+   "path": "scripts/recoil_page.py",
+   "jtbd": "recoil_page: one recoil SSOT (v2, or six-tab v1 through the adapter) to a single-file HTML page.",
+   "invoke": "python3 scripts/recoil_page.py",
+   "state": "INSTALLED-UNUSED"
+  },
+  {
+   "kind": "script",
+   "name": "recoil_service.py",
+   "path": "scripts/recoil_service.py",
+   "jtbd": "Recoil call service: the stage runner (stdlib only). Backlog row recoil-service-cli (R4).",
+   "invoke": "python3 scripts/recoil_service.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "recoil_ssot_v2.py",
+   "path": "scripts/recoil_ssot_v2.py",
+   "jtbd": "Recoil SSOT v2: validator, v1 adapter and sweep (stdlib only).",
+   "invoke": "python3 scripts/recoil_ssot_v2.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "recoil_stage_j4.py",
+   "path": "scripts/recoil_stage_j4.py",
+   "jtbd": "recoil_stage_j4: stage J4 of the recoil call service, the ADR-060 hypercube index (backlog row",
+   "invoke": "python3 scripts/recoil_stage_j4.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "recoil_stage_j5.py",
+   "path": "scripts/recoil_stage_j5.py",
+   "jtbd": "Recoil call service, stage J5: explode the SSOT into an arcs.atlas.v2 knowledge graph (stdlib only).",
+   "invoke": "python3 scripts/recoil_stage_j5.py",
    "state": "WIRED"
   },
   {
@@ -2404,6 +2668,14 @@
   },
   {
    "kind": "script",
+   "name": "scrum.py",
+   "path": "scripts/scrum.py",
+   "jtbd": "scrum.py: the scrum master's deterministic half. Stdlib, no model calls, no network except an optional `gh`.",
+   "invoke": "python3 scripts/scrum.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "security_review_gate.sh",
    "path": "scripts/security_review_gate.sh",
    "jtbd": "Fail the security-review job when the scan never actually ran.",
@@ -2438,7 +2710,7 @@
    "kind": "script",
    "name": "sentries.py",
    "path": "scripts/sentries.py",
-   "jtbd": "sentries: four read-only watchers (stdlib only). Warn, never block, never write.",
+   "jtbd": "sentries: five read-only watchers (stdlib only). Warn, never block, never write.",
    "invoke": "python3 scripts/sentries.py",
    "state": "WIRED"
   },
@@ -2596,6 +2868,14 @@
   },
   {
    "kind": "script",
+   "name": "tabbed_brief_build.py",
+   "path": "scripts/tabbed_brief_build.py",
+   "jtbd": "tabbed_brief_build: render a tabbed counterpart brief from the tabbed-brief template plus a data file.",
+   "invoke": "python3 scripts/tabbed_brief_build.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "tao_coverage_check.py",
    "path": "scripts/tao_coverage_check.py",
    "jtbd": "tao_coverage_check.py — every NFTT and TIL post should have minted at least one Tao proverb.",
@@ -2692,6 +2972,14 @@
   },
   {
    "kind": "script",
+   "name": "token_tuner_inline.py",
+   "path": "scripts/token_tuner_inline.py",
+   "jtbd": "token_tuner_inline: put the token tuner into a single-file page, take it out, or check the copy is current.",
+   "invoke": "python3 scripts/token_tuner_inline.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "tool_catalog_emit.py",
    "path": "scripts/tool_catalog_emit.py",
    "jtbd": "tool_catalog_emit.py — flat tool-catalog emitter (atomic first slice, ADR-070 induction surface).",
@@ -2736,6 +3024,14 @@
    "path": "scripts/trust_name_leak.py",
    "jtbd": "trust_name_leak: Job Factory slice 6. A staged artifact (resume cut, draft page,",
    "invoke": "python3 scripts/trust_name_leak.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "tune_serve.py",
+   "path": "scripts/tune_serve.py",
+   "jtbd": "tune_serve: one editor for every page. Serves the token tuner locally and maps a page URL back to its source file.",
+   "invoke": "python3 scripts/tune_serve.py",
    "state": "WIRED"
   },
   {

@@ -110,3 +110,13 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ─── Print: site chrome never prints ───
+   The toast, the sticky offer bar and the legal footer are screen chrome. They
+   carry data-print="hide" (an attribute, not a class) so any route's
+   print-to-PDF gets the document alone. 2026-11-11, recoil PDF fix. */
+@media print {
+  [data-print="hide"] {
+    display: none !important;
+  }
+}

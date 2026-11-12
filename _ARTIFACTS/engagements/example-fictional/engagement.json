@@ -1,0 +1,438 @@
+{
+  "schema": "engagement-record-v1",
+  "meta": {
+    "id": "example-fictional-step1",
+    "title": "LessonLoop: Step 1, scheduling data check",
+    "internal_note": "INTERNAL. Fictional worked example for honest-proposals. Every name, figure and date is invented. The agreement is a plain-language draft for a lawyer to review, not legal advice.",
+    "record_date": "2026-11-08",
+    "last_sent": null
+  },
+  "client": {
+    "legal_name": "Harbor Lane Tutoring, LLC",
+    "product": "LessonLoop",
+    "contacts": [
+      "Dana Ortiz"
+    ],
+    "reply_to": "Dana"
+  },
+  "fields": {
+    "rate_hour": {
+      "kind": "money",
+      "label": "Hourly rate for fixed-fee steps",
+      "value": 120,
+      "source": {
+        "kind": "decision",
+        "ref": "Robin, rate card",
+        "date": "2026-11-02"
+      },
+      "history": []
+    },
+    "hours_step1": {
+      "kind": "int",
+      "label": "Hours in Step 1",
+      "value": 8,
+      "source": {
+        "kind": "judgment",
+        "ref": "Robin, sizing after the intro call",
+        "date": "2026-11-03"
+      },
+      "history": []
+    },
+    "fee_step1": {
+      "kind": "money",
+      "label": "Step 1 fixed fee",
+      "derive": [
+        "mul",
+        "hours_step1",
+        "rate_hour"
+      ]
+    },
+    "fee_step2": {
+      "kind": "money_range",
+      "label": "Step 2 planning range",
+      "value": [
+        2400,
+        4800
+      ],
+      "source": {
+        "kind": "judgment",
+        "ref": "Robin, sizing after the intro call",
+        "date": "2026-11-03"
+      },
+      "history": []
+    },
+    "fee_step3": {
+      "kind": "money_range",
+      "label": "Step 3 planning range",
+      "value": [
+        1800,
+        3600
+      ],
+      "source": {
+        "kind": "judgment",
+        "ref": "Robin, sizing after the intro call",
+        "date": "2026-11-03"
+      },
+      "history": []
+    },
+    "access_by": {
+      "kind": "date",
+      "label": "Target date for spreadsheet and booking-tool access",
+      "value": "2026-12-01",
+      "source": {
+        "kind": "email",
+        "ref": "Dana, 2026-11-03 email",
+        "date": "2026-11-03"
+      },
+      "history": []
+    },
+    "duration_days": {
+      "kind": "days",
+      "label": "Calendar days from access to results",
+      "value": 3,
+      "source": {
+        "kind": "judgment",
+        "ref": "Robin, sizing after the intro call",
+        "date": "2026-11-03"
+      },
+      "history": []
+    },
+    "deliver_by": {
+      "kind": "date",
+      "label": "Results by, if access lands on the target date",
+      "derive": [
+        "add_days",
+        "access_by",
+        "duration_days"
+      ]
+    },
+    "work_days": {
+      "kind": "int",
+      "label": "Working days in Step 1",
+      "value": 3,
+      "source": {
+        "kind": "judgment",
+        "ref": "Robin, sizing after the intro call",
+        "date": "2026-11-03"
+      },
+      "history": []
+    },
+    "walkthrough_minutes": {
+      "kind": "int",
+      "label": "Walkthrough call length",
+      "value": 45,
+      "source": {
+        "kind": "decision",
+        "ref": "Robin, rate card",
+        "date": "2026-11-02"
+      },
+      "history": []
+    },
+    "fix_window_days": {
+      "kind": "days",
+      "label": "Days to report a mismatch with Exhibit A",
+      "value": 14,
+      "source": {
+        "kind": "decision",
+        "ref": "Robin, rate card",
+        "date": "2026-11-02"
+      },
+      "history": []
+    },
+    "liability_cap": {
+      "kind": "text",
+      "label": "Liability cap",
+      "value": "the fee paid for Step 1",
+      "source": {
+        "kind": "decision",
+        "ref": "Robin, rate card",
+        "date": "2026-11-02"
+      },
+      "history": []
+    },
+    "talk_first_days": {
+      "kind": "int",
+      "label": "Days of good-faith talks before a dispute goes further",
+      "value": 15,
+      "source": {
+        "kind": "decision",
+        "ref": "Robin, rate card",
+        "date": "2026-11-02"
+      },
+      "history": []
+    },
+    "dispute_forum": {
+      "kind": "text",
+      "label": "Where a dispute goes",
+      "value": "the courts of Lane County, Oregon",
+      "source": {
+        "kind": "decision",
+        "ref": "Robin, rate card",
+        "date": "2026-11-02"
+      },
+      "history": []
+    }
+  },
+  "asks": [
+    {
+      "id": "ask-1",
+      "short": "Where to start",
+      "text": "What would you do first, and what would we have at the end of it?",
+      "answered_by": [
+        "deliverables"
+      ],
+      "source": {
+        "kind": "email",
+        "ref": "Dana, 2026-11-03 email",
+        "date": "2026-11-03"
+      }
+    },
+    {
+      "id": "ask-2",
+      "short": "Whole cost",
+      "text": "Roughly what does fixing the whole booking mess cost?",
+      "answered_by": [
+        "fee_step2",
+        "fee_step3"
+      ],
+      "source": {
+        "kind": "email",
+        "ref": "Dana, 2026-11-03 email",
+        "date": "2026-11-03"
+      }
+    },
+    {
+      "id": "ask-3",
+      "short": "Timing",
+      "text": "Could this be done before the January term starts?",
+      "answered_by": [
+        "deliver_by"
+      ],
+      "source": {
+        "kind": "email",
+        "ref": "Dana, 2026-11-03 email",
+        "date": "2026-11-03"
+      }
+    }
+  ],
+  "phases": [
+    {
+      "id": "step-1",
+      "name": "Scheduling data check",
+      "question": "What is actually broken, and is the data worth keeping?",
+      "fee": "{{fee_step1}}",
+      "status": "offered",
+      "paid": false
+    },
+    {
+      "id": "step-2",
+      "name": "Rebuild the booking flow",
+      "question": "Can parents book without a phone call?",
+      "fee": "{{fee_step2}}",
+      "status": "range only, needs its own written yes",
+      "paid": false,
+      "assumptions": [
+        "asm-2"
+      ]
+    },
+    {
+      "id": "step-3",
+      "name": "Parent reminders pilot",
+      "question": "Do reminders cut no-shows?",
+      "fee": "{{fee_step3}}",
+      "status": "range only, needs its own written yes",
+      "paid": false,
+      "assumptions": [
+        "asm-3"
+      ]
+    }
+  ],
+  "lists": {
+    "deliverables": [
+      {
+        "id": "D1",
+        "text": "A short written report: what in the scheduling spreadsheet is reliable, what is duplicated, and what is missing, with examples."
+      },
+      {
+        "id": "D2",
+        "text": "A map of how a booking moves from the first parent message to a confirmed lesson, with the places it gets stuck marked."
+      },
+      {
+        "id": "D3",
+        "text": "Firmer low-to-high ranges for Steps 2 and 3, with every assumption written out."
+      },
+      {
+        "id": "D4",
+        "text": "A {{walkthrough_minutes}}-minute walkthrough call to go through it together."
+      }
+    ],
+    "to_start": [
+      {
+        "id": "S1",
+        "text": "Sign the attached agreement."
+      },
+      {
+        "id": "S2",
+        "text": "Share the scheduling spreadsheet (view access is enough) and an admin seat on the booking tool."
+      }
+    ]
+  },
+  "assumptions": [
+    {
+      "id": "asm-1",
+      "text": "Access lands by {{access_by|long}}; every date counts from access, not from signing.",
+      "test_that_would_decide": "The date the spreadsheet is shared. If later, deliver_by moves by the same number of days.",
+      "status": "open",
+      "source": {
+        "kind": "judgment",
+        "ref": "Robin, sizing after the intro call",
+        "date": "2026-11-03"
+      }
+    },
+    {
+      "id": "asm-2",
+      "text": "Bookings live in one spreadsheet and one calendar tool, with no second system kept by hand.",
+      "test_that_would_decide": "Step 1 finds a second system: the Step 2 range is re-sized before any yes.",
+      "status": "open",
+      "source": {
+        "kind": "call",
+        "ref": "Intro call with Dana",
+        "date": "2026-11-02"
+      }
+    },
+    {
+      "id": "asm-3",
+      "text": "Reminders can go out through the email tool already paid for, with no new texting service.",
+      "test_that_would_decide": "The current email plan allows scheduled sends to the parent list.",
+      "status": "open",
+      "source": {
+        "kind": "call",
+        "ref": "Intro call with Dana",
+        "date": "2026-11-02"
+      }
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "best",
+      "what": "Dana signs this week, access lands by {{access_by}}, results by {{deliver_by}}; Step 2 starts before the January term.",
+      "earn": "{{fee_step1}}, then a Step 2 priced from evidence",
+      "watch": "Access arrives within two days of signing",
+      "guard": "Nothing extra needed"
+    },
+    {
+      "id": "base",
+      "what": "Signing takes a week or two; Step 1 lands in mid December and Step 2 waits for January.",
+      "earn": "{{fee_step1}}",
+      "watch": "Questions from whoever helps Dana decide",
+      "guard": "Keep the ranges labeled as estimates wherever they travel"
+    },
+    {
+      "id": "worst",
+      "what": "Dana shows the ranges to a cheaper builder and hires them for the rebuild.",
+      "earn": "Nothing beyond Step 1, if Step 1 is bought at all",
+      "watch": "Requests for a per-task breakdown before Step 1 is paid",
+      "guard": "No task-level price list before Step 1 is paid; the leak check refuses one"
+    }
+  ],
+  "terms": [
+    {
+      "id": "work",
+      "title": "The work",
+      "body": "I review the scheduling spreadsheet and the booking flow and deliver what is listed in Exhibit A. That is all Step 1 includes. Steps 2 and 3 are not part of this agreement; each needs its own written yes."
+    },
+    {
+      "id": "fee",
+      "title": "Fee",
+      "body": "Step 1 is a fixed {{fee_step1}} for everything in Exhibit A, paid in full at signing. If it takes me longer than I planned, that is my cost, not yours."
+    },
+    {
+      "id": "timing",
+      "title": "Timing",
+      "body": "I deliver within {{work_days|word}} working days after I have access, or after signing if that comes later. Delays on your side move the date by the same amount."
+    },
+    {
+      "id": "reliance",
+      "title": "Estimates",
+      "body": "Any ranges or estimates are my good-faith planning numbers for work I would do. They are not a quote, a fixed price or a promise. You may show them to anyone you like; nobody else can rely on them as a commitment from me, and they should travel with their assumptions attached."
+    },
+    {
+      "id": "advice",
+      "title": "My opinion, not legal or compliance advice",
+      "body": "My findings are my professional opinion, for you to use as you see fit. They are not legal, tax or compliance advice, and the decisions remain yours."
+    },
+    {
+      "id": "as_is",
+      "title": "Fixes, and setup as is",
+      "body": "If something I deliver does not match Exhibit A, tell me within {{fix_window_days}} days and I will fix it. Any setup, formulas or configuration I hand over are provided as is, with no other warranty."
+    },
+    {
+      "id": "data",
+      "title": "Your data",
+      "body": "I use only the access you give me, keep it private, use it only for this work, and delete my copies when Step 1 ends. Please send no student records beyond what the spreadsheet already holds."
+    },
+    {
+      "id": "own",
+      "title": "What you own",
+      "body": "Once paid, everything I deliver in Step 1 is yours. I keep my own pre-existing tools, templates and methods."
+    },
+    {
+      "id": "liability",
+      "title": "Limit of liability",
+      "body": "My total liability under this agreement is capped at {{liability_cap}}, and neither party is liable for indirect or lost-profit damages."
+    },
+    {
+      "id": "disputes",
+      "title": "Disputes",
+      "body": "Either party first raises a problem in writing and talks it through in good faith for {{talk_first_days}} days. After that, either can go to {{dispute_forum}}. Oregon law applies."
+    },
+    {
+      "id": "ending",
+      "title": "Ending early",
+      "body": "I am an independent contractor. Either party can end this agreement in writing; if it ends early, I refund the part of the fee for work not yet done."
+    },
+    {
+      "id": "basics",
+      "title": "The basics",
+      "body": "This is the whole agreement for Step 1. Changes must be in writing. E-signatures are fine."
+    }
+  ],
+  "altitudes": {
+    "exec": "A short paid check of the scheduling data for {{fee_step1}}, then ranges, not quotes, for the rebuild.",
+    "strategic": "Step 1 is the price of finding out; the rebuild is sized from what it finds, so neither side bets on a guess.",
+    "operational": "{{work_days|Word}} working days from access; results by {{deliver_by}} if access lands by {{access_by}}.",
+    "tactical": "Each of Dana's three questions maps to a deliverable or a field below.",
+    "surgical": "Every value, its source and its history; every assumption with the test that would decide it."
+  },
+  "cold_read": {
+    "why": "LessonLoop's bookings are kept in a spreadsheet and a calendar tool that disagree, and parents phone to confirm lessons.",
+    "what": "A fixed-fee check of the data and the booking flow, with ranges for the rebuild.",
+    "why_now": "Dana wants bookings working before the January term, and the check has to finish first.",
+    "before": "Sign, share the spreadsheet and a booking-tool seat.",
+    "during": "{{work_days|Word}} working days of review; a walkthrough call at the end.",
+    "after": "Firmer ranges for Steps 2 and 3; each needs its own yes."
+  },
+  "counsel_notes": "A lawyer may ask for a mutual indemnity and a named governing-law clause; the template keeps both short on purpose.",
+  "not_proven": [
+    {
+      "id": "np-1",
+      "text": "That the spreadsheet is the only booking record; asm-2 tests it in Step 1."
+    },
+    {
+      "id": "np-2",
+      "text": "That reminders reduce no-shows for this client; Step 3 is the pilot that would show it."
+    }
+  ],
+  "leak": {
+    "ceiling_usd": 6000
+  },
+  "ex_ante": {
+    "expect": "Dana signs Step 1 within ten days of the send",
+    "p": 0.6,
+    "basis": {
+      "kind": "judgment",
+      "text": "one warm intro call; budget not stated"
+    },
+    "date": "2026-11-08"
+  }
+}

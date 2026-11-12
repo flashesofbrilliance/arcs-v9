@@ -435,14 +435,122 @@ def render(g, top=8):
     return "\n".join(out)
 
 
-def to_dot(g):
+def to_dot(g, ov=None):
     lines = ["digraph backlog {", "  rankdir=LR;"]
     for x in g["nodes"]:
         lines.append(f'  "{x["id"]}" [label="{x["id"]}\\n{x["state"]}"];')
         for d in x["deps"]:
             lines.append(f'  "{d}" -> "{x["id"]}";')
+    for s in (ov or {}).get("sessions", []):
+        sid = s["id"]
+        lines.append(f'  "{sid}" [shape=box,style=rounded,label="{s["title"][:40]}\\ndepth {s["depth"]}"];')
+        if s["parent"]:
+            lines.append(f'  "{s["parent"]}" -> "{sid}" [style=dashed];')
+        for m in s["rows"]:
+            lines.append(f'  "{sid}" -> "{m["id"]}" [style=dotted,label="{m["how"]}"];')
     lines.append("}")
     return "\n".join(lines)
+
+
+# Session overlay (2026-11-12): the app records which session started which (startedBy), the backlog records
+# which work depends on which (depends_on). Nothing joins the two, so a dependency could not be followed from a
+# grandchild session up to the root. --sessions FILE reads a saved dump of the app's session list (the
+# ccd_session_mgmt list_sessions JSON array; the script cannot call the app itself) and attaches each session
+# to the rows it works on. Matches are literal, never guessed:
+#   claimed  the row's claimed_by names the session's id prefix, branch, worktree folder or short name
+#   pr       the row's text names the session's PR number ("PR 2073" or "#2073")
+#   spawned  the row's source names the session's id prefix (the row came out of that session)
+# Sessions that match no row print as gaps. Depth is spawn lineage (who started whom), not altitude; the row's
+# altitude prints beside it so the two can be compared.
+SID_RE = re.compile(r"local_[0-9a-f]{8}")
+
+
+def _session_keys(s):
+    sid = s.get("sessionId", "")
+    keys = {sid[:14]} if sid.startswith("local_") else set()
+    for k in (s.get("branch"), s.get("name"), Path(s.get("cwd") or "").name if s.get("branch") else None):
+        if k and len(k) >= 6:
+            keys.add(k)
+    return keys
+
+
+def session_overlay(g, rows, sessions):
+    by_id = {r["id"]: r for r in rows if r.get("id")}
+    node = {x["id"]: x for x in g["nodes"]}
+    started = {s.get("startedBy") for s in sessions}
+    keep = [s for s in sessions if s.get("branch") or s.get("prNumber") or s.get("startedBy") or s["sessionId"] in started]
+    skipped, sessions = len(sessions) - len(keep), keep  # recurring-task runs: no branch, no PR, no family
+    ids = {s["sessionId"] for s in sessions}
+    parent = {s["sessionId"]: (s.get("startedBy") if s.get("startedBy") in ids else None) for s in sessions}
+    depth = {}
+
+    def d(sid, seen=()):
+        if sid not in depth:
+            p = parent.get(sid)
+            depth[sid] = 0 if (not p or p in seen) else d(p, seen + (sid,)) + 1
+        return depth[sid]
+
+    out = []
+    for s in sessions:
+        sid = s["sessionId"]
+        keys = _session_keys(s)
+        pr = s.get("prNumber")
+        pr_re = re.compile(rf"(?:\bPR\s?#?|#){pr}\b") if pr else None
+        matched = []
+        for rid, r in by_id.items():
+            claim = str(r.get("claimed_by") or "")
+            how = None
+            if claim and any(k in claim for k in keys):
+                how = "claimed"
+            elif pr_re and pr_re.search(json.dumps(r, ensure_ascii=False)):
+                how = "pr"
+            elif sid[:14] in str(r.get("source") or ""):
+                how = "spawned"
+            if how:
+                n = node.get(rid, {})
+                matched.append({"id": rid, "how": how, "state": str(r.get("state") or "OPEN"),
+                                "altitude": r.get("altitude"), "wave": n.get("wave"),
+                                "downstream": n.get("descendants", 0),
+                                "open_deps": [x for x in deps_of(r) if x in node]})
+        matched.sort(key=lambda m: ("claimed", "pr", "spawned").index(m["how"]))
+        out.append({"id": sid, "title": s.get("title") or sid, "parent": parent[sid], "depth": d(sid),
+                    "running": bool(s.get("isRunning")), "pr": pr, "pr_state": s.get("prState"),
+                    "archived": bool(s.get("isArchived")), "rows": matched})
+    kids = defaultdict(list)
+    for s in out:
+        kids[s["parent"]].append(s)
+    ordered = []
+
+    def walk(p):
+        for s in kids[p]:
+            ordered.append(s)
+            walk(s["id"])
+    walk(None)
+    return {"sessions": ordered, "max_depth": max((s["depth"] for s in out), default=0),
+            "gaps": [s["id"] for s in ordered if not s["rows"]],
+            "running": sum(1 for s in out if s["running"]), "skipped": skipped}
+
+
+def render_sessions(ov, top=3):
+    s_all = ov["sessions"]
+    out = [f"session overlay: {len(s_all)} sessions, {ov['running']} running, deepest chain {ov['max_depth'] + 1} levels, "
+           f"{len(ov['gaps'])} match no backlog row, {ov['skipped']} recurring-task runs skipped",
+           "depth is who started whom, not altitude", ""]
+    for s in s_all:
+        ind = "  " * s["depth"]
+        flag = "RUNNING " if s["running"] else ""
+        pr = f" PR {s['pr']} {str(s['pr_state'] or '').lower()}" if s["pr"] else ""
+        out.append(f"{ind}[{s['depth']}] {flag}{s['title'][:60]}{pr}  ({s['id'][:14]})")
+        if not s["rows"]:
+            out.append(f"{ind}      no backlog row (gap)")
+        for m in s["rows"][:top]:
+            alt = m["altitude"] or "altitude unset"
+            casc = f"wave {m['wave']}, {m['downstream']} downstream" if m["wave"] is not None else "not active"
+            up = f", waits on {', '.join(m['open_deps'][:3])}" if m["open_deps"] else ""
+            out.append(f"{ind}      {m['how']:<8} {m['id']} {m['state']}, {alt}, {casc}{up}")
+        if len(s["rows"]) > top:
+            out.append(f"{ind}      ... {len(s['rows']) - top} more rows (--json for all)")
+    return "\n".join(out)
 
 
 def self_test():
@@ -534,6 +642,27 @@ def self_test():
         ("tradeoff: tbd cost is unknown, not small", tq["s"] == "cost unknown"),
         ("lens text has no em-dash", "\u2014" not in render_risk(risk_lens(gl, lr)) + render_tradeoff(tl)),
     ]
+    srows = [{"id": "sa", "state": "RUNNING", "claimed_by": "session claude/sa-branch", "altitude": "tactical"},
+             {"id": "sb", "state": "OPEN", "depends_on": ["sa"], "status_note": "lands with PR 2073"},
+             {"id": "sc", "state": "DONE", "source": "side session of local_cccccccc"},
+             {"id": "sd", "state": "OPEN", "status_note": "PR 20730 is a different number"}]
+    sess = [{"sessionId": "local_aaaaaaaa-1", "title": "root", "branch": "claude/sa-branch"},
+            {"sessionId": "local_bbbbbbbb-2", "title": "child", "startedBy": "local_aaaaaaaa-1", "prNumber": 2073, "isRunning": True},
+            {"sessionId": "local_cccccccc-3", "title": "grandchild", "startedBy": "local_bbbbbbbb-2"},
+            {"sessionId": "local_dddddddd-4", "title": "orphan", "startedBy": "local_gone0000-9"}]
+    ov = session_overlay(build(srows, today, cat, T), srows, sess)
+    so = {s["title"]: s for s in ov["sessions"]}
+    checks += [
+        ("sessions: claimed_by naming the branch matches", [(m["id"], m["how"]) for m in so["root"]["rows"]] == [("sa", "claimed")]),
+        ("sessions: PR number matches whole, not as a prefix", [m["id"] for m in so["child"]["rows"]] == ["sb"]),
+        ("sessions: source naming the id prefix is spawned", [(m["id"], m["how"]) for m in so["grandchild"]["rows"]] == [("sc", "spawned")]),
+        ("sessions: depth follows startedBy", [so[t]["depth"] for t in ("root", "child", "grandchild")] == [0, 1, 2]),
+        ("sessions: a parent outside the dump makes a root", so["orphan"]["depth"] == 0 and so["orphan"]["parent"] is None),
+        ("sessions: a session with no row is a gap", ov["gaps"] == ["local_dddddddd-4"]),
+        ("sessions: tree order puts children under parents", [s["title"] for s in ov["sessions"]] == ["root", "child", "grandchild", "orphan"]),
+        ("sessions: matched row carries its upstream wait", so["child"]["rows"][0]["open_deps"] == ["sa"]),
+        ("sessions: text has no em-dash", "\u2014" not in render_sessions(ov)),
+    ]
     ok = True
     for name, passed in checks:
         print(("PASS " if passed else "FAIL ") + name)
@@ -553,6 +682,7 @@ def main(argv=None):
     src.add_argument("--debt", action="store_true", help="add open debt issues as nodes (gh, read-only)")
     src.add_argument("--debt-file", help="add debt issues from a saved JSON list (offline)")
     ap.add_argument("--lens", choices=["deps", "risk", "tradeoff"], default="deps")
+    ap.add_argument("--sessions", help="overlay a saved session-list JSON dump (startedBy tree joined to rows)")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args(argv)
     if a.self_test:
@@ -568,11 +698,18 @@ def main(argv=None):
         g["debt"] = {"issues": len(debt), "active": sum(1 for x in g["nodes"] if x["id"].startswith("debt:")),
                      "with_edges": sum(1 for r in debt if r["depends_on"]) +
                      sum(1 for r in rows if not r["id"].startswith("debt:") and any(str(d).startswith("debt:") for d in deps_of(r)))}
+    ov = None
+    if a.sessions:
+        ov = session_overlay(g, rows, json.loads(Path(a.sessions).read_text()))
     if a.json:
         g["lenses"] = {"risk": risk_lens(g, rows), "tradeoff": tradeoff_lens(g, rows)}
+        if ov:
+            g["sessions"] = ov
         print(json.dumps(g, indent=1, ensure_ascii=False))
     elif a.dot:
-        print(to_dot(g))
+        print(to_dot(g, ov))
+    elif ov:
+        print(render_sessions(ov, a.top))
     else:
         if a.lens == "risk":
             print(render_risk(risk_lens(g, rows), a.top))

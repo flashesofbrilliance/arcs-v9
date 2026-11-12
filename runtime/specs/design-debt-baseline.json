@@ -2,71 +2,16 @@
  "version": "0.1.0",
  "goal": "every served page clean except reasoned exemptions",
  "totals": {
-  "detector": 2496,
+  "detector": 1910,
   "emdash": 0,
   "wrap": 0,
-  "tokens": 6,
+  "tokens": 4,
   "leak": 0,
   "retired_color": 0,
-  "pages": 182,
-  "pages_clean": 61
+  "pages": 144,
+  "pages_clean": 52
  },
  "pages": {
-  "public/ahmed-evening.html": {
-   "detector": 5,
-   "rules": {
-    "kicker-above-heading": 1,
-    "tiny-text": 2,
-    "wide-tracking": 2
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/ahmed-ext.html": {
-   "detector": 10,
-   "rules": {
-    "all-caps-body": 1,
-    "kicker-above-heading": 1,
-    "tiny-text": 6,
-    "wide-tracking": 2
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/ahmed-seed.html": {
-   "detector": 5,
-   "rules": {
-    "kicker-above-heading": 1,
-    "tiny-text": 2,
-    "wide-tracking": 2
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/ahmed.html": {
-   "detector": 10,
-   "rules": {
-    "all-caps-body": 2,
-    "design-system-font": 3,
-    "pulsing-dot": 1,
-    "tiny-text": 2,
-    "wide-tracking": 2
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
   "public/arcs-field-scan.html": {
    "detector": 8,
    "rules": {
@@ -75,59 +20,6 @@
     "gradient-text": 2,
     "hero-eyebrow-chip": 1,
     "overused-font": 1
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/autopilot-ammo.html": {
-   "detector": 6,
-   "rules": {
-    "all-caps-body": 2,
-    "cramped-padding": 1,
-    "dark-glow": 2,
-    "overused-font": 1
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/autopilot-resume-viewer.html": {
-   "detector": 0,
-   "rules": {},
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/autopilot.html": {
-   "detector": 6,
-   "rules": {
-    "all-caps-body": 1,
-    "cramped-padding": 2,
-    "dark-glow": 2,
-    "overused-font": 1
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/ayesha-ext.html": {
-   "detector": 17,
-   "rules": {
-    "all-caps-body": 3,
-    "design-system-font": 1,
-    "kicker-above-heading": 4,
-    "side-tab": 5,
-    "tiny-text": 2,
-    "wide-tracking": 2
    },
    "emdash": 0,
    "wrap": 0,
@@ -692,63 +584,9 @@
    "leak": 0,
    "retired_color": 0
   },
-  "public/claritai.html": {
-   "detector": 0,
-   "rules": {},
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
   "public/compass-kit/index.html": {
    "detector": 0,
    "rules": {},
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/conduit-case-study.html": {
-   "detector": 0,
-   "rules": {},
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/conduit-resume-viewer.html": {
-   "detector": 0,
-   "rules": {},
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/conduit.html": {
-   "detector": 0,
-   "rules": {},
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/daniel.html": {
-   "detector": 28,
-   "rules": {
-    "all-caps-body": 3,
-    "cramped-padding": 1,
-    "design-system-font": 1,
-    "kicker-above-heading": 6,
-    "marketing-buzzword": 1,
-    "side-tab": 12,
-    "tiny-text": 2,
-    "wide-tracking": 2
-   },
    "emdash": 0,
    "wrap": 0,
    "tokens": 0,
@@ -776,30 +614,6 @@
     "cramped-padding": 1,
     "hero-eyebrow-chip": 1,
     "tiny-text": 15,
-    "wide-tracking": 2
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/fun-resume-viewer.html": {
-   "detector": 1,
-   "rules": {
-    "design-system-font": 1
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/fun.html": {
-   "detector": 5,
-   "rules": {
-    "all-caps-body": 1,
-    "design-system-font": 2,
     "wide-tracking": 2
    },
    "emdash": 0,
@@ -1012,122 +826,6 @@
    "leak": 0,
    "retired_color": 0
   },
-  "public/jack-rain-ext.html": {
-   "detector": 0,
-   "rules": {},
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/joe-ext.html": {
-   "detector": 9,
-   "rules": {
-    "all-caps-body": 1,
-    "kicker-above-heading": 1,
-    "tiny-text": 5,
-    "wide-tracking": 2
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/joe.html": {
-   "detector": 24,
-   "rules": {
-    "all-caps-body": 8,
-    "border-accent-on-rounded": 3,
-    "cramped-padding": 2,
-    "dark-glow": 1,
-    "design-system-font": 1,
-    "pulsing-dot": 1,
-    "side-tab": 6,
-    "skipped-heading": 1,
-    "tiny-text": 1
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 1,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/julia-ext.html": {
-   "detector": 50,
-   "rules": {
-    "all-caps-body": 13,
-    "aphoristic-cadence": 1,
-    "cramped-padding": 4,
-    "dark-glow": 10,
-    "tiny-text": 21,
-    "wide-tracking": 1
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/julia-runtime.html": {
-   "detector": 0,
-   "rules": {},
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/julia.html": {
-   "detector": 84,
-   "rules": {
-    "all-caps-body": 24,
-    "aphoristic-cadence": 1,
-    "cramped-padding": 9,
-    "dark-glow": 17,
-    "side-tab": 21,
-    "tiny-text": 10,
-    "wide-tracking": 2
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/kam-codex.html": {
-   "detector": 17,
-   "rules": {
-    "all-caps-body": 2,
-    "design-system-font": 3,
-    "skipped-heading": 1,
-    "tiny-text": 6,
-    "wide-tracking": 5
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/kiko.html": {
-   "detector": 27,
-   "rules": {
-    "all-caps-body": 5,
-    "cramped-padding": 1,
-    "design-system-font": 1,
-    "kicker-above-heading": 6,
-    "side-tab": 10,
-    "tiny-text": 2,
-    "wide-tracking": 2
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
   "public/lewoof-intake.html": {
    "detector": 7,
    "rules": {
@@ -1211,62 +909,6 @@
     "hero-eyebrow-chip": 1,
     "tiny-text": 41,
     "wide-tracking": 26
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/monstro-cover.html": {
-   "detector": 13,
-   "rules": {
-    "all-caps-body": 1,
-    "overused-font": 1,
-    "tiny-text": 11
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/monstro-full.html": {
-   "detector": 4,
-   "rules": {
-    "all-caps-body": 1,
-    "dark-glow": 2,
-    "overused-font": 1
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 1,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/monstro-resume.html": {
-   "detector": 77,
-   "rules": {
-    "all-caps-body": 4,
-    "overused-font": 1,
-    "tiny-text": 37,
-    "undersized-ui-text": 35
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/monstro.html": {
-   "detector": 8,
-   "rules": {
-    "all-caps-body": 2,
-    "dark-glow": 2,
-    "hero-eyebrow-chip": 1,
-    "overused-font": 1,
-    "tiny-text": 1,
-    "wide-tracking": 1
    },
    "emdash": 0,
    "wrap": 0,
@@ -1532,21 +1174,6 @@
    "leak": 0,
    "retired_color": 0
   },
-  "public/rayan.html": {
-   "detector": 9,
-   "rules": {
-    "all-caps-body": 1,
-    "design-system-font": 3,
-    "pulsing-dot": 1,
-    "tiny-text": 2,
-    "wide-tracking": 2
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
   "public/recruithaus-ammo.html": {
    "detector": 5,
    "rules": {
@@ -1687,44 +1314,6 @@
    "leak": 0,
    "retired_color": 0
   },
-  "public/saul-followup.html": {
-   "detector": 14,
-   "rules": {
-    "all-caps-body": 1,
-    "design-system-font": 4,
-    "overused-font": 1,
-    "side-tab": 6,
-    "tight-leading": 2
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/saul-resume-viewer.html": {
-   "detector": 3,
-   "rules": {
-    "design-system-font": 2,
-    "tiny-text": 1
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/saul.html": {
-   "detector": 4,
-   "rules": {
-    "design-system-font": 4
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
   "public/schriner-ammo.html": {
    "detector": 6,
    "rules": {
@@ -1732,17 +1321,6 @@
     "cramped-padding": 1,
     "dark-glow": 2,
     "overused-font": 1
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/schriner-ext.html": {
-   "detector": 1,
-   "rules": {
-    "tiny-text": 1
    },
    "emdash": 0,
    "wrap": 0,
@@ -2049,39 +1627,6 @@
    "leak": 0,
    "retired_color": 0
   },
-  "public/thetrueai-proposal.html": {
-   "detector": 11,
-   "rules": {
-    "all-caps-body": 2,
-    "design-system-font": 1,
-    "side-tab": 2,
-    "skipped-heading": 1,
-    "tiny-text": 2,
-    "wide-tracking": 3
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/thetrueai.html": {
-   "detector": 34,
-   "rules": {
-    "all-caps-body": 5,
-    "cramped-padding": 1,
-    "design-system-font": 1,
-    "kicker-above-heading": 9,
-    "side-tab": 14,
-    "tiny-text": 2,
-    "wide-tracking": 2
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
   "public/todd-call.html": {
    "detector": 20,
    "rules": {
@@ -2169,42 +1714,6 @@
    "leak": 0,
    "retired_color": 0
   },
-  "public/vishal-combined.html": {
-   "detector": 40,
-   "rules": {
-    "all-caps-body": 11,
-    "kicker-above-heading": 7,
-    "overused-font": 1,
-    "side-tab": 19,
-    "tiny-text": 2
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "public/wing.html": {
-   "detector": 64,
-   "rules": {
-    "all-caps-body": 10,
-    "border-accent-on-rounded": 3,
-    "clipped-overflow-container": 2,
-    "dark-glow": 1,
-    "layout-transition": 11,
-    "overused-font": 1,
-    "pulsing-dot": 1,
-    "side-tab": 30,
-    "skipped-heading": 2,
-    "tiny-text": 2,
-    "wide-tracking": 1
-   },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
   "public/yuri-codex.html": {
    "detector": 16,
    "rules": {
@@ -2271,24 +1780,6 @@
     "tiny-text": 2,
     "wide-tracking": 3
    },
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "runtime/warroom/brooks.html": {
-   "detector": 0,
-   "rules": {},
-   "emdash": 0,
-   "wrap": 0,
-   "tokens": 0,
-   "leak": 0,
-   "retired_color": 0
-  },
-  "runtime/warroom/jack-rain.html": {
-   "detector": 0,
-   "rules": {},
    "emdash": 0,
    "wrap": 0,
    "tokens": 0,

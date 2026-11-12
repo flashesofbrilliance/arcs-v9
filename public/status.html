@@ -632,7 +632,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 <div class="page">
 
   <div class="eyebrow"><span class="eyebrow-dot"></span><span style="display:inline-flex;gap:.45em;align-items:baseline"><span style="font-weight:800;letter-spacing:.22em">ARCS</span><span style="color:var(--muted);font-weight:400;letter-spacing:.14em">Field OS</span></span> &middot; Live Build Status</div>
-  <h1>Day 0: one empty commit.<br>Day <span id="hero-day">195</span>: a live product that grades itself.</h1>
+  <h1>Day 0: one empty commit.<br>Day <span id="hero-day">210</span>: a live product that grades itself.</h1>
   <div class="byline">Live build status, measured directly from the repository, updated live</div>
   <div class="lede">
     This is the real build history of <strong>ARCS</strong>, a decision intelligence platform I built solo, run
@@ -641,11 +641,11 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     below lets you read the story at whatever depth you want: the one page version, or all the way down to the code.
   </div>
 
-  <div class="era-head" style="color:var(--green);"><span class="era-tick" style="background:var(--green);"></span>BUILD TELEMETRY · DAY 0 → DAY <span id="era-day">195</span> · SINCE APR 2026 · AS OF <span id="et-now">Oct 21, 2026</span></div>
+  <div class="era-head" style="color:var(--green);"><span class="era-tick" style="background:var(--green);"></span>BUILD TELEMETRY · DAY 0 → DAY <span id="era-day">210</span> · SINCE APR 2026 · AS OF <span id="et-now">Nov 5, 2026</span></div>
 
   <div class="stats">
-    <div class="stat"><div class="stat-val accent" id="sv-commits">5,332</div><div class="stat-label">Commits · Day 0 to today</div></div>
-    <div class="stat"><div class="stat-val" id="stat-days">195</div><div class="stat-label">Days · first commit to now</div></div>
+    <div class="stat"><div class="stat-val accent" id="sv-commits">6,195</div><div class="stat-label">Commits · Day 0 to today</div></div>
+    <div class="stat"><div class="stat-val" id="stat-days">210</div><div class="stat-label">Days · first commit to now</div></div>
     <div class="stat"><div class="stat-val">14+</div><div class="stat-label">Client surfaces · hours each</div></div>
     <div class="stat"><div class="stat-val accent">live</div><div class="stat-label">In production · app.arcs.care</div></div>
   </div>
@@ -816,7 +816,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     </div>
 
     <div id="tab-recent" style="display:none;">
-      <div class="cadence" id="tempo-live" data-floor='[["2026-08-03",0],["2026-08-10",2],["2026-08-17",11],["2026-08-24",15],["2026-08-31",34],["2026-09-07",88],["2026-09-14",17],["2026-09-21",43],["2026-09-28",130],["2026-10-05",407],["2026-10-12",350],["2026-10-19",121]]'></div>
+      <div class="cadence" id="tempo-live" data-floor='[["2026-08-17",10],["2026-08-24",15],["2026-08-31",34],["2026-09-07",88],["2026-09-14",17],["2026-09-21",43],["2026-09-28",130],["2026-10-05",407],["2026-10-12",350],["2026-10-19",155],["2026-10-26",108],["2026-11-02",94]]'></div>
       <div style="font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:0.08em;text-align:center;margin-top:6px;">PULL REQUESTS MERGED INTO MAIN PER WEEK · LAST 12 WEEKS · <span id="tempo-src">FROM GIT HISTORY</span><span class="dg" id="dg-tempo">degraded · floor shown</span></div>
     </div>
 
@@ -914,7 +914,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
         </tr>
         <tr>
           <td><strong>The quality score is still self-graded</strong> until enough outcomes accumulate to calibrate it.</td>
-          <td class="hide-m">Every score is logged with its decision, so the calibration data builds up automatically. The outcome-tracking loop that shipped on Day 98 is the correction signal.</td>
+          <td class="hide-m">Every score is logged with its decision, but calibration needs outcomes, and an outcome is logged only when a person answers the debrief. As of Nov 4, 2026, none has come from an outside user. The outcome-tracking loop that shipped on Day 98 is the correction signal.</td>
           <td><span class="chip low">LOW</span></td>
           <td><span class="chip gated">GATED ON DATA</span></td>
         </tr>
@@ -938,9 +938,9 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
         </tr>
         <tr data-risk="ci-spend">
           <td><strong>Automated code review was the largest share of AI spend.</strong></td>
-          <td class="hide-m">Moved to a cheaper model tier with caching. The saving is being measured before it is called done.</td>
+          <td class="hide-m">Moved to a cheaper model tier, an estimated two thirds less, and the first review on it ran clean. Caching and batching were measured and left off: at this volume they would not pay for themselves.</td>
           <td><span class="chip med" data-r="sev">MED</span></td>
-          <td><span class="chip gated" data-r="status">IN PROGRESS</span></td>
+          <td><span class="chip mit" data-r="status">RESOLVED</span></td>
         </tr>
       </tbody>
     </table>
@@ -960,7 +960,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
       <div class="rm-lane">
         <div class="rm-lane-head" style="color:var(--green);border-color:rgba(0,255,157,0.3);">NOW · IN PRODUCTION</div>
         <div class="rm-card"><div class="rm-title" style="color:var(--green);">SELF-GRADING LOOP</div><div class="rm-body">Shipped Day 98. When an outcome is logged, the system scores its earlier prediction against what actually happened and writes the result to an audit trail; a daily job sends the reminder so the check is not forgotten.</div></div>
-        <div class="rm-card"><div class="rm-title" style="color:var(--green);">CALIBRATION DATA</div><div class="rm-body">Every decision and its outcome accumulates the evidence base the gated features below are waiting for. It builds itself through normal use. <span class="gate-n">Today: <b data-g="cal">0</b> of 30 closed outcomes from outside users.</span></div></div>
+        <div class="rm-card"><div class="rm-title" style="color:var(--green);">CALIBRATION DATA</div><div class="rm-body">Every decision and its outcome adds to the evidence base the gated features below are waiting for. It grows only when people log what happened, which no outside user has done yet. <span class="gate-n">Today: <b data-g="cal">0</b> of 30 closed outcomes from outside users.</span></div></div>
       </div>
       <div class="rm-lane">
         <div class="rm-lane-head" style="color:var(--gold);border-color:rgba(255,215,0,0.3);">NEXT · UNBLOCKED</div>
@@ -1056,19 +1056,19 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
       <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">EVALS &amp; FALSIFIABILITY</div>
     </div>
     <div class="section-title">Every headline claim, with the result that would kill it.</div>
-    <div class="section-body" style="margin-bottom:0"><p class="su-lead">Status reads <strong>not run</strong> until the receipt efficacy loop has scored outcomes to test against. No claim below has been tested yet.</p></div>
+    <div class="section-body" style="margin-bottom:0"><p class="su-lead">Status reads <strong>not run</strong> until the receipt efficacy loop has scored outcomes to test against. No claim below has been tested yet. Four of the six were struck from the papers that made them on Oct 17, 2026, because no data supports them; they stay listed, marked struck, so the withdrawal is visible.</p></div>
     <div class="section-body">
       <p class="su-lead">The papers make sharp numeric claims… so each is falsifiable. Publishing the tests turns marketing numbers into defensible science and de-risks both the patents and the raise.</p>
       <div class="su-tw">
         <table class="su-t">
           <thead><tr><th>Claim</th><th class="n">Metric</th><th>Pre-registered test</th><th>Kill criterion</th><th>Status</th></tr></thead>
           <tbody>
-            <tr><td class="c">Accuracy scales with receipts<small>YP §2.4</small></td><td class="metric">68→87%</td><td>Time-ordered backtest at 1k/10k/100k; CI vs actuals</td><td class="kill">flat or &lt;80% at 100k</td><td><span class="chip open" data-eval="1">NOT RUN</span></td></tr>
-            <tr><td class="c">Honest calibration<small>YP §2.4</small></td><td class="metric">χ² p&lt;.01</td><td>Reliability diagram + Brier score</td><td class="kill">curve off diagonal</td><td><span class="chip open" data-eval="2">NOT RUN</span></td></tr>
-            <tr><td class="c">Beats human experts<small>YP §2.4</small></td><td class="metric">76%</td><td>Blinded head-to-head on unseen briefs</td><td class="kill">win rate ≤ 50%</td><td><span class="chip open" data-eval="3">NOT RUN</span></td></tr>
+            <tr><td class="c">Accuracy scales with receipts<small>YP §2.4</small></td><td class="metric">68→87%</td><td>Time-ordered backtest at 1k/10k/100k; CI vs actuals</td><td class="kill">flat or &lt;80% at 100k</td><td><span class="chip high" data-eval="1">STRUCK OCT 17</span></td></tr>
+            <tr><td class="c">Honest calibration<small>YP §2.4</small></td><td class="metric">χ² p&lt;.01</td><td>Reliability diagram + Brier score</td><td class="kill">curve off diagonal</td><td><span class="chip high" data-eval="2">STRUCK OCT 17</span></td></tr>
+            <tr><td class="c">Beats human experts<small>YP §2.4</small></td><td class="metric">76%</td><td>Blinded head-to-head on unseen briefs</td><td class="kill">win rate ≤ 50%</td><td><span class="chip high" data-eval="3">STRUCK OCT 17</span></td></tr>
             <tr><td class="c">2nd-deriv predicts cascades<small>WP §2.1</small></td><td class="metric">78%@24h</td><td>Labeled backtest, 10k events vs velocity baseline</td><td class="kill">no lift; lead ≤ 0</td><td><span class="chip open" data-eval="4">NOT RUN</span></td></tr>
             <tr><td class="c">Phase-cancel lifts ROAS<small>WP §2.1</small></td><td class="metric">+35%</td><td>Randomized A/B: optimized vs naïve spacing</td><td class="kill">ROAS delta CI crosses 0</td><td><span class="chip open" data-eval="5">NOT RUN</span></td></tr>
-            <tr><td class="c">Network effect A(N) log<small>YP §6.2</small></td><td class="metric">λ≈1.2e-5</td><td>Fit across cohorts; forecast held-out cohort</td><td class="kill">fails held-out within CI</td><td><span class="chip open" data-eval="6">NOT RUN</span></td></tr>
+            <tr><td class="c">Network effect A(N) log<small>YP §6.2</small></td><td class="metric">λ≈1.2e-5</td><td>Fit across cohorts; forecast held-out cohort</td><td class="kill">fails held-out within CI</td><td><span class="chip high" data-eval="6">STRUCK OCT 17</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -1163,9 +1163,9 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
             <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-n"></span>Receipt save prompt</span>
             <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-n"></span>Outcome handler</span>
             <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-b"></span>ADR-023 lattice · gated</span>
-            <span class="su-chip"><span class="tt tt-e">EVAL</span><span class="d d-n"></span>Accuracy 68→87%</span>
-            <span class="su-chip"><span class="tt tt-e">EVAL</span><span class="d d-n"></span>Network A(N)</span>
-            <span class="su-chip"><span class="tt tt-e">EVAL</span><span class="d d-n"></span>Beats experts</span>
+            <span class="su-chip"><span class="tt tt-e">EVAL</span><span class="d d-n"></span>Accuracy 68→87% · struck</span>
+            <span class="su-chip"><span class="tt tt-e">EVAL</span><span class="d d-n"></span>Network A(N) · struck</span>
+            <span class="su-chip"><span class="tt tt-e">EVAL</span><span class="d d-n"></span>Beats experts · struck</span>
           </div></div>
         </div>
         <div class="su-str unx" style="--acc:#8391a7;--fid:.62;">

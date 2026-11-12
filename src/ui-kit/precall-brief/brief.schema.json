@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "arcs/precall-brief/brief.schema.json",
+  "title": "Pre-call brief data",
+  "description": "The #brief-data block of a precall-brief page. scripts/precall_brief_build.py validates against this file (a stdlib subset: type, required, properties, additionalProperties, enum, const, items, minItems, maxItems, minimum, maximum, pattern, oneOf) and then adds the checks JSON Schema cannot say: cockpit section order trip/ask/rule/say, lane order before/opening/interview/debrief, every cockpit link names a card title, card titles unique, no em-dashes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "eyebrow", "sub", "when", "start", "end", "meet", "qualification", "cockpit", "lanes", "footer"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$", "description": "Stable slug; keys the browser-only storage for ticks and results."},
+    "title": {"type": "string", "description": "Page title and h1. Two to four words."},
+    "eyebrow": {"type": "string"},
+    "sub": {"type": "string", "description": "One or two lines: when, who (with verification state), the job of the call."},
+    "when": {"type": "string", "description": "Status-bar line before the call, e.g. 'Thu 12 Nov · 2:00 to 2:45 ET · Zoom'."},
+    "start": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2})?[+-]\\d{2}:\\d{2}$"},
+    "end": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2})?[+-]\\d{2}:\\d{2}$"},
+    "openingMinutes": {"type": "integer", "minimum": 1, "maximum": 30, "description": "Length of the Opening phase (identity check). Default 5."},
+    "meet": {"type": "string", "description": "The meeting link, shown and copied as text."},
+    "pinned": {
+      "type": "object", "additionalProperties": false, "required": ["label", "text"],
+      "description": "The freeze note. Set it when prep is frozen; omit to hide.",
+      "properties": {"label": {"type": "string"}, "text": {"type": "string"}}
+    },
+    "qualification": {
+      "type": "object", "additionalProperties": false, "required": ["tier", "verdict", "checks"],
+      "description": "The pre-call qualification gate (bad-actor check), required on every brief. The build refuses verdict 'go' below tier T2 or with any failed check, and renders this block as the first Before card.",
+      "properties": {
+        "tier": {"enum": ["T0", "T1", "T2", "T3", "T4"], "description": "Highest trust node reached for who they are. T0 self-asserted (profile, photo, Calendly, gmail, the recruiter's word). T1 company-published (the role or person on the company's own site). T2 domain-authenticated (email or invite from the company domain, passing DMARC). T3 trusted mutual (someone you trust who knows them directly). T4 company-confirmed (the company confirms person and role through a contact you looked up yourself)."},
+        "verdict": {"enum": ["go", "hold", "stop"], "description": "go: run the call. hold: ask for the missing proof and send nothing. stop: decline."},
+        "checks": {
+          "type": "array", "minItems": 5, "maxItems": 5,
+          "description": "The five stop-loss gates, each once, in order: intake, before-send, before-booking, on-call, silence.",
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["gate", "status", "evidence"],
+            "properties": {
+              "gate": {"enum": ["intake", "before-send", "before-booking", "on-call", "silence"]},
+              "status": {"enum": ["pass", "fail", "pending", "na"]},
+              "evidence": {"type": "string", "description": "What you checked and where, with the time. 'na' needs a reason."}
+            }
+          }
+        }
+      }
+    },
+    "cockpit": {
+      "type": "object", "additionalProperties": false, "required": ["sections"],
+      "properties": {
+        "sections": {
+          "type": "array", "minItems": 4, "maxItems": 4,
+          "description": "Stop-loss order, fixed: trip, ask, rule, say.",
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["id", "title", "items"],
+            "properties": {
+              "id": {"enum": ["trip", "ask", "rule", "say"]},
+              "title": {"type": "string"},
+              "items": {
+                "type": "array", "minItems": 1,
+                "items": {
+                  "type": "object", "additionalProperties": false, "required": ["h", "lede", "bullets"],
+                  "properties": {
+                    "h": {"type": "string", "description": "Headline, two to four words."},
+                    "lede": {"type": "string", "description": "One line, readable at a glance mid-call."},
+                    "bullets": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+                    "link": {"type": "string", "description": "Exact title of the card the Details link jumps to."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "lanes": {
+      "type": "array", "minItems": 4, "maxItems": 4,
+      "description": "Call order, fixed: before, opening, interview, debrief. The current phase renders first and open.",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["id", "title", "when", "job", "cards"],
+        "properties": {
+          "id": {"enum": ["before", "opening", "interview", "debrief"]},
+          "title": {"type": "string"},
+          "when": {"type": "string"},
+          "job": {"type": "string", "description": "The lane's one job, one line."},
+          "cards": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/card"}}
+        }
+      }
+    },
+    "footer": {"type": "string", "description": "Provenance: when it was built and from which sources."}
+  },
+  "$defs": {
+    "chip": {"enum": ["stated", "judgment", "unverified"], "description": "Evidence only. STATED: someone said or wrote it. JUDGMENT: no data behind it. UNVERIFIED: claimed, not checked."},
+    "card": {
+      "oneOf": [
+        {
+          "type": "object", "additionalProperties": false, "required": ["type", "title", "chip", "rows"],
+          "properties": {
+            "type": {"const": "kv"}, "title": {"type": "string"}, "chip": {"$ref": "#/$defs/chip"}, "wide": {"type": "boolean"}, "stamp": {"type": "string"},
+            "rows": {"type": "array", "minItems": 1, "items": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "string"}}}
+          }
+        },
+        {
+          "type": "object", "additionalProperties": false, "required": ["type", "title", "chip", "items"],
+          "properties": {
+            "type": {"enum": ["list", "asks"]}, "title": {"type": "string"}, "chip": {"$ref": "#/$defs/chip"}, "wide": {"type": "boolean"}, "stamp": {"type": "string"},
+            "numberFrom": {"type": "integer", "minimum": 1, "description": "asks only: the first question number (continues the cockpit's Ask-first count)."},
+            "items": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+          }
+        },
+        {
+          "type": "object", "additionalProperties": false, "required": ["type", "title", "chip", "text"],
+          "properties": {
+            "type": {"const": "say"}, "title": {"type": "string"}, "chip": {"$ref": "#/$defs/chip"}, "wide": {"type": "boolean"}, "stamp": {"type": "string"},
+            "text": {"type": "string", "description": "A line to say out loud, as you would say it."}
+          }
+        },
+        {
+          "type": "object", "additionalProperties": false, "required": ["type", "title", "chip", "items"],
+          "properties": {
+            "type": {"const": "exante"}, "title": {"type": "string"}, "chip": {"$ref": "#/$defs/chip"}, "wide": {"type": "boolean"}, "stamp": {"type": "string"},
+            "after": {"type": "string", "description": "Calibration note under the table (e.g. the last Brier score)."},
+            "items": {
+              "type": "array", "minItems": 1,
+              "items": {
+                "type": "object", "additionalProperties": false, "required": ["text", "p", "basis"],
+                "properties": {
+                  "text": {"type": "string", "description": "A falsifiable prediction that resolves Hit or Miss after the call."},
+                  "p": {"type": "number", "minimum": 0, "maximum": 1},
+                  "basis": {"type": "string", "pattern": "^(Stated|Measured|Judgment)[.:]", "description": "Every probability says what it rests on: Stated (someone said it), Measured (counted), or Judgment (no data), then the reason."}
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

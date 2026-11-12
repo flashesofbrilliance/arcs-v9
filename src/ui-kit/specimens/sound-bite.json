@@ -1,0 +1,115 @@
+{
+ "number": "55",
+ "name": "Sound Bite",
+ "slug": "sound-bite",
+ "layer": "Molecule",
+ "job": "Put one real quote at a time in the hero, typed out fast, with who said it, so social proof reads in a glance without a wall of testimonials.",
+ "anatomy": [
+  {
+   "part": "Rail",
+   "role": "2px cyan rule on the left, the quote's only frame",
+   "token": "`cyan`"
+  },
+  {
+   "part": "Quote",
+   "role": "Display face at headline size; the untyped rest is laid out but transparent, so typing never moves the page",
+   "token": "`text`, `--ds-font-display`"
+  },
+  {
+   "part": "Caret",
+   "role": "A cyan block after the typed text while typing; no blink",
+   "token": "`cyan`"
+  },
+  {
+   "part": "Attribution",
+   "role": "Mono, sentence case (caps on a long label fail the all-caps rule): name in `text`, role and company in `text-secondary`",
+   "token": "`--ds-font-mono`"
+  },
+  {
+   "part": "Controls",
+   "role": "Prev, the count, Next and Pause, each 44px; shown only once the script runs",
+   "token": "`surface`, `border`"
+  }
+ ],
+ "states": [
+  {
+   "name": "Rotating, typed",
+   "args": [
+    "two",
+    "move"
+   ],
+   "note": "Types each quote at about 16ms per two characters, holds 6.5s, then the next. Hover or focus holds it; Pause stops it (WCAG 2.2.2)."
+  },
+  {
+   "name": "Reduced motion",
+   "args": [
+    "two",
+    "still"
+   ],
+   "note": "No typing and no auto-advance; Prev and Next still work and Pause is hidden."
+  },
+  {
+   "name": "One quote",
+   "args": [
+    "one",
+    "move"
+   ],
+   "note": "Types once; the controls hide."
+  }
+ ],
+ "use_when": [
+  "The hero needs social proof and the quotes are real, attributed and already public (a recommendation, a client line).",
+  "Two to five short quotes, each under about 30 words."
+ ],
+ "avoid_when": [
+  "Never invent or paraphrase a quote, and never use one without the person's name and role.",
+  "Do not use it for a single long testimonial; use 31 Callout or plain text.",
+  "Do not stack several of them on one page."
+ ],
+ "data": [
+  {
+   "field": "bites[]",
+   "type": "{text, name, role}",
+   "required": true,
+   "note": "`text` verbatim from its public source; `name` and `role` exactly as published."
+  },
+  {
+   "field": "source",
+   "type": "{label, href}",
+   "required": false,
+   "note": "Where the quotes are published, shown at the right of the controls."
+  }
+ ],
+ "access": [
+  "Without the script every quote shows as a list; the script hides all but one with `visibility` and `aria-hidden`, so the box keeps the tallest quote's height and nothing below jumps.",
+  "The full text is in the DOM while typing (the rest is transparent, not missing), so a screen reader reads the whole quote; the count is a polite live region.",
+  "`prefers-reduced-motion` turns off typing and the timer; Pause, hover and focus all hold it."
+ ],
+ "built_from": [
+  {
+   "name": "Kit tokens (atoms)",
+   "href": "_tokens.css"
+  },
+  {
+   "name": "27 Section label",
+   "href": "27-section-label.html"
+  }
+ ],
+ "used_by": [
+  {
+   "name": "Gravity Labs brief hero (public/gravity-brief.html)"
+  }
+ ],
+ "gates": [
+  "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+  "`motion_policy_gate.py`: no repeating animation; the caret does not blink.",
+  "`page_gate.py` and `artifact_wrap_lint.py` on every page that carries it."
+ ],
+ "links": [
+  "_tokens-light.css",
+  "_kit-sr.css"
+ ],
+ "css": "/* @prim:begin 55-sound-bite */\n.sb{margin:0;padding:2px 0 2px 16px;border-left:2px solid var(--cyan);display:flex;flex-direction:column;gap:12px;min-width:0}\n.sb-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:20px}\n.sb-item{margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}\n.sb-t{margin:0;font-family:var(--ds-font-display);font-size:var(--fs-headline);line-height:1.4;color:var(--text);text-wrap:pretty}\n.sb-off{color:transparent}\n.sb-t.is-typing .sb-on::after{content:\"\";display:inline-block;width:.45ch;height:1em;margin-left:1px;vertical-align:-.14em;background:var(--cyan)}\n.sb-by{margin:0;display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;font-family:var(--ds-font-mono);font-size:var(--fs-body);letter-spacing:.02em;color:var(--text-secondary)}\n.sb-by b{color:var(--text);font-weight:700}\n.sb-ctl{display:none;flex-wrap:wrap;align-items:center;gap:8px}\n.sb-src{margin-left:auto;font-family:var(--ds-font-mono);font-size:var(--fs-label);letter-spacing:.06em;color:var(--text-secondary)}\n.sb-btn{min-width:44px;min-height:44px;padding:0 12px;border:1px solid var(--border);border-radius:var(--ds-r-sm);background:var(--surface);color:var(--text);font-family:var(--ds-font-mono);font-size:var(--fs-label);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}\n.sb-btn:hover{border-color:var(--cyan);color:var(--cyan)}\n.sb-n{font-family:var(--ds-font-mono);font-size:var(--fs-label);color:var(--text-secondary);min-width:5ch;text-align:center}\n.sb.is-live .sb-ctl{display:flex}\n.sb.is-live .sb-list{display:grid}\n.sb.is-live .sb-item{grid-area:1/1}\n.sb.is-live .sb-item.is-off{visibility:hidden}\n/* @prim:end 55-sound-bite */\n",
+ "tail_js": "<script>function sbInit(f,o){o=o||{};var items=[].slice.call(f.querySelectorAll('.sb-item'));if(items.length<1)return;var rm=o.still||matchMedia('(prefers-reduced-motion: reduce)').matches;var i=0,timer=0,typing=0,paused=false,hold=false;var n=f.querySelector('.sb-n'),pb=f.querySelector('[data-sb-pause]');f.classList.add('is-live');function next(){clearTimeout(timer);if(rm||paused||hold||items.length<2)return;timer=setTimeout(function(){show(i+1,true)},o.dwell||6500)}function show(k,type){clearTimeout(timer);clearInterval(typing);i=(k+items.length)%items.length;items.forEach(function(it,j){it.classList.toggle('is-off',j!==i);if(j!==i)it.setAttribute('aria-hidden','true');else it.removeAttribute('aria-hidden')});if(n)n.textContent=(i+1)+' / '+items.length;var t=items[i].querySelector('.sb-t');var full=t.getAttribute('data-full');if(!full){full=t.textContent;t.setAttribute('data-full',full)}if(rm||!type){t.textContent=full;t.classList.remove('is-typing');next();return}var c=0;t.innerHTML='<span class=\"sb-on\"></span><span class=\"sb-off\"></span>';var on=t.firstChild,off=t.lastChild;off.textContent=full;t.classList.add('is-typing');typing=setInterval(function(){c+=2;on.textContent=full.slice(0,c);off.textContent=full.slice(c);if(c>=full.length){clearInterval(typing);t.textContent=full;t.classList.remove('is-typing');next()}},o.speed||16)}var pv=f.querySelector('[data-sb-prev]'),nx=f.querySelector('[data-sb-next]');if(items.length<2){[pv,nx,pb,n].forEach(function(x){if(x)x.hidden=true})}if(pv)pv.addEventListener('click',function(){show(i-1,false)});if(nx)nx.addEventListener('click',function(){show(i+1,false)});if(pb){if(rm)pb.hidden=true;pb.addEventListener('click',function(){paused=!paused;pb.setAttribute('aria-pressed',String(paused));pb.textContent=paused?'Play':'Pause';if(paused)clearTimeout(timer);else next()})}f.addEventListener('mouseenter',function(){hold=true;clearTimeout(timer)});f.addEventListener('mouseleave',function(){hold=false;next()});f.addEventListener('focusin',function(){hold=true;clearTimeout(timer)});f.addEventListener('focusout',function(){hold=false;next()});show(0,true);return{show:show}}</script>",
+ "demo": "function sbInit(f,o){o=o||{};var items=[].slice.call(f.querySelectorAll('.sb-item'));if(items.length<1)return;var rm=o.still||matchMedia('(prefers-reduced-motion: reduce)').matches;var i=0,timer=0,typing=0,paused=false,hold=false;var n=f.querySelector('.sb-n'),pb=f.querySelector('[data-sb-pause]');f.classList.add('is-live');function next(){clearTimeout(timer);if(rm||paused||hold||items.length<2)return;timer=setTimeout(function(){show(i+1,true)},o.dwell||6500)}function show(k,type){clearTimeout(timer);clearInterval(typing);i=(k+items.length)%items.length;items.forEach(function(it,j){it.classList.toggle('is-off',j!==i);if(j!==i)it.setAttribute('aria-hidden','true');else it.removeAttribute('aria-hidden')});if(n)n.textContent=(i+1)+' / '+items.length;var t=items[i].querySelector('.sb-t');var full=t.getAttribute('data-full');if(!full){full=t.textContent;t.setAttribute('data-full',full)}if(rm||!type){t.textContent=full;t.classList.remove('is-typing');next();return}var c=0;t.innerHTML='<span class=\"sb-on\"></span><span class=\"sb-off\"></span>';var on=t.firstChild,off=t.lastChild;off.textContent=full;t.classList.add('is-typing');typing=setInterval(function(){c+=2;on.textContent=full.slice(0,c);off.textContent=full.slice(c);if(c>=full.length){clearInterval(typing);t.textContent=full;t.classList.remove('is-typing');next()}},o.speed||16)}var pv=f.querySelector('[data-sb-prev]'),nx=f.querySelector('[data-sb-next]');if(items.length<2){[pv,nx,pb,n].forEach(function(x){if(x)x.hidden=true})}if(pv)pv.addEventListener('click',function(){show(i-1,false)});if(nx)nx.addEventListener('click',function(){show(i+1,false)});if(pb){if(rm)pb.hidden=true;pb.addEventListener('click',function(){paused=!paused;pb.setAttribute('aria-pressed',String(paused));pb.textContent=paused?'Play':'Pause';if(paused)clearTimeout(timer);else next()})}f.addEventListener('mouseenter',function(){hold=true;clearTimeout(timer)});f.addEventListener('mouseleave',function(){hold=false;next()});f.addEventListener('focusin',function(){hold=true;clearTimeout(timer)});f.addEventListener('focusout',function(){hold=false;next()});show(0,true);return{show:show}}\nvar SBQ=[['A ball of livewire energy who gets projects done with great velocity, humor and craft.','Sample Name','Role · Company'],['When I don\\'t know something, I ask. If they don\\'t know, they find out.','Second Name','Role · Company']];\nfunction kitSoundBite(host,rows,o){var e=function(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];})};var f=document.createElement('figure');f.className='sb';f.setAttribute('aria-label','What colleagues say');f.innerHTML='<ul class=\"sb-list\">'+rows.map(function(r){return '<li class=\"sb-item\"><blockquote class=\"sb-q\" style=\"margin:0\"><p class=\"sb-t\">'+e(r[0])+'</p></blockquote><p class=\"sb-by\"><b>'+e(r[1])+'</b><span>'+e(r[2])+'</span></p></li>'}).join('')+'</ul><div class=\"sb-ctl\"><button type=\"button\" class=\"sb-btn\" data-sb-prev aria-label=\"Previous quote\">Prev</button><span class=\"sb-n\" aria-live=\"polite\"></span><button type=\"button\" class=\"sb-btn\" data-sb-next aria-label=\"Next quote\">Next</button><button type=\"button\" class=\"sb-btn\" data-sb-pause aria-pressed=\"false\">Pause</button></div>';host.appendChild(f);sbInit(f,o);return f}\nkitSoundBite(document.querySelector('[data-stage]'),SBQ);\ndocument.querySelectorAll('[data-state]').forEach(function(el,i){var a=STATES[i];kitSoundBite(el,a[0]==='one'?[SBQ[0]]:SBQ,{still:a[1]==='still'})});"
+}

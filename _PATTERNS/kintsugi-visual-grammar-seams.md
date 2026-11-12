@@ -218,8 +218,8 @@ against its own viewBox, or a table's rendered width against its scroll containe
 
 | # | Break | Found by | Repair | Guard |
 |---|---|---|---|---|
-| 1 | Both radar charts (`public/jack-rain-ext.html` 5-axis, `runtime/warroom/jack-rain.html` 9-axis) had most axis labels rendering outside their own `viewBox`, silently clipped by the SVG's default `overflow:hidden` — "Scope & authority" was ~90% cut off on the ext page. Geometry was hand-typed from a Python coordinate dump and never checked against actual rendered label extents | `element.getBBox()` vs `svg.viewBox.baseVal`, per label, in the live DOM (not visible in a static code read) | Recomputed both charts' viewBox/radius/label-anchor geometry so every label's measured bbox sits inside the viewBox with a 6px margin (5-axis: `viewBox="0 0 376 231"`; 9-axis: `viewBox="0 0 345.3 240.8"`); shortened two labels ("AI-native surface" → "AI-native", "Rare combination" → "Rare combo") to reduce the margin a legible font-size needs | Manual `getBBox()` check this session; no automated guard yet — candidate: a headless script that opens every chart-bearing artifact, opens its `<details>`, and asserts zero clipped `<text>` elements before commit |
-| 2 | The 6-column scoring-ledger/methodology table (`runtime/warroom/jack-rain.html`, inside the nested "Go deeper" disclosure) had no horizontal-scroll container; at 375px it forced `document.body.scrollWidth` to 636px, pushing the entire page wider than the viewport instead of just the table | `document.body.scrollWidth` vs `window.innerWidth` at 375px, with the `<details>` opened (closed by default, so the break was invisible on a plain page-load screenshot) | Wrapped the `<table>` in a `.table-scroll{overflow-x:auto}` div with `table{min-width:560px}`, the standard pattern already used for wide tables elsewhere in this repo (`_PATTERNS/arcs-artifact-css-base.css` overflow-x containers) | `artifact_wrap_lint.py` does not check this class of overflow (table-inside-disclosure); candidate guard: extend it to flag any `<table>` not wrapped in an overflow-x container |
+| 1 | Both radar charts (`_ARCHIVE/retired-surfaces/2026-11-04/public/jack-rain-ext.html` 5-axis, `_ARCHIVE/retired-surfaces/2026-11-04/runtime/warroom/jack-rain.html` 9-axis) had most axis labels rendering outside their own `viewBox`, silently clipped by the SVG's default `overflow:hidden` — "Scope & authority" was ~90% cut off on the ext page. Geometry was hand-typed from a Python coordinate dump and never checked against actual rendered label extents | `element.getBBox()` vs `svg.viewBox.baseVal`, per label, in the live DOM (not visible in a static code read) | Recomputed both charts' viewBox/radius/label-anchor geometry so every label's measured bbox sits inside the viewBox with a 6px margin (5-axis: `viewBox="0 0 376 231"`; 9-axis: `viewBox="0 0 345.3 240.8"`); shortened two labels ("AI-native surface" → "AI-native", "Rare combination" → "Rare combo") to reduce the margin a legible font-size needs | Manual `getBBox()` check this session; no automated guard yet — candidate: a headless script that opens every chart-bearing artifact, opens its `<details>`, and asserts zero clipped `<text>` elements before commit |
+| 2 | The 6-column scoring-ledger/methodology table (`_ARCHIVE/retired-surfaces/2026-11-04/runtime/warroom/jack-rain.html`, inside the nested "Go deeper" disclosure) had no horizontal-scroll container; at 375px it forced `document.body.scrollWidth` to 636px, pushing the entire page wider than the viewport instead of just the table | `document.body.scrollWidth` vs `window.innerWidth` at 375px, with the `<details>` opened (closed by default, so the break was invisible on a plain page-load screenshot) | Wrapped the `<table>` in a `.table-scroll{overflow-x:auto}` div with `table{min-width:560px}`, the standard pattern already used for wide tables elsewhere in this repo (`_PATTERNS/arcs-artifact-css-base.css` overflow-x containers) | `artifact_wrap_lint.py` does not check this class of overflow (table-inside-disclosure); candidate guard: extend it to flag any `<table>` not wrapped in an overflow-x container |
 
 **Process lesson:** a "done" pass that only runs mechanical text/contrast gates and eyeballs one
 desktop screenshot is not a design gauntlet. Both defects here needed the page actually opened in a
@@ -227,7 +227,7 @@ browser, at more than one width, with every `<details>` forced open, and DOM geo
 just read from source. Booking this so the next artifact with a chart or a disclosure gets that
 sweep before shipping, not after being asked.
 
-## 2026-09-14 · `public/jack-rain-resume.html` (Jack Dillé/Rain tailored resume, Ahmed grammar)
+## 2026-09-14 · `_ARCHIVE/retired-surfaces/2026-11-04/public/jack-rain-resume.html` (Jack Dillé/Rain tailored resume, Ahmed grammar)
 
 Found by: pre-commit design detector, new-page block. Same class of finding as the ext page above
 (this file is a same-day sibling, same kit).
@@ -236,31 +236,31 @@ Found by: pre-commit design detector, new-page block. Same class of finding as t
 |---|---|---|---|---|
 | 1 | Em-dash in `<title>` ("Zach Harris — Resume for Rain") | detector | Changed to a comma | detector in pre-commit |
 | 2 | Two low-contrast findings (`--dimmed` 4.0-4.3:1 on bg/panel) on `.contact-line`, `.role-dates`, and one step-t label | detector | Switched to `--text-secondary` (6.x:1), same fix class as seam 1 on the ext page | detector in pre-commit |
-| 3 | `design-system-font`/`-font-size`/`-color`/`-radius`/`dark-glow` findings | detector | Not repaired, same acceptance as `public/jack-rain-ext.html` below: inherits `_tokens.css`, a separate locked kit from DESIGN.md | ledger only, same acceptance as the `06-beat-stepper` 3px rail entry below |
+| 3 | `design-system-font`/`-font-size`/`-color`/`-radius`/`dark-glow` findings | detector | Not repaired, same acceptance as `_ARCHIVE/retired-surfaces/2026-11-04/public/jack-rain-ext.html` below: inherits `_tokens.css`, a separate locked kit from DESIGN.md | ledger only, same acceptance as the `06-beat-stepper` 3px rail entry below |
 
-## 2026-09-14 · `public/jack-rain-ext.html` (Jack Dillé/Rain application pitch page)
+## 2026-09-14 · `_ARCHIVE/retired-surfaces/2026-11-04/public/jack-rain-ext.html` (Jack Dillé/Rain application pitch page)
 
 Found by: pre-commit design detector, new-page block.
 
 | # | Break | Found by | Repair | Guard |
 |---|---|---|---|---|
 | 1 | Two low-contrast/undersized-text findings (`--dimmed` 4.3:1 on bg, tag/meta-line text under the 11px functional floor) | detector | Tag pills bumped 9.5px→11px, meta-line 10.5px→11.5px with `--text-secondary` instead of `--dimmed`, seam labels and legend text bumped to 11-12px | detector in pre-commit |
-| 2 | Remaining findings across `design-system-font`, `design-system-font-size`, `design-system-color`, `design-system-radius` (fonts/sizes/colors/radii "not declared in" or "outside" DESIGN.md) | detector | Not repaired. This page (and its internal companion `runtime/warroom/jack-rain.html`) inherits `src/ui-kit/recoil-report/_tokens.css` verbatim (the recoil-report family's own locked kit, per `token_source_gate.py`), which is a deliberately separate per-engagement visual world from the app's DESIGN.md ramp (PRODUCT.md: "per-engagement canon families may carry their own locked visual world... does not leak into product surfaces"). Forcing DESIGN.md's app-surface type/color/radius scale onto a recoil-report artifact would fight the kit it is required to inherit from. Scoped via `impeccable hooks ignore-value <rule> "*" --file <path>` for all four rules, both files, in `.impeccable/config.json` | ledger only, same acceptance as the `06-beat-stepper` 3px rail entry below |
-| 3 | Two zero-offset LED-glow findings on `runtime/warroom/jack-rain.html` (`dark-glow`, `#00ff9d`/`#00F0FF`) | detector | Not repaired. This is the shipped status-LED pattern from `src/app/jobs/[jobid]/page.tsx`'s `led()` helper (`boxShadow: 0 0 8px 1px ${color}`), reused identically for BAND/GATES/SWIPE/FORGE indicators, not new decoration | `ignore-value dark-glow "*" --file runtime/warroom/jack-rain.html` in `.impeccable/config.json`, ledger for the "why" |
+| 2 | Remaining findings across `design-system-font`, `design-system-font-size`, `design-system-color`, `design-system-radius` (fonts/sizes/colors/radii "not declared in" or "outside" DESIGN.md) | detector | Not repaired. This page (and its internal companion `_ARCHIVE/retired-surfaces/2026-11-04/runtime/warroom/jack-rain.html`) inherits `src/ui-kit/recoil-report/_tokens.css` verbatim (the recoil-report family's own locked kit, per `token_source_gate.py`), which is a deliberately separate per-engagement visual world from the app's DESIGN.md ramp (PRODUCT.md: "per-engagement canon families may carry their own locked visual world... does not leak into product surfaces"). Forcing DESIGN.md's app-surface type/color/radius scale onto a recoil-report artifact would fight the kit it is required to inherit from. Scoped via `impeccable hooks ignore-value <rule> "*" --file <path>` for all four rules, both files, in `.impeccable/config.json` | ledger only, same acceptance as the `06-beat-stepper` 3px rail entry below |
+| 3 | Two zero-offset LED-glow findings on `_ARCHIVE/retired-surfaces/2026-11-04/runtime/warroom/jack-rain.html` (`dark-glow`, `#00ff9d`/`#00F0FF`) | detector | Not repaired. This is the shipped status-LED pattern from `src/app/jobs/[jobid]/page.tsx`'s `led()` helper (`boxShadow: 0 0 8px 1px ${color}`), reused identically for BAND/GATES/SWIPE/FORGE indicators, not new decoration | `ignore-value dark-glow "*" --file _ARCHIVE/retired-surfaces/2026-11-04/runtime/warroom/jack-rain.html` in `.impeccable/config.json`, ledger for the "why" |
 
 **Accepted, not repaired:** DESIGN.md-ramp mismatches on any page whose token source is
 `_tokens.css` (the recoil-report kit), not DESIGN.md. The two visual worlds are not yet
 reconciled; reconciling them belongs to `/design-sync`, not to a single artifact.
 
-## 2026-09-14 · `public/schriner-ext.html` (Oxenham Group / recoil-close external twin)
+## 2026-09-14 · `_ARCHIVE/retired-surfaces/2026-11-04/public/schriner-ext.html` (Oxenham Group / recoil-close external twin)
 
-Found by: pre-commit kintsugi gate on first stage of `public/schriner-ext.html`, 21 findings
+Found by: pre-commit kintsugi gate on first stage of `_ARCHIVE/retired-surfaces/2026-11-04/public/schriner-ext.html`, 21 findings
 (contrast 2.7:1-4.3:1 on muted text, several 9-10px functional labels below the 11px floor, radii
 and font sizes off the DESIGN.md scale). Zero of these are specific to this page's content: they
 are the **shared `scripts/recoil_brief.py` generator's own stock CSS** (the `CSS` constant,
-identical across every recoil-report artifact this repo has shipped: `public/ahmed-ext.html`,
-`public/prl-status-*.html`, `public/saul.html`, `public/monstro-resume.html` and this new one).
-Confirmed by running the same detector against an already-shipped sibling (`public/saul.html`):
+identical across every recoil-report artifact this repo has shipped: `_ARCHIVE/retired-surfaces/2026-11-04/public/ahmed-ext.html`,
+`public/prl-status-*.html`, `_ARCHIVE/retired-surfaces/2026-11-04/public/saul.html`, `_ARCHIVE/retired-surfaces/2026-11-04/public/monstro-resume.html` and this new one).
+Confirmed by running the same detector against an already-shipped sibling (`_ARCHIVE/retired-surfaces/2026-11-04/public/saul.html`):
 12 findings, same shapes (font/color/size outside DESIGN.md), fewer only because that page has
 less content to trip the contrast and undersized-text checks. This is generator-wide design debt,
 not a one-off authoring mistake in this page, and out of scope to fix by hand-patching one artifact.
@@ -835,3 +835,59 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - **Root cause:** the print rule set `.thread p, .quad p, .step p` at 10.5px, below the 11px functional-text floor (commit 79f53b05). Short paragraphs slipped under the body-text threshold; the longer, sourced text crossed it.
 - **Repair:** the print rule now sits at 11px. No other style changed.
 - **Guard:** the ratchet itself. Any further sub-floor text on this page still blocks.
+
+## 2026-11-04 · Brooks one-pager and kit sync (waived and repaired, from `claude/brooks-onepager-kit-trueup`)
+
+- **Break:** three seams, found while landing the counterpart one-pager. (1) `kit_primitive_sync --check` already failed on main: it held every kit `@prim` block against `phosphor.html`, so molecules 27 to 37 (which are not Phosphor's) always failed. The pre-commit hook only runs it for 21 to 26, so nobody noticed. (2) The storyboard carried one `tight-leading` finding (1.25) from before this change, on the display-size frame lines `.what` and `.v-stat`. (3) The design-debt ratchet counted 13 findings against 0 at HEAD on the one-pager's first commit, because the page was new to git: 10 `design-system-color` (kit 39 light palette, a deliberate second palette) and 3 `design-system-font-size` (tile values at 1.6rem, 1rem on a phone, and phone segment labels at 0.85rem).
+- **Repair:** (1) phosphor is now checked only for Instrument Lab blocks, and every page that marks a block is checked against the kit; a kit rule the page never uses may be left out (`public/good-audit-check.html` leaves out the unused `.section-label` line). (2) Waived for the storyboard file only, not fixed: its type is the original session's call. (3) `design-system-color` is waived for the one-pager and the 39 specimen (the brand profile already exempts it); the three font sizes are waived for that file only, because changing them would break the 0-pixel parity.
+- **Guard:** the sync check was shown to fail on a broken block before it was trusted. The font-size waiver is open debt. To repair: move the three sizes onto ramp tokens in the generator, rebuild, re-shoot parity, and delete the font-size waiver in `.impeccable/config.json`. Source text: the Seams section of the counterpart-onepager README on branch `claude/brooks-onepager-kit-trueup`.
+- **Note on this file:** it could not take this entry until the seven cites to pages retired by PR #2025 (commit `29e477bc`) were re-pointed to `_ARCHIVE/retired-surfaces/2026-11-04/<original path>`. History entries were kept; only the paths changed.
+
+## 2026-11-05 · Louisville proposal hosted at louisville.arcs.care/proposal (repaired, two waivers)
+
+- **Break:** the ratchet counted 9 findings against 0 at HEAD on `public/louisville-proposal.html`, because the page was new to git. That covered 6 `design-system-color` (the light and print palette), 1 `all-caps-body` (the byline), 1 radius of 8px (the header icon buttons) and 1 font size of 0.85rem (a dead phone rule for the segment labels).
+- **Root cause:** the hosted copy is the canonical Brooks page, which carries a light theme that DESIGN.md (dark only) doesn't define. The other two were real leftovers from the icon-toggle and brand-gate passes.
+- **Repair:** the icon buttons now use `var(--ds-r-sm)` and the dead 0.85rem rule is removed. `design-system-color` (the same light-world scope as the myally pages and the `_ARTIFACTS/brooks-audit-onepager.html` waiver) and `all-caps-body` (the byline is a mono label) are waived for this one file only.
+- **Guard:** the ratchet. The file now scores 0, and any new finding blocks.
+
+## 2026-11-06 · precall-brief template example (repaired, one waiver)
+
+- **Break:** the ratchet counted 13 findings against 0 at HEAD on the new `_ARTIFACTS/precall-brief/example.html`: 8 `design-system-color` (the light palette), 3 chips and the NOW badge at 10px under the 11px floor, a 12px disclosure arrow off the type ramp, and a cramped-padding flag on the status bar.
+- **Root cause:** the template is the Bitfury v19 brief, which set those small sizes by hand and carries a light theme that DESIGN.md (dark only) doesn't define.
+- **Repair:** chips, the NOW badge and the arrow use `var(--fs-label)`; the bar uses `padding: var(--sp-3) 0`. The fix lives in `src/ui-kit/precall-brief/page.tpl`, so every future brief inherits it. `design-system-color` is waived for the example file only (the light theme is part of the specified structure).
+- **Guard:** the ratchet on the example, and `scripts/precall_brief_build.py --check` in pre-commit, which fails when the template moves without a rebuilt example.
+
+## 2026-11-09 · Gravity positioning page on the cia shell (repaired, shell waivers extended)
+
+- **Break:** the ratchet counted 35 findings against 0 at HEAD on `public/gravity-brief.html`: 17 `design-system-font-size`, 10 `design-system-color`, 4 `design-system-radius`, 1 each of `cramped-padding`, `repeating-stripes-gradient`, `codex-grid-background`, and 1 `flat-type-hierarchy`. Separately, in the artifact viewer's dark mode the meta strip values rendered near-black on the dark band, with a light strip at the right edge.
+- **Root cause:** the page is built on the `public/cia-brief.html` / `public/myally-hub.html` shell, whose palette, radii, label sizes and meta strip are already waived for those two files. The type step was real: subheads at 1rem rendered at 14.4px (the shell sets a 14.4px rem) under 16px body text. The dark-mode break came from the shell styling `html` but not `body`: `.shell-meta dd` inherits its colour, and a host that styles `body` (the artifact viewer does) recoloured it.
+- **Repair:** subheads now sit at body size, semibold; section titles step 1.25 above them. `body` carries `background:var(--bg);color:var(--text)` and `.shell-meta dd` sets its own colour. The six shell rules are waived for this file in the existing cia / myally entries (same shell, same reasons). The page enrolls in the new `tabbed-brief` template in `src/ui-kit/templates.json`.
+- **Guard:** the ratchet (the file now scores 0) and `component_source_gate` on the enrolled page. Open debt: `public/cia-brief.html` and `public/myally-hub.html` style only `html`, so they would show the same dark meta strip inside any host that styles `body`; the shell should become one kit `@dsCard` before a third page copies it.
+
+## 2026-11-09 · rfp-engine rebuilt from verbatim kit blocks (waived, four rules, one file)
+
+- **Break:** the ratchet counted 16 findings against 0 at HEAD on `public/good-rfp-engine.html`: 13 `design-system-color` (the light palette from 39 theme-toggle and the grammar-chip generator, which the detector renders because this machine is in light mode), 1 `design-system-font` (chip tags in the kit mono stack), 1 `design-system-font-size` (the 45 fact-tile label, .75rem) and 1 `dark-glow` (the 51 display-preferences pill lift).
+- **Root cause:** every finding comes from a kit block copied verbatim (`kit_primitive_sync --check` proves each one identical) or from the generated chip block. DESIGN.md defines no light world, and the kit README's ARCS brand profile already lists all four rules as brand grammar, not debt. The page's own CSS added no finding.
+- **Repair:** the stale swatch waiver (`rgb(0, 116, 142)`, the retired `#00748e`) became `design-system-color "*"` for this one file, the same light-world scope as the Louisville proposal and the myally pages, plus one-file waivers for the other three rules. Nothing was edited inside a kit block to satisfy the detector, since that would break the sync check.
+- **Guard:** the ratchet (the file now scores 0, any new finding blocks) and `kit_primitive_sync --check`. Open debt: the fact-tile .75rem label belongs on the type ramp in the kit file itself; fix it there and every page that marks block 45 inherits it.
+
+## 2026-11-11 · recoil-skim kit 56 to 64 and the Brian recoil page (repaired at the source, one waiver)
+
+- **Break:** the ratchet counted 8 findings against 0 at HEAD on the new `_ARTIFACTS/recoil-brian-2026-11-11.html`: 2 `all-caps-body` (a 91-character eyebrow and a 33-character sub-label in caps), 3 wide letter spacing on body-length mono text (ledger keys, claim keys, the toast meta), 2 `cramped-padding` (take and pass rows flush on their top border) and 1 `flat-type-hierarchy` (12px labels under 14.8px body, 1.23:1). The nine new specimen pages each scored 6 `design-system-color` from the light chrome.
+- **Root cause:** the nine primitives came from the v3 page, which set caps and wide tracking on labels that grew into sentences, and drew row separators as a border on every row with the first row's border removed. Raising the label step to 12px (spec 4.3) left body at 14.8px, under a 1.25 step.
+- **Repair:** fixed in the kit specs, so every page that marks the blocks inherits it: keys and meta lines in sentence case at 0.02em; separators drawn as `.take + .take` and `.pass + .pass`; the recoil-skim layer sets body to 15px beside the 12px label. The eyebrow is short and the date line moved to an evidence ref. The specimens join the existing one-file `design-system-color` waiver for the kit's light remap (39, 43 to 51, 54, 55).
+- **Guard:** the ratchet (all ten files score 0) and `kit_primitive_sync --check`, which fails a page whose copy of a block drifts from the kit file.
+
+## 2026-11-12 · recoil external twin for the sent Dioptra link (one-file waiver, mold not yet fixed)
+
+- **Break:** the ratchet counted 9 findings against 0 at HEAD on the new `public/recoil-ext/2026-10-29-gasmi.html`: 1 `tiny-text` (11px labels), 1 `all-caps-body` (tab and card labels), 2 `design-system-radius` (12px cards, 2px swatch) and 5 `design-system-font-size` (26, 14, 13.5, 13, 12px).
+- **Root cause:** the page is generated by `scripts/recoil_brief.py --audience external`, whose inline CSS predates the kit type ramp and radius scale. The page's own content added no finding. `public/dioptra-brief.html` scores 0 because it was re-poured onto the kit by hand after generation.
+- **Repair:** none at the source yet. The already-sent link to Doug (app.arcs.care/recoil/2026-10-29-gasmi) had to stop dead-ending in a sign-in wall the same day, so the four rules are waived for this one file only.
+- **Guard:** the ratchet (the file scores 0 with the waiver; any new finding blocks). Open debt: put the recoil_brief.py external CSS on the kit ramp and radius scale, regenerate, drop the waiver.
+
+## 2026-11-12 · recoil external twin joins the kit frame (kit waivers extended to one more file)
+
+- **Break:** after the Gasmi twin moved into the tabbed-brief frame (kit 38, 39, 42, 51 plus `src/ui-kit/tabbed-brief/shell.css`), the ratchet counted 11 findings against 0 at HEAD: 10 `design-system-color` (the kit 39 light remap: #fff, #f7f8fa, #d5dbe3, #1c2430, #566170, #475262, #00606b, #047857, a gold border tint, a 14% black) and 1 `cramped-padding` (`.tb-navwrap`, the edge-to-edge nav bar).
+- **Root cause:** none in this page's own CSS. Both are the frame's by design and are already waived for `public/gravity-brief*.html` and the kit specimens: DESIGN.md defines the dark palette only, and the shell nav bar runs flush to the frame (the MyAlly seam of 2026-10-26).
+- **Repair:** Zach asked for the standard nav, hamburger and reading options on this page (2026-11-12), so the page carries the kit's light palette and frame. The file joins the two existing kit waivers rather than getting new ones.
+- **Guard:** the ratchet (the file scores 0 with the waivers; any new finding blocks) and `component_source_gate`, which now checks the page as template `recoil-twin` (5 of 5 kit signatures). The earlier open debt for this file stands: the generator-origin waivers (tiny-text, all-caps-body, radius, font-size) can be dropped once `scripts/recoil_brief.py`'s base CSS is off the page; the stack layout already sizes in rem on the kit ramp.

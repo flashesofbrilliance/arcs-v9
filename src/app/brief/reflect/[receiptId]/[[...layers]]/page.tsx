@@ -114,18 +114,40 @@ export default function BriefReflectPage() {
     router.push(`/dashboard?${p.toString()}`)
   }
 
-  const briefUrl = () => `${window.location.origin}/brief/${receiptId}`
+  // Raw /brief/<id> and /brief/reflect/<id> links are owner-only (e5267871), so
+  // every share goes through a minted token (POST /api/brief/[id]/share), same as
+  // the main brief page. The token is returned once and kept only in state.
+  const [shareUrl, setShareUrl] = useState<string | null>(null)
+  const [shareMsg, setShareMsg] = useState<string | null>(null)
+  async function getShareUrl(): Promise<string | null> {
+    if (shareUrl) return shareUrl
+    const r = await fetch(`/api/brief/${receiptId}/share`, { method: "POST" })
+    const data = await r.json().catch(() => ({}))
+    if (!r.ok || typeof data.path !== "string") { setShareMsg(data.error ?? "Could not create a share link"); return null }
+    const url = `${window.location.origin}${data.path}`
+    setShareUrl(url)
+    return url
+  }
 
   async function copyLink() {
-    await navigator.clipboard.writeText(window.location.href)
+    const url = await getShareUrl()
+    if (!url) return
+    await navigator.clipboard.writeText(url)
+    track("brief_shared", { method: "copy", receiptId })
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
-  function shareSms() {
-    window.open(`sms:?body=${encodeURIComponent(`${result?.true_north}\n\nARCS Brief → ${briefUrl()}`)}`)
+  async function shareSms() {
+    const url = await getShareUrl()
+    if (!url) return
+    track("brief_shared", { method: "sms", receiptId })
+    window.open(`sms:?body=${encodeURIComponent(`${result?.true_north}\n\nARCS Brief → ${url}`)}`)
   }
-  function shareX() {
-    window.open(`https://x.com/intent/tweet?text=${encodeURIComponent((result?.true_north ?? "").slice(0, 220))}&url=${encodeURIComponent(briefUrl())}`)
+  async function shareX() {
+    const url = await getShareUrl()
+    if (!url) return
+    track("brief_shared", { method: "x", receiptId })
+    window.open(`https://x.com/intent/tweet?text=${encodeURIComponent((result?.true_north ?? "").slice(0, 220))}&url=${encodeURIComponent(url)}`)
   }
 
   if (error) {
@@ -225,9 +247,10 @@ export default function BriefReflectPage() {
             <Label style={{ marginRight: "0.25rem" }}>Share</Label>
             {authed ? (
               <>
-                <Button variant="ghost" size="sm" onClick={copyLink}>{copied ? "✓ Copied reflect link" : "Copy reflect link"}</Button>
+                <Button variant="ghost" size="sm" onClick={copyLink}>{copied ? "✓ Copied share link" : "Copy share link"}</Button>
                 <Button variant="ghost" size="sm" onClick={shareSms}>SMS</Button>
                 <Button variant="ghost" size="sm" onClick={shareX}>Post to X</Button>
+                {shareMsg && <span style={{ fontSize: "0.75rem", color: text.muted }}>{shareMsg}</span>}
               </>
             ) : (
               <Button variant="gold" size="sm" glyph="◈" onClick={() => router.push(`/compass?next=${encodeURIComponent(`/brief/reflect/${receiptId}`)}`)}>

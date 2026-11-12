@@ -12,7 +12,7 @@
 #
 # Run:
 #   ./scripts/recoil --data runtime/recoil/generated/2026-07-22-elsamadisi.json \
-#       --audience external --format html > public/ahmed-ext.html
+#       --audience external --format html > public/<counterpart>-ext.html
 #   ./scripts/recoil --data <json> --audience internal --format md
 #   ./scripts/recoil --data <json> --audience external --format json
 #   ./scripts/recoil --data <json> --set meta.counterpart="Ahmed E."   # pass-through override

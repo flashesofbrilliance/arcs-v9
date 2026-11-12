@@ -1,0 +1,129 @@
+{
+  "number": "43",
+  "name": "Action Menu",
+  "slug": "action-menu",
+  "layer": "Molecule",
+  "job": "Put every way to get or discuss one document behind a single header button, each item named by format and purpose.",
+  "anatomy": [
+    {
+      "part": "Trigger",
+      "role": "One word plus a chevron (Agreement ▾), no other icon; 44px tall, sans 600",
+      "token": "`cyan`, hover `cyan-bg`"
+    },
+    {
+      "part": "Panel",
+      "role": "Opens below the trigger, right-aligned, at least 17rem wide",
+      "token": "`surface`, `border`, `ds-r-sm`"
+    },
+    {
+      "part": "Item",
+      "role": "Label left reading `format, for purpose`; action icon right (download, or new tab for an external link)",
+      "token": "`text`, icon `cyan`, hover `surface-2`"
+    },
+    {
+      "part": "Call to action",
+      "role": "The last item, solid fill, same label-left icon-right layout",
+      "token": "fill `cyan`, label `surface`"
+    },
+    {
+      "part": "Phone group",
+      "role": "The same items under a small heading, placed in the hamburger panel at 560px and below",
+      "token": "heading `text-secondary`, `fs-label`"
+    }
+  ],
+  "states": [
+    {
+      "name": "Closed",
+      "args": [
+        "closed"
+      ],
+      "note": "Only the trigger shows; `aria-expanded` is false."
+    },
+    {
+      "name": "Open",
+      "args": [
+        "open"
+      ],
+      "note": "Three items then the solid call to action. Escape or an outside click closes it and focus returns to the trigger."
+    },
+    {
+      "name": "Phone, in the hamburger",
+      "args": [
+        "phone"
+      ],
+      "note": "At 560px and below the trigger leaves the header; the same list sits under the tabs in the hamburger panel."
+    }
+  ],
+  "use_when": [
+    "One document has several ways to be taken away (print, edit, comment) plus one conversation to start about it.",
+    "Labels read `format, for purpose`: PDF, for print · Word, for counsel · Google Doc, for comments. The reader picks by what they will do, not by file type.",
+    "The call to action (Discuss) is the solid last item with the same layout, so the eye ends on it.",
+    "Header placement above 560px; at 560px and below the group moves into the hamburger panel under the tabs."
+  ],
+  "avoid_when": [
+    "There is only one action: show a plain button instead of a menu of one.",
+    "Do not add dotted leaders, a second icon on the trigger, or a description line under each item.",
+    "Do not put the icon on the left; the label leads and the icon only says what clicking does.",
+    "Do not move the trigger into the hamburger at the tab-collapse width; it moves only at 560px and below."
+  ],
+  "data": [
+    {
+      "field": "label",
+      "type": "string",
+      "required": true,
+      "note": "The trigger word, such as `Agreement`."
+    },
+    {
+      "field": "items[]",
+      "type": "{text, href, kind}",
+      "required": true,
+      "note": "`text` reads `format, for purpose`; `kind` is `download` or `external` and picks the icon and the `download` or `target` attribute."
+    },
+    {
+      "field": "items[].aria",
+      "type": "string",
+      "required": false,
+      "note": "Longer accessible name, such as `PDF, for print: download the agreement`; external links add `(opens in a new tab)`."
+    },
+    {
+      "field": "cta",
+      "type": "{text, href}",
+      "required": false,
+      "note": "The solid last item, such as `Discuss` linking to a booking page."
+    }
+  ],
+  "access": [
+    "Trigger is a `<button>` with `aria-expanded` and `aria-controls`; the panel is a plain list of links, not a `role=menu`, so links keep their native keyboard and screen-reader behaviour.",
+    "Opening moves focus to the first item; Escape closes and returns focus to the trigger; a click outside closes it.",
+    "Icons are `aria-hidden`; each link's accessible name carries the format, the purpose and a new-tab warning when it applies.",
+    "Every item is 44px tall; the trigger shows 36px so it sits inside its strip, with a 44px hit area from a pseudo-element. Focus is a hairline: a 1px inset cyan outline plus the hover fill. Sizes are rem, so the reading options scale it.",
+    "The phone group is a `role=group` labelled with the trigger word."
+  ],
+  "built_from": [
+    {
+      "name": "Kit tokens (atoms)",
+      "href": "_tokens.css"
+    },
+    {
+      "name": "Light remap (_tokens-light.css)",
+      "href": "_tokens-light.css"
+    }
+  ],
+  "used_by": [
+    {
+      "name": "Approved My Ally Step 1 template (public/myally-hub.html, PR 2094)"
+    }
+  ],
+  "gates": [
+    "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+    "`kit_primitive_sync.py --check` (in scripts): every page that marks this block carries it unchanged.",
+    "`scripts/token_source_gate.py`, `scripts/component_source_gate.py` and `scripts/artifact_wrap_lint.py` on this page.",
+    "Reading-options check: 375 and 1280, light and dark, largest text size, roomy spacing and the easy-read font."
+  ],
+  "links": [
+    "_tokens-light.css",
+    "_kit-sr.css"
+  ],
+  "css": "/* @prim:begin 43-action-menu */\n.amenu{position:relative;display:inline-block}\n.amenu-btn{position:relative;display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 10px;border:0;border-radius:var(--ds-r-sm);background:none;color:var(--cyan);font:inherit;font-weight:600;cursor:pointer}\n.amenu-btn::after{content:\"\";position:absolute;inset:-4px 0}.amenu-btn svg{width:.75rem;height:.75rem;flex:none;transition:transform var(--dur-fast) var(--ease-out)}\n.amenu-btn[aria-expanded=\"true\"] svg{transform:rotate(180deg)}\n.amenu-btn:hover{background:var(--cyan-bg)}\n.amenu-btn:focus-visible{outline:1px solid var(--cyan);outline-offset:-1px}\n.amenu-list{position:absolute;right:0;top:calc(100% + 6px);z-index:40;min-width:17rem;padding:6px;background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-sm);box-shadow:0 2px 4px rgba(0,0,0,.08)}\n.amenu-i,.amenu-cta{display:flex;align-items:center;gap:10px;min-height:44px;padding:0 10px;border-radius:var(--ds-r-sm);color:var(--text);text-decoration:none;font-weight:500}\n.amenu-i svg,.amenu-cta svg{width:1rem;height:1rem;flex:none;order:2;margin-left:auto}\n.amenu-i svg{color:var(--cyan)}\n.amenu-i:hover,.amenu-i:focus-visible{background:var(--surface-2)}\n.amenu-i:focus-visible,.amenu-cta:focus-visible{outline:1px solid var(--cyan);outline-offset:-1px}\n.amenu-cta{margin-top:6px;background:var(--cyan);color:var(--surface);font-weight:600}\n.amenu-cta:hover{filter:brightness(1.08)}\n.amenu-group{padding:2px 0 8px}\n.amenu-h{margin:8px 10px 2px;font-size:var(--fs-label);font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-secondary)}\n@media (prefers-reduced-motion:reduce){.amenu-btn svg{transition:none}}\n/* @prim:end 43-action-menu */\n",
+  "demo": "var KI={dl:'<path d=\"M8 2.5v7.5M4.75 7 8 10.25 11.25 7M3 13.5h10\"/>',ext:'<path d=\"M9 2.5h4.5V7M13.5 2.5 7.5 8.5M11.5 9.5v3a1 1 0 01-1 1h-7a1 1 0 01-1-1v-7a1 1 0 011-1h3\"/>',cal:'<rect x=\"2.5\" y=\"3.5\" width=\"11\" height=\"10\" rx=\"1.5\"/><path d=\"M2.5 6.5h11M5.5 2v3M10.5 2v3\"/>',chev:'<path d=\"M4.5 6.5 8 10l3.5-3.5\"/>',right:'<path d=\"M6 3.5 10.5 8 6 12.5\"/>',x:'<path d=\"M4 4l8 8M12 4l-8 8\"/>'};\nfunction kIcon(k){return '<svg viewBox=\"0 0 16 16\" aria-hidden=\"true\" focusable=\"false\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\">'+KI[k]+'</svg>';}\nfunction kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar AM={label:'Agreement',items:[{text:'PDF, for print',href:'#pdf',kind:'download',aria:'PDF, for print: download the agreement'},{text:'Word, for counsel',href:'#docx',kind:'download',aria:'Word, for counsel: download the agreement to edit'},{text:'Google Doc, for comments',href:'#doc',kind:'external',aria:'Google Doc, for comments (opens in a new tab)'}],cta:{text:'Discuss',href:'#call'}};\nfunction amItems(d){return d.items.map(function(it){var x=it.kind==='external';return '<a class=\"amenu-i\" href=\"'+kEsc(it.href)+'\"'+(x?' target=\"_blank\" rel=\"noopener\"':' download')+' aria-label=\"'+kEsc(it.aria||it.text)+'\"><span>'+kEsc(it.text)+'</span>'+kIcon(x?'ext':'dl')+'</a>';}).join('')+(d.cta?'<a class=\"amenu-cta\" href=\"'+kEsc(d.cta.href)+'\" target=\"_blank\" rel=\"noopener\" aria-label=\"'+kEsc(d.cta.text)+' (opens in a new tab)\"><span>'+kEsc(d.cta.text)+'</span>'+kIcon('cal')+'</a>':'');}\nfunction kitActionMenu(host,d,id,open){var w=document.createElement('div');w.className='amenu';w.innerHTML='<button type=\"button\" class=\"amenu-btn\" aria-expanded=\"false\" aria-controls=\"'+id+'\"><span>'+kEsc(d.label)+'</span>'+kIcon('chev')+'</button><div id=\"'+id+'\" class=\"amenu-list\" hidden>'+amItems(d)+'</div>';host.appendChild(w);\nvar b=w.querySelector('.amenu-btn'),m=w.querySelector('.amenu-list');function set(o,f){m.hidden=!o;b.setAttribute('aria-expanded',String(o));if(o&&f){var a=m.querySelector('a');if(a)a.focus();}if(!o&&f)b.focus();}\nb.addEventListener('click',function(){set(m.hidden,true);});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!m.hidden){set(false,true);}});document.addEventListener('click',function(e){if(!w.contains(e.target))set(false);});if(open)set(true);return w;}\nfunction kitActionGroup(host,d){var g=document.createElement('div');g.className='amenu-group';g.setAttribute('role','group');g.setAttribute('aria-label',d.label);g.innerHTML='<p class=\"amenu-h\" aria-hidden=\"true\">'+kEsc(d.label)+'</p>'+amItems(d);host.appendChild(g);return g;}\nvar st=kSlot();st.style.display='flex';st.style.justifyContent='flex-end';st.style.alignItems='flex-start';st.style.minHeight='16rem';kitActionMenu(st,AM,'am-stage');\nSTATES.forEach(function(s,i){var el=kSlot(i);if(s[0]==='phone'){kitActionGroup(el,AM);return;}el.style.display='flex';el.style.justifyContent='flex-end';el.style.alignItems='flex-start';if(s[0]==='open')el.style.minHeight='15rem';var w=kitActionMenu(el,AM,'am-s'+i,false);if(s[0]==='open'){var m=w.querySelector('.amenu-list');m.hidden=false;w.querySelector('.amenu-btn').setAttribute('aria-expanded','true');}});\n"
+}

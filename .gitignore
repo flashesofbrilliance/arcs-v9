@@ -146,3 +146,9 @@ _INBOX/surface-candidates.jsonl
 # dream_mine.py output (transcript excerpts; local only)
 _STATE/dream/
 _STATE/orphanage-scan.json
+
+# Real pre-call briefs name real people: data and built pages stay local (precall-brief template, 2026-11-06)
+_ARTIFACTS/precall-brief/private/
+
+# recoil_service.py run folders: prints, renders and receipt drafts hold counterpart content (spec N3)
+runtime/recoil/runs/

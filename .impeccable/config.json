@@ -6,6 +6,33 @@
     "ignoreFiles": [],
     "ignoreValues": [
       {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": ["public/myally-hub.html"],
+        "createdAt": "2026-11-09T19:05:00.000Z",
+        "reason": "MyAlly hub 'Not started' status LED: Zach asked for the pulsing LED from his Gold Coast Records site (2026-11-09); the glow is the LED, one 6px dot. The rule has no per-value match, so it is scoped to this file; no other glow exists here."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": ".75rem",
+        "files": [
+          "src/ui-kit/recoil-report/45-fact-tile.html",
+          "src/ui-kit/recoil-report/48-summary-disclosure.html",
+          "public/gravity-brief*.html"
+        ],
+        "createdAt": "2026-11-09T19:00:00.000Z",
+        "reason": "Kit 45 fact tile label: the 0.75rem caps label Zach approved on the My Ally Step 1 tab (2026-11-09). The ramp's label step (0.6875rem) shrinks it below what he signed off; same MyAlly-world seam as the myally-hub font-size waiver. One value, two files."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          "_ARTIFACTS/precall-brief/example.html"
+        ],
+        "createdAt": "2026-11-06T06:00:00.000Z",
+        "reason": "precall-brief template example: a private prep page read on a phone in daylight, so it carries the light palette Zach specified (the kit's own token names, AA accents), which DESIGN.md (dark only) does not define. Same light-world scope as the Brooks and Louisville waivers. Scoped to this one file; real briefs are never committed. Seam booked 2026-11-06 in _PATTERNS/kintsugi-visual-grammar-seams.md"
+      },
+      {
         "rule": "design-system-font-size",
         "value": "*",
         "files": [
@@ -20,7 +47,9 @@
         "value": "*",
         "files": [
           "public/myally-hub.html",
-          "public/cia-brief.html"
+          "public/cia-brief.html",
+          "public/gravity-brief*.html",
+          "public/recoil-ext/2026-10-29-gasmi.html"
         ],
         "createdAt": "2026-10-27T12:00:00.000Z",
         "reason": "MyAlly hub: the tab bar is an underline-tab strip whose active marker sits on the bar border by design, and the shell section is a framed box whose header bar runs edge to edge. Seam: _PATTERNS/kintsugi-visual-grammar-seams.md (MyAlly, 2026-10-26)"
@@ -131,132 +160,6 @@
         ],
         "createdAt": "2026-10-20T00:15:00.000Z",
         "reason": "PRL client surface: uses the PRL Field Kit (prlresins.com maroon/champagne, Archivo + Manrope; design system artifact LAX8zY9rcWDpiBTGnY6ePe), a deliberately separate per-engagement world from DESIGN.md per PRODUCT.md, not drift"
-      },
-      {
-        "rule": "design-system-font",
-        "value": "*",
-        "files": [
-          "public/jack-rain-ext.html"
-        ],
-        "createdAt": "2026-09-14T17:07:34.698Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (GeistMono/InstrumentSans), the recoil-report family's own locked kit, a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
-      },
-      {
-        "rule": "design-system-font",
-        "value": "*",
-        "files": [
-          "runtime/warroom/jack-rain.html"
-        ],
-        "createdAt": "2026-09-14T17:07:38.367Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
-      },
-      {
-        "rule": "dark-glow",
-        "value": "*",
-        "files": [
-          "runtime/warroom/jack-rain.html"
-        ],
-        "createdAt": "2026-09-14T17:10:21.792Z",
-        "reason": "Status-LED glow (boxShadow 0 0 8px 1px color) is the shipped pattern from src/app/jobs/[jobid]/page.tsx's led() helper, used identically for BAND/GATES/SWIPE/FORGE indicators; not new decoration"
-      },
-      {
-        "rule": "design-system-font-size",
-        "value": "*",
-        "files": [
-          "public/jack-rain-ext.html"
-        ],
-        "createdAt": "2026-09-14T17:11:11.261Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit — a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
-      },
-      {
-        "rule": "design-system-font-size",
-        "value": "*",
-        "files": [
-          "runtime/warroom/jack-rain.html"
-        ],
-        "createdAt": "2026-09-14T17:11:11.287Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
-      },
-      {
-        "rule": "design-system-color",
-        "value": "*",
-        "files": [
-          "public/jack-rain-ext.html"
-        ],
-        "createdAt": "2026-09-14T17:11:11.309Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit — a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
-      },
-      {
-        "rule": "design-system-color",
-        "value": "*",
-        "files": [
-          "runtime/warroom/jack-rain.html"
-        ],
-        "createdAt": "2026-09-14T17:11:11.330Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
-      },
-      {
-        "rule": "design-system-radius",
-        "value": "*",
-        "files": [
-          "public/jack-rain-ext.html"
-        ],
-        "createdAt": "2026-09-14T17:11:11.350Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit — a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
-      },
-      {
-        "rule": "design-system-radius",
-        "value": "*",
-        "files": [
-          "runtime/warroom/jack-rain.html"
-        ],
-        "createdAt": "2026-09-14T17:11:11.370Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
-      },
-      {
-        "rule": "design-system-font",
-        "value": "*",
-        "files": [
-          "public/jack-rain-resume.html"
-        ],
-        "createdAt": "2026-09-14T17:29:41.153Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
-      },
-      {
-        "rule": "design-system-font-size",
-        "value": "*",
-        "files": [
-          "public/jack-rain-resume.html"
-        ],
-        "createdAt": "2026-09-14T17:29:41.175Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
-      },
-      {
-        "rule": "design-system-color",
-        "value": "*",
-        "files": [
-          "public/jack-rain-resume.html"
-        ],
-        "createdAt": "2026-09-14T17:29:41.200Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
-      },
-      {
-        "rule": "design-system-radius",
-        "value": "*",
-        "files": [
-          "public/jack-rain-resume.html"
-        ],
-        "createdAt": "2026-09-14T17:29:41.222Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
-      },
-      {
-        "rule": "dark-glow",
-        "value": "*",
-        "files": [
-          "public/jack-rain-resume.html"
-        ],
-        "createdAt": "2026-09-14T17:29:41.243Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
       },
       {
         "rule": "design-system-font",
@@ -885,12 +788,39 @@
       },
       {
         "rule": "design-system-color",
-        "value": "rgb(0, 116, 142)",
+        "value": "*",
         "files": [
           "public/good-rfp-engine.html"
         ],
-        "createdAt": "2026-10-30T15:17:52.160Z",
-        "reason": "tool-getting-started swatch: rfp-engine paper teal #00748e (DESIGN.md Light Paper accent), structure only, see src/ui-kit/templates.json"
+        "createdAt": "2026-11-09T22:50:00.000Z",
+        "reason": "rfp-engine rebuilt from verbatim kit blocks (2026-11-09): the 39 theme-toggle and grammar-chip light palette (OS-following, with a toggle, as the Louisville proposal) plus the steel tool swatch #3d6a9e; ARCS brand profile in src/ui-kit/README.md, kit grammar not page debt"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          "public/good-rfp-engine.html"
+        ],
+        "createdAt": "2026-11-09T22:50:00.000Z",
+        "reason": "rfp-engine: grammar-chip tags use the kit mono stack (generated by scripts/grammar_chips_emit.py); ARCS brand profile exempts design-system-font for kit pages"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "*",
+        "files": [
+          "public/good-rfp-engine.html"
+        ],
+        "createdAt": "2026-11-09T22:50:00.000Z",
+        "reason": "rfp-engine: 45 fact-tile label is .75rem in the kit block, copied verbatim (kit_primitive_sync --check); ARCS brand profile exempts design-system-font-size"
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "public/good-rfp-engine.html"
+        ],
+        "createdAt": "2026-11-09T22:50:00.000Z",
+        "reason": "rfp-engine: the only shadow is the 51 display-preferences pill lift (rgba 0,0,0,.14) and the chip key lip, both kit blocks verbatim; ARCS brand profile exempts dark-glow"
       },
       {
         "rule": "design-system-color",
@@ -918,7 +848,110 @@
         ],
         "createdAt": "2026-10-30T15:40:00.000Z",
         "reason": "Claim chip grammar specimen: the glow is the underlit LED of the @arcs/theme grammar (ChipToggle, 'underlit-LED glow, never ambient neon') and the Phosphor Pocket skin LED tiles; it marks tone state only, Zach asked for the skeuomorphic depth on 2026-10-30."
-      }
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "_ARTIFACTS/forge-cursor-forward-deployed-strategist/resume-cursor-forward-deployed-strategist.html",
+          "_ARTIFACTS/forge-govwell-ai-product-engineer/resume-govwell-ai-product-engineer.html"
+        ],
+        "createdAt": "2026-11-04T15:00:00.000Z",
+        "reason": "Print-only one-page conventional resume (resume-tailor-zach base template, Georgia, letter @page), delivered as the PDF. Body line-height is 1.3; the 0.12x/0.14x readings are the detector measuring pt-sized print text, and the even 2-4px spacing is the one-page fit. Not a screen surface."
+      },
+      {
+        "rule": "monotonous-spacing",
+        "value": "*",
+        "files": [
+          "_ARTIFACTS/forge-cursor-forward-deployed-strategist/resume-cursor-forward-deployed-strategist.html",
+          "_ARTIFACTS/forge-govwell-ai-product-engineer/resume-govwell-ai-product-engineer.html"
+        ],
+        "createdAt": "2026-11-04T15:00:00.000Z",
+        "reason": "Print-only one-page conventional resume (resume-tailor-zach base template, Georgia, letter @page), delivered as the PDF. Body line-height is 1.3; the 0.12x/0.14x readings are the detector measuring pt-sized print text, and the even 2-4px spacing is the one-page fit. Not a screen surface."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          "_ARTIFACTS/brooks-audit-onepager.html",
+          "src/ui-kit/recoil-report/39-theme-toggle.html",
+          "src/ui-kit/recoil-report/43-action-menu.html",
+          "src/ui-kit/recoil-report/44-status-strip.html",
+          "src/ui-kit/recoil-report/45-fact-tile.html",
+          "src/ui-kit/recoil-report/46-day-list.html",
+          "src/ui-kit/recoil-report/47-now-note.html",
+          "src/ui-kit/recoil-report/48-summary-disclosure.html",
+          "src/ui-kit/recoil-report/49-pinned-card.html",
+          "src/ui-kit/recoil-report/50-term-definition.html",
+          "src/ui-kit/recoil-report/51-display-preferences.html",
+          "src/ui-kit/recoil-report/54-signal-ledger.html",
+          "src/ui-kit/recoil-report/55-sound-bite.html",
+        "src/ui-kit/recoil-report/56-fold.html",
+        "src/ui-kit/recoil-report/57-ledger-row.html",
+        "src/ui-kit/recoil-report/58-toast.html",
+        "src/ui-kit/recoil-report/59-claim-check.html",
+        "src/ui-kit/recoil-report/60-heat-take.html",
+        "src/ui-kit/recoil-report/61-option.html",
+        "src/ui-kit/recoil-report/62-attributed-notes.html",
+        "src/ui-kit/recoil-report/63-operator-pass.html",
+        "src/ui-kit/recoil-report/64-kintsugi-seam.html",
+          "public/gravity-brief*.html",
+          "public/recoil-ext/2026-10-29-gasmi.html"
+        ],
+        "createdAt": "2026-11-04T21:30:00.000Z",
+        "reason": "Kit 39 theme toggle: the light remap (the myally.arcs.care pattern) is a deliberate second palette over the kit tokens, outside DESIGN.md by design; the recoil-report brand profile exempts design-system-color. Contrast stays live (page_gate checks it)."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "*",
+        "files": [
+          "_ARTIFACTS/brooks-audit-onepager.html"
+        ],
+        "createdAt": "2026-11-04T21:40:00.000Z",
+        "reason": "Carried from the hand-built Brooks page, not new: tile values 1.6rem (1rem on a phone) so $5,000 fits one line, and phone segment labels 0.85rem. Kept for pixel parity when the page became generated; repair is the owning session's call (seam booked in _ARTIFACTS/counterpart-onepager/README.md). Plus the US Letter print block (9.5pt root; sizes and gaps as calc() of the screen tokens), which the static detector reads as screen sizes since it does not scope @media print."
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "_ARTIFACTS/brooks-pitch-storyboard.html"
+        ],
+        "createdAt": "2026-11-04T21:50:00.000Z",
+        "reason": "Carried from the hand-built storyboard, not new: 1.25 leading sits on display-size video frame lines (.what at lede size, .v-stat at head size), which the static scan reads as body text. Not repaired here; the storyboard's type is the owning session's call (seam booked in _ARTIFACTS/counterpart-onepager/README.md)."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          "public/louisville-proposal.html",
+          "_ARTIFACTS/louisville-proposal/source.html"
+        ],
+        "createdAt": "2026-11-05T21:00:00.000Z",
+        "reason": "Louisville proposal: the light theme (OS-following, with a toggle) and the print palette Zach asked for, the same light-world scope as the myally pages and the existing _ARTIFACTS/brooks-audit-onepager.html waiver; DESIGN.md is dark-only. Seam: _PATTERNS/kintsugi-visual-grammar-seams.md (Louisville proposal, 2026-11-05)"
+      },
+      {
+        "rule": "all-caps-body",
+        "value": "*",
+        "files": [
+          "public/louisville-proposal.html",
+          "_ARTIFACTS/louisville-proposal/source.html"
+        ],
+        "createdAt": "2026-11-05T21:00:00.000Z",
+        "reason": "Louisville proposal: the 'For Brooks Thomas, Louisville Brands' byline is a mono tracked label (label role), chosen by the 2026-11-05 brand gate over mixed-case mono, which read as code. Not body copy."
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "public/gravity-brief*.html"
+        ],
+        "createdAt": "2026-11-09T20:00:00.000Z",
+        "reason": "Gravity tabbed brief (tabbed-brief template): every size is a DESIGN.md ramp token (label, body, headline, display). The ramp's own body-to-headline step is 1.243, just under the detector's 1.25 target; passing would need an off-ramp size. Kit-level follow-up: retune --fs-headline or the target, then drop this waiver."
+      },
+      {"rule": "tiny-text", "value": "*", "files": ["public/recoil-ext/2026-10-29-gasmi.html"], "createdAt": "2026-11-12T15:10:00.000Z", "reason": "Generator-origin CSS: the scripts/recoil_brief.py external template predates the kit type ramp and radius scale. Waived for this one twin so the already-sent Dioptra link opens (2026-11-12); fix the mold in recoil_brief.py, regenerate, then drop. Seam in _PATTERNS/kintsugi-visual-grammar-seams.md."},
+      {"rule": "all-caps-body", "value": "*", "files": ["public/recoil-ext/2026-10-29-gasmi.html"], "createdAt": "2026-11-12T15:10:00.000Z", "reason": "Generator-origin CSS: the scripts/recoil_brief.py external template predates the kit type ramp and radius scale. Waived for this one twin so the already-sent Dioptra link opens (2026-11-12); fix the mold in recoil_brief.py, regenerate, then drop. Seam in _PATTERNS/kintsugi-visual-grammar-seams.md."},
+      {"rule": "design-system-radius", "value": "*", "files": ["public/recoil-ext/2026-10-29-gasmi.html"], "createdAt": "2026-11-12T15:10:00.000Z", "reason": "Generator-origin CSS: the scripts/recoil_brief.py external template predates the kit type ramp and radius scale. Waived for this one twin so the already-sent Dioptra link opens (2026-11-12); fix the mold in recoil_brief.py, regenerate, then drop. Seam in _PATTERNS/kintsugi-visual-grammar-seams.md."},
+      {"rule": "design-system-font-size", "value": "*", "files": ["public/recoil-ext/2026-10-29-gasmi.html"], "createdAt": "2026-11-12T15:10:00.000Z", "reason": "Generator-origin CSS: the scripts/recoil_brief.py external template predates the kit type ramp and radius scale. Waived for this one twin so the already-sent Dioptra link opens (2026-11-12); fix the mold in recoil_brief.py, regenerate, then drop. Seam in _PATTERNS/kintsugi-visual-grammar-seams.md."}
     ]
   },
   "hook": {
