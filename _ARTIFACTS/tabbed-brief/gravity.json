@@ -15,8 +15,8 @@
  "overview": {
   "label": "Overview",
   "headline": [
-   "The filter is the hard part.",
-   "I keep the record of which calls held up."
+   "Ideas are getting cheap. Trusting them is not.",
+   "I keep a dated record of which calls held up."
   ],
   "tiles": [
    {
@@ -27,12 +27,12 @@
    {
     "v": "$0 → $2M+",
     "k": "Zero to one",
-    "note": "Co-founded; profitable in 24 months. Earlier, GM of a turnaround, acquired"
+    "note": "Co-founded; profitable in 24 months. Earlier, GM of a video ad network"
    },
    {
     "v": "23 of 32",
     "k": "Claims, public record",
-    "note": "Every claim about me links to its record; 8 on request, 1 not yet shown"
+    "note": "32 claims about my work, each linked to its record: 8 on request, 1 not yet shown"
    },
    {
     "v": "48",
@@ -42,10 +42,77 @@
   ],
   "sections": [
    {
+    "id": "shipped",
+    "title": "Shipped this year",
+    "tagline": "Dated, with links.",
+    "open": true,
+    "blocks": [
+     {
+      "type": "table",
+      "head": [
+       "When",
+       "What"
+      ],
+      "rows": [
+       [
+        "2026-04-09",
+        "[ARCS](https://app.arcs.care), with its [build history](https://status.arcs.care) and [beliefs ledger](https://status.arcs.care/beliefs): question in, dated record out. The one I am most excited about."
+       ],
+       [
+        "2026-08-18",
+        "[Notes from the Trenches](https://good.arcs.care/blog/nftt): 35 field notes since the first one."
+       ],
+       [
+        "2026-10-17",
+        "[Phosphor](https://dj.arcs.care): music drawn as light, in the browser; your song stays on your computer."
+       ],
+       [
+        "2026-10-31",
+        "[A free repo check](https://good.arcs.care/audit/check) for agent-built codebases."
+       ],
+       [
+        "2026-11-02",
+        "[RFP-O-Matic](https://good.arcs.care/rfp-engine): cites the clause or says the document is silent. [Source](https://github.com/flashesofbrilliance/rfp-engine)."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "id": "week-one",
+    "title": "Week One",
+    "tagline": "What I would do in the first week.",
+    "open": true,
+    "blocks": [
+     {
+      "type": "p",
+      "text": "[Kyle Libra's Idea Engine post](https://kylelibra.substack.com/p/how-to-find-startup-ideas): a good memo 6x faster than six months ago; the raw drafts are at times unusable. Its footnote 4 is about tuning the agents' filters, and says that is getting easier. I work one step later: for each memo that passes or dies, a dated note of what it expected and whether that came true."
+     },
+     {
+      "type": "cards",
+      "cards": [
+       {
+        "title": "Your pass list, on the record",
+        "text": "You already say \"no right now\". I would write down what each \"no right now\" expects to see, so the recheck is a test, not a reread."
+       },
+       {
+        "title": "How I would test Coda",
+        "ref": "From your portfolio page's one line; you know more. Written 2026-11-10.",
+        "text": "[Kyle's everything-bank post](https://kylelibra.substack.com/p/the-race-to-be-the-new-everything) puts net interest income at about 54% of JPM's Q4 2024 revenue. I'd test whether that, more than compliance, is what keeps banks from taking crypto deposits. 15 calls with bank digital-asset and compliance leads; kill it if fewer than 2 will sign a pilot letter of intent. Under two weeks and $10k."
+       },
+       {
+        "title": "The agent-payments wedge",
+        "text": "A stablecoin send has no chargeback, and stablecoin issuers freeze on legal process, not on a customer's complaint. Spend rules record what the agent was allowed to do. Nothing records what it expected or whether that came true. That second half is the wedge."
+       }
+      ]
+     }
+    ]
+   },
+   {
     "id": "bull-bear",
     "title": "Bull vs Bear",
-    "tagline": "One ledger, read 2026-11-10: agent payments.",
-    "open": true,
+    "tagline": "Activity over size, applied to agent payments: counts say yes, filtered volume says not yet.",
+    "open": false,
     "blocks": [
      {
       "type": "p",
@@ -61,25 +128,31 @@
           "chip": "Bull",
           "tone": "plain",
           "signal": "Transaction counts (leading, noisy)",
-          "text": "[x402 reported](https://www.rzlt.io/blog/agentic-payments-2026-x402-explainer) over 165M agent transactions by April, about half of them tests."
+          "text": "[x402 reported](https://www.rzlt.io/blog/agentic-payments-2026-x402-explainer) over 165M agent transactions by April, about half of them tests. As of April 2026; re-read due."
          },
          {
           "chip": "Bull",
           "tone": "plain",
-          "signal": "Cost per payment (leading)",
-          "text": "The [median L2 fee](https://www.growthepie.com/answers/are-ethereum-l2-fees-getting-cheaper) fell from 20¢ in February 2024 to 0.06¢ in April 2026, cheap enough for machine-sized payments."
+          "signal": "Chain fee per payment (leading, partial)",
+          "text": "The [median L2 fee](https://www.growthepie.com/answers/are-ethereum-l2-fees-getting-cheaper) fell from 20¢ in February 2024 to 0.06¢ in April 2026, cheap enough for machine-sized payments. Ramps are not in this number; an agent's float has to get on-chain first."
          },
          {
           "chip": "Bear",
           "tone": "plain",
           "signal": "Volume with tests and wash trades removed",
-          "text": "On [Allium's strictest filter](https://nevermined.ai/blog/stablecoin-payments-ai-agents-statistics), real agent volume is near $1.6M a month."
+          "text": "[Allium, via Nevermined](https://nevermined.ai/blog/stablecoin-payments-ai-agents-statistics): about $1.6M a month of agent volume on the strictest filter. Re-read due."
          },
          {
           "chip": "Rules",
           "tone": "cyan",
           "signal": "Regulatory calendar",
           "text": "The [OCC stablecoin rule](https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-92.html) takes effect 2027-01-18. A [procedural vote](https://www.americanbanker.com/news/crypto-market-structure-bill-fails-in-senate-vote-49-50) on the market-structure bill failed 49 to 50 on 2026-09-15."
+         },
+         {
+          "chip": "Rules",
+          "tone": "plain",
+          "signal": "Who owns distribution",
+          "text": "My read: the liability rule gets written where the loss lands. On cards that is Visa and Mastercard's rulebook, pushed by the card issuers who eat the fraud. On-chain there is no rulebook yet. The call below counts only the card side, because I can check it."
          }
         ]
        },
@@ -91,19 +164,19 @@
           "chip": "Trigger",
           "tone": "gold",
           "signal": "Who pays when an agent exceeds its mandate",
-          "text": "[Unsettled](https://worldpay.com/en/insights/articles/agentic-commerce-liability-is-still-being-written): without a record of what the user asked, a dispute is close to a coin flip. My view: the first network rule that requires an intent record decides it."
+          "text": "[Footnote 25 of Kyle's stablecoin post](https://kylelibra.substack.com/p/a-lot-of-what-people-think-about): crypto payments will have to address chargebacks and fraud liability \"to some extent to be viable.\" For agents, I think that starts with a record of what the user told the agent. Today it is [unsettled](https://worldpay.com/en/insights/articles/agentic-commerce-liability-is-still-being-written), and the first network rule that requires an intent record decides it."
          },
          {
-          "chip": "Call",
+          "chip": "My call",
           "tone": "gold",
           "signal": "Enter small, before the rule",
-          "text": "Volume is the lagging bet. The liability rule is the leading one. My read: 1 in 3 that Visa, Mastercard or a top-10 US card issuer has a rule in effect by 2027-06-30 requiring a record of what the user told the agent. Announcements without an effective date do not count. Gravity can resolve it; I will post the outcome either way."
+          "text": "Volume is the lagging bet. The liability rule is the leading one. My read: 1 in 3 that Visa, Mastercard or a top-10 US card issuer has a rule in effect by 2027-06-30 requiring a record of what the user told the agent. Announcements without an effective date do not count. I will post the outcome either way."
          },
          {
-          "chip": "Put",
+          "chip": "If I'm wrong",
           "tone": "gold",
           "signal": "The other 2 in 3",
-          "text": "If the rule is late, the loss is small: about 2.7 weeks of my time. ARCS already writes an append-only record for human decisions, not yet a signed agent mandate. Long the liability record layer; short raw counts as proof of use."
+          "text": "No network rule is in effect by mid-2027, and I have spent about three weeks. ARCS records human decisions this way today; it does not yet do signed agent mandates."
          }
         ]
        },
@@ -115,13 +188,13 @@
           "chip": "Wording",
           "tone": "gold",
           "signal": "The odds moved with the wording",
-          "text": "When I first wrote the call, the odds read 0.24 to 0.62 depending on wording, so I wrote the resolution rule above before picking a number. The base rate of a network rule drives most of what spread is left; I re-mark at each Visa and Mastercard rules release."
+          "text": "My own estimate swung from about 1 in 4 to about 3 in 5 depending on how the rule was worded, so I wrote the resolution rule above before picking a number. The inputs were my judgment, not data; the simulation is on request. The base rate of a network rule drives most of what spread is left; I re-mark at each Visa and Mastercard rules release."
          },
          {
           "chip": "Conflict",
           "tone": "gold",
           "signal": "I build the thing that would benefit",
-          "text": "So I am not the one who should grade it. Gravity resolves it, and the Put says what ARCS does not do yet."
+          "text": "So I am not the one who should grade it. Gravity resolves it, and the If I'm wrong row says what ARCS does not do yet."
          }
         ]
        },
@@ -142,16 +215,16 @@
           "text": "Visa and Mastercard run agent payments on tokenized cards ([PYMNTS](https://www.pymnts.com/credit-cards/2026/cards-make-their-case-in-an-agentic-world/)). None of it shows on-chain, so on-chain volume undercounts agent demand."
          },
          {
-          "chip": "Inlier",
+          "chip": "Undercount",
           "tone": "gold",
           "signal": "Untested",
           "text": "An operator's agents paying its own services look like wash trades, so the strict filter may drop real use. I have not tested this."
          },
          {
-          "chip": "AML/KYC",
+          "chip": "Overtaken",
           "tone": "gold",
-          "signal": "Filter blind spot",
-          "text": "The strict filter removes tests and wash trades, not illicit flow: it cannot tell compliant volume from illicit volume."
+          "signal": "Someone else closes the gap",
+          "text": "If spend-rule vendors start logging what the agent expected next to what happened, the gap closes without me."
          }
         ]
        }
@@ -160,39 +233,9 @@
     ]
    },
    {
-    "id": "week-one",
-    "title": "Week One",
-    "tagline": "What I would do in the first week.",
-    "open": true,
-    "blocks": [
-     {
-      "type": "p",
-      "text": "[Your Idea Engine post](https://kylelibra.substack.com/p/how-to-find-startup-ideas): a good memo now comes 6x faster, and some still come out unusable. Ideas are getting cheap. Trusting them is not. ARCS builds conviction the way an oak builds rings: every pass with its reason, every kill test written before it runs, every overturned belief kept on the record. The rings are what hold the tree up."
-     },
-     {
-      "type": "cards",
-      "cards": [
-       {
-        "title": "Your pass list, on the record",
-        "text": "Each idea you passed gets its reason and a recheck date. When the market moves, a wrong pass comes back as a lead, not a loss."
-       },
-       {
-        "title": "How I would test Coda",
-        "ref": "From your portfolio page's one line; you know more. Written 2026-11-10.",
-        "text": "The riskiest assumption I see: banks will take crypto deposits once compliance is solved. 15 calls with bank digital-asset leads; kill it if fewer than 2 will sign a pilot letter. Under two weeks and $10k."
-       },
-       {
-        "title": "The agent-payments wedge",
-        "text": "A regulated stablecoin can be frozen, but not charged back, and nothing records what the user told the agent. When a send goes wrong, the issuer can freeze it with no record of intent to rule on. ARCS already writes a cousin of that record for human decisions: what was asked, why, and what happened."
-       }
-      ]
-     }
-    ]
-   },
-   {
     "id": "receipts",
     "title": "Receipts",
-    "tagline": "Live work, open to check.",
+    "tagline": "Running work, open to check.",
     "open": true,
     "blocks": [
      {
@@ -202,22 +245,22 @@
         "label": "In the trenches",
         "rows": [
          {
-          "chip": "Live",
+          "chip": "Running",
           "tone": "cyan",
-          "signal": "Build telemetry",
+          "signal": "Commit history",
           "text": "[Day 0 to day 210](https://status.arcs.care): 6,195 commits by Nov 5, built solo and run in production. Every number is read from the repository."
          },
          {
-          "chip": "Live",
+          "chip": "Running",
           "tone": "cyan",
           "signal": "RFP-O-Matic",
           "text": "Answers RFP questions and cites the clause, or says the document is silent. [Four short videos](https://good.arcs.care/rfp-engine) and [its source](https://github.com/flashesofbrilliance/rfp-engine)."
          },
          {
-          "chip": "Live",
+          "chip": "Running",
           "tone": "cyan",
           "signal": "ARCS",
-          "text": "[The decision instrument](https://app.arcs.care) these receipts come from: question in, dated record out."
+          "text": "[The tool these records come from](https://app.arcs.care): you ask a question; it writes a dated record. [11 saved decisions from outside users, 0 outcomes closed](https://status.arcs.care); 5 people behind them, from a production read on request. Nobody outside has logged an outcome yet."
          }
         ]
        },
@@ -228,13 +271,13 @@
           "chip": "Kills",
           "tone": "cyan",
           "signal": "My own kill rate",
-          "text": "[48 beliefs I held, killed by a test](https://status.arcs.care/beliefs) since June, about 10 a month. 20 changed the rulebook. Most hatches die; so do most of my beliefs, and the record keeps why."
+          "text": "[48 beliefs overturned since June](https://status.arcs.care/beliefs), about 10 a month, dated on a public timeline; the belief and test behind each are on request. For example, \"a green production build means the database works\", killed 2026-06-03 by the first real query against prod. 20 changed the rulebook."
          },
          {
           "chip": "Proof",
           "tone": "cyan",
           "signal": "Don't trust, verify",
-          "text": "[Every claim I make about myself](https://zach.md/proof), each linked to its record: 23 public, 8 on request, and the 1 I cannot show yet, named."
+          "text": "[32 claims about my work](https://zach.md/proof), each linked to its record: 23 public, 8 on request, and the 1 I cannot show yet, named."
          },
          {
           "chip": "Essays",
@@ -246,7 +289,7 @@
           "chip": "Calls",
           "tone": "cyan",
           "signal": "Falsifiable predictions, scored",
-          "text": "Of 9 resolved calls since January, 2 hit, 1 partly hit and 6 missed; 9 are still open. My 85 to 90% crypto calls ran hot, so every call now ships with its falsifier and a lower number, like the 1 in 3 above. Method: [seven calls, seven falsifiers](https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers)."
+          "text": "From 20 calls in my LinkedIn articles since January (ledger on request): 9 resolved, 2 hit (one weak), 1 partly, 6 missed; 9 open, 2 unverified. The falsifiers held; my 85 to 90% confidence did not, so every new call ships with a lower number, like the 1 in 3 above. Method: [seven calls, seven falsifiers](https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers). Same shape as Mogg, a dated YES or NO resolved by the world, but 20 calls in ten months, not 10 a day."
          }
         ]
        },
@@ -283,9 +326,10 @@
   "bites_source": "[More recommendations](https://zachharris.xyz)",
   "bites_still": true,
   "lede": [
-   "I'm Zach Harris, a crypto product lead (10 regulated products at Grayscale), applying to Gravity Labs. Each open seat has its own page below; if one fits, I'd like a conversation with whoever owns that hire.",
-   "Why: [your Idea Engine post](https://kylelibra.substack.com/p/how-to-find-startup-ideas) (2026-09-21) says tuning the filter is the hardest part. ARCS is a tool I built that keeps a dated record of each call and whether it came true."
-  ]
+   "I'm Zach Harris, a crypto product lead (10 regulated products at Grayscale), applying for Principal, New Ventures, my strongest fit; the other seats have their own tabs. The ask: a conversation with whoever owns that hire.",
+   "ARCS is a tool I built that keeps a dated record of each call and whether it came true."
+  ],
+  "bites_at": "end"
  },
  "tabs": [
   {
@@ -354,25 +398,25 @@
      "blocks": [
       {
        "type": "p",
-       "text": "Your Idea Engine post: agents write memos six times faster, not always usable. Each use below aims at that gap."
+       "text": "[Kyle's Idea Engine post](https://kylelibra.substack.com/p/how-to-find-startup-ideas): a good memo 6x faster than six months ago; the raw drafts are at times unusable. Each use below aims at the ones that don't make it."
       },
       {
        "type": "cards",
        "cards": [
         {
-         "title": "An alpha engine",
-         "ref": "Built: the record and the recheck.",
-         "text": "ARCS logs why each hatch was passed and rechecks it as markets move. A wrong pass becomes a lead, not a loss."
+         "title": "Why each hatch was passed, rechecked",
+         "ref": "Built: a dated record with a recheck date.",
+         "text": "You already say \"no right now\". I would write down what each one expects to see, so the recheck is a test. Not yet tried on a real pass list."
         },
         {
-         "title": "A risk-adjusted pipeline",
-         "ref": "Built: a conviction score on every decision.",
+         "title": "How sure, and what would kill it",
+         "ref": "Built: how sure I was, written down at the time.",
          "text": "Each hatch carries what the team expects, how sure it is, and what kills it. The pipeline reads by risk, not just excitement."
         },
         {
-         "title": "An anti-fragile test bench",
-         "ref": "Built: pre-registered tests, run once, failures published.",
-         "text": "Every kill test is written before it runs. A failed test still pays: the next thesis starts from what it ruled out."
+         "title": "Tests written before they run",
+         "ref": "Built: tests written before they run, run once, failures published.",
+         "text": "A failed test still pays: the next thesis starts from what it ruled out."
         }
        ]
       }
@@ -390,7 +434,7 @@
        "rows": [
         [
          "Early-stage startup experience",
-         "Co-founder, 2012 to 2016: $0 to profitable in 24 months. GM of a turnaround, 2010 to 2011: $4,500 to over $1M a month, acquired."
+         "Co-founder, 2012 to 2016: $0 to profitable in 24 months. GM of a video ad network, 2010 to 2011: $4,500 to over $1M a month."
         ],
         [
          "Crypto experience, a thesis not a meme",
@@ -410,7 +454,7 @@
         ],
         [
          "A high kill rate",
-         "In October I pre-registered a retrieval benchmark, ran it once, published every failure, and merged the one change that passed. Overturned beliefs live on a [public ledger](https://status.arcs.care/beliefs), each with its test."
+         "In October I wrote a retrieval benchmark before running it, ran it once, and kept every failure in the record (on request). Overturned beliefs are dated on a [public timeline](https://status.arcs.care/beliefs); the test behind each is on request."
         ]
        ]
       }
@@ -425,12 +469,12 @@
         {
          "title": "Coda Network: the riskiest assumption",
          "ref": "From the one-line description on your portfolio page; the team will know more.",
-         "text": "Banks will take crypto deposits once safety and compliance are solved, not hold back on appetite."
+         "text": "[Kyle's everything-bank post](https://kylelibra.substack.com/p/the-race-to-be-the-new-everything) puts net interest income at about 54% of JPM's Q4 2024 revenue. I'd test whether that, more than compliance, is what keeps banks from taking crypto deposits."
         },
         {
          "title": "The kill test: under two weeks, under $10k",
-         "ref": "Pre-registered before the first call.",
-         "text": "15 calls with bank digital-asset and compliance leads. Kill it if fewer than 2 will sign a pilot letter of intent. Opinions are cheap; signatures are not."
+         "ref": "Kill rule, written before any calls.",
+         "text": "15 calls with bank digital-asset and compliance leads; kill it if fewer than 2 will sign a pilot letter of intent. Opinions are cheap; signatures are not."
         }
        ]
       }
@@ -533,7 +577,7 @@
         ],
         [
          "A notable swing and miss",
-         "ARCS, my live swing: built since 2025, no revenue yet. If no one pays by 2027-03-31, it stops as a product and stays my working tool."
+         "ARCS, my live swing: built since 2025, this codebase since 2026-04-09, no revenue yet. If no one pays by 2027-03-31, it stops as a product and stays my working tool."
         ],
         [
          "Intellectual honesty",
@@ -552,17 +596,16 @@
         {
          "title": "Receipts for agent spend",
          "ref": "A hypothesis, not a pitch.",
-         "text": "A regulated stablecoin can be frozen, but not charged back, and nothing records what the user told the agent. Policy engines log which rule allowed a send, not what the agent expected or whether it came true. That gap is the wedge."
+         "text": "A stablecoin send has no chargeback, and stablecoin issuers freeze on legal process, not on a customer's complaint. Spend rules record what the agent was allowed to do. Nothing records what it expected or whether that came true. That second half is the wedge."
         },
         {
          "title": "First user, and why it is not built",
-         "ref": "My read; to test.",
-         "text": "Treasury or compliance leads at fintechs piloting agent payments. ARCS has the receipt and the one-way-door check, but no payment rails or design partner. Your stealth agentic payments company may already own this; I would ask first."
+         "text": "Treasury or compliance leads at fintechs piloting agent payments. ARCS already records what was decided and flags decisions that cannot be undone, but no payment rails or design partner. Your stealth agentic payments company may already own this; I would ask first."
         },
         {
          "title": "Kill it if",
-         "ref": "Pre-registered.",
-         "text": "Fewer than 3 of 15 teams piloting agent payments say the approval trail is what keeps them from going live."
+         "ref": "Kill rule, written before any calls.",
+         "text": "Fewer than 3 of 15 teams piloting agent payments say that not knowing what the agent expected, checked against what happened, keeps them from going live."
         }
        ]
       }
@@ -573,7 +616,7 @@
      "blocks": [
       {
        "type": "p",
-       "text": "I commit when an idea passes the kill criteria I wrote in week one and a named design partner agrees to pilot. If nothing survives by month six, you get the written kills. At one in thirty, that is data."
+       "text": "I commit when an idea passes the kill criteria I wrote in week one and a named design partner agrees to pilot. If nothing survives by month six, you get the written kills. At your roughly 1 in 30, a written walk is data too."
       }
      ]
     },
@@ -615,7 +658,7 @@
    "name": "Founder, Portfolio Company",
    "tagline": "The long game",
    "headline": "EIR first, then the keys.",
-   "lede": "Your page asks for a CEO or CTO of a hatch you have validated and funded, for five to ten years, with an outside raise in year one. An AI-native hatch needs a multi-hyphen chief more than a single title: product, tech and go-to-market in one seat.",
+   "lede": "Your page asks for a CEO or CTO of a hatch you have validated and funded, for five to ten years, with an outside raise in year one. I have covered product, engineering and sales in one seat before: co-founder once, GM of a video ad network once.",
    "units": [
     {
      "title": "30 / 90 / 180",
@@ -677,7 +720,7 @@
        "rows": [
         [
          "Repeat founder or senior fintech operator",
-         "A multi-hyphen chief across product, tech and go-to-market. Co-founder once, GM of a turnaround once, then Grayscale."
+         "Product, tech and go-to-market in one seat. Co-founder once, GM of a video ad network once, then Grayscale."
         ],
         [
          "Selling to sophisticated customers and investors",
@@ -745,11 +788,11 @@
      "blocks": [
       {
        "type": "p",
-       "text": "Most funds call it a deal desk. I would run it as an AI-native platform team that compounds: each memo, its kill criteria, the record of every call."
+       "text": "Most funds call it a deal desk. Mine would keep each memo, its kill criteria and the record of every call in one place."
       },
       {
        "type": "p",
-       "text": "Every pass is logged with its reasons and rechecked as markets move. A wrong pass surfaces before you miss the next one like it. The call stays yours, and comes faster."
+       "text": "Every pass would be logged with its reasons and a recheck date. The bet is that a recheck finds a pass worth reopening; the two-week test below says whether it does. The call stays yours."
       },
       {
        "type": "p",
