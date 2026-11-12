@@ -1,0 +1,54 @@
+{
+ "_source": "Read back via Sugar REST GET /rest/v11/Leads (Zapier connection chatbot #4, sandbox) at ~16:48 ET 2026-10-29. state_parse_failed: Sugar stores no such field; recorded as false when description/fields carry no fallback flag (description='Chatbot Lead' on all three). rc-callme-nonus-state re-read 21:24 ET after Zap v9: state_parse_failed=true because lead_source_description carries the flag. Superseded Pat Canuck lead ee447fe8 (v8, unflagged).",
+ "rc-callme-create": {
+  "id": "e6fac46c-d3d5-11f1-b035-0eb473bb02df",
+  "first_name": "Claude",
+  "last_name": "Testlead",
+  "account_name": "Claude Test Plastics",
+  "location_c": "OH",
+  "state_parse_failed": false,
+  "lead_source": "Chatbot",
+  "phone_work": "+1 860 555 0143",
+  "assigned_user_name": "Robert Spano",
+  "lead_ids_seen": [
+   "e6fac46c-d3d5-11f1-b035-0eb473bb02df",
+   "e6fac46c-d3d5-11f1-b035-0eb473bb02df"
+  ]
+ },
+ "rc-knowwhat-create": {
+  "id": "cab994f0-d3d9-11f1-a8b1-0a1ba8223c89",
+  "first_name": "Kim",
+  "last_name": "Testbuyer",
+  "account_name": "Testbuyer Lighting Inc",
+  "location_c": "TX",
+  "state_parse_failed": false,
+  "lead_source": "Chatbot",
+  "phone_work": "+1 512 555 0177",
+  "assigned_user_name": "Steve Fabrizius"
+ },
+ "rc-callme-nonus-state": {
+  "id": "922232ba-d400-11f1-99e0-0e784e0f5c27",
+  "first_name": "Pat",
+  "last_name": "Ontario",
+  "account_name": "Maple Polymers RC",
+  "location_c": "CA",
+  "state_parse_failed": true,
+  "lead_source_description": "State not recognized: 'Ontario' (routed to CA by default, please confirm)",
+  "lead_source": "Chatbot",
+  "phone_work": "+1 416 555 0199",
+  "assigned_user_name": "Lynn Winston",
+  "zap_version": "v9"
+ },
+ "rc-enrichment-real-person": {
+  "id": "6fa3b5f8-d3db-11f1-a0fa-0eca74d5e2ad",
+  "first_name": "Todd",
+  "last_name": "Hotes",
+  "account_name": "Polymer Resources",
+  "location_c": "CT",
+  "state_parse_failed": false,
+  "lead_source": "Chatbot",
+  "phone_work": "+1 860 555 0146",
+  "title": "Lead Captain",
+  "assigned_user_name": "Lynn Winston"
+ }
+}
