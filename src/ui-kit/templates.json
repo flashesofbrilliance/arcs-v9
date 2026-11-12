@@ -37,7 +37,7 @@
       "mode": "resume",
       "kind": "print-paper",
       "description": "Designed resume / CV print sheet (often a NOT-A-PALETTE light/paper surface). Signature selectors are intentionally empty until the first resume is enrolled and its shared class vocabulary is verified, so the gate checks only the tokens+mode binding for now and never false-fails on an unverified signature. Finalize signatures when enrolling the first resume (see README migration plan).",
-      "canonical_examples": ["public/vico-resume.html", "public/squad-resume.html"],
+      "canonical_examples": ["public/squad-resume.html"],
       "signature_selectors": [],
       "min_signatures": 0
     },

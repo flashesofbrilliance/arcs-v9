@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 290,
-  "hosts": 81,
+  "rows": 287,
+  "hosts": 80,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 231,
+   "product page": 228,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 28,
   "app_routes": 47,
   "missing_purpose": 6,
-  "unlisted": 113
+  "unlisted": 110
  },
  "retired_hosts": [
   "ahmed.arcs.care",
@@ -3271,7 +3271,7 @@
    "unlisted": false,
    "purpose": "Long-form forensic deep dives, each with a belief ledger scored before the outcome and re-scored against it. The calibration system, in public.",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-21"
   },
   {
    "host": "good.arcs.care",
@@ -3371,7 +3371,7 @@
    "unlisted": false,
    "purpose": "Release notes for 2026-10-20: 99 pull requests merged by one founder with a human-in-the-loop harness, what shipped, what broke, why it compounds, and an honest human-time estimate.",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-21"
   },
   {
    "host": "good.arcs.care",
@@ -4708,7 +4708,7 @@
    "unlisted": false,
    "purpose": "Zach Harris, one operator accountable end to end. Wall Street quality, no middle layer. Proof over promises: the work ships in the open.",
    "kind": "product page",
-   "last_commit": "2026-10-20"
+   "last_commit": "2026-10-21"
   },
   {
    "host": "resume.arcs.care",
@@ -5365,7 +5365,7 @@
    "unlisted": true,
    "purpose": "ARCS, built in the open since day zero: a live product that grades itself. Proof over promises, one commit at a time.",
    "kind": "status",
-   "last_commit": "2026-10-20"
+   "last_commit": "2026-10-21"
   },
   {
    "host": "status.arcs.care",
@@ -5466,7 +5466,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-20"
+   "last_commit": "2026-10-21"
   },
   {
    "host": "thetrueai.arcs.care",
@@ -5573,66 +5573,6 @@
    "purpose": "PRL Resins · Marketing Teardown · Todd Hotes",
    "kind": "product page",
    "last_commit": "2026-10-08"
-  },
-  {
-   "host": "vico.arcs.care",
-   "path": "/",
-   "catch_all": true,
-   "destination": "/vico.html",
-   "pattern": false,
-   "file": "public/vico.html",
-   "gate": null,
-   "gate_file": null,
-   "declared_in": [
-    "src/proxy.ts"
-   ],
-   "title": "Zach Harris × VICO · where the work overlaps",
-   "description": null,
-   "index": "noindex",
-   "unlisted": true,
-   "purpose": "Zach Harris × VICO · where the work overlaps",
-   "kind": "product page",
-   "last_commit": "2026-10-08"
-  },
-  {
-   "host": "vico.arcs.care",
-   "path": "/ammo",
-   "catch_all": false,
-   "destination": "/vico-ammo.html",
-   "pattern": false,
-   "file": "public/vico-ammo.html",
-   "gate": null,
-   "gate_file": null,
-   "declared_in": [
-    "src/proxy.ts"
-   ],
-   "title": "The Deeper Case · Zach Harris",
-   "description": null,
-   "index": "noindex, nofollow",
-   "unlisted": true,
-   "purpose": "The Deeper Case · Zach Harris",
-   "kind": "product page",
-   "last_commit": "2026-10-08"
-  },
-  {
-   "host": "vico.arcs.care",
-   "path": "/resume",
-   "catch_all": false,
-   "destination": "/vico-resume.html",
-   "pattern": false,
-   "file": "public/vico-resume.html",
-   "gate": null,
-   "gate_file": null,
-   "declared_in": [
-    "src/proxy.ts"
-   ],
-   "title": "Zach Harris · Engineering Leadership · Vico",
-   "description": null,
-   "index": "noindex",
-   "unlisted": true,
-   "purpose": "Zach Harris · Engineering Leadership · Vico",
-   "kind": "product page",
-   "last_commit": "2026-10-17"
   },
   {
    "host": "vishal.arcs.care",

@@ -22,9 +22,7 @@ const SUBDOMAIN_MAP: Record<string, string> = {
 const AMMO_HOSTS: Record<string, { ammoFile: string; gateFile: string }> = {
   'schriner':  { ammoFile: '/schriner-ammo.html',  gateFile: '/schriner-gate.html' },
   'autopilot': { ammoFile: '/autopilot-ammo.html', gateFile: '/autopilot-gate.html' },
-  // vico intentionally un-gated (2026-09-23): its /ammo "deeper case" is now
-  // open, routed by the ungated MULTI_PATH_MAP['vico'] entry below. vico-gate.html
-  // was deleted from public/ on 2026-10-07 (unrouted public-file audit).
+  // vico retired 2026-10-21: the host answers 410 Gone near the top of this middleware.
 }
 
 // Hosts with more than one static destination (a reserved sub-path plus a
@@ -71,7 +69,6 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // schriner.arcs.care is left live and unchanged so any link Joe already has
   // keeps working; these are additive, not a migration.
   'autopilot': { '/resume': '/autopilot-resume-viewer.html', '/autopilot-resume.pdf': '/autopilot-resume.pdf', '/autopilot-resume-ats.txt': '/autopilot-resume-ats.txt', '/ammo': '/autopilot-ammo.html', default: '/autopilot.html' },
-  'vico':      { '/resume': '/vico-resume.html', '/ammo': '/vico-ammo.html', default: '/vico.html' },
   'todd-call': { '/teardown': '/todd-teardown.html', default: '/todd-call.html' },
   'julia':     { '/runtime': '/julia-runtime.html', default: '/julia.html' },
   'ahmed-ext': { '/report': '/ahmed-ext.html', '/evening': '/ahmed-evening.html', '/seed': '/ahmed-seed.html', default: '/ahmed.html' },
@@ -127,6 +124,12 @@ export default async function proxy(request: NextRequest) {
 
   const hostname = request.headers.get('host') || ''
   const sub = hostname.split('.')[0]
+
+  // vico.arcs.care retired 2026-10-21 (Zach closed VICO as a pass). The host answers 410 Gone
+  // so it does not fall through to the root app. schriner.arcs.care/vico stays up on purpose.
+  if (sub === 'vico') {
+    return new NextResponse('Gone', { status: 410, headers: { 'content-type': 'text/plain; charset=utf-8' } })
+  }
 
   // --- lewoof.arcs.care: whole host behind the shared passcode ----------------
   // The playbook holds partner deal terms and the intake page holds a
