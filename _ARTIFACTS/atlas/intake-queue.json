@@ -1,0 +1,1081 @@
+{
+ "spec": "scripts/reading_room_sync.py",
+ "note": "judgment queue: curate into a digest, then re-render",
+ "sources": [
+  "_DECISIONS/ADR-*.md",
+  "runtime/recoil/generated/*",
+  "_PATTERNS/*.md"
+ ],
+ "rows": [
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/prl-lyro",
+   "added": "unknown (rename)"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-19-jtbd-graph-preregistration-amendment-5.md",
+   "added": "unknown (rename)"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-081-kairos-detector-attractor-basin-condenser.md",
+   "added": "unknown (rename)"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-080-instance-to-class-self-promotion-build-loop.md",
+   "added": "unknown (rename)"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-079-refusal-to-overclaim-is-the-product.md",
+   "added": "unknown (rename)"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-078-exogenous-forge.md",
+   "added": "unknown (rename)"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-076-mcp-led-growth-attribution-wedge.md",
+   "added": "unknown (rename)"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-060-hypercube-gauntlet-arc-weld.md",
+   "added": "unknown (rename)"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-059-sage-signal-validation-path.md",
+   "added": "unknown (rename)"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-058-CALIBRATE-IDEA-Construction.md",
+   "added": "unknown (rename)"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-049-anonymous-receipt-remediation.md",
+   "added": "unknown (rename)"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-048-secrets-inventory-rotation.md",
+   "added": "unknown (rename)"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-026-debrief-delivery-fix.md",
+   "added": "unknown (rename)"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-093-counterpart-citation-needs-consent-on-record.md",
+   "added": "2026-11-04"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-11-02-card-catalog-sweep-prereg.md",
+   "added": "2026-11-02"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-11-01-harness-flight-manual.md",
+   "added": "2026-11-01"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-092-backlog-rows-only-through-the-append-script.md",
+   "added": "2026-10-31"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-091-mac-only-commits-backed-up-as-backup-refs.md",
+   "added": "2026-10-31"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-090-public-rfp-engine-repo-main-is-the-clean-work-sample.md",
+   "added": "2026-10-31"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-30-readme-to-video-resonance-rules.md",
+   "added": "2026-10-30"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-10-29-gasmi.json",
+   "added": "2026-10-29"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-10-29-cia-lederman.json",
+   "added": "2026-10-29"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-24-phosphor-child-session-outcomes.md",
+   "added": "2026-10-24"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/adr-dewy-candidate-watcher.md",
+   "added": "2026-10-23"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-23-strudel-for-phosphor-research-brief.md",
+   "added": "2026-10-23"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-23-strudel-for-phosphor-decision-note.md",
+   "added": "2026-10-23"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-23-phosphor-pattern-box-clean-room-log.md",
+   "added": "2026-10-23"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-20-throughput-preregistration.md",
+   "added": "2026-10-20"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-20-self-hosted-runner.md",
+   "added": "2026-10-20"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-20-jtbd-system-architecture.md",
+   "added": "2026-10-20"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-20-jtbd-s5-preregistration.md",
+   "added": "2026-10-20"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-20-jtbd-graph-preregistration-amendment-9.md",
+   "added": "2026-10-20"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-20-jtbd-graph-preregistration-amendment-8.md",
+   "added": "2026-10-20"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-20-jtbd-graph-preregistration-amendment-7.md",
+   "added": "2026-10-20"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-20-jtbd-graph-preregistration-amendment-6.md",
+   "added": "2026-10-20"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-20-jtbd-graph-preregistration-amendment-10.md",
+   "added": "2026-10-20"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-20-jtbd-baseline-burndown-rule.md",
+   "added": "2026-10-20"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-20-gravity-well-polarize-findings.md",
+   "added": "2026-10-20"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-19-jtbd-s4-labelled-queries.md",
+   "added": "2026-10-19"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-19-jtbd-graph-preregistration-amendment-4.md",
+   "added": "2026-10-19"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-18-wave0-decision-cards.md",
+   "added": "2026-10-18"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-18-studio-realtime-frames-prereg.md",
+   "added": "2026-10-18"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-18-studio-offline-renderer-prereg.md",
+   "added": "2026-10-18"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-18-studio-lyrics-captions-prereg.md",
+   "added": "2026-10-18"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-18-studio-drive-slice2-prereg.md",
+   "added": "2026-10-18"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-18-studio-drive-prereg.md",
+   "added": "2026-10-18"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-18-provenance-retrieval-results.md",
+   "added": "2026-10-18"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-18-provenance-retrieval-prereg.md",
+   "added": "2026-10-18"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-18-phosphor-real-device-protocol.md",
+   "added": "2026-10-18"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-18-jtbd-s1-mined-job-rule.md",
+   "added": "2026-10-18"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-18-jtbd-graph-preregistration.md",
+   "added": "2026-10-18"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-18-jtbd-graph-preregistration-amendment-3.md",
+   "added": "2026-10-18"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-18-jtbd-graph-preregistration-amendment-2.md",
+   "added": "2026-10-18"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-18-jtbd-graph-preregistration-amendment-1.md",
+   "added": "2026-10-18"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-18-assembly-line-choreography.md",
+   "added": "2026-10-18"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-18-analysis-frame-v1.md",
+   "added": "2026-10-18"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-18-algo-andy-mark.md",
+   "added": "2026-10-18"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-089-jtbd-graph-schema-and-stable-ids.md",
+   "added": "2026-10-18"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-10-16-concourse.json",
+   "added": "2026-10-17"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-17-tag-exemplar.md",
+   "added": "2026-10-17"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-17-phosphor-journey-and-hardening.md",
+   "added": "2026-10-17"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-17-ledger-score-baseline-prereg.md",
+   "added": "2026-10-17"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-17-claims-versus-proof.md",
+   "added": "2026-10-17"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-088-librarian-anticipation-hook.md",
+   "added": "2026-10-17"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-10-13-suttie.json",
+   "added": "2026-10-16"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-15-unearned-sharpness-detector.md",
+   "added": "2026-10-15"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-15-ui-kit-compounding-sweep.md",
+   "added": "2026-10-15"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-15-tier-fit-goldilocks.md",
+   "added": "2026-10-15"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-15-tao-silkscreen-prints.md",
+   "added": "2026-10-15"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-15-sibling-edge-root-cause.md",
+   "added": "2026-10-15"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-15-sequencer-5d-prereg.md",
+   "added": "2026-10-15"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-15-phosphor-visualizer-prereg.md",
+   "added": "2026-10-15"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-15-kid-play-surface-pattern.md",
+   "added": "2026-10-15"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-15-cyan-linking-structure-audit.md",
+   "added": "2026-10-15"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-15-clair-de-lune-xo-prereg.md",
+   "added": "2026-10-15"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-15-bitcrush-woodblock-prereg.md",
+   "added": "2026-10-15"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-15-arcade-time-machine-earned-fidelity.md",
+   "added": "2026-10-15"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-087-animation-as-a-timeline-over-a-recipe.md",
+   "added": "2026-10-15"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-086-two-pass-backlog-induction.md",
+   "added": "2026-10-15"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-10-08-myallyld.json",
+   "added": "2026-10-09"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-10-08-myallyld-jacobson-starks.md",
+   "added": "2026-10-09"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-06-api-spend-audit.md",
+   "added": "2026-10-06"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-08-13-umbrella-dunford-positioning-canvas.md",
+   "added": "2026-10-06"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-085-main-write-lock-and-hot-file-leases.md",
+   "added": "2026-10-06"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-04-linkedin-creator-playbooks-welsh-bloom.md",
+   "added": "2026-10-04"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-10-03-oh-vico.json",
+   "added": "2026-10-03"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-03-stopped-light-quantum-memory-isomorphisms.md",
+   "added": "2026-10-03"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-10-03-repo-intent-block.md",
+   "added": "2026-10-03"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-084-reliance-not-trust-public-surfaces.md",
+   "added": "2026-10-03"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-09-29-jarrod-wolf-success-academy.json",
+   "added": "2026-09-29"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-09-28-merrin.json",
+   "added": "2026-09-28"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/slop-free-rubric.md",
+   "added": "2026-09-26"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-09-26-ui-kit-migration-plan.md",
+   "added": "2026-09-26"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-09-26-public-projection-factory.md",
+   "added": "2026-09-26"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-09-26-impeccable-detector-upstream-report.md",
+   "added": "2026-09-26"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-083-ui-kit-atomic-ssot-and-component-source-gate.md",
+   "added": "2026-09-26"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/prod-migrate-baseline-runbook.md",
+   "added": "2026-09-24"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-09-16-louisville-brooks-SSOT-handoff.md",
+   "added": "2026-09-17"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-09-15-todd-prl.json",
+   "added": "2026-09-17"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-09-15-brooks-louisville.json",
+   "added": "2026-09-17"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-09-15-amy-recruithaus.json",
+   "added": "2026-09-17"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-09-14-schriner.json",
+   "added": "2026-09-17"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-09-16-louisville-serialization.md",
+   "added": "2026-09-16"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-09-15-brooks.json",
+   "added": "2026-09-16"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-09-14-jack-dille-rain.json",
+   "added": "2026-09-14"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/design-moodboard.md",
+   "added": "2026-09-13"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/kintsugi-visual-grammar-seams.md",
+   "added": "2026-09-11"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-09-11-compression-anchor-rag-pattern.md",
+   "added": "2026-09-11"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-09-08-frustration-gate-pattern.md",
+   "added": "2026-09-08"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-077-prime-invariant-reverse-jtbd-magnetize-the-tool.md",
+   "added": "2026-09-08"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-08-28-kinexys.json",
+   "added": "2026-08-29"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-08-29-ventriloquy-pathogen-investigation.md",
+   "added": "2026-08-29"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-08-29-adr-033-registry-parity-sweep.md",
+   "added": "2026-08-29"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-08-27-140-day-recoil.json",
+   "added": "2026-08-27"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-08-26-prl-close-out-session.md",
+   "added": "2026-08-27"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-08-23-sean-wing.json",
+   "added": "2026-08-23"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-08-23-scott-cut.json",
+   "added": "2026-08-23"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-08-21-scott-witt.json",
+   "added": "2026-08-23"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-08-23-verb-altitude-gate-matrix.md",
+   "added": "2026-08-23"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-064-external-corroboration-milestone-gate.md",
+   "added": "2026-08-16"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-063-public-goods-connector-visual-family.md",
+   "added": "2026-08-16"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-061-verify-flags-against-full-source.md",
+   "added": "2026-08-16"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-08-14-kam-recoil.json",
+   "added": "2026-08-14"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-050-federated-family-airgap.md",
+   "added": "2026-08-11"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-23-kleban-diamond.json",
+   "added": "2026-08-09"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-08-05-daniels-receipt.json",
+   "added": "2026-08-07"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-08-05-daniels-profile.json",
+   "added": "2026-08-07"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-08-05-daniels-onedoor.json",
+   "added": "2026-08-07"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-08-05-daniels-codex.json",
+   "added": "2026-08-07"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-23-kleban-receipt.json",
+   "added": "2026-08-07"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-23-kleban-profile.json",
+   "added": "2026-08-07"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-23-kleban-onedoor.json",
+   "added": "2026-08-07"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-23-kleban-codex.json",
+   "added": "2026-08-07"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/receipt-studio-integration-scope.md",
+   "added": "2026-08-07"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/forge-pipeline-handoff.md",
+   "added": "2026-08-07"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-08-05-kleban-enriched-profile.json",
+   "added": "2026-08-05"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/prl-territory-map.csv",
+   "added": "2026-08-04"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-08-04-sugar-deep-dive-clarifications.md",
+   "added": "2026-08-04"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/prl_lyro_eval.py",
+   "added": "2026-08-03"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-08-03-todd-vision-serialization.md",
+   "added": "2026-08-03"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-08-03-todd-lyro-ai-layer-v2.md",
+   "added": "2026-08-03"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-31-daniel-tidio.json",
+   "added": "2026-08-03"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-08-01-brand-promise-dewy.json",
+   "added": "2026-08-01"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-31-shannon.json",
+   "added": "2026-08-01"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-31-delaney-forkgrade.json",
+   "added": "2026-08-01"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-08-01-nonlinear-thread-meta-audit.md",
+   "added": "2026-08-01"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-040-debrief-calendar-invite-vs-email.md",
+   "added": "2026-08-01"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-31-delaney.json",
+   "added": "2026-07-31"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/prl_tidio_flow_gen.py",
+   "added": "2026-07-30"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/prl-chatbot-NEW-PROJECT-CLAUDE.md",
+   "added": "2026-07-30"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-30-todd-tidio-voice-script-v1.md",
+   "added": "2026-07-30"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-30-todd-tidio-triggers-and-picker-v1.md",
+   "added": "2026-07-30"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-30-todd-tidio-deploy-integration-handoff.md",
+   "added": "2026-07-30"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-30-todd-tidio-build-sheet-v1.md",
+   "added": "2026-07-30"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-30-todd-personas-routing-persona-v1.md",
+   "added": "2026-07-30"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-30-todd-MASTER-HANDOFF.md",
+   "added": "2026-07-30"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-23-warroom-sample.json",
+   "added": "2026-07-23"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-23-kleban.json",
+   "added": "2026-07-23"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-23-kleban-recoil.json",
+   "added": "2026-07-23"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-23-kleban-ext.json",
+   "added": "2026-07-23"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-20-todd-chatbot-branch-logic-v1.md",
+   "added": "2026-07-23"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-22-kim-multicall.json",
+   "added": "2026-07-22"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-22-elsamadisi.json",
+   "added": "2026-07-22"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/precall-todd-hotes-2026-07-20.json",
+   "added": "2026-07-20"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-20-joe-kim-hypelab-serialization.json",
+   "added": "2026-07-20"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-20-hotes.json",
+   "added": "2026-07-20"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/workflow-cost-ledger.md",
+   "added": "2026-07-19"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/sentinel-rebuild-spec.md",
+   "added": "2026-07-19"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/public-repo-exposure-audit.md",
+   "added": "2026-07-19"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/jtbd-orchestration-map.md",
+   "added": "2026-07-19"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/durable-gotchas.md",
+   "added": "2026-07-19"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-07-19-token-efficiency-audit.md",
+   "added": "2026-07-19"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-07-19-threat-assessment.md",
+   "added": "2026-07-19"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-07-19-tech-debt-batch.md",
+   "added": "2026-07-19"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-07-19-out-of-band-actions.md",
+   "added": "2026-07-19"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/precall-chan-suh-2026-07-17.json",
+   "added": "2026-07-17"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/precall-ayesha-khan-toronto-2026-07-17.json",
+   "added": "2026-07-17"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-17-chan-suh.json",
+   "added": "2026-07-17"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-17-ayesha-khan-toronto.json",
+   "added": "2026-07-17"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/precall-danny-2026-07-16.json",
+   "added": "2026-07-16"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-16-padma-jalaja.json",
+   "added": "2026-07-16"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-16-danny.json",
+   "added": "2026-07-16"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-16-criley.json",
+   "added": "2026-07-16"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/precall-cassandra-riley-2026-07-15.json",
+   "added": "2026-07-15"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-15-jeben.json",
+   "added": "2026-07-15"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-15-hila-lewoof-faire.json",
+   "added": "2026-07-15"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-07-13-frontend-monetization-queue.md",
+   "added": "2026-07-15"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-07-11-alexandria-principles.md",
+   "added": "2026-07-15"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-07-10-quiet-signals.md",
+   "added": "2026-07-15"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-07-10-landing-page-optimization-master.md",
+   "added": "2026-07-15"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-07-10-formalization-backlog.md",
+   "added": "2026-07-15"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-07-10-atomic-surface-map.md",
+   "added": "2026-07-15"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/precall-james-trainor-2026-07-13.json",
+   "added": "2026-07-13"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/pilot-court-todd-hotes-2026-07-13.json",
+   "added": "2026-07-13"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-13-james-trainor.json",
+   "added": "2026-07-13"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-13-christopher.json",
+   "added": "2026-07-13"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-07-13-dual-audit-reconciliation.md",
+   "added": "2026-07-13"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-07-11-operator20-archaeology.md",
+   "added": "2026-07-11"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-10-jeben-louisville-serialization.json",
+   "added": "2026-07-10"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-09-daniel.json",
+   "added": "2026-07-10"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-09-labella.json",
+   "added": "2026-07-09"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-06-25-lamontagne.json",
+   "added": "2026-07-02"
+  },
+  {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-07-01-masopust.json",
+   "added": "2026-07-01"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-031-design-system-reconciliation.md",
+   "added": "2026-06-30"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-030-nested-thread-view.md",
+   "added": "2026-06-29"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-029-onboarding-profile-upload.md",
+   "added": "2026-06-25"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-06-24-profile-scan-tei-budget.md",
+   "added": "2026-06-24"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-028-scan-arcs-care-staging.md",
+   "added": "2026-06-24"
+  },
+  {
+   "kind": "adr",
+   "path": "_DECISIONS/ADR-027-observatory-substrate-seed.md",
+   "added": "2026-06-24"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-06-23-s-tier-execution-plan.md",
+   "added": "2026-06-23"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-06-23-prose-rule-enforcement-audit.md",
+   "added": "2026-06-23"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-06-23-governance-roadmap.md",
+   "added": "2026-06-23"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/two-surface-protocol.md",
+   "added": "2026-06-03"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/session-post-mortem-2026-06-03.md",
+   "added": "2026-06-03"
+  }
+ ]
+}
