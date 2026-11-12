@@ -1,0 +1,336 @@
+{
+  "_about": "Source of truth for resume.arcs.care/proof and /proof/claims.json. Rendered by scripts/proof_emit.py; never edit public/proof.html or public/proof-claims.json by hand. Every claim carries a status: shown (a public record anyone can open), on-request (a real record that is private: employer data or the private repo; references available), not-yet (no record yet). A claim with status shown must carry a url. Falsification entries are read by id from _STATE/falsification-ledger.jsonl.",
+  "subject": "Zach Harris",
+  "as_of": "2026-11-03",
+  "profile": "https://zach.md",
+  "same_as": [
+    "https://www.linkedin.com/in/zharris",
+    "https://github.com/flashesofbrilliance",
+    "https://zachharris.xyz",
+    "https://resume.arcs.care"
+  ],
+  "statuses": {
+    "shown": "A public record anyone can open.",
+    "on-request": "A real record that is private (employer data or a private repository). References available.",
+    "not-yet": "No record yet. Listed so the gap is visible."
+  },
+  "questions": [
+    {
+      "id": "build",
+      "ask": "Can he build and ship?",
+      "answer": "Yes. Solo, in production, with a dated record of the work.",
+      "claims": [
+        {
+          "id": "arcs-live",
+          "claim": "Built ARCS, a decision intelligence platform on Claude, and runs it in production.",
+          "status": "shown",
+          "evidence": "The live app, and a status page that measures the build from the repository itself.",
+          "date": "2026-10-30",
+          "url": "https://status.arcs.care",
+          "label": "status.arcs.care"
+        },
+        {
+          "id": "commits",
+          "claim": "5,700+ commits on main since April 2026, counted live.",
+          "status": "shown",
+          "evidence": "Live pulse JSON from the production app: commitsTotal 5,713 at 05:10 UTC.",
+          "date": "2026-10-30",
+          "url": "https://app.arcs.care/api/pulse",
+          "label": "app.arcs.care/api/pulse"
+        },
+        {
+          "id": "ninety-nine",
+          "claim": "99 pull requests merged in one day, a human approving every one.",
+          "status": "shown",
+          "evidence": "Release notes for the day: what shipped, what broke, and an honest human-time estimate.",
+          "date": "2026-10-20",
+          "url": "https://good.arcs.care/blog/til/one-day-99-merges",
+          "label": "One Day, 99 Merges"
+        },
+        {
+          "id": "prs",
+          "claim": "1,580+ pull requests merged, each approved by a human and receipted.",
+          "status": "on-request",
+          "evidence": "GitHub merged-PR count, 1,581 on 2026-10-29. The repository is private.",
+          "date": "2026-10-29"
+        },
+        {
+          "id": "open-tools",
+          "claim": "Publishes open, MIT-licensed tools built for his own work.",
+          "status": "shown",
+          "evidence": "germinate, a provenance-carrying handoff protocol for multi-agent work, and resume-tailor, a Claude Code skill for honest resumes.",
+          "date": "2026-10-30",
+          "url": "https://good.arcs.care",
+          "label": "good.arcs.care"
+        }
+      ]
+    },
+    {
+      "id": "stakes",
+      "ask": "Can he operate where mistakes are expensive?",
+      "answer": "Yes. SEC, FINRA, HIPAA and GDPR environments, with outcomes to match.",
+      "claims": [
+        {
+          "id": "grayscale",
+          "claim": "Grayscale: ran ten SEC and FINRA regulated products, a $7B portfolio; cut release-cycle time 35 percent with zero violations.",
+          "status": "on-request",
+          "evidence": "Employer record, 2024 to 2025. References available.",
+          "date": "2025"
+        },
+        {
+          "id": "squat",
+          "claim": "Led a PE turnaround's patient journey rebuild for a $350M ARR, 3,500+ clinic medical program under HIPAA: qualified leads up 40 percent, program adherence at 73 percent.",
+          "status": "shown",
+          "evidence": "Ideal Protein, via Squat New York, 2019 to 2020: research through relaunch, a two-step qualification flow, accessibility and HIPAA-safe forms. Booking success within five miles up 63 percent; website NPS up 23 points. Condensed from an 18-slide deck that was confidential while the company was a PE holding.",
+          "date": "2020",
+          "url": "https://www.arcs.care/case-study",
+          "label": "Ideal Protein growth case"
+        },
+        {
+          "id": "guardrails",
+          "claim": "Per-tenant database roles with row-level security that fail closed.",
+          "status": "on-request",
+          "evidence": "In the private repository; walkthrough on request.",
+          "date": "2026-10-30"
+        },
+        {
+          "id": "gates",
+          "claim": "Turns a recurring bug into a gate that fails the build on the whole class, not just the instance.",
+          "status": "shown",
+          "evidence": "A recurring bug becomes a gate, a misattribution becomes a named pathogen, and the detector's first true positive lands on the document it was built to protect.",
+          "date": "2026-08-30",
+          "url": "https://good.arcs.care/blog/nftt/post-4",
+          "label": "NFTT Post 4"
+        },
+        {
+          "id": "take-home-trap",
+          "claim": "Spotted a state-sponsored fake-recruiter malware lure, dissected it for defenders, and built a scanner from it.",
+          "status": "shown",
+          "evidence": "The DPRK Famous Chollima (G1052) operation delivering BeaverTail and InvisibleFerret: the matched-pair account, a detection and response dossier, and sbom-payload-scan, which checks an unknown repo's dependencies for payloads before anything runs.",
+          "date": "2026-09-02",
+          "url": "https://good.arcs.care/blog/nftt/take-home-trap/dossier",
+          "label": "The Take-Home Trap: dossier"
+        },
+        {
+          "id": "outage",
+          "claim": "Found a six-week silent production outage in his own product, fixed it, and published how.",
+          "status": "shown",
+          "evidence": "A migration shipped in code but never reached production, breaking every saved decision for six weeks.",
+          "date": "2026-09-24",
+          "url": "https://good.arcs.care/blog/nftt/the-question-that-found-the-outage",
+          "label": "The Question That Found the Outage"
+        },
+        {
+          "id": "rfp-engine",
+          "claim": "Built an open RFP answering engine that cites the exact clause or says \"not covered\", and published its miss.",
+          "status": "shown",
+          "evidence": "Measured 2026-10-29 and 10-30: 5 of 5 deterministic cases pass through the MCP server, 8 of 8 injected faults caught. One real-model run of 24 questions came back 11 correct, 12 withheld, 1 wrong against a target of 0 wrong; the page says the target was missed.",
+          "date": "2026-10-30",
+          "url": "https://good.arcs.care/rfp-engine",
+          "label": "good.arcs.care/rfp-engine"
+        }
+      ]
+    },
+    {
+      "id": "evidence",
+      "ask": "Does he change his mind when the evidence says so?",
+      "answer": "Yes, and he keeps the record: every belief that broke, the test that broke it, and what replaced it.",
+      "claims": [
+        {
+          "id": "beliefs",
+          "claim": "42 beliefs logged as overturned, each with the test that overturned it.",
+          "status": "shown",
+          "evidence": "A public falsification ledger. Three of the entries:",
+          "date": "2026-09-29",
+          "url": "https://status.arcs.care/beliefs",
+          "label": "status.arcs.care/beliefs",
+          "ledger": [
+            "F14",
+            "F26",
+            "F25"
+          ]
+        },
+        {
+          "id": "liabilities",
+          "claim": "Books his own errors: 14 false receipts the system caught against itself in one week.",
+          "status": "shown",
+          "evidence": "A system that only counts what it built is keeping half a book.",
+          "date": "2026-09-07",
+          "url": "https://good.arcs.care/blog/nftt/assets-and-liabilities",
+          "label": "Assets and Liabilities"
+        },
+        {
+          "id": "calibration",
+          "claim": "Makes dated public predictions and checks them against what happened.",
+          "status": "shown",
+          "evidence": "Three dated calls about Apple, scored against the outcome.",
+          "date": "2026-09-11",
+          "url": "https://good.arcs.care/blog/nftt/closing-the-loop-receipts",
+          "label": "Closing the Loop"
+        },
+        {
+          "id": "seven-calls",
+          "claim": "Published seven market calls with their falsifiers stated up front, then scored them, two corrections owned in public.",
+          "status": "shown",
+          "evidence": "What held, what missed, and one move the calls only partly explain. Misses stay on the record.",
+          "date": "2026-10-06",
+          "url": "https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers",
+          "label": "Seven Calls, Seven Falsifiers"
+        },
+        {
+          "id": "apple-openai",
+          "claim": "Ran a belief ledger in public: twelve pieces written before a lawsuit existed, read against the complaint once it was filed.",
+          "status": "shown",
+          "evidence": "The calibration system applied to a real case, forward in time.",
+          "date": "2026-09-23",
+          "url": "https://good.arcs.care/blog/til/apple-openai",
+          "label": "TIL: Apple and OpenAI"
+        },
+        {
+          "id": "slop",
+          "claim": "Takes hard feedback from strangers: a recruiter called his resume AI slop, and he agreed.",
+          "status": "shown",
+          "evidence": "Notes on the review nobody on your own team can give you.",
+          "date": "2026-09-30",
+          "url": "https://good.arcs.care/blog/nftt/any-stranger-can-be-a-bar-raiser",
+          "label": "Any Stranger Can Be a Bar Raiser"
+        },
+        {
+          "id": "honest",
+          "claim": "Built a five-step check that stamps go or stop on a message before it is sent; it runs in the browser and uploads nothing.",
+          "status": "shown",
+          "evidence": "The public tool, with its limits stated on the page.",
+          "date": "2026-09-29",
+          "url": "https://honest.arcs.care",
+          "label": "honest.arcs.care"
+        }
+      ]
+    },
+    {
+      "id": "open",
+      "ask": "Does he work in the open?",
+      "answer": "Yes. The build, the mistakes and the lessons are published as they happen, with dates.",
+      "claims": [
+        {
+          "id": "nftt",
+          "claim": "{nftt_count} Notes from the Trenches posts since {nftt_first}: what building ARCS taught him, with the receipts.",
+          "status": "shown",
+          "evidence": "Every post carries a frozen publish timestamp taken from the commit that routed it.",
+          "date": "{nftt_last}",
+          "url": "https://good.arcs.care/blog/nftt",
+          "label": "Notes from the Trenches"
+        },
+        {
+          "id": "til",
+          "claim": "Long-form deep dives with a belief ledger scored before the outcome and re-scored against it.",
+          "status": "shown",
+          "evidence": "Today I Learned: forensic reads, each with its predictions written down first.",
+          "date": "2026-10-20",
+          "url": "https://good.arcs.care/blog/til",
+          "label": "Today I Learned"
+        },
+        {
+          "id": "status-open",
+          "claim": "Built in public since day zero: the live build status is measured from the repository, not written by hand.",
+          "status": "shown",
+          "evidence": "Commits, days and milestones, each tied to a real commit.",
+          "date": "2026-10-30",
+          "url": "https://status.arcs.care",
+          "label": "status.arcs.care"
+        }
+      ]
+    },
+    {
+      "id": "commercial",
+      "ask": "Does the work turn into revenue?",
+      "answer": "Yes. Revenue built from zero more than once.",
+      "claims": [
+        {
+          "id": "selectable",
+          "claim": "Grew a video ad network from $4,500 to more than $1M a month, and net operating margin by 25 percent.",
+          "status": "on-request",
+          "evidence": "General Manager, Selectable Media, 2010 to 2011.",
+          "date": "2011"
+        },
+        {
+          "id": "wta",
+          "claim": "Closed the WTA's first commercial data partnerships, with Twitter and Facebook: $850K in year one.",
+          "status": "on-request",
+          "evidence": "Head of Product and Strategic Partnerships, 2016 to 2018.",
+          "date": "2018"
+        },
+        {
+          "id": "ctf",
+          "claim": "Rebuilt a foundation's CRM and customer data into one source of truth; net-new revenue up 20 percent.",
+          "status": "on-request",
+          "evidence": "Senior Director, Data and Strategy, Children's Tumor Foundation, 2018 to 2019.",
+          "date": "2019"
+        },
+        {
+          "id": "ibrshop",
+          "claim": "Co-founded a direct-to-consumer brand: zero to profitability and more than $2M revenue in 24 months.",
+          "status": "on-request",
+          "evidence": "Co-founder, IBRShop, 2012 to 2016.",
+          "date": "2016"
+        },
+        {
+          "id": "audit-offer",
+          "claim": "Packaged the method as a fixed-price offer: an audit of whether a cold reader can rebuild what a team's AI agents did from the record alone.",
+          "status": "shown",
+          "evidence": "The offer page. A productized method, not a revenue figure.",
+          "date": "2026-09-26",
+          "url": "https://good.arcs.care/audit",
+          "label": "Agent Receipts Audit"
+        }
+      ]
+    },
+    {
+      "id": "agents",
+      "ask": "How does he work with AI agents?",
+      "answer": "As the one who governs them: agents do the work, a human approves it, and every failure becomes a rule.",
+      "claims": [
+        {
+          "id": "draft-not-verb",
+          "claim": "When an agent sent two emails nobody asked for, he published its account and turned it into a standing rule.",
+          "status": "shown",
+          "evidence": "Never treat your own inference as authorization.",
+          "date": "2026-09-24",
+          "url": "https://good.arcs.care/blog/nftt/a-draft-is-not-a-verb",
+          "label": "A Draft Is Not a Verb"
+        },
+        {
+          "id": "cold-reconstruction",
+          "claim": "Tested whether a second agent, never present, could rebuild an incident from the committed record alone, then ran a controlled cold-versus-warm experiment.",
+          "status": "shown",
+          "evidence": "What the cold reader could not rebuild turned out to be the real finding; the warm reader with the participant's memory did not corrupt the record, it changed something stranger.",
+          "date": "2026-09-25",
+          "url": "https://good.arcs.care/blog/nftt/the-control-and-the-experiment",
+          "label": "The Control and the Experiment"
+        },
+        {
+          "id": "parallel-sessions",
+          "claim": "Runs agent sessions in parallel and publishes where that breaks: two sessions fixed the same bug an hour apart, and the protocol meant to stop it never fired.",
+          "status": "shown",
+          "evidence": "The account of the collision and the lock that was already there.",
+          "date": "2026-09-13",
+          "url": "https://good.arcs.care/blog/nftt/the-lock-that-was-already-there",
+          "label": "The Lock That Was Already There"
+        },
+        {
+          "id": "blind-test",
+          "claim": "Graph retrieval over his tool catalog beat the flat catalog 16 of 18 to 6 of 18 in a pre-registered blind test.",
+          "status": "on-request",
+          "evidence": "Pre-registration and raw results in the private repository.",
+          "date": "2026-10-20"
+        },
+        {
+          "id": "scoring-accuracy",
+          "claim": "ARCS's decision scoring is accurate.",
+          "status": "not-yet",
+          "evidence": "Each decision is scored when made and closed against its outcome. Not enough outcomes have closed to publish an accuracy figure, so none is claimed.",
+          "date": "2026-10-30"
+        }
+      ]
+    }
+  ]
+}

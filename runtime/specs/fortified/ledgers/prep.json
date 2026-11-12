@@ -1,0 +1,544 @@
+{
+ "spec": "/Users/zharris/Downloads/arcs_prep_guide_spec.md",
+ "lines": 944,
+ "read_fully": true,
+ "claims": [
+  {
+   "id": "C1",
+   "line": 14,
+   "quote": "reference implementation (ArcsExplorer.tsx + stageData.ts) is the proven pattern",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "git ls-files finds no ArcsExplorer, stageData, ExplorerSpine, StageBlock or ReceiptA files; git log -S ArcsExplorer empty. ExplorerSpine exists only as a function inside src/app/guide/[receiptId]/page.tsx:320. The 'JPM Coin PM interview' reference is not in the repo.",
+   "fix": "Say the reference lived outside the repo and was not ported; name the built equivalents in src/app/guide/[receiptId]/page.tsx"
+  },
+  {
+   "id": "C2",
+   "line": 6,
+   "quote": "Version 1.0 ARCS v8.5 Field OS; Date April 10 2026",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Repo is ARCS v9 (CLAUDE.md, AGENTS.md); guide route model comment cites Sonnet 5.5 move 2026-10-06. Spec describes a pre-v9 shape.",
+   "fix": "Re-baseline to v9 and the built PrepGuide model"
+  },
+  {
+   "id": "C3",
+   "line": 32,
+   "quote": "Stored receipt at /brief/[receiptId] with DecisionSnapshot, DoingHomework, WhyThisWhyNow, WhatWeProtect, ForkInTheRoad",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Brief model exists (prisma/schema.prisma:218) but the guide route builds its prompt from Receipt fields (decision, trueNorth, entity, mode, nciScore, yState, fated, protecting, prep) in buildContext, src/app/api/guide/[receiptId]/route.ts:97-134. No BriefReceipt with those five cards is read.",
+   "fix": "Guide input should be the real Receipt+PrepSession, not a BriefReceipt"
+  },
+  {
+   "id": "C4",
+   "line": 60,
+   "quote": "Guide cannot be regenerated from Compass seed alone; requires valid Brief receipt",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "POST in src/app/api/guide/[receiptId]/route.ts needs only a Receipt row (findUnique receipt, include prep); no Brief lookup anywhere in the route.",
+   "fix": "State the real precondition: an owned Receipt"
+  },
+  {
+   "id": "C5",
+   "line": 61,
+   "quote": "Guide is idempotent on first generation, destructive on regeneration; preserves stageLog",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "POST calls prisma.prepGuide.create with receiptId @unique (schema:262); a second POST would hit a unique-constraint error, uncaught, not overwrite. No regenerate path, no stageLog preservation logic.",
+   "fix": "Define regenerate as upsert that keeps stageLog, with a 409 or guard today"
+  },
+  {
+   "id": "C6",
+   "line": 71,
+   "quote": "/guide/[receiptId] Prep Guide (ArcsExplorer)",
+   "kind": "REPO",
+   "verdict": "VERIFIED",
+   "evidence": "src/app/guide/[receiptId]/page.tsx exists (906 lines), client page fetching /api/guide/{receiptId}. Component is GuidePage, not ArcsExplorer.",
+   "fix": "Rename reference to GuidePage"
+  },
+  {
+   "id": "C7",
+   "line": 72,
+   "quote": "/compass Alias for / (Question Compass)",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "src/app/compass/page.tsx:1-40 is a magic-link sign-in form, not an alias of the question compass. Main compass UI is /dashboard (CLAUDE.md route table).",
+   "fix": "Spec routes: / entry, /dashboard compass UI, /compass sign-in"
+  },
+  {
+   "id": "C8",
+   "line": 79,
+   "quote": "Contains Generate Prep Guide CTA button in brief header; View Prep Guide if exists",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "grep for '/guide/' across src outside the guide page returns nothing; the brief page has no guide link or CTA. Guide is reachable only by typing the URL.",
+   "fix": "Add the CTA or record it as unbuilt"
+  },
+  {
+   "id": "C9",
+   "line": 86,
+   "quote": "/guide direct-linkable; Receipt not found empty state with link to Compass",
+   "kind": "REPO",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Direct link works (page fetches by id). Route returns 404/401 JSON via ownerGate (src/app/api/guide/[receiptId]/route.ts:148-156) but page.tsx has no 'not found' branch (grep empty); on non-ok it just sets loading false and shows ModeSelector.",
+   "fix": "Add explicit not-found and not-owner states"
+  },
+  {
+   "id": "C10",
+   "line": 93,
+   "quote": "The Guide header always shows a back-link to /brief/[receiptId]",
+   "kind": "REPO",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Not grepped to a Link/href to /brief in page.tsx header lines 751-790 in this pass; no evidence either way beyond absence of brief->guide link.",
+   "fix": "Verify or add"
+  },
+  {
+   "id": "C11",
+   "line": 103,
+   "quote": "CompassSeed.stakes 'low'|'medium'|'high'; horizon 'today'|'week'|'quarter'|'year-plus'",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "PrepSession.stakes is LOW|MEDIUM|HIGH and horizon is TODAY|THIS_WEEK|THIS_QUARTER|ONE_TO_THREE_YEARS (schema:61-62). No CompassSeed type; PrepSession is the seed.",
+   "fix": "Use the schema enums"
+  },
+  {
+   "id": "C12",
+   "line": 120,
+   "quote": "EntityInput parsed name/affiliation/role/entityType/isGroup/members",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "PrepSession.entity is a single nullable String (schema:65). No parsing, entityType, isGroup or members anywhere; guide handles groups only by the prompt keyword rule 'panel'/'committee' (src/app/api/guide/[receiptId]/route.ts:46).",
+   "fix": "Either add structured entity or specify keyword heuristic honestly"
+  },
+  {
+   "id": "C13",
+   "line": 148,
+   "quote": "BriefReceipt incl. generationModel, betType, totalPrepHoursRange, guideId",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "No such model. Guide has betLabel/totalPrepHours strings on PrepGuide (schema:268-270). Receipt carries DEWY fields instead.",
+   "fix": "Map to PrepGuide.betLabel/totalPrepHours"
+  },
+  {
+   "id": "C14",
+   "line": 225,
+   "quote": "StageData: agenda AgendaItem[], preWork PreWorkItem[], kycLens KYCLens object, YesNoLadder with either",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "src/app/guide/[receiptId]/page.tsx:37-51 StageData: agenda/preWork are string[], kycLens is string[] prefixed KYC:/KYT:/KYB:/KYI:, writesIntoNextTable {yes,no} only. No owner, duration, category, either, likelyObjections.",
+   "fix": "Spec structured fields as Phase 2 or document the flat-string shape"
+  },
+  {
+   "id": "C15",
+   "line": 241,
+   "quote": "testingAboutThem REQUIRED on every stage",
+   "kind": "REPO",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Required in the prompt (src/app/api/guide/[receiptId]/route.ts:45 'REQUIRED') and typed non-optional (src/app/guide/[receiptId]/page.tsx:44), but the route does JSON.parse and stores parsed.stages unvalidated (no zod on model output), so requirement is not enforced.",
+   "fix": "Add schema validation on model output"
+  },
+  {
+   "id": "C16",
+   "line": 257,
+   "quote": "panelMembers only populated if isGroup; PanelMemberLens",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "No panelMembers in src/app/guide/[receiptId]/page.tsx or route. Panel expansion is a prompt instruction to expand kycLens per role (src/app/api/guide/[receiptId]/route.ts:46).",
+   "fix": "Mark unbuilt"
+  },
+  {
+   "id": "C17",
+   "line": 322,
+   "quote": "GuideReceipt with activeStageId, stageLog, userEdits",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "PrepGuide has stageLog TEXT only (schema:273). activeStageId is React useState set to stages[0] on load (src/app/guide/[receiptId]/page.tsx:633,678); not persisted. No userEdits column.",
+   "fix": "Persist activeStageId or drop the claim"
+  },
+  {
+   "id": "C18",
+   "line": 340,
+   "quote": "StageLogEntry verdict 'up'|'down'|null, vibe emoji, advancedStage",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Route StageLogBody verdict is free string max 64, vibe max 500, completedAt, no advancedStage (src/app/api/guide/[receiptId]/route.ts:167-172). Log is upserted per stageId by filter (route PATCH), so only latest entry per stage survives.",
+   "fix": "Match built shape; decide if history should be kept"
+  },
+  {
+   "id": "C19",
+   "line": 372,
+   "quote": "Guide generation is a structuring task; model does no additional research",
+   "kind": "DESIGN",
+   "verdict": "DESIGN",
+   "evidence": "Consistent with the route, though the route's own prompt asks model to 'infer role archetype' for named affiliation, which is unattributed inference.",
+   "fix": null
+  },
+  {
+   "id": "C20",
+   "line": 392,
+   "quote": "Output validated against StageData interface before storing; stages 2-5; ids sequential",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "No validation: parsed JSON cast with `as` and stringified straight into prisma.prepGuide.create (src/app/api/guide/[receiptId]/route.ts:254-290). Stage count is mode-driven: RECON=1 stage, ACTIVE=2, LEAD=3-5 (route prompt lines 15-17), contradicting 'between 2 and 5'. A malformed JSON response throws an uncaught 500.",
+   "fix": "State mode-based counts; add zod validation and try/catch around JSON.parse"
+  },
+  {
+   "id": "C21",
+   "line": 434,
+   "quote": "Stage count auto heuristic table (2 single meeting ... 5 extended)",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Built system uses user-chosen mode RECON/ACTIVE/LEAD (ModeSelector src/app/guide/[receiptId]/page.tsx:366-460) not decision-type inference.",
+   "fix": "Replace with the mode model or document as alternative"
+  },
+  {
+   "id": "C22",
+   "line": 446,
+   "quote": "Model must justify count in internal chain-of-thought",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Route prompt has no such instruction; call sends output_config effort medium only (src/app/api/guide/[receiptId]/route.ts:254-262).",
+   "fix": "Drop or implement"
+  },
+  {
+   "id": "C23",
+   "line": 404,
+   "quote": "Output: Valid JSON array matching StageData[]",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Built contract returns an object {guide_title, bet_label, total_prep_hours, outcome_target, stages[]} not a bare array (src/app/api/guide/[receiptId]/route.ts:72-98).",
+   "fix": "Update contract to the object shape incl. outcome_target"
+  },
+  {
+   "id": "C24",
+   "line": null,
+   "quote": "(absent from spec) outcome_target: outcome_statement, leading_indicator, kpi_label, failure_signal",
+   "kind": "REPO",
+   "verdict": "VERIFIED",
+   "evidence": "Built but absent from spec: schema:274-277, src/app/api/guide/[receiptId]/route.ts:58-63 and OutcomeTargetCard src/app/guide/[receiptId]/page.tsx:76. A spec gap, not a claim.",
+   "fix": "Fold outcome target into the spec"
+  },
+  {
+   "id": "C25",
+   "line": 465,
+   "quote": "Claude names stages from entity's lens",
+   "kind": "DESIGN",
+   "verdict": "DESIGN",
+   "evidence": "Route prompt: spineLabel is entity name/role at this stage; title specific to entity. Aligned.",
+   "fix": null
+  },
+  {
+   "id": "C26",
+   "line": 479,
+   "quote": "questionCompass structured as 'What is [entity] actually deciding about me'",
+   "kind": "REPO",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Spec line 479-481 requires an open question 'What is [entity] actually deciding'; built prompt requires binary Yes/No 'Is...' or 'Can I...' (route:42). Spec line 241 testingAboutThem hypothesis is separately the 'what they evaluate' field, so the two overlap.",
+   "fix": "Choose binary question; keep evaluation in testingAboutThem"
+  },
+  {
+   "id": "C27",
+   "line": 484,
+   "quote": "midcurveTripwire is failure mode that looks like success, names mechanism",
+   "kind": "REPO",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Built prompt instead requires it to start with 'If I...' and be one sentence (src/app/api/guide/[receiptId]/route.ts:49,54); the specificity requirement 'name a specific mechanism' is not enforced.",
+   "fix": "Reconcile formats"
+  },
+  {
+   "id": "C28",
+   "line": 502,
+   "quote": "artifacts minimum 2 max 6 per stage; at least one pre and one in/post",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Built artifacts have only {title, abstract}: no type, phase or required fields (route:98; src/app/guide/[receiptId]/page.tsx:32). RECON mode generates exactly 1 artifact, contradicting min 2.",
+   "fix": "State counts per mode"
+  },
+  {
+   "id": "C29",
+   "line": 515,
+   "quote": "ArcsExplorer, StageBlock, ArtifactModal, ReceiptA/B/C proven components",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Only ArtifactModal (src/app/guide/[receiptId]/page.tsx:166) and ExplorerSpine (src/app/guide/[receiptId]/page.tsx:320) exist, inlined in page.tsx; no StageBlock, ReceiptA/B/C. 'Status Proven' unverifiable (no tests found for guide).",
+   "fix": "List actual components"
+  },
+  {
+   "id": "C30",
+   "line": 526,
+   "quote": "CompassForm, BriefViewer, DecisionSnapshot... GuideEmptyState, RegenerateGuideModal, PanelMemberRow",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Not in src: only ModeSelector, DecideHeader, CollapsibleBand, PostCallLogModal, DensityToggle, OutcomeTargetCard, ArtifactModal, ExplorerSpine are in src/app/guide/[receiptId]/page.tsx. Empty state = ModeSelector.",
+   "fix": "Replace table with built set"
+  },
+  {
+   "id": "C31",
+   "line": 581,
+   "quote": "Guide lives in ARCS dark world #020408 cyan/green/gold; not negotiable",
+   "kind": "REPO",
+   "verdict": "VERIFIED",
+   "evidence": "src/app/guide/[receiptId]/page.tsx:6-19 tokens bg #020408, cyan #00F0FF, green #00FF9D, gold #FFD700. But spec tokens (#00d4ff, #00ff88, --arcs-surface #0a0e14) differ from the built values.",
+   "fix": "Use built tokens; drop the CSS variable list"
+  },
+  {
+   "id": "C32",
+   "line": 597,
+   "quote": "Headings font-mono; body Satoshi or General Sans; Tailwind text-[10px] classes",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Page uses fontFamily system-ui (page.tsx:388,751), monospace only on some labels. Repo bans Tailwind and className (AGENTS.md gotcha 2) so spec utility classes (bg-cyan/20, ring-4, text-[10px]) are non-conformant.",
+   "fix": "Express as inline-style tokens"
+  },
+  {
+   "id": "C33",
+   "line": 606,
+   "quote": "Spine exact dot sizes 18x18, top 9px, left/right 5%",
+   "kind": "REPO",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Not checked pixel-exactly; src/app/guide/[receiptId]/page.tsx:320-365 renders its own spine. Treat as DESIGN.",
+   "fix": "Drop pixel specifics"
+  },
+  {
+   "id": "C34",
+   "line": 650,
+   "quote": "Density state full|mid|compact (100/50/33%), persisted to UserEdits.densityPreference",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Built density is 5 levels Exec/Strategic/Operational/Tactical/Surgical (90 sec to 45 min), persisted to localStorage key arcs_guide_density, not to a stored record (src/app/guide/[receiptId]/page.tsx:22-30,640-652).",
+   "fix": "Describe the 5-level ladder"
+  },
+  {
+   "id": "C35",
+   "line": 628,
+   "quote": "Tripwire amber background, italic",
+   "kind": "REPO",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Built tripwire uses gold label and text s.gold (src/app/guide/[receiptId]/page.tsx:591); italic/amber fill not verified.",
+   "fix": "Drop"
+  },
+  {
+   "id": "C36",
+   "line": 637,
+   "quote": "EyebrowBar editable Bet and Prep hours inline; time spent and vibes toggles",
+   "kind": "REPO",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "page.tsx has an input at line 781 and betLabel state (634) but no EyebrowBar and no editable persistence (no userEdits). Verdict/vibe are in the post-call modal not an eyebrow strip.",
+   "fix": "Verify or mark unbuilt"
+  },
+  {
+   "id": "C37",
+   "line": 672,
+   "quote": "Treat as unit / Expand to individuals toggle persisted to UserEdits",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "grep for 'Treat as unit', 'panelMembers', 'isGroup' in page.tsx returns nothing.",
+   "fix": "Unbuilt"
+  },
+  {
+   "id": "C38",
+   "line": 689,
+   "quote": "Stored via the same backend as existing ARCS receipts as compass:{id}, brief:{id}, guide:{id} keys",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Storage is Prisma tables PrepSession, Receipt, Brief, PrepGuide (schema), not key-value documents. PrepSession is not persisted at all for anonymous users (src/app/api/prep/route.ts:28-33).",
+   "fix": "Describe the table model"
+  },
+  {
+   "id": "C39",
+   "line": 695,
+   "quote": "CompassSeed immutable after submit; stored on form submit",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Anonymous prep is never persisted by design (trust contract): returns {persisted:false}. Only authed users create PrepSession (prep route:36-39).",
+   "fix": "Seed persistence is auth-conditional"
+  },
+  {
+   "id": "C40",
+   "line": 706,
+   "quote": "Stage log write-back to BriefReceipt on every log",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "PATCH updates only prepGuide.stageLog (src/app/api/guide/[receiptId]/route.ts:311-318). No write to Brief or Receipt.",
+   "fix": "Unbuilt or drop"
+  },
+  {
+   "id": "C41",
+   "line": 715,
+   "quote": "activeStageId updated on every navigation click and restored on revisit",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "onSelect={setActiveStageId} only changes React state (src/app/guide/[receiptId]/page.tsx:813); initial id is parsed[0] (678). No network call, so not resumed.",
+   "fix": "Persist or drop"
+  },
+  {
+   "id": "C42",
+   "line": 789,
+   "quote": "Print/PDF: window.print() and print-hide class",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "grep window.print, @media print, print-hide in page.tsx and src/app/guide returns nothing.",
+   "fix": "Unbuilt"
+  },
+  {
+   "id": "C43",
+   "line": 826,
+   "quote": "Regeneration with confirmation modal; rollback on failure",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "No regenerate UI; POST create with unique receiptId would error on second call (schema:262). No rollback.",
+   "fix": "Unbuilt; guard against unique violation"
+  },
+  {
+   "id": "C44",
+   "line": null,
+   "quote": "Auth: guide private to receipt owner",
+   "kind": "REPO",
+   "verdict": "VERIFIED",
+   "evidence": "src/app/api/guide/[receiptId]/route.ts:148-156 ownerGate: 401 anon in prod, 404 on non-owner; rate limit 10 per 10 min (src/app/api/guide/[receiptId]/route.ts:205). Spec is silent on auth/ownership entirely, a gap since 'direct-linkable' (line 86) conflicts with owner-only access.",
+   "fix": "Add auth model to spec"
+  },
+  {
+   "id": "C45",
+   "line": 86,
+   "quote": "Direct-linkable without brief",
+   "kind": "CONTRADICTED-INTERNALLY",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Line 86 'Direct-linkable' vs built owner gate: link is useless to anyone but the owner and anonymous users get 401 in prod. Spec has no sharing model (line 801 Phase 2).",
+   "fix": "Say direct-linkable for the owner only"
+  },
+  {
+   "id": "C46",
+   "line": 856,
+   "quote": "Generic outputs fail the NOTOMATION rule",
+   "kind": "SELF-GRADE",
+   "verdict": "UNSOURCED-SELF-GRADE",
+   "evidence": "No gate or test measures genericness; NOTOMATION is a ROM primitive about not compressing revealed preference (CLAUDE.md), not a specificity check. Misapplied.",
+   "fix": "Name a real gate or drop"
+  },
+  {
+   "id": "C47",
+   "line": 864,
+   "quote": "fork.options exactly 3: overfit, underfit, calibrated; A3 always recommended",
+   "kind": "DESIGN",
+   "verdict": "DESIGN",
+   "evidence": "Fixed A3 recommendation biases the output; built Brief/guide do not implement this fork. Contradicts spec 5.? 'Surface 2-3 meaningful options' (line 853) vs 'exactly 3' (line 864).",
+   "fix": null
+  },
+  {
+   "id": "C48",
+   "line": 853,
+   "quote": "Surface 2-3 meaningful options",
+   "kind": "CONTRADICTED-INTERNALLY",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Line 853 says 2-3 options; line 864 says exactly 3.",
+   "fix": "Pick one"
+  },
+  {
+   "id": "C49",
+   "line": 866,
+   "quote": "publicContextSources lists types of sources used (LinkedIn, Crunchbase)",
+   "kind": "EMPIRICAL",
+   "verdict": "FALSE",
+   "evidence": "Model has no browsing in guide route: single messages.create call with no tools (src/app/api/guide/[receiptId]/route.ts:254). Claiming the model used LinkedIn or Crunchbase is a fabrication risk; the route prompt says only 'infer role archetype, label [inferred]'.",
+   "fix": "Label as model priors, never as sources consulted"
+  },
+  {
+   "id": "C50",
+   "line": 725,
+   "quote": "Claude draws on public context (org culture, behavioral patterns) for named persons",
+   "kind": "EMPIRICAL",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "No retrieval. Parametric knowledge of a named individual can be wrong; spec's own line 729 'never fabricates facts it cannot verify' is not enforceable by prompt alone. Tried: read route prompt, no tool use or grounding step.",
+   "fix": "Require user-provided context or retrieval with citations; default to archetype"
+  },
+  {
+   "id": "C51",
+   "line": 728,
+   "quote": "Labels inferred content with [inferred from public context]",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Built prompt label is '[inferred]' and is applied to role archetype only (src/app/api/guide/[receiptId]/route.ts:47), and the spec's disclaimer field inferenceDisclaimer does not exist.",
+   "fix": "Align"
+  },
+  {
+   "id": "C52",
+   "line": null,
+   "quote": "Claude Sonnet 4.5 as generationModel; no eval",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Spec example 'claude-sonnet-4-5' (line 152); built guide uses claude-sonnet-5-5 per src/lib/claude-models.ts:23 with comment 'no eval, 0 calls in 30d': no evidence guide output quality was ever evaluated.",
+   "fix": "Record model from MODELS.guide; add eval"
+  },
+  {
+   "id": "C53",
+   "line": null,
+   "quote": "Prompt claim: ARCS pipeline downstream of Brief",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Built guide hangs off Receipt+PrepSession, mode chosen by user at /guide, independent of /brief page (no link). Pipeline diagram lines 20-55 is not the real data flow.",
+   "fix": "Redraw the flow"
+  },
+  {
+   "id": "C54",
+   "line": null,
+   "quote": "Prose-in-JSON hardening absent",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Route strips ``` fences by regex then JSON.parse with no try/catch (src/app/api/guide/[receiptId]/route.ts:239-240): invalid JSON gives 500; spec 12 says 'Do not show partial/invalid brief' and error states (lines 881-893) are not built.",
+   "fix": "Add parse guard and error UI"
+  },
+  {
+   "id": "C55",
+   "line": 929,
+   "quote": "Phase 2: Cross-receipt pattern detection, vibe history",
+   "kind": "DESIGN",
+   "verdict": "DESIGN",
+   "evidence": "Roadmap only; note stageLog keeps one entry per stageId so history across calls to the same stage is lost, which blocks vibe history as specced.",
+   "fix": null
+  },
+  {
+   "id": "C56",
+   "line": 819,
+   "quote": "Public entity context Yes-labeled as inferred",
+   "kind": "DESIGN",
+   "verdict": "DESIGN",
+   "evidence": "Decision 11 conflicts with trust-contract posture and with 5.1 'does NOT need to do additional research'; verify against /trust before relying.",
+   "fix": null
+  },
+  {
+   "id": "C57",
+   "line": 1,
+   "quote": "Spec carries Perplexity [n] citation markers",
+   "kind": "EMPIRICAL",
+   "verdict": "FALSE",
+   "evidence": "grep -nE '\\[[0-9]+\\]' finds only four hits, all box-drawing labels [1]-[4] in the pipeline diagram (lines 24,32,41,48). There are no citations, no reference list, no URLs. The brief's premise of cited sources does not apply.",
+   "fix": "n/a"
+  },
+  {
+   "id": "C58",
+   "line": null,
+   "quote": "No EMPIRICAL claims about the world beyond model behavior",
+   "kind": "EMPIRICAL",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Spec cites no studies, statistics, papers or people besides illustrative names (Emma Chen/Sequoia, JPM Coin). WebSearch not needed; nothing named to look up. Examples are fictional personas, not claims.",
+   "fix": "n/a"
+  }
+ ],
+ "weak_joints": [
+  "Pipeline premise (lines 20-60): guide is driven by a Brief receipt; built guide reads Receipt+PrepSession and has no brief link, so the whole data-flow diagram is wrong.",
+  "Regeneration/idempotence (lines 61, 697-704): create on a unique receiptId means second generation errors; the stageLog-preserving overwrite is unbuilt, and model output is never validated.",
+  "Public-context entity inference (lines 725-729, 866): model has no retrieval, yet spec lists LinkedIn/Crunchbase as sources; invites fabricated facts about named people."
+ ],
+ "summary": {
+  "VERIFIED": 4,
+  "FALSE": 36,
+  "UNVERIFIABLE": 9,
+  "CONTRADICTED-INTERNALLY": 3,
+  "UNSOURCED-SELF-GRADE": 1,
+  "DESIGN": 5,
+  "skipped": 0,
+  "note": "Spec has no real citations; implemented/partly/not: IMPLEMENTED = route /guide/[receiptId] + page, GET/POST/PATCH API, ModeSelector, ExplorerSpine, DecideHeader, artifact modal (title+abstract), post-call log, density toggle (5 levels, localStorage), owner gate, rate limit, outcome_target (not in spec). PARTLY = StageData (flat strings), stage count (mode-driven 1/2/3-5), testingAboutThem required by prompt only, bet/prep hours stored not editable, stageLog (one entry per stage), public-context labeling ([inferred] only). NOT BUILT = BriefReceipt-driven guide, brief CTA/link, CompassSeed/EntityInput, panelMembers, userEdits, activeStageId persistence, regeneration+modal, brief write-back, print/PDF, error states, output validation."
+ }
+}

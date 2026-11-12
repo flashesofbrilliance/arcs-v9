@@ -36,14 +36,16 @@ jobs:
     steps:
       - name: Start Postgres (docker; service containers are Linux-runner only)
         run: |
-          docker rm -f arcs-ci-pg-migrate 2>/dev/null || true
-          docker run -d --name arcs-ci-pg-migrate -e POSTGRES_USER=arcs -e POSTGRES_PASSWORD=arcs -e POSTGRES_DB=arcs -p 55433:5432 postgres:17
+          # -v, --rm and tmpfs data (2026-11-02 leak audit): a plain `docker rm -f` orphaned the
+          # image's anonymous data volume on every run. tmpfs writes no volume.
+          docker rm -fv arcs-ci-pg-migrate 2>/dev/null || true
+          docker run -d --rm --name arcs-ci-pg-migrate --tmpfs /var/lib/postgresql/data -e POSTGRES_USER=arcs -e POSTGRES_PASSWORD=arcs -e POSTGRES_DB=arcs -p 55433:5432 postgres:17
           for i in $(seq 1 40); do docker exec arcs-ci-pg-migrate pg_isready -h 127.0.0.1 -U arcs && exit 0; sleep 2; done; exit 1
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
           node-version: 22
-          cache: npm
+          package-manager-cache: false
       - run: npm ci --no-audit --no-fund
       - name: Validate schema
         run: npx prisma validate
@@ -52,6 +54,9 @@ jobs:
       - name: Pushed DB must equal schema.prisma
         # exit 2 = drift detected; anything else is a hard error
         run: npx prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --exit-code
+      - name: Stop Postgres
+        if: always()
+        run: docker rm -fv arcs-ci-pg-migrate 2>/dev/null || true
 
   # Drift gate (P1 prod-db-onto-prisma-migrate-deploy, 2026-09-24): now that prod is baselined
   # and auto-applies `prisma migrate deploy` on deploy, the remaining silent-drift risk is a PR
@@ -70,7 +75,7 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 22
-          cache: npm
+          package-manager-cache: false
       - run: npm ci --no-audit --no-fund
       - name: schema.prisma datamodel change must carry a migration
         env:
@@ -111,7 +116,7 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 22
-          cache: npm
+          package-manager-cache: false
       - run: npm ci --no-audit --no-fund
       - name: Push schema to the preview database (if configured)
         env:

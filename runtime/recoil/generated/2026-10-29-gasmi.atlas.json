@@ -1,0 +1,523 @@
+{
+  "schema": "arcs.atlas.v2",
+  "built": "2026-10-29",
+  "gate": "RED",
+  "title": "Recoil atlas: 2026-10-29-gasmi",
+  "note": "Tiers run base (index 0) to apex: atoms, people, claims, beliefs, decisions. docs is the node count. Render state per tier follows x-fidelity in runtime/specs/arcs-atlas-v2.schema.json. Internal: carries the SSOT's audience tags; not counterpart-safe until /recoil-ship.",
+  "source": {
+    "ssot": "runtime/recoil/generated/2026-10-29-gasmi.json",
+    "report_id": "2026-10-29-gasmi",
+    "input_hash": "f443a56e07a5eed5"
+  },
+  "tiers": [
+    {
+      "name": "Atoms",
+      "kind": "atom",
+      "docs": 7,
+      "gate": "warn",
+      "render": "DEGRADED",
+      "edges": 12,
+      "sharp_edges": 0,
+      "n": 12
+    },
+    {
+      "name": "People",
+      "kind": "person",
+      "docs": 2,
+      "gate": "warn",
+      "render": "DEGRADED",
+      "edges": 7,
+      "sharp_edges": 0,
+      "n": 7
+    },
+    {
+      "name": "Claims",
+      "kind": "claim",
+      "docs": 0,
+      "gate": "fail",
+      "render": "FLAT",
+      "edges": 0,
+      "sharp_edges": 0,
+      "n": 0
+    },
+    {
+      "name": "Beliefs",
+      "kind": "belief",
+      "docs": 5,
+      "gate": "warn",
+      "render": "DEGRADED",
+      "edges": 5,
+      "sharp_edges": 0,
+      "n": 5
+    },
+    {
+      "name": "Decisions",
+      "kind": "decision",
+      "docs": 3,
+      "gate": "warn",
+      "render": "GRAIN",
+      "edges": 0,
+      "sharp_edges": 0,
+      "n": 0
+    }
+  ],
+  "nodes": [
+    {
+      "id": "atom:a001",
+      "tier": 0,
+      "kind": "atom",
+      "t": "2:23",
+      "label": "for the right opportunities",
+      "ref": "a001",
+      "s": 143,
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 2
+      },
+      "audience": "internal"
+    },
+    {
+      "id": "atom:a002",
+      "tier": 0,
+      "kind": "atom",
+      "t": "5:34",
+      "label": "this is actually our first product manager hire",
+      "ref": "a002",
+      "s": 334,
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 1
+      },
+      "audience": "internal"
+    },
+    {
+      "id": "atom:a003",
+      "tier": 0,
+      "kind": "atom",
+      "t": "7:57",
+      "label": "A little bit, a little bit",
+      "ref": "a003",
+      "s": 477,
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 1
+      },
+      "audience": "internal"
+    },
+    {
+      "id": "atom:a004",
+      "tier": 0,
+      "kind": "atom",
+      "t": "15:49",
+      "label": "reduces hallucinations",
+      "ref": "a004",
+      "s": 949,
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 1
+      },
+      "audience": "internal"
+    },
+    {
+      "id": "atom:a005",
+      "tier": 0,
+      "kind": "atom",
+      "t": "17:37",
+      "label": "grain of salt",
+      "ref": "a005",
+      "s": 1057,
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 2
+      },
+      "audience": "internal"
+    },
+    {
+      "id": "atom:a006",
+      "tier": 0,
+      "kind": "atom",
+      "t": "18:44",
+      "label": "same page",
+      "ref": "a006",
+      "s": 1124,
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 2
+      },
+      "audience": "internal"
+    },
+    {
+      "id": "atom:a007",
+      "tier": 0,
+      "kind": "atom",
+      "t": "27:48",
+      "label": "I just clicked on it",
+      "ref": "a007",
+      "s": 1668,
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 1
+      },
+      "audience": "internal"
+    },
+    {
+      "id": "person:zach",
+      "tier": 1,
+      "kind": "person",
+      "t": "2:23",
+      "label": "Zach",
+      "ref": "zach",
+      "s": 143,
+      "grade": {
+        "letter": "NS",
+        "basis": "speaker label on 1 atom(s)",
+        "n": 1
+      }
+    },
+    {
+      "id": "person:doug-rosa",
+      "tier": 1,
+      "kind": "person",
+      "t": "5:34",
+      "label": "Doug Rosa",
+      "ref": "doug-rosa",
+      "s": 334,
+      "grade": {
+        "letter": "NS",
+        "basis": "speaker label on 6 atom(s)",
+        "n": 6
+      }
+    },
+    {
+      "id": "belief:P1",
+      "tier": 3,
+      "kind": "belief",
+      "t": "0:00",
+      "label": "The trust and evals framing is the strongest hook for Farah.",
+      "ref": "P1",
+      "s": 0,
+      "audience": "internal"
+    },
+    {
+      "id": "belief:P2",
+      "tier": 3,
+      "kind": "belief",
+      "t": "0:00",
+      "label": "Revenue evidence is the main gap and will be probed.",
+      "ref": "P2",
+      "s": 0,
+      "audience": "internal"
+    },
+    {
+      "id": "belief:P3",
+      "tier": 3,
+      "kind": "belief",
+      "t": "0:00",
+      "label": "Agents-as-engineering-team reads as a plus, not a dodge, to this team.",
+      "ref": "P3",
+      "s": 0,
+      "audience": "internal"
+    },
+    {
+      "id": "belief:P4",
+      "tier": 3,
+      "kind": "belief",
+      "t": "0:00",
+      "label": "The seat is product ownership plus intake triage, not forward-deployed engineering.",
+      "ref": "P4",
+      "s": 0,
+      "audience": "internal"
+    },
+    {
+      "id": "belief:P5",
+      "tier": 3,
+      "kind": "belief",
+      "t": "0:00",
+      "label": "Technical jargon will not survive Doug's relay to Farah.",
+      "ref": "P5",
+      "s": 0,
+      "audience": "internal"
+    },
+    {
+      "id": "decision:n1",
+      "tier": 4,
+      "kind": "decision",
+      "t": null,
+      "label": "Review and send the Gmail draft with the dioptra.arcs.care link and passcode (drafted 2026-11-04, not sent).",
+      "ref": "n1",
+      "audience": "internal"
+    },
+    {
+      "id": "decision:n2",
+      "tier": 4,
+      "kind": "decision",
+      "t": null,
+      "label": "Prep the Farah call: 60-second career story; lead with feature-request triage; one revenue example; no ARCS vocabulary.",
+      "ref": "n2",
+      "audience": "internal"
+    },
+    {
+      "id": "decision:n3",
+      "tier": 4,
+      "kind": "decision",
+      "t": null,
+      "label": "Score the ex-ante on 2026-11-09: Farah call scheduled or not.",
+      "ref": "n3",
+      "audience": "internal"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e001",
+      "from": "atom:a001",
+      "to": "person:zach",
+      "kind": "said_by",
+      "t": "2:23",
+      "s": 143,
+      "evidence": [
+        "a001"
+      ],
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 2
+      }
+    },
+    {
+      "id": "e002",
+      "from": "atom:a002",
+      "to": "person:doug-rosa",
+      "kind": "said_by",
+      "t": "5:34",
+      "s": 334,
+      "evidence": [
+        "a002"
+      ],
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 1
+      }
+    },
+    {
+      "id": "e003",
+      "from": "atom:a003",
+      "to": "person:doug-rosa",
+      "kind": "said_by",
+      "t": "7:57",
+      "s": 477,
+      "evidence": [
+        "a003"
+      ],
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 1
+      }
+    },
+    {
+      "id": "e004",
+      "from": "atom:a004",
+      "to": "belief:P1",
+      "kind": "updates",
+      "t": "15:49",
+      "s": 949,
+      "evidence": [
+        "a004"
+      ],
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 1
+      }
+    },
+    {
+      "id": "e005",
+      "from": "atom:a004",
+      "to": "person:doug-rosa",
+      "kind": "said_by",
+      "t": "15:49",
+      "s": 949,
+      "evidence": [
+        "a004"
+      ],
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 1
+      }
+    },
+    {
+      "id": "e006",
+      "from": "atom:a005",
+      "to": "belief:P5",
+      "kind": "updates",
+      "t": "17:37",
+      "s": 1057,
+      "evidence": [
+        "a005"
+      ],
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 2
+      }
+    },
+    {
+      "id": "e007",
+      "from": "atom:a005",
+      "to": "person:doug-rosa",
+      "kind": "said_by",
+      "t": "17:37",
+      "s": 1057,
+      "evidence": [
+        "a005"
+      ],
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 2
+      }
+    },
+    {
+      "id": "e008",
+      "from": "atom:a006",
+      "to": "belief:P5",
+      "kind": "updates",
+      "t": "18:44",
+      "s": 1124,
+      "evidence": [
+        "a006"
+      ],
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 2
+      }
+    },
+    {
+      "id": "e009",
+      "from": "atom:a006",
+      "to": "person:doug-rosa",
+      "kind": "said_by",
+      "t": "18:44",
+      "s": 1124,
+      "evidence": [
+        "a006"
+      ],
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 2
+      }
+    },
+    {
+      "id": "e010",
+      "from": "atom:a007",
+      "to": "belief:P2",
+      "kind": "updates",
+      "t": "27:48",
+      "s": 1668,
+      "evidence": [
+        "a007"
+      ],
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 1
+      }
+    },
+    {
+      "id": "e011",
+      "from": "atom:a007",
+      "to": "belief:P3",
+      "kind": "updates",
+      "t": "27:48",
+      "s": 1668,
+      "evidence": [
+        "a007"
+      ],
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 1
+      }
+    },
+    {
+      "id": "e012",
+      "from": "atom:a007",
+      "to": "person:doug-rosa",
+      "kind": "said_by",
+      "t": "27:48",
+      "s": 1668,
+      "evidence": [
+        "a007"
+      ],
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 1
+      }
+    }
+  ],
+  "kairos": [
+    {
+      "id": "k02",
+      "node": "belief:P5",
+      "atom": "a005",
+      "t": "17:37",
+      "s": 1057,
+      "what": "P5 Technical jargon will not survive Doug's relay to Farah. (NEW, INFERENCE (skeptic downgraded my own read))",
+      "from": 0.5,
+      "to": 0.6,
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 2
+      }
+    },
+    {
+      "id": "k01",
+      "node": "belief:P2",
+      "atom": "a007",
+      "t": "27:48",
+      "s": 1668,
+      "what": "P2 Revenue evidence is the main gap and will be probed. (WEAKENED at recruiter stage; still expected with Farah)",
+      "from": 0.75,
+      "to": 0.6,
+      "grade": {
+        "letter": "C",
+        "basis": "quoted beside a timestamp in the SSOT prose; speaker is the nearest person named before the quote; not read from the transcript",
+        "n": 1
+      }
+    }
+  ],
+  "fidelity": {
+    "countable_letters": [
+      "A",
+      "B",
+      "C"
+    ],
+    "sharp_letters": [
+      "A",
+      "B"
+    ],
+    "degraded_min_edges": 3,
+    "sharp_min_edges": 8,
+    "sharp_min_share": 0.5,
+    "min_move": 0.1
+  },
+  "unanchored": [
+    "decision n1: no atom or cited timestamp to stand on",
+    "decision n2: no atom or cited timestamp to stand on",
+    "decision n3: no atom or cited timestamp to stand on",
+    "belief P4: moved 0.5 to 0.8 but cites no atom in call.atoms"
+  ]
+}

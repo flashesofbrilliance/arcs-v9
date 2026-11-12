@@ -97,6 +97,8 @@ _STATE/handoff-progress.md
 
 # generated job-search output (scored rows, raw digests); the board + _STATE carry the durable record
 runtime/job-search/
+# prospect ledger: names and profile links for the prospect-scout agent; local only, never in git
+_STATE/job-search/prospects.jsonl
 
 # python venvs (operators/.venv is created by scripts/operator_registry_emit.py --bootstrap)
 .venv/
@@ -140,3 +142,13 @@ _INBOX/seedbank-drift.jsonl
 # ADR/DEWY and surface watchers: ledgers hold snippets of local session text; never commit
 _INBOX/adr-dewy-candidates.jsonl
 _INBOX/surface-candidates.jsonl
+
+# dream_mine.py output (transcript excerpts; local only)
+_STATE/dream/
+_STATE/orphanage-scan.json
+
+# Real pre-call briefs name real people: data and built pages stay local (precall-brief template, 2026-11-06)
+_ARTIFACTS/precall-brief/private/
+
+# recoil_service.py run folders: prints, renders and receipt drafts hold counterpart content (spec N3)
+runtime/recoil/runs/

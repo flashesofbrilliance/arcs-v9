@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<!-- @arcs-template: candidate-brief -->
+<!-- @arcs-mode: persuade -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Proposal for Brooks Thomas, Louisville Brands: a two-week checkup of the AI build, traced through two decisions, $5,000. Confidential.">
+<link rel="alternate" type="text/markdown" href="/proposal/proposal.md" title="Plain text for AI tools">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Offer","name":"A checkup on your AI build","description":"A two-week checkup of Louisville Brands' AI build, traced through two decisions the client picks (one technical, one business), with a one-page read, a stop number per decision, and next steps.","price":"5000","priceCurrency":"USD","eligibleDuration":{"@type":"QuantitativeValue","value":2,"unitCode":"WEE"},"paymentAccepted":"Half at kickoff, half at the readout","seller":{"@type":"Person","name":"Zach Harris","email":"zach.harris@gmail.com"},"itemOffered":{"@type":"Service","name":"AI build checkup","serviceType":"AI build checkup"}}</script>
+<title>Checkup: AI Build</title>
+<script>(function(){try{var st=JSON.parse(localStorage.getItem('brooksRead')||'{}')||{},lt=localStorage.getItem('brooksTheme');if(!st.theme&&(lt==='dark'||lt==='light')){st.theme=lt;localStorage.setItem('brooksRead',JSON.stringify(st));}var d=document.documentElement;if(st.theme==='dark'||st.theme==='light')d.setAttribute('data-theme',st.theme);}catch(e){}})();</script>
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   the ui-kit compounding sweep note for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion durations and easing. Defined in DESIGN.md "Motion and safety" (promoted 2026-10-19). */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+
+/* Page layer: non-signal aliases and spacing only. Palette and fonts inherit verbatim above. */
+:root{--secondary:var(--text-secondary);--mono:var(--ds-font-mono);--sans:var(--ds-font-sans);--serif:var(--ds-font-display);--measure:928px;--fs-step:1.25rem;--fs-title:0.95rem;--sp-1:8px;--sp-2:16px;--sp-3:24px;--sp-4:40px;--sp-5:64px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:var(--fs-body);line-height:1.6;padding:var(--sp-5) 20px 96px;-webkit-font-smoothing:antialiased;}
+.page{max-width:var(--measure);margin:0 auto;display:flex;flex-direction:column;gap:var(--sp-5);}
+section{display:flex;flex-direction:column;gap:var(--sp-2);}
+p,li{max-width:none;text-wrap:pretty;}
+/* kit primitives, verbatim */
+/* @prim:begin 28-chip */
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: var(--ds-r-pill); border: 1px solid var(--border); color: var(--text-secondary); }
+.chip.cyan { color: var(--cyan); border-color: var(--cyan); background: var(--cyan-bg); }
+.chip.green { color: var(--green); border-color: var(--green); background: var(--green-bg); }
+.chip.gold { color: var(--gold); border-color: var(--gold); background: var(--gold-bg); }
+.chip.red { color: var(--red); border-color: var(--red); background: var(--red-bg); }
+.row { display: flex; flex-wrap: wrap; gap: 8px; }
+/* @prim:end 28-chip */
+/* @prim:begin 29-tile */
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+.tile { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); padding: 14px 16px; }
+.tile .v { font-family: var(--ds-font-mono); font-size: var(--fs-display); font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.tile .v.cyan { color: var(--cyan); }
+.tile .k { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+/* @prim:end 29-tile */
+/* @prim:begin 31-callout */
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.callout { max-width: var(--measure, 640px); background: var(--gold-bg); border: 1px solid var(--gold); border-radius: var(--ds-r-sm); padding: 12px 16px; color: var(--text-secondary); }
+.callout.red { background: var(--red-bg); border-color: var(--red); }
+.callout b { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-right: 6px; }
+.callout.red b { color: var(--red); }
+/* @prim:end 31-callout */
+/* @prim:begin 32-evidence-ref */
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.ref { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--dimmed); }
+.ref a { color: var(--cyan); text-decoration: none; }
+.ref a:hover, .ref a:focus-visible { text-decoration: underline; }
+/* @prim:end 32-evidence-ref */
+/* @prim:begin 33-led */
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.led { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); }
+.led::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+.led.on::before { background: var(--green); }
+.led.alert::before { background: var(--red); }
+.row { display: flex; flex-wrap: wrap; gap: 16px; }
+/* @prim:end 33-led */
+/* page roles (DESIGN.md: display, headline, title, body, label) */
+h1{font-family:var(--sans);font-size:var(--fs-display);font-weight:700;letter-spacing:-0.02em;line-height:1.2;text-wrap:balance;}
+.verdict{font-family:var(--serif);font-size:var(--fs-step);font-weight:500;line-height:1.45;color:var(--text);margin-top:var(--sp-3);}
+.aside{color:var(--secondary);margin-top:var(--sp-2);}
+.slabel{font-family:var(--sans);font-size:var(--fs-step);font-weight:600;letter-spacing:-0.01em;line-height:1.25;color:var(--text);text-wrap:balance;}
+.hgrid{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--sp-4);}
+.hhead{margin:0;font-family:var(--sans);font-size:var(--fs-body);font-weight:600;line-height:1.6;color:var(--text);padding-bottom:var(--sp-1);}
+.hhead.c{color:var(--cyan);}
+/* screen: block 01 opens like block 02, a rule under the deck, then H3 column heads set like the spec labels */
+
+.hrow{display:contents;}
+.hrow > div{padding:var(--sp-2) 0;border-top:1px solid var(--border);}
+.hrow .ref{display:block;margin-top:6px;}
+.lockup{display:flex;flex-direction:column;gap:var(--sp-1);}
+.lockup .deck{color:var(--secondary);text-wrap:pretty;}
+.proof{display:flex;flex-direction:column;gap:6px;}
+footer p{color:var(--secondary);text-align:center;}
+footer a{color:inherit;text-underline-offset:2px;}
+.forline{margin-top:var(--sp-1);}
+/* Light mode (the myally.arcs.care pattern): follows the OS unless the reader picks; kit tokens remap, kit primitives stay verbatim. */
+:root{color-scheme:dark;}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}}
+:root[data-theme="light"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}
+header{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:var(--sp-2);align-items:start;}
+header > *{grid-column:1 / -1;}
+header > .tools{grid-row:1;justify-self:end;display:flex;align-items:center;gap:0;margin-right:-12px;margin-bottom:var(--sp-2);}
+.pdfbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:44px;width:44px;padding:0;color:var(--secondary);border:0;border-radius:var(--ds-r-sm);text-decoration:none;font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;}
+.pdfbtn:hover,.pdfbtn:focus-visible{color:var(--cyan);}
+.pdfbtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
+@media print{:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;} .themebtn,.tools{display:none!important;} body{background:#fff!important;padding:0!important;} .page{gap:var(--sp-3);max-width:none;} body{font-size:10.5pt;line-height:1.5;} h1{font-size:22pt;} .verdict{font-size:13pt;margin-top:var(--sp-2);} .slabel{font-size:13pt;} .hrow > div{padding:10px 0;} section{gap:var(--sp-1);} .lockup,.hrow > div{break-inside:avoid;} .lockup{break-after:avoid;}}
+@page{size:Letter;margin:0.5in 0.6in;}
+
+@media (max-width:640px){
+  body{padding-top:var(--sp-4);}
+  .page{gap:var(--sp-4);}
+  .hgrid{grid-template-columns:1fr;}
+  .hhead.c{display:none;}
+  .hrow > .hc{border-top:none;padding-top:0;}
+  .hrow > .hc::before{content:"Worth asking: ";font-weight:600;color:var(--cyan);}
+}
+/* gift-then-offer 2026-11-05: one labeled-row component for the decision rows and the terms */
+.sublabel{font-family:var(--sans);font-size:var(--fs-body);font-weight:600;color:var(--text);margin-top:var(--sp-3);}
+.spec{display:flex;flex-direction:column;}
+.specrow{display:grid;grid-template-columns:9.5rem minmax(0,1fr);column-gap:var(--sp-3);padding:var(--sp-2) 0;border-top:1px solid var(--border);}
+.specrow:last-child{border-bottom:1px solid var(--border);}
+.specrow dt{font-weight:600;color:var(--text);}
+.specrow dd{margin:0;color:var(--text-secondary);text-wrap:pretty;}
+.spec + .offer{margin-top:var(--sp-3);}
+@media (max-width:640px){.specrow{grid-template-columns:minmax(0,1fr);row-gap:4px;}}
+/* cover + punchlist 2026-11-05 */
+.cover{display:none;}
+.punch{display:flex;flex-direction:column;}
+.punch{margin-top:var(--sp-1);}
+.plist{list-style:none;margin:0;padding:0;}
+.plist li{display:grid;grid-template-columns:2.25rem minmax(0,1fr);column-gap:var(--sp-1);padding:var(--sp-1) 0;color:var(--text-secondary);text-wrap:pretty;}
+.plist li + li{border-top:1px solid var(--border);}
+.plist .pn{font-family:var(--mono);font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;}
+.pnote{font-family:var(--serif);font-size:var(--fs-step);font-weight:500;line-height:1.45;color:var(--text);margin-top:var(--sp-2);} /* same voice as .offer-ask (Zach, 2026-11-10) */
+.pnote + .offer{margin-top:var(--sp-3);}
+@media print{
+  .cover{display:flex;flex-direction:column;height:9.9in;break-after:page;}
+  header > h1,header > .forline{display:none;}
+  .cover-title{margin-top:auto;padding-bottom:var(--sp-3);display:flex;flex-direction:column;gap:var(--sp-1);}
+  .cover-h{font-family:var(--sans);font-size:var(--fs-display);font-weight:700;letter-spacing:-0.02em;line-height:1.15;color:var(--text);}
+  .cover-sub{font-family:var(--serif);font-size:var(--fs-step);line-height:1.35;color:var(--text-secondary);}
+  .cover-meta{border-top:1.5px solid var(--gold);padding-top:var(--sp-3);height:38%;display:flex;flex-direction:column;gap:4px;color:var(--text-secondary);}
+  .cover-meta p:first-child{color:var(--text);font-weight:600;}
+  .plist li{break-inside:avoid;padding:3px 0;line-height:1.4;}
+  .punch{break-inside:avoid;}
+  .offerwrap .specrow{padding:3px 0;line-height:1.4;}
+  .offerwrap .sublabel{margin-top:var(--sp-2);}
+  .pnote{margin-top:var(--sp-1);line-height:1.4;}
+  .pnote + .offer{margin-top:var(--sp-2);}
+  .offer > *{padding:8px 14px;}
+  .cover-meta{border-top-width:2px;}
+}
+/* collapsible blocks (cia.arcs.care pattern) + light default, 2026-11-05 */
+.blkbar{display:flex;justify-content:flex-end;margin-bottom:calc(var(--sp-4) * -1 + var(--sp-1));}
+.expall{font:inherit;font-size:var(--fs-body);font-weight:600;color:var(--cyan);background:none;border:1px solid var(--border);border-radius:var(--ds-r-pill);padding:4px 14px;min-height:44px;cursor:pointer;}
+.expall:hover{border-color:var(--cyan);}
+.expall:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
+details.blk > summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:var(--sp-2);align-items:start;padding:var(--sp-1) 0;}
+details.blk > summary::-webkit-details-marker{display:none;}
+details.blk > summary::after{content:"";grid-column:2;grid-row:1 / span 2;width:10px;height:10px;margin-top:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform var(--dur-base) var(--ease-out);}
+details.blk[open] > summary::after{transform:rotate(-135deg);}
+details.blk > summary > h2,details.blk > summary > h3{grid-column:1;margin:0;}
+details.blk > summary .tk{grid-column:1;color:var(--secondary);margin-top:var(--sp-1);text-wrap:pretty;}
+details.blk > summary:focus-visible{outline:2px solid var(--cyan);outline-offset:4px;border-radius:var(--ds-r-sm);}
+details.blk > .bd{padding-top:var(--sp-2);}
+details.blk.sub{margin-top:var(--sp-2);border-top:1px solid var(--border);}
+details.blk.sub > summary{padding-top:var(--sp-2);}
+details.blk.sub > summary .sublabel{margin-top:0;}
+details.blk.sub > .bd{padding-top:var(--sp-1);}
+@media (prefers-reduced-motion: reduce){details.blk > summary::after{transition:none;}}
+@media screen{details.blk > .bd .specrow:last-child{border-bottom:0;}}
+@media print{
+  .blkbar{display:none;}
+  details.blk > summary{cursor:default;padding:0;}
+  details.blk > summary::after{display:none;}
+  details.blk > summary .tk{display:none;}
+  details.blk::details-content{content-visibility:visible;display:block;}
+  details.blk > .bd{padding-top:var(--sp-1);}
+  details.blk.sub{border-top:0;}
+  .offerwrap details.pbreak{break-before:page;}
+}
+/* brand gate 2026-11-05: one sans voice for sentences, a true label for the for-line, a four-step type ramp */
+:root{--fs-title:var(--fs-body);}
+.forline{font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-top:var(--sp-2);}
+footer p{text-align:left;}
+@media print{:root{--fs-body:0.875rem;--fs-step:1.125rem;--fs-display:2.25rem;} body{font-size:var(--fs-body);} h1{font-size:var(--fs-display);} .verdict,.slabel{font-size:var(--fs-step);} .verdict{line-height:1.4;} .aside{margin-top:var(--sp-1);} .page{gap:var(--sp-2);} .lockup{gap:2px;} .hhead{padding-bottom:4px;} .hrow > div{padding:8px 0;} .hgrid{break-inside:avoid;} .specrow{break-inside:avoid;padding:6px 0;} .sublabel{margin-top:var(--sp-1);} .spec + .offer{margin-top:var(--sp-2);} footer{break-before:avoid;}}
+/* @prim:begin 41-offer-close */
+.offer { border: 1px solid var(--border); border-radius: var(--ds-r-md); background: var(--surface); overflow: hidden; }
+.offer > * { padding: var(--sp-3, 24px); }
+.offer-head { display: flex; flex-direction: column; gap: var(--sp-1, 8px); }
+.offer-price { font-family: var(--ds-font-sans); font-size: var(--fs-step, var(--fs-headline)); font-weight: 600; line-height: 1.35; color: var(--text); text-wrap: balance; }
+.offer-fig { color: var(--cyan); font-variant-numeric: tabular-nums; }
+.offer-keep { color: var(--text-secondary); }
+.offer-proof { display: flex; flex-direction: column; gap: var(--sp-1, 8px); border-top: 1px solid var(--border); background: var(--surface-2); }
+.offer-proof p { color: var(--text-secondary); text-wrap: pretty; }
+.offer-link { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; min-height: 44px; font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--cyan); text-decoration: underline; text-underline-offset: 3px; }
+.offer-link svg { width: 14px; height: 14px; flex: none; }
+.offer-link:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: var(--ds-r-xs); }
+.offer-ask { border-top: 1px solid var(--border); font-family: var(--ds-font-display); font-size: var(--fs-step, var(--fs-headline)); font-weight: 500; line-height: 1.45; color: var(--text); text-wrap: pretty; }
+@media (max-width: 640px) { .offer > * { padding: var(--sp-2, 16px); } }
+@media print { .offer { break-inside: avoid; background: none; } .offer-proof { background: none; } .offer > * { padding: 12px 16px; } .offer-link { min-height: 0; } }
+/* @prim:end 41-offer-close */
+/* give/get grid 2026-11-08: the time trade, built on the questions grid (hhead + hairline rows) */
+.gg{display:flex;flex-direction:column;margin-top:var(--sp-2);}
+.gg-row{display:grid;grid-template-columns:5.5rem minmax(0,1fr) minmax(0,1fr);column-gap:var(--sp-3);padding:var(--sp-2) 0;border-top:1px solid var(--border);}
+.gg-head{font-family:var(--sans);font-size:var(--fs-title);font-weight:600;color:var(--secondary);border-top:0;padding:0 0 var(--sp-1);}
+.gg-head .c{color:var(--cyan);}
+.gg-when{font-weight:600;color:var(--text);}
+.gg-give{color:var(--text-secondary);text-wrap:pretty;}
+.gg-get{color:var(--text);text-wrap:pretty;}
+.gg-row:last-child{border-bottom:1px solid var(--border);}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+.gg + .offer{margin-top:var(--sp-3);}
+@media (max-width:640px){
+  .gg-row{grid-template-columns:minmax(0,1fr);row-gap:6px;}
+  .gg-head{display:none;}
+  .gg-give::before{content:"You give: ";font-weight:600;color:var(--text);}
+  .gg-get::before{content:"You get: ";font-weight:600;color:var(--cyan);}
+}
+@media print{
+  .gg{margin-left:2.25rem;break-inside:avoid;}
+  .gg-head{font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);padding-bottom:6px;border-bottom:1.5px solid var(--text);}
+  .gg-head .c{color:var(--cyan);}
+  .gg-row{padding:5px 0;line-height:1.38;grid-template-columns:4.5rem minmax(0,1.5fr) minmax(0,1fr);column-gap:var(--sp-2);}
+  .gg-head + .gg-row{border-top:0;}
+  .gg + .offer{margin-top:var(--sp-2);}
+}
+/* print design pass 2026-11-08: the PDF as a document, built from the page's own parts (forline label, mono numerals, hairline grids, offer card). Print only; the screen page is unchanged. */
+@page{size:Letter;margin:0.8in 0.8in 0.75in;
+  @top-left{content:"ARCS";font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;font-size:7pt;font-weight:700;letter-spacing:0.32em;color:#00606b;vertical-align:bottom;padding-bottom:14pt;}
+  @top-right{content:"AI build checkup  \00B7  Louisville Brands";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#566170;vertical-align:bottom;padding-bottom:14pt;}
+  @bottom-left{content:"Zach Harris  \00B7  zach.harris@gmail.com";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;color:#566170;vertical-align:top;padding-top:14pt;}
+  @bottom-center{content:"Confidential";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#566170;vertical-align:top;padding-top:14pt;}
+  @bottom-right{content:counter(page) " / " counter(pages);font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;font-size:7pt;font-weight:700;color:#1c2430;vertical-align:top;padding-top:14pt;}
+}
+@page :first{margin:0.8in 0.8in 0.75in;@top-left{content:none;}@top-right{content:none;}}
+@media print{
+  .cover{height:9.35in;gap:0;}
+  .cover-top{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:var(--sp-2);border-bottom:1px solid var(--border);}
+  .cover-date{margin-left:auto;font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;color:var(--muted);}
+  /* Field OS wordmark (src/ui/Wordmark.tsx grammar: ARCS heavy and wide, FIELD OS lighter), grayscale, centered in the cover field */
+  .cover-wm{margin-top:auto;display:flex;align-items:baseline;gap:0.45em;font-family:var(--mono);font-size:var(--fs-display);text-transform:uppercase;line-height:1;}
+  .cover-wm-a{color:var(--text);font-weight:800;letter-spacing:0.22em;}
+  .cover-wm-f{color:var(--muted);font-weight:400;letter-spacing:0.14em;}
+  .cover-title{margin-top:auto;padding-bottom:var(--sp-4);gap:var(--sp-2);}
+  .cover-for{font-family:var(--sans);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);}
+  .cover-h{font-size:2.4rem;line-height:1.08;letter-spacing:-0.025em;}
+  .cover-sub{font-size:var(--fs-headline);}
+  .cover-toc{list-style:none;margin:0;padding:var(--sp-2) 0 0;border-top:2px solid var(--gold);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:var(--sp-3);}
+  .cover-toc li{display:flex;flex-direction:column;gap:4px;color:var(--text);font-weight:600;line-height:1.35;}
+  .cover-toc .pn{font-family:var(--mono);font-weight:700;font-size:var(--fs-label);color:var(--cyan);}
+  /* cover footer: same 3-column grid as the contents row above it, so every column edge lines up */
+  .cover-meta{height:auto;margin-top:var(--sp-4);padding-top:var(--sp-2);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:var(--sp-3);align-items:start;font-size:var(--fs-label);line-height:1.5;}
+  .cover-meta p{margin:0;}
+  .cover-meta .cm-who{display:flex;flex-direction:column;}
+  .cover-meta .cm-who b{color:var(--text);font-weight:700;}
+  .cover-meta .cm-conf{grid-column:3;justify-self:end;text-align:right;font-family:var(--sans);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text);}
+  .cover-sub{text-wrap:balance;}
+  /* lede: the page's verdict, set as an opening paragraph */
+  .verdict{font-size:var(--fs-step);line-height:1.4;margin-top:0;}
+  .aside{color:var(--text-secondary);}
+  /* numbered sections: mono numeral eyebrow + a strong rule, matching the cover contents */
+  main{counter-reset:sec;}
+  details.blk > summary > .slabel,details.blk.sub > summary > .sublabel{display:block;border-top:1.5px solid var(--text);padding-top:var(--sp-1);font-size:var(--fs-step);font-weight:600;letter-spacing:-0.01em;}
+  details.blk > summary > .slabel::before,details.blk.sub > summary > .sublabel::before{counter-increment:sec;content:counter(sec,decimal-leading-zero);display:inline-block;width:2.25rem;vertical-align:2px;font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;color:var(--cyan);}
+  details.blk > summary{display:block;break-after:avoid;}
+  .spec{break-inside:avoid;}
+  details.blk.sub{margin-top:var(--sp-1);}
+  .offerwrap > .lockup{margin-top:var(--sp-1);}
+  .offerwrap > .lockup .slabel{font-size:var(--fs-step);}
+  /* questions grid: table-style column heads */
+  .hhead{font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);padding-bottom:6px;border-bottom:1.5px solid var(--text);}
+  .hhead.c{color:var(--cyan);border-bottom-color:var(--cyan);}
+  .hrow:nth-child(2) > div{border-top:0;}
+  .hrow > .hh{color:var(--text-secondary);}
+  .hrow > .hc{color:var(--text);}
+  .hrow > div{padding:5px 0;}
+  /* cases and deliverables */
+  .specrow{grid-template-columns:8rem minmax(0,1fr);padding:7px 0;}
+  .spec,.plist,.hgrid,.pnote{margin-left:2.25rem;}
+  .plist li{padding:4px 0;}
+  .offerwrap .specrow{padding:9px 0;}
+  .pnote{margin-top:var(--sp-2);}
+  .pnote + .offer{margin-top:var(--sp-3);}
+  .gg{margin-top:var(--sp-1);}
+  .offer{border-color:var(--text);border-width:1.5px;}
+  .offer > *{padding:10px 16px;}
+  .offer-price{font-size:var(--fs-headline);}
+  footer{display:none;}
+}
+/* Bordered document frame (the cia.arcs.care / myally.arcs.care shell, less is more): one hairline box,
+   a slim masthead band, a footer rule. Screen only; print keeps the cover and the plain flow. */
+@media screen{
+  .page{display:block;max-width:calc(var(--measure) + 2*var(--sp-4));border:1px solid var(--border);border-radius:var(--ds-r-md);background:var(--bg);overflow:hidden;}
+  .pbody{display:flex;flex-direction:column;gap:var(--sp-4);padding:var(--sp-4);}
+  .pbody > header{padding-bottom:var(--sp-4);border-bottom:1px solid var(--border);}
+  .pbody > .blkbar{margin:calc(-1*var(--sp-2)) 0 calc(-1*var(--sp-3));}
+  footer{border-top:1px solid var(--border);padding-top:var(--sp-3);}
+}
+/* Section breaks on screen, matching the PDF: the same 01/02/03 numerals (as a mono eyebrow, so heading and deck
+   stay left-aligned) and a hairline rule at each break. The header rule already opens section 01. */
+@media screen{
+  main{counter-reset:sec;}
+  details.blk > summary > .slabel::before{counter-increment:sec;content:counter(sec,decimal-leading-zero);display:block;margin-bottom:var(--sp-1);font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;color:var(--cyan);}
+  .pbody > section.offerwrap{border-top:1px solid var(--border);padding-top:var(--sp-4);}
+  .offerwrap details.pbreak{border-top:1px solid var(--border);margin-top:var(--sp-5);padding-top:var(--sp-3);}
+}
+@media screen and (max-width:640px){
+  body{padding-left:var(--sp-1);padding-right:var(--sp-1);}
+  .pbody{gap:var(--sp-3);padding:var(--sp-2);}
+  .pbody > header{padding-bottom:var(--sp-3);}
+  .pbody > .blkbar{margin:calc(-1*var(--sp-1)) 0 calc(-1*var(--sp-2));}
+}
+@media print{.mast{display:none;} .pbody{display:contents;}}
+/* Molecules on screen (kit: Signal Delta Table for block 01, Entity Cards for block 02), matching the
+   bordered offer card in block 03. Print keeps its own plain table and rows. */
+@media screen{
+  .hgrid{column-gap:0;margin-top:var(--sp-1);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);overflow:hidden;}
+  .hhead{padding:var(--sp-1) var(--sp-3);background:var(--surface-2);border-bottom:1px solid var(--border);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);}
+  .hhead.c{color:var(--cyan);border-left:1px solid var(--border);}
+  .hrow > div{padding:var(--sp-2) var(--sp-3);}
+  .hhead.c + .hrow > div{border-top:0;}
+  .hrow > .hh{color:var(--text-secondary);}
+  .hrow > .hc{color:var(--text);border-left:1px solid var(--border);}
+  .offerwrap .bd > .spec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-2);margin-top:var(--sp-1);}
+  .offerwrap .bd > .spec > .specrow,.offerwrap .bd > .spec > .specrow:last-child{grid-template-columns:minmax(0,1fr);align-content:start;row-gap:var(--sp-1);padding:var(--sp-2) var(--sp-3);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);}
+  .offerwrap .bd > .spec > .specrow dt{display:flex;align-items:center;gap:var(--sp-1);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);}
+  .offerwrap .bd > .spec > .specrow dt::before{content:"";width:8px;height:8px;border-radius:var(--ds-r-pill);background:currentColor;flex-shrink:0;}
+}
+@media screen and (max-width:640px){
+  /* first phone screen: the opening paragraph at a reading size, so section 01 starts within the first screen */
+  .verdict{font-size:var(--fs-headline);line-height:1.5;}
+  .hrow > .hc{border-left:0;padding-top:0;}
+  .offerwrap .bd > .spec{grid-template-columns:minmax(0,1fr);}
+}
+/* The bridge into the offer ("If you want the checkup") is not a section: on screen it reads as a
+   second verdict, the same serif statement as the opening, with no rule above it. */
+@media screen{
+  .pbody > section.offerwrap{border-top:0;padding-top:0;}
+  .offerwrap > .lockup .deck{font-family:var(--serif);font-size:var(--fs-step);font-weight:500;line-height:1.45;color:var(--text);}
+}
+@media screen and (max-width:640px){
+  .offerwrap > .lockup .deck{font-size:var(--fs-headline);line-height:1.5;}
+}
+/* The close sits apart from section 03: more space and a "To start" eyebrow (screen only), so it reads
+   as its own block whether 03 is open or collapsed. */
+.offer-eyebrow{display:none;}
+@media screen{
+  .offerwrap details.pbreak + .offer-eyebrow{display:block;margin:var(--sp-5) 0 var(--sp-1);font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--cyan);}
+  .offer-eyebrow + .offer{margin-top:0;}
+}
+@media screen and (max-width:640px){
+  .offerwrap details.pbreak + .offer-eyebrow{margin-top:var(--sp-4);}
+}
+/* Organisms (screen only), one family across hook, line and sinker: the kit section-label eyebrow,
+   hairline rules, surface cards with a surface-2 header band.
+   Hook   "Signal Delta"    01 table card (kit 04-signal-delta-table, 27-section-label)
+   Line   "Decision Pair"   bridge eyebrow + serif statement + the two decision cards (27, 03 without its strip)
+   Sinker "Terms and Close" deliverables, the give/get card, the kit 41-offer-close card */
+@media screen{
+  .hgrid .hhead,.gg .gg-head > span,.offerwrap > .lockup .slabel,.offerwrap details.pbreak + .offer-eyebrow{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;}
+  .offerwrap > .lockup .slabel{color:var(--muted);}
+  .offerwrap > .lockup{gap:var(--sp-2);}
+  .offerwrap > .lockup + details.blk.sub{border-top:0;margin-top:var(--sp-3);}
+  .gg{margin-top:var(--sp-2);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);overflow:hidden;}
+  .gg-row{padding:var(--sp-2) var(--sp-3);}
+  .gg-row:last-child{border-bottom:0;}
+  .gg-head{padding:var(--sp-1) var(--sp-3);background:var(--surface-2);border-bottom:1px solid var(--border);color:var(--muted);}
+  .gg-head + .gg-row{border-top:0;}
+}
+@media screen and (max-width:640px){
+  .gg-head + .gg-row{border-top:0;}
+  .gg > .gg-row:nth-child(2){border-top:0;}
+}
+/* Trace diagram (the method in one row): inputs, decision, outcome, each with its mark, over the stop line.
+   HTML, not SVG, so it reflows to a column on phones and inherits the theme. */
+.trace{margin:var(--sp-1) 0 0;}
+.trace-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-3);}
+.trace-steps li{position:relative;display:flex;flex-direction:column;gap:4px;padding:var(--sp-2);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);}
+.trace-steps li + li::before{content:"\2192";position:absolute;left:calc(-1*var(--sp-3));width:var(--sp-3);top:50%;transform:translateY(-50%);text-align:center;color:var(--muted);}
+.trace-k{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);}
+.trace-v{color:var(--text);}
+.trace-stop{margin:var(--sp-2) 0 0;padding-top:var(--sp-1);border-top:1px dashed var(--muted);color:var(--secondary);font-size:var(--fs-label);font-family:var(--mono);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;text-align:center;}
+@media (max-width:640px){
+  .trace-steps{grid-template-columns:minmax(0,1fr);gap:var(--sp-3);}
+  .trace-steps li + li::before{content:"\2193";left:0;right:0;width:auto;top:calc(-1*var(--sp-3));transform:none;height:var(--sp-3);line-height:var(--sp-3);}
+}
+@media print{.trace{display:none;}} /* screen only: the sentence above it says the same thing on paper */
+/* Print fit after deliverable 06 and the field-guide line (2026-11-09): 03 flows on from page 2 instead of
+   forcing a page break, and the close card keeps itself whole. */
+@media print{
+  .offerwrap details.pbreak{break-before:auto;}
+  .offerwrap details.pbreak > summary{break-after:avoid;}
+  .plist li{padding:4px 0;line-height:1.35;}
+  .pnote{margin-top:var(--sp-1);}
+  .gg + .offer,.pnote + .offer{margin-top:var(--sp-1);}
+  .offer > *{padding:6px 14px;}
+  .gg-row{grid-template-columns:4.5rem minmax(0,1fr) minmax(0,1fr);}
+  .offer-ask,.pnote{font-size:var(--fs-headline);line-height:1.4;}
+  .offer-price{font-size:var(--fs-body);}
+  .offer-proof{display:none;}
+}
+/* The time note sits between hairlines, the same rule the deliverables list uses between items (screen only). */
+@media screen{
+  .offerwrap .punch + .pnote{margin-top:0;padding:var(--sp-2) 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .offerwrap .punch + .pnote + .gg{margin-top:var(--sp-3);}
+}
+/* 02 is two short cards: always open, no chevron, and less air around it (screen only). */
+@media screen{
+  details.blk.fixed > summary{cursor:default;}
+  details.blk.fixed > summary::after{display:none;}
+  .offerwrap > .lockup + details.blk.sub{margin-top:var(--sp-2);}
+  .offerwrap details.pbreak{margin-top:var(--sp-4);}
+}
+/* cover: the prepared-for line sits in the top row with the date, above the rule. The wordmark and the
+   title travel as one block, centred in the page (equal auto space above it and above the contents row),
+   and the lede reads as a full-width statement in text colour, not a grey caption. */
+@media print{
+  .cover-meta{display:none;} /* the running footer (name, Confidential, page) carries it on every page, cover included */
+  .cover-top .cover-for{margin:0;}
+  .cover-wm{margin-top:auto;}
+  .cover-title{margin-top:var(--sp-5);padding-bottom:0;}
+  .cover-toc{margin-top:auto;}
+  .cover-sub{font-size:1.5rem;line-height:1.35;color:var(--text);text-wrap:pretty;}
+}
+/* @prim:begin 38-wordmark */
+.wordmark { font-family: var(--ds-font-mono); text-transform: uppercase; display: inline-flex; gap: 0.45em; align-items: baseline; max-width: none; }
+.wordmark .wa { color: var(--cyan); font-weight: 800; letter-spacing: 0.22em; }
+.wordmark .wf { color: var(--text-secondary); font-weight: 400; letter-spacing: 0.14em; }
+/* @prim:end 38-wordmark */
+/* @prim:begin 51-display-preferences */
+:root[data-font="easy"]{--ds-font-sans:Verdana,Tahoma,"Trebuchet MS",Arial,sans-serif;--ds-font-display:Verdana,Tahoma,"Trebuchet MS",Arial,sans-serif}
+:root[data-font="easy"] *{font-style:normal!important}
+:root[data-size="l"]{font-size:112.5%}
+:root[data-size="xl"]{font-size:125%}
+[data-space="roomy"] :is(p,li,dd,dt,button,summary){letter-spacing:.04em;word-spacing:.14em}
+[data-space="roomy"] :is(p,li,dd,dt){line-height:1.8}
+.dprefs{display:flex;align-items:center;gap:8px;flex:none;margin-left:auto}
+.dprefs-theme{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 16px;font:inherit;font-size:var(--fs-body);font-weight:600;color:var(--text-secondary);border:1px solid var(--border);border-radius:var(--ds-r-pill);background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.14);cursor:pointer}
+.dprefs-theme svg{width:18px;height:18px;flex:none}
+.dprefs-theme[aria-pressed="true"] .dprefs-ttl{color:var(--cyan)}
+.dprefs-trk{position:relative;width:34px;height:20px;border-radius:var(--ds-r-pill);background:var(--border);transition:background var(--dur-base)}
+.dprefs-trk::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform var(--dur-base) var(--ease-out)}
+.dprefs-theme[aria-pressed="true"] .dprefs-trk{background:var(--cyan)}
+.dprefs-theme[aria-pressed="true"] .dprefs-trk::after{transform:translateX(14px)}
+.dprefs-aa{flex:none;width:48px;height:48px;border-radius:var(--ds-r-pill);border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.dprefs-aa:hover,.dprefs-theme:hover{border-color:var(--cyan);color:var(--cyan)}
+.dprefs-aa:focus-visible,.dprefs-theme:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.dprefs-panel{position:fixed;z-index:30;width:min(360px,calc(100vw - 32px));max-height:calc(100dvh - 100px);overflow:auto;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:var(--ds-r-md);padding:16px;box-shadow:0 4px 12px rgba(0,0,0,.14)}
+.dprefs-panel.is-static{position:static;width:auto;max-height:none}
+.dprefs-panel[hidden]{display:none}
+.dprefs-title{margin:0 0 10px;font-weight:700}
+.dprefs-group{margin:0 0 12px}
+.dprefs-label{display:block;color:var(--text-secondary);margin:0 0 4px}
+.dprefs-btns{display:flex;flex-wrap:wrap;gap:6px}
+.dprefs-btns button,.dprefs-actions button{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-sm);padding:0 14px;min-height:44px;cursor:pointer}
+.dprefs-btns button[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-bg);font-weight:700}
+.dprefs-btns button:focus-visible,.dprefs-actions button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.dprefs-actions{display:flex;gap:8px;justify-content:flex-end}
+@media (max-width:520px){.dprefs-ttl{display:none}.dprefs-theme{padding:0 12px}}
+@media (prefers-reduced-motion:reduce){.dprefs-trk,.dprefs-trk::after{transition:none}}
+@media print{.dprefs,.dprefs-panel{display:none!important}}
+/* @prim:end 51-display-preferences */
+/* Masthead with the kit header: wordmark and prepared-for at left; PDF, theme and reading options at right.
+   The PDF pill borrows the theme pill's shape so the three controls read as one set. */
+.mast .pdfbtn{display:inline-flex;align-items:center;gap:8px;width:auto;height:48px;padding:0 16px;font:inherit;font-size:var(--fs-body);font-weight:600;color:var(--text-secondary);border:1px solid var(--border);border-radius:var(--ds-r-pill);background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.14);text-decoration:none;}
+.mast .pdfbtn svg{width:16px;height:16px;flex:none;}
+.mast .pdfbtn:hover{border-color:var(--cyan);color:var(--cyan);}
+@media (max-width:520px){.mast{flex-wrap:wrap;row-gap:var(--sp-1);} .mast .dprefs{margin-left:auto;} .mast .dl-ttl{display:none;}.mast .pdfbtn{width:48px;padding:0;justify-content:center;}}
+/* Header controls step down with the page: under 760px they drop their labels and go to 44px (still a full
+   tap target), so the wordmark and prepared-for line keep their room. */
+@media (max-width:760px){
+  .mast .dprefs-ttl,.mast .dl-ttl{display:none;}
+  .mast .dprefs-theme{height:44px;padding:0 12px;}
+  .mast .dprefs-aa{width:44px;height:44px;}
+  .mast .pdfbtn{width:44px;height:44px;padding:0;justify-content:center;}
+  .mast .dprefs{gap:6px;}
+}
+/* Footer: one short row. Review copy at left, name at right (a mailto link). */
+@media screen{
+  footer{display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-2);flex-wrap:wrap;padding-top:var(--sp-2);font-size:var(--fs-label);}
+  footer p{margin:0;}
+}
+/* Top row mirrors myAlly: it sits above the page box on the ground, not inside it. Wordmark at left,
+   PDF / theme / reading options at right, then a plain "Prepared for" line under it. */
+@media screen{
+  .mast{max-width:calc(var(--measure) + 2*var(--sp-4));margin:0 auto var(--sp-3);padding:0;background:none;border:0;border-radius:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--sp-1) var(--sp-2);}
+  .mast .wordmark{font-size:var(--fs-body);}
+  .mast .dprefs{margin-left:auto;}
+  .mast .mast-for{flex:1 1 100%;margin:0;color:var(--text-secondary);font-size:var(--fs-body);}
+  .mast .mast-for strong{color:var(--text);font-weight:600;margin-right:6px;}
+}
+@media print{.mast{display:none;}}
+/* Top row layout: wordmark alone on line one; "Prepared for" and the controls share line two.
+   On phones the controls move up beside the wordmark so the prepared-for line keeps full width. */
+@media screen{
+  .mast{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:var(--sp-2);row-gap:var(--sp-1);}
+  .mast .wordmark{grid-column:1;grid-row:1;}
+  .mast .mast-for{grid-column:1;grid-row:2;}
+  .mast .dprefs{grid-column:2;grid-row:1 / span 2;align-self:end;margin-left:0;} /* lockup: the controls' bottom edge meets the bottom of the two-line left block */
+}
+@media screen and (max-width:520px){
+  .mast .dprefs{grid-row:1;}
+  .mast .mast-for{grid-column:1 / -1;}
+}
+/* Header lockup (Zach, 2026-11-09): slimmer pills, no "Dark mode" label (the switch keeps its aria-label),
+   bottom edge flush with the bottom of the "Prepared for" line. 36px clears the 24px AA target minimum. */
+@media screen{
+  .mast .dprefs-ttl{display:none;}
+  .mast .dprefs-theme{height:36px;padding:0 12px;}
+  .mast .pdfbtn{height:36px;padding:0 14px;}
+  .mast .mast-for{line-height:1.4;align-self:end;}
+  .mast .dprefs-theme{order:-1;} /* toggle first, then PDF, as on myAlly */
+}
+@media screen and (max-width:760px){
+  .mast .pdfbtn{width:36px;height:36px;padding:0;}
+  .mast .dprefs-theme{height:36px;}
+}
+/* Calmer hover on the header pills: a neutral border lift, not the electric cyan hairline (reads loud in
+   dark mode). Keyboard focus keeps the cyan outline. */
+@media screen{
+  .mast .dprefs-theme:hover,.mast .pdfbtn:hover{border-color:var(--text-secondary);color:var(--text);}
+}
+/* "You named it": the label sits above the card, top-left, outside its edge; the text sits in a quiet card
+   (the kit callout shape, no side stripe) at body size. */
+.named{margin-top:var(--sp-3);display:flex;flex-direction:column;gap:var(--sp-1);}
+.named-k{margin:0;font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);} /* same eyebrow as "If you want the checkup" */
+.named-v{margin:0;padding:var(--sp-2) var(--sp-3);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);color:var(--text-secondary);}
+@media print{.named{margin-top:var(--sp-1);gap:4px;} .named-v{padding:6px 12px;}}
+.verdict + .verdict{margin-top:var(--sp-2);}
+@media print{.verdict + .verdict{margin-top:var(--sp-1);}}
+/* "Why" sits inside the card, in the same mono numeral style as the 01/02/03 section eyebrows */
+.named-why{display:block;margin-bottom:var(--sp-1);font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--cyan);}
+/* The "Why" card leads the page as a dismissible note: slimmer, above the title, closes for this visit. */
+.named{position:relative;margin:0 0 var(--sp-3);}
+.named-v{padding:var(--sp-1) calc(var(--sp-4) + var(--sp-1)) var(--sp-1) var(--sp-2);}
+.named-why{margin-bottom:2px;}
+.named-x{position:absolute;top:4px;right:4px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0;border:0;background:none;color:var(--muted);border-radius:var(--ds-r-pill);cursor:pointer;}
+.named-x:hover{color:var(--text);}
+.named-x:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
+.named[hidden]{display:none;}
+@media print{.named-x{display:none;} .named{margin:0 0 var(--sp-1);} .named-v{padding:6px 12px;}}
+/* "Why" as an eyebrow outside the card; the close button sits inside the card's corner */
+.named{display:flex;flex-direction:column;gap:var(--sp-1);}
+.named .named-why{margin:0;}
+.named-v{position:relative;}
+.named-x{top:50%;transform:translateY(-50%);}
+/* The stop line reads as a sentence, not a cryptic label: "call" was ambiguous (phone call or decision). */
+.trace-stop{font-family:var(--sans);font-size:var(--fs-body);font-weight:400;letter-spacing:0;text-transform:none;color:var(--text-secondary);}
+.trace-stop strong{color:var(--text);font-weight:600;}
+/* Why toast under the Field OS row, above the page box: a "Why" pill, the line, a close button. Same width as
+   the top row and the page box. Screen only: the PDF keeps its cover. */
+@media screen{
+  .named{max-width:calc(var(--measure) + 2*var(--sp-4));margin:0 auto var(--sp-3);}
+  .named-v{display:flex;align-items:center;gap:var(--sp-2);padding:var(--sp-1) var(--sp-1) var(--sp-1) var(--sp-2);}
+  .why-pill{flex:none;display:inline-flex;align-items:center;padding:2px 10px;border-radius:var(--ds-r-pill);background:var(--cyan-bg);color:var(--cyan);font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;}
+  .why-t{flex:1 1 auto;min-width:0;}
+  .named-x{position:static;transform:none;flex:none;}
+}
+@media print{.named{display:none;}}
+/* Toast alignment: pill and close button top-aligned with the first line; on phones the pill sits above the
+   text, with the close button on the pill's row. */
+@media screen{
+  .named-v{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:start;column-gap:var(--sp-2);}
+  .why-pill{margin-top:2px;}
+  .named-x{margin-top:-6px;}
+}
+@media screen and (max-width:520px){
+  .named-v{grid-template-columns:auto minmax(0,1fr) auto;row-gap:var(--sp-1);}
+  .why-pill{grid-column:1;grid-row:1;}
+  .named-x{grid-column:3;grid-row:1;margin-top:-6px;}
+  .why-t{grid-column:1 / -1;grid-row:2;}
+}
+/* print breathing room 2026-11-10 (Zach): one lede lockup, airier rows, clear gaps before the bridge and the price card. Print only. */
+@media print{
+  .pbody > header{display:block;}
+  .pbody > header > .verdict{display:inline;font-size:var(--fs-headline);line-height:1.5;margin:0;}
+  .pbody > header > .verdict + .verdict::before{content:" ";}
+  .pbody > header{padding-bottom:var(--sp-3);}
+  .hrow > div{padding:10px 0;}
+  section.offerwrap{margin-top:var(--sp-3);}
+  .offerwrap > .lockup{gap:6px;}
+  .offerwrap > .lockup + details.blk.sub{margin-top:var(--sp-3);}
+  .offerwrap details.pbreak{break-before:page;}
+  .offerwrap .specrow{padding:12px 0;}
+  .plist li{padding:4px 0;}
+  .pnote{margin-top:var(--sp-3);line-height:1.35;}
+  .gg{margin-top:var(--sp-2);}
+  .gg-row{padding-top:8px;padding-bottom:8px;}
+  .gg > .gg-row:last-child{border-bottom-width:0;}
+  .offerwrap > .offer{margin-top:var(--sp-4);}
+  .offer > *{padding:10px 16px;}
+  .offerwrap details.pbreak + .offer-eyebrow{margin-top:var(--sp-3);}
+  .offer{break-inside:avoid;}
+  /* impeccable + brand review 2026-11-10: align bridge and card to the content line, card as a rule not a box, quieter wordmark, no numbers on an unordered list */
+  .offerwrap > .lockup,.offerwrap > .offer{margin-left:2.25rem;}
+  .offer{border-radius:0;border-width:1.5px 0 0;border-color:var(--text);}
+  .offer > *{padding-left:0;padding-right:0;}
+  .cover-wm{font-size:var(--fs-headline);}
+  .plist .pn{display:none;}
+  .plist li{grid-template-columns:minmax(0,1fr);padding:5px 0;}
+}
+.offerwrap .deck{text-wrap:pretty;}
+.pnote{text-wrap:balance;}
+.gg-give > span{display:block;}
+.gg-give > span + span{margin-top:4px;}
+</style>
+</head>
+<body>
+<div class="mast">
+  <span class="wordmark" aria-label="ARCS Field OS"><span class="wa">ARCS</span><span class="wf">Field OS</span></span>
+  <div class="dprefs"><a class="pdfbtn" href="outside-read.pdf" data-track="pdf_download" download="Outside-read-Louisville-Brands.pdf" aria-label="Download the proposal as a PDF"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2.5v7.5M4.75 7 8 10.25 11.25 7M3 13.5h10"/></svg><span class="dl-ttl">PDF</span></a><button type="button" class="dprefs-theme" aria-pressed="false" aria-label="Dark mode"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></svg><span class="dprefs-ttl">Dark mode</span><span class="dprefs-trk" aria-hidden="true"></span></button></div>
+  <p class="mast-for"><strong>Prepared for</strong> Brooks Thomas, Louisville Brands</p>
+</div>
+<div class="named" id="why" role="note"><p class="named-v"><span class="why-pill">Why</span><span class="why-t">Confirmation bias, recency bias, the fox watching the henhouse. An outside gut check, not a replacement.</span><button type="button" class="named-x" aria-label="Dismiss"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></p></div>
+<main class="page">
+
+<section class="cover" aria-label="Cover">
+  <div class="cover-top"><p class="cover-for">Prepared for Brooks Thomas, Louisville Brands</p><p class="cover-date">November 2026</p></div>
+  <p class="cover-wm" aria-label="ARCS Field OS"><span class="cover-wm-a">ARCS</span><span class="cover-wm-f">Field OS</span></p>
+  <div class="cover-title">
+    <p class="cover-h">A checkup on your AI build</p>
+    <p class="cover-sub">Where it's least efficient, and which hypotheses aren't holding, in time for Q1 planning</p>
+  </div>
+  <ol class="cover-toc">
+    <li><span class="pn">01</span><span>Questions worth putting to your team</span></li>
+    <li><span class="pn">02</span><span>The two decisions</span></li>
+    <li><span class="pn">03</span><span>What's included</span></li>
+  </ol>
+  <div class="cover-meta"><p class="cm-who"><b>Zach Harris</b><span>zach.harris@gmail.com</span></p><p class="cm-conf">Confidential</p></div>
+</section>
+
+
+<div class="pbody">
+
+<header>
+  
+  <h1>A checkup on your AI build</h1>
+  <p class="verdict">Where is your AI build on its arc, where is it least efficient, which hypotheses are failing?</p>
+  <p class="verdict">I'd answer by following two real decisions, one technical and one business, from what went in to how they turned out, before the next 20,000-bag MOQ rides on it.</p>
+</header>
+
+<div class="blkbar"><button type="button" class="expall">Expand all</button></div>
+
+<section>
+  <details class="blk" open>
+    <summary><h2 class="slabel">Questions worth putting to your team</h2><span class="tk" data-voice="joint">Useful whether or not I'm involved. Each comes from something you raised.</span></summary>
+    <div class="bd">
+  <div class="hgrid">
+    <h3 class="hhead">What you raised</h3><h3 class="hhead c">Worth asking</h3>
+    <div class="hrow"><div class="hh">Volume indicators can miss a rising signal; every day without a call costs time to market.</div><div class="hc">How often was your criteria's peaked-or-rising read right, and what would have flagged it wrong before the MOQ?</div></div>
+    <div class="hrow"><div class="hh">You've built partner-risk alarms by hand; analysis before signing is critical.</div><div class="hc">Before the next collab, what runs on the partner, and would it catch trouble early?</div></div>
+    <div class="hrow"><div class="hh">A missed simulation means bad data or a wrong hypothesis.</div><div class="hc">For the last miss, which was it, and can your setup tell next time?</div></div>
+    <div class="hrow"><div class="hh">No 20,000-bag MOQ without an early indicator.</div><div class="hc">Which flavor calls carry a number that says stop, agreed before the order?</div></div>
+  </div>
+    </div>
+  </details>
+</section>
+
+<section class="offerwrap">
+  <div class="lockup"><h2 class="slabel">If you want the checkup</h2><p class="deck">I read your build through what it decides.</p><p class="deck">Each decision gets three marks: What it relied on, what it couldn't see, and when you'll know if it worked.</p>
+  <figure class="trace" aria-label="How one decision is traced">
+    <ol class="trace-steps">
+      <li><span class="trace-k">Inputs</span><span class="trace-v">What it relies on</span></li>
+      <li><span class="trace-k">Decision</span><span class="trace-v">What it can't see</span></li>
+      <li><span class="trace-k">Outcome</span><span class="trace-v">The date you'll know</span></li>
+    </ol>
+    <p class="trace-stop"><strong>Agreed first:</strong> The number that would tell you to stop, set before the decision is made.</p>
+  </figure></div>
+  <details class="blk sub fixed" open>
+    <summary><h2 class="slabel">The two decisions</h2><span class="tk">You pick. My suggestions:</span></summary>
+    <div class="bd">
+  <dl class="spec">
+    <div class="specrow"><dt>Technical</dt><dd>How the build works, such as how the warehouse and MCP feed your criteria, or what stays on-prem. Followed from the data in to the answer out: Where it held, slowed or broke.</dd></div>
+    <div class="specrow"><dt>Business</dt><dd>A call the build informed, such as Filipino Adobo, a partner check before a collab, or the number that says stop before an MOQ.</dd></div>
+  </dl>
+    </div>
+  </details>
+  <details class="blk sub pbreak" open>
+    <summary><h2 class="slabel">What's included</h2><span class="tk">Every deliverable, and the time it takes.</span></summary>
+    <div class="bd">
+  <div class="punch">
+    <ol class="plist">
+      <li><span class="pn">01</span><span>Each decision written up with its three marks and the number that would tell you to stop, agreed up front. If one has played out, it sits beside the result.</span></li>
+      <li><span class="pn">02</span><span>One page: Where the build stands, what's least efficient, which hypotheses aren't holding.</span></li>
+      <li><span class="pn">03</span><span>A read against the five things you said matter: Accuracy, efficiency, speed, cost on your own on-prem setup, one source of truth without bloat or tech debt.</span></li>
+      <li><span class="pn">04</span><span>Next steps with dates, each with a number that shows it worked.</span></li>
+      <li><span class="pn">05</span><span>Honest marks: What's unchecked, what's unsure, and your pushback, all on the page.</span></li>
+      <li><span class="pn">06</span><span>A one-page field guide so your team can rerun the checks.</span></li>
+    </ol>
+  </div>
+  <p class="pnote">Two weeks. About 3.5 hours of your team's time, a little over 4 with the optional session.</p>
+  <div class="gg" role="table" aria-label="What you give and what you get">
+    <div class="gg-row gg-head" role="row"><span role="columnheader"><span class="vh">When</span></span><span role="columnheader">What you give</span><span role="columnheader" class="c">What you get</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Before</span><span class="gg-give" role="cell">Mutual NDA; total sales figures only, nothing at customer level.</span><span class="gg-get" role="cell">Customer-level data stays with you.</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 1</span><span class="gg-give" role="cell"><span>Kickoff with you, 60 min.</span><span>Screen-share with your warehouse and MCP lead: Where data lives, who can reach it, 90 min.</span><span>Optional: 45 min with whoever owns where the data goes next.</span></span><span class="gg-get" role="cell">Both decisions written up.</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 2</span><span class="gg-give" role="cell">Readout, 60 min, and your pushback.</span><span class="gg-get" role="cell">The rest of the list above, with your pushback on the page.</span></div>
+  </div>
+    </div>
+  </details>
+  <p class="offer-eyebrow">Next steps</p>
+  <div class="offer">
+    <div class="offer-head">
+      <p class="offer-price"><span class="offer-fig">$5,000</span>: Half at kickoff, half at the readout.</p>
+      <p class="offer-keep">You keep the work.</p>
+    </div>
+    <div class="offer-proof">
+      <p>My RFP engine works the same way: Each answer cites its clause, says "not covered" when it can't, and logs its misses in public.</p>
+      <a data-track="rfp_engine_click" class="offer-link" href="https://good.arcs.care/rfp-engine">good.arcs.care/rfp-engine<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+    </div>
+    <p class="offer-ask">If it fits, the next step is a short call to pick the two decisions. From there, a start date that lands before Q1 plans and the next MOQ lock.</p>
+  </div>
+</section>
+
+<footer><p class="revline"><a href="/proposal/review-copy.pdf" download="Outside-read-review-copy.pdf" data-track="review_copy_download">Review copy to print</a> · <a href="/proposal/proposal.md" data-track="plain_text_open">Plain text for AI tools</a></p><p class="fsig"><a href="mailto:zach.harris@gmail.com" data-track="email_click">Zach Harris</a></p></footer>
+</div>
+
+</main>
+<script>(function(){var b=document.querySelector('.expall');var ds=[].slice.call(document.querySelectorAll('details.blk:not(.fixed)'));if(!b||!ds.length)return;function sync(){var all=ds.every(function(d){return d.open});b.textContent=all?'Collapse all':'Expand all';b.setAttribute('aria-expanded',all?'true':'false');}b.addEventListener('click',function(){var all=ds.every(function(d){return d.open});ds.forEach(function(d){d.open=!all});sync();});ds.forEach(function(d){d.addEventListener('toggle',sync)});window.addEventListener('beforeprint',function(){ds.forEach(function(d){d.open=true})});sync();})();</script>
+<script>(function(){window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-track]');if(!a)return;window.va('event',{name:a.getAttribute('data-track'),data:{href:a.getAttribute('href')||''}});});})();</script>
+<script>(function(){[].forEach.call(document.querySelectorAll('details.fixed > summary'),function(m){m.setAttribute('tabindex','-1');m.addEventListener('click',function(e){e.preventDefault();});});})();</script>
+<script>(function(){var d=document.documentElement,b=document.querySelector('.mast .dprefs-theme');if(!b)return;var st={};try{st=JSON.parse(localStorage.getItem('brooksRead')||'{}')||{};}catch(e){}var mq=window.matchMedia&&matchMedia('(prefers-color-scheme: light)');function dark(){return st.theme?st.theme==='dark':!(mq&&mq.matches);}function apply(){st.theme?d.setAttribute('data-theme',st.theme):d.removeAttribute('data-theme');b.setAttribute('aria-pressed',String(dark()));}b.addEventListener('click',function(){st.theme=dark()?'light':'dark';try{localStorage.setItem('brooksRead',JSON.stringify(st));localStorage.setItem('brooksTheme',st.theme);}catch(e){}apply();});apply();})();</script>
+<script>(function(){var c=document.getElementById('why');if(!c)return;var k='brooksWhyClosed';try{if(sessionStorage.getItem(k))c.hidden=true;}catch(e){}var x=c.querySelector('.named-x');x&&x.addEventListener('click',function(){c.hidden=true;try{sessionStorage.setItem(k,'1');}catch(e){}var h=document.querySelector('.pbody h1');if(h){h.setAttribute('tabindex','-1');h.focus();}});})();</script>
+</body>
+</html>

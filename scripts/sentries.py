@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""sentries: four read-only watchers (stdlib only). Warn, never block, never write.
+"""sentries: five read-only watchers (stdlib only). Warn, never block, never write.
 
   seed-ledger  candidates with 0 uses after 7 days of ledger age; gate failures (kill lines tripped, drift)
   claims       over-claim phrases in docs and agent specs changed vs origin/main
   main-drift   main checkout off origin/main, so new .claude/ agents never load
   open-loops   rows in runtime/specs/honest-notes-owed.jsonl still open (merge receipts, honest-note fixes)
+  discovery    an engagement whose unpaid hours passed its cap (scripts/engagement_hours.py --check)
 
   python3 scripts/sentries.py            # run all, print SENTRY lines, exit 0
   python3 scripts/sentries.py --self-test
@@ -77,7 +78,14 @@ def open_loops(root):
             if r.get("state") == "OPEN": out.append(f"WARN open-loops: {r['ref']} owes {r['owed']} (since {r['since']})")
     return out
 
-SENTRIES = [("seed-ledger", seed_ledger), ("claims", claims), ("main-drift", main_drift), ("open-loops", open_loops)]
+def discovery(root):
+    tool = os.path.join(root, "scripts/engagement_hours.py")
+    if not os.path.exists(tool): return []
+    r = subprocess.run([sys.executable, tool], cwd=root, capture_output=True, text=True)
+    return [f"WARN discovery: {l.strip()}; free work past the cap is a choice, make it on purpose"
+            for l in r.stdout.splitlines() if "OVER CAP" in l]
+
+SENTRIES = [("seed-ledger", seed_ledger), ("claims", claims), ("main-drift", main_drift), ("open-loops", open_loops), ("discovery", discovery)]
 
 def self_test():
     ok = True

@@ -1,0 +1,744 @@
+{
+ "label": "EARLY/INTERIM run, day 12 of 28; not the official 2026-11-17 check",
+ "run_sha": "5864abda23893b3c73f379085c00bdfb99a72a28",
+ "rows": [
+  {
+   "row": 1,
+   "system": "graph",
+   "assembly": [
+    "tool:skill:night-moves",
+    "tool:command:catalog",
+    "tool:script:press_run.py"
+   ],
+   "raw": {
+    "job": "check if the scheduled ones are hung",
+    "assembly": [
+     "tool:skill:night-moves",
+     "tool:command:catalog",
+     "tool:script:press_run.py"
+    ],
+    "scores": [
+     1.318,
+     0.818,
+     0.798
+    ],
+    "matched_jobs": [
+     "job:backlog:hung-schedule-check",
+     "job:backlog:catalog-fixes-after-s4",
+     "job:backlog:vico-stop-loss-gates-scheduled"
+    ],
+    "blockers": [],
+    "closure": [
+     "tool:operator:arcs_librarian.py",
+     "tool:operator:jtbd_query.py",
+     "tool:script:arcs_models.py",
+     "tool:script:dependency_sweep.py",
+     "tool:script:jtbd_edge_weights.py",
+     "tool:script:model_drift_check.py",
+     "tool:script:tool_catalog_emit.py",
+     "tool:script:tool_orphan_audit.py",
+     "tool:script:universe_ask.py",
+     "tool:script:universe_canon_adapter.py",
+     "tool:script:universe_sweep.py"
+    ],
+    "closure_total": 11,
+    "receipts": "none local naming the best tool",
+    "tokens": 197
+   }
+  },
+  {
+   "row": 2,
+   "system": "graph",
+   "assembly": [
+    "tool:script:state_sync_check.py",
+    "tool:command:prior-art",
+    "tool:skill:fold",
+    "tool:script:handoff_fold.py",
+    "tool:script:backlog_status_check.py"
+   ],
+   "raw": {
+    "job": "check them for half-written state",
+    "assembly": [
+     "tool:script:state_sync_check.py",
+     "tool:command:prior-art",
+     "tool:skill:fold",
+     "tool:script:handoff_fold.py",
+     "tool:script:backlog_status_check.py"
+    ],
+    "scores": [
+     1.0,
+     0.86,
+     0.851,
+     0.695,
+     0.658
+    ],
+    "matched_jobs": [
+     "job:memory:shared-anchor-append-refetch-before-write",
+     "job:backlog:ci-orbstack-linux-vm-runners",
+     "job:backlog:hud-signal-audit"
+    ],
+    "blockers": [],
+    "closure": [
+     "tool:operator:arcs_librarian.py",
+     "tool:operator:jtbd_query.py",
+     "tool:script:jtbd_edge_weights.py",
+     "tool:script:prior_art.py"
+    ],
+    "closure_total": 4,
+    "receipts": "none local naming the best tool",
+    "tokens": 157
+   }
+  },
+  {
+   "row": 3,
+   "system": "graph",
+   "assembly": [
+    "tool:script:handoff_fold.py",
+    "tool:script:handoff_cluster.py",
+    "tool:script:handoff_excavate.py",
+    "tool:script:cold_molt_lint.py"
+   ],
+   "raw": {
+    "job": "molt the handoff fragments now",
+    "assembly": [
+     "tool:script:handoff_fold.py",
+     "tool:script:handoff_cluster.py",
+     "tool:script:handoff_excavate.py",
+     "tool:script:cold_molt_lint.py"
+    ],
+    "scores": [
+     1.5,
+     1.084,
+     1.077,
+     0.917
+    ],
+    "matched_jobs": [
+     "job:backlog:forensic-arc-reconstruction",
+     "job:backlog:unfold-append-only-ledger",
+     "job:backlog:landing-drag-meter"
+    ],
+    "blockers": [],
+    "closure": [],
+    "closure_total": 0,
+    "receipts": "none local naming the best tool",
+    "tokens": 115
+   }
+  },
+  {
+   "row": 4,
+   "system": "graph",
+   "assembly": [
+    "tool:command:handoff",
+    "tool:script:leak_check.sh",
+    "tool:script:claim_check.py",
+    "tool:script:tao_print_check.py",
+    "tool:script:fork_lineage_check.sh"
+   ],
+   "raw": {
+    "job": "I closed a bunch of stuff - check again?",
+    "assembly": [
+     "tool:command:handoff",
+     "tool:script:leak_check.sh",
+     "tool:script:claim_check.py",
+     "tool:script:tao_print_check.py",
+     "tool:script:fork_lineage_check.sh"
+    ],
+    "scores": [
+     1.0,
+     0.88,
+     0.872,
+     0.842,
+     0.812
+    ],
+    "matched_jobs": [
+     "job:backlog:prl-golive-empty-email-guard",
+     "job:backlog:phosphor-copy-me-game",
+     "job:backlog:accountant-external-cohort-nonzero"
+    ],
+    "blockers": [],
+    "closure": [
+     "tool:script:handoff_fold.py",
+     "tool:script:shavasana_handoff.py",
+     "tool:script:tao_print.py",
+     "tool:script:write_lock.py"
+    ],
+    "closure_total": 4,
+    "receipts": "none local naming the best tool",
+    "tokens": 158
+   }
+  },
+  {
+   "row": 5,
+   "system": "graph",
+   "assembly": [
+    "tool:script:handoff_fold.py",
+    "tool:command:catalog",
+    "tool:script:handoff_cluster.py",
+    "tool:script:handoff_excavate.py",
+    "tool:skill:fold"
+   ],
+   "raw": {
+    "job": "measure landing drag on the last three handoffs (tokens to first useful action, re-derivation count)",
+    "assembly": [
+     "tool:script:handoff_fold.py",
+     "tool:command:catalog",
+     "tool:script:handoff_cluster.py",
+     "tool:script:handoff_excavate.py",
+     "tool:skill:fold"
+    ],
+    "scores": [
+     1.0,
+     0.83,
+     0.77,
+     0.764,
+     0.663
+    ],
+    "matched_jobs": [
+     "job:backlog:landing-drag-meter",
+     "job:backlog:handoff-timeline-emitter-land",
+     "job:backlog:assembly-line-wave-1-pilot"
+    ],
+    "blockers": [],
+    "closure": [
+     "tool:operator:arcs_librarian.py",
+     "tool:operator:jtbd_query.py",
+     "tool:script:jtbd_edge_weights.py",
+     "tool:script:tool_catalog_emit.py",
+     "tool:script:tool_orphan_audit.py"
+    ],
+    "closure_total": 5,
+    "receipts": "none local naming the best tool",
+    "tokens": 180
+   }
+  },
+  {
+   "row": 6,
+   "system": "graph",
+   "assembly": [
+    "tool:script:design_debt_sweep.py",
+    "tool:script:jtbd_drift_report.py"
+   ],
+   "raw": {
+    "job": "pre-flight checklist of surfaces, drift, tech-debt, design-debt, blockers, P0 triage",
+    "assembly": [
+     "tool:script:design_debt_sweep.py",
+     "tool:script:jtbd_drift_report.py"
+    ],
+    "scores": [
+     1.0,
+     0.656
+    ],
+    "matched_jobs": [
+     "job:backlog:ui-kit-reconcile-legacy-tokens",
+     "job:backlog:jtbd-graph-s0-schema",
+     "job:backlog:jtbd-graph-triage-2026-10-20"
+    ],
+    "blockers": [],
+    "closure": [
+     "tool:script:jtbd_edge_weights.py",
+     "tool:script:receipt_coverage.py"
+    ],
+    "closure_total": 2,
+    "receipts": "none local naming the best tool",
+    "tokens": 129
+   }
+  },
+  {
+   "row": 7,
+   "system": "graph",
+   "assembly": [
+    "tool:script:hud_signal_audit.py",
+    "tool:op:10",
+    "tool:script:risk_sweep.py"
+   ],
+   "raw": {
+    "job": "non-obvious insights / counter-intuitive signals - how to make sense of them",
+    "assembly": [
+     "tool:script:hud_signal_audit.py",
+     "tool:op:10",
+     "tool:script:risk_sweep.py"
+    ],
+    "scores": [
+     1.323,
+     1.0,
+     0.826
+    ],
+    "matched_jobs": [
+     "job:backlog:memory-shard-oracle-github-reconcile",
+     "job:backlog:filing-nonprov",
+     "job:backlog:handoff-open-items-closes-when"
+    ],
+    "blockers": [
+     {
+      "id": "blocker:backlog:op20-somatic-axiom-real-signal-source",
+      "resolve_by": "2026-11-01"
+     }
+    ],
+    "closure": [],
+    "closure_total": 0,
+    "receipts": "none local naming the best tool",
+    "tokens": 137
+   }
+  },
+  {
+   "row": 8,
+   "system": "graph",
+   "assembly": [
+    "tool:operator:arcs_primitives.py",
+    "tool:operator:arcs_primitives_bridge.py"
+   ],
+   "raw": {
+    "job": "arcs primitives and atomic elements snap together upon induced current",
+    "assembly": [
+     "tool:operator:arcs_primitives.py",
+     "tool:operator:arcs_primitives_bridge.py"
+    ],
+    "scores": [
+     1.585,
+     0.956
+    ],
+    "matched_jobs": [
+     "job:backlog:design-system-trueup-claude-design-magic-patterns",
+     "job:backlog:recoil-backlog-induction-tool-snap",
+     "job:pattern:2026-10-20-jtbd-system-architecture"
+    ],
+    "blockers": [],
+    "closure": [
+     "tool:op:14"
+    ],
+    "closure_total": 1,
+    "receipts": "none local naming the best tool",
+    "tokens": 124
+   }
+  },
+  {
+   "row": 9,
+   "system": "graph",
+   "assembly": [
+    "tool:script:backlog_graph.py",
+    "tool:script:jtbd_edge_weights.py",
+    "tool:script:universe_jtbd_adapter.py",
+    "tool:script:backlog_ripeness.py",
+    "tool:script:tool_catalog_emit.py"
+   ],
+   "raw": {
+    "job": "contour of shape of problem emerges and jobs to be done magnetically attract to the loadbearing edges of the problem space; tools snap to jobs as more current is induced; backlog prioritizes on electr...",
+    "assembly": [
+     "tool:script:backlog_graph.py",
+     "tool:script:jtbd_edge_weights.py",
+     "tool:script:universe_jtbd_adapter.py",
+     "tool:script:backlog_ripeness.py",
+     "tool:script:tool_catalog_emit.py"
+    ],
+    "scores": [
+     1.685,
+     1.482,
+     1.228,
+     1.193,
+     1.141
+    ],
+    "matched_jobs": [
+     "job:backlog:recoil-backlog-induction-tool-snap",
+     "job:backlog:jtbd-graph-s1-nodes",
+     "job:backlog:jtbd-graph-s5-feedback"
+    ],
+    "blockers": [],
+    "closure": [
+     "tool:script:jtbd_graph_edges.py",
+     "tool:script:jtbd_graph_gates.py",
+     "tool:script:jtbd_graph_schema_check.py",
+     "tool:script:mcp_tool_index_emit.py",
+     "tool:script:readiness_packet.py",
+     "tool:script:tool_orphan_audit.py"
+    ],
+    "closure_total": 6,
+    "receipts": "none local naming the best tool",
+    "tokens": 228
+   }
+  },
+  {
+   "row": 10,
+   "system": "graph",
+   "assembly": [
+    "tool:script:echo_ridgeline_feed.py",
+    "tool:script:echo_detector_dogfood.py"
+   ],
+   "raw": {
+    "job": "vector collision engine v2 and orthogonal echo detector start firing to look out for rare earth arcs periodic elements and we ensure that our conditions are dialed in",
+    "assembly": [
+     "tool:script:echo_ridgeline_feed.py",
+     "tool:script:echo_detector_dogfood.py"
+    ],
+    "scores": [
+     1.642,
+     1.0
+    ],
+    "matched_jobs": [
+     "job:backlog:rfp-engine-public-good",
+     "job:backlog:calibration-literature-echo-scan",
+     "job:backlog:echo-detector-embedding-signature"
+    ],
+    "blockers": [],
+    "closure": [
+     "tool:op:12",
+     "tool:op:14",
+     "tool:op:17",
+     "tool:op:18",
+     "tool:op:20",
+     "tool:op:23",
+     "tool:op:26",
+     "tool:op:3",
+     "tool:operator:arcs_api.py",
+     "tool:operator:arcs_backup.py",
+     "tool:operator:arcs_battery.py",
+     "tool:operator:arcs_constitutional_court.py",
+     "tool:operator:arcs_echo_embedding.py",
+     "tool:operator:arcs_inchworm_echo.py",
+     "tool:operator:arcs_kinematics.py",
+     "tool:operator:arcs_kintsugi.py",
+     "tool:operator:arcs_no_go_inventory.py",
+     "tool:operator:arcs_operator20.py",
+     "tool:operator:arcs_operators_bar.py",
+     "tool:operator:arcs_operators_curator.py",
+     "tool:operator:arcs_operators_lab.py",
+     "tool:operator:arcs_operators_sage.py",
+     "tool:operator:arcs_primitives.py",
+     "tool:operator:arcs_rom.py",
+     "tool:operator:arcs_runtime_service.py",
+     "tool:operator:arcs_substrate.py",
+     "tool:operator:arcs_trace.py",
+     "tool:operator:arcs_trace_loki.py"
+    ],
+    "closure_total": 28,
+    "receipts": "none local naming the best tool",
+    "tokens": 348
+   }
+  },
+  {
+   "row": 11,
+   "system": "graph",
+   "assembly": [
+    "tool:script:memory_index_sync.py",
+    "tool:command:catalog",
+    "tool:script:memory_catalog_emit.py",
+    "tool:script:handoff_excavate.py"
+   ],
+   "raw": {
+    "job": "reverse look up index, catalog, state, memory, handoff files to date and piece together well inferred hypotheses with source quality grading and explainable provenance",
+    "assembly": [
+     "tool:script:memory_index_sync.py",
+     "tool:command:catalog",
+     "tool:script:memory_catalog_emit.py",
+     "tool:script:handoff_excavate.py"
+    ],
+    "scores": [
+     1.0,
+     0.914,
+     0.71,
+     0.607
+    ],
+    "matched_jobs": [
+     "job:backlog:card-catalog-sweep-quorum",
+     "job:backlog:catalog-public-flag-and-chain",
+     "job:memory:fork-when-dense-lossless-cross-session-state"
+    ],
+    "blockers": [],
+    "closure": [
+     "tool:operator:arcs_librarian.py",
+     "tool:operator:jtbd_query.py",
+     "tool:script:jtbd_edge_weights.py",
+     "tool:script:tool_catalog_emit.py",
+     "tool:script:tool_orphan_audit.py"
+    ],
+    "closure_total": 5,
+    "receipts": "none local naming the best tool",
+    "tokens": 199
+   }
+  },
+  {
+   "row": 12,
+   "system": "graph",
+   "assembly": [
+    "tool:skill:night-moves"
+   ],
+   "raw": {
+    "job": "sweep for seed candidates and night moves and check if any memories conflict or need to be updated",
+    "assembly": [
+     "tool:skill:night-moves"
+    ],
+    "scores": [
+     1.957
+    ],
+    "matched_jobs": [
+     "job:backlog:hung-schedule-check",
+     "job:memory:night-moves-daily-digest-routine",
+     "job:backlog:taxonomy-conflict-ledger-and-atlas-edges"
+    ],
+    "blockers": [],
+    "closure": [
+     "tool:script:arcs_models.py",
+     "tool:script:dependency_sweep.py",
+     "tool:script:model_drift_check.py",
+     "tool:script:universe_ask.py",
+     "tool:script:universe_canon_adapter.py",
+     "tool:script:universe_sweep.py"
+    ],
+    "closure_total": 6,
+    "receipts": "none local naming the best tool",
+    "tokens": 157
+   }
+  },
+  {
+   "row": 13,
+   "system": "graph",
+   "assembly": [
+    "tool:skill:thread-recoil",
+    "tool:script:belief_log_emit.py",
+    "tool:script:time_machine_data.py",
+    "tool:script:hud_signal_audit.py",
+    "tool:script:audit_report_build.py"
+   ],
+   "raw": {
+    "job": "audit priors and see if any net-new data requires changes in belief or adaptive time signature detection",
+    "assembly": [
+     "tool:skill:thread-recoil",
+     "tool:script:belief_log_emit.py",
+     "tool:script:time_machine_data.py",
+     "tool:script:hud_signal_audit.py",
+     "tool:script:audit_report_build.py"
+    ],
+    "scores": [
+     1.0,
+     0.929,
+     0.866,
+     0.773,
+     0.693
+    ],
+    "matched_jobs": [
+     "job:backlog:pattern-lane-timeline-from-takehome-ui",
+     "job:backlog:phosphor-detect-suite",
+     "job:backlog:kintsugi-public-falsification-count"
+    ],
+    "blockers": [],
+    "closure": [
+     "tool:script:artifact_wrap_lint.py",
+     "tool:script:projection_factory.py",
+     "tool:script:tripwire.sh"
+    ],
+    "closure_total": 3,
+    "receipts": "none local naming the best tool",
+    "tokens": 176
+   }
+  },
+  {
+   "row": 14,
+   "system": "graph",
+   "assembly": [
+    "tool:skill:thread-recoil",
+    "tool:command:recoil-report",
+    "tool:workflow:recoil-report",
+    "tool:script:gen_recoil_artifact.py",
+    "tool:script:recoil_induce.py"
+   ],
+   "raw": {
+    "job": "run a forensic recoil report on the thread and map out the full kinematic manifold between null, om and infinite",
+    "assembly": [
+     "tool:skill:thread-recoil",
+     "tool:command:recoil-report",
+     "tool:workflow:recoil-report",
+     "tool:script:gen_recoil_artifact.py",
+     "tool:script:recoil_induce.py"
+    ],
+    "scores": [
+     1.0,
+     0.966,
+     0.885,
+     0.876,
+     0.765
+    ],
+    "matched_jobs": [
+     "job:backlog:uikit-recoil-player",
+     "job:backlog:phosphor-tempo-map-slice3",
+     "job:backlog:recoil-kit-onto-design-md"
+    ],
+    "blockers": [],
+    "closure": [
+     "tool:op:19",
+     "tool:op:20",
+     "tool:operator:arcs_accountant.py",
+     "tool:operator:arcs_librarian.py",
+     "tool:operator:arcs_operator20.py",
+     "tool:script:backlog_graph.py",
+     "tool:script:backlog_ripeness.py",
+     "tool:script:readiness_packet.py"
+    ],
+    "closure_total": 8,
+    "receipts": "none local naming the best tool",
+    "tokens": 203
+   }
+  },
+  {
+   "row": 15,
+   "system": "graph",
+   "assembly": [
+    "tool:skill:night-moves",
+    "tool:command:catalog"
+   ],
+   "raw": {
+    "job": "sweep the housekeeping night-moves chore, including whether scheduled runs are hung",
+    "assembly": [
+     "tool:skill:night-moves",
+     "tool:command:catalog"
+    ],
+    "scores": [
+     1.701,
+     1.147
+    ],
+    "matched_jobs": [
+     "job:backlog:hung-schedule-check",
+     "job:backlog:catalog-fixes-after-s4",
+     "job:memory:night-moves-daily-digest-routine"
+    ],
+    "blockers": [],
+    "closure": [
+     "tool:operator:arcs_librarian.py",
+     "tool:operator:jtbd_query.py",
+     "tool:script:arcs_models.py",
+     "tool:script:dependency_sweep.py",
+     "tool:script:jtbd_edge_weights.py",
+     "tool:script:model_drift_check.py",
+     "tool:script:tool_catalog_emit.py",
+     "tool:script:tool_orphan_audit.py",
+     "tool:script:universe_ask.py",
+     "tool:script:universe_canon_adapter.py",
+     "tool:script:universe_sweep.py"
+    ],
+    "closure_total": 11,
+    "receipts": "none local naming the best tool",
+    "tokens": 200
+   }
+  },
+  {
+   "row": 16,
+   "system": "graph",
+   "assembly": [
+    "tool:script:beat_reference.py",
+    "tool:command:catalog",
+    "tool:script:beat_truth_tracks.py"
+   ],
+   "raw": {
+    "job": "check head / tail / ephemeral memory shards and cross-reference the oracle and GitHub source of truth",
+    "assembly": [
+     "tool:script:beat_reference.py",
+     "tool:command:catalog",
+     "tool:script:beat_truth_tracks.py"
+    ],
+    "scores": [
+     1.0,
+     0.765,
+     0.623
+    ],
+    "matched_jobs": [
+     "job:backlog:memory-shard-oracle-github-reconcile",
+     "job:backlog:catalog-fixes-after-s4",
+     "job:backlog:phosphor-heading-light-rays"
+    ],
+    "blockers": [],
+    "closure": [
+     "tool:operator:arcs_librarian.py",
+     "tool:operator:jtbd_query.py",
+     "tool:script:jtbd_edge_weights.py",
+     "tool:script:tool_catalog_emit.py",
+     "tool:script:tool_orphan_audit.py"
+    ],
+    "closure_total": 5,
+    "receipts": "none local naming the best tool",
+    "tokens": 168
+   }
+  },
+  {
+   "row": 17,
+   "system": "graph",
+   "assembly": [
+    "tool:script:handoff_fold.py",
+    "tool:script:cold_molt_lint.py",
+    "tool:command:catalog"
+   ],
+   "raw": {
+    "job": "compare cold molt against handoff pickup for efficacy and cold retrieval, evidence only (receipts or it didn't happen)",
+    "assembly": [
+     "tool:script:handoff_fold.py",
+     "tool:script:cold_molt_lint.py",
+     "tool:command:catalog"
+    ],
+    "scores": [
+     1.316,
+     0.946,
+     0.936
+    ],
+    "matched_jobs": [
+     "job:backlog:molt-vs-pickup-efficacy-test",
+     "job:backlog:fc-o-gate-bundle",
+     "job:backlog:forensic-arc-reconstruction"
+    ],
+    "blockers": [],
+    "closure": [
+     "tool:operator:arcs_librarian.py",
+     "tool:operator:jtbd_query.py",
+     "tool:script:jtbd_edge_weights.py",
+     "tool:script:tool_catalog_emit.py",
+     "tool:script:tool_orphan_audit.py"
+    ],
+    "closure_total": 5,
+    "receipts": "none local naming the best tool",
+    "mcp": [
+     {
+      "id": "tool:mcp:supabase.apply_migration",
+      "class": "write",
+      "fn": "mcp__supabase__apply_migration",
+      "flag": "write: confirm before use"
+     }
+    ],
+    "load": "ToolSearch select:mcp__supabase__apply_migration",
+    "tokens": 220
+   }
+  },
+  {
+   "row": 18,
+   "system": "graph",
+   "assembly": [
+    "tool:script:open_loops.py",
+    "tool:script:design_debt_sweep.py",
+    "tool:script:state_sync_check.py"
+   ],
+   "raw": {
+    "job": "cross-reference surfaces.arcs.care, status.arcs.care, status.arcs.care/beliefs, arcs.care/reading-room and the docs reconciliation sync state to see which loops are open, what is drifting and where te...",
+    "assembly": [
+     "tool:script:open_loops.py",
+     "tool:script:design_debt_sweep.py",
+     "tool:script:state_sync_check.py"
+    ],
+    "scores": [
+     1.399,
+     0.917,
+     0.862
+    ],
+    "matched_jobs": [
+     "job:backlog:greenhouse-arcs-care-seedbank-surface",
+     "job:backlog:open-loop-drift-multisurface-reconcile",
+     "job:backlog:til-release-notes-2026-10-20"
+    ],
+    "blockers": [],
+    "closure": [
+     "tool:script:backlog_ripeness.py",
+     "tool:script:jtbd_drift_report.py",
+     "tool:script:jtbd_edge_weights.py",
+     "tool:script:receipt_coverage.py"
+    ],
+    "closure_total": 4,
+    "receipts": "none local naming the best tool",
+    "tokens": 192
+   }
+  }
+ ]
+}

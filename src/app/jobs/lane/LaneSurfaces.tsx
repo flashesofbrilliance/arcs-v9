@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { surface, border, signal, text, font, radius, measure } from "@/ui/tokens"
@@ -17,13 +17,14 @@ const fg1 = text.primary, fg2 = text.secondary
 const PANEL = "linear-gradient(160deg,#ffffff0d,#ffffff03 38%,#0000002e), linear-gradient(165deg,#11181f,#0a1016)"
 const BEVEL = "inset 0 1px 0 #ffffff1a, inset 0 -2px 8px #00000080, 0 5px 16px #00000073"
 
-export type StageItem = { jobid: string; company: string; title: string; meta?: string; score?: string; tone?: string; stage?: string; manual?: boolean }
+export type StageItem = { jobid: string; company: string; title: string; meta?: string; score?: string; tone?: string; stage?: string; manual?: boolean; links?: { label: string; href: string }[] }
 export type Stage = { key: string; verb: string; label: string; print: string; sla?: string; count: number; items: StageItem[]; empty?: string }
 export type Src = { key: string; label: string; adapter: string; status: string; lastRunAt: string | null; pollWindow: string | null; note: string | null }
 export type Req = { fromDate: string | null; toDate: string | null; query: string | null; status: string; rowsAdded: number | null; requestedAt: string; note: string | null }
 export type OutcomeRow = { jobid: string; company: string; fate: string; predicted: string; actual: string; honesty: string; reason: string | null }
 export type Corr = { learned: string; pattern: string | null; avoid: string | null; logic: string | null }
-export type LaneData = { stages: Stage[]; sources: Src[]; requests: Req[]; outcomes: OutcomeRow[]; corrections: Corr[]; live: string }
+export type SendItem = { jobid: string; company: string; title: string; score?: string; why: string | null; resume: string; post: string }
+export type LaneData = { stages: Stage[]; send: SendItem[]; sentToday: number; sources: Src[]; requests: Req[]; outcomes: OutcomeRow[]; corrections: Corr[]; live: string }
 
 const TABS = [["lane", "Lane view"], ["sources", "Sources"], ["debrief", "Debrief"]] as const
 const ORDER = ["research", "qualify", "apply", "interview", "outcome"] as const
@@ -102,10 +103,16 @@ function LaneView({ data }: { data: LaneData }) {
     }
     router.refresh()
   }
+  const [showBoard, setShowBoard] = useState(data.send.length === 0)
   return (<>
     {closing && <CloseForm company={closing.company} onCancel={() => setClosing(null)} onSave={(o) => { const id = closing.jobid; setClosing(null); drop(id, "outcome", o) }} />}
-    <H>Lane view</H>
-    <Lede>Five stages as columns. A row enters at Research and moves right on decisions and outcomes. Drag a card to another column, or use the arrows. Each column names what it prints and the SLA it holds.</Lede>
+    <SendQueue data={data} onApplied={(id) => drop(id, "apply")} />
+    <button type="button" aria-expanded={showBoard} onClick={() => setShowBoard((v) => !v)}
+      style={{ display: "block", margin: "24px 0 12px", minHeight: 36, padding: "0 14px", border: `1px solid ${border.subtle}`, borderRadius: radius.xs, background: "transparent", color: fg2, cursor: "pointer", fontFamily: mono, fontSize: font.ramp.label, letterSpacing: ".08em", textTransform: "uppercase" }}>
+      {showBoard ? "Hide the full lane" : `Show the full lane (${all.length} rows)`}
+    </button>
+    {showBoard && <>
+    <Lede>Five stages as columns. Drag a card to another column, or use the arrows.</Lede>
     <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap", marginBottom: 12 }}>
       <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Filter by company or title" aria-label="Filter cards" style={{ minHeight: 36, minWidth: 260, flex: "0 1 360px", padding: "0 12px", border: `1px solid ${border.subtle}`, borderRadius: radius.xs, background: surface.panel, color: fg1, fontSize: font.ramp.body }} />
       {err && <span role="alert" style={{ color: signal.red, fontSize: font.ramp.label }}>{err}</span>}
@@ -141,6 +148,7 @@ function LaneView({ data }: { data: LaneData }) {
                       {(it.manual || moved[it.jobid]) && <span style={{ fontFamily: mono, fontSize: font.ramp.label, color: signal.cyan, letterSpacing: ".08em", textTransform: "uppercase" }}>moved</span>}
                     </span>
                   </Link>
+                  {it.links && it.links.length > 0 && <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 6, fontSize: font.ramp.label }}>{it.links.map((l) => <a key={l.label} href={l.href} target="_blank" rel="noopener" draggable={false} style={{ color: signal.cyan }}>{l.label}</a>)}</div>}
                   <StageControls it={it} onMove={drop} />
                 </div>
               ))}
@@ -148,7 +156,64 @@ function LaneView({ data }: { data: LaneData }) {
         </div>
       )})}
     </div>
+    </>}
   </>)
+}
+
+// Send queue: one ready packet at a time, full width, so sending is the page's
+// first job. Open the post, attach the resume, submit on the employer's site,
+// then mark applied, which moves the row to Apply and shows the next packet.
+// Keys: O open post, R resume, A mark applied, S skip (skip is this visit only).
+function SendQueue({ data, onApplied }: { data: LaneData; onApplied: (jobid: string) => void }) {
+  const [done, setDone] = useState<string[]>([])
+  const [skipped, setSkipped] = useState<string[]>([])
+  const queue = data.send.filter((s) => !done.includes(s.jobid) && !skipped.includes(s.jobid))
+  const cur = queue[0]
+  // Count an optimistic send only until the refresh moves it out of data.send and into sentToday.
+  const sent = data.sentToday + done.filter((id) => data.send.some((s) => s.jobid === id)).length
+  const apply = () => { if (!cur) return; setDone((d) => [...d, cur.jobid]); onApplied(cur.jobid) }
+  const skip = () => { if (cur) setSkipped((s) => [...s, cur.jobid]) }
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      const t = e.target as HTMLElement | null
+      if (!cur || e.metaKey || e.ctrlKey || e.altKey || (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable))) return
+      const k = e.key.toLowerCase()
+      if (k === "o") window.open(cur.post, "_blank", "noopener")
+      else if (k === "r") window.open(cur.resume, "_blank", "noopener")
+      else if (k === "a") apply()
+      else if (k === "s") skip()
+      else return
+      e.preventDefault()
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  })
+  const big = (primary: boolean): React.CSSProperties => ({ display: "inline-flex", alignItems: "center", gap: 10, minHeight: 48, padding: "0 18px", border: `1px solid ${primary ? "#00FF9d66" : "#00F0FF3a"}`, borderRadius: radius.sm, background: primary ? "#00FF9d14" : surface.elevated, color: primary ? "#c6ffe6" : "#b9e8f4", cursor: "pointer", textDecoration: "none", fontFamily: mono, fontSize: font.ramp.label, fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase" })
+  const kbd: React.CSSProperties = { padding: "1px 6px", border: `1px solid ${border.subtle}`, borderRadius: 3, color: fg2, fontSize: font.ramp.label }
+  return (
+    <section aria-label="Send queue" style={{ ...card, padding: "18px 20px" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "6px 16px", alignItems: "baseline", marginBottom: 14 }}>
+        <span style={{ ...lab, color: signal.cyan }}>Send queue</span>
+        <span style={{ fontFamily: mono, fontSize: font.ramp.label, color: fg2 }}>{queue.length} ready · {sent} sent today</span>
+      </div>
+      {!cur ? (
+        <p style={{ margin: 0, color: fg2, fontSize: font.ramp.body }}>{data.send.length === 0 ? "No built packets waiting. Right-swipe on the board and the forge builds them." : "Queue clear for this visit. Skipped packets come back on reload."}</p>
+      ) : (<>
+        <h1 style={{ margin: 0, fontSize: 24, fontWeight: 600, letterSpacing: "-.015em" }}>{cur.title}</h1>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "4px 12px", alignItems: "baseline", marginTop: 4 }}>
+          <Link href={`/jobs/${cur.jobid}`} style={{ color: fg1, fontSize: font.ramp.body, textDecoration: "none" }}>{cur.company}</Link>
+          {cur.score && <span style={{ fontFamily: mono, fontSize: font.ramp.label, color: signal.green }}>fit {cur.score}</span>}
+        </div>
+        {cur.why && <p style={{ margin: "10px 0 0", color: fg2, fontSize: font.ramp.body, maxWidth: measure }}>{cur.why}</p>}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 18 }}>
+          <a href={cur.post} target="_blank" rel="noopener" style={big(false)}>Open post <span style={kbd}>O</span></a>
+          <a href={cur.resume} target="_blank" rel="noopener" style={big(false)}>Resume <span style={kbd}>R</span></a>
+          <button type="button" onClick={apply} style={big(true)}>Mark applied <span style={kbd}>A</span></button>
+          <button type="button" onClick={skip} style={{ ...big(false), borderColor: border.subtle, color: fg2 }}>Skip <span style={kbd}>S</span></button>
+        </div>
+      </>)}
+    </section>
+  )
 }
 
 const FATE_LABEL: Record<FateKey, string> = { offer: "Offer", reject: "Rejected", ghosted: "Ghosted", withdrawn: "Withdrew" }

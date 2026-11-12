@@ -1,0 +1,222 @@
+[
+ {
+  "date": "2026-01-24",
+  "source_title": "Real World Asset Filtering Tsunami",
+  "source_url": "https://www.linkedin.com/pulse/real-world-asset-filtering-tsunami-zach-harris-aeyic",
+  "claim": "approximately 62% of all capital (in a $35 billion market) is expected to become \"structurally vulnerable\" and reallocate to compliant platforms",
+  "resolution": "MISS",
+  "evidence": "Author scored it missed on its headline: no collapse, rwa.xyz distributed value $38.8B on Oct 5 2026 (author figure). rwa.xyz page today shows $40.01B distributed asset value (page date ambiguous).",
+  "evidence_url": "https://app.rwa.xyz/",
+  "falsifiable": true,
+  "note": "Window Jan 15 to Mar 31 2026. Self-scored; metric is loose because reallocation to compliant rails would not shrink the total, so rwa.xyz size alone cannot falsify it. Original Dec 2025 video forecast was not found; this Jan 24 article is the earliest dated text. https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ },
+ {
+  "date": "2026-01-24",
+  "source_title": "Real World Asset Filtering Tsunami",
+  "source_url": "https://www.linkedin.com/pulse/real-world-asset-filtering-tsunami-zach-harris-aeyic",
+  "claim": "The SEC issues official guidance or a bulletin explicitly classifying tokenized Treasury bills as securities.",
+  "resolution": "PARTIAL",
+  "evidence": "SEC staff issued a Statement on Tokenized Securities on Jan 28 2026 (inside the Jan 31 deadline) saying tokenized securities remain securities and sorting tokenization into issuer-sponsored, third-party custodial and third-party synthetic models. Author later wrote it does not name Treasury bills; I did not read the primary text, only law-firm summaries.",
+  "evidence_url": "https://www.morganlewis.com/pubs/2026/02/sec-clarifies-federal-securities-law-treatment-of-tokenized-securities",
+  "falsifiable": true,
+  "note": "Stated probability 85%. Deadline end of Jan 2026. It is a non-binding staff statement, not a bulletin. Author called it a hit on Feb 25 and downgraded it to hit-on-date, miss-on-content on Oct 6. LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ },
+ {
+  "date": "2026-01-24",
+  "source_title": "Real World Asset Filtering Tsunami",
+  "source_url": "https://www.linkedin.com/pulse/real-world-asset-filtering-tsunami-zach-harris-aeyic",
+  "claim": "Major qualified custodians implement stricter KYC/AML rules, leading to visible service suspensions or new investment restrictions for non-compliant platforms.",
+  "resolution": "MISS",
+  "evidence": "Author reports no broad public wave of custodian freezes by Feb 28 (Feb 25 meta-audit: direction only; Oct 6: no custodian freeze wave found). I did not independently search for freezes.",
+  "evidence_url": "https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers",
+  "falsifiable": true,
+  "note": "Stated probability 75%. Deadline end of Feb 2026. Self-reported absence of evidence; a negative is harder to prove than a positive. LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ },
+ {
+  "date": "2026-01-24",
+  "source_title": "Real World Asset Filtering Tsunami",
+  "source_url": "https://www.linkedin.com/pulse/real-world-asset-filtering-tsunami-zach-harris-aeyic",
+  "claim": "The legislative passage (or clear signal of imminent passage) of the Stablecoin Control Act, mandating bank-like charters for issuers.",
+  "resolution": "MISS",
+  "evidence": "No bill by that name exists. The GENIUS Act already existed before the prediction (author concedes this Feb 25). The CLARITY Act did not pass by mid-March and its Senate cloture vote failed 49-50 on Sep 15 2026.",
+  "evidence_url": "https://www.dlapiper.com/en/insights/publications/2026/09/senate-fails-to-advance-the-clarity-act",
+  "falsifiable": true,
+  "note": "Stated probability 90%. Deadline mid-March 2026. \"Clear signal of imminent passage\" is soft, so the exact March status was not checked; the September failure makes a Q1 signal unlikely but not disproved. LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ },
+ {
+  "date": "2026-02-02",
+  "source_title": "Custody Collateral: Anatomy of a $10B Systemic Blind Spot",
+  "source_url": "https://www.linkedin.com/pulse/custody-collateral-anatomy-20b-systemic-blind-spot-zach-harris-ruove",
+  "claim": "Agencies downgrade Crypto CLOs from AAA to BB.",
+  "resolution": "MISS",
+  "evidence": "Author (Oct 6) found no custodian freeze wave, no margin wave, no CLO downgrades. Not independently searched.",
+  "evidence_url": "https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers",
+  "falsifiable": true,
+  "note": "Phase 4 of a dated schedule: custody freeze Feb 10-20, margin calls Feb 20-Mar 15, CLO downgrades Mar 15 to Q2. The article calls it \"a schedule\", yet its disclaimer calls it a stress test, not a prediction. Treat as a prediction made with an escape hatch. LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ },
+ {
+  "date": "2026-02-01",
+  "source_title": "FLIPPENING, NOT GONNA HAPPEN",
+  "source_url": "https://www.linkedin.com/pulse/flippening-gonna-happen-zach-harris-p8zye",
+  "claim": "CLARITY Act Section 404 is removed, substantially amended to permit DeFi yield, or the entire bill fails to pass",
+  "resolution": "MISS",
+  "evidence": "This is the author's own falsification condition and it fired: Senate cloture on the bill failed 49-50 on Sep 15 2026 (author also cites a softened Section 404 in a May 1 compromise, not independently checked).",
+  "evidence_url": "https://www.dlapiper.com/en/insights/publications/2026/09/senate-fails-to-advance-the-clarity-act",
+  "falsifiable": true,
+  "note": "Written as a falsifier of an implied claim that Section 404 becomes law; Gate 1 timeline Feb-Mar 2026, monitored through Q1-Q2. Counted as MISS because the author counted it as fired. LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ },
+ {
+  "date": "2026-02-01",
+  "source_title": "FLIPPENING, NOT GONNA HAPPEN",
+  "source_url": "https://www.linkedin.com/pulse/flippening-gonna-happen-zach-harris-p8zye",
+  "claim": "USDC supply recovers to December 2025 levels (~$80B+) without corresponding regulatory accommodation",
+  "resolution": "MISS",
+  "evidence": "Author (Oct 6, DefiLlama): December level was $75-77B, not $80B; USDC was $75.2B by Feb 28 with a $79.6B peak on Mar 17, so his own falsifier fired against the real baseline.",
+  "evidence_url": "https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers",
+  "falsifiable": true,
+  "note": "Author-reported figures, not independently checked. The wording \"(~$80B+)\" was itself wrong, so reasonable readers could call the falsifier not triggered (peak $79.6B). Ambiguity noted. LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ },
+ {
+  "date": "2026-01-30",
+  "source_title": "$2B Poker Face: The AI Panic That Is Actually a Trap",
+  "source_url": "https://www.linkedin.com/pulse/2b-poker-face-how-apples-ai-panic-actually-just-trap-zach-harris-tlmye",
+  "claim": "As the head of Hardware Engineering and Cook's presumptive heir, Ternus needs a signature platform to define his era.",
+  "resolution": "HIT",
+  "evidence": "Apple announced on Apr 20 2026 that John Ternus becomes CEO on Sep 1 2026, Cook to executive chairman.",
+  "evidence_url": "https://www.apple.com/newsroom/2026/04/tim-cook-to-become-apple-executive-chairman-john-ternus-to-become-apple-ceo/",
+  "falsifiable": false,
+  "note": "Weak. The text is descriptive, undated and states no falsifier; the Four Dates post added \"falsifier: no transition ever announced\" only afterward. Ternus was already widely reported as front-runner, so low novelty. Whether Q.ai is \"his mandate\" is not resolved. Not in the 5 strongest."
+ },
+ {
+  "date": "2026-02-19",
+  "source_title": "The Bloomberg Op-Ed Is Wrong About Tim Cook... Here's Why",
+  "source_url": "https://www.linkedin.com/pulse/bloomberg-op-ed-wrong-tim-cook-heres-why-zach-harris-apnue",
+  "claim": "if Apple's gross margins fall materially below 47% in Q2 2026 due to memory costs",
+  "resolution": "HIT",
+  "evidence": "Apple fiscal Q2 2026 (quarter ended Mar 28) gross margin was 49.3%, up from 47.1% a year earlier, reported Apr 30 2026.",
+  "evidence_url": "https://macrumors.com/2026/04/30/apple-2q-2026-earnings/",
+  "falsifiable": true,
+  "note": "Falsifier stated in advance with a number and a quarter. Caveat: the article itself cites Apple guidance of 48-49% for the quarter, so the bar was set below published guidance and risk was low. The Q3 margin (50.1%, about 2 points from one-off tariff refunds) is the author's figure, not checked. The claim text is a conditional (falsifier), not a flat prediction. LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ },
+ {
+  "date": "2026-05-25",
+  "source_title": "Apple's AI Strategy Wasn't Late Coverage",
+  "source_url": "https://www.linkedin.com/pulse/apples-ai-strategy-wasnt-late-coverage-zach-harris-v0ete",
+  "claim": "The iOS 27 \"Extensions\" system doesn't open a real developer ecosystem; it's a walled choice menu.",
+  "resolution": "OPEN",
+  "evidence": "Contested. The author's Sep 11 post says Extensions was confirmed as a real framework at WWDC (Jun 8). The Next Web (Jun 14) reports Extensions was not shown at the keynote and exists only as built-but-disabled groundwork in the iOS 27 beta. Public release expected September. I found no Apple primary source either way.",
+  "evidence_url": "https://thenextweb.com/news/apple-siri-extensions-third-party-ai-missing-wwdc",
+  "falsifiable": true,
+  "note": "This is a falsifier of the \"platform control\" thesis, listed with three others. Author's own \"3 for 3\" ledger counts it confirmed; the evidence I found does not support HIT. Flag before publishing the \"3 for 3\" claim. LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ },
+ {
+  "date": "2026-06-08",
+  "source_title": "Meditations on WWDC 2026",
+  "source_url": "https://www.linkedin.com/pulse/meditations-wwdc-2026-zach-harris-e1jhe",
+  "claim": "My prediction: Apple would partner with a major model provider but airgap them architecturally.",
+  "resolution": "UNVERIFIED",
+  "evidence": "Apple and Google announced the Gemini partnership on Jan 12 2026, before the earliest of his Apple pieces (Jan 29-30). No earlier dated text of this prediction was found in any source supplied.",
+  "evidence_url": "https://daringfireball.net/linked/2026/01/12/apple-google-foundation-models-cnbc",
+  "falsifiable": false,
+  "note": "Retrospective claim (\"Arrived today\") with no predating source. Cannot be scored HIT without a dated earlier statement. Excluded from the hit rate. LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ },
+ {
+  "date": "2026-06-08",
+  "source_title": "Meditations on WWDC 2026",
+  "source_url": "https://www.linkedin.com/pulse/meditations-wwdc-2026-zach-harris-e1jhe",
+  "claim": "The prediction: Siri rebuilt as stateful cognitive companion, voice as the third UX paradigm, anticipatory UX surfacing needs before spoken.",
+  "resolution": "UNVERIFIED",
+  "evidence": "No predating source found; the article says it \"arrived\" at WWDC, and Apple had pre-announced a more personalized Siri in the Jan 12 joint statement.",
+  "evidence_url": "https://engadget.com/ai/apples-siri-ai-will-be-powered-by-gemini-153636649.html",
+  "falsifiable": false,
+  "note": "Retrospective and vague. Excluded from the hit rate. LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ },
+ {
+  "date": "2026-06-08",
+  "source_title": "Meditations on WWDC 2026",
+  "source_url": "https://www.linkedin.com/pulse/meditations-wwdc-2026-zach-harris-e1jhe",
+  "claim": "This is the prediction no peer analyst has named. Terrain held alone. Confirmation window: 12–24 months. Receipt pending. Position held.",
+  "resolution": "OPEN",
+  "evidence": "Window runs about Jun 2027 to Jun 2028. Nothing to resolve yet.",
+  "evidence_url": null,
+  "falsifiable": false,
+  "note": "The preceding text is the claim (voice-conviction as a UX input via Liquid Glass somatic priming); it has no measurable outcome. Not falsifiable as written. LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ },
+ {
+  "date": "2026-07-14",
+  "source_title": "The iMessages That Built a Federal Lawsuit",
+  "source_url": "https://www.linkedin.com/pulse/lol-so-funny-imessages-built-federal-lawsuit-zach-harris-jfrbc",
+  "claim": "If Apple v. OpenAI follows a similar arc, expect this to still be unresolved well into 2027.",
+  "resolution": "OPEN",
+  "evidence": "Case 5:26-cv-07078 (N.D. Cal.) pending: OpenAI motion to dismiss and Apple preliminary-injunction request, no ruling found as of early Sep 2026 reporting.",
+  "evidence_url": "https://www.jurist.org/news/2026/07/apple-challenges-openais-hardware-push-in-trade-secret-lawsuit/",
+  "falsifiable": true,
+  "note": "Resolves 2027. \"Well into 2027\" is fuzzy; a settlement before then would likely count as a miss. The same piece also says expect a negotiated cleanup rather than a verdict. Only found in the Sep 10 export. LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ },
+ {
+  "date": "2026-02-10",
+  "source_title": "One More Thing... Apple Might Just Turn On Cloaking Mode This Year",
+  "source_url": "https://www.linkedin.com/pulse/one-more-thing-apple-might-just-turn-cloaking-mode-year-zach-harris-ypsce",
+  "claim": "The Ma Interface (2027): The Apple Glasses launch. No visible UI.",
+  "resolution": "OPEN",
+  "evidence": "Due by end of 2027. Not resolved.",
+  "evidence_url": null,
+  "falsifiable": true,
+  "note": "Dated (2027) and checkable if \"launch\" means a shipped product; \"no visible UI\" is fuzzy. Article hedges that this is \"what the near future might look like\". LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ },
+ {
+  "date": "2026-02-10",
+  "source_title": "One More Thing... Apple Might Just Turn On Cloaking Mode This Year",
+  "source_url": "https://www.linkedin.com/pulse/one-more-thing-apple-might-just-turn-cloaking-mode-year-zach-harris-ypsce",
+  "claim": "The Identity Tax (2029): In a world of Deepfakes, \"Verified Reality\" becomes the most expensive product on earth.",
+  "resolution": "OPEN",
+  "evidence": "Due 2029. Not resolved.",
+  "evidence_url": null,
+  "falsifiable": false,
+  "note": "\"Most expensive product on earth\" is hyperbole and unmeasurable; the concrete part is a 2029 Apple \"Verified API\". Weakly falsifiable. LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ },
+ {
+  "date": "2026-02-10",
+  "source_title": "One More Thing... Apple Might Just Turn On Cloaking Mode This Year",
+  "source_url": "https://www.linkedin.com/pulse/one-more-thing-apple-might-just-turn-cloaking-mode-year-zach-harris-ypsce",
+  "claim": "The Somatic Merger (2032): The Health+ subscription becomes a Diagnostic Passport.",
+  "resolution": "OPEN",
+  "evidence": "Due 2032. Not resolved.",
+  "evidence_url": null,
+  "falsifiable": false,
+  "note": "Same article continues that insurers accept watch data as clinical record; concrete part is checkable in 2032 but the vision is loose. LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ },
+ {
+  "date": "2026-01-30",
+  "source_title": "$2B Poker Face: The AI Panic That Is Actually a Trap",
+  "source_url": "https://www.linkedin.com/pulse/2b-poker-face-how-apples-ai-panic-actually-just-trap-zach-harris-tlmye",
+  "claim": "In 5 years, talking out loud to an AI will look as outdated as typing on a BlackBerry.",
+  "resolution": "OPEN",
+  "evidence": "Due about Jan 2031.",
+  "evidence_url": null,
+  "falsifiable": false,
+  "note": "Labelled \"Unpopular Opinion\". \"Look outdated\" is subjective; not falsifiable as written. Excluded from rate. LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ },
+ {
+  "date": "2026-03-01",
+  "source_title": "The $9,000 Sweater and the Oldest Question in Human History",
+  "source_url": "https://www.linkedin.com/pulse/9000-sweater-oldest-question-human-history-zach-harris-rf9me",
+  "claim": "Within 10–15 years, a biotech fiber at 12-micron diameter — physically indistinguishable from vicuña without spectroscopic analysis — is technically feasible.",
+  "resolution": "OPEN",
+  "evidence": "Due 2036 to 2041.",
+  "evidence_url": null,
+  "falsifiable": true,
+  "note": "Long horizon; \"technically feasible\" is checkable by a published demonstration but is a low bar. LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ },
+ {
+  "date": "2026-03-13",
+  "source_title": "Biting the Core (Apple)",
+  "source_url": "https://www.linkedin.com/pulse/biting-core-apple-zach-harris-8pfyc",
+  "claim": "the pattern predicts that the next Apple health category will follow the same Trojan Horse architecture",
+  "resolution": "OPEN",
+  "evidence": "No category or date named, so nothing to score.",
+  "evidence_url": null,
+  "falsifiable": false,
+  "note": "Not falsifiable as written (no product, no date). Excluded from rate. LinkedIn URL is reconstructed from the export filename and was not opened; verify before publishing."
+ }
+]

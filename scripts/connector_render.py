@@ -365,7 +365,8 @@ def first_sentence(s):
 def _card(name, line, chips, page, gh, group, live=True, variant="full", tag="soon"):
     t = THEMES.get(group, THEMES["skill"])
     accent = f"linear-gradient(90deg,{t['c1']},{t['c2']})"
-    dim = "" if live else "opacity:.5;filter:saturate(.35);"
+    # a not-ready entry with its own live page (a preview) links that page and renders undimmed
+    dim = "" if live or page else "opacity:.5;filter:saturate(.35);"
     chip_html = "".join(f'<span class="chip">{esc(c)}</span>' for c in chips)
     if live:
         primary = (f'<a class="clink" href="{esc(page)}">open ↗</a>' if page
@@ -373,7 +374,8 @@ def _card(name, line, chips, page, gh, group, live=True, variant="full", tag="so
         gh_link = f'<a class="cgh" href="{esc(gh)}">github</a>' if page and gh else ""
         tag = ""
     else:
-        primary = f'<a class="clink" href="{esc(gh)}">github ↗</a>'
+        primary = (f'<a class="clink" href="{esc(page)}">open ↗</a>' if page
+                   else f'<a class="clink" href="{esc(gh)}">github ↗</a>')
         gh_link = ""
         tag = f'<span class="soon">{esc(tag)}</span>'
 
@@ -570,7 +572,7 @@ def render_gallery(ssot, blob):
     for repo, s in soon.items():
         url = ssot.get(repo, {}).get("url", "")
         gh = ("https://" + url) if url and not url.startswith("http") else url
-        soon_cards.append(_card(repo, s["line"], [s["chan"]], "", gh, s.get("group", "skill"), False,
+        soon_cards.append(_card(repo, s["line"], [s["chan"]], s.get("page", ""), gh, s.get("group", "skill"), False,
                                 tag=s.get("tag", "soon")))
 
     def block(label, sub, cards, grid="cards"):
@@ -625,7 +627,7 @@ def render_gallery(ssot, blob):
   .compass-tie{border-bottom:1px solid var(--border);
     background:radial-gradient(700px 300px at 50% -20%,var(--glowA),transparent 60%);}
   .compass-tie .wrap{padding-top:44px;padding-bottom:44px;text-align:center;}
-  .ct-lede{font-size:clamp(16px,2.4vw,20px);line-height:1.55;color:var(--fg2);max-width:640px;margin:0 auto;}
+  .ct-lede{font-size:clamp(16px,2.4vw,20px);line-height:1.55;color:var(--fg2);max-width:none;margin:0 auto;}
   .ct-lede b{color:var(--fg1);font-weight:600;}
   .ct-link{display:inline-block;margin-top:18px;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--cyan);border:1px solid var(--kickbrd);border-radius:9px;padding:11px 18px;transition:.16s;}
   .ct-link:hover{background:var(--barbg);}"""

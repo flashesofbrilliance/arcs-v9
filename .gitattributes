@@ -1,0 +1,3 @@
+# Backlog rows merge by id (scripts/backlog_merge_by_id.py --driver; armed by .claude/hooks/session-start.sh).
+# Never merge=union here: rows are edited in place. Rollback: delete this line (git falls back to its text merge).
+_QUEUE/induced-backlog.jsonl merge=backlog-by-id

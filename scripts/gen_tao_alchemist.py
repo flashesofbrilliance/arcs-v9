@@ -41,9 +41,14 @@ achips = '<button class="chip on" data-v="">ALL</button>' + "".join(
     f'<button class="chip" data-v="{a}" style="--c:{ACOLOR[a]}">{a}</button>' for a in ASPECTS)
 data_json = json.dumps({p["id"]: p for p in data}, ensure_ascii=False)
 
-page = f'''<style>
+page = f'''<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tao alchemist</title>
+<style>
   :root{{--bg:#020408;--panel:#0d1117;--elevated:#111827;--border:#1e293b;--text:#e2e8f0;
-    --sec:#94a3b8;--dim:#64748b;--mut:#475569;--cyan:#00F0FF;--gold:#FFD700;
+    --sec:#94a3b8;--dim:#8391a7;--mut:#7a8699;--cyan:#00F0FF;--gold:#FFD700;
     --mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;
     --sans:'Inter',system-ui,-apple-system,sans-serif;
     --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;}}
@@ -55,8 +60,8 @@ page = f'''<style>
   .mark{{font-size:1.4rem;color:var(--gold)}}
   .wordmark{{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.24em;color:var(--text);margin-left:.26em}}
   .wordmark b{{color:var(--cyan)}}
-  h1{{font-family:var(--serif);font-size:clamp(1.5rem,4vw,2.1rem);font-weight:500;margin:.8rem 0 .3rem;letter-spacing:-.02em}}
-  .sub{{font-size:.86rem;color:var(--sec);max-width:62ch;margin:0}}
+  h1{{font-family:var(--serif);font-size:clamp(1.5rem,4vw,2.1rem);font-weight:500;margin:.8rem 0 .3rem;letter-spacing:-.02em;color:var(--text)}}
+  .sub{{font-size:.86rem;color:var(--sec);max-width:none;margin:0}}
 
   /* crucible */
   .crucible{{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:stretch;margin:1.8rem 0 1rem}}

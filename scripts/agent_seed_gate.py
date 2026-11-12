@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """agent_seed_gate: merge rule for candidate seed agents (stdlib only).
 
-Seed agents (idea-*, chief-*, scenario-*) live in .claude/agents/ and are tested in practice.
+Seed agents (idea-*, chief-*, scenario-*, prospect-*) live in .claude/agents/ and are tested in practice.
 runtime/specs/agent-seed-ledger.jsonl holds, per agent: a pre-registered belief, a kill_line, and a
 log of real uses. The merge rule is the result of that falsifiability test:
   CANDIDATE  description starts "[CANDIDATE]"; needs belief, kill_line, prior; uses may be empty.
@@ -15,7 +15,7 @@ A CANDIDATE with 2 or more not_helpful uses is a kill and must be marked KILLED.
 """
 import json, os, re, sys, tempfile
 
-SEED = re.compile(r"^(idea|chief|scenario)-")
+SEED = re.compile(r"^(idea|chief|scenario|prospect)-")
 
 def _frontmatter_desc(path):
     txt = open(path, encoding="utf-8").read()

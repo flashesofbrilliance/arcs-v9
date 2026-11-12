@@ -14,7 +14,7 @@
       "filed": "2026-07-16",
       "severity": "medium",
       "summary": "Durable, cross-instance rate limiting + spend caps + LLM observability via Vercel AI Gateway (replaces RL-001 interim limiter; also covers /api/brief and /api/guide Claude calls).",
-      "exit": { "type": "waiver", "reason": "Deferred by Zach 2026-09-28: AI Gateway rate limiting + spend caps rescheduled; RL-001 interim limiter stays in place meanwhile.", "expires": "2026-10-28" }
+      "exit": { "type": "waiver", "reason": "Deferred by Zach 2026-09-28: AI Gateway rate limiting + spend caps rescheduled; RL-001 interim limiter stays in place meanwhile.", "expires": "2026-11-28", "renewed": "2026-10-29 by Zach (prior waiver expired 2026-10-28)" }
     },
     {
       "id": "DEL-003",
@@ -49,7 +49,7 @@
       "filed": "2026-07-16",
       "severity": "medium",
       "summary": "No exception tracking on the app (SageTrace exposure was detected via a vendor email, not our own alerting).",
-      "exit": { "type": "waiver", "reason": "Deferred by Zach 2026-09-28: error-tracking vendor choice tabled one month (new dependency decision).", "expires": "2026-10-28" }
+      "exit": { "type": "waiver", "reason": "Deferred by Zach 2026-09-28: error-tracking vendor choice tabled one month (new dependency decision).", "expires": "2026-11-28", "renewed": "2026-10-29 by Zach (prior waiver expired 2026-10-28)" }
     },
     {
       "id": "DEP-008",
@@ -63,14 +63,14 @@
       "filed": "2026-07-16",
       "severity": "high",
       "summary": "DATABASE_URL manually set, rotation risk open since ADR-005 amendment (2026-05-28).",
-      "exit": { "type": "waiver", "reason": "Requires Zach to rotate the Supabase password and re-sync Vercel envs — not executable by a session alone.", "expires": "2026-10-28", "renewed": "2026-09-28 by Zach (prior waiver expired 2026-08-15)" }
+      "exit": { "type": "waiver", "reason": "Requires Zach to rotate the Supabase password and re-sync Vercel envs — not executable by a session alone.", "expires": "2026-11-28", "renewed": "2026-10-29 by Zach (prior waivers expired 2026-08-15 and 2026-10-28)" }
     },
     {
       "id": "BK-010",
       "filed": "2026-07-16",
       "severity": "medium",
       "summary": "Production DB backup restore has never been tested — an unrestored backup is a hope, not a backup.",
-      "exit": { "type": "waiver", "reason": "Deferred by Zach 2026-09-28: restore drill not scheduled this cycle.", "expires": "2026-10-28" }
+      "exit": { "type": "waiver", "reason": "Deferred by Zach 2026-09-28: restore drill not scheduled this cycle.", "expires": "2026-11-28", "renewed": "2026-10-29 by Zach (prior waiver expired 2026-10-28)" }
     },
     {
       "id": "PL-011",
@@ -105,7 +105,7 @@
       "filed": "2026-08-07",
       "severity": "low",
       "summary": "Receipt Studio (/api/receipts/studio/[tenant]): the sessionId bearer now grants WRITE (PATCH close/score), not just READ, and travels in the GET query string (?sessionId=), so a Referer/proxy-log/history leak is a write capability. Accepted for the robin tenant (Zach's own demo receipts, non-attributable). CISO review finding B, 2026-08-07.",
-      "exit": { "type": "waiver", "reason": "Blast radius is one non-sensitive demo tenant. MUST NOT generalize to a user-attributable/sensitive tenant without moving the token to a header/cookie or a POST body. Re-review before onboarding any such tenant.", "expires": "2026-11-05" }
+      "exit": { "type": "waiver", "reason": "Blast radius is one non-sensitive demo tenant. MUST NOT generalize to a user-attributable/sensitive tenant without moving the token to a header/cookie or a POST body. Re-review before onboarding any such tenant. Extended 2026-11-06 by Zach for 30 days, same scope (robin demo tenant only); the original 2026-11-05 expiry turned main CI red.", "expires": "2026-12-05" }
     },
     {
       "id": "STU-016",
@@ -119,6 +119,7 @@
     {"id": "CMP-019", "filed": "2026-10-05", "severity": "medium", "summary": "src/app/api/receipts/claim/route.ts lets any signed-in user holding a session id claim every unowned legacy row in that thread. Bind to a server-issued HttpOnly token or retire once legacy rows are gone. CISO review, 2026-10-05.", "exit": {"type": "guard", "ref": "Route retired in ee710d35 (PR #847): src/app/api/receipts/claim/route.ts deleted; no in-repo caller remains (ClaimAnonymousReceipts.tsx only runs the ADR-049 opt-in save). No anonymous receipt persisted since 2026-07-13, so nothing new is claimable.", "date": "2026-10-05"}},
     {"id": "CMP-020", "filed": "2026-10-05", "severity": "low", "summary": "/api/compass, /api/receipts/save, /api/prep parse bodies by hand (no Zod); non-string entity in /api/prep 500s on .trim(). Add safeParse with length caps like the guide route. CISO review, 2026-10-05.", "exit": {"type": "test", "ref": "Zod envelopes in src/lib/request-schemas.ts (CompassBody, PrepBody, SaveBody) used by /api/compass, /api/prep, /api/receipts/save; thread ids must be UUIDs (isThreadId, via resolveOwnedSessionId). tests/unit/request-schemas.test.ts covers the non-string-entity 500 and the dashboard/prep payload shapes.", "date": "2026-10-05"}},
     {"id": "CMP-021", "filed": "2026-10-05", "severity": "low", "summary": "/api/health?deep=1 compares the CRON_SECRET bearer with === (not constant-time). Use crypto.timingSafeEqual on equal-length buffers. CISO review of PR #877, 2026-10-05.", "exit": { "type": "open" }},
-    {"id": "CMP-022", "filed": "2026-10-05", "severity": "low", "summary": "/api/annotations/meditate and /api/annotations/[id]/shavasana call Haiku with no rate limit (session-gated only). Add rateLimit() like brief/guide. CISO review of PR #877, 2026-10-05.", "exit": { "type": "open" }}
+    {"id": "CMP-022", "filed": "2026-10-05", "severity": "low", "summary": "/api/annotations/meditate and /api/annotations/[id]/shavasana call Haiku with no rate limit (session-gated only). Add rateLimit() like brief/guide. CISO review of PR #877, 2026-10-05.", "exit": { "type": "open" }},
+    {"id": "DEL-023", "filed": "2026-11-03", "severity": "high", "summary": "Account deletion (trust contract §3, /privacy) left SessionReceipt rows (bet, outcome, lesson, payload) and JobSwipe rows keyed to the user, so the published claim that delete removes receipts, outcomes and personal data was false for those tables. Found by privacy review of the compass system inventory (PR #1994, section 7), 2026-11-03.", "exit": {"type": "test", "ref": "src/app/api/account/delete/route.ts now deletes both inside the same transaction (detaching cross-user SessionReceipt lineage first). tests/unit/account-delete.test.ts (ci.yml smoke: Unit tests) runs the real handler on a seeded store and asserts zero rows for the user, bystander rows intact; it fails on the pre-fix route. Seam (same day): PR #1996 matched JobSwipe on User.id only, but /api/jobs/swipe writes the admin email into userId, so all 270 prod swipe rows would have survived; the follow-up also deletes by email (case-insensitive) and the test now seeds an email-keyed swipe.", "date": "2026-11-03"}}
   ]
 }

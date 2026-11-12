@@ -1,0 +1,398 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/flashesofbrilliance/arcs-v9/runtime/specs/recoil-ssot-v2.schema.json",
+  "title": "Recoil SSOT v2",
+  "description": "One call, one JSON. A superset of the six-tab war-room SSOT (runtime/recoil/templates/war-room-6tab.template.json): every v1 key keeps its meaning and place, and v2 adds call.atoms, verbs, claims, cells and atlas. Every later stage cites atom ids, never prose. Spec: _PROPOSALS/2026-11-11-recoil-call-service-arc-weld.md sections 3, 4.2, 5 (F2) and 6.1. Validator and v1 adapter: scripts/recoil_ssot_v2.py. Keywords starting with x- are annotations: the validator reads x-vocab as a warning list and x-fidelity as the grade to render-state rule; standard validators ignore both.",
+  "version": "2.0.0",
+  "type": "object",
+  "required": ["schema", "meta"],
+  "properties": {
+    "schema": { "const": "arcs.recoil.ssot.v2" },
+    "meta": { "$ref": "#/$defs/meta" },
+    "opportunity": { "$ref": "#/$defs/opportunity" },
+    "beliefs": { "type": "array", "items": { "$ref": "#/$defs/belief" } },
+    "kinematic_series": { "$ref": "#/$defs/kinematic_series" },
+    "insights": { "type": "array", "items": { "$ref": "#/$defs/insight" } },
+    "next_steps": { "type": "array", "items": { "$ref": "#/$defs/next_step" } },
+    "redaction_policy": { "type": "object" },
+    "page": { "$ref": "#/$defs/page" },
+    "call": { "$ref": "#/$defs/call" },
+    "verbs": { "$ref": "#/$defs/verbs" },
+    "claims": { "type": "array", "items": { "$ref": "#/$defs/claim" } },
+    "cells": { "type": "array", "items": { "$ref": "#/$defs/cell" } },
+    "atlas": { "$ref": "#/$defs/atlas" },
+    "legacy": { "$ref": "#/$defs/legacy" },
+    "migration": { "$ref": "#/$defs/migration" },
+    "x_v1": {
+      "description": "Top-level v1 keys outside the six-tab vocabulary (for example send_log, ex_ante_reopen_2026_08_26), carried verbatim so the adapter loses nothing. The v1 export puts them back at top level.",
+      "type": "object"
+    }
+  },
+  "patternProperties": {
+    "^_": { "description": "Template and method notes (_TEMPLATE, _METHOD, _HOW_TO_USE, _doc). Carried verbatim; never rendered." }
+  },
+  "additionalProperties": false,
+
+  "x-fidelity": {
+    "description": "Render state is set by code from the grade, never by hand (spec 4.3). A Y state of PARADOX overrides to MOIRE. GRAIN prints its sample size n.",
+    "by_grade": { "A": "SHARP", "B": "SHARP", "C": "DEGRADED", "D": "GRAIN", "E": "GRAIN", "NS": "GRAIN" },
+    "y_override": { "PARADOX": "MOIRE" }
+  },
+
+  "$defs": {
+    "audience": {
+      "description": "Air gap tag. internal = war room only; both = safe for the counterpart twin.",
+      "enum": ["internal", "both"]
+    },
+    "grade": {
+      "description": "Evidence grade for one item. letter A to E, or NS for not scored. basis says why, in one line. n is the sample size behind the grade (printed when the item renders as grain).",
+      "type": "object",
+      "required": ["letter", "basis"],
+      "properties": {
+        "letter": { "enum": ["A", "B", "C", "D", "E", "NS"] },
+        "basis": { "type": "string", "minLength": 1 },
+        "n": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "atom_id": { "type": "string", "pattern": "^a[0-9]{3,}$" },
+    "claim_id": { "type": "string", "pattern": "^c[0-9]{3,}$" },
+    "atom_refs": {
+      "description": "Atom ids this item cites. Every id must exist in call.atoms (checked by the validator).",
+      "type": "array",
+      "items": { "$ref": "#/$defs/atom_id" },
+      "minItems": 1
+    },
+
+    "meta": {
+      "description": "v1 meta, unchanged. report_id is the file stem.",
+      "type": "object",
+      "required": ["report_id", "date"],
+      "properties": {
+        "report_id": { "type": "string", "minLength": 1 },
+        "date": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}" },
+        "counterpart": { "type": "string" },
+        "company": { "type": "string" },
+        "segments": { "type": ["integer", "null"] },
+        "gate": { "type": ["object", "null"] },
+        "provenance": { "type": "object" },
+        "doc_title": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "opportunity": {
+      "description": "v1 opportunity (Ex-Ante header): Y state, topology, NCI (Net Coherence Index) prior and post.",
+      "type": "object",
+      "properties": {
+        "audience": { "$ref": "#/$defs/audience" },
+        "engagement_type": { "type": "string", "x-vocab": ["candidacy", "client", "partner", "peer"] },
+        "req_reality": { "type": ["integer", "string", "null"], "x-vocab": [0, 1, 2, 3] },
+        "y_state": { "type": ["string", "null"], "x-vocab": ["GREEN", "YELLOW", "RED", "FORK", "SCRATCH", "DELTA", "PARADOX", "DRIFT"] },
+        "topology": { "type": ["string", "null"], "x-vocab": ["CONVERGENT", "DIVERGENT"] },
+        "nci_prior": { "type": ["number", "null"] },
+        "nci_post": { "type": ["number", "null"] },
+        "note": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "belief": {
+      "description": "v1 belief log row: a prior carried in, how it moved on the call.",
+      "type": "object",
+      "required": ["id", "claim", "inference", "confidence", "conviction", "verdict"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "audience": { "$ref": "#/$defs/audience" },
+        "claim": { "type": "string" },
+        "evidence": { "type": "string" },
+        "inference": { "type": "string", "x-vocab": ["OBS", "EXP", "IMP", "INF"] },
+        "confidence": {
+          "description": "[before, after] in 0..1; before may be null when the prior was not held.",
+          "type": "array",
+          "items": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+          "minItems": 1,
+          "maxItems": 2
+        },
+        "conviction": { "type": "string", "x-vocab": ["LOW", "MED", "HIGH"] },
+        "verdict": { "type": "string" },
+        "atoms": { "$ref": "#/$defs/atom_refs" },
+        "grade": { "$ref": "#/$defs/grade" }
+      },
+      "additionalProperties": true
+    },
+    "kinematic_series": {
+      "type": "object",
+      "required": ["dt", "series"],
+      "properties": {
+        "dt": { "type": "number" },
+        "series": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["key", "label", "points"],
+            "properties": {
+              "key": { "type": "string" },
+              "audience": { "$ref": "#/$defs/audience" },
+              "label": { "type": "string" },
+              "color": { "type": "string" },
+              "points": {
+                "description": "One value per call segment, spaced dt apart (WarRoomReport.tsx reads number[]).",
+                "type": "array",
+                "items": { "type": "number" }
+              },
+              "grounding_quote": { "type": "string" },
+              "grade": { "$ref": "#/$defs/grade" }
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "insight": {
+      "type": "object",
+      "required": ["title", "text"],
+      "properties": {
+        "audience": { "$ref": "#/$defs/audience" },
+        "plane": { "type": "string" },
+        "title": { "type": "string" },
+        "text": { "type": "string" },
+        "atoms": { "$ref": "#/$defs/atom_refs" },
+        "grade": { "$ref": "#/$defs/grade" }
+      },
+      "additionalProperties": true
+    },
+    "next_step": {
+      "type": "object",
+      "required": ["owner", "text"],
+      "properties": {
+        "audience": { "$ref": "#/$defs/audience" },
+        "owner": { "type": "string" },
+        "text": { "type": "string" },
+        "atoms": { "$ref": "#/$defs/atom_refs" }
+      },
+      "additionalProperties": true
+    },
+    "page": {
+      "description": "v1 page: header, tabs and blocks, rendered by src/document/screens/WarRoomReport.tsx. Blocks keep their tab and audience.",
+      "type": "object",
+      "required": ["header", "blocks"],
+      "properties": {
+        "layout": { "type": "string" },
+        "header": { "type": "object" },
+        "tabs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "label"],
+            "properties": { "id": { "type": "string" }, "label": { "type": "string" } },
+            "additionalProperties": true
+          }
+        },
+        "blocks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "x-vocab": ["prose", "keyvalue", "list", "receipt", "table", "belief_log", "worked_example", "kinematics_table", "rosetta", "sec_label", "provenance", "insights", "pilot", "foot", "stamp"]
+              },
+              "tab": { "type": "string" },
+              "audience": { "$ref": "#/$defs/audience" }
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+
+    "call": {
+      "description": "J1 decompose. The call split into atoms with stable ids. Atom ids never change once written; a rerun appends, it does not renumber.",
+      "type": "object",
+      "required": ["atoms"],
+      "properties": {
+        "source": {
+          "type": "object",
+          "properties": {
+            "granola_id": { "type": "string" },
+            "calendar_event_id": { "type": "string" },
+            "transcript_version": { "type": "string" },
+            "recorded_at": { "type": "string" }
+          },
+          "additionalProperties": true
+        },
+        "atoms": { "type": "array", "items": { "$ref": "#/$defs/atom" } }
+      },
+      "additionalProperties": false
+    },
+    "atom": {
+      "description": "One unit of the call. kind: utterance (a speaker turn or part of one), claim (an assertion that can be checked), promise (a commitment with an owner), owner (who holds a thing), number (a figure said aloud). Non-utterance atoms name the utterance they came from in parent.",
+      "type": "object",
+      "required": ["id", "t", "speaker", "kind", "text"],
+      "properties": {
+        "id": { "$ref": "#/$defs/atom_id" },
+        "t": { "description": "Offset from transcript start, [h:]m:ss.", "type": "string", "pattern": "^([0-9]+:)?[0-9]{1,2}:[0-9]{2}$" },
+        "at": { "description": "Wall-clock time (ISO 8601), for time-indexed atlas edges.", "type": "string" },
+        "speaker": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["utterance", "claim", "promise", "owner", "number"] },
+        "text": { "type": "string", "minLength": 1 },
+        "parent": { "$ref": "#/$defs/atom_id" },
+        "owner": { "description": "For promise and owner atoms: who holds it.", "type": "string" },
+        "due": { "type": "string" },
+        "value": { "description": "For number atoms.", "type": "number" },
+        "unit": { "type": "string" },
+        "chunk": { "description": "Transcript chunk id the atom was read from.", "type": "integer", "minimum": 0 },
+        "audience": { "$ref": "#/$defs/audience" },
+        "grade": { "$ref": "#/$defs/grade" }
+      },
+      "additionalProperties": false
+    },
+
+    "verb_pass": {
+      "type": "object",
+      "required": ["verdict", "cites", "grade"],
+      "properties": {
+        "verdict": { "description": "One line, the fold summary.", "type": "string", "minLength": 1 },
+        "body": { "type": "array", "items": { "type": "string" } },
+        "cites": { "$ref": "#/$defs/atom_refs" },
+        "claims": { "type": "array", "items": { "$ref": "#/$defs/claim_id" } },
+        "grade": { "$ref": "#/$defs/grade" }
+      },
+      "additionalProperties": false
+    },
+    "verbs": {
+      "description": "J2 five verbs (ADR-068 print schedule, ADR-060 verb axis). All five or none. Each verdict cites at least one atom.",
+      "type": "object",
+      "required": ["analyze", "assess", "evaluate", "synthesize", "recapitulate"],
+      "properties": {
+        "analyze": { "$ref": "#/$defs/verb_pass" },
+        "assess": { "$ref": "#/$defs/verb_pass" },
+        "evaluate": { "$ref": "#/$defs/verb_pass" },
+        "synthesize": { "$ref": "#/$defs/verb_pass" },
+        "recapitulate": { "$ref": "#/$defs/verb_pass" }
+      },
+      "additionalProperties": false
+    },
+
+    "claim": {
+      "description": "J3 deconstruct. A claim taken apart: premise (what must already be true), mechanism (why it would follow), evidence (atom quotes that force it). Ruling uses the Forge vocabulary. A GROUNDED claim needs at least one evidence quote, and each quote must appear verbatim in its atom's text (checked by the validator).",
+      "type": "object",
+      "required": ["id", "said", "premise", "mechanism", "evidence", "ruling", "cites", "grade"],
+      "properties": {
+        "id": { "$ref": "#/$defs/claim_id" },
+        "said": { "description": "The claim as stated, verbatim or close to it.", "type": "string", "minLength": 1 },
+        "premise": { "type": "string", "minLength": 1 },
+        "mechanism": { "type": "string", "minLength": 1 },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["atom", "quote"],
+            "properties": {
+              "atom": { "$ref": "#/$defs/atom_id" },
+              "quote": { "type": "string", "minLength": 1 },
+              "external": { "description": "An outside source that also forces it (URL or citation).", "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "ruling": { "enum": ["GROUNDED", "INFERENCE", "STRUCK"] },
+        "ruling_note": { "type": "string" },
+        "cites": { "$ref": "#/$defs/atom_refs" },
+        "belief": { "description": "A beliefs[].id this claim moves, if any.", "type": "string" },
+        "audience": { "$ref": "#/$defs/audience" },
+        "grade": { "$ref": "#/$defs/grade" }
+      },
+      "additionalProperties": false
+    },
+
+    "cell": {
+      "description": "J4 hypercube cell on the ADR-060 penteract (5 axes of 5 values, 3,125 coordinates). id is the coordinate itself, lens.resolution.operator.verb.L, so one coordinate is one cell. Only filled cells exist; each cites atoms, so no cell is invented.",
+      "type": "object",
+      "required": ["id", "lens", "resolution", "operator", "verb", "l", "cites", "note", "grade"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[DWHCR]\\.(Exec|Strategic|Operational|Tactical|Surgical)\\.(LAB|KKL|BAR|COURT|FUNHOUSE)\\.(analyze|assess|evaluate|synthesize|recapitulate)\\.L[1-5]$"
+        },
+        "lens": { "description": "D Decision, W Window, H Human, C Coherence, R Risk.", "enum": ["D", "W", "H", "C", "R"] },
+        "resolution": { "enum": ["Exec", "Strategic", "Operational", "Tactical", "Surgical"] },
+        "operator": { "enum": ["LAB", "KKL", "BAR", "COURT", "FUNHOUSE"] },
+        "verb": { "enum": ["analyze", "assess", "evaluate", "synthesize", "recapitulate"] },
+        "l": { "enum": ["L1", "L2", "L3", "L4", "L5"] },
+        "note": { "description": "Why it works, at this coordinate, in one or two lines.", "type": "string", "minLength": 1 },
+        "cites": { "$ref": "#/$defs/atom_refs" },
+        "claims": { "type": "array", "items": { "$ref": "#/$defs/claim_id" } },
+        "grade": { "$ref": "#/$defs/grade" }
+      },
+      "additionalProperties": false
+    },
+
+    "atlas": {
+      "description": "Refs into the arcs.atlas.v2 export (J5, built by row atlas-v2-schema-export). The SSOT holds pointers and kairos marks; the graph itself lives in the atlas file.",
+      "type": "object",
+      "required": ["target"],
+      "properties": {
+        "target": { "const": "arcs.atlas.v2" },
+        "file": { "description": "Repo-relative path of the exported atlas, usually runtime/recoil/generated/<report_id>.atlas.json.", "type": "string" },
+        "exported_at": { "type": "string" },
+        "refs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["node", "kind", "ref", "grade"],
+            "properties": {
+              "node": { "description": "Node id in the atlas file.", "type": "string", "minLength": 1 },
+              "kind": { "enum": ["atom", "claim", "belief", "person", "decision", "cell", "kairos"] },
+              "ref": { "description": "The SSOT id it came from (atom, claim, belief, cell or kairos id; a person name for person).", "type": "string", "minLength": 1 },
+              "tier": { "type": "integer", "minimum": 0 },
+              "grade": { "$ref": "#/$defs/grade" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "kairos": {
+          "description": "Moments where a belief moved, readable at a glance in the HUD (spec 4.5).",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "atom", "note", "grade"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^k[0-9]{2,}$" },
+              "atom": { "$ref": "#/$defs/atom_id" },
+              "belief": { "type": "string" },
+              "note": { "type": "string", "minLength": 1 },
+              "grade": { "$ref": "#/$defs/grade" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "legacy": {
+      "description": "A pre-template report carried whole. kind six-section is the flat RecoilReport props shape (cover, loadBearingQuote, callWalk or segments, signalThreads, scenarios, riskFlags, protocol) rendered by src/document/screens/RecoilReport.tsx. It is a render output, not an SSOT, so the adapter wraps it verbatim and lifts nothing into atoms or claims.",
+      "type": "object",
+      "required": ["kind", "data"],
+      "properties": {
+        "kind": { "enum": ["six-section"] },
+        "data": { "type": "object" }
+      },
+      "additionalProperties": false
+    },
+    "migration": {
+      "description": "Written by the adapter so the v1 export is exact, key order included.",
+      "type": "object",
+      "required": ["from", "adapter"],
+      "properties": {
+        "from": { "enum": ["six-tab.v1", "six-section.v1"] },
+        "adapter": { "type": "string" },
+        "v1_key_order": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    }
+  }
+}

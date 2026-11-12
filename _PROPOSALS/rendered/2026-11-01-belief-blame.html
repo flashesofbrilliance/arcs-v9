@@ -1,0 +1,597 @@
+<!doctype html><html lang="en"><head>
+<!-- @arcs-template: recoil-report -->
+<!-- @arcs-mode: operate -->
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Belief blame: blame the assumption, not the author</title>
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   the ui-kit compounding sweep note for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion durations and easing. Defined in DESIGN.md "Motion and safety" (promoted 2026-10-19). */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: 15px; line-height: 1.6; margin: 0; padding-inline: 16px; padding-block: 28px; }
+main { max-width: 920px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+h1 { font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 600; line-height: 1.2; margin: 0 0 6px; text-wrap: balance; }
+p { margin: 0 0 10px; }
+.recoil-header { display: flex; align-items: stretch; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+.recoil-header::before { content: ''; width: 4px; flex-shrink: 0; background: var(--gold); }
+.header-arcs { padding: 16px 24px; border-right: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; }
+.arcs-mark { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--cyan); line-height: 1; }
+.arcs-sub { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; margin-top: 6px; }
+.header-center { flex: 1; min-width: 0; padding: 16px 24px; }
+.receipt-id { font-family: var(--font-mono); font-size: 11px; color: var(--dimmed); letter-spacing: .04em; margin-bottom: 8px; overflow-wrap: anywhere; }
+.y-gate-badge { display: inline-flex; background: var(--gold-bg); border: 1px solid var(--gold); color: var(--gold); border-radius: var(--r-sm); padding: 3px 12px; font-size: 11px; font-weight: 600; letter-spacing: .08em; }
+.section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 20px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.cell { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 14px; min-width: 0; }
+.cell b { display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px; }
+.decision { border-top: 1px solid var(--border); padding-block: 14px; }
+.decision:first-of-type { border-top: 0; padding-top: 0; }
+.decision .h3 { font-size: 1rem; margin: 0 0 4px; }
+.decision .rec { color: var(--green); }
+.decision .why, .muted { color: var(--dimmed); font-size: 13px; }
+.did { font-family: var(--font-mono); font-size: 11px; color: var(--cyan); margin-right: 8px; }
+.tw { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { color: var(--muted); font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; font-weight: 500; }
+td.mono { font-family: var(--font-mono); font-size: 12px; }
+.pill { display: inline-block; padding: 1px 9px; border-radius: 99px; font-family: var(--font-mono); font-size: 11px; border: 1px solid; white-space: nowrap; }
+.pill.green { color: var(--green); border-color: var(--green); background: var(--green-bg); }
+.pill.gold { color: var(--gold); border-color: var(--gold); background: var(--gold-bg); }
+.pill.red { color: var(--red); border-color: var(--red); background: var(--red-bg); }
+.pill.cyan { color: var(--cyan); border-color: var(--cyan); background: var(--cyan-bg); }
+.ctl { border-top: 1px solid var(--border); padding-block: 16px; }
+.ctl:first-of-type { border-top: 0; padding-top: 0; }
+.ctl .h3 { font-size: 1rem; margin: 0 0 6px; display: flex; gap: 10px; flex-wrap: wrap; align-items: baseline; }
+.ab { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; margin-top: 8px; }
+.ab div { background: var(--surface-2); border-radius: var(--r-sm); padding: 10px 12px; font-size: 13px; min-width: 0; }
+.ab .bad { border-left: 3px solid var(--red); }
+.ab .good { border-left: 3px solid var(--green); }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+.two ul { margin: 8px 0 0; padding-left: 18px; }
+.two li { margin-bottom: 8px; }
+blockquote { margin: 0; padding: 12px 16px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); font-size: 14px; }
+a { color: var(--cyan); }
+.prose h2 { font-size: 1.25rem; margin: 28px 0 8px; } .prose h3 { font-size: 1.05rem; margin: 22px 0 6px; } .prose h4 { font-size: .95rem; margin: 18px 0 6px; }
+.prose ul, .prose ol { padding-left: 22px; margin: 0 0 12px; } .prose li { margin-bottom: 4px; }
+.prose blockquote { margin: 12px 0; padding: 10px 14px; border-left: 3px solid var(--cyan); background: var(--surface-2); border-radius: var(--r-sm); }
+.prose blockquote p { margin: 0; }
+.prose pre { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 12px; overflow-x: auto; font-size: 12px; line-height: 1.45; }
+.prose pre code { color: var(--text); white-space: pre; } .prose hr { border: 0; border-top: 1px solid var(--border); margin: 24px 0; } .prose del { color: var(--dimmed); }
+.fm { width: auto; } .fm td:first-child { font-family: var(--font-mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
+code { font-family: var(--font-mono); font-size: 12px; color: var(--cyan); overflow-wrap: anywhere; }
+.toc { display: flex; flex-wrap: wrap; gap: 6px 16px; position: sticky; top: 0; background: var(--bg); padding-block: 8px; z-index: 1; border-bottom: 1px solid var(--border); }
+.toc .section-label { margin: 0; align-self: center; }
+.toc a { color: var(--cyan); font-size: 13px; text-decoration: none; padding: 10px 4px; display: inline-block; }
+section { scroll-margin-top: 120px; }
+h2.h3 { font-family: var(--font-sans); }
+details > summary { cursor: pointer; list-style: none; }
+dl { margin: 0; display: grid; grid-template-columns: minmax(120px, 220px) 1fr; gap: 8px 16px; }
+dt { font-weight: 600; } dd { margin: 0; color: var(--dimmed); }
+@media (max-width: 640px) { .toc { position: static; } dl { grid-template-columns: 1fr; } }
+footer { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+@media (max-width: 640px) { .recoil-header { flex-direction: column; } .header-arcs { border-right: 0; border-bottom: 1px solid var(--border); } }
+</style></head><body>
+<main>
+<div class="recoil-header"><div class="header-arcs"><div class="arcs-mark">ARCS</div><div class="arcs-sub">Proposal</div></div><div class="header-center"><div class="receipt-id">prop-2026-11-01-belief-blame · 2026-11-01 · main@ce13ec16</div><h1>Belief blame: blame the assumption, not the author</h1><p>git blame says who last touched a line. Belief blame says which assumption the line encodes, the commit it entered in, which evidence later shifted it, and whether the line is still current or is now a known blindspot. Point it at any line of a process file (AGENTS.md, _PATTERNS, _DECISIONS, .claude/rules, script headers) or any backlog depends_on edge.</p><span class="y-gate-badge">RULED 2026-11-01: Zach took all five recommendations (&quot;i&#x27;m good with your recs&quot;). Build: scripts/belief_blame.py, backlog row belief-blame-build. · nothing in production has changed</span></div></div>
+<nav class="toc" aria-label="Contents"><div class="section-label">Contents</div><a href="#short">Short version</a><a href="#decisions">Decisions</a><a href="#heuristics">Heuristics</a><a href="#join">The join: line, then commit,</a><a href="#verdicts">Verdicts</a><a href="#worked">Worked example: AGENTS.md go</a><a href="#reuse">What already exists (reuse, </a><a href="#fields">Fields</a><a href="#leaks">Leak check</a><a href="#controls">Controls</a><a href="#terms">Terms</a><a href="#glossary">Glossary</a><a href="#files">Files</a></nav>
+<section id="short"><div class="section-label">§ The short version</div><div class="grid">
+<div class="cell"><b>The idea (Zach, 2026-11-01)</b>&quot;what if our blame was process assumptions or dependancies or blindspots that changed over time based on observed new evidence that shifted our beliefs&quot;. The thing blamed is a belief and the evidence that moved it, not a person.</div>
+<div class="cell"><b>What the trace found</b>A hand trace of the first real line (AGENTS.md gotcha 17), done the way the tool would, found a live blindspot: the belief &quot;branch protection cannot enforce this on the free plan, so detection, not prevention&quot; was rewritten in AGENTS.md on 2026-10-06 (1c798b7b), but the same sentence still stands in scripts/squash_merge_detector.py line 7. It also found a relapse: falsification row F26 (2026-07-24, a merge went through on a red check) and the safe_merge.sh Tuition (2026-10-20, a merge went through on a PENDING check) are the same belief failing twice, and the later record does not cite the earlier one.</div>
+<div class="cell"><b>Why git blame alone is wrong here</b>git blame -w -C on gotcha 17 credits 51ddf069 (2026-10-20, safe_merge.sh). The never-squash belief entered on 2026-09-28 (0df06046). Blame gives the last rewording; belief blame must walk the line&#x27;s history (git log -L, then git log -S on the quoted phrase) to the first commit that stated the assumption.</div>
+<div class="cell"><b>What it adds</b>One optional field, anchors, on falsification-ledger and assumptions rows (path plus a quoted phrase, never a line number). One read-only script that joins line to commit to assumption to evidence and prints a verdict. No new store, no model calls. Everything else already exists.</div>
+</div></section>
+<section class="panel" id="decisions"><div class="section-label">§ Decisions, ruled</div>
+<div class="decision"><h2 class="h3"><span class="did">D1</span>Add an optional anchors field to _STATE/falsification-ledger.jsonl and _STATE/assumptions.jsonl rows: a list of {path, phrase} naming the lines that encode the belief?</h2><p class="rec">Recommended: Yes. It is the one missing join key. Today F-rows cite ADRs, specs and runs, and asm rows cite depends_on_it paths, but nothing points at a line, so no tool can go from a line to its belief.</p><p class="rec">Ruled: Yes, add anchors. Old rows stay untouched (both ledgers are append-only); a belief already on the books is anchored through a new asm row that points back at it.</p><p class="why">A phrase survives line moves and rewording of nearby text; a line number goes stale on the next edit above it. Text search alone cannot tell two uses of the same words apart.</p></div>
+<div class="decision"><h2 class="h3"><span class="did">D2</span>Report a belief&#x27;s exit on both axes: truth (falsified, or still held) and liveness (moot, superseded), and for a falsified belief say whether the world changed or the old belief was wrong all along?</h2><p class="rec">Recommended: Yes, as fields in the verdict, not prose. Gotcha 17&#x27;s 2026-10-06 shift was revealed incompleteness: the merge-method setting existed on every plan the whole time; the belief that enforcement was impossible was false when written.</p><p class="rec">Ruled: Yes, as fields: truth (open, held, falsified), liveness (live, moot) and exit (world-change, revealed-incompleteness, moot).</p><p class="why">Memories claim-exit-lattice and defeasible-warrant: a falsified claim you correct, a moot claim you vacate and mark; calling a miss a change hides the miss.</p></div>
+<div class="decision"><h2 class="h3"><span class="did">D3</span>Fix the blindspot the trace found (scripts/squash_merge_detector.py line 7 still says branch protection cannot enforce the policy) as its own one-line docs PR, citing commit 1c798b7b?</h2><p class="rec">Recommended: Yes, separately and after this proposal, so the fix is the first receipt that cites a belief-blame finding.</p><p class="rec">Ruled: Yes, a separate one-line PR after the build, citing 1c798b7b.</p><p class="why">The detector still works; only its stated reason is stale. A stale reason misleads the next reader into thinking the detector is the only guard.</p></div>
+<div class="decision"><h2 class="h3"><span class="did">D4</span>Should a Tuition note in a script header that repeats a falsified belief be required to cite its F-row (and, when none exists, mint one)?</h2><p class="rec">Recommended: Yes, as a warning first (control K2), then a gate after 30 days if the false-positive rate is low.</p><p class="rec">Ruled: Warn only for 30 days (until 2026-12-01), then decide on a gate from the false-positive count.</p><p class="why">F26 and the safe_merge.sh Tuition are the same failure three months apart. The ledger had the lesson; the fix did not carry it, so the class came back.</p></div>
+<div class="decision"><h2 class="h3"><span class="did">D5</span>Where does belief blame render first?</h2><p class="rec">Recommended: CLI only (a read-only script with --self-test), then feed the WORLD.md HUD Time layer, which already promises belief change scrubbed by date with a falsified belief as a gold seam.</p><p class="rec">Ruled: CLI first: scripts/belief_blame.py, read-only, with --self-test. HUD Time layer later.</p><p class="why">The HUD needs the join to exist before it can draw it. A visual that cannot go flat on empty data is decoration.</p></div>
+</section>
+<section class="panel" id="heuristics"><div class="section-label">§ Heuristics: for you, and for me</div><div class="two">
+<div class="cell"><b>For you (human)</b><ul><li>When evidence changes your mind about a process rule, say which file states the old belief; the harness rewrites every sibling, not only the one in front of it.</li><li>Ask &quot;did the world change, or were we wrong all along?&quot; A miss called a change is a miss repeated.</li><li>A verdict of UNREGISTERED is not a defect; it is a belief nobody wrote a test for. Register it only if being wrong would cost something.</li></ul></div>
+<div class="cell"><b>For the agent (machine)</b><ul><li>Never report the git blame commit as when a belief entered; walk git log -L and git log -S on the anchor phrase.</li><li>Never edit a decided ledger row to record a shift; append a new row that points back (supersedes).</li><li>When you rewrite a process line because of new evidence, grep for the old phrase across the repo in the same change and cite the evidence id in the commit.</li><li>Belief blame is read-only. It prints verdicts; fixes go through the normal PR, merge and receipt path.</li></ul></div>
+</div></section>
+<section class="panel" id="join"><div class="section-label">§ The join: line, then commit, then assumption, then evidence</div>
+<p class="muted">Each hop uses a source the repo already keeps. The only new key is anchors (D1).</p>
+<div class="tw" tabindex="0"><table><tr><th>Hop</th><th>Question</th><th>Source</th><th>Method</th></tr>
+<tr><td>1 line to assumption</td><td>Which assumption does this line encode?</td><td>_STATE/assumptions.jsonl and _STATE/falsification-ledger.jsonl, field anchors (new); fallback depends_on_it paths</td><td>Match the line&#x27;s text against each anchor phrase for that path. No match prints UNREGISTERED: the line holds a belief nobody wrote down.</td></tr>
+<tr><td>2 line to entry commit</td><td>When did it enter?</td><td>git</td><td>git blame -w -C -L for the last touch, then git log -L on the line and git log -S on the anchor phrase to reach the first commit that stated it. Report both: entered_in and last_touched_in.</td></tr>
+<tr><td>3 assumption to evidence</td><td>What shifted it later?</td><td>falsification-ledger rows; assumptions rows with decided_ref or supersedes; decision_receipt rows with supersedes (append-only chain); kintsugi seams in _PATTERNS/kintsugi-visual-grammar-seams.md; Tuition notes in script headers</td><td>Collect every row whose anchors, refs or text name the assumption or the line&#x27;s path, ordered by date. Each one is a shift event with its own commit or receipt id.</td></tr>
+<tr><td>4 evidence to verdict</td><td>Still current, or a known blindspot?</td><td>the rows from hop 3 plus the current text of every anchored line</td><td>CURRENT, SHIFTED-PROPAGATED, SHIFTED-STALE-SIBLING, RELAPSED, MOOT or UNREGISTERED (table below).</td></tr>
+<tr><td>depends_on edge</td><td>Same four questions for a backlog dependency</td><td>_QUEUE/induced-backlog.jsonl</td><td>git log -S on the edge (&quot;depends_on&quot; with the target id) gives the commit that added it; its assumption is that the target must finish first; evidence is the target&#x27;s state history and any row that superseded it.</td></tr>
+</table></div></section>
+<section class="panel" id="verdicts"><div class="section-label">§ Verdicts</div>
+<p class="muted">Truth and liveness are separate axes (D2). Every verdict prints the commit or row id that decided it.</p>
+<div class="tw" tabindex="0"><table><tr><th>Verdict</th><th>Meaning</th><th>Fix</th></tr>
+<tr><td>CURRENT</td><td>No evidence row shifted it, or every shift was a hold.</td><td>none</td></tr>
+<tr><td>SHIFTED-PROPAGATED</td><td>Evidence shifted it and every anchored line now states the new belief.</td><td>none; the gold seam is drawn</td></tr>
+<tr><td>SHIFTED-STALE-SIBLING</td><td>Evidence shifted it and one line was rewritten, but another anchored line still states the old belief.</td><td>rewrite the sibling, cite the shift commit</td></tr>
+<tr><td>RELAPSED</td><td>A falsified belief failed again later and the later record does not cite the earlier row.</td><td>link the records; ask whether the fix was the wrong layer</td></tr>
+<tr><td>MOOT</td><td>The question retired (the tool or rule was removed or superseded) rather than being answered false.</td><td>vacate and mark, do not correct</td></tr>
+<tr><td>UNREGISTERED</td><td>The line encodes a belief with no assumptions or F-row anchored to it.</td><td>register an asm row with a test that would decide it</td></tr>
+</table></div></section>
+<section class="panel" id="worked"><div class="section-label">§ Worked example: AGENTS.md gotcha 17 (line 148 at main@ce13ec16)</div>
+<p class="muted">Every value below was read from git and the ledgers in this worktree on 2026-11-01.</p>
+<div class="tw" tabindex="0"><table><tr><th>Hop</th><th>Finding</th><th>Evidence id</th></tr>
+<tr><td>1 assumption</td><td>Two beliefs share the line. A: a squash or rebase erases the per-PR boundary that receipts cite, so merge commits only. B (2026-09-28 wording): branch protection cannot enforce this on the free private plan, so a daily detector is the guard. No asm or F-row is anchored to either, so both print UNREGISTERED today.</td><td>_STATE/assumptions.jsonl (20 rows, none anchored), _STATE/falsification-ledger.jsonl (42 rows)</td></tr>
+<tr><td>2 entered</td><td>git blame -w -C credits 51ddf069 (2026-10-20). git log -L walks back: 1c798b7b (2026-10-06), then 0df06046 (2026-09-28), the commit that first stated both beliefs.</td><td>0df06046 entered; 51ddf069 last touch</td></tr>
+<tr><td>3a shift on B</td><td>2026-10-06: the repo&#x27;s merge-method setting (allow_squash_merge and allow_rebase_merge false) enforces the ban on any plan. AGENTS.md was rewritten to say so. The setting existed all along, so this is revealed incompleteness, not a world change.</td><td>1c798b7b</td></tr>
+<tr><td>3b sibling</td><td>scripts/squash_merge_detector.py line 7 still says branch protection cannot enforce the policy, so detection, not prevention. git log -S on that phrase shows 1c798b7b removed it from AGENTS.md only.</td><td>SHIFTED-STALE-SIBLING</td></tr>
+<tr><td>3c relapse</td><td>A third belief rides the same line since 51ddf069: a merge gate must wait for every check to SUCCEED. F26 (2026-07-24) falsified &quot;gh pr checks --watch then merge is enough&quot; after PR 130 merged on red. The safe_merge.sh Tuition (2026-10-20) records PR 1722 merging while Vercel was PENDING. safe_merge.sh does not cite F26.</td><td>F26; scripts/safe_merge.sh lines 4 to 7; RELAPSED</td></tr>
+<tr><td>4 verdict</td><td>A CURRENT. B SHIFTED-STALE-SIBLING (fix: D3). The check-gate belief RELAPSED once, now held by safe_merge.sh; F26&#x27;s fix text (&quot;the only gate on free-tier private GitHub&quot;) is itself partly stale since 1c798b7b.</td><td>this proposal</td></tr>
+</table></div></section>
+<section class="panel" id="reuse"><div class="section-label">§ What already exists (reuse, not rebuild)</div>
+<p class="muted">Each hop maps to a tool or record already in the repo.</p>
+<div class="tw" tabindex="0"><table><tr><th>Need</th><th>Existing</th><th>Gap</th></tr>
+<tr><td>Belief-change SSOT</td><td>_STATE/falsification-ledger.jsonl, rendered by scripts/belief_log_emit.py</td><td>no line anchors</td></tr>
+<tr><td>Open beliefs before a test</td><td>_STATE/assumptions.jsonl via scripts/assumptions.py (supersedes, decided_ref)</td><td>no line anchors</td></tr>
+<tr><td>Per-session belief diff</td><td>.claude/skills/thread-recoil</td><td>its rows are never anchored to the lines they change</td></tr>
+<tr><td>Corrections without erasure</td><td>decision_receipt append-only supersedes chain (runtime/specs/decision-receipt/2026-10-20-append-only.sql)</td><td>none</td></tr>
+<tr><td>Visible repair</td><td>_PATTERNS/kintsugi-visual-grammar-seams.md</td><td>seams are per surface, not per belief</td></tr>
+<tr><td>Draw it over time</td><td>WORLD.md THE HUD, Time layer</td><td>needs the join first (D5)</td></tr>
+<tr><td>Incident lessons</td><td>Tuition notes in 6 script headers (safe_merge.sh, merge_train.sh, ship_docs.sh, sync_worktree.sh, sugar_bulk.py, approvals_ledger.py)</td><td>not linked to F-rows (D4)</td></tr>
+<tr><td>Stale prose vs state</td><td>scripts/backlog_status_check.py stale status_note rule (2026-11-01)</td><td>the same idea for process lines</td></tr>
+</table></div></section>
+<section class="panel" id="controls"><div class="section-label">§ Proposed controls and how we will know each works</div>
+<p class="muted">Each control is a guess until its test runs. A test has a known-bad case that must fail and a known-good case that must pass.</p>
+<div class="ctl"><h2 class="h3"><span class="did">K1</span>Stale sibling <span class="pill gold">proposed</span></h2><p>When an evidence row or commit rewrote one anchored line, every other line anchored to the same belief must no longer contain the old phrase.</p><div class="ab"><div class="bad"><b class="muted">Must fail</b><br>Fixture: two files anchored to belief B, one rewritten at 1c798b7b, the other still containing &quot;Branch protection cannot enforce&quot; (a copy of scripts/squash_merge_detector.py at ce13ec16). Must print SHIFTED-STALE-SIBLING with both paths and 1c798b7b.</div><div class="good"><b class="muted">Must pass</b><br>The same fixture with the detector line rewritten prints SHIFTED-PROPAGATED.</div></div><p class="muted" style="margin-top:8px">Test status: fixtures to be written first in the script&#x27;s --self-test (temp git repo, two commits) · line: known-bad flagged, known-good silent</p></div>
+<div class="ctl"><h2 class="h3"><span class="did">K2</span>Relapse without citation <span class="pill gold">proposed</span></h2><p>A Tuition note or kintsugi seam that matches a FALSIFIED F-row&#x27;s claim, dated after it, must cite that F-row.</p><div class="ab"><div class="bad"><b class="muted">Must fail</b><br>Fixture: an F-row like F26 (2026-07-24, merge on red check) and a script header Tuition dated 2026-10-20 describing a merge on a PENDING check with no F-id. Must print RELAPSED naming both.</div><div class="good"><b class="muted">Must pass</b><br>The same Tuition with &quot;(see F26)&quot; prints nothing.</div></div><p class="muted" style="margin-top:8px">Test status: matching is by anchors first, then by a shared anchor path; no fuzzy text match in the gate, so recall is low by design and false positives near zero · line: known-bad flagged, known-good silent; warn only for 30 days (D4)</p></div>
+<div class="ctl"><h2 class="h3"><span class="did">K3</span>Entry is not last touch <span class="pill gold">proposed</span></h2><p>The reported entry commit is the first commit that stated the anchor phrase, not the git blame commit.</p><div class="ab"><div class="bad"><b class="muted">Must fail</b><br>Fixture: a temp repo where commit 1 adds a line with the phrase and commit 2 rewords other words on the same line. Reporting commit 2 as entered_in fails.</div><div class="good"><b class="muted">Must pass</b><br>entered_in is commit 1, last_touched_in is commit 2. On the real repo, AGENTS.md gotcha 17 reports entered 0df06046, last touched 51ddf069.</div></div><p class="muted" style="margin-top:8px">Test status: fixtures to be written first · line: both commits match</p></div>
+</section>
+<section class="panel" id="glossary"><div class="section-label">§ Glossary</div><dl><dt>Belief blame</dt><dd>A lookup that answers, for one line or one depends_on edge: which assumption, entered when, shifted by what evidence, current or not.</dd><dt>Anchor</dt><dd>A {path, phrase} pair on a ledger row naming a line that states the belief. A phrase, never a line number, so it survives edits above it.</dd><dt>Stale sibling</dt><dd>A second line that still states a belief after evidence rewrote the first one.</dd><dt>Relapse</dt><dd>A falsified belief that fails again later, recorded without citing the earlier falsification.</dd><dt>Revealed incompleteness</dt><dd>The belief was false when written; new evidence only exposed it. Opposite of a world change, where it was true then and is false now.</dd><dt>Tuition</dt><dd>The incident note at the top of a script header recording what went wrong and what the script now prevents.</dd><dt>Moot</dt><dd>The question retired, so the belief is vacated and marked rather than corrected.</dd></dl></section>
+<section class="panel" id="files"><div class="section-label">§ Every file this rests on</div><ul><li><code>AGENTS.md gotcha 17 (line 148 at ce13ec16)</code></li><li><code>commits 0df06046 (2026-09-28), 1c798b7b (2026-10-06), 51ddf069 (2026-10-20)</code></li><li><code>scripts/squash_merge_detector.py line 7</code></li><li><code>scripts/safe_merge.sh lines 4 to 7 (Tuition)</code></li><li><code>_STATE/falsification-ledger.jsonl row F26</code></li><li><code>_STATE/assumptions.jsonl and scripts/assumptions.py</code></li><li><code>scripts/belief_log_emit.py</code></li><li><code>scripts/backlog_status_check.py (stale status_note rule, 2026-11-01)</code></li><li><code>.claude/skills/thread-recoil/SKILL.md</code></li><li><code>_PATTERNS/kintsugi-visual-grammar-seams.md</code></li><li><code>runtime/specs/decision-receipt/2026-10-20-append-only.sql (supersedes chain)</code></li><li><code>WORLD.md THE HUD (Time layer)</code></li><li><code>memories claim-exit-lattice-falsification-truth-axis-vs-mootness-liveness-axis and defeasible-warrant-freshness-horizon-and-defeater-triggers</code></li><li><code>_PROPOSALS/2026-11-01-kairos-backup-rule.json (sibling proposal, same shape)</code></li><li><code>_PROPOSALS/2026-11-01-belief-blame.json</code> (source of this page)</li></ul></section>
+<footer>Source: _PROPOSALS/2026-11-01-belief-blame.json · sources: AGENTS.md gotcha 17 (line 148 at ce13ec16), commits 0df06046 (2026-09-28), 1c798b7b (2026-10-06), 51ddf069 (2026-10-20), scripts/squash_merge_detector.py line 7, scripts/safe_merge.sh lines 4 to 7 (Tuition), _STATE/falsification-ledger.jsonl row F26, _STATE/assumptions.jsonl and scripts/assumptions.py, scripts/belief_log_emit.py, scripts/backlog_status_check.py (stale status_note rule, 2026-11-01), .claude/skills/thread-recoil/SKILL.md, _PATTERNS/kintsugi-visual-grammar-seams.md, runtime/specs/decision-receipt/2026-10-20-append-only.sql (supersedes chain), WORLD.md THE HUD (Time layer), memories claim-exit-lattice-falsification-truth-axis-vs-mootness-liveness-axis and defeasible-warrant-freshness-horizon-and-defeater-triggers, _PROPOSALS/2026-11-01-kairos-backup-rule.json (sibling proposal, same shape) · the machine layer is the JSON block in this page (id arcs-proposal)</footer>
+</main>
+<script type="application/json" id="arcs-proposal">
+{
+ "id": "prop-2026-11-01-belief-blame",
+ "title": "Belief blame: blame the assumption, not the author",
+ "date": "2026-11-01",
+ "status": "RULED 2026-11-01: Zach took all five recommendations (\"i'm good with your recs\"). Build: scripts/belief_blame.py, backlog row belief-blame-build.",
+ "tone": "gold",
+ "worktree": "beautiful-benz-7158a0",
+ "base": "main@ce13ec16",
+ "one_line": "git blame says who last touched a line. Belief blame says which assumption the line encodes, the commit it entered in, which evidence later shifted it, and whether the line is still current or is now a known blindspot. Point it at any line of a process file (AGENTS.md, _PATTERNS, _DECISIONS, .claude/rules, script headers) or any backlog depends_on edge.",
+ "bottom_line": [
+  {
+   "label": "The idea (Zach, 2026-11-01)",
+   "text": "\"what if our blame was process assumptions or dependancies or blindspots that changed over time based on observed new evidence that shifted our beliefs\". The thing blamed is a belief and the evidence that moved it, not a person."
+  },
+  {
+   "label": "What the trace found",
+   "text": "A hand trace of the first real line (AGENTS.md gotcha 17), done the way the tool would, found a live blindspot: the belief \"branch protection cannot enforce this on the free plan, so detection, not prevention\" was rewritten in AGENTS.md on 2026-10-06 (1c798b7b), but the same sentence still stands in scripts/squash_merge_detector.py line 7. It also found a relapse: falsification row F26 (2026-07-24, a merge went through on a red check) and the safe_merge.sh Tuition (2026-10-20, a merge went through on a PENDING check) are the same belief failing twice, and the later record does not cite the earlier one."
+  },
+  {
+   "label": "Why git blame alone is wrong here",
+   "text": "git blame -w -C on gotcha 17 credits 51ddf069 (2026-10-20, safe_merge.sh). The never-squash belief entered on 2026-09-28 (0df06046). Blame gives the last rewording; belief blame must walk the line's history (git log -L, then git log -S on the quoted phrase) to the first commit that stated the assumption."
+  },
+  {
+   "label": "What it adds",
+   "text": "One optional field, anchors, on falsification-ledger and assumptions rows (path plus a quoted phrase, never a line number). One read-only script that joins line to commit to assumption to evidence and prints a verdict. No new store, no model calls. Everything else already exists."
+  }
+ ],
+ "decisions": [
+  {
+   "id": "D1",
+   "question": "Add an optional anchors field to _STATE/falsification-ledger.jsonl and _STATE/assumptions.jsonl rows: a list of {path, phrase} naming the lines that encode the belief?",
+   "recommended": "Yes. It is the one missing join key. Today F-rows cite ADRs, specs and runs, and asm rows cite depends_on_it paths, but nothing points at a line, so no tool can go from a line to its belief.",
+   "options": [
+    "add anchors",
+    "derive anchors by text search only (no field)",
+    "compost"
+   ],
+   "why": "A phrase survives line moves and rewording of nearby text; a line number goes stale on the next edit above it. Text search alone cannot tell two uses of the same words apart.",
+   "ruling": "Yes, add anchors. Old rows stay untouched (both ledgers are append-only); a belief already on the books is anchored through a new asm row that points back at it."
+  },
+  {
+   "id": "D2",
+   "question": "Report a belief's exit on both axes: truth (falsified, or still held) and liveness (moot, superseded), and for a falsified belief say whether the world changed or the old belief was wrong all along?",
+   "recommended": "Yes, as fields in the verdict, not prose. Gotcha 17's 2026-10-06 shift was revealed incompleteness: the merge-method setting existed on every plan the whole time; the belief that enforcement was impossible was false when written.",
+   "options": [
+    "both axes plus world-change vs revealed-incompleteness",
+    "truth axis only",
+    "free text"
+   ],
+   "why": "Memories claim-exit-lattice and defeasible-warrant: a falsified claim you correct, a moot claim you vacate and mark; calling a miss a change hides the miss.",
+   "ruling": "Yes, as fields: truth (open, held, falsified), liveness (live, moot) and exit (world-change, revealed-incompleteness, moot)."
+  },
+  {
+   "id": "D3",
+   "question": "Fix the blindspot the trace found (scripts/squash_merge_detector.py line 7 still says branch protection cannot enforce the policy) as its own one-line docs PR, citing commit 1c798b7b?",
+   "recommended": "Yes, separately and after this proposal, so the fix is the first receipt that cites a belief-blame finding.",
+   "options": [
+    "separate PR now",
+    "fold into this PR",
+    "leave it, the setting already enforces"
+   ],
+   "why": "The detector still works; only its stated reason is stale. A stale reason misleads the next reader into thinking the detector is the only guard.",
+   "ruling": "Yes, a separate one-line PR after the build, citing 1c798b7b."
+  },
+  {
+   "id": "D4",
+   "question": "Should a Tuition note in a script header that repeats a falsified belief be required to cite its F-row (and, when none exists, mint one)?",
+   "recommended": "Yes, as a warning first (control K2), then a gate after 30 days if the false-positive rate is low.",
+   "options": [
+    "warn then gate",
+    "warn only",
+    "no"
+   ],
+   "why": "F26 and the safe_merge.sh Tuition are the same failure three months apart. The ledger had the lesson; the fix did not carry it, so the class came back.",
+   "ruling": "Warn only for 30 days (until 2026-12-01), then decide on a gate from the false-positive count."
+  },
+  {
+   "id": "D5",
+   "question": "Where does belief blame render first?",
+   "recommended": "CLI only (a read-only script with --self-test), then feed the WORLD.md HUD Time layer, which already promises belief change scrubbed by date with a falsified belief as a gold seam.",
+   "options": [
+    "CLI first, HUD later",
+    "HUD first",
+    "belief-log page only"
+   ],
+   "why": "The HUD needs the join to exist before it can draw it. A visual that cannot go flat on empty data is decoration.",
+   "ruling": "CLI first: scripts/belief_blame.py, read-only, with --self-test. HUD Time layer later."
+  }
+ ],
+ "tables": [
+  {
+   "id": "join",
+   "title": "The join: line, then commit, then assumption, then evidence",
+   "intro": "Each hop uses a source the repo already keeps. The only new key is anchors (D1).",
+   "columns": [
+    "Hop",
+    "Question",
+    "Source",
+    "Method"
+   ],
+   "rows": [
+    [
+     "1 line to assumption",
+     "Which assumption does this line encode?",
+     "_STATE/assumptions.jsonl and _STATE/falsification-ledger.jsonl, field anchors (new); fallback depends_on_it paths",
+     "Match the line's text against each anchor phrase for that path. No match prints UNREGISTERED: the line holds a belief nobody wrote down."
+    ],
+    [
+     "2 line to entry commit",
+     "When did it enter?",
+     "git",
+     "git blame -w -C -L for the last touch, then git log -L on the line and git log -S on the anchor phrase to reach the first commit that stated it. Report both: entered_in and last_touched_in."
+    ],
+    [
+     "3 assumption to evidence",
+     "What shifted it later?",
+     "falsification-ledger rows; assumptions rows with decided_ref or supersedes; decision_receipt rows with supersedes (append-only chain); kintsugi seams in _PATTERNS/kintsugi-visual-grammar-seams.md; Tuition notes in script headers",
+     "Collect every row whose anchors, refs or text name the assumption or the line's path, ordered by date. Each one is a shift event with its own commit or receipt id."
+    ],
+    [
+     "4 evidence to verdict",
+     "Still current, or a known blindspot?",
+     "the rows from hop 3 plus the current text of every anchored line",
+     "CURRENT, SHIFTED-PROPAGATED, SHIFTED-STALE-SIBLING, RELAPSED, MOOT or UNREGISTERED (table below)."
+    ],
+    [
+     "depends_on edge",
+     "Same four questions for a backlog dependency",
+     "_QUEUE/induced-backlog.jsonl",
+     "git log -S on the edge (\"depends_on\" with the target id) gives the commit that added it; its assumption is that the target must finish first; evidence is the target's state history and any row that superseded it."
+    ]
+   ]
+  },
+  {
+   "id": "verdicts",
+   "title": "Verdicts",
+   "intro": "Truth and liveness are separate axes (D2). Every verdict prints the commit or row id that decided it.",
+   "columns": [
+    "Verdict",
+    "Meaning",
+    "Fix"
+   ],
+   "rows": [
+    [
+     "CURRENT",
+     "No evidence row shifted it, or every shift was a hold.",
+     "none"
+    ],
+    [
+     "SHIFTED-PROPAGATED",
+     "Evidence shifted it and every anchored line now states the new belief.",
+     "none; the gold seam is drawn"
+    ],
+    [
+     "SHIFTED-STALE-SIBLING",
+     "Evidence shifted it and one line was rewritten, but another anchored line still states the old belief.",
+     "rewrite the sibling, cite the shift commit"
+    ],
+    [
+     "RELAPSED",
+     "A falsified belief failed again later and the later record does not cite the earlier row.",
+     "link the records; ask whether the fix was the wrong layer"
+    ],
+    [
+     "MOOT",
+     "The question retired (the tool or rule was removed or superseded) rather than being answered false.",
+     "vacate and mark, do not correct"
+    ],
+    [
+     "UNREGISTERED",
+     "The line encodes a belief with no assumptions or F-row anchored to it.",
+     "register an asm row with a test that would decide it"
+    ]
+   ]
+  },
+  {
+   "id": "worked",
+   "title": "Worked example: AGENTS.md gotcha 17 (line 148 at main@ce13ec16)",
+   "intro": "Every value below was read from git and the ledgers in this worktree on 2026-11-01.",
+   "columns": [
+    "Hop",
+    "Finding",
+    "Evidence id"
+   ],
+   "rows": [
+    [
+     "1 assumption",
+     "Two beliefs share the line. A: a squash or rebase erases the per-PR boundary that receipts cite, so merge commits only. B (2026-09-28 wording): branch protection cannot enforce this on the free private plan, so a daily detector is the guard. No asm or F-row is anchored to either, so both print UNREGISTERED today.",
+     "_STATE/assumptions.jsonl (20 rows, none anchored), _STATE/falsification-ledger.jsonl (42 rows)"
+    ],
+    [
+     "2 entered",
+     "git blame -w -C credits 51ddf069 (2026-10-20). git log -L walks back: 1c798b7b (2026-10-06), then 0df06046 (2026-09-28), the commit that first stated both beliefs.",
+     "0df06046 entered; 51ddf069 last touch"
+    ],
+    [
+     "3a shift on B",
+     "2026-10-06: the repo's merge-method setting (allow_squash_merge and allow_rebase_merge false) enforces the ban on any plan. AGENTS.md was rewritten to say so. The setting existed all along, so this is revealed incompleteness, not a world change.",
+     "1c798b7b"
+    ],
+    [
+     "3b sibling",
+     "scripts/squash_merge_detector.py line 7 still says branch protection cannot enforce the policy, so detection, not prevention. git log -S on that phrase shows 1c798b7b removed it from AGENTS.md only.",
+     "SHIFTED-STALE-SIBLING"
+    ],
+    [
+     "3c relapse",
+     "A third belief rides the same line since 51ddf069: a merge gate must wait for every check to SUCCEED. F26 (2026-07-24) falsified \"gh pr checks --watch then merge is enough\" after PR 130 merged on red. The safe_merge.sh Tuition (2026-10-20) records PR 1722 merging while Vercel was PENDING. safe_merge.sh does not cite F26.",
+     "F26; scripts/safe_merge.sh lines 4 to 7; RELAPSED"
+    ],
+    [
+     "4 verdict",
+     "A CURRENT. B SHIFTED-STALE-SIBLING (fix: D3). The check-gate belief RELAPSED once, now held by safe_merge.sh; F26's fix text (\"the only gate on free-tier private GitHub\") is itself partly stale since 1c798b7b.",
+     "this proposal"
+    ]
+   ]
+  },
+  {
+   "id": "reuse",
+   "title": "What already exists (reuse, not rebuild)",
+   "intro": "Each hop maps to a tool or record already in the repo.",
+   "columns": [
+    "Need",
+    "Existing",
+    "Gap"
+   ],
+   "rows": [
+    [
+     "Belief-change SSOT",
+     "_STATE/falsification-ledger.jsonl, rendered by scripts/belief_log_emit.py",
+     "no line anchors"
+    ],
+    [
+     "Open beliefs before a test",
+     "_STATE/assumptions.jsonl via scripts/assumptions.py (supersedes, decided_ref)",
+     "no line anchors"
+    ],
+    [
+     "Per-session belief diff",
+     ".claude/skills/thread-recoil",
+     "its rows are never anchored to the lines they change"
+    ],
+    [
+     "Corrections without erasure",
+     "decision_receipt append-only supersedes chain (runtime/specs/decision-receipt/2026-10-20-append-only.sql)",
+     "none"
+    ],
+    [
+     "Visible repair",
+     "_PATTERNS/kintsugi-visual-grammar-seams.md",
+     "seams are per surface, not per belief"
+    ],
+    [
+     "Draw it over time",
+     "WORLD.md THE HUD, Time layer",
+     "needs the join first (D5)"
+    ],
+    [
+     "Incident lessons",
+     "Tuition notes in 6 script headers (safe_merge.sh, merge_train.sh, ship_docs.sh, sync_worktree.sh, sugar_bulk.py, approvals_ledger.py)",
+     "not linked to F-rows (D4)"
+    ],
+    [
+     "Stale prose vs state",
+     "scripts/backlog_status_check.py stale status_note rule (2026-11-01)",
+     "the same idea for process lines"
+    ]
+   ]
+  }
+ ],
+ "controls": [
+  {
+   "id": "K1",
+   "name": "Stale sibling",
+   "plain": "When an evidence row or commit rewrote one anchored line, every other line anchored to the same belief must no longer contain the old phrase.",
+   "stage": "proposed",
+   "bad": "Fixture: two files anchored to belief B, one rewritten at 1c798b7b, the other still containing \"Branch protection cannot enforce\" (a copy of scripts/squash_merge_detector.py at ce13ec16). Must print SHIFTED-STALE-SIBLING with both paths and 1c798b7b.",
+   "good": "The same fixture with the detector line rewritten prints SHIFTED-PROPAGATED.",
+   "assay_ready": "fixtures to be written first in the script's --self-test (temp git repo, two commits)",
+   "threshold": "known-bad flagged, known-good silent"
+  },
+  {
+   "id": "K2",
+   "name": "Relapse without citation",
+   "plain": "A Tuition note or kintsugi seam that matches a FALSIFIED F-row's claim, dated after it, must cite that F-row.",
+   "stage": "proposed",
+   "bad": "Fixture: an F-row like F26 (2026-07-24, merge on red check) and a script header Tuition dated 2026-10-20 describing a merge on a PENDING check with no F-id. Must print RELAPSED naming both.",
+   "good": "The same Tuition with \"(see F26)\" prints nothing.",
+   "assay_ready": "matching is by anchors first, then by a shared anchor path; no fuzzy text match in the gate, so recall is low by design and false positives near zero",
+   "threshold": "known-bad flagged, known-good silent; warn only for 30 days (D4)"
+  },
+  {
+   "id": "K3",
+   "name": "Entry is not last touch",
+   "plain": "The reported entry commit is the first commit that stated the anchor phrase, not the git blame commit.",
+   "stage": "proposed",
+   "bad": "Fixture: a temp repo where commit 1 adds a line with the phrase and commit 2 rewords other words on the same line. Reporting commit 2 as entered_in fails.",
+   "good": "entered_in is commit 1, last_touched_in is commit 2. On the real repo, AGENTS.md gotcha 17 reports entered 0df06046, last touched 51ddf069.",
+   "assay_ready": "fixtures to be written first",
+   "threshold": "both commits match"
+  }
+ ],
+ "heuristics": {
+  "human": [
+   "When evidence changes your mind about a process rule, say which file states the old belief; the harness rewrites every sibling, not only the one in front of it.",
+   "Ask \"did the world change, or were we wrong all along?\" A miss called a change is a miss repeated.",
+   "A verdict of UNREGISTERED is not a defect; it is a belief nobody wrote a test for. Register it only if being wrong would cost something."
+  ],
+  "agent": [
+   "Never report the git blame commit as when a belief entered; walk git log -L and git log -S on the anchor phrase.",
+   "Never edit a decided ledger row to record a shift; append a new row that points back (supersedes).",
+   "When you rewrite a process line because of new evidence, grep for the old phrase across the repo in the same change and cite the evidence id in the commit.",
+   "Belief blame is read-only. It prints verdicts; fixes go through the normal PR, merge and receipt path."
+  ]
+ },
+ "glossary": [
+  {
+   "term": "Belief blame",
+   "plain": "A lookup that answers, for one line or one depends_on edge: which assumption, entered when, shifted by what evidence, current or not."
+  },
+  {
+   "term": "Anchor",
+   "plain": "A {path, phrase} pair on a ledger row naming a line that states the belief. A phrase, never a line number, so it survives edits above it."
+  },
+  {
+   "term": "Stale sibling",
+   "plain": "A second line that still states a belief after evidence rewrote the first one."
+  },
+  {
+   "term": "Relapse",
+   "plain": "A falsified belief that fails again later, recorded without citing the earlier falsification."
+  },
+  {
+   "term": "Revealed incompleteness",
+   "plain": "The belief was false when written; new evidence only exposed it. Opposite of a world change, where it was true then and is false now."
+  },
+  {
+   "term": "Tuition",
+   "plain": "The incident note at the top of a script header recording what went wrong and what the script now prevents."
+  },
+  {
+   "term": "Moot",
+   "plain": "The question retired, so the belief is vacated and marked rather than corrected."
+  }
+ ],
+ "sources": [
+  "AGENTS.md gotcha 17 (line 148 at ce13ec16)",
+  "commits 0df06046 (2026-09-28), 1c798b7b (2026-10-06), 51ddf069 (2026-10-20)",
+  "scripts/squash_merge_detector.py line 7",
+  "scripts/safe_merge.sh lines 4 to 7 (Tuition)",
+  "_STATE/falsification-ledger.jsonl row F26",
+  "_STATE/assumptions.jsonl and scripts/assumptions.py",
+  "scripts/belief_log_emit.py",
+  "scripts/backlog_status_check.py (stale status_note rule, 2026-11-01)",
+  ".claude/skills/thread-recoil/SKILL.md",
+  "_PATTERNS/kintsugi-visual-grammar-seams.md",
+  "runtime/specs/decision-receipt/2026-10-20-append-only.sql (supersedes chain)",
+  "WORLD.md THE HUD (Time layer)",
+  "memories claim-exit-lattice-falsification-truth-axis-vs-mootness-liveness-axis and defeasible-warrant-freshness-horizon-and-defeater-triggers",
+  "_PROPOSALS/2026-11-01-kairos-backup-rule.json (sibling proposal, same shape)"
+ ],
+ "_stem": "2026-11-01-belief-blame"
+}
+</script></body></html>

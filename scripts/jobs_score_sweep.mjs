@@ -7,8 +7,12 @@
 //
 //   node scripts/jobs_score_sweep.mjs --dry-run [--limit N]   # fetch only, no model
 //   node scripts/jobs_score_sweep.mjs --limit 5               # proof run
+//   node scripts/jobs_score_sweep.mjs --only id1,id2          # score just these rows
 //   node scripts/jobs_score_sweep.mjs                         # drain the backlog
 // Env: JOBS_PIPELINE_TOKEN, JOBS_BASE (default https://jobs.arcs.care).
+// Non-LinkedIn rows (scripts/jobs_sources.mjs) fetch their JD via atsJD() from the board's own API.
+
+import { atsJD } from "./jobs_sources.mjs"
 
 const arg = (k, d) => { const i = process.argv.indexOf(k); return i >= 0 ? (process.argv[i + 1] ?? true) : d }
 const has = (k) => process.argv.includes(k)
@@ -27,6 +31,9 @@ const strip = (html) => {
 }
 async function fetchJD(row) {
   try {
+    // Rows from scripts/jobs_sources.mjs (greenhouse-/lever-/ashby-/yc-/hn- ids) read their JD from the same public API.
+    const ats = await atsJD(row)
+    if (ats && ats.length > 200) return ats
     if (/^\d+$/.test(row.jobid)) {
       const r = await fetch(`https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/${row.jobid}`, { headers: { "user-agent": "Mozilla/5.0" } })
       if (r.ok) { const t = strip(await r.text()); if (t.length > 200) return t }
@@ -39,6 +46,8 @@ async function fetchJD(row) {
 async function main() {
   const { rows } = await (await fetch(`${BASE}/api/jobs`, { headers: H })).json()
   let unscored = rows.filter((r) => r.band === "UNSCORED")
+  const ONLY = arg("--only", null)  // comma-separated jobids: score just these rows
+  if (typeof ONLY === "string") { const ids = new Set(ONLY.split(",")); unscored = unscored.filter((r) => ids.has(r.jobid)) }
   if (LIMIT) unscored = unscored.slice(0, LIMIT)
   console.log(`unscored to process: ${unscored.length}${DRY ? " (DRY)" : ""}`)
 

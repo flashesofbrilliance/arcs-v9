@@ -1,0 +1,201 @@
+{
+ "ts": "2026-11-11",
+ "subject": "gravity.arcs.care, all five pages (overview + four seats), read as Kyle Libra from his 24 Substack posts",
+ "doc_title": "Reading Kyle Libra",
+ "headline": [
+  "His engine makes ideas cheap.",
+  "His footnote says the filter is the hard part."
+ ],
+ "lede": [
+  "Source: all 24 posts on kylelibra.substack.com (2025-08-22 to 2026-09-21), read in full, plus his profile export. The gauntlet read the five Gravity pages as six versions of him, then a seventh pass rejected over-flags and ranked the rest."
+ ],
+ "meta": {
+  "prepared_for": "Zach Harris (internal)",
+  "from": "Gauntlet run wf_612ea3de-ef7, 2026-11-11"
+ },
+ "status": {
+  "1": "Kept out",
+  "2": "Fixed",
+  "3": "Fixed",
+  "4": "Fixed",
+  "5": "Fixed",
+  "6": "Open",
+  "7": "Fixed",
+  "8": "Fixed"
+ },
+ "sections": [
+  {
+   "id": "frame",
+   "title": "The mirror",
+   "tagline": "Not better physics. His own sentence.",
+   "open": true,
+   "blocks": [
+    {
+     "type": "ledger",
+     "groups": [
+      {
+       "label": "Leave out",
+       "judgment": true,
+       "rows": [
+        {
+         "chip": "Frame",
+         "tone": "gold",
+         "signal": "\"Ripples in space and time\", \"better physics\"",
+         "text": "He calls his own gravity sim \"a sort of web based fidget spinner\" that may become the studio brand. One-upping it is the most expensive move on the board, and cosmic words for a dated log trip his \"grandiose marketing language\" flag."
+        }
+       ]
+      },
+      {
+       "label": "Use instead",
+       "rows": [
+        {
+         "chip": "Footnote 4",
+         "tone": "cyan",
+         "signal": "How to find startup ideas, 2026-09-21",
+         "text": "Tuning the filter is \"by far the most difficult\" part of the Idea Engine. ARCS keeps the record of which filter calls held up."
+        },
+        {
+         "chip": "Oct 9, 2025",
+         "tone": "cyan",
+         "signal": "Last Week in Crypto",
+         "text": "\"significance is in the eye of the beholder and AI is not particularly good at assessing it\", and he floated \"a simple Eval framework\"."
+        },
+        {
+         "chip": "If it comes up",
+         "tone": "plain",
+         "signal": "Credit his toy in one line",
+         "text": "\"You called your gravity sim a web-based fidget spinner. Mine is less fun: a dated list of which calls landed.\""
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tabs": [
+  {
+   "id": "thesis",
+   "label": "Thesis",
+   "name": "Kyle Libra, in his own words",
+   "tagline": "24 posts",
+   "headline": "Distribution over issuance; activity over size; most ideas die.",
+   "lede": "Advisor at Gravity Labs since Oct 2026 (CEO May to Oct 2026, partner before). Paxos Head of Brokerage Product 2019 to 2025: BUSD, PYUSD, USDG. Web developer 2006 to 2010.",
+   "units": [
+    {
+     "title": "The thesis",
+     "blocks": [
+      {
+       "type": "ledger",
+       "groups": [
+        {
+         "label": "What he believes",
+         "rows": [
+          {
+           "chip": "Stablecoins",
+           "tone": "cyan",
+           "signal": "Distribution beats issuance",
+           "text": "Issuers end up with BlackRock margins, not Visa margins; \"whoever owns distribution is going to be able to force adoption\" (2025-09-16)."
+          },
+          {
+           "chip": "Metrics",
+           "tone": "cyan",
+           "signal": "Activity over size",
+           "text": "Transaction count and volume over market cap; the price of Bitcoin is the wrong gauge of adoption (2026-02-09, 2025-09-25)."
+          },
+          {
+           "chip": "Tokenization",
+           "tone": "cyan",
+           "signal": "The new everything bank",
+           "text": "Regulated, fully backed dollar stables first; Robinhood and Coinbase race JPMorgan; slower than tech usually moves because of regulation, which he sees as healthy (2025-11-26)."
+          },
+          {
+           "chip": "Studios",
+           "tone": "cyan",
+           "signal": "Institutions originate, most ideas die",
+           "text": "About 19 of 20 memos shelved; 1 of 29 stage-3 memos funded; \"Getting projects to no... is just as valuable as yes\" (2026-01-23, 2026-03-30)."
+          },
+          {
+           "chip": "AI",
+           "tone": "cyan",
+           "signal": "Volume up, judgment still human",
+           "text": "Idea Engine: 6x faster to a good memo, $100 of tokens saves $300k of analyst time; AI is \"particularly bad at inventing the future\" (2026-09-21)."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "title": "How he judges a person",
+     "blocks": [
+      {
+       "type": "table",
+       "head": [
+        "Test",
+        "His words (2026-08-07)"
+       ],
+       "rows": [
+        [
+         "Product sense",
+         "Can this person identify real pain points?"
+        ],
+        [
+         "Grit",
+         "How much effort was required to ship this?"
+        ],
+        [
+         "Technical proficiency",
+         "Is the approach so wrong it would stunt adoption?"
+        ],
+        [
+         "Traction",
+         "Is anyone using this?"
+        ],
+        [
+         "Domain expertise",
+         "Why couldn't they get 10 people on the phone the next day?"
+        ],
+        [
+         "Red flags",
+         "Scope vs vision mismatch; grandiose language; blue or purple on black; superfluous copy"
+        ],
+        [
+         "Bar-lowerer",
+         "Frame this as one of many; show a long list of things you've built"
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "title": "Register",
+     "blocks": [
+      {
+       "type": "p",
+       "text": "Plain, self-deprecating, footnote-heavy. Calls evals \"just a test framework\", calls his own script an agent with a wink, cringes at posting on LinkedIn. Publishes results he did not like: \"I'm posting this because I said I would.\" 18 side projects in a year; Mogg, a free daily YES/NO prediction game, from the studio (2026-06-24)."
+      }
+     ]
+    },
+    {
+     "title": "My read",
+     "blocks": [
+      {
+       "type": "callout",
+       "lead": "Strong",
+       "text": "Distribution over issuance is a practitioner's call, and activity over size is the right lens. The studio thesis is honest about survivorship bias."
+      },
+      {
+       "type": "callout",
+       "lead": "Weak joint",
+       "text": "He has a volume engine and a hand-tuned filter, and no record of which of his judgments came true. His own footnotes name it. That is the gap ARCS fills, and his sentence, not a metaphor, is the way in."
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "findings_lede": "Facets: his own checklist, the Paxos practitioner, the studio operator, the proposed frame, the hype skeptic, the 60-second advisor. Cyan rows are fixed or kept out in PR 2138; #6 needs calls only Zach can make (not now, Zach 2026-11-11).",
+ "run_id": "wf_612ea3de-ef7"
+}

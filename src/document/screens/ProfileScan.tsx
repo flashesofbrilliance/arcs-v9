@@ -247,7 +247,7 @@ function normalizeProfileScan(raw: ProfileScanRaw): ProfileScanData {
     },
     capabilityMap: (Array.isArray(raw.capabilityMap) ? raw.capabilityMap : []).filter(pIsRecord).map((c) => ({
       label: pStr(c.label) || undefined,
-      color: pColor(c.color ?? c.accent, T.fg4),
+      color: pColor(c.color ?? c.accent, T.fg3),
       title: pStr(c.title),
       body: pStr(c.body),
     })),

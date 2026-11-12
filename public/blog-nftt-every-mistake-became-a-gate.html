@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Every Mistake Became a Gate · NFTT</title>
+<meta property="article:published_time" content="2026-11-02T16:07:51-05:00">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="Five days, 327 commits and 79 logged mistakes building an RFP answering engine, and the four loops that turned each mistake into a check the next change had to pass.">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#748699;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --green:#00FF9D; --gold:#FFD700;
+    --serif:"Newsreader","Newsreader Fallback",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono","IBM Plex Mono Fallback",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --measure:660px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%; overflow-x:clip}
+  body{overflow-x:clip; margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; letter-spacing:.005em; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+  .mono{font-family:var(--mono); overflow-wrap:anywhere}
+
+  .topbar{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--dim); border-bottom:1px solid var(--border); padding:12px 0; display:flex; gap:12px; align-items:center}
+  .topbar a{color:var(--dim); text-decoration:none} .topbar a:hover{color:var(--cyan)}
+  .topbar .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+  .topbar .sp{margin-left:auto}
+
+  header.hero{padding-block:52px 8px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.3rem,7vw,3.6rem); line-height:1.03; letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic; margin:0; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:50px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim); display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em; margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px; max-width:var(--measure); text-wrap:pretty}
+  .lead::first-letter{font-weight:600; font-size:3.5em; line-height:.82; float:left; padding:.02em .09em 0 0; color:var(--cyan)}
+  em{font-style:italic}
+
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2); border-radius:10px; padding:20px 22px; margin:38px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); margin:0 0 15px; font-weight:600}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:11.5px; white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  /* ledger rows: single column, label as a heading with a divider (2026-09-29) */
+  .panel .step{grid-template-columns:1fr; gap:4px 0}
+  .panel .step .k{white-space:normal; border-top:1px solid var(--border); padding-top:14px; margin-top:10px}
+  .panel .step .k:first-child{border-top:0; padding-top:0; margin-top:0}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0; max-width:none}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan); font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text); max-width:var(--measure)}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan); text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px; display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px; display:block; margin-bottom:6px}
+
+  footer{margin:60px 0 80px; padding-top:22px; border-top:1px solid var(--border); font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; color:var(--dim); line-height:1.9}
+  footer a{color:var(--muted); text-decoration:none} footer a:hover{color:var(--cyan)}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+  /* lede spans the full lane, edge to edge with the heading (design-full-width-lede-matches-heading) */
+  .standfirst{max-width:none}
+
+  /* Links in running text carry an underline, not color alone (WCAG 1.4.1; axe link-in-text-block, 2026-10-09). */
+  a:not([class]):not(nav a){text-decoration:underline;text-underline-offset:.18em;text-decoration-thickness:1px;}
+</style>
+<link rel="preload" href="/fonts/newsreader-normal-200-800-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* fonts_selfhost:begin (generated; edit scripts/fonts_selfhost.py) */
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-italic-200-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-italic-200-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-normal-200-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-normal-200-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader Fallback';src:local('Times New Roman'),local('Liberation Serif'),local('Tinos');size-adjust:105.48%;ascent-override:69.68%;descent-override:25.12%;line-gap-override:0.00%;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-400-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-400-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-500-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-500-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-600-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-600-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-700-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-700-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono Fallback';src:local('Courier New'),local('Liberation Mono'),local('Cousine');size-adjust:99.98%;ascent-override:102.52%;descent-override:27.50%;line-gap-override:0.00%;}
+/* fonts_selfhost:end */
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<!-- tao-waiver: a proverb from this post (candidate: "no row closes until a check fails on the old behavior") is held for Zach; minting is a canon decision -->
+<div class="wrap">
+  <div class="topbar">
+    <span class="dot" aria-hidden="true"></span>
+    <a href="/blog/nftt">Notes from the Trenches</a>
+    <span class="sp">Compound engineering</span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">How the RFP engine was built</p>
+    <h1>Every Mistake Became a Gate</h1>
+    <p class="standfirst">Five days, 327 commits, and 79 mistakes written down by the person who made them. The tool that came out answers questions about a solicitation with the clause behind each answer. The method that built it is the more portable thing.</p>
+    <p class="byline"><time data-pub datetime="2026-11-02T16:07:51-05:00">Published Nov 2, 2026 &middot; 4:07 PM ET</time> &middot; Field notes, receipts included · the sample RFP is fictional; every count below comes from the build's own logs</p>
+  </header>
+
+  <section>
+    <span class="num">I · The tool, briefly</span>
+    <p class="lead">The RFP engine takes a solicitation and its amendments and answers plain questions about them. When was the deadline moved to? What is the deposit now? Can we call the grid operator about the bid? Each answer points to the clause it came from, or says plainly that the document does not cover it.</p>
+    <p>It enforces six rules in code: it shows its source, numbers match the text exactly, the latest amendment wins, "not covered" is a real answer, it reports facts and never makes bid decisions, and without a model it returns the clauses with no summary. It is standard-library Python and runs locally as an MCP server. That is the product. This note is about the loops that produced it, because they compound and the product does not.</p>
+  </section>
+
+  <section>
+    <span class="num">II · Loop one: predict, then test</span>
+    <p>Before a test existed, its expected result went into the flight log with a confidence number. Then the test ran, and the prediction was scored. The order matters. A prediction written after the result is a story; one written before is a measurement of your own judgment.</p>
+    <p>The first big one was a 30,000-run deterministic fuzz of the amendment resolver. I predicted, at 70%, that it would find at least one new seam the 18 golden questions had missed. It found exactly one, and it was in my test harness, not the system. The resolver held on 30,000 of 30,000 runs. Mean Brier score across the three predictions: 0.172. The lesson was specific: the deterministic layer was sturdier than I believed, and my test code was the weaker link.</p>
+    <p>A later one went the other way. Testing against real-world addendum language, I put 85% on zero clauses being silently misclassified. One was: a revision read as "no change," and the unresolved clause never reached the answer. Brier 0.72 on that call. Both defects were fixed the same day, and the scored miss stays in the log next to the prediction.</p>
+    <blockquote>A confidence number you never score is decoration. Scored, it tells you which part of your own head to trust less.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">III · Loop two: every seam becomes a check</span>
+    <p>Every error got a row in a ledger: what broke, how it was found, whose fault it was (tool, test, premise, design, or me), the repair, and the heading change. Seventy-nine rows by the end. The rule that made the ledger compound instead of merely confess: no row closes until a check exists that fails on the old behavior and passes on the new.</p>
+    <div class="panel">
+      <h4>Four seams, four gates</h4>
+      <div class="step">
+        <span class="k">Seam</span><b>Figures in the deck were typed by hand and drifted: build spend shown as $0.29 when the logs priced it at $2.01.</b>
+        <span class="k">Gate</span><b>One generator recomputes every shown figure from the logs; <code>--check</code> runs in pre-commit. A planted stale number fails.</b>
+        <span class="k">Seam</span><b>The leak scan skipped the shipped history bundle, where 27 internal references still lived.</b>
+        <span class="k">Gate</span><b>The packager now scans every commit message and diff that ships, and failed on the old history before it passed on the clean one.</b>
+        <span class="k">Seam</span><b>The local test server trusted any request; any open web page could have triggered paid model calls.</b>
+        <span class="k">Gate</span><b>Host and Origin checks, a body cap, paid calls off by default. Nine security tests: eight fail on the old server.</b>
+        <span class="k">Seam</span><b>An answer about contacting the operator cited the deposit amendment it never used.</b>
+        <span class="k">Gate</span><b>Citations limited to clauses the answer actually relies on, with a regression case on the live question.</b>
+      </div>
+      <p>The ledger is a record of mistakes, and every check in the suite traces back to one of them.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">IV · Loop three: numbers come from records</span>
+    <p>The drifting $0.29 taught the widest lesson. Any figure a person types is stale the moment its source moves. So nothing shown is typed. Cost per question, eval scores, error counts and the timeline map are all rendered from the flight log and the eval runs, with the formula next to the number. When the record changes, the page changes, and a gate refuses the commit if they disagree.</p>
+    <p>That turns the write-up into evidence of how the work was done. A reader can trace a claim to the run that produced it, and so can the next session of me, without trusting my memory of the week.</p>
+  </section>
+
+  <section>
+    <span class="num">V · Loop four: the eval is the floor</span>
+    <p>The golden set started as 14 questions plus 4 planted traps: a stale deadline unless the amendment is applied, a topic the document never addresses, a request to do something the RFP prohibits, a cap that "may not be revised upward." Every fix that touched answering code had to pass it, and a mutation check confirmed the tests would notice if a guard were removed. Eight injected model faults are caught; five deterministic checks pass identically through MCP and direct calls.</p>
+    <p>Then the honest part. A real model run on 24 questions on 2026-10-30: 11 correct, 12 withheld, 1 wrong. The target was zero wrong, and it was missed. That result is printed on the tool's own page, not here only. Withholding twelve is the gate working; the one wrong answer is the next row in the ledger.</p>
+    <blockquote>The loop does not make you right. It makes each wrong cheaper than the last, and it keeps the wrong ones on the page where you have to look at them.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">VI · Why it compounds</span>
+    <p>Each loop feeds the others. A scored prediction finds a seam. The seam becomes a check. The check feeds the eval. The eval produces numbers that render into the record, and the record is what the next prediction is written against. By day five, a new change met dozens of checks, each one a mistake that had already happened once.</p>
+    <p>Still not proven, and marked as such: there is no confidence score, retrieval is keyword-only, figures are checked but meaning is not, and the parser expects one numbering style. Those are in the ledger too, as open rows.</p>
+  </section>
+
+  <div class="more">
+    <a href="/rfp-engine">
+      <span class="lbl">Try the tool</span>
+      RFP Answering Engine: install, first question, measured results &#8594;
+    </a>
+  </div>
+
+  <div class="more">
+    <a href="/blog/nftt">
+      <span class="lbl">More field notes</span>
+      Read the rest of the series &#8594;
+    </a>
+  </div>
+
+  <footer>
+    <a href="/blog/nftt">&#9664; Notes from the Trenches</a> · open-source tools and field notes by ARCS.<br>
+    Every claim here is grounded in the record: the receipts are real, and the unproven parts are marked unproven.
+  </footer>
+</div>
+</body>
+</html>

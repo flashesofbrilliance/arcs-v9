@@ -12,10 +12,12 @@
 #
 # Run:
 #   ./scripts/recoil --data runtime/recoil/generated/2026-07-22-elsamadisi.json \
-#       --audience external --format html > public/ahmed-ext.html
+#       --audience external --format html > public/<counterpart>-ext.html
 #   ./scripts/recoil --data <json> --audience internal --format md
 #   ./scripts/recoil --data <json> --audience external --format json
 #   ./scripts/recoil --data <json> --set meta.counterpart="Ahmed E."   # pass-through override
+#   ./scripts/recoil --data <json> --format induce > rows.jsonl   # candidate backlog rows, human files them
+#   python3 scripts/backlog_graph.py --file rows.jsonl --json    # feed organism 35 (backlog cascade)
 #
 # Env:
 #   PYTHON=/path/to/python3   override the interpreter

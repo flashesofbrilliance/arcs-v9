@@ -115,6 +115,7 @@ p { max-width: var(--measure); }
 .score { font-family: var(--font-mono); font-size: 18px; color: var(--green); margin: 8px 0 12px; }
 .share { font-family: var(--font-mono); font-size: 15px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; max-width: var(--measure); white-space: pre-wrap; }
 footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--border); margin-top: 64px; }
+footer p { max-width: none; }
 @media (max-width: 760px) { .board { grid-template-columns: 1fr; } }
 @media (max-width: 600px) { :root { --gutter: 16px; } body { font-size: 16px; } .lede { font-size: 18px; } }
 /* case-world:css:begin */
@@ -207,7 +208,7 @@ body { padding-bottom: 88px; }
   <h1>The Case of the Six-Week Outage</h1>
   <p class="lede">A change shipped with every checkmark green. One person asked the smallest question in software, how do I know this actually works, and the answer was a core feature that had been dead in production for six weeks without a single complaint. Nobody here is accused. You take each chair in turn, and the investigator only asks you to defend where you sit.</p>
 
-  <div class="rules">
+  <div class="rules" data-lane="narrow">
     <ol>
       <li>Each chair holds a position. The investigator reads it back as the claims it rests on.</li>
       <li>For each claim, <b>show evidence</b> or <b>concede</b>. Conceding costs nothing.</li>

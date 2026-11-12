@@ -26,6 +26,12 @@ Row schema (_STATE/assumptions.jsonl, append-only):
   decided_ref           F-row id | receipt id | path | null   (REQUIRED when status != open)
   notes                 free text
   supersedes            asm-NNN | null
+  anchors               OPTIONAL [{path, phrase, role?}]: the lines that encode the belief (belief blame, D1).
+                        role is states (default: the line asserts it) or lesson (the line records what it
+                        taught). Old rows are never edited to add anchors; a new row points back instead.
+  exit                  OPTIONAL, decided rows only: world-change | revealed-incompleteness | moot (D2).
+                        world-change: true when written, made false later. revealed-incompleteness: false
+                        all along. moot: the question retired, nothing was proven false.
 
 Usage:
   python3 scripts/assumptions.py check      # schema, ids, open-needs-test, decided-needs-ref, render fresh
@@ -55,6 +61,8 @@ REQUIRED = ("id", "assumption", "held_by", "held_since", "depends_on_it", "test_
 STATUSES = ("open", "held", "falsified")
 ID_RE = re.compile(r"^asm-(\d{3})$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+EXITS = ("world-change", "revealed-incompleteness", "moot")
+ROLES = ("states", "lesson")
 
 
 def load(path: Path = DATA) -> list[dict]:
@@ -92,6 +100,30 @@ def validate(rows: list[dict]) -> list[str]:
             errs.append(f"row {n} ({r.get('id','?')}): held_since must be YYYY-MM-DD")
         if r.get("supersedes") and r["supersedes"] not in ids:
             errs.append(f"row {n} ({r.get('id','?')}): supersedes {r['supersedes']} does not exist")
+        errs.extend(f"row {n} ({r.get('id','?')}): {e}" for e in validate_anchors(r))
+        if "exit" in r:
+            if r["exit"] not in EXITS:
+                errs.append(f"row {n} ({r.get('id','?')}): exit must be one of {EXITS}")
+            elif r.get("status") == "open":
+                errs.append(f"row {n} ({r.get('id','?')}): exit is for decided rows only")
+    return errs
+
+
+def validate_anchors(r: dict) -> list[str]:
+    """The optional anchors field (shared with the falsification ledger; see scripts/belief_blame.py)."""
+    if "anchors" not in r:
+        return []
+    a = r["anchors"]
+    if not isinstance(a, list) or not a:
+        return ["anchors must be a non-empty list of {path, phrase}"]
+    errs = []
+    for i, x in enumerate(a):
+        if not isinstance(x, dict) or not isinstance(x.get("path"), str) or not x["path"] or x["path"].startswith("/"):
+            errs.append(f"anchors[{i}]: path must be a repo-relative string")
+        elif not isinstance(x.get("phrase"), str) or len(x["phrase"].strip()) < 8:
+            errs.append(f"anchors[{i}]: phrase must be at least 8 characters of the line's own text")
+        elif x.get("role", "states") not in ROLES:
+            errs.append(f"anchors[{i}]: role must be one of {ROLES}")
     return errs
 
 
@@ -130,8 +162,12 @@ def self_test() -> int:
     check("held row without decided_ref is rejected", validate([dict(good, status="held", decided_on="2026-09-27")]) != [])
     check("falsified row with ref + date passes", validate([dict(good, status="falsified", decided_on="2026-09-27", decided_ref="F38")]) == [])
     check("non-monotonic ids rejected", validate([dict(good, id="asm-002"), dict(good, id="asm-001")]) != [])
+    anc = [{"path": "AGENTS.md", "phrase": "never squash or rebase"}, {"path": "x.sh", "phrase": "Tuition (2026-10-20)", "role": "lesson"}]
+    check("anchors + exit on a decided row pass", validate([dict(good, status="falsified", decided_on="2026-09-27", decided_ref="F26", anchors=anc, exit="revealed-incompleteness")]) == [])
+    check("bad anchors rejected (absolute path, short phrase, bad role)", all(validate([dict(good, anchors=[b])]) for b in ({"path": "/abs", "phrase": "long enough"}, {"path": "a", "phrase": "short"}, {"path": "a", "phrase": "long enough", "role": "x"})))
+    check("exit on an open row rejected", validate([dict(good, exit="moot")]) != [])
     _cli_self_test(check)
-    total = 5 + _CLI_CASES
+    total = 8 + _CLI_CASES
     print(f"assumptions self-test: {total - fails}/{total}")
     return 1 if fails else 0
 

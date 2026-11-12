@@ -16,12 +16,15 @@ const legalLinkStyle: React.CSSProperties = {
 }
 
 // Fixed offer bar: the sprint CTA, faded while the data drawer is open, gone once dismissed.
-// Trust, Privacy and Terms live in the in-flow SiteFooter at the end of every page.
+// Trust, Privacy and Terms live in the in-flow SiteFooter at the end of every page except the three
+// legal pages, which carry the same three links in their own footer row.
 export function SiteFooter() {
   const pathname = usePathname()
-  if (pathname === '/hud') return null
+  // /hud carries no chrome; the legal pages carry Trust, Privacy and Terms in their own footer row.
+  if (pathname === '/hud' || pathname === '/trust' || pathname === '/privacy' || pathname === '/terms') return null
   return (
     <footer
+      data-print="hide"
       style={{
         display: 'flex', justifyContent: 'center', gap: '1.5rem',
         padding: `1.5rem 1.5rem calc(${FOOTER_H}px + 1.5rem + env(safe-area-inset-bottom))`,
@@ -50,10 +53,12 @@ export function StickyFooter({
   const [dismissed, setDismissed] = useState(false)
   const pathname = usePathname()
 
-  // Full-screen instruments (arcs.care/hud) carry no page chrome; a dismissed offer leaves no bar.
-  if (pathname === '/hud' || dismissed) return null
+  // Full-screen instruments (arcs.care/hud) and the private jobs workspace carry no
+  // offer bar (on the lane it covered the cards); a dismissed offer leaves no bar.
+  if (pathname === '/hud' || pathname.startsWith('/jobs') || dismissed) return null
   return (
     <div
+      data-print="hide"
       style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50,
         height: `calc(${FOOTER_H}px + env(safe-area-inset-bottom))`,

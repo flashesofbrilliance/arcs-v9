@@ -61,6 +61,9 @@ const POSTS = {
   "take-home-trap": { href: "/blog/nftt/take-home-trap", title: "With Life, and Without It", desc: "Two recruiters called an hour apart. One of them had no one home. A field account of the morning a DPRK threat vector called, and the tell that came before any analysis." },
   "confirmed-not-my-bug": { href: "/blog/nftt/confirmed-not-my-bug", title: "Confirmed Not My Bug", desc: "We pointed an audit harness at real decisions and it turned around and audited its author. An independent strand then caught the false receipt the self-audit could not see." },
   "seven-calls-seven-falsifiers": { href: "/blog/nftt/seven-calls-seven-falsifiers", title: "Seven Calls, Seven Falsifiers", desc: "Seven public crypto calls with stated falsifiers: what held, what missed, two corrections owned in public, and a January stablecoin drop that is only partly explained." },
+  "the-posted-rate": { href: "/blog/nftt/the-posted-rate", title: "The Posted Rate", desc: "A narrated video cost 39 cents in voice, the only part with a posted rate, and about  more in model calls that no counter priced." },
+  "every-mistake-became-a-gate": { href: "/blog/nftt/every-mistake-became-a-gate", title: "Every Mistake Became a Gate", desc: "Five days, 327 commits and 79 logged mistakes building the RFP engine, and the four loops that turned each mistake into a check." },
+  "the-idempotent-fix": { href: "/blog/nftt/the-idempotent-fix", title: "!Hot-Fix → The Idempotent Fix: == Done, Right. For Good.", desc: "Four fixes in one evening and the same lesson each time: a fix that holds goes into the mold that makes the thing, not the thing it made." },
   "assets-and-liabilities": { href: "/blog/nftt/assets-and-liabilities", title: "Assets and Liabilities", desc: "A system that only counts what it built is keeping half a book. The week the liability side opened, and the fourteen false receipts it booked against itself." },
   "cheapest-edit-is-a-diff": { href: "/blog/nftt/cheapest-edit-is-a-diff", title: "The Cheapest Edit Is a Diff", desc: "Chasing token efficiency, I built a worker to edit a resume instead of forging each one fresh. It timed out, and the timeout taught the real lesson: pay for the delta, not the document." },
   "the-loop-closes": { href: "/blog/nftt/the-loop-closes", title: "The Loop Closes", desc: "I built a job-search machine one tool at a time. The event was not any single worker. It was the last connection, when the tools became a circuit that runs itself for cents a morning." },
@@ -508,7 +511,7 @@ ${SERIES_HTML}  </div>
   .mp-cta{margin-top:18px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.03em;color:#001014;background:linear-gradient(100deg,var(--cyan),var(--green));border:none;border-radius:10px;padding:12px 20px;cursor:pointer;transition:transform .15s;}
   .mp-cta:hover{transform:translateY(-1px);}
   .mp-cta:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;}
-  .mp-done{font-size:13.5px;line-height:1.6;color:var(--fg3);margin-top:16px;max-width:none;} .mp-done a{color:var(--cyan);}
+  .mp-done{font-size:13.5px;line-height:1.6;color:var(--fg3);margin-top:16px;max-width:none;} .mp-done a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px;}
 </style>
 <section class="mcp-probe" aria-label="Connect an agent (demand probe)">
   <div class="wrap">
@@ -562,6 +565,21 @@ ${SERIES_HTML}  </div>
 // preload + metric-matched fallback block from one place (scripts/fonts_selfhost.py).
 const out = execFileSync('python3', [join(__dirname, 'fonts_selfhost.py'), 'transform'],
   { input: page, encoding: 'utf8' });
+
+// Link-underline guard (2026-10-30, debt nftt-index-link-underline): the page resets
+// a{text-decoration:none}, so an inline link inside a <p class="X"> is told apart by color
+// alone (WCAG 1.4.1) unless ".X a{...text-decoration:underline...}" exists. Fail the build.
+{
+  const bad = [];
+  for (const m of out.matchAll(/<p class="([\w-]+)"[^>]*>[^<]*(?:<(?!\/p)[^>]*>[^<]*)*?<a /g)) {
+    const re = new RegExp('\\.' + m[1] + ' a\\{[^}]*text-decoration:underline');
+    if (!re.test(out)) bad.push(m[1]);
+  }
+  if (bad.length) {
+    console.error(`[nftt-index] in-text links without underline in <p class>: ${[...new Set(bad)].join(', ')}`);
+    process.exit(1);
+  }
+}
 
 if (process.argv.includes('--check')) {
   const cur = existsSync(OUT) ? readFileSync(OUT, 'utf8') : null;

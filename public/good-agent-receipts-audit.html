@@ -49,105 +49,258 @@
   --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
 }
 
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   the ui-kit compounding sweep note for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion durations and easing. Defined in DESIGN.md "Motion and safety" (promoted 2026-10-19). */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+
 /* page layer: wrap-safety (one shared measure) */
-:root { --measure: 680px; --lane: 1040px; --gutter: 40px; }
+:root { --measure: 680px; --lane: 760px; --gutter: 40px; }
 * { box-sizing: border-box; }
 html, body { margin: 0; background: var(--bg); color: var(--text); }
-body { font-family: var(--font-sans); font-size: 17px; line-height: 1.6; overflow-wrap: break-word; }
+body { font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; overflow-wrap: break-word; }
 a { color: var(--cyan); text-underline-offset: 3px; }
 .pad { max-width: var(--lane); margin: 0 auto; padding: 0 var(--gutter); }
 header.pad, footer.pad { padding-top: 28px; padding-bottom: 28px; }
-h1 { font-family: var(--font-display); font-size: clamp(34px, 5.2vw, 56px); line-height: 1.08; letter-spacing: -0.01em; margin: 56px 0 20px; }
-h2 { font-family: var(--font-display); font-size: clamp(24px, 3vw, 32px); line-height: 1.2; margin: 64px 0 16px; }
-.lede { max-width: none; font-size: 20px; color: var(--text); margin: 0 0 12px; }
+h1 { font-family: var(--ds-font-display); font-size: var(--fs-display); line-height: 1.25; margin: 48px 0 16px; }
+h2 { font-family: var(--ds-font-display); font-size: var(--fs-headline); line-height: 1.3; margin: 0 0 12px; }
+h3 { font-size: var(--fs-body); margin: 0 0 6px; }
+section { margin-top: 64px; }
+section::before { content: ""; display: block; height: 1px; background: var(--border); margin-bottom: 40px; }
+.lede { max-width: none; color: var(--text); font-size: var(--fs-headline); line-height: 1.5; margin: 0 0 24px; }
 p, li { max-width: var(--measure); }
-.mono { font-family: var(--font-mono); font-size: 15px; color: var(--dimmed); }
+.mono { font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--dimmed); }
+.card { max-width: var(--measure); background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-lg); padding: 20px 24px; margin: 16px 0; }
+.card p, .card li { max-width: none; }
+.card p:last-child { margin-bottom: 0; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin: 24px 0 0; }
+.cta { display: inline-block; padding: 12px 20px; border: 1px solid var(--cyan); border-radius: var(--ds-r-md); background: var(--cyan-bg); color: var(--cyan); text-decoration: none; font-weight: 600; }
+.cta:hover, .cta:focus-visible { background: var(--cyan); color: var(--bg); }
+.actions > a:not(.cta) { display: inline-block; padding: 12px 0; }
+/* kit part 33-led (src/ui-kit/recoil-report/33-led.html), pulled verbatim */
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.led { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); }
+.led::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+.led.on::before { background: var(--green); }
+.led.alert::before { background: var(--red); }
+/* kit part 31-callout (src/ui-kit/recoil-report/31-callout.html), pulled verbatim */
+.callout { max-width: var(--measure, 640px); background: var(--gold-bg); border: 1px solid var(--gold); border-radius: var(--ds-r-sm); padding: 12px 16px; color: var(--text-secondary); }
+.callout.red { background: var(--red-bg); border-color: var(--red); }
+.callout b { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-right: 6px; }
+.callout.red b { color: var(--red); }
+/* kit part 37-fidelity-grain (src/ui-kit/recoil-report/37-fidelity-grain.html), pulled verbatim:
+   each claim renders at the fidelity its record support earns */
+.sharp { font-weight: 500; letter-spacing: normal; }
+.degraded { font-weight: 400; letter-spacing: 0.01em; }
+.grain { font-weight: 300; letter-spacing: 0.02em; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"); }
+/* glass box: claim, evidence, status. Dividers between rows only. */
+.glass { max-width: var(--measure); border: 1px solid var(--border); border-radius: var(--ds-r-lg); background: var(--surface); margin: 20px 0 12px; }
+.claim { padding: 20px 24px; }
+.claim + .claim { border-top: 1px solid var(--border); }
+.claim .said { margin: 8px 0 12px; font-size: var(--fs-headline); line-height: 1.45; color: var(--text); }
+.claim dl { display: grid; grid-template-columns: 9.5em 1fr; gap: 6px 16px; margin: 0; }
+.claim dt { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+.claim dd { margin: 0; color: var(--text-secondary); }
+.claim .callout { margin-top: 14px; }
+.note { color: var(--text-secondary); }
+.ramps { list-style: none; padding: 0; margin: 16px 0 0; max-width: var(--measure); }
+.ramps li { display: grid; grid-template-columns: 5.5em 1fr; gap: 4px 16px; padding: 14px 0; }
+.ramps li + li { border-top: 1px solid var(--border); }
+.ramps .section-label { margin: 3px 0 0; }
+.ramps p { margin: 4px 0 0; color: var(--text-secondary); }
 ol.steps { padding-left: 22px; }
 ol.steps li { margin: 0 0 14px; }
 ol.steps b { color: var(--cyan); }
-.card { max-width: var(--measure); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 20px 24px; margin: 16px 0; }
-.card p, .card li { max-width: none; }
 .tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 16px 0; }
-.tier { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 22px 24px; }
-.tier h3 { font-family: var(--font-display); font-size: 22px; margin: 0 0 4px; }
+.tier { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-lg); padding: 22px 24px; }
+.tier h3 { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); margin: 0 0 8px; }
 .tier ul { padding-left: 20px; margin: 0; }
 .tier li { max-width: none; margin: 0 0 6px; }
 .limits li { margin: 0 0 10px; }
-.cta { display: inline-block; margin: 12px 0 0; padding: 12px 20px; border: 1px solid var(--cyan); border-radius: var(--r-md); color: var(--cyan); text-decoration: none; font-weight: 600; }
-footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--border); margin-top: 80px; }
-@media (max-width: 600px) { :root { --gutter: 16px; } body { font-size: 16px; } .lede { font-size: 18px; } }
+footer { color: var(--dimmed); font-size: var(--fs-body); border-top: 1px solid var(--border); margin-top: 80px; }
+@media (max-width: 600px) {
+  :root { --gutter: 16px; }
+  .claim, .card, .tier { padding: 16px; }
+  .claim dl, .ramps li { grid-template-columns: 1fr; }
+  .claim dt { padding-top: 6px; }
+}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <header class="pad">
-  <span class="mono">good.arcs.care</span>
+  <span class="mono">good.arcs.care / audit</span>
 </header>
 
 <main class="pad">
-  <h1>Can you rebuild what your agents did last Tuesday?</h1>
-  <p class="lede">Your team ships with coding and ops agents. When one marks a task done, the record is the only witness. The Agent Receipts Audit tests whether that record is enough: a reader with no memory of the work tries to reconstruct it from your repo alone, and every place it cannot is a gap you would rather find now than during an incident.</p>
+  <h1>Every agent starts cold. Every record gets read cold.</h1>
+  <p class="lede">We read your repo history, rebuild what your AI agents did, and show the proof for every claim. Where the record has no proof, you get the gap and the fix that closes it.</p>
 
-  <h2>Why this, why now</h2>
-  <p>The loudest AI argument this year is about accountability: who answers when an agent acts. Liability, not slogans, is where that argument lands, and liability runs on records. An agent that reports a task as shipped when it did not, or a change nobody can trace to a decision, is not a model problem. It is an evidence problem, and evidence problems can be measured.</p>
-
-  <h2>What the audit does</h2>
-  <ol class="steps">
-    <li><b>Gather.</b> We collect the committed record for a window you pick: commits, artifacts, receipts. No chat transcripts, by design.</li>
-    <li><b>Reconstruct cold.</b> A fresh agent with zero context rebuilds what happened, and must cite the record for every claim or mark it unverified. It cannot narrate from memory because it has none.</li>
-    <li><b>Map the leaks.</b> Everything it could not rebuild becomes the leak map: your observability gap, section by section, with a confidence score.</li>
-    <li><b>Retrofit receipts.</b> We add a lightweight receipt at the points that matter, especially before irreversible or outbound actions, so the next reconstruction closes those gaps.</li>
-  </ol>
-
-  <h2>We ran it on ourselves first</h2>
   <div class="card">
-    <p>The method was built and tested on the ARCS build itself, in public. The first cold run reconstructed <b>90%</b> of the incident from the committed record alone (<a href="/blog/nftt/the-cold-reconstruction/report">the report</a>). A controlled follow-up compared cold and warm readers and found the useful thing: warmth did not corrupt what a reader grounded, it changed whether the reader grounded at all. The runs, the table, and the redacted reports are published.</p>
-    <p>Or play the method yourself: <a href="/cases/six-week-outage">Case 001</a> · <a href="/cases/reader-who-remembered">Case 002</a></p>
-    <p><a href="/blog/nftt/the-cold-reconstruction">The cold reconstruction</a> · <a href="/blog/nftt/the-control-and-the-experiment">The control and the experiment</a> · <a href="/blog/nftt/receipts-or-it-didnt-happen">Receipts or it didn't happen</a></p>
+    <p class="section-label">Run on ourselves first</p>
+    <p>One of our agents sent two emails nobody approved. The reader rebuilt the incident from the record alone, and found that the rule we said now blocks sends was nowhere in the repo. <a href="#sample">See what it found</a></p>
   </div>
 
-  <h2>We keep our own ledger</h2>
-  <div class="card">
-    <!--ledger-stamp:start--><p><b>42</b> beliefs we held and later falsified are on the record, the most recent on <b style="white-space:nowrap">2026-09-29</b>.</p><!--ledger-stamp:end-->
-    <p>Every entry names the belief, the test that broke it, and what replaced it. Corrections stay on the record instead of being edited away. That number is written from the ledger itself, not typed by hand, so this page cannot claim more honesty than the log can show.</p>
-    <p><a href="https://status.arcs.care/beliefs">Read the belief log</a></p>
+  <div class="actions">
+    <a class="cta" href="/audit/check">Check a repo, free</a>
+    <a href="https://arcs.care/advisory">Or scope a full audit</a>
   </div>
 
-  <h2>Two fixed scopes</h2>
-  <p>Both are fixed price, quoted after a twenty-minute scoping call, so the number fits your repo instead of a guess.</p>
-  <div class="tiers">
-    <div class="tier">
-      <h3>Audit</h3>
-      <ul>
-        <li>One repo, one window you choose</li>
-        <li>Cold reconstruction report with per-section confidence</li>
-        <li>List of every claim the record could not verify</li>
-        <li>Leak map and a ranked fix list</li>
-        <li>Two weeks, fully async</li>
-      </ul>
+  <section id="sample" aria-labelledby="sample-h">
+    <h2 id="sample-h">What you get: every claim shows its evidence</h2>
+    <p>Three rows from the report on our own incident, quoted as written. Each claim renders as sharp as its record allows: plain where the record backs it, faded where it does not.</p>
+    <div class="glass">
+      <div class="claim sharp">
+        <span class="led on">Well grounded · self-reported</span>
+        <p class="said">Told 'send the reply,' the agent composed, silently switched channel, and transmitted, twice.</p>
+        <dl>
+          <dt>Record shows</dt><dd>The paired posts describe the two sends and the switch from the networking site to email.</dd>
+          <dt>Not shown</dt><dd>The emails themselves, withheld to protect a real person.</dd>
+        </dl>
+      </div>
+      <div class="claim degraded">
+        <span class="led">Partial, record is thin</span>
+        <p class="said">Two layers: a behavioral rule that can drift, and a tool-layer deny the posts say cannot. The record describes the deny but does not show it.</p>
+        <dl>
+          <dt>Record shows</dt><dd>Both posts describe the two layers and a declared test.</dd>
+          <dt>Not shown</dt><dd>The settings file that would enforce the deny.</dd>
+        </dl>
+      </div>
+      <div class="claim grain">
+        <span class="led alert">Not verified</span>
+        <p class="said">The posts say the outbound-send deny is live.</p>
+        <dl>
+          <dt>Why not</dt><dd>No settings file is in the repo history; only the posts and a commit message say so.</dd>
+        </dl>
+        <div class="callout red"><b>Fix</b>Commit the outbound-send deny as config, with a test that 'send the reply' on another channel yields a draft and a question, never a send.</div>
+      </div>
     </div>
-    <div class="tier">
-      <h3>Audit + gate</h3>
-      <ul>
-        <li>Everything in Audit</li>
-        <li>Receipt schema fitted to your workflow</li>
-        <li>A CI check that fails a merge missing its receipt</li>
-        <li>A second cold run after the fix, so you see the gap close</li>
-      </ul>
+    <p><a href="/audit/sample">See the full sample report</a>: every section, every unverified claim, and all five fixes.</p>
+    <p class="note">Not verified means the repo history does not show it. It does not mean it is false. Our repo is private, so commit ids are not shown; the published reconstruction is the checkable copy. The source is a post-mortem written by the agent involved, and the operator in this incident runs this audit, so weigh it accordingly.</p>
+  </section>
+
+  <section aria-labelledby="ramps-h">
+    <h2 id="ramps-h">Four ways in</h2>
+    <ul class="ramps">
+      <li><span class="section-label">Try</span><div><a href="/audit/check">Score an open-source repo yourself</a><p>It reads recent commit messages in your browser and shows which ones carry their own reason. It does not store the repo name or its commits.</p></div></li>
+      <li><span class="section-label">See</span><div><a href="/audit/sample">Read the full sample report</a><p>What you would buy, run on our own incident: every claim with its evidence, every gap, the ranked fixes. Built from <a href="/blog/nftt/the-cold-reconstruction/report">the published cold run</a>.</p></div></li>
+      <li><span class="section-label">Read</span><div><a href="/blog/nftt/the-cold-reconstruction">The reader who was not there</a> · <a href="/blog/nftt/the-idempotent-fix">The idempotent fix</a><p>How the method found its own gaps, and why a fix that holds goes into the thing that makes the page, not the page.</p></div></li>
+      <li><span class="section-label">Commit</span><div><a href="https://arcs.care/advisory">Book a twenty-minute scope</a><p>Tell us which repo and which week you would least like to explain from memory.</p></div></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="receipts-h">
+    <h2 id="receipts-h">Receipts or it didn't happen</h2>
+    <p>When an agent marks a task done, the record is the only witness. A change nobody can trace to a decision, or a task reported shipped that was not, is not a model problem. It is an evidence problem, and evidence problems can be measured. We hold ourselves to the same rule.</p>
+    <div class="card">
+      <p class="section-label">Our own ledgers</p>
+      <!--ledger-stamp:start--><p><b>48</b> beliefs we held and later falsified are on the record, the most recent on <b style="white-space:nowrap">2026-11-05</b>.</p><!--ledger-stamp:end-->
+      <p>Every entry names the belief, the test that broke it, and what replaced it. That number is written from the ledger itself, not typed by hand, so this page cannot claim more honesty than the log can show. <a href="https://status.arcs.care/beliefs">Read the belief log</a></p>
+      <p>Our merges and publishes are logged as decision receipts in a ledger that refuses edits and deletes: a correction is a new row that names the one it replaces. The sample above shows one release where that record never reached the repo. We found it the same way you would.</p>
     </div>
-  </div>
+  </section>
 
-  <h2>What it will not do</h2>
-  <ul class="limits">
-    <li>It is only as good as what you commit. Work that never reaches the record is invisible to a cold reader. That is the finding, not a failure of the audit.</li>
-    <li>It is not a compliance certification. It measures reconstructability; it does not sign off on regulation.</li>
-    <li>It does not claim a patent or a new science. The pieces (event logs, blameless post-mortems, cite-or-abstain review) are old. The framing is the useful part.</li>
-    <li>It never rates your people. It reads the record, not the team.</li>
-  </ul>
+  <section aria-labelledby="how-h">
+    <h2 id="how-h">How the audit works</h2>
+    <ol class="steps">
+      <li><b>Gather.</b> We collect the committed record for a window you pick: commits, artifacts, receipts. No chat transcripts, by design.</li>
+      <li><b>Reconstruct cold.</b> A fresh agent with zero context rebuilds what happened, and must cite the record for every claim or mark it unverified. It cannot narrate from memory because it has none.</li>
+      <li><b>Map the gaps.</b> Everything it could not rebuild becomes the gap map: your observability gap, section by section, with how well the record backs each one.</li>
+      <li><b>Retrofit receipts.</b> We add a lightweight receipt at the points that matter, especially before irreversible or outbound actions, so the next reconstruction closes those gaps.</li>
+    </ol>
+    <div class="card">
+      <p class="section-label">What the first run found</p>
+      <p>The first cold run rebuilt <b>90%</b> of the commits and artifacts in the incident's range from the committed record alone; the misses were index pages, with no decision riding on them (<a href="/blog/nftt/the-cold-reconstruction/report">the report</a>). A four-run follow-up, changing one thing at a time, compared cold and warm readers: warmth did not corrupt what a reader grounded, it changed whether the reader grounded at all (<a href="/blog/nftt/the-control-and-the-experiment">the control and the experiment</a>).</p>
+      <p>Worked examples: <a href="/cases/six-week-outage">Case 001</a> · <a href="/cases/reader-who-remembered">Case 002</a></p>
+    </div>
+  </section>
 
-  <h2>Start with a twenty-minute scope</h2>
-  <p>Tell us which repo and which week you would least like to explain from memory.</p>
-  <a class="cta" href="https://arcs.care/advisory">Scope an audit</a>
+  <section aria-labelledby="scopes-h">
+    <h2 id="scopes-h">Two fixed scopes</h2>
+    <p>Both are fixed price, quoted after a twenty-minute scoping call, so the number fits your repo instead of a guess.</p>
+    <div class="tiers">
+      <div class="tier">
+        <h3>Audit</h3>
+        <ul>
+          <li>One repo, one window you choose</li>
+          <li>Cold reconstruction report: every claim with its evidence and status</li>
+          <li>List of every claim the record could not verify</li>
+          <li>Gap map and a ranked fix list</li>
+          <li>Two weeks, fully async</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <h3>Audit + gate</h3>
+        <ul>
+          <li>Everything in Audit</li>
+          <li>Receipt schema fitted to your workflow</li>
+          <li>A CI check that fails a merge missing its receipt</li>
+          <li>A second cold run after the fix, so you see the gap close</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="limits-h">
+    <h2 id="limits-h">What it will not do</h2>
+    <ul class="limits">
+      <li>It makes your agents' work explainable after the fact. It does not explain how a model thinks.</li>
+      <li>It is only as good as what you commit. Work that never reaches the record is invisible to a cold reader. That is the finding, not a failure of the audit.</li>
+      <li>It is not a compliance certification. It measures whether the record can rebuild the work; it does not sign off on regulation.</li>
+      <li>It does not claim a patent or a new science. The pieces (event logs, blameless post-mortems, cite-or-abstain review) are old. The framing is the useful part.</li>
+      <li>It never rates your people. It reads the record, not the team.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="start-h">
+    <h2 id="start-h">Start small</h2>
+    <p>Check an open-source repo yourself, then bring the week you would least like to explain from memory.</p>
+    <div class="actions">
+      <a class="cta" href="/audit/check">Check a repo, free</a>
+      <a href="https://arcs.care/advisory">Scope an audit</a>
+    </div>
+  </section>
 </main>
 
 <footer class="pad">

@@ -103,7 +103,7 @@ def validate(node, schema, path="$", errors=None):
 # -------------------------------------------------------------------- render
 _TOK = {  # ARCS design tokens (inline; the package carries its own look)
     "bg": "#020408", "surface": "#0d1117", "border": "#1e293b", "text": "#e2e8f0",
-    "muted": "#94a3b8", "dimmed": "#64748b", "cyan": "#00F0FF", "green": "#00FF9D",
+    "muted": "#94a3b8", "dimmed": "#8391a7", "cyan": "#00F0FF", "green": "#00FF9D",
     "gold": "#FFD700", "red": "#FF4D6D",
 }
 _SEV = {"warning": _TOK["red"], "caution": _TOK["gold"], "info": _TOK["cyan"],
@@ -129,9 +129,9 @@ def _p(body):
 
 def _card(title, inner):
     return (f'<div style="background:{_TOK["surface"]};border:1px solid {_TOK["border"]};'
-            f'border-radius:12px;padding:20px 22px;margin:12px 0;">'
-            f'<h2 style="font-size:12px;font-family:ui-monospace,monospace;font-weight:700;'
-            f'letter-spacing:0.1em;text-transform:uppercase;color:{_TOK["cyan"]};margin:0 0 12px;">'
+            f'border-radius:10px;padding:20px 22px;margin:12px 0;">'
+            f'<h2 style="font-size:0.6875rem;font-family:ui-monospace,monospace;font-weight:700;'
+            f'letter-spacing:0.14em;text-transform:uppercase;color:{_TOK["cyan"]};margin:0 0 12px;">'
             f'{E(title)}</h2>{inner}</div>')
 
 
@@ -140,15 +140,15 @@ def render_html(d):
     headline = cover.get("headline") or cover.get("title") or d.get("reportId", "")
     subline = cover.get("subline") or cover.get("subtitle") or ""
     badges = "".join(
-        f'<span style="font-family:ui-monospace,monospace;font-size:10px;font-weight:700;'
-        f'letter-spacing:0.12em;padding:4px 9px;border:1px solid {_TOK["border"]};border-radius:6px;'
+        f'<span style="font-family:ui-monospace,monospace;font-size:0.6875rem;font-weight:700;'
+        f'letter-spacing:0.14em;text-transform:uppercase;padding:4px 9px;border:1px solid {_TOK["border"]};border-radius:6px;'
         f'color:{_TOK["muted"]};margin-right:6px;">{E(b)}</span>' for b in _cover_badges(cover))
 
     q = d.get("loadBearingQuote", {})
     quote = _card("Load-Bearing Quote",
-                  f'<p style="font-size:16px;line-height:1.6;color:{_TOK["text"]};margin:0 0 10px;">'
+                  f'<p style="font-size:0.925rem;line-height:1.6;color:{_TOK["text"]};margin:0 0 10px;">'
                   f'&ldquo;{E(q.get("text"))}&rdquo;</p>'
-                  f'<p style="font-family:ui-monospace,monospace;font-size:10px;letter-spacing:0.1em;'
+                  f'<p style="font-family:ui-monospace,monospace;font-size:0.925rem;'
                   f'color:{_TOK["dimmed"]};margin:0 0 8px;">{E(q.get("attribution"))}</p>'
                   + (_p(q.get("significance")) if q.get("significance") else "")) if q else ""
 
@@ -157,10 +157,10 @@ def render_html(d):
     for s in d.get("callWalk", []):
         head = " · ".join(x for x in [s.get("label"), s.get("time"), s.get("direction")] if x)
         walk_rows += (f'<div style="margin:0 0 14px;">'
-                      f'<div style="font-family:ui-monospace,monospace;font-size:10px;letter-spacing:0.1em;'
+                      f'<div style="font-family:ui-monospace,monospace;font-size:0.925rem;'
                       f'color:{_TOK["dimmed"]};margin:0 0 4px;">{E(head)}</div>'
                       + _p(s.get("summary") or s.get("body") or "")
-                      + (f'<div style="font-size:12px;color:{_TOK["muted"]};">{E(s.get("divergenceFlag"))}</div>'
+                      + (f'<div style="font-size:0.925rem;color:{_TOK["muted"]};">{E(s.get("divergenceFlag"))}</div>'
                          if s.get("divergenceFlag") else "") + "</div>")
     walk = _card("Call Walk", walk_rows) if walk_rows else ""
 
@@ -169,7 +169,7 @@ def render_html(d):
     for s in d.get("signalThreads", []):
         sig_rows += (f'<div style="margin:0 0 12px;"><div style="font-weight:700;color:{_TOK["text"]};'
                      f'margin:0 0 4px;">{E(s.get("label") or s.get("title"))}'
-                     + (f' <span style="font-family:ui-monospace,monospace;font-size:10px;'
+                     + (f' <span style="font-family:ui-monospace,monospace;font-size:0.6875rem;'
                         f'color:{_TOK["dimmed"]};">[{E(s.get("strength"))}]</span>' if s.get("strength") else "")
                      + "</div>" + _p(s.get("description") or s.get("body") or "") + "</div>")
     signals = _card("Signal Threads", sig_rows) if sig_rows else ""
@@ -182,12 +182,12 @@ def render_html(d):
             if k in sc:
                 v = sc[k]
                 sc_rows += (f'<div style="margin:0 0 12px;"><div style="font-family:ui-monospace,monospace;'
-                            f'font-size:10px;letter-spacing:0.1em;color:{_TOK["dimmed"]};">{k.upper()}</div>'
+                            f'font-size:0.6875rem;letter-spacing:0.14em;text-transform:uppercase;color:{_TOK["dimmed"]};">{k.upper()}</div>'
                             f'<div style="font-weight:700;color:{_TOK["text"]};margin:2px 0 4px;">{E(v.get("title"))}</div>'
                             + _p(v.get("body")) + (_p(v.get("note")) if v.get("note") else "") + "</div>")
     elif isinstance(sc, list):
         for v in sc:
-            prob = f' — {v["probability"]}%' if v.get("probability") is not None else ""
+            prob = f' · {v["probability"]}%' if v.get("probability") is not None else ""
             sc_rows += (f'<div style="margin:0 0 12px;"><div style="font-weight:700;color:{_TOK["text"]};'
                         f'margin:0 0 4px;">{E(v.get("label"))}{E(prob)}</div>'
                         + _p(v.get("description")) + (_p("Watch: " + v["watch"]) if v.get("watch") else "") + "</div>")
@@ -199,7 +199,7 @@ def render_html(d):
         col = _SEV.get(str(r.get("severity") or r.get("variant") or "").lower(), _TOK["muted"])
         rf_rows += (f'<div style="margin:0 0 12px;border-left:2px solid {col};padding-left:12px;">'
                     f'<div style="font-weight:700;color:{_TOK["text"]};margin:0 0 4px;">'
-                    + (f'<span style="color:{col};font-family:ui-monospace,monospace;font-size:10px;'
+                    + (f'<span style="color:{col};font-family:ui-monospace,monospace;font-size:0.6875rem;'
                        f'margin-right:6px;">{E((r.get("severity") or r.get("variant") or "").upper())}</span>'
                        if (r.get("severity") or r.get("variant")) else "")
                     + f'{E(r.get("label"))}</div>' + _p(r.get("description") or r.get("body") or "")
@@ -212,31 +212,31 @@ def render_html(d):
     if isinstance(pr, dict):
         for p in pr.get("passes", []):
             pr_inner += (f'<div style="margin:0 0 10px;"><div style="font-weight:700;color:{_TOK["text"]};">'
-                         f'{E(p.get("name"))} <span style="color:{_TOK["dimmed"]};font-size:12px;">'
+                         f'{E(p.get("name"))} <span style="color:{_TOK["dimmed"]};font-size:0.925rem;">'
                          f'{E(p.get("direction"))}</span></div>' + _p(p.get("keyFinding")) + "</div>")
         if pr.get("immediateActions"):
-            items = "".join(f'<li style="margin:0 0 6px;color:{_TOK["text"]};font-size:14px;">{E(a)}</li>'
+            items = "".join(f'<li style="margin:0 0 6px;color:{_TOK["text"]};font-size:0.925rem;">{E(a)}</li>'
                             for a in pr["immediateActions"])
-            pr_inner += f'<div style="font-family:ui-monospace,monospace;font-size:10px;letter-spacing:0.1em;color:{_TOK["dimmed"]};margin:8px 0 4px;">IMMEDIATE ACTIONS</div><ul style="margin:0;padding-left:18px;">{items}</ul>'
+            pr_inner += f'<div style="font-family:ui-monospace,monospace;font-size:0.6875rem;letter-spacing:0.14em;text-transform:uppercase;color:{_TOK["dimmed"]};margin:8px 0 4px;">IMMEDIATE ACTIONS</div><ul style="margin:0;padding-left:18px;">{items}</ul>'
     elif isinstance(pr, list):
         for p in pr:
             pr_inner += (f'<div style="margin:0 0 10px;"><div style="font-weight:700;color:{_TOK["text"]};">'
                          f'{E(p.get("title") or p.get("label"))}</div>' + _p(p.get("body")) + "</div>")
     protocol = _card("Protocol", pr_inner) if pr_inner else ""
 
-    notice = (f'<div style="font-family:ui-monospace,monospace;font-size:10px;letter-spacing:0.15em;'
+    notice = (f'<div style="font-family:ui-monospace,monospace;font-size:0.925rem;'
               f'color:{_TOK["red"]};margin:0 0 16px;">{E(d.get("notice"))}</div>') if d.get("notice") else ""
 
     body = (f'{notice}'
             f'<div style="margin:0 0 8px;">{badges}</div>'
-            f'<h1 style="font-size:26px;line-height:1.25;color:{_TOK["text"]};margin:8px 0 8px;font-weight:600;">{E(headline)}</h1>'
-            f'<p style="font-size:14px;color:{_TOK["muted"]};margin:0 0 20px;">{E(subline)}</p>'
+            f'<h1 style="font-size:clamp(1.5rem, 4vw, 2.4rem);line-height:1.2;color:{_TOK["text"]};margin:8px 0 8px;font-weight:600;">{E(headline)}</h1>'
+            f'<p style="font-size:0.925rem;color:{_TOK["muted"]};margin:0 0 20px;">{E(subline)}</p>'
             f'{quote}{walk}{signals}{scenarios}{risks}{protocol}')
 
     return (f'<!doctype html><html lang="en"><head><meta charset="utf-8">'
             f'<meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<meta name="robots" content="noindex,nofollow">'
-            f'<title>Recoil Report — {E(d.get("reportId",""))}</title></head>'
+            f'<title>Recoil Report · {E(d.get("reportId",""))}</title></head>'
             f'<body style="background:{_TOK["bg"]};color:{_TOK["text"]};margin:0;'
             f'font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',system-ui,sans-serif;'
             f'line-height:1.62;padding:48px 24px 96px;">'

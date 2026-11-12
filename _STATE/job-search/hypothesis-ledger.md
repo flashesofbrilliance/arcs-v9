@@ -186,3 +186,61 @@ Jul 2026 reconnect as peer, not candidate.
 - Detector (for the bridge rubric): number of artifacts sent AFTER a `req_reality <= 1` signal.
   Fanatics 4, HypeLab 3. Any nonzero count is the pattern firing; the correct nonzero artifact is
   a pilot or a product, never a JD.
+
+### Amendment 2026-11-04 — H2 refined into three role-shape arms (H2')
+
+**Why this amendment:** H2 as registered compares two title classes (engineer-shaped vs
+PM/strategy-shaped). The search now spans five role names (FDE, Forward Deployed PM, Applied AI
+Engineer, Product Engineer, AI PM). Five arms cannot be read at this volume, so they are collapsed
+into three, using the dimensional overlap in `role-lenses-2026-10-14.md`. The monday post-mortem
+(`postmortem-monday.md`) credits the FDE role shape, not resume polish, for reaching the panel; that is
+one case and is not counted as a result here.
+
+**Arms (H2'):**
+- **A, FDE / Applied AI Engineer.** One resume facet, title swapped per JD. The two lenses have nearly
+  the same dimensional shape in the fit lens.
+- **B, Forward Deployed PM / AI PM.** One resume facet that leads with product ownership plus shipping.
+- **C, Product Engineer.** The embedded-product lens: worst winnability (stampede) in the bridge lens.
+  Kept small: at most 1 send in 5 goes to C.
+
+**Hypothesis:** arm A converts to a screen at a higher rate than B, and both convert higher than C.
+
+**Required tags on every send from today** (in `laneStatus` notes or the jsonl case row):
+`arm` (A, B, C) · `facet` (the resume version id) · `channel` (cold, warm, fonzi) · plus the existing
+`warm_path` and `req_reality`.
+
+**Rules:**
+- One variable at a time. Arm (what is targeted) and facet (how it is presented) are not changed in
+  the same comparison; facet tests run inside one arm.
+- The arm comparison is read on `channel=cold` only. Warm and Fonzi sends are reported per arm but kept
+  out of the comparison, since channel is expected to swamp shape (H3).
+- Metric: screen rate = `screen+ / (sent − withdrawn)` per arm, with a no-reply counted as a loss only
+  after the 21-day ghost window.
+- Decision rule: at 15 resolved cold sends in an arm, an arm with 0 screens is dropped if another arm has
+  at least 2. Otherwise new sends are split by how many screens each arm has (more screens, more sends),
+  with no arm below 1 in 5 until it is dropped.
+- Fonzi carries one role preference, so it is one arm at a time. Any change to it is logged here with a
+  date, and Fonzi results are read as time slices, not inside the cold comparison.
+
+**Not changed:** H2's registered text, H1, H3/H3', H4, the NULL ruin-check, the anti-Goodhart guard and
+the read gates stay as written. This block adds arms, tags and a stopping rule.
+
+### Amendment 2026-11-04 (b) — Fonzi time slice 1 opens on arm A
+
+Per H2', Fonzi is read as dated time slices. On 2026-11-04 the Fonzi role preference changed from
+Product Management to Forward Deployed Engineering (arm A). Slice 1 runs from 2026-11-04 until the next
+logged change. Everything else on the Fonzi profile (headline, bio, company sizes, salary floor) was left
+as it was, so the role preference is the only change in this slice. Fonzi Interview Requests in this
+window are tagged `channel=fonzi, arm=A`.
+
+Baseline before the slice (checked with Fonzi `list_interview_requests`, view all, 2026-11-04): one
+request. Concourse, Forward Deployed Engineer, created 2026-10-14, accepted, outcome `company_rejected`.
+It arrived while the preference was still Product Management, so it counts as pre-slice and is kept out
+of slice 1. A first draft of this block said Fonzi had sent no requests; that was wrong and is corrected here.
+
+Intermediary (Zach, 2026-11-04): the Concourse contact, Sara, said she is a part-time contract
+recruiter, not affiliated with Concourse. So the one pre-slice request is a recruiter-front signal
+(n=1), not a direct company signal. New tag on every send and request: `intermediary` in {direct,
+contract-recruiter, recruiter-marketplace, agency}. Concourse is booked `contract-recruiter`. Suspected,
+not confirmed: the Paraform contact (Amy) and the fun.xyz recruiter are in the same situation; verify
+each one's affiliation before booking. Per H1, recruiter-front rows stay out of the arm comparison.

@@ -682,5 +682,41 @@
     "stability": "PROVISIONAL",
     "gate": "write-lock: Zach approves id scheme before merge",
     "file": "ADR-089-jtbd-graph-schema-and-stable-ids.md"
+  },
+  {
+    "id": "ADR-090",
+    "title": "ADR-090: The public RFP engine repo's main is the clean work sample only",
+    "status": "PROPOSED",
+    "y_state": "YELLOW",
+    "stability": "PROVISIONAL",
+    "gate": "Zach accepts or rejects",
+    "file": "ADR-090-public-rfp-engine-repo-main-is-the-clean-work-sample.md"
+  },
+  {
+    "id": "ADR-091",
+    "title": "ADR-091: Mac-only commits are backed up as backup refs, not branches",
+    "status": "PROPOSED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "Zach accepts or rejects; no-builds premise NOT-CHECKED",
+    "file": "ADR-091-mac-only-commits-backed-up-as-backup-refs.md"
+  },
+  {
+    "id": "ADR-092",
+    "title": "ADR-092: Backlog rows are added only through the validated append script",
+    "status": "PROPOSED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "depends on PR #1893 merging",
+    "file": "ADR-092-backlog-rows-only-through-the-append-script.md"
+  },
+  {
+    "id": "ADR-093",
+    "title": "ADR-093: Counterpart citation needs consent on record",
+    "status": "PROPOSED",
+    "y_state": "YELLOW",
+    "stability": "SHIFTING",
+    "gate": "Zach's ruling",
+    "file": "ADR-093-counterpart-citation-needs-consent-on-record.md"
   }
 ]

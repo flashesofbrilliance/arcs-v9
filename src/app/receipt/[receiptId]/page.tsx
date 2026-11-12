@@ -9,6 +9,7 @@ import { Rule } from "@/ui/Rule"
 import { Button, ButtonLink } from "@/ui/Button"
 import { TribunePanel } from "@/molecules/TribunePanel"
 import { ProvenanceTag } from "@/molecules/ProvenanceTag"
+import { LockedBrief } from "@/molecules/LockedBrief"
 import { SequenceLoader } from "@/molecules/SequenceLoader"
 import { ReflectLayer } from "@/organisms/ReflectLayer"
 import type { CompassResult, FatedDecomposition, TerrainPath } from "@/lib/mockCompass"
@@ -113,6 +114,8 @@ export default function ReceiptPage() {
 
   const [fetched, setFetched] = useState<ReceiptData | null>(null)
   const [hasBrief, setHasBrief] = useState(false)
+  // Whether the brief is for sale right now; the price shows only when it is charged.
+  const [priced, setPriced] = useState(false)
   const [fetchError, setError] = useState<string | null>(null)
   // /api/brief/[receiptId] already recovers tributaries from the receipt's
   // stored rawResponse (see that route) — just wasn't read here before.
@@ -152,6 +155,7 @@ export default function ReceiptPage() {
         if (!ok) { setError(data.error ?? "Could not load receipt"); return }
         setFetched(data.receipt as ReceiptData)
         setHasBrief(!!data.brief)
+        setPriced(data.priced === true)
         setTributaries(Array.isArray(data.tributaries) ? data.tributaries : [])
       })
       .catch(() => { if (!cancelled) setError("Could not load receipt") })
@@ -340,6 +344,8 @@ export default function ReceiptPage() {
             }}
             after={!isEphemeral ? (
               <>
+                {/* The brief, locked: what it contains, never its content */}
+                <LockedBrief receiptId={receipt.id} hasBrief={hasBrief} priced={priced} />
                 {/* Provenance: owner-set real | test tag, persisted receipts only; renders nothing for non-owners */}
                 <div style={{ marginTop: "2.75rem" }}>
                   <ProvenanceTag receiptId={receipt.id} />

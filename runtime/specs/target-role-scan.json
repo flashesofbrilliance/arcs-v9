@@ -1,17 +1,18 @@
 {
- "version": "1.3",
+ "version": "1.5",
  "source": "_ARTIFACTS/target-role-scan-hud.html",
  "extracted": "2026-09-08",
+ "candidate_frame": "The candidate is a forward-deployed / applied-AI / product-engineer builder: owns a product surface end to end, regulated-domain fluency, breadth across product + GTM + data, ships LLM/agent systems on Claude + MCP in production, two decades across tech/data/commercial ops.",
  "archetypes": [
   {
    "id": "forward-deployed-ai-engineer",
    "title": "Forward-Deployed (AI) Engineer",
    "rail": "bearing",
    "fit": "Bearing \u00b7 Primary target",
-   "summary": "Embed with the customer, ship in their environment, own discovery \u2192 build \u2192 QA \u2192 handoff. Proven at Squat NY: sole tech partner for a $350M-ARR client, roadmap through handoff.",
+   "summary": "Embed with the customer, ship in their environment, own discovery \u2192 build \u2192 QA \u2192 handoff. Proven at Squat NY: led the patient-journey rebuild for a $350M-ARR HIPAA program, research through relaunch; qualified leads up 40 percent.",
    "lead_proof": {
     "company": "Squat NY",
-    "claim": "Embed with the customer, ship in their environment, own discovery \u2192 build \u2192 QA \u2192 handoff. Proven at Squat NY: sole tech partner for a $350M-ARR client, roadmap through handoff.",
+    "claim": "Embed with the customer, ship in their environment, own discovery \u2192 build \u2192 QA \u2192 handoff. Proven at Squat NY: led the patient-journey rebuild for a $350M-ARR HIPAA program, research through relaunch; qualified leads up 40 percent.",
     "evidence_grade": "self-reported"
    },
    "titles": [
@@ -43,15 +44,19 @@
    "id": "ai-native-product-engineer-lead",
    "title": "AI-Native Product Engineer / Lead",
    "rail": "asset",
-   "fit": "Asset \u00b7 Strong fit",
-   "summary": "Product \u00d7 engineering \u00d7 GTM in one \u2014 \"breadth is the product.\" Grayscale: growth-intelligence layer, 10 regulated products, $7B AUM, +20% net-new revenue via personalization.",
+   "fit": "Asset \u00b7 Primary target (2026-11-02)",
+   "summary": "Owns a product surface end to end: talks to users, designs, ships to production. Product \u00d7 engineering \u00d7 GTM in one \u2014 \"breadth is the product.\" Grayscale: ten SEC/FINRA regulated products, a $7B portfolio, release cycles 35 percent faster with zero violations.",
    "lead_proof": {
     "company": "Grayscale",
-    "claim": "Product \u00d7 engineering \u00d7 GTM in one \u2014 \"breadth is the product.\" Grayscale: growth-intelligence layer, 10 regulated products, $7B AUM, +20% net-new revenue via personalization.",
+    "claim": "Product \u00d7 engineering \u00d7 GTM in one \u2014 \"breadth is the product.\" Grayscale: ten SEC/FINRA regulated products, a $7B portfolio, release cycles 35 percent faster with zero violations.",
     "evidence_grade": "self-reported"
    },
    "titles": [
     "AI Product Engineer",
+    "Product Engineer",
+    "Senior Product Engineer",
+    "Founding Product Engineer",
+    "Product Engineer, AI",
     "Founding PM / Engineer",
     "Product Lead (AI)",
     "Growth Engineer"
@@ -83,7 +88,7 @@
    "rail": "bearing",
    "proof": {
     "company": "ARCS",
-    "claim": "End-to-end LLM-native systems. ARCS: 60% decision-noise reduction, 3\u20135\u00d7 time-to-insight, agentic orchestration in production. A GTM operator who also writes the software is the rare pairing."
+    "claim": "End-to-end LLM-native systems. ARCS runs on Claude in production, measured from its own repository. Its open RFP engine, an MCP server, cites the clause or says \"not covered\": 8 of 8 injected faults caught, and a real-model run that missed its 0-wrong target (1 of 24) is published as a miss. A GTM operator who also writes the software is the rare pairing."
    },
    "dims": [
     "ai_native"
@@ -96,7 +101,7 @@
    "rail": "conviction",
    "proof": {
     "company": "Squat NY",
-    "claim": "Sole-tech-partner capable; aligns eng \u00b7 design \u00b7 clinical \u00b7 ops \u00b7 commercial. Squat NY: discovery \u2192 QA \u2192 handoff for a $350M-ARR client, on schedule."
+    "claim": "Sole-tech-partner capable; aligns eng \u00b7 design \u00b7 clinical \u00b7 ops \u00b7 commercial. Squat NY: research through relaunch for a $350M-ARR HIPAA program; qualified leads up 40 percent, program adherence at 73 percent."
    },
    "dims": [
     "role_shape",
@@ -110,7 +115,7 @@
    "rail": "asset",
    "proof": {
     "company": "Grayscale",
-    "claim": "Personalization, lifecycle, growth intelligence. Grayscale: +20% net-new revenue via data personalization across a 10-product regulated portfolio. \"Breadth is the product.\""
+    "claim": "Personalization, lifecycle, growth intelligence. Children's Tumor Foundation: rebuilt the CRM and customer data into one source of truth; net-new revenue up 20 percent. \"Breadth is the product.\""
    },
    "dims": [
     "comp_level",
@@ -123,8 +128,8 @@
    "headline": "Ships where getting it wrong is expensive",
    "rail": "constraint",
    "proof": {
-    "company": "Grayscale (SEC/FINRA, $7B AUM) \u00b7 digital health (HIPAA, $350M ARR) \u00b7 Axon (gov)",
-    "claim": "SEC/FINRA ($7B AUM), HIPAA (digital health, $350M ARR), gov (Axon). Twenty years turning the constraint into the product \u2014 the genome the record proves."
+    "company": "Grayscale (SEC/FINRA, $7B portfolio) \u00b7 digital health (HIPAA, $350M ARR) \u00b7 open tools that refuse to guess",
+    "claim": "SEC/FINRA ($7B portfolio), HIPAA (digital health, $350M ARR), and tools that refuse to guess: the RFP engine and a pre-send check at honest.arcs.care. Twenty years turning the constraint into the product \u2014 the genome the record proves."
    },
    "dims": [
     "domain_breadth",
@@ -157,7 +162,7 @@
     "label": "Role-shape fit",
     "weight": 5,
     "anchor0": "maintenance / management",
-    "anchor3": "textbook forward-deployed build role"
+    "anchor3": "textbook build-and-embed role: forward-deployed, applied-AI, or a product engineer who owns a product surface end to end"
    },
    {
     "key": "ai_native",
@@ -198,7 +203,7 @@
     "key": "comp_level",
     "label": "Comp / level fit",
     "weight": 2,
-    "anchor0": "disclosed comp below senior/staff level — if comp is NOT stated in the JD, score 2 (neutral), never 0",
+    "anchor0": "disclosed comp below senior/staff level \u2014 if comp is NOT stated in the JD, score 2 (neutral), never 0",
     "anchor3": "at / above target"
    },
    {
@@ -217,6 +222,12 @@
    }
   ],
   "max": 81,
+  "scoring_notes": [
+   "Product Engineer, Senior Product Engineer, AI Product Engineer, Founding Product Engineer and close variants (Product Engineer, AI; Full-Stack Product Engineer) are ON-TARGET build roles under the AI-Native Product Engineer / Lead archetype, not off-target. Score role_shape 2-3 when the engineer owns a product surface end to end (works with users, ships features to production); never mark role_shape down because the title lacks 'forward deployed'.",
+   "For a product engineer role, ai_native reads what the product does: an engineer building an AI-native product scores ai_native the same as an applied-AI title would.",
+   "Do not fire the junior/entry gate on a Product Engineer title unless the JD itself states entry level, new grad, or under 3 years.",
+  "logistics: on-site in New York City, including 5 days a week, is NY metro and scores 3 (Zach confirmed 2026-11-03 he will do 5 days in Manhattan for the right role). Score 0 only for on-site roles outside NY metro and remote."
+  ],
   "gates": [
    "Junior/entry leveling",
    "pure management with no build",
@@ -308,5 +319,6 @@
  "stale_on_hud": [
   "status light says INGEST UNWIRED; ingest is wired via Gmail MCP since 2026-08-28",
   "band copy says pursue 0.70 only; the board cuts at 0.58 with three tiers"
- ]
+ ],
+ "proof_source": "runtime/specs/proof-claims.json (2026-11-03 backprop: every proof number now matches a ledger claim)"
 }

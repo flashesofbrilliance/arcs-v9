@@ -802,7 +802,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
         </tr>
         <tr>
           <td><strong>The quality score is still self-graded</strong> until enough outcomes accumulate to calibrate it.</td>
-          <td class="hide-m">Every score is logged with its decision, so the calibration data builds up automatically. The outcome-tracking loop that shipped this week is the correction signal.</td>
+          <td class="hide-m">Every score is logged with its decision, but calibration needs outcomes, and an outcome is logged only when a person answers the debrief. As of Nov 4, 2026, none has come from an outside user. The outcome-tracking loop that shipped this week is the correction signal.</td>
           <td><span class="chip low">LOW</span></td>
           <td><span class="chip gated">GATED ON DATA</span></td>
         </tr>
@@ -830,7 +830,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
       <div class="rm-lane">
         <div class="rm-lane-head" style="color:var(--green);border-color:rgba(0,255,157,0.3);">NOW · IN PRODUCTION</div>
         <div class="rm-card"><div class="rm-title" style="color:var(--green);">SELF-GRADING LOOP</div><div class="rm-body">Shipped this week. The system now checks its own predictions against what actually happened, automatically, and writes the result to an audit trail.</div></div>
-        <div class="rm-card"><div class="rm-title" style="color:var(--green);">CALIBRATION DATA</div><div class="rm-body">Every decision and its outcome accumulates the evidence base the gated features below are waiting for. It builds itself through normal use.</div></div>
+        <div class="rm-card"><div class="rm-title" style="color:var(--green);">CALIBRATION DATA</div><div class="rm-body">Every decision and its outcome adds to the evidence base the gated features below are waiting for. It grows only when people log what happened, which no outside user has done yet.</div></div>
       </div>
       <div class="rm-lane">
         <div class="rm-lane-head" style="color:var(--gold);border-color:rgba(255,215,0,0.3);">NEXT · UNBLOCKED</div>

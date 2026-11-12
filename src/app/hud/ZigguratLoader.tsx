@@ -4,32 +4,27 @@ import { useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import { text, signal, font, border } from "@/ui/tokens"
 import type { ZigTier } from "@/organisms/Scope"
+import { parseAtlas, toZigTiers, type Atlas } from "./atlas"
+import { toFlight, type Flight } from "./flight"
+import { AtlasFlight } from "./AtlasFlight"
 
 // Admin-only ziggurat load. Same contract as jobs.arcs.care/atlas
-// (_ARTIFACTS/atlas-loader-hud.html): the viewer picks an arcs.atlas.v1 JSON object
+// (_ARTIFACTS/atlas-loader-hud.html): the viewer picks an arcs.atlas.v1 or v2 JSON object
 // from their own disk; it is read in this tab only, never uploaded, stored or fetched.
 // Loading reshapes the field itself (Scope `ziggurat`): one terrace per tier, base first.
+// A v2 file loads its tiers here and also opens the HUD v2 flight (AtlasFlight): edges, time, kairos.
 // The server decides whether this component is rendered at all (src/app/hud/page.tsx).
-
-type Tier = { name?: unknown; docs?: unknown; gate?: unknown }
-type Atlas = { schema: string; built?: unknown; gate?: unknown; tiers: Tier[] }
 
 const GATE: Record<string, string> = { pass: signal.green, warn: signal.gold, fail: signal.red }
 const YG: Record<string, string> = { GREEN: signal.green, YELLOW: signal.gold, RED: signal.red }
 const str = (v: unknown, n: number) => (typeof v === "string" ? v.slice(0, n) : "")
 
-export function toZigTiers(d: Atlas): ZigTier[] {
-  return d.tiers.slice(0, 12).map((t) => ({
-    name: str(t.name, 24) || "tier",
-    gate: t.gate === "fail" ? "fail" : t.gate === "warn" ? "warn" : "pass",
-    docs: Array.isArray(t.docs) ? t.docs.length : Number(t.docs) || 0,
-  }))
-}
-
 export function ZigguratLoader({ onLoad }: { onLoad: (tiers: ZigTier[] | null) => void }) {
   const [open, setOpen] = useState(false)
   const [atlas, setAtlas] = useState<Atlas | null>(null)
   const [err, setErr] = useState("")
+  const [flight, setFlight] = useState<Flight | null>(null)
+  const [flying, setFlying] = useState(false)
   const input = useRef<HTMLInputElement>(null)
 
   const load = (file: File | undefined) => {
@@ -38,12 +33,13 @@ export function ZigguratLoader({ onLoad }: { onLoad: (tiers: ZigTier[] | null) =
     if (file.size > 5e6) { setErr("File is over 5 MB; not an atlas object."); return }
     const r = new FileReader()
     r.onload = () => {
-      let d: Atlas
-      try { d = JSON.parse(String(r.result)) } catch { setErr("Not valid JSON."); return }
-      if (!d || (d.schema !== "arcs.atlas.v1" && d.schema !== "arcs.atlas.v1.public") || !Array.isArray(d.tiers)) { setErr("Not an arcs.atlas.v1 object."); return }
-      if (!d.tiers.length) { setErr("The atlas has no tiers."); return }
-      setAtlas(d)
-      onLoad(toZigTiers(d))
+      const got = parseAtlas(String(r.result))
+      if ("error" in got) { setErr(got.error); return }
+      setAtlas(got.atlas)
+      const fl = toFlight(got.atlas)
+      setFlight(fl)
+      setFlying(!!fl)
+      onLoad(toZigTiers(got.atlas))
     }
     r.onerror = () => setErr("Could not read the file.")
     r.readAsText(file)
@@ -65,7 +61,7 @@ export function ZigguratLoader({ onLoad }: { onLoad: (tiers: ZigTier[] | null) =
       {open && createPortal(
         <section aria-label="Ziggurat loader" style={{ position: "fixed", zIndex: 1001, top: 16, right: 12, left: 12, maxWidth: 560, marginLeft: "auto", maxHeight: "calc(100dvh - 80px)", lineHeight: 1.4, textAlign: "left", overflowY: "auto", padding: 16, borderRadius: 8, background: "rgba(13,17,23,0.94)", border: `1px solid ${border.subtle}`, color: text.primary }}>
           <p style={{ margin: "0 0 12px", fontSize: 14, lineHeight: 1.5, color: text.secondary }}>
-            Load an arcs.atlas.v1 object from your own disk. It is read in this tab only: nothing is uploaded, stored, or fetched.
+            Load an arcs.atlas.v1 or v2 object from your own disk. It is read in this tab only: nothing is uploaded, stored, or fetched.
           </p>
           <div
             onDragOver={(e) => e.preventDefault()}
@@ -98,7 +94,12 @@ export function ZigguratLoader({ onLoad }: { onLoad: (tiers: ZigTier[] | null) =
               <div style={{ ...mono, marginTop: 8, color: YG[str(atlas.gate, 12)] ?? text.secondary }}>
                 {`schema ${str(atlas.schema, 40)} · built ${str(atlas.built, 40)} · gate ${str(atlas.gate, 12)}`}
               </div>
-              <button type="button" onClick={() => { setAtlas(null); onLoad(null); if (input.current) input.current.value = "" }} style={{ ...btn, marginTop: 12 }}>
+              {flight && (
+                <button type="button" onClick={() => setFlying(true)} style={{ ...btn, marginTop: 12, marginRight: 8 }}>
+                  Open flight view
+                </button>
+              )}
+              <button type="button" onClick={() => { setAtlas(null); setFlight(null); setFlying(false); onLoad(null); if (input.current) input.current.value = "" }} style={{ ...btn, marginTop: 12 }}>
                 Restore default field
               </button>
             </div>
@@ -106,6 +107,7 @@ export function ZigguratLoader({ onLoad }: { onLoad: (tiers: ZigTier[] | null) =
         </section>,
         document.body,
       )}
+      {flight && flying && createPortal(<AtlasFlight flight={flight} onClose={() => setFlying(false)} />, document.body)}
     </>
   )
 }

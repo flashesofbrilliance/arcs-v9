@@ -1,0 +1,126 @@
+{
+  "number": "36",
+  "name": "Change",
+  "slug": "change",
+  "layer": "Molecule",
+  "job": "Show how far a belief moved and which way, readable at a glance and without colour.",
+  "anatomy": [
+    {
+      "part": "Signed points",
+      "role": "Mono, display size, bold: the headline of the change",
+      "token": "`fs-display` · `green` / `red` / `muted`"
+    },
+    {
+      "part": "Before and after",
+      "role": "Mono, label size: the states behind the change",
+      "token": "`fs-label` · `text-secondary`"
+    },
+    {
+      "part": "Track",
+      "role": "The 0 to 100 scale the change sits on",
+      "token": "`border`"
+    },
+    {
+      "part": "Tail tick",
+      "role": "Where the belief started",
+      "token": "`text-secondary`"
+    },
+    {
+      "part": "Arrow",
+      "role": "Segment and filled head at the end value; the head points the way it moved",
+      "token": "direction colour"
+    }
+  ],
+  "states": [
+    {
+      "name": "Rise",
+      "args": [
+        0.4,
+        0.8
+      ],
+      "note": "Plus sign, arrow points right, green."
+    },
+    {
+      "name": "Fall",
+      "args": [
+        0.7,
+        0.3
+      ],
+      "note": "True minus sign (U+2212), arrow points left, red."
+    },
+    {
+      "name": "No change",
+      "args": [
+        0.5,
+        0.5
+      ],
+      "note": "The words no change and a round marker, muted."
+    },
+    {
+      "name": "Edge",
+      "args": [
+        0.02,
+        1.0
+      ],
+      "note": "Values near 0 and 100 stay inside the track."
+    }
+  ],
+  "use_when": [
+    "A belief, a score or a confidence moved between two moments and the reader needs the size and direction first.",
+    "The before and after values are on one 0 to 100 scale."
+  ],
+  "avoid_when": [
+    "The two values are on different scales or units; show them side by side instead.",
+    "The value did not move in a way that matters; say so in the sentence and skip the molecule.",
+    "You only have colour to offer: this molecule always carries the sign and the arrow."
+  ],
+  "data": [
+    {
+      "field": "before",
+      "type": "number 0 to 1",
+      "required": true,
+      "note": "Confidence at the start."
+    },
+    {
+      "field": "after",
+      "type": "number 0 to 1",
+      "required": true,
+      "note": "Confidence at the end. Points are rounded to whole numbers before the sign is taken."
+    }
+  ],
+  "access": [
+    "The whole molecule has an aria-label such as `+40 pts, 40% to 80%`; the arrow is hidden from screen readers.",
+    "Direction reads three ways: the sign, the arrow head and the colour. Remove any one and it still reads.",
+    "Numbers use tabular figures so stacked changes line up.",
+    "Not interactive on its own; when it sits inside a button the button carries focus."
+  ],
+  "built_from": [
+    {
+      "name": "Signed number (atom, planned)"
+    },
+    {
+      "name": "Direction arrow (atom, planned)"
+    }
+  ],
+  "used_by": [
+    {
+      "name": "Recoil player answer cards",
+      "href": "recoil-player.html"
+    },
+    {
+      "name": "Decision block flip card",
+      "href": "recoil-player.html"
+    },
+    {
+      "name": "Moment rows",
+      "href": "recoil-player.html"
+    }
+  ],
+  "gates": [
+    "`scripts/delta_encoding_gate.py`: every change goes through `pts()` and sets its text beside its colour.",
+    "`scripts/kit_specimen.py` in check mode: this page matches its spec.",
+    "`scripts/page_gate.py`, `scripts/artifact_wrap_lint.py`, `scripts/token_source_gate.py`, and the impeccable detector at 0 findings."
+  ],
+  "css": "/* Molecule 36: change. Mirrors the recoil-player rules for the same parts. */\n.pl-change { --d: var(--muted); display: flex; flex-direction: column; gap: 10px; max-width: 420px; }\n.pl-change.up { --d: var(--green); } .pl-change.down { --d: var(--red); }\n.pl-ans-delta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; font-family: var(--ds-font-mono); font-variant-numeric: tabular-nums; }\n.pl-ans-delta b { font-size: var(--fs-display); line-height: 1; font-weight: 700; letter-spacing: -0.02em; color: var(--d); }\n.pl-ans-delta span { font-size: var(--fs-label); color: var(--text-secondary); }\n.pl-move { display: block; }\n.pl-move-track { display: block; position: relative; height: 14px; }\n.pl-move-track::before { content: \"\"; position: absolute; left: 0; right: 0; top: 6px; height: 2px; border-radius: var(--ds-r-pill); background: var(--border); }\n.pl-move-seg { position: absolute; top: 6px; height: 2px; background: var(--d); }\n.pl-move-tail { position: absolute; top: 3px; width: 2px; height: 8px; margin-left: -1px; background: var(--text-secondary); }\n.pl-move-head { position: absolute; top: 1px; width: 12px; height: 12px; background: var(--d); }\n.pl-change.up .pl-move-head { margin-left: -11px; clip-path: polygon(0 0, 100% 50%, 0 100%); }\n.pl-change.down .pl-move-head { margin-left: -1px; clip-path: polygon(100% 0, 0 50%, 100% 100%); }\n.pl-change.flat .pl-move-head { margin-left: -5px; width: 10px; height: 10px; top: 2px; border-radius: 50%; }\n.sp-state .pl-ans-delta b { font-size: var(--fs-headline); }\n",
+  "demo": "document.querySelector('[data-stage]').appendChild(ArcsRecoil.change(0.4, 0.8));\ndocument.querySelectorAll('[data-state]').forEach(function (el, i) { el.appendChild(ArcsRecoil.change(STATES[i][0], STATES[i][1])); });"
+}

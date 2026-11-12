@@ -44,13 +44,6 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
-      // wing.arcs.care is unlisted-by-URL: header-level no-crawl backs up the page's
-      // robots meta (host-scoped, so the mothership domains stay indexable).
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "wing.arcs.care" }],
-        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
-      },
       {
         source: "/:path*",
         has: [{ type: "host", value: "scott-cut.arcs.care" }],
@@ -67,6 +60,19 @@ const nextConfig: NextConfig = {
         has: [{ type: "host", value: "mercury.arcs.care" }],
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
       },
+      // zach.md: agent-readable profile (Markdown, AGENTS.md convention). Served as text/markdown at
+      // /, /index.md and /llms.txt; indexable on purpose. /proof is HTML (the proof ledger), so the
+      // markdown type is scoped to the three markdown paths only.
+      ...["/", "/index.md", "/llms.txt"].map((source) => ({
+        source,
+        has: [{ type: "host" as const, value: "zach.md" }],
+        headers: [{ key: "Content-Type", value: "text/markdown; charset=utf-8" }],
+      })),
+      {
+        source: "/index.md",
+        has: [{ type: "host", value: "resume.arcs.care" }],
+        headers: [{ key: "Content-Type", value: "text/markdown; charset=utf-8" }],
+      },
       // self-hosted fonts are content-stable: cache them hard for instant repeat loads.
       {
         source: "/fonts/:path*",
@@ -77,6 +83,14 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return {
       beforeFiles: withSharedIcons([
+        { source: "/", destination: "/zach.md", has: [{ type: "host", value: "zach.md" }] },
+        { source: "/index.md", destination: "/zach.md", has: [{ type: "host", value: "zach.md" }] },
+        { source: "/llms.txt", destination: "/zach.md", has: [{ type: "host", value: "zach.md" }] },
+        // zach.md/proof: the proof ledger (scripts/proof_emit.py), its data, and the host's own robots + sitemap.
+        { source: "/proof", destination: "/proof.html", has: [{ type: "host", value: "zach.md" }] },
+        { source: "/proof/claims.json", destination: "/proof-claims.json", has: [{ type: "host", value: "zach.md" }] },
+        { source: "/robots.txt", destination: "/zach-robots.txt", has: [{ type: "host", value: "zach.md" }] },
+        { source: "/sitemap.xml", destination: "/zach-sitemap.xml", has: [{ type: "host", value: "zach.md" }] },
         { source: "/forge", destination: "/blacksmith-observatory.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
         { source: "/observatory", destination: "/blacksmith-observatory.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
         { source: "/resume", destination: "/blacksmith-resume-viewer.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
@@ -99,33 +113,23 @@ const nextConfig: NextConfig = {
         { source: "/:path((?!fonts/).*)", destination: "/forge-pattern.html", has: [{ type: "host", value: "forge.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/forge-cut.html", has: [{ type: "host", value: "forge-cut.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/scott-cut.html", has: [{ type: "host", value: "scott-cut.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/rayan.html", has: [{ type: "host", value: "rayan.arcs.care" }] },
         { source: "/", destination: "/omakase/index.html", has: [{ type: "host", value: "omakase.arcs.care" }] },
         { source: "/atom", destination: "/omakase/atom.html", has: [{ type: "host", value: "omakase.arcs.care" }] },
         { source: "/:path((?!omakase).*)", destination: "/omakase/:path", has: [{ type: "host", value: "omakase.arcs.care" }] },
         { source: "/omakase/atom", destination: "/omakase/atom.html" },
         { source: "/omakase", destination: "/omakase/index.html" },
-        { source: "/:path((?!fonts/).*)", destination: "/vishal-combined.html", has: [{ type: "host", value: "vishal.arcs.care" }] },
         { source: "/:seg(teardown|logictree)", destination: "/todd-:seg.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         { source: "/:path((?!.*teardown|.*logictree).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         { source: "/status/:seg(crm|tidio|troubleshooting|build|progress|atlas|receipt|catchup|runbook)", destination: "/prl-status-:seg.html", has: [{ type: "host", value: "prl.arcs.care" }] },
         { source: "/checkpoint", destination: "/prl-checkpoint.html", has: [{ type: "host", value: "prl.arcs.care" }] },
         { source: "/checkpoint.pdf", destination: "/prl-checkpoint.pdf", has: [{ type: "host", value: "prl.arcs.care" }] },
         { source: "/:path((?!.*prl-status-|.*prl-checkpoint).*)", destination: "/todd-call.html", has: [{ type: "host", value: "prl.arcs.care" }] },
-        { source: "/runtime", destination: "/julia-runtime.html", has: [{ type: "host", value: "julia.arcs.care" }] },
-        { source: "/", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
-        { source: "/:path((?!fonts/|.*runtime).*)", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/julia-ext.html", has: [{ type: "host", value: "julia-ext.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/daniel.html", has: [{ type: "host", value: "daniel.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/joe.html", has: [{ type: "host", value: "joe.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/warroom/lyndon-war", has: [{ type: "host", value: "lyndon-war.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/joe-ext.html", has: [{ type: "host", value: "joe-ext.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/yuri.html", has: [{ type: "host", value: "yuri-ext.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/yuri.html", has: [{ type: "host", value: "yuri-sample.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/yuri.html", has: [{ type: "host", value: "yuri-recoil.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/yuri-codex.html", has: [{ type: "host", value: "yuri-codex.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/yuri-diamond.html", has: [{ type: "host", value: "yuri-diamond.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/kam-codex.html", has: [{ type: "host", value: "kam-codex.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/robin-codex.html", has: [{ type: "host", value: "robin-codex.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/robin.html", has: [{ type: "host", value: "robin.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/robin-profile.html", has: [{ type: "host", value: "robin-profile.arcs.care" }] },
@@ -143,26 +147,20 @@ const nextConfig: NextConfig = {
         { source: "/:path((?!fonts/).*)", destination: "/yuri.html", has: [{ type: "host", value: "yuri.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/yuri-profile.html", has: [{ type: "host", value: "yuri-profile.arcs.care" }] },
         { source: "/:path((?!api/).*)", destination: "/yuri-receipt.html", has: [{ type: "host", value: "yuri-receipt.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/warroom/brooks", has: [{ type: "host", value: "brooks.arcs.care" }] },
-        { source: "/evening", destination: "/ahmed-evening.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
-        { source: "/seed", destination: "/ahmed-seed.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
-        { source: "/report", destination: "/ahmed-ext.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
-        { source: "/:path((?!.*ahmed).*)", destination: "/ahmed.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
-        { source: "/:path((?!api/|omakase).*)", destination: "/louisville.html", has: [{ type: "host", value: "louisville.arcs.care" }] },
+        // resume.arcs.care/index.md: the no-JavaScript text copy, generated by scripts/resume_static_emit.mjs.
+        { source: "/index.md", destination: "/resume-index.txt", has: [{ type: "host", value: "resume.arcs.care" }] },
         { source: "/google", destination: "/resume-google-gtm.html", has: [{ type: "host", value: "resume.arcs.care" }] },
         { source: "/google-gtm", destination: "/resume-google-gtm.html", has: [{ type: "host", value: "resume.arcs.care" }] },
-        { source: "/:path((?!google).*)", destination: "/resume.html", has: [{ type: "host", value: "resume.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/kiko.html", has: [{ type: "host", value: "kiko.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/warroom/jack-rain", has: [{ type: "host", value: "jack-rain.arcs.care" }] },
-        { source: "/:path((?!jack-rain-resume).*)", destination: "/jack-rain-ext.html", has: [{ type: "host", value: "rain.arcs.care" }] },
-        { source: "/proposal", destination: "/thetrueai-proposal.html", has: [{ type: "host", value: "thetrueai.arcs.care" }] },
-        { source: "/:path((?!.*proposal).*)", destination: "/thetrueai.html", has: [{ type: "host", value: "thetrueai.arcs.care" }] },
+        { source: "/:path((?!google|proof|resume-index|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)", destination: "/resume.html", has: [{ type: "host", value: "resume.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/chan.html", has: [{ type: "host", value: "chan.arcs.care" }] },
         { source: "/beliefs", destination: "/belief-log.html", has: [{ type: "host", value: "status.arcs.care" }] },
         { source: "/gauntlets", destination: "/gauntlet-log.html", has: [{ type: "host", value: "status.arcs.care" }] },
         // Exclude the rewrite DESTINATIONS too (belief-log.html, gauntlet-log.html): beforeFiles rewrites
         // chain, so "/beliefs" -> "/belief-log.html" was re-caught here and served status.html.
-        { source: "/:path((?!.*belief|.*gauntlet).*)", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
+        // Agent-readable files (2026-10-29): /llms.txt is the host's own; machine paths are excluded from the
+        // catch-all so an unknown one 404s instead of answering with the HTML page (tests/unit/llms-routes.test.ts).
+        { source: "/llms.txt", destination: "/status-llms.txt", has: [{ type: "host", value: "status.arcs.care" }] },
+        { source: "/:path((?!.*belief|.*gauntlet|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/resume-tailor.html", has: [{ type: "host", value: "resume-tailor.arcs.care" }] },
         { source: "/blog/nftt", destination: "/blog-nftt-index.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/blog/nftt/:slug/:tier(brief|full)", destination: "/blog-nftt-:slug-:tier.html", has: [{ type: "host", value: "good.arcs.care" }] },
@@ -173,6 +171,7 @@ const nextConfig: NextConfig = {
         { source: "/audit", destination: "/good-agent-receipts-audit.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/fears", destination: "/good-fears.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/copypasta", destination: "/good-copypasta.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/rfp-engine", destination: "/good-rfp-engine.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/cases", destination: "/good-case-six-week-outage.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/cases/six-week-outage", destination: "/good-case-six-week-outage.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/cases/reader-who-remembered", destination: "/good-case-reader-who-remembered.html", has: [{ type: "host", value: "good.arcs.care" }] },
@@ -183,14 +182,12 @@ const nextConfig: NextConfig = {
         // robots.txt / sitemap.xml: beforeFiles rewrites run after the proxy's passthrough, so without
         // these exclusions every /api/* call (and the NFTT robots/sitemap) on this host was rewritten to
         // good.html (GET 200 HTML, POST 405). Found 2026-09-13 when /api/probe went live.
-        { source: "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-fears|good-copypasta|api|_next|_vercel|fonts/|robots\\.txt|sitemap\\.xml).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-audit-check|good-audit-sample|good-agents|good-fears|good-copypasta|good-rfp-engine|rfp-engine/|api|_next|_vercel|fonts/|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/rosetta-shell.html", has: [{ type: "host", value: "rosetta-shell.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/germinate.html", has: [{ type: "host", value: "germinate.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/arcs-field-scan.html", has: [{ type: "host", value: "arcs-field-scan.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/ayesha-ext.html", has: [{ type: "host", value: "ayesha.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/build.html", has: [{ type: "host", value: "build.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/scott-arcs-demo.html", has: [{ type: "host", value: "scott-arcs-demo.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/wing.html", has: [{ type: "host", value: "wing.arcs.care" }] },
         // surfaces.arcs.care: the generated catalog of every host above (scripts/surface_catalog_emit.py;
         // --check fails the build when a host here is missing from runtime/specs/surface-catalog.json).
         { source: "/:path((?!fonts/).*)", destination: "/warroom/surfaces", has: [{ type: "host", value: "surfaces.arcs.care" }] },
@@ -228,6 +225,31 @@ const nextConfig: NextConfig = {
       "danny.arcs.care",
       "ahmed.arcs.care",
       "jeben.arcs.care",
+      // Retired 2026-11-04 (Zach ruling): closed job applications and finished counterpart reads.
+      // Pages archived to _ARCHIVE/retired-surfaces/2026-11-04/; the Vercel domains stay attached.
+      "claritai.arcs.care",
+      "conduit.arcs.care",
+      "rain.arcs.care",
+      "jack-rain.arcs.care",
+      "fun.arcs.care",
+      "monstro.arcs.care",
+      "autopilot.arcs.care",
+      "brooks.arcs.care",
+      "ahmed-ext.arcs.care",
+      "rayan.arcs.care",
+      "ayesha.arcs.care",
+      "vishal.arcs.care",
+      "kam-codex.arcs.care",
+      "saul.arcs.care",
+      "joe.arcs.care",
+      "joe-ext.arcs.care",
+      "schriner-ext.arcs.care",
+      "daniel.arcs.care",
+      "kiko.arcs.care",
+      "thetrueai.arcs.care",
+      "wing.arcs.care",
+      "julia.arcs.care",
+      "julia-ext.arcs.care",
     ];
     return [
       { source: "/go-live", destination: "/status/runbook#go-live", permanent: false, has: [{ type: "host", value: "prl.arcs.care" }] },

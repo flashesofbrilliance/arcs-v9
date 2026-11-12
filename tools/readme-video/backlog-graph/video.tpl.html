@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Backlog graph glass box</title>
+<style>
+/*__TOKENS__*/
+/* Frame scale: 1920x1080, one root size; every font size below is a ramp token or --fs-meta. */
+html{font-size:32px}
+:root{--fs-meta:0.8125rem;--lane-x:560px;--lane-w:1264px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1920px;height:1080px;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--ds-font-sans);font-size:var(--fs-body);line-height:1.45;position:relative}
+.bar{position:absolute;left:96px;right:96px;top:54px;display:flex;justify-content:space-between;align-items:center;font-family:var(--ds-font-mono);font-size:var(--fs-label);letter-spacing:.14em;text-transform:uppercase;color:var(--text-secondary)}
+.bar .brand{display:flex;gap:16px;align-items:center}
+.bar svg{width:30px;height:30px}
+.rule{position:absolute;left:96px;right:96px;top:104px;height:1px;background:var(--border)}
+#spine{overflow:visible;position:absolute;left:96px;top:150px;width:404px;height:840px}
+#spine text{font-family:var(--ds-font-mono);font-size:var(--fs-label);letter-spacing:.1em;text-transform:uppercase}
+.scene{position:absolute;left:var(--lane-x);top:150px;width:var(--lane-w);opacity:0}
+h1{font-family:var(--ds-font-mono);font-size:var(--fs-display);font-weight:700;letter-spacing:-.01em;line-height:1.15}
+h2{font-size:var(--fs-headline);font-weight:500;margin-bottom:30px}
+.lede{font-size:var(--fs-headline);color:var(--text-secondary);margin-top:24px;max-width:none}
+.code,.term{font-family:var(--ds-font-mono);background:var(--elevated);border:1px solid var(--border);border-radius:var(--ds-r-sm);padding:22px 28px;white-space:pre;line-height:1.5}
+.code{font-size:var(--fs-body)}
+.term{font-size:var(--fs-body);margin-top:22px}
+.dim{color:var(--dimmed)} .cyan{color:var(--cyan)} .red{color:var(--red)} .green{color:var(--green)} .gold{color:var(--gold)}
+.ref{font-family:var(--ds-font-mono);font-size:var(--fs-meta);color:var(--dimmed);margin-top:20px}
+.chain{display:flex;gap:40px;margin-bottom:28px;align-items:center;position:relative;height:110px}
+.node{white-space:nowrap;font-family:var(--ds-font-mono);font-size:var(--fs-label);border:1px solid var(--border);border-radius:var(--ds-r-sm);padding:16px 20px;background:var(--surface);position:relative;z-index:2}
+.node em{display:block;font-style:normal;color:var(--text-secondary);letter-spacing:.12em;text-transform:uppercase;margin-top:4px}
+.node.hero{border-color:var(--cyan);box-shadow:var(--cyan-glow)}
+#edges{position:absolute;left:0;top:0;overflow:visible;z-index:1}
+.card{border:1px solid var(--green);border-radius:var(--ds-r-sm);background:var(--surface);padding:24px 28px;font-family:var(--ds-font-mono);font-size:var(--fs-body)}
+.card .grid{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:6px 24px;margin:14px 0}
+.lab{font-family:var(--ds-font-mono);font-size:var(--fs-label);letter-spacing:.12em;text-transform:uppercase;color:var(--text-secondary);align-self:center}
+.tools{font-size:var(--fs-meta);color:var(--text-secondary)}
+.serif{font-family:var(--ds-font-display);font-size:var(--fs-headline);margin-top:26px}
+.stats{display:flex;gap:96px;margin-bottom:28px}
+.stats div{display:flex;flex-direction:column;gap:6px}
+.big{font-family:var(--ds-font-mono);font-size:var(--fs-headline);font-weight:700}
+.close{list-style:none;margin-top:36px}
+.close li{padding:14px 0;border-top:1px solid var(--border)}
+.close li:first-child{border-top:0}
+.g{font-family:var(--ds-font-mono);display:inline-block;width:1.4em}
+#pop{position:absolute;left:var(--lane-x);top:0;width:var(--lane-w);height:1080px;pointer-events:none}
+.d{position:absolute;left:0;top:0;width:40px;height:10px;background:var(--border);border-radius:2px}
+.axis{position:absolute;font-family:var(--ds-font-mono);font-size:var(--fs-label);color:var(--text-secondary);opacity:0}
+#legend{position:absolute;left:var(--lane-x);top:986px;font-family:var(--ds-font-mono);font-size:var(--fs-label);color:var(--text-secondary);display:flex;gap:40px}
+#legend>span{opacity:0}
+</style></head><body>
+<div class="bar"><div class="brand"><svg viewBox="0 0 32 32" aria-label="ARCS"><g fill="none" stroke="#00F0FF" stroke-linecap="round"><path d="M16 15.5 C12 9.5 3.5 10 3.5 16.5 C3.5 23 12 22.5 16 15.5" stroke-width="3.2"/><path d="M16 15.5 C20 21.5 28.5 21 28.5 14.5 C28.5 8 20 8.5 16 15.5" stroke-width="2.1" opacity="0.8"/></g></svg><span>ARCS · backlog graph, glass box</span></div><span id="lbl"></span></div>
+<div class="rule"></div>
+<svg id="spine" viewBox="0 0 404 840"></svg>
+<div id="scenes"></div>
+<div id="pop"></div>
+<div id="legend"><span id="lg1"><span class="green">▲</span> ready now</span><span id="lg2"><span class="gold">□</span> no edge</span></div>
+<script>
+const D=/*__DATA__*/null;
+const $=(id)=>document.getElementById(id);
+// Motion tokens, read from _tokens.css so the page and the gates agree.
+const cs=getComputedStyle(document.documentElement);
+const ms=(n)=>parseFloat(cs.getPropertyValue(n))/1000;
+const FAST=ms('--dur-fast')||.12, BASE=ms('--dur-base')||.24, SWEEP=ms('--dur-sweep')||1.5, SHUT=(parseFloat(cs.getPropertyValue('--mo-shutter-ms'))||650)/1000;
+function bez(x){ // cubic-bezier(0.2, 0.7, 0.2, 1), the --ease-out token
+  if(x<=0)return 0; if(x>=1)return 1;
+  let t=x; for(let i=0;i<8;i++){const xt=3*(1-t)*(1-t)*t*.2+3*(1-t)*t*t*.2+t*t*t-x; const dx=3*(1-t)*(1-t)*.2+6*(1-t)*t*(.2-.2)+3*t*t*(1-.2); t-=xt/(dx||1); t=Math.min(1,Math.max(0,t));}
+  return 3*(1-t)*(1-t)*t*.7+3*(1-t)*t*t*1+t*t*t;
+}
+const ramp=(t,a,d)=>bez((t-a)/d);
+const lerp=(a,b,p)=>a+(b-a)*p;
+
+// Scenes: card text is the build's `b`, verbatim.
+const starts=[];let acc=0;for(const c of D.cards){starts.push(acc);acc+=c.dur;}
+const DURATION=acc;
+D.cards.forEach((c,i)=>{const s=document.createElement('section');s.className='scene';s.id='s'+i;
+  s.innerHTML=(i===0||i===7?`<h1>${c.h}</h1>`:`<h2>${c.h}</h2>`)+c.b;$('scenes').appendChild(s);});
+
+// Spine: five plates, Source at the bottom, Fate at the top.
+const PL=['1 Source','2 Gates','3 Graph build','4 Outputs','5 Fate'];
+const CX=202,HW=168,HH=52,cy=(k)=>760-k*150;
+$('spine').innerHTML=PL.map((p,k)=>`<g id="pl${k}"><polygon points="${CX-HW},${cy(k)} ${CX},${cy(k)-HH} ${CX+HW},${cy(k)} ${CX},${cy(k)+HH}" stroke-width="1.5"/><text x="${CX}" y="${cy(k)+8}" text-anchor="middle">${p}</text></g>`).join('')+
+ `<rect id="ghost" width="26" height="26" fill="none" stroke="var(--red)" stroke-width="2" opacity="0"/><rect id="mark" width="26" height="26" fill="var(--cyan)" opacity="0"/>`;
+
+// Population: every row in the file. Active rows carry their wave; terminal rows leave at the graph build.
+const LX=0, BASE_Y=940;
+const act=D.nodes.slice();
+const order={};const byW={};
+act.forEach((n,j)=>{(byW[n.w]=byW[n.w]||[]).push(j)});
+for(const w in byW){byW[w].sort((a,b)=>{const A=act[a],B=act[b];const key=(N)=>N.id?0:N.r?1:N.iso?3:2;const ka=key(A),kb=key(B);return ka-kb||a-b});byW[w].forEach((j,k)=>order[j]=k);}
+const total=D.rows, slots=[];for(let i=0;i<total;i++)slots.push(i);
+let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+for(let i=total-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[slots[i],slots[j]]=[slots[j],slots[i]];}
+const dots=[];
+for(let i=0;i<total;i++){const el=document.createElement('div');el.className='d';$('pop').appendChild(el);
+  const a=i<act.length?act[i]:null;dots.push({el,a,slot:slots[i]});}
+const pile=(s)=>[LX+16+(s%24)*52,716+Math.floor(s/24)*14];
+function wavePos(n,k){if(n.w===0)return[LX+(k%16)*16,BASE_Y-12-Math.floor(k/16)*16];return[LX+300+(n.w-1)*72+(k%3)*16,BASE_Y-12-Math.floor(k/3)*16];}
+for(let w=0;w<D.waves;w++){const ax=document.createElement('div');ax.className='axis';ax.textContent=String(w);
+  ax.style.left=(LX+(w===0?120:300+(w-1)*72+12))+'px';ax.style.top=(BASE_Y+8)+'px';$('pop').appendChild(ax);}
+const axes=[...document.querySelectorAll('.axis')];
+
+function sceneAt(t){let i=0;while(i<starts.length-1&&t>=starts[i+1])i++;return i;}
+function seek(t){
+  const i=sceneAt(t), lt=t-starts[i], f=lt/D.cards[i].dur, c=D.cards[i];
+  $('lbl').textContent=`${c.k} · ${String(i+1).padStart(2,'0')} / ${String(D.cards.length).padStart(2,'0')}`;
+  // Shutter between scenes: the new picture is admitted over --mo-shutter-ms, never a raw cut.
+  D.cards.forEach((_,k)=>{const s=$('s'+k);let o=0;
+    if(k===i)o=Math.min(1,lt/SHUT);
+    if(k===i-1&&lt<SHUT*.5)o=1-lt/(SHUT*.5);
+    s.style.opacity=o; s.style.visibility=o>0?'visible':'hidden';});
+  scene(i,lt,f,t);
+}
+const at=(i,frac)=>starts[i]+D.cards[i].dur*frac; // a beat, as a share of the card's time, so takes rescale it
+const show=(el,t,a)=>{if(el)el.style.opacity=Math.max(0,Math.min(1,(t-a)/BASE));};
+
+function scene(i,lt,f,t){
+  // Spine plates: current lit cyan, passed plain, the thin spot gold.
+  const cur=i===6?(f<.78?2:0):[-1,0,1,2,3,4,2,-1][i];
+  PL.forEach((_,k)=>{const g=$('pl'+k),pg=g.querySelector('polygon'),tx=g.querySelector('text');
+    const passed=(i===7)||k<cur||(i===6&&k!==2);
+    pg.setAttribute('fill',k===cur?(i===6?'var(--gold-bg)':'var(--cyan-bg)'):'var(--surface)');
+    pg.setAttribute('stroke',k===cur?(i===6?'var(--gold)':'var(--cyan)'):passed?'var(--text-secondary)':'var(--border)');
+    tx.setAttribute('fill',k===cur?(i===6?'var(--gold)':'var(--cyan)'):'var(--text)');});
+  // The row's marker climbs one plate per layer it passes.
+  let lvl=0;
+  if(i>=2){lvl=lerp(0,1,ramp(t,at(2,.82),SWEEP));}
+  if(i>=3)lvl=lerp(1,2,ramp(t,at(3,.02),SWEEP));
+  if(i>=4)lvl=lerp(2,3,ramp(t,at(4,.02),SWEEP));
+  if(i>=5)lvl=lerp(3,4,ramp(t,at(5,.02),SWEEP));
+  const mk=$('mark');mk.setAttribute('opacity',i>=1?1:0);mk.setAttribute('x',CX-HW-36);mk.setAttribute('y',lerp(cy(0),cy(4),lvl/4)-13-0);
+  // Gate scene: the test copy's ghost rises to the gate and drops back, refused.
+  const gh=$('ghost');let go=0,gl=0;
+  if(i===2){const a=at(2,.5),up=ramp(t,a,BASE*2),down=ramp(t,a+BASE*2+.3,BASE*2);gl=up*.7-down*.7;go=t>=a&&t<a+BASE*4+.6?1:0;}
+  gh.setAttribute('opacity',go);gh.setAttribute('x',CX+HW+10);gh.setAttribute('y',lerp(cy(0),cy(1),gl)-13);
+
+  // Scene text beats (each a real state change of the file, the gate or the graph).
+  if(i===0)show($('s0').querySelector('.lede'),t,at(0,.45));
+  if(i===2){$('st').textContent=t>=at(2,.22)?'RUNNING':'OPEN';$('st').className=t>=at(2,.22)?'cyan':'';
+    show($('term'),t,at(2,.4));['l1','l2','l3'].forEach((c,k)=>show($('term').querySelector('.'+c),t,at(2,.5)+k*FAST*2));}
+  if(i===3){edges(t);show($('edgeref'),t,at(3,.15));}
+  if(i===4){show($('out'),t,at(4,.22));show($('outref'),t,at(4,.62));}
+  if(i===5){show($('decide'),t,at(5,.1));
+    const run=t>=at(5,.36);$('st2').textContent=run?'RUNNING':'OPEN';$('st2').className=run?'cyan':'';
+    const w=t>=at(5,.44);$('cb').textContent=w?'Zach Harris':'';$('ca').textContent=w?'2026-11-02T16:30:00-05:00':'';
+    show($('term2'),t,at(5,.66));show($('tref'),t,at(5,.72));show($('term2').querySelector('.l1'),t,at(5,.7));
+    $('claim').style.borderColor=t>=at(5,.7)?'var(--green)':'var(--border)';}
+  if(i===6){show($('stats'),t,at(6,.06));show($('stats').querySelector('.s2'),t,at(6,.38));show($('fix'),t,at(6,.78));}
+  population(i,t);
+}
+function edges(t){
+  const ch=$('chain');let svg=$('edges');
+  if(!svg){svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.id='edges';svg.setAttribute('width',1264);svg.setAttribute('height',110);ch.appendChild(svg);
+    const n=[...ch.querySelectorAll('.node')].map(e=>({x:e.offsetLeft,w:e.offsetWidth,y:e.offsetTop+e.offsetHeight/2}));
+    svg.innerHTML=[0,1].map(k=>{const x1=n[k].x+n[k].w,x2=n[k+1].x;return `<line id="e${k}" x1="${x1}" y1="${n[k].y}" x2="${x2}" y2="${n[k+1].y}" stroke="var(--cyan)" stroke-width="2" stroke-dasharray="${x2-x1}" stroke-dashoffset="${x2-x1}"/><polygon id="h${k}" points="${x2},${n[k+1].y} ${x2-12},${n[k+1].y-7} ${x2-12},${n[k+1].y+7}" fill="var(--cyan)" opacity="0"/>`}).join('');}
+  [0,1].forEach(k=>{const e=$('e'+k),L=+e.getAttribute('stroke-dasharray');const p=ramp(t,at(3,.1+k*.08),SWEEP*.6);e.setAttribute('stroke-dashoffset',L*(1-p));$('h'+k).setAttribute('opacity',p>=.98?1:0);});
+}
+function population(i,t){
+  const appear=at(0,.3), sortA=at(3,.5), leave=at(3,.36), ready=at(4,.08), iso=at(6,.38);
+  const vis=t>=appear?Math.min(1,(t-appear)/BASE):0;
+  const ps=t>=sortA?ramp(t,sortA,SWEEP):0;
+  const fs=starts[5],fe=starts[5]+D.cards[5].dur;
+  const popO=t<fs?1:t<fs+SHUT?1-(t-fs)/SHUT:t<fe?0:Math.min(1,(t-fe)/SHUT);
+  $('pop').style.opacity=popO;$('legend').style.opacity=popO;
+  dots.forEach((d,j)=>{const el=d.el;const [px,py]=pile(d.slot);let x=px,y=py,w=40,h=10,o=vis,bg='var(--border)',bd='none',clip='none';
+    const hero=d.a&&d.a.id==='doc-gate-false-positive-cleanup', blk=d.a&&d.a.id==='doc-gates-blocking';
+    if(hero&&i>=1){bg='var(--cyan)';}
+    if(!d.a){const lp=t>=leave?ramp(t,leave,BASE*3):0;y+=lp*40;o*=1-lp;}
+    else{const [wx,wy]=wavePos(d.a,order[j]);x=lerp(px,wx,ps);y=lerp(py,wy,ps);w=lerp(40,12,ps);h=lerp(10,12,ps);
+      if(blk&&t>=at(3,.82)){bg='var(--text)';}
+      if(d.a.r&&t>=ready){bg=hero?'var(--cyan)':'var(--green)';clip='polygon(50% 0,100% 100%,0 100%)';}
+      if(d.a.iso&&!d.a.r&&t>=iso){bg='transparent';bd='2px solid var(--gold)';}}
+    el.style.transform=`translate(${x}px,${y}px)`;el.style.width=w+'px';el.style.height=h+'px';el.style.opacity=o;el.style.background=bg;el.style.border=bd;el.style.clipPath=clip;el.style.boxSizing='border-box';
+    if(hero)el.style.zIndex=3;});
+  axes.forEach(a=>a.style.opacity=ps>.9?1:0);
+  show($('lg1'),t,ready);$('lg1').style.opacity=t>=ready?1:0;$('lg2').style.opacity=t>=iso?1:0;
+}
+window.DURATION=DURATION;window.seek=seek;seek(0);
+</script></body></html>

@@ -1,8 +1,8 @@
 {
  "version": "0.1.0",
- "epoch": null,
- "as_of_sha": null,
- "as_of_date": null,
+ "epoch": 1,
+ "as_of_sha": "286a9dad2b60f3cac5e4a5294dcdb04836a23103",
+ "as_of_date": "2026-11-01",
  "id": "law",
  "label": "ARCS Law C = αA − β(S−S_min)² + γW",
  "parent": "universe",
@@ -17,10 +17,10 @@
    "lib": 0.333
   },
   "frequency": {
-   "file_commits": 3,
-   "active_days": 2,
-   "last_change": "2026-08-28",
-   "last_28d": 1
+   "file_commits": 6,
+   "active_days": 3,
+   "last_change": "2026-10-17",
+   "last_28d": 3
   }
  },
  "dimensions": {

@@ -8,11 +8,14 @@ Usage:
   python3 scripts/blog_render.py <post.md> <out.html>             # render and write
   python3 scripts/blog_render.py --dry-run <post.md> <out.html>   # render, report size, write nothing
   python3 scripts/blog_render.py --self-test                      # argv contract on synthetic input
+  python3 scripts/blog_render.py <post.md> [<out.html>] --tune OUT.html       # internal copy with the live editor
+  python3 scripts/blog_render.py <post.md> [<out.html>] --apply EXPORT [...]  # text edits back to post.md, then rebuild
+  (the post page declares no tuner tokens, so slider moves have no sink and are refused by name)
 """
 import argparse
 import hashlib
 import html as h
-import re, sys
+import os, re, sys
 from pathlib import Path
 
 # Omakase / Louisville variant of the FieldOS design system (public/omakase/index.html tokens).
@@ -21,6 +24,13 @@ TOKENS = {"bg": "#020408", "surface": "#0d1117", "border": "#1e293b", "text": "#
           "muted": "#94a3b8", "dimmed": "#8593a6", "cyan": "#00F0FF", "green": "#00FF9D",
           "gold": "#FFD700", "red": "#FF4D6D", "verm": "#ff9d3c"}
 
+
+
+def _pt():
+    """page_tune, imported only for --tune/--apply (the self-test runs a lone copy of this script, without it)."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import page_tune
+    return page_tune
 
 def inline(s: str) -> str:
     # preserve authored <a href> anchors; escape everything else
@@ -301,11 +311,21 @@ def main(argv=None) -> int:
     ap.add_argument("dst", nargs="?", help="output .html")
     ap.add_argument("--dry-run", action="store_true", help="render in memory and report; write nothing")
     ap.add_argument("--self-test", action="store_true", help="assert the argv contract on synthetic input")
+    ap.add_argument("--tune", metavar="OUT.html", help="internal copy with the live editor inlined; refuses public/")
+    ap.add_argument("--apply", nargs="+", metavar="EXPORT", help="write the editor's exports back to the source, then rebuild")
+    ap.add_argument("--version", type=int, help="with --apply on an Export versions file: that version, not the latest")
     args = ap.parse_args(sys.argv[1:] if argv is None else argv)
     if args.self_test:
         if args.src or args.dst:
             ap.error("--self-test takes no paths")
         return self_test()
+    if args.src and args.tune:
+        _pt().tune_write(build(Path(args.src), Path(args.dst or args.tune)), args.tune)
+        return 0
+    if args.src and args.apply:
+        _pt().apply(args.apply, [("text", args.src)], version=args.version)
+        if not args.dst:
+            return 0
     if not (args.src and args.dst):
         ap.error("both <post.md> and <out.html> are required")
     src, dst = Path(args.src), Path(args.dst)

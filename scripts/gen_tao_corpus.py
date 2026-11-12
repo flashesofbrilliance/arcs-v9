@@ -15,7 +15,7 @@ OUT = os.path.join(ROOT, "_ARTIFACTS/arcs-tao-corpus.html")
 ASPECTS = ["D", "R", "W", "C", "H"]
 VERBS = ["analyze", "assess", "evaluate", "synthesize", "recapitulate"]
 ASPECT_NAME = {"D": "Decision", "R": "Risk / Ruin", "W": "Window", "C": "Clarity", "H": "Horizon"}
-ACOLOR = {"D": "#00F0FF", "R": "#FF4D6D", "W": "#FFD700", "C": "#00FF9D", "H": "#A78BFA", "~": "#64748b"}
+ACOLOR = {"D": "#00F0FF", "R": "#FF4D6D", "W": "#FFD700", "C": "#00FF9D", "H": "#A78BFA", "~": "#8391a7"}
 E = lambda s: html.escape(str(s), quote=True)
 
 d = json.load(open(SSOT))
@@ -30,9 +30,9 @@ def sort_key(p):
 cards = []
 for p in sorted(ps, key=sort_key):
     a = p.get("aspect", "~"); v = p.get("verb", "~"); src = p.get("source", "")
-    col = ACOLOR.get(a, "#64748b")
+    col = ACOLOR.get(a, "#8391a7")
     meta = " &middot; ".join(x for x in [
-        (f'<b style="color:{col}">{E(a)}</b>' if a != "~" else '<b style="color:#64748b">founding</b>'),
+        (f'<b style="color:{col}">{E(a)}</b>' if a != "~" else '<b style="color:#8391a7">founding</b>'),
         (E(v) if v != "~" else ""), E(src)] if x)
     cards.append(
         f'<article class="pcard" data-aspect="{E(a)}" data-verb="{E(v)}" data-source="{E(src)}" '
@@ -50,7 +50,12 @@ srcs = sorted({p.get("source", "") for p in ps if re.match(r"^ADR-\d+$", p.get("
               key=lambda s: int(re.search(r"\d+", s).group()))
 sopts = '<option value="">all sources</option>' + "".join(f'<option value="{s}">{s}</option>' for s in srcs)
 
-page = f'''<style>
+page = f'''<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tao corpus</title>
+<style>
   :root{{--bg:#020408;--panel:#0d1117;--elevated:#111827;--border:#1e293b;--text:#e2e8f0;
     --sec:#94a3b8;--dim:#8391a7;--mut:#7a8699;--cyan:#00F0FF;--gold:#FFD700;
     --mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;
@@ -62,7 +67,7 @@ page = f'''<style>
   .wrap{{max-width:1180px;margin:0 auto;padding:0 1.25rem 6rem}}
 
   .deck{{position:sticky;top:0;z-index:40;background:rgba(2,4,8,.94);backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--border);margin:0 -1.25rem 2rem;padding:.75rem 1.25rem}}
+    border-bottom:1px solid var(--border);margin:0 0 2rem;padding:.75rem 1.25rem}}
   .deck-in{{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .8rem}}
   .wordmark{{font-family:var(--mono);font-size:.6875rem;font-weight:700;letter-spacing:.24em;color:var(--text)}}
   .wordmark b{{color:var(--cyan)}}
@@ -80,13 +85,13 @@ page = f'''<style>
 
   header{{padding:3.2rem 0 .4rem}}
   .mark{{font-size:1.5rem;color:var(--gold)}}
-  h1{{font-family:var(--serif);font-size:clamp(1.5rem,4vw,2.1rem);font-weight:500;margin:.8rem 0 .3rem;letter-spacing:-.02em}}
-  .sub{{font-size:.88rem;color:var(--sec);max-width:60ch;margin:0}}
+  h1{{font-family:var(--serif);font-size:clamp(1.5rem,4vw,2.1rem);font-weight:500;margin:.8rem 0 .3rem;letter-spacing:-.02em;color:var(--text)}}
+  .sub{{font-size:.88rem;color:var(--sec);max-width:none;margin:0}}
 
   .grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem;margin-top:1.5rem}}
   .pcard{{position:relative;background:var(--panel);border:1px solid var(--border);border-radius:8px;
     padding:1.3rem 1.25rem 1rem;overflow:hidden;display:flex;flex-direction:column;min-height:130px}}
-  .pcard::after{{content:'';position:absolute;left:0;right:0;top:0;height:3px;background:var(--ac);opacity:.85}}
+  .pcard::after{{content:'';position:absolute;left:-1px;top:-1px;width:10px;height:10px;border-top:2px solid var(--ac);border-left:2px solid var(--ac);border-top-left-radius:8px}}
   .ptext{{font-family:var(--serif);font-size:1.02rem;line-height:1.36;color:var(--text);margin:0 0 auto;text-wrap:pretty}}
   .pmeta{{font-family:var(--mono);font-size:.6875rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:.9rem}}
   .pmeta b{{font-weight:700}}

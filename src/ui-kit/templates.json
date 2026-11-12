@@ -5,39 +5,79 @@
       "mode": "operate",
       "kind": "instrument-dashboard",
       "description": "War-room / counterpart brief assembled from the numbered recoil-report primitives (01-14). The kit's home family.",
-      "canonical_examples": ["src/ui-kit/recoil-report/index.html", "src/ui-kit/recoil-report/03-entity-card.html"],
-      "signature_selectors": ["dsCard", ".recoil-header", ".entity-card", ".prob-track", ".arc-node", ".beat-", ".section-label"],
+      "canonical_examples": [
+        "src/ui-kit/recoil-report/index.html",
+        "src/ui-kit/recoil-report/03-entity-card.html"
+      ],
+      "signature_selectors": [
+        "dsCard",
+        ".recoil-header",
+        ".entity-card",
+        ".prob-track",
+        ".arc-node",
+        ".beat-",
+        ".section-label"
+      ],
       "min_signatures": 2
     },
     "scan-hud": {
       "mode": "operate",
       "kind": "instrument-dashboard",
       "description": "Profile / target-role scan rendered as flight instrumentation (mast + telemetry band + dual-channel comparator + evidence ledger). @media print flattens to a light framed sheet.",
-      "canonical_examples": ["_ARTIFACTS/profile-scan-hud.html"],
-      "signature_selectors": [".mast", ".telemetry", ".comparator", ".ledger", ".thread", ".led", ".sec-hd"],
+      "canonical_examples": [
+        "_ARTIFACTS/profile-scan-hud.html"
+      ],
+      "signature_selectors": [
+        ".mast",
+        ".telemetry",
+        ".comparator",
+        ".ledger",
+        ".thread",
+        ".led",
+        ".sec-hd"
+      ],
       "min_signatures": 3
     },
     "candidate-brief": {
       "mode": "persuade",
       "kind": "persuasion-surface",
       "description": "Discovery-led candidate / counterpart brief: verdict -> pursue-score meter -> reasons -> buyer Q&A. squad.html and success-academy.html are the near-identical reference clones.",
-      "canonical_examples": ["public/success-academy.html", "public/squad.html"],
-      "signature_selectors": [".verdict", ".scorebar", ".slabel", ".stamp", ".scoremeta"],
+      "canonical_examples": [
+        "public/success-academy.html",
+        "public/squad.html"
+      ],
+      "signature_selectors": [
+        ".verdict",
+        ".scorebar",
+        ".slabel",
+        ".stamp",
+        ".scoremeta"
+      ],
       "min_signatures": 2
     },
     "nftt-essay": {
       "mode": "essay",
       "kind": "editorial-longform",
       "description": "Notes-from-the-Trenches literary essay at good.arcs.care/blog/nftt/<slug>. Hero + standfirst + tracked-caps section labels + numbered movements. NOTE: this family has a sanctioned self-authored-under-canonical-names token path (token_source_gate blog-nftt-* exemption); enrolling it in component-source is a later, separate step (see README migration plan).",
-      "canonical_examples": ["public/blog-nftt-the-loop-closes.html"],
-      "signature_selectors": [".hero", ".standfirst", ".eyebrow", ".step"],
+      "canonical_examples": [
+        "public/blog-nftt-the-loop-closes.html"
+      ],
+      "signature_selectors": [
+        ".hero",
+        ".standfirst",
+        ".eyebrow",
+        ".step"
+      ],
       "min_signatures": 2
     },
     "resume-print": {
       "mode": "resume",
       "kind": "print-paper",
       "description": "Designed resume / CV print sheet (often a NOT-A-PALETTE light/paper surface). Signature selectors are intentionally empty until the first resume is enrolled and its shared class vocabulary is verified, so the gate checks only the tokens+mode binding for now and never false-fails on an unverified signature. Finalize signatures when enrolling the first resume (see README migration plan).",
-      "canonical_examples": ["public/vico-resume.html", "public/squad-resume.html"],
+      "canonical_examples": [
+        "public/vico-resume.html",
+        "public/squad-resume.html"
+      ],
       "signature_selectors": [],
       "min_signatures": 0
     },
@@ -45,9 +85,196 @@
       "mode": "operate",
       "kind": "instrument-explainer",
       "description": "One live instrument under a thesis, with deeper altitudes behind closed doors: instrument panel (16), altitude ladder (17), contact sheet (18), gate ladder (19), transport (20). Uses the DESIGN.md conformance tokens in _tokens.css (ds-r, fs, elevated, magenta) so no per-page override layer is needed.",
-      "canonical_examples": ["_ARTIFACTS/raw-capture.html", "src/ui-kit/recoil-report/16-instrument-panel.html"],
-      "signature_selectors": [".inst", ".alt-body", ".gates", ".plug", ".sheet", ".tp", ".kid", ".bb", ".pads", ".sqrow", ".seg", ".rungs"],
+      "canonical_examples": [
+        "_ARTIFACTS/raw-capture.html",
+        "src/ui-kit/recoil-report/16-instrument-panel.html"
+      ],
+      "signature_selectors": [
+        ".inst",
+        ".alt-body",
+        ".gates",
+        ".plug",
+        ".sheet",
+        ".tp",
+        ".kid",
+        ".bb",
+        ".pads",
+        ".sqrow",
+        ".seg",
+        ".rungs"
+      ],
       "min_signatures": 3
+    },
+    "recoil-player": {
+      "mode": "operate",
+      "kind": "instrument-replay",
+      "description": "Plays a recoil report backwards in slow motion or forwards at full recall. Transport (20) with Reverse, tempo as a segmented control (24: slow mo, real time, max recall), detail as a resolution ladder (25: gist, beats, full recall), the beat track as a step sequencer (23), the belief manifold (34) with kairos pins and a synced scrub head, and the backlog graph (35). Data: ./scripts/recoil --data <report.json> --format player, and scripts/backlog_graph.py --json. Shared code: recoil-report/_player.js.",
+      "canonical_examples": [
+        "src/ui-kit/recoil-report/recoil-player.html",
+        "src/ui-kit/recoil-report/34-manifold.html",
+        "src/ui-kit/recoil-report/35-backlog-graph.html"
+      ],
+      "signature_selectors": [
+        ".seg",
+        ".mf-line",
+        ".bg-node",
+        ".chip",
+        ".ref",
+        ".section-label"
+      ],
+      "min_signatures": 4
+    },
+    "kit-specimen": {
+      "mode": "operate",
+      "kind": "reference-page",
+      "description": "The standard page for one ui-kit building block (atom, molecule, organism, lockup or template): head, live stage, states, anatomy, usage, data, access, relations, gates, always in that order. Generated by scripts/kit_specimen.py from a spec in src/ui-kit/specimens/; never hand-edited.",
+      "canonical_examples": [
+        "src/ui-kit/recoil-report/36-change.html"
+      ],
+      "signature_selectors": [
+        "sp-head",
+        "sp-stage",
+        "sp-states",
+        "sp-anatomy",
+        "sp-usage",
+        "sp-data",
+        "sp-access",
+        "sp-relations",
+        "sp-gates"
+      ],
+      "min_signatures": 9
+    },
+    "tool-getting-started": {
+      "mode": "read",
+      "kind": "tool explainer",
+      "description": "Getting-started page for one open tool on good.arcs.care: eyebrow, outcome headline, grammar chips (proven / honest / limit), how it works, copy-ready install and output blocks, rules panels, dated measurement stats, not-proven list, and a For agents section linking the page's own llms.txt and AGENTS.md. Each tool wears one non-signal swatch, --tool-accent, declared in a second :root block and used for structure only (never text, never a signal meaning).",
+      "canonical_examples": [
+        "public/good-rfp-engine.html"
+      ],
+      "signature_selectors": [
+        ".g-chip",
+        ".eyebrow",
+        ".rules",
+        ".stats",
+        ".panel"
+      ],
+      "min_signatures": 3
+    },
+    "counterpart-onepager": {
+      "mode": "persuade",
+      "kind": "persuasion-surface",
+      "description": "Cold or warm proposal one-pager for one counterpart: offer hero (title, serif verdict, aside, kit 29 tiles, kit 28 chip), a case switcher on the real decision (kit 24 segmented control driving panels, pure CSS), a heard/check paired-row grid, a sans-value receipt table (08 adapted), one ask (kit 31 callout), a depth checklist, kit 39 theme toggle. Built only by scripts/counterpart_onepager_build.py from a data file in _ARTIFACTS/counterpart-onepager/; never hand-edited. Lockup, heard/check grid, case switcher, sans receipt table and depth checklist are candidates until a second page needs them.",
+      "canonical_examples": [
+        "_ARTIFACTS/brooks-audit-onepager.html"
+      ],
+      "data_example": "_ARTIFACTS/counterpart-onepager/brooks.json",
+      "generator": "scripts/counterpart_onepager_build.py",
+      "signature_selectors": [
+        ".lockup",
+        ".hgrid",
+        ".seg-wrap",
+        ".receipt-table",
+        ".tiles",
+        ".callout",
+        "details.depth",
+        ".themebtn"
+      ],
+      "min_signatures": 5
+    },
+    "tool-index": {
+      "mode": "read",
+      "kind": "catalog",
+      "description": "Hub page that lists tools as cards linking out, grouped under one section label per stated maturity. Wears no --tool-accent: a hub carries no tool swatch. public/good.html (rendered by scripts/connector_render.py) shares the same card grammar, which is the second page the fork rule requires.",
+      "canonical_examples": [
+        "public/good-instruments.html"
+      ],
+      "signature_selectors": [
+        ".sec-lbl",
+        ".cards",
+        ".card",
+        ".cbar",
+        ".cbody",
+        ".chead",
+        ".cname",
+        ".cfoot"
+      ],
+      "min_signatures": 4
+    },
+    "precall-brief": {
+      "mode": "operate",
+      "kind": "instrument-dashboard",
+      "description": "Private pre-call prep page for one call: pinned freeze note, a one-column cockpit in stop-loss order (Tripwires, Ask first, Decide go/stop, Say; each item a headline, lede, bullets and a Details jump to a card), four lanes in call order (Before, Opening, Interview, Debrief; the current phase opens first), foldable cards with paired-row unfold, evidence-only chips (STATED, JUDGMENT, UNVERIFIED), an ex-ante predictions table with a Basis column and a Brier score, one disclosure component (.disc), dark-first with a light toggle. The tripwire, ask-first and go/stop sections are the identity-verification layer and are required by the schema. Built only by scripts/precall_brief_build.py from page.tpl plus a data file valid against brief.schema.json; never hand-edited. Real briefs name real people and stay private (data in _ARTIFACTS/precall-brief/private/, gitignored).",
+      "canonical_examples": [
+        "_ARTIFACTS/precall-brief/example.html"
+      ],
+      "data_example": "_ARTIFACTS/precall-brief/example.json",
+      "schema": "src/ui-kit/precall-brief/brief.schema.json",
+      "generator": "scripts/precall_brief_build.py",
+      "skill": ".claude/skills/precall-page/SKILL.md",
+      "signature_selectors": [
+        ".cockpit",
+        ".csec",
+        ".citem",
+        ".disc",
+        ".lane-head",
+        ".card-sum",
+        ".chip",
+        ".pinned",
+        "#brief-data"
+      ],
+      "min_signatures": 6
+    },
+    "tabbed-brief": {
+      "mode": "persuade",
+      "kind": "persuasion-surface",
+      "description": "Tabbed counterpart brief generated from data by scripts/tabbed_brief_build.py (schema src/ui-kit/tabbed-brief/brief.schema.json): kit 38 wordmark and kit 51 display preferences, a framed document with a meta strip, kit 42 shell nav (tabs from 1024px, dropdown below), a hero (headline, lede, next step, one action row), kit 45 fact tiles, fold sections, and one role tab per option with kit 52 plan matrix, fact tables, cards and kit 31 callouts. Template layer: src/ui-kit/tabbed-brief/shell.css and shell.js. Never hand-edited.",
+      "canonical_examples": [
+        "public/gravity-brief.html"
+      ],
+      "signature_selectors": [
+        ".shnav",
+        ".tb-meta",
+        ".ftiles",
+        ".tb-fold",
+        ".pm"
+      ],
+      "min_signatures": 3
+    },
+    "recoil-skim": {
+      "mode": "operate",
+      "kind": "instrument-dashboard",
+      "description": "Post-call recoil read skim first (arc weld spec 4.1, _PROPOSALS/2026-11-11-recoil-call-service-arc-weld.md): a header (eyebrow, title, lede, Y state and NCI chips), one glance ledger whose first row is the next move (kit 24 segmented control and 30 buttons; nothing is sent from the page), then kit 56 folds in groups (Decide, Evidence, System, Method) whose summaries state their verdict, holding kit 57 ledger rows, 59 claim checks, 60 heat takes, 61 options, 62 attributed notes, 63 operator passes and 64 kintsugi seams, with one 58 toast for the standing guard. Label step 12px; colour has one meaning; grade D and unscored items render grain with no motion.",
+      "canonical_examples": [
+        "_ARTIFACTS/recoil-brian-2026-11-11.html"
+      ],
+      "signature_selectors": [
+        ".fold-verdict",
+        ".ledger-row",
+        ".claim-v",
+        ".take-text",
+        ".option-name",
+        ".note-panel",
+        ".pass-v",
+        ".seam-rows",
+        ".toast-msg"
+      ],
+      "min_signatures": 5
+    },
+    "recoil-twin": {
+      "mode": "persuade",
+      "kind": "persuasion-surface",
+      "description": "Counterpart twin of a war-room report, generated by scripts/recoil_brief.py (layout stack; scripts/recoil_ext_build.sh) from the SSOT with audience 'both' content only. The tabbed-brief frame (kit 38 wordmark, kit 51 reading options with the kit 39 theme switch, kit 42 nav as section links that fold into a menu below 1024px) around a header card and numbered sections in one scroll, the war-room look of 2026-11-11. Never hand-edited.",
+      "canonical_examples": [
+        "public/recoil-ext/2026-10-29-gasmi.html"
+      ],
+      "signature_selectors": [
+        ".shnav",
+        ".dprefs",
+        ".hd-card",
+        ".sec-hd",
+        ".sec-body"
+      ],
+      "min_signatures": 5
     }
   }
 }

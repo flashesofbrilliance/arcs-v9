@@ -1,0 +1,106 @@
+{
+  "number": "50",
+  "name": "Term Definition",
+  "slug": "term-definition",
+  "layer": "Molecule",
+  "job": "Let a reader who does not know a word see its plain meaning in place, on hover, focus or tap, with a link to the full glossary entry.",
+  "anatomy": [
+    {
+      "part": "Term",
+      "role": "Inline `<button>` styled as text, dotted underline; solid and cyan when open",
+      "token": "`text`, open `cyan`"
+    },
+    {
+      "part": "Tip",
+      "role": "Below the term (above when there is no room), at most 280px and never wider than its container or the viewport",
+      "token": "`surface`, `border`, `ds-r-sm`"
+    },
+    {
+      "part": "Definition",
+      "role": "Bold term then one or two plain sentences, 0.9rem",
+      "token": "`text`"
+    },
+    {
+      "part": "Glossary link",
+      "role": "`Full entry` link, 600, at least 32px tall",
+      "token": "`cyan`"
+    }
+  ],
+  "states": [
+    {
+      "name": "Closed",
+      "args": [
+        false
+      ],
+      "note": "Dotted underline only; the definition is already the button's description."
+    },
+    {
+      "name": "Open",
+      "args": [
+        true
+      ],
+      "note": "Hover or focus shows it; a tap pins it until a tap elsewhere or Escape."
+    }
+  ],
+  "use_when": [
+    "Client pages where a term of art (MVP, scope, discovery) would stop a non-technical reader.",
+    "Define it once per section; later uses can stay plain."
+  ],
+  "avoid_when": [
+    "Do not put a definition on every repeat of a word, or on words a general reader knows.",
+    "Do not put actions other than the glossary link in the tip."
+  ],
+  "data": [
+    {
+      "field": "term",
+      "type": "string",
+      "required": true,
+      "note": "The word as it appears in the sentence."
+    },
+    {
+      "field": "def",
+      "type": "string",
+      "required": true,
+      "note": "One or two plain sentences."
+    },
+    {
+      "field": "href",
+      "type": "string",
+      "required": false,
+      "note": "The full glossary entry, such as `#glossary-mvp`."
+    }
+  ],
+  "access": [
+    "The term is a `<button>` with `aria-describedby` pointing at the tip, so screen readers read the definition on focus even while it is hidden, and `aria-expanded` for its open state.",
+    "Escape closes the tip and keeps focus on the term; a tap pins it; a tap elsewhere closes it.",
+    "JS keeps the tip inside its container and the viewport, flipping it above when there is no room below.",
+    "Rem sizes; roomy spacing raises its line height to 1.8."
+  ],
+  "built_from": [
+    {
+      "name": "Kit tokens (atoms)",
+      "href": "_tokens.css"
+    },
+    {
+      "name": "Light remap (_tokens-light.css)",
+      "href": "_tokens-light.css"
+    }
+  ],
+  "used_by": [
+    {
+      "name": "Approved My Ally Step 1 template (public/myally-hub.html, PR 2094)"
+    }
+  ],
+  "gates": [
+    "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+    "`kit_primitive_sync.py --check` (in scripts): every page that marks this block carries it unchanged.",
+    "`scripts/token_source_gate.py`, `scripts/component_source_gate.py` and `scripts/artifact_wrap_lint.py` on this page.",
+    "Reading-options check: 375 and 1280, light and dark, largest text size, roomy spacing and the easy-read font."
+  ],
+  "links": [
+    "_tokens-light.css",
+    "_kit-sr.css"
+  ],
+  "css": "/* @prim:begin 50-term-definition */\n.term{position:relative;display:inline}\n.term-b{all:unset;display:inline;cursor:pointer;text-decoration:underline dotted;text-decoration-color:color-mix(in srgb,currentColor 55%,transparent);text-underline-offset:3px;border-radius:var(--ds-r-xs)}\n.term-b:hover,.term-b[aria-expanded=\"true\"]{color:var(--cyan);text-decoration-style:solid;text-decoration-color:currentColor}\n.term-b:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}\n.term-tip{position:absolute;z-index:5;left:0;top:calc(100% + 6px);width:max-content;max-width:min(280px,calc(100vw - 48px));background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:var(--ds-r-sm);padding:10px 12px;box-shadow:0 2px 8px rgba(0,0,0,.14);font-size:.9rem;line-height:1.45;font-weight:400;text-align:left;white-space:normal;text-transform:none;letter-spacing:normal}\n.term-tip[hidden]{display:none}\n.term-tip.up{top:auto;bottom:calc(100% + 6px)}\n.term-tip b{display:block;margin:0 0 2px}\n.term-go{display:inline-flex;align-items:center;min-height:32px;margin-top:4px;color:var(--cyan);font-weight:600;text-underline-offset:3px}\n.term-go:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}\n[data-space=\"roomy\"] .term-tip{line-height:1.8}\n/* @prim:end 50-term-definition */\n",
+  "demo": "var KI={dl:'<path d=\"M8 2.5v7.5M4.75 7 8 10.25 11.25 7M3 13.5h10\"/>',ext:'<path d=\"M9 2.5h4.5V7M13.5 2.5 7.5 8.5M11.5 9.5v3a1 1 0 01-1 1h-7a1 1 0 01-1-1v-7a1 1 0 011-1h3\"/>',cal:'<rect x=\"2.5\" y=\"3.5\" width=\"11\" height=\"10\" rx=\"1.5\"/><path d=\"M2.5 6.5h11M5.5 2v3M10.5 2v3\"/>',chev:'<path d=\"M4.5 6.5 8 10l3.5-3.5\"/>',right:'<path d=\"M6 3.5 10.5 8 6 12.5\"/>',x:'<path d=\"M4 4l8 8M12 4l-8 8\"/>'};\nfunction kIcon(k){return '<svg viewBox=\"0 0 16 16\" aria-hidden=\"true\" focusable=\"false\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\">'+KI[k]+'</svg>';}\nfunction kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar TD={term:'MVP',def:'Minimum viable product: the smallest working version that proves the idea with real users.',href:'#glossary-mvp'};\nvar tdN=0;function kitTerm(d){var u='td'+(++tdN);return '<span class=\"term\"><button type=\"button\" class=\"term-b\" aria-expanded=\"false\" aria-describedby=\"'+u+'\">'+kEsc(d.term)+'</button><span class=\"term-tip\" id=\"'+u+'\" role=\"tooltip\" hidden><b>'+kEsc(d.term)+'</b>'+kEsc(d.def)+(d.href?' <a class=\"term-go\" href=\"'+kEsc(d.href)+'\">Full entry</a>':'')+'</span></span>';}\nfunction kitTermWire(root){var pin=null,quiet=false;function show(b,on){var t=b.nextElementSibling;t.hidden=!on;b.setAttribute('aria-expanded',String(on));if(!on)return;t.style.left='0px';t.classList.remove('up');var box=(b.closest('[data-term-box]')||document.documentElement).getBoundingClientRect(),vw=document.documentElement.clientWidth,L=Math.max(box.left,0)+8,R=Math.min(box.right,vw)-8,r=t.getBoundingClientRect();if(r.right>R)t.style.left=(R-r.right)+'px';r=t.getBoundingClientRect();if(r.left<L)t.style.left=(parseFloat(t.style.left)+L-r.left)+'px';if(r.bottom>innerHeight-4&&b.getBoundingClientRect().top-r.height-6>=4)t.classList.add('up');}\nfunction off(){root.querySelectorAll('.term-b[aria-expanded=\"true\"]').forEach(function(b){show(b,false);});pin=null;}\nroot.addEventListener('mouseover',function(e){var w=e.target.closest('.term');if(w&&!pin)show(w.querySelector('.term-b'),true);});root.addEventListener('mouseout',function(e){var w=e.target.closest('.term');if(w&&!pin&&!w.contains(e.relatedTarget))show(w.querySelector('.term-b'),false);});\nroot.addEventListener('focusin',function(e){var b=e.target.closest('.term-b');if(b&&!pin&&!quiet)show(b,true);});root.addEventListener('focusout',function(e){var w=e.target.closest('.term');if(w&&!pin&&!w.contains(e.relatedTarget))show(w.querySelector('.term-b'),false);});\nroot.addEventListener('keydown',function(e){if(e.key!=='Escape')return;var b=pin||root.querySelector('.term-b[aria-expanded=\"true\"]');if(!b)return;e.preventDefault();off();quiet=true;b.focus();quiet=false;});\nroot.addEventListener('click',function(e){var b=e.target.closest('.term-b');if(b){if(pin===b)off();else{off();pin=b;show(b,true);}return;}if(pin&&!e.target.closest('.term'))off();});return show;}\nvar stg=kSlot();stg.setAttribute('data-term-box','');stg.innerHTML='<p style=\"margin:0 0 9rem\">Step 1 ends with a scoped '+kitTerm(TD)+' plan you can take to any builder.</p>';var tdShow=kitTermWire(document.body);\nSTATES.forEach(function(s,i){var el=kSlot(i);el.setAttribute('data-term-box','');el.innerHTML='<p'+(s[0]?' style=\"margin:0 0 8rem\"':'')+'>A scoped '+kitTerm(TD)+' plan.</p>';if(s[0]){var b=el.querySelector('.term-b');requestAnimationFrame(function(){tdShow(b,true);});}});\n"
+}

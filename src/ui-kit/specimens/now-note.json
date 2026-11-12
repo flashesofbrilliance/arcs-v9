@@ -1,0 +1,117 @@
+{
+  "number": "47",
+  "name": "Now Note",
+  "slug": "now-note",
+  "layer": "Molecule",
+  "job": "Tell the reader, in one sentence at the top, what to do now, and let them dismiss it once read; a changed note comes back.",
+  "anatomy": [
+    {
+      "part": "Box",
+      "role": "Bordered row, pill left, sentence, X right",
+      "token": "`surface`, `border`, `ds-r-md`"
+    },
+    {
+      "part": "Pill",
+      "role": "Dot plus `Now`, caps, 0.75em; hidden from screen readers (a hidden `Now: ` prefix reads instead)",
+      "token": "`green` on `green-bg`"
+    },
+    {
+      "part": "Sentence",
+      "role": "Bold lead clause then the action; one sentence",
+      "token": "`text`"
+    },
+    {
+      "part": "Dismiss",
+      "role": "44px X, SVG, top-right",
+      "token": "`text-secondary`, hover `text` on `cyan-bg`"
+    },
+    {
+      "part": "Memory",
+      "role": "localStorage key = prefix plus a hash of the note text, wrapped in try/catch",
+      "token": "none"
+    }
+  ],
+  "states": [
+    {
+      "name": "Shown",
+      "args": [
+        "shown"
+      ],
+      "note": "First visit, or the text changed since the last dismissal."
+    },
+    {
+      "name": "Dismissed",
+      "args": [
+        "dismissed"
+      ],
+      "note": "Hidden on this device for this exact text; focus moved to the next useful control."
+    }
+  ],
+  "use_when": [
+    "Above the fold, to lead with the reader's next action (`Start with the agreement...`), not a link back to a tab they already saw.",
+    "The note changes as the work moves; hashing the text means each new note shows once even if an older one was dismissed."
+  ],
+  "avoid_when": [
+    "Do not stack more than one note, or use it for status figures (the status strip holds those).",
+    "Do not rely on dismissal for anything important: storage can be blocked, and then the note simply stays."
+  ],
+  "data": [
+    {
+      "field": "lead",
+      "type": "string",
+      "required": true,
+      "note": "The bold clause, such as `Step 1, which you said yes to on November 6.`"
+    },
+    {
+      "field": "text",
+      "type": "string",
+      "required": true,
+      "note": "The action that follows the lead."
+    },
+    {
+      "field": "key",
+      "type": "string",
+      "required": true,
+      "note": "Storage prefix for the page family, such as `myAllyNow`; the hash is appended."
+    },
+    {
+      "field": "focusAfter",
+      "type": "selector",
+      "required": false,
+      "note": "Where focus goes after dismissal (the next control), so it is never lost to the body."
+    }
+  ],
+  "access": [
+    "`role=note`; the pill is `aria-hidden` and a visually hidden `Now: ` prefix carries its meaning.",
+    "The X is a `<button>` named `Dismiss note`, 44px square, with a 2px cyan focus ring.",
+    "After dismissal focus moves to a named next control.",
+    "Storage reads and writes sit in try/catch; with storage blocked the note just stays visible."
+  ],
+  "built_from": [
+    {
+      "name": "Kit tokens (atoms)",
+      "href": "_tokens.css"
+    },
+    {
+      "name": "Light remap (_tokens-light.css)",
+      "href": "_tokens-light.css"
+    }
+  ],
+  "used_by": [
+    {
+      "name": "Approved My Ally Step 1 template (public/myally-hub.html, PR 2094)"
+    }
+  ],
+  "gates": [
+    "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+    "`kit_primitive_sync.py --check` (in scripts): every page that marks this block carries it unchanged.",
+    "`scripts/token_source_gate.py`, `scripts/component_source_gate.py` and `scripts/artifact_wrap_lint.py` on this page.",
+    "Reading-options check: 375 and 1280, light and dark, largest text size, roomy spacing and the easy-read font."
+  ],
+  "links": [
+    "_tokens-light.css",
+    "_kit-sr.css"
+  ],
+  "css": "/* @prim:begin 47-now-note */\n.nnote{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border:1px solid var(--border);border-radius:var(--ds-r-md);background:var(--surface);color:var(--text)}\n.nnote[hidden]{display:none}\n.nnote p{flex:1 1 auto;min-width:0;align-self:center;margin:0;line-height:1.5}\n.nnote-pill{display:inline-flex;align-items:center;gap:6px;flex:none;margin-top:2px;padding:3px 10px;border-radius:var(--ds-r-pill);font-size:.75em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;line-height:1.4;white-space:nowrap;color:var(--green);background:var(--green-bg)}\n.nnote-pill::before{content:\"\";width:6px;height:6px;border-radius:50%;background:currentColor}\n.nnote-x{flex:none;display:grid;place-items:center;width:44px;height:44px;margin:-10px -10px -10px 0;border:0;border-radius:var(--ds-r-sm);background:none;color:var(--text-secondary);cursor:pointer}\n.nnote-x svg{width:1rem;height:1rem}\n.nnote-x:hover{color:var(--text);background:var(--cyan-bg)}\n.nnote-x:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}\n/* @prim:end 47-now-note */\n",
+  "demo": "var KI={dl:'<path d=\"M8 2.5v7.5M4.75 7 8 10.25 11.25 7M3 13.5h10\"/>',ext:'<path d=\"M9 2.5h4.5V7M13.5 2.5 7.5 8.5M11.5 9.5v3a1 1 0 01-1 1h-7a1 1 0 01-1-1v-7a1 1 0 011-1h3\"/>',cal:'<rect x=\"2.5\" y=\"3.5\" width=\"11\" height=\"10\" rx=\"1.5\"/><path d=\"M2.5 6.5h11M5.5 2v3M10.5 2v3\"/>',chev:'<path d=\"M4.5 6.5 8 10l3.5-3.5\"/>',right:'<path d=\"M6 3.5 10.5 8 6 12.5\"/>',x:'<path d=\"M4 4l8 8M12 4l-8 8\"/>'};\nfunction kIcon(k){return '<svg viewBox=\"0 0 16 16\" aria-hidden=\"true\" focusable=\"false\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\">'+KI[k]+'</svg>';}\nfunction kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar NN={lead:'Step 1 starts once the agreement is signed.',text:'Share it with your counsel, and press Discuss with any questions.',key:'arcsKitNow'};\nfunction kitNowNote(host,d,o){o=o||{};var n=document.createElement('div');n.className='nnote';n.setAttribute('role','note');n.innerHTML='<span class=\"nnote-pill\" aria-hidden=\"true\">Now</span><p><span class=\"kit-sr\">Now: </span><strong>'+kEsc(d.lead)+'</strong> '+kEsc(d.text)+'</p>';host.appendChild(n);\nvar k=d.key+':'+Array.from(n.textContent).reduce(function(h,c){return (h*31+c.charCodeAt(0))|0;},7);if(!o.demo){try{if(localStorage.getItem(k)==='1')n.hidden=true;}catch(e){}}\nvar x=document.createElement('button');x.type='button';x.className='nnote-x';x.setAttribute('aria-label','Dismiss note');x.innerHTML=kIcon('x');x.onclick=function(){n.hidden=true;try{localStorage.setItem(k,'1');}catch(e){}var f=o.focusAfter&&document.querySelector(o.focusAfter);if(f)f.focus();};n.appendChild(x);return n;}\nvar stg=kSlot();kitNowNote(stg,NN,{focusAfter:'#nn-reset'});var rb=document.createElement('button');rb.type='button';rb.id='nn-reset';rb.className='nnote-x';rb.style.cssText='width:auto;margin:12px 0 0;padding:0 12px;color:var(--cyan)';rb.textContent='Show the note again';rb.onclick=function(){try{Object.keys(localStorage).forEach(function(k){if(k.indexOf(NN.key+':')===0)localStorage.removeItem(k);});}catch(e){}var n=stg.querySelector('.nnote');if(n)n.hidden=false;};stg.appendChild(rb);\nSTATES.forEach(function(s,i){var el=kSlot(i);if(s[0]==='dismissed'){var p=document.createElement('p');p.style.color='var(--text-secondary)';p.textContent='(nothing renders)';el.appendChild(p);return;}kitNowNote(el,NN,{demo:true});});\n"
+}

@@ -1,0 +1,26 @@
+backlog graph 2026-11-02: 438 rows, 320 active, 13 waves deep
+tools: HAVE 112 · NONE 17 · NOT-RESOLVED 183 · PARTIAL 8
+findings: dangling 0 · dead_dependency 0 · cycle_members 0 · unblocks_mismatch 0
+
+ready now (11): wave 0, startable state, trigger RIPE, no dead or missing dependency
+  agent-receipts-audit-first-conversion        tool HAVE         tier cue 4  unblocks 4
+  rc-ops-001-graduation-ruling                 tool HAVE         tier cue 4  unblocks 2
+  asm-003-cold-molt-decided                    tool HAVE         tier cue 2  unblocks 1
+  rfp-ship-engine-branch-reconcile             tool NOT-RESOLVED tier cue 2  unblocks 7
+  card-catalog-sweep-quorum                    tool HAVE         tier cue 2  unblocks 0
+
+biggest unblockers (descendants), top 5:
+  fc-derisk-budget-guard                       28 downstream  wave 0  HELD
+  fc-node-spike                                27 downstream  wave 1  HELD
+  fc-derisk-wallet-funding                     24 downstream  wave 0  HELD
+  fc-derisk-write-path-probe                   23 downstream  wave 2  HELD
+  fc-derisk-events-probe                       22 downstream  wave 2  HELD
+
+route.tool: 11 rows name a path or command that is not found and not planned (stale), 6 name something the row says it will build, 174 are prose with no path (cannot be matched)
+  anthropic-spend-monitor                      stale: scripts/anthropic_spend.py
+  harness-config-ssot                          stale: scripts/harness_config_drift.py
+  hung-schedule-check                          stale: scripts/hung_schedule_check.py
+  landing-drag-meter                           stale: scripts/landing_drag_meter.py
+  memory-shard-oracle-github-reconcile         stale: scripts/memory_shard_reconcile.py
+
+(PR triggers were not checked; pass --gh to include them)

@@ -13,6 +13,9 @@ description: The induced backlog as a graph: what depends on what, in what order
    - none: the text summary
    - `json`: add `--json`; `dot`: add `--dot` (Graphviz text); `gh`: add `--gh` (also checks PR triggers, slow)
    - `top N`: add `--top N`
+   - `debt`: add `--debt` (open GitHub debt issues become `debt:<id>` nodes; read-only gh call)
+   - `risk` or `tradeoff`: add `--lens risk` or `--lens tradeoff` (each lens stands alone; `--json` carries both)
+   - `sessions`: save the app's session list (`ccd_session_mgmt` list_sessions, `include_archived: true`) as JSON to the scratchpad, then add `--sessions <file>`. Prints the startedBy tree with each session's backlog rows (matched by claimed_by, PR number, or source), their wave, downstream count and upstream waits; unmatched sessions print as gaps. Depth is spawn lineage, not altitude.
 2. Run `python3 scripts/backlog_graph.py [flags]` from your own worktree, not by the main checkout
    path (AGENTS.md gotcha 14).
 3. Show the output as printed. Without `gh`, say that PR-gated triggers were not checked, because the
@@ -43,3 +46,19 @@ description: The induced backlog as a graph: what depends on what, in what order
 The graph is only as good as its edges: many rows carry `unblocks` and few carry `depends_on`, so the
 ordering is shallow outside well-linked chains. Check the tool itself with
 `python3 scripts/backlog_graph.py --self-test` (28 fixtures, no network).
+
+## Adding rows: only through `scripts/backlog_append.py`
+
+Never add a row by rewriting `_QUEUE/induced-backlog.jsonl` (a whole-file write can silently drop lines
+another session added). Put the new rows in a JSONL file and run, from your own worktree:
+
+```
+python3 scripts/backlog_append.py --rows new.jsonl --dry-run   # validate, show graph findings, write nothing
+python3 scripts/backlog_append.py --rows new.jsonl             # append in one write, then show findings and waves
+```
+
+It refuses the whole batch, and changes nothing, if any row is bad JSON, lacks `id`, `state` or `jtbd`, reuses
+an id already in the file or the batch, names a `depends_on` or `unblocks` id that exists in neither, uses a
+state outside `runtime/specs/backlog-status.json`, carries the legacy `status` key, or is RUNNING without a
+claim. Rows also read from stdin. Self-test: `python3 scripts/backlog_append.py --self-test`. Changing an
+existing row is a separate, reviewed edit; this script never touches one.

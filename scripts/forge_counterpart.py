@@ -44,7 +44,7 @@ A = lambda s: str(s).replace("<", "&lt;").replace('"', "&quot;")
 # ---------------------------------------------------------------------------
 TOKENS = """:root{
   --bg:#020408;--surface:#0d1117;--surface2:#0a0f16;--elevated:#111827;--border:#1e293b;
-  --text:#e2e8f0;--muted:#94a3b8;--dimmed:#64748b;
+  --text:#e2e8f0;--muted:#94a3b8;--dimmed:#8391a7;
   --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;
   --cyan-bg:rgba(0,240,255,.07);--green-bg:rgba(0,255,157,.07);--gold-bg:rgba(255,215,0,.07);--red-bg:rgba(255,77,109,.07);
   --r-sm:4px;--r-md:8px;--r-lg:12px;
@@ -302,7 +302,7 @@ def _waveform_svg(wf):
     dots, hits, labels = "", "", ""
     for i, p in enumerate(pts):
         kairos = bool(p.get("kairos"))
-        c = "#00F0FF" if kairos else ("#94a3b8" if p.get("v", 50) >= 55 else "#64748b")
+        c = "#00F0FF" if kairos else ("#94a3b8" if p.get("v", 50) >= 55 else "#8391a7")
         r = 6.5 if kairos else 3.5
         dots += f'<circle cx="{xs[i]:.1f}" cy="{ys[i]:.1f}" r="{r}" fill="{c}" stroke="#020408" stroke-width="1.5"/>'
         hits += (f'<circle class="hit" cx="{xs[i]:.1f}" cy="{ys[i]:.1f}" r="16" fill="transparent" data-tip '
@@ -311,7 +311,7 @@ def _waveform_svg(wf):
             marker = E(wf.get("kairos_marker", "KAIROS"))
             labels += (f'<text x="{xs[i]:.1f}" y="{ys[i]-14:.1f}" text-anchor="middle" fill="#00F0FF" '
                        f'font-family="ui-monospace,monospace" font-size="9.5" letter-spacing="0.05em">{marker}</text>')
-        labels += (f'<text x="{xs[i]:.1f}" y="{H-PB+15:.1f}" text-anchor="middle" fill="#64748b" '
+        labels += (f'<text x="{xs[i]:.1f}" y="{H-PB+15:.1f}" text-anchor="middle" fill="#8391a7" '
                    f'font-family="ui-monospace,monospace" font-size="8">{E(p.get("label", p.get("key","")))}</text>')
     return (f'<div class="manifold"><svg viewBox="0 0 {W} {H}" width="100%" preserveAspectRatio="xMidYMid meet" '
             f'role="img" aria-label="the call over time">'
@@ -1060,11 +1060,11 @@ def _manifold_multi(mf):
         grid += f'<line x1="{dx:.1f}" y1="{top}" x2="{dx:.1f}" y2="{base}" stroke="#1e293b" stroke-width="1" stroke-dasharray="3 4"/>'
     for cl in mf.get("call_labels", []):
         cx = (xs[cl["from"]] + xs[cl["to"]]) / 2
-        grid += (f'<text x="{cx:.1f}" y="20" text-anchor="middle" fill="#64748b" font-family="ui-monospace,monospace" '
+        grid += (f'<text x="{cx:.1f}" y="20" text-anchor="middle" fill="#8391a7" font-family="ui-monospace,monospace" '
                  f'font-size="8.5" letter-spacing="0.1em">{cl["label"]}</text>')
     dots, hits = "", ""
     for i, p in enumerate(pts):
-        c = p.get("color", "#64748b")
+        c = p.get("color", "#8391a7")
         r = p.get("r", 3.2)
         dots += f'<circle cx="{xs[i]:.1f}" cy="{ys[i]:.1f}" r="{r}" fill="{c}" stroke="#020408" stroke-width="1.5"/>'
         tp = p.get("tip", {})
@@ -1338,8 +1338,8 @@ def _trajectory_svg(tj):
             f'<path d="{conv_line}" fill="none" stroke="#FFD700" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>'
             f'<path d="{sync_line}" fill="none" stroke="#00F0FF" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>'
             f'{dots}'
-            f'<text x="{xs[0]:.1f}" y="{H-PB+16:.0f}" text-anchor="start" fill="#64748b" font-family="ui-monospace,monospace" font-size="9" letter-spacing="0.08em">{E(tj.get("t0","T0"))} &#8594;</text>'
-            f'<text x="{xs[-1]:.1f}" y="{H-PB+16:.0f}" text-anchor="end" fill="#64748b" font-family="ui-monospace,monospace" font-size="9" letter-spacing="0.08em">{E(tj.get("tend","TEnd"))}</text>'
+            f'<text x="{xs[0]:.1f}" y="{H-PB+16:.0f}" text-anchor="start" fill="#8391a7" font-family="ui-monospace,monospace" font-size="9" letter-spacing="0.08em">{E(tj.get("t0","T0"))} &#8594;</text>'
+            f'<text x="{xs[-1]:.1f}" y="{H-PB+16:.0f}" text-anchor="end" fill="#8391a7" font-family="ui-monospace,monospace" font-size="9" letter-spacing="0.08em">{E(tj.get("tend","TEnd"))}</text>'
             f'{hits}</svg></div>')
 
 

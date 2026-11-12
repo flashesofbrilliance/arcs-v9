@@ -74,6 +74,31 @@
       "glob": "WORLD.md",
       "class": "ask",
       "why": "The founding document of the world; edits are deliberate (CLAUDE.md orientation)."
+    },
+    {
+      "glob": "public/robin.html",
+      "class": "ask",
+      "why": "PLATINUM MASTER (locked): Robin's four live surfaces are the template every counterpart surface is generated to (.claude/skills/forge/SKILL.md; _PATTERNS/counterpart-artifact-family-blueprint.md section 9). Generate counterparts to it; changing the master is a declared, receipted decision, not a stray edit."
+    },
+    {
+      "glob": "public/robin-profile.html",
+      "class": "ask",
+      "why": "PLATINUM MASTER (locked): Robin's four live surfaces are the template every counterpart surface is generated to (.claude/skills/forge/SKILL.md; _PATTERNS/counterpart-artifact-family-blueprint.md section 9). Generate counterparts to it; changing the master is a declared, receipted decision, not a stray edit."
+    },
+    {
+      "glob": "public/robin-codex.html",
+      "class": "ask",
+      "why": "PLATINUM MASTER (locked): Robin's four live surfaces are the template every counterpart surface is generated to (.claude/skills/forge/SKILL.md; _PATTERNS/counterpart-artifact-family-blueprint.md section 9). Generate counterparts to it; changing the master is a declared, receipted decision, not a stray edit."
+    },
+    {
+      "glob": "public/robin-receipt.html",
+      "class": "ask",
+      "why": "PLATINUM MASTER (locked): Robin's four live surfaces are the template every counterpart surface is generated to (.claude/skills/forge/SKILL.md; _PATTERNS/counterpart-artifact-family-blueprint.md section 9). Generate counterparts to it; changing the master is a declared, receipted decision, not a stray edit."
+    },
+    {
+      "glob": "public/blog-nftt-take-home-trap.html",
+      "class": "ask",
+      "why": "PLATINUM MASTER (locked): the chrome and register reference for every NFTT post (.claude/skills/nftt-story-factory/SKILL.md). Changing it changes the standard; declare it."
     }
   ],
   "escape": "Set CANON_GUARD=off in the environment that launches Claude Code to bypass the guard for a scripted session. It is not a per-file override.",

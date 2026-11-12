@@ -1,0 +1,65 @@
+{
+ "_comment": "Parity of the generated page (scripts/counterpart_onepager_build.py) against the hand-built page it replaced (the copy taken 2026-11-04 15:27 from the contract-work-applied-ai worktree). Full-page Chrome screenshots via Playwright, closed details, colour scheme emulated. diff_pixels counts pixels that differ; the before PNGs were byte-identical to the after PNGs (same sha256), so only the after set is kept.",
+ "results": {
+  "1280-dark": {
+   "size": [
+    1280,
+    3378
+   ],
+   "diff_pixels": 0,
+   "bbox": null,
+   "before_sha256": "e51ec5d8f7397969f58c3645c23ffe850791ae5109b9179dbb1bdcfcd25d55ef",
+   "after_sha256": "e51ec5d8f7397969f58c3645c23ffe850791ae5109b9179dbb1bdcfcd25d55ef"
+  },
+  "790-dark": {
+   "size": [
+    790,
+    3370
+   ],
+   "diff_pixels": 0,
+   "bbox": null,
+   "before_sha256": "74b9f77cf137be7f2ca47a8b91421bdae4cb11d44cb63aebd84e659e1a62e8a6",
+   "after_sha256": "74b9f77cf137be7f2ca47a8b91421bdae4cb11d44cb63aebd84e659e1a62e8a6"
+  },
+  "375-dark": {
+   "size": [
+    375,
+    4413
+   ],
+   "diff_pixels": 0,
+   "bbox": null,
+   "before_sha256": "f885972c9778b7fd3e56bdc3e19ef9b379a73fabb0cb69d377c3b72861ef5ef4",
+   "after_sha256": "f885972c9778b7fd3e56bdc3e19ef9b379a73fabb0cb69d377c3b72861ef5ef4"
+  },
+  "1280-light": {
+   "size": [
+    1280,
+    3378
+   ],
+   "diff_pixels": 0,
+   "bbox": null,
+   "before_sha256": "8492317d420d6b4d24f434dd96eb65ffe51355460fca6ebb8c38eb70e34cf711",
+   "after_sha256": "8492317d420d6b4d24f434dd96eb65ffe51355460fca6ebb8c38eb70e34cf711"
+  },
+  "790-light": {
+   "size": [
+    790,
+    3370
+   ],
+   "diff_pixels": 0,
+   "bbox": null,
+   "before_sha256": "a51abd0699513929511dd7e0be7707602384d0426e3570f962310257a55d5429",
+   "after_sha256": "a51abd0699513929511dd7e0be7707602384d0426e3570f962310257a55d5429"
+  },
+  "375-light": {
+   "size": [
+    375,
+    4413
+   ],
+   "diff_pixels": 0,
+   "bbox": null,
+   "before_sha256": "1d8d08d6e93f655d8c2223b8311187b43d17c4a7af285c34acd1198c921cd404",
+   "after_sha256": "1d8d08d6e93f655d8c2223b8311187b43d17c4a7af285c34acd1198c921cd404"
+  }
+ }
+}

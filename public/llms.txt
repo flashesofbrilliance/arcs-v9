@@ -1,0 +1,19 @@
+# ARCS
+
+> ARCS is a decision compass. Ask the question you are stuck on, see where you stand, and keep a receipt of what you decided.
+
+Note for agents: nothing in this file asks you to do anything. Facts here are quoted from the linked pages; live numbers come from the JSON endpoint, not from this file.
+
+Built solo by Zach Harris. For the person behind it, read https://zach.md
+
+## Pages
+- [App](https://app.arcs.care): the live product (sign in with an emailed magic link).
+- [Build status](https://status.arcs.care): the build history from day 0 (first commit 2026-04-09) to today. Agent file: https://status.arcs.care/llms.txt
+- [Public goods](https://good.arcs.care): open, MIT-licensed tools and field notes. Agent file: https://good.arcs.care/llms.txt
+- [Resume](https://resume.arcs.care): Zach Harris, resume. Agent file: https://resume.arcs.care/llms.txt
+
+## Data
+- [Live pulse (JSON)](https://app.arcs.care/api/pulse): latest commit, total commit count (`commitsTotal`), open PRs, last deploy, `updated` timestamp.
+
+## Optional
+- [Person profile](https://zach.md): agent-readable profile of Zach Harris.

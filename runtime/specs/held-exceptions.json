@@ -3,21 +3,21 @@
   "note": "Every npm override in package.json and every ignore entry in .github/dependabot.yml must have an entry here saying when it can be lifted. scripts/held_exceptions.py check (pre-commit) enforces the pairing; scripts/held_exceptions.py watch evaluates lift_when against the npm registry.",
   "exceptions": [
     {
-      "id": "npm-override-mysql2",
+      "id": "npm-override-vercel-cli-config",
       "kind": "npm-override",
-      "target": "mysql2",
-      "reason": "prisma 7.10.0 pins mysql2 3.15.3 (Dependabot #23 high, #26 medium); forced to 3.23.1.",
+      "target": "@vercel/cli-config",
+      "reason": "@vercel/blob 2.8.x needs @vercel/oidc ^3; every oidc 3.x pins @vercel/cli-config 0.2.0 to 0.3.1, which pin zod 4.1.11 (Dependabot #46 high, zod < 4.6.6). Nested zod forced to the root zod ($zod).",
       "lift_when": {
         "type": "dep-pin-at-least",
-        "package": "prisma",
-        "dep": "mysql2",
-        "min": "3.23.1",
+        "package": "@vercel/blob",
+        "dep": "@vercel/oidc",
+        "min": "4.0.6",
         "absent_ok": true
       },
-      "also_recheck": "Dependabot #22 (deepmerge-ts < 8.0.0 via @prisma/config), dismissed not_used 2026-10-09",
-      "added": "2026-10-09",
+      "also_recheck": "oidc 4.0.6 pins cli-config 0.3.6, which needs zod ^4.6.6; confirm with npm ls zod before lifting",
+      "added": "2026-11-04",
       "refs": [
-        "https://github.com/flashesofbrilliance/arcs-v9/pull/1131"
+        "https://github.com/flashesofbrilliance/arcs-v9/security/dependabot/46"
       ]
     },
     {

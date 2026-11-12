@@ -52,9 +52,7 @@
   "_DECISIONS/ADR-016-arcs-v9-auth-model.md": [
    "commit|663d831",
    "commit|6a5b856",
-   "commit|d732dad",
-   "path|src/app/api/brief/route.ts",
-   "path|src/app/api/guide/route.ts"
+   "commit|d732dad"
   ],
   "_DECISIONS/ADR-019-receipt-core-python-boundary.md": [
    "path|tests/test_receipt_bridge_roundtrip.py",
@@ -86,9 +84,6 @@
   ],
   "_DECISIONS/ADR-040-debrief-calendar-invite-vs-email.md": [
    "commit|eff3d65"
-  ],
-  "_DECISIONS/ADR-045-night-moves-digest-routine.md": [
-   "path|scripts/adr_dewy_watch.py"
   ],
   "_DECISIONS/ADR-049-anonymous-receipt-remediation.md": [
    "commit|8b486e8"
@@ -407,15 +402,12 @@
    "path|runtime/specs/routing-manifest.json",
    "path|runtime/specs/tokens.json",
    "path|scripts/VERSION",
-   "path|scripts/adr_dewy_watch.py",
    "path|scripts/check-spec-frontmatter.py",
-   "path|scripts/cold_reader_gate.py",
    "path|scripts/deploy-smoke.mjs",
    "path|scripts/orthogonal_echo.py",
    "path|scripts/pii_leak_gate.py",
    "path|scripts/sage_efficacy.js",
    "path|scripts/scan_repo.py",
-   "path|scripts/surface_watch.py",
    "path|src/app/api/brief/route.ts",
    "path|src/app/api/guide/route.ts",
    "path|src/app/api/receipts/studio/route.ts",
@@ -579,9 +571,6 @@
    "commit|a12f023",
    "commit|e2474e0"
   ],
-  "_STATE/compass-kit-phase2-handoff.md": [
-   "path|src/ui/Button"
-  ],
   "_STATE/consolidated_session_memory-2026-08-29.md": [
    "path|_STATE/operator-audit-2026-08-29.md",
    "path|docs/operator-audit-experiments.md",
@@ -639,7 +628,6 @@
    "path|_STATE/roadmap.md"
   ],
   "_STATE/handoff-2026-09-11-forge-queue-runbook.md": [
-   "path|_ARTIFACTS/forge-",
    "path|public/static-serve.py",
    "path|scripts/gen_tailor_icons.py"
   ],
@@ -722,10 +710,7 @@
    "commit|f2ec265",
    "commit|f443006",
    "path|_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md",
-   "path|operators/sage",
-   "path|public/kelly-interview.html",
-   "path|scripts/cold_reader_gate.py",
-   "path|scripts/idea_montecarlo.py"
+   "path|operators/sage"
   ],
   "_STATE/nftt-contrast-baseline.json": [
    "path|public/blog-nftt-post-1-brief.html",
@@ -741,9 +726,7 @@
    "commit|96b44bb",
    "commit|9ddf100",
    "commit|c4d8e72",
-   "commit|c82a20d",
-   "path|scripts/adr_dewy_watch.py",
-   "path|scripts/surface_watch.py"
+   "commit|c82a20d"
   ],
   "_STATE/night-moves/2026-08-28.md": [
    "commit|19214e29",

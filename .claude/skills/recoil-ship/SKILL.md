@@ -52,7 +52,10 @@ first name), commit on main, push, verify live + re-run the leak scan on the liv
 2. **Pre-send gauntlet.** Run the `counterpart-gauntlet` workflow on the -ext artifact +
    note draft. Fate: send-worthy / parked. Verify each surviving flag against source
    yourself before healing.
-3. **Log the close-loop obligation**: `/recoil-close` (expected vs actual) is owed when
+3. **Voice gate.** `python3 scripts/page_gate.py --counterpart <-ext page>` and
+   `python3 scripts/voice_gate.py -` on the note text. Every hit is rewritten in "I" or,
+   when it truly means Zach plus the counterpart, marked joint. No unmarked hit, no send.
+4. **Log the close-loop obligation**: `/recoil-close` (expected vs actual) is owed when
    they respond.
 
 ## Step 6 — draft the note (do NOT send)

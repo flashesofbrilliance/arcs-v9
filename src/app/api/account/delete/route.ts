@@ -73,6 +73,28 @@ export async function POST() {
       await tx.scanSignal.deleteMany({ where: { id: { in: signalIds } } })
     }
 
+    // Studio / Louisville session receipts (bet, outcome, lesson, payload).
+    // Lineage is a self-relation: another author's receipt may name one of
+    // these as parent, so detach it before deleting.
+    const sessionReceipts = await tx.sessionReceipt.findMany({
+      where: { userId },
+      select: { id: true },
+    })
+    const sessionReceiptIds = sessionReceipts.map((r) => r.id)
+    if (sessionReceiptIds.length) {
+      await tx.sessionReceipt.updateMany({
+        where: { parentId: { in: sessionReceiptIds } },
+        data: { parentId: null },
+      })
+      await tx.sessionReceipt.deleteMany({ where: { id: { in: sessionReceiptIds } } })
+    }
+    // Job board swipes carry no children; the JobOpportunity rows are shared.
+    // /api/jobs/swipe writes the admin's email into userId, so match both.
+    await tx.jobSwipe.deleteMany({ where: { userId } })
+    if (userEmail) {
+      await tx.jobSwipe.deleteMany({ where: { userId: { equals: userEmail, mode: "insensitive" } } })
+    }
+
     await tx.profileUpload.deleteMany({ where: { userId } })
     if (userEmail) {
       await tx.lead.deleteMany({ where: { email: { equals: userEmail, mode: "insensitive" } } })

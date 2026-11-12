@@ -1,0 +1,1807 @@
+{
+ "version": "0.1.0",
+ "kind": "backlog-index",
+ "generated": "2026-11-12",
+ "source": {
+  "file": "_QUEUE/induced-backlog.jsonl",
+  "read_at": "9ca2c377",
+  "origin_main": "9ca2c377",
+  "identical_to_origin_main": true,
+  "rows_total": 523,
+  "rows_active": 304
+ },
+ "method": {
+  "clusters": "Folksonomist stand-in: a judgment read of row ids and jobs. Operator 20 has no backlog-row adapter (ADR-086 finding 3), so these are not Op 20 output.",
+  "polarity": "ADR-077 reverse-JTBD read: PULL = a named demander, a dated clock, a failing gate or a measured incident asks for the work; PUSH = a build with no demander named in its rows; MIXED = both inside one cluster. Judgment, with the basis written next to each reading.",
+  "critical_path": "Longest depends_on chain among active rows inside the cluster (stdlib walk). Cross-cluster edges are not counted."
+ },
+ "panel": [
+  {
+   "seat": "Librarian",
+   "bound": "Op 21 Librarian",
+   "binding": "operators/arcs_store.py ARCSStore.recommend (registry READY, probe ok)",
+   "status": "BOUND",
+   "how_used": "Reconciled clusters against existing epics (only recoil-call-service, its wave 2, and the hud-high-signal-field epic row exist) and id families. recommend() ran on three cluster queries: two different backlog queries both returned only ADR-086, and 'recoil call service' returned a composted row tagged PATHOLOGY. The Librarian's corpus does not index the backlog, so its retrieval cannot reconcile clusters yet.",
+   "note": "operators/arcs_operator21.py is spline inference, not the Librarian (ADR-086 finding 1)."
+  },
+  {
+   "seat": "Folksonomist",
+   "bound": "Op 20 Folksonomy",
+   "binding": "operators/arcs_operator20.py Operator20.cultivate (registry READY), adapter receipts_to_seeds",
+   "status": "BOUND, NOT APPLICABLE TO ROWS",
+   "how_used": "Op 20 takes receipts, not backlog rows; no row adapter exists (ADR-086 finding 3). The clusters are a labelled stand-in. Also found: scripts/arcs_core.py folksonomist_cluster (ADR-023) emits bottom-up tags, but over UNDEFINED job-search gauntlet entries, not backlog rows.",
+   "needs": "A backlog-row to seed adapter, then run Op 20 beside the stand-in and report disagreements."
+  },
+  {
+   "seat": "Accountant",
+   "bound": "Op 19 Accountant",
+   "binding": "operators/arcs_accountant.py AccountantOperator.run (registry READY), adapter prod_receipt_to_accountant",
+   "status": "BOUND, SEAT BY RULE",
+   "how_used": "Op 19 scores receipts against outcomes; it cannot score a backlog. The seat applied its discipline mechanically: cost_prior, ruin and door fields per cluster, and n shown with every rate."
+  },
+  {
+   "seat": "Auditor",
+   "bound": "Op 28 Auditor",
+   "binding": "none: registry status UNBUILT",
+   "status": "UNBOUND (nothing behind this seat)",
+   "needs": "An implementation of system-wide accounting. operators/audit_service/ is not the Auditor (gotcha 16).",
+   "how_used": "Not faked. backlog_status_check.py --check --gh ran as the closest mechanical audit, and is listed under Sentry. Also found: operators/core/virtue_operators.py ParrhesiaAuditorOperator takes an auditor gap function as an injected input; it does not implement one, and the module imports loguru, which is undeclared."
+  },
+  {
+   "seat": "Skeptic",
+   "bound": "claims-skeptic agent",
+   "binding": ".claude/agents/claims-skeptic.md",
+   "status": "BOUND",
+   "how_used": "Checked every factual claim against the repo: 6 were false and are corrected, 1 objection was rejected with evidence (see verdicts)."
+  },
+  {
+   "seat": "Sage",
+   "bound": "none in the periodic table",
+   "binding": "operators/arcs_operators_sage.py is the SAGE pipeline archetype (SAGE, LAB, BAR, CURATOR), a kinematic signal analyzer for text; it is not a periodic-table operator and reads no backlog rows. Op 25 is ShavasanaSpace (UNBUILT).",
+   "status": "UNBOUND (nothing behind this seat)",
+   "needs": "Zach's ruling on op25-sage-naming-ruling (OPEN row), then a seat definition that reads rows.",
+   "how_used": " Candidates you could rule on: the SAGE operator (operators/arcs_operators_sage.py), the Tribune 'elder' board role (ADR-020, src/lib/tribune.ts), and the 'Wise Elder (Bar Raiser)' named in virtue_operators.py. Picking any of them is your call, not mine."
+  },
+  {
+   "seat": "Scholar",
+   "bound": "none",
+   "binding": "no operator, agent or skill named Scholar exists in PERIODIC-TABLE.md, OPERATOR-REGISTRY.json or .claude/agents/",
+   "status": "UNBOUND (nothing behind this seat)",
+   "needs": "A definition from Zach. Nearest existing tools: idea-librarian agent (prior-art grounding) and /prior-art.",
+   "how_used": " Searched 42 local repos: no implementation anywhere. operators/arcs_librarian.py quorum_gaps() already reports 'scholar: no operator', from your s4 query row 11."
+  },
+  {
+   "seat": "Sentry",
+   "bound": "Tribune 'sentry' board role (ADR-020); Zach confirmed 2026-11-12 that 'sentury' means this seat",
+   "binding": "src/lib/tribune.ts BOARD_ROLES (detective, accountant, loki, sentry, alchemist, elder); route src/app/api/tribune/route.ts, shown at /receipt/[id]",
+   "status": "BOUND, NOT APPLICABLE TO ROWS",
+   "how_used": "The Tribune sentry is a model-voted seat on one decision receipt, so it cannot read backlog rows. This groom's drift findings came from stand-ins: backlog_status_check --check --gh, backlog_graph findings and scripts/sentries.py.",
+   "needs": "A backlog-row view for the Tribune (the board voting on a cluster or plan instead of a receipt), or keep the mechanical stand-ins."
+  },
+  {
+   "seat": "Alchemist",
+   "bound": "idea-alchemist agent (CANDIDATE)",
+   "binding": ".claude/agents/idea-alchemist.md",
+   "status": "BOUND",
+   "how_used": "Sharpened each cluster into one falsifiable claim. Also exists as the 'alchemist' Tribune board role (ADR-020) and scripts/gen_tao_alchemist.py (proverb chamber, an honest stub)."
+  },
+  {
+   "seat": "Impeccable",
+   "bound": "impeccable skill",
+   "binding": "repo and user copies both exist (tool_orphan_audit flags the duplicate)",
+   "status": "BOUND",
+   "how_used": "Critiqued the rendered page: 1 P0, 3 P1, 2 P2, 2 P3; see verdicts for what changed."
+  },
+  {
+   "seat": "Brand manager",
+   "bound": "brand-line-producer agent",
+   "binding": ".claude/agents/brand-line-producer.md",
+   "status": "BOUND",
+   "how_used": "First pass BLOCK (card gutter, cramped table padding, panel overclaims); second pass PASS after fixes. PENDING: the Public Sans, type-ramp and colour ruling for this page and the 11-08 page."
+  }
+ ],
+ "mechanical": {
+  "states": {
+   "OPEN": 87,
+   "READY": 20,
+   "HOLDING": 55,
+   "HELD": 134,
+   "RUNNING": 10,
+   "BLOCKED": 4,
+   "DONE": 138,
+   "COMPOSTED": 70,
+   "SUPERSEDED": 5
+  },
+  "rows_total": 523,
+  "rows_active": 310,
+  "stale_running": [
+   "uikit-recoil-player",
+   "recoil-backlog-induction-tool-snap",
+   "agent-readable-arcs-hosts",
+   "good-agent-files",
+   "nftt-every-mistake-became-a-gate",
+   "paid-brief-first-dollar",
+   "jtbd-orphanage-family-audit"
+  ],
+  "cites_closed_or_merged_pr": [
+   "asm-009-net-direction-decided",
+   "doc-gate-false-positive-cleanup",
+   "phosphor-rc1-firefox-verify",
+   "card-catalog-sweep-quorum"
+  ],
+  "cites_closed_or_merged_pr_reading": "Read by hand: three of four cite the PR as history and are correctly open or held; only card-catalog-sweep-quorum looks done (its note says open until the PR merges and Q4 re-runs; Q4 has its own row). The --gh check cannot tell history from a live claim. Source: this session's backlog_status_check --check --gh run; the Skeptic's later run printed no PR-cite lines, so the list does not reproduce reliably.",
+  "dead_dependency": [
+   "onchain-receipt-anchor-registry -> fc-derisk-wallet-funding (COMPOSTED)"
+  ],
+  "unblocks_mismatch": [
+   "token-tuner-plain-view unblocks token-tuner-why-prompt, which does not list it in depends_on"
+  ],
+  "cycles": 0,
+  "dangling": 0,
+  "duplicate_ids": 0,
+  "missing_route": [
+   "phosphor-player-waveform-hotcuts",
+   "phosphor-parent-kid-access",
+   "phosphor-genre-kits",
+   "phosphor-heading-light-rays",
+   "phosphor-player-dock-states",
+   "phosphor-consonance-shavasana",
+   "phosphor-controller-zoo",
+   "phosphor-optical-sensor-controller",
+   "phosphor-remote-pads",
+   "phosphor-tempo-map-slice3",
+   "phosphor-pad-mute-choke",
+   "phosphor-webkit-eject-lock",
+   "phosphor-render-surface",
+   "identity-arcs-care-attraction-rules-parked",
+   "hud-evidence-grain-d4"
+  ],
+  "missing_trigger": [
+   "the same 13 phosphor rows",
+   "hud-evidence-grain-d4",
+   "harness-config-ssot"
+  ],
+  "near_duplicates_jaccard": "Token Jaccard >= 0.28 over jobs found only two pairs, both filing steps that are sequential, not duplicates. Duplicate candidates below are judgment reads.",
+  "jtbd_graph_check": "PASS: atoms 2356, edges 1306; 0 new orphans; 328 orphan tools and 151 orphan jobs held in the baseline.",
+  "orphan_tools": "tool_orphan_audit: 6 same-name duplicates (impeccable skill and four impeccable agents in repo and user scope; nci-scoring repo and synced).",
+  "wip": "10 RUNNING against a cap of 3 (scrum board).",
+  "scrum_sprint": "Last sprint closed 1 of 4.",
+  "after_groom": "After D1-D16: OPEN 85, READY 19, HOLDING 55, HELD 133, RUNNING 6, BLOCKED 8, DONE 139, COMPOSTED 71, SUPERSEDED 7. Stale RUNNING left: uikit-recoil-player, recoil-backlog-induction-tool-snap (routed to the recoil orchestrator). Dead dependencies 1 (D12 reverted), unblocks mismatches 0.",
+  "cross_repo_seat_search": "2026-11-12: definitions named Sage, Scholar, Auditor, Sentry, Sentinel, Alchemist, Skeptic, Folksonomist, Librarian or Accountant searched in 42 local repos. operators/core/operators.py holds only Loki, Detective and Conductor. Hits outside arcs-v9 (A.R.C.S., arcs-canon-cron, av9scrub, meridian-cco-repo, the stale arcs clone) are copies of the same files. Your s4 row 8 names a planning quorum (librarian, folksonomist, conductor, orchestrator, alchemist, curator, scholar, sage, loki), and row 9 applies it to backlog prioritization."
+ },
+ "bundles": [
+  {
+   "id": "B1-filing-evidence-sitting",
+   "rows": [
+    "filing-audit-log",
+    "filing-conception",
+    "filing-offrepo",
+    "filing-prior-filings",
+    "filing-who-saw-it",
+    "filing-anonymize-detail",
+    "filing-select-counsel"
+   ],
+   "why": "All READY, all Zach-only, one sitting; they head the 12-node filing path."
+  },
+  {
+   "id": "B2-anthropic-key-migration",
+   "rows": [
+    "old-anthropic-callers-moved",
+    "revoke-old-anthropic-keys",
+    "anthropic-spend-monitor"
+   ],
+   "why": "Same key, same console session; revoke only after callers move."
+  },
+  {
+   "id": "B3-model-swap",
+   "rows": [
+    "model-outcome-eval-set",
+    "model-roles-upgrade-haiku-opus",
+    "model-provider-adapter",
+    "compass-model-agnostic-provider-abstraction"
+   ],
+   "why": "Eval set first, then swap, then adapter; the compass row is the same job as the adapter."
+  },
+  {
+   "id": "B4-prl-kit",
+   "rows": [
+    "prl-phase-path-close",
+    "prl-golive-empty-email-guard",
+    "prl-empty-email-e2e",
+    "prl-task3-sla-zap",
+    "prl-task4-rep-notify",
+    "prl-task7-parser-install",
+    "prl-task9-unassigned-digest",
+    "prl-task10-zoominfo-email"
+   ],
+   "why": "Every note says resume with prl-phase-path-close; one keep-or-compost decision."
+  },
+  {
+   "id": "B5-doc-gates",
+   "rows": [
+    "doc-gate-false-positive-cleanup",
+    "doc-gates-blocking"
+   ],
+   "why": "Clean the about 592 baseline findings (219 sit in two files), then flip to blocking; the gate reports 0 FAIL today only because the baseline absorbs them."
+  },
+  {
+   "id": "B6-outcome-n",
+   "rows": [
+    "five-person-outcome-test",
+    "universe-outcome-capture",
+    "agent-receipts-audit-first-conversion",
+    "accountant-external-cohort-nonzero",
+    "accountant-calibration-curve",
+    "accountant-real-cohort-calibration"
+   ],
+   "why": "One chain: real outcomes in, then the external cohort, then the curves."
+  },
+  {
+   "id": "B7-token-decision",
+   "rows": [
+    "ui-kit-reconcile-legacy-tokens",
+    "tokens-css-vs-ds-font-stack-drift",
+    "recoil-kit-onto-design-md",
+    "scan-huds-migrate-to-tokens-css"
+   ],
+   "why": "One owner decision (legacy tokens to DESIGN.md or the reverse) settles all four."
+  },
+  {
+   "id": "B8-harrison-loop",
+   "rows": [
+    "verify-spoken-claims-harrison",
+    "harrison-followup-2026-11-09",
+    "harrison-recoil-close-score",
+    "harrison-arcs-demo",
+    "gravity-eir-candidate-brief"
+   ],
+   "why": "One counterpart; the claim check gates the send."
+  },
+  {
+   "id": "B9-sage-naming",
+   "rows": [
+    "op25-sage-naming-ruling",
+    "svc-sage-should-it-exist-decision"
+   ],
+   "why": "One ruling on what 'Sage' names; it also binds this panel's Sage seat."
+  }
+ ],
+ "clusters": [
+  {
+   "id": "C01-phosphor-instrument",
+   "name": "Phosphor instrument features",
+   "purpose": "Grow dj.arcs.care (Phosphor) from a working player into a full instrument: DJ, drum, sequencer, kid and parent modes.",
+   "tool_shape": {
+    "reuse": "scripts/phosphor_build.py and _ARTIFACTS/phosphor-src/ are the only build path; every feature row is an edit there, not a new tool.",
+    "route_labels": {
+     "NOT-RESOLVED": 67,
+     "NONE": 13,
+     "HAVE": 4
+    },
+    "tools_named": [
+     "scripts/phosphor_build.py",
+     "scripts/phosphor_check.mjs",
+     "scripts/phosphor_guard_check.mjs",
+     "scripts/phosphor_suite.sh"
+    ]
+   },
+   "polarity": {
+    "reading": "PUSH",
+    "basis": "84 rows, 80 HELD; no row names an outside user asking for it; 80 of 84 routes do not resolve to a tool (67 not found, 13 with no route); release holds keep built features private (gotcha 21). Zach's own instrument, so the demander is Zach, and he has held it."
+   },
+   "critical_path": [
+    "phosphor-drum-machine-rows",
+    "phosphor-dj-style-presets"
+   ],
+   "ready_now": [],
+   "ready_state": [],
+   "states": {
+    "HELD": 80,
+    "HOLDING": 4
+   },
+   "n": 84,
+   "fate_default": "Keep HELD as one bundle; one review date for the whole bundle instead of 84; 13 rows lack route and trigger.",
+   "owner": "this groom",
+   "claim": {
+    "claim": "Phosphor's 84 held rows are push work: without a named outside request the bundle should stay HELD.",
+    "measure": "Rows or inbox items where a named outside user asks for a Phosphor feature, plus rows Zach moves to READY.",
+    "threshold": "0 requests and 0 un-holds confirms PUSH; 1 or more splits those rows out as PULL.",
+    "window": "2026-12-12",
+    "falsifier": "A dated request from someone other than Zach for a specific Phosphor feature."
+   },
+   "rows": [
+    "phosphor-303-bass-lane",
+    "phosphor-acoustic-sync-test",
+    "phosphor-aesthetic-constitution",
+    "phosphor-audio-retro-buffer",
+    "phosphor-auto-loop-catch",
+    "phosphor-back-panel-cables",
+    "phosphor-band-triggers",
+    "phosphor-beam-controller",
+    "phosphor-binaural-beats",
+    "phosphor-codes-ladder",
+    "phosphor-consonance-dissonance-budget",
+    "phosphor-consonance-shavasana",
+    "phosphor-controller-zoo",
+    "phosphor-copy-me-game",
+    "phosphor-deck-dj-core",
+    "phosphor-detect-suite",
+    "phosphor-dj-hard-parts",
+    "phosphor-dj-style-presets",
+    "phosphor-dj-table-stakes",
+    "phosphor-drum-machine-rows",
+    "phosphor-earned-automagic",
+    "phosphor-edge-functions-stance",
+    "phosphor-embedded-lyrics-karaoke",
+    "phosphor-euclid-polyrhythm-quantize",
+    "phosphor-first-minute-ritual",
+    "phosphor-flying-faders",
+    "phosphor-four-resolution-dials",
+    "phosphor-freeze-dance-coop",
+    "phosphor-genre-kits",
+    "phosphor-gesture-grab-preset",
+    "phosphor-gesture-set",
+    "phosphor-glass-grow",
+    "phosphor-granular-engine",
+    "phosphor-hardware-link",
+    "phosphor-heading-light-rays",
+    "phosphor-kid-pattern-promote",
+    "phosphor-kintsugi-seams",
+    "phosphor-latency-worklet",
+    "phosphor-life-lane",
+    "phosphor-light-controls",
+    "phosphor-lock-a-bar",
+    "phosphor-loudness-chain",
+    "phosphor-moon-water-presets",
+    "phosphor-my-loops-shelf",
+    "phosphor-note-repeat-swing",
+    "phosphor-notomation-check",
+    "phosphor-numpad-finger-drum-map",
+    "phosphor-optical-sensor-controller",
+    "phosphor-order-decay-pockets",
+    "phosphor-pad-mute-choke",
+    "phosphor-parent-kid-access",
+    "phosphor-parent-learning-summary",
+    "phosphor-patch-bay-real-graph",
+    "phosphor-pattern-text-box",
+    "phosphor-phase-field-viz",
+    "phosphor-platter-speed",
+    "phosphor-player-dock-states",
+    "phosphor-player-waveform-hotcuts",
+    "phosphor-queued-pattern-song",
+    "phosphor-rc1-firefox-verify",
+    "phosphor-real-piano-bridge",
+    "phosphor-realtime-fx-rack",
+    "phosphor-remote-pads",
+    "phosphor-render-surface",
+    "phosphor-reverse-tape-stop",
+    "phosphor-rhythm-pattern-detect",
+    "phosphor-scratch-wheel",
+    "phosphor-seed-mash",
+    "phosphor-simulated-user-pretest",
+    "phosphor-slip-sync",
+    "phosphor-smart-replay-note",
+    "phosphor-song-memory",
+    "phosphor-sparse-defaults",
+    "phosphor-te-gauge-knobs",
+    "phosphor-te-sequencer-skin",
+    "phosphor-tempo-detector-v2",
+    "phosphor-tempo-map-slice3",
+    "phosphor-tempo-swing",
+    "phosphor-timing-correct-strength",
+    "phosphor-virtual-pad-mapping",
+    "phosphor-voice-effects",
+    "phosphor-web-midi",
+    "phosphor-webkit-eject-lock",
+    "phosphor-wheel-island"
+   ]
+  },
+  {
+   "id": "C02-ip-filing-chain",
+   "name": "IP filing chain",
+   "purpose": "Decide and, if chosen, file provisional patents before more public disclosure narrows what is protectable.",
+   "tool_shape": {
+    "reuse": "scripts/filing_workback.py (HAVE); everything else is Zach or counsel.",
+    "route_labels": {
+     "NOT-RESOLVED": 20,
+     "HAVE": 3
+    },
+    "tools_named": [
+     "scripts/filing_workback.py"
+    ]
+   },
+   "polarity": {
+    "reading": "PULL",
+    "basis": "A dated clock pulls it: public-disclosure history and the 12-month non-provisional deadline. 7 READY rows are Zach-only evidence steps that unblock 16 rows."
+   },
+   "critical_path": [
+    "filing-anonymize-detail",
+    "filing-ledger-final",
+    "filing-counsel-intake",
+    "filing-prioritize",
+    "filing-draft",
+    "filing-review",
+    "filing-wl-file",
+    "filing-file",
+    "filing-prereg",
+    "filing-preprint",
+    "filing-wl-outreach",
+    "filing-outreach"
+   ],
+   "ready_now": [],
+   "ready_state": [
+    "filing-anonymize-detail",
+    "filing-audit-log",
+    "filing-conception",
+    "filing-offrepo",
+    "filing-prior-filings",
+    "filing-select-counsel",
+    "filing-who-saw-it"
+   ],
+   "states": {
+    "READY": 7,
+    "HOLDING": 16
+   },
+   "n": 23,
+   "fate_default": "Keep. Bundle the 7 READY evidence steps into one sitting; they head a 12-node critical path.",
+   "owner": "this groom",
+   "claim": {
+    "claim": "The 7 READY evidence steps fit one Zach sitting and unblock at least the first 3 nodes of the 12-node path.",
+    "measure": "READY filing rows moved to DONE; critical-path rows leaving HOLDING.",
+    "threshold": "7 of 7 DONE and 3 or more downstream rows READY.",
+    "window": "2026-11-26",
+    "falsifier": "Fewer than 4 of 7 done by the date, or 7 done with no downstream row READY."
+   },
+   "rows": [
+    "filing-anonymize-detail",
+    "filing-audit-log",
+    "filing-conception",
+    "filing-counsel-intake",
+    "filing-draft",
+    "filing-file",
+    "filing-foreign-decision",
+    "filing-inventory",
+    "filing-ledger-final",
+    "filing-nonprov",
+    "filing-offrepo",
+    "filing-outreach",
+    "filing-preprint",
+    "filing-prereg",
+    "filing-prior-filings",
+    "filing-prioritize",
+    "filing-public-surface-decision",
+    "filing-review",
+    "filing-select-counsel",
+    "filing-who-saw-it",
+    "filing-wl-file",
+    "filing-wl-outreach",
+    "filing-wl-preprint"
+   ]
+  },
+  {
+   "id": "C03-rfp-engine-ship",
+   "name": "RFP engine as a public good",
+   "purpose": "Ship the RFP answering engine publicly: repo, skill, plugin, landing links, packages.",
+   "tool_shape": {
+    "reuse": "Existing engine branches, skill-creator, the cowork plugin tooling, scripts/ leak scan; no new tool needed.",
+    "route_labels": {
+     "HAVE": 3,
+     "NOT-RESOLVED": 7,
+     "NONE": 1
+    },
+    "tools_named": [
+     "public/good-rfp-engine.html",
+     "public/good-rfp-engine-agents.txt",
+     "public/good-rfp-engine-llms.txt",
+     "scripts/good_agent_files_emit.py",
+     "scripts/leak_check.sh"
+    ]
+   },
+   "polarity": {
+    "reading": "MIXED",
+    "basis": "The engine exists and was used once; demand for a public package is not named in any row. Three one-way doors (repo create, publish, packages)."
+   },
+   "critical_path": [
+    "rfp-ship-engine-branch-reconcile",
+    "rfp-ship-public-repo-decide",
+    "rfp-ship-public-leak-gate",
+    "rfp-ship-public-repo-create",
+    "rfp-ship-skill-author",
+    "rfp-ship-plugin-package",
+    "rfp-ship-landing-repo-links"
+   ],
+   "ready_now": [
+    "rfp-ship-engine-branch-reconcile",
+    "rfp-ship-resume-tailor-rebase"
+   ],
+   "ready_state": [],
+   "states": {
+    "HELD": 1,
+    "OPEN": 9,
+    "HOLDING": 1
+   },
+   "n": 11,
+   "fate_default": "Keep; start with rfp-ship-skill-locate and rfp-ship-engine-branch-reconcile (two-way), hold every one-way door for Zach.",
+   "owner": "this groom",
+   "claim": {
+    "claim": "At least one named outsider asks for the RFP package before any one-way door (repo create, publish) opens.",
+    "measure": "Named requests for the engine; two-way rows done.",
+    "threshold": "1 or more named requests, with the two-way rows DONE, before repo create starts.",
+    "window": "2026-12-12",
+    "falsifier": "Zero named requests by the date while the two-way rows are done."
+   },
+   "rows": [
+    "rfp-engine-public-good",
+    "rfp-ship-engine-branch-reconcile",
+    "rfp-ship-landing-repo-links",
+    "rfp-ship-packages-publish",
+    "rfp-ship-plugin-package",
+    "rfp-ship-public-leak-gate",
+    "rfp-ship-public-repo-create",
+    "rfp-ship-public-repo-decide",
+    "rfp-ship-resume-tailor-rebase",
+    "rfp-ship-skill-author",
+    "rfp-ship-skill-locate"
+   ]
+  },
+  {
+   "id": "C04-recoil-call-service",
+   "name": "Recoil call service epic (owned by recoil orchestrator)",
+   "purpose": "Recoil call service epic: call in, decompose, five verbs, hypercube, atlas, HUD flight.",
+   "tool_shape": {
+    "reuse": "Spec _PROPOSALS/2026-11-11-recoil-call-service-arc-weld.md; scripts/recoil stage runner.",
+    "route_labels": {
+     "HAVE": 8,
+     "NOT-RESOLVED": 1
+    },
+    "tools_named": [
+     "scripts/recoil_service.py",
+     ".claude/hooks/session-start.sh",
+     "scripts/backlog_merge_by_id.py",
+     "/fold",
+     "scripts/backlog_graph.py",
+     ".claude/agents/brand-line-producer.md"
+    ]
+   },
+   "polarity": {
+    "reading": "PULL",
+    "basis": "The Brian call is the named demander (R12 acceptance)."
+   },
+   "critical_path": [
+    "recoil-real-model-run",
+    "recoil-brian-acceptance"
+   ],
+   "ready_now": [
+    "backlog-merge-driver-by-id",
+    "recoil-kairos-7s-test",
+    "recoil-ship-twin"
+   ],
+   "ready_state": [
+    "backlog-merge-driver-by-id",
+    "recoil-epic-tool-catalog"
+   ],
+   "states": {
+    "READY": 2,
+    "OPEN": 2,
+    "HOLDING": 5
+   },
+   "n": 9,
+   "fate_default": "Owned by the recoil orchestrator. Clustered here only; no state changes from this groom.",
+   "owner": "recoil orchestrator (local_6d106b64)",
+   "claim": {
+    "claim": "The Brian acceptance (R12) can pass only once the epic's three READY rows land.",
+    "measure": "backlog-merge-driver-by-id, hud-atlas-v2-flight and recoil-print-target at DONE with merged PR and receipt, then the R12 run.",
+    "threshold": "3 of 3 DONE and R12 passes on the first run.",
+    "window": "2026-11-26",
+    "falsifier": "R12 fails for a reason outside those rows (for example the missing Brian SSOT)."
+   },
+   "rows": [
+    "backlog-merge-driver-by-id",
+    "backlog-session-cards-skill",
+    "recoil-brian-acceptance",
+    "recoil-brian-ssot",
+    "recoil-epic-tool-catalog",
+    "recoil-kairos-7s-test",
+    "recoil-real-model-run",
+    "recoil-ship-twin",
+    "recoil-skills-on-runner"
+   ]
+  },
+  {
+   "id": "C05-recoil-adjacent",
+   "name": "Recoil-adjacent rows outside the epic",
+   "purpose": "Recoil work that predates or sits beside the epic: player, backlog induction from a war room, vox capture, paired paths.",
+   "tool_shape": {
+    "reuse": "The epic's stage runner (scripts/recoil) should host these if they survive.",
+    "route_labels": {
+     "NOT-RESOLVED": 2,
+     "HAVE": 4
+    },
+    "tools_named": [
+     "scripts/backlog_graph.py",
+     "/witness",
+     "scripts/universe_ask.py",
+     "runtime/specs/tool-catalog.json",
+     "forge_counterpart.py"
+    ]
+   },
+   "polarity": {
+    "reading": "MIXED",
+    "basis": "Two rows RUNNING since 10-27 and 10-28 with no live session; their jobs overlap wave 2 of the epic."
+   },
+   "critical_path": [
+    "uikit-recoil-player",
+    "recoil-backlog-induction-tool-snap"
+   ],
+   "ready_now": [
+    "cia-recoil-close-michael-intro"
+   ],
+   "ready_state": [],
+   "states": {
+    "HOLDING": 2,
+    "OPEN": 1,
+    "RUNNING": 2,
+    "HELD": 1
+   },
+   "n": 6,
+   "fate_default": "Send to the recoil orchestrator: fold into wave 2, or move to HELD. Not changed here.",
+   "owner": "this groom",
+   "claim": {
+    "claim": "The two stale RUNNING rows have no live session and their jobs are already covered by wave 2.",
+    "measure": "Live session, last commit, and overlap with a wave 2 row, per row.",
+    "threshold": "0 live sessions and a wave 2 overlap for both.",
+    "window": "2026-11-19",
+    "falsifier": "A live session or a commit in the last 7 days on either row."
+   },
+   "rows": [
+    "cia-recoil-close-michael-intro",
+    "debrief-vox-capture",
+    "ex-ante-paired-paths-template",
+    "recoil-backlog-induction-tool-snap",
+    "recoil-kit-onto-design-md",
+    "uikit-recoil-player"
+   ]
+  },
+  {
+   "id": "C06-hud-field",
+   "name": "HUD field gauges",
+   "purpose": "arcs.care/hud gauges that read real evidence: flow, conviction, consonance, echo overlap, cold-read acceptance.",
+   "tool_shape": {
+    "reuse": "scripts/page_gate.py, the HUD signal registry; no new gauge until C07 has n.",
+    "route_labels": {
+     "HAVE": 4,
+     "NONE": 1,
+     "PARTIAL": 1,
+     "NOT-RESOLVED": 2
+    },
+    "tools_named": [
+     "scripts/echo_ridgeline_feed.py",
+     "scripts/page_gate.py",
+     "/provenance",
+     "operators/prod_receipt_to_accountant.py",
+     "scripts/provenance_candidates.py",
+     "operators/arcs_echo_embedding.py"
+    ]
+   },
+   "polarity": {
+    "reading": "PUSH",
+    "basis": "6 of 8 rows HOLDING on the Accountant's n; the HUD's own doctrine says a gauge without evidence renders grain, so most gauges cannot read anything until C07 moves."
+   },
+   "critical_path": [
+    "hud-high-signal-field",
+    "hud-flow-gauges-pulse",
+    "hud-cold-read-acceptance"
+   ],
+   "ready_now": [],
+   "ready_state": [],
+   "states": {
+    "HOLDING": 6,
+    "HELD": 1,
+    "OPEN": 1
+   },
+   "n": 8,
+   "fate_default": "Keep HOLDING; the critical input is C07, not more HUD work.",
+   "owner": "this groom",
+   "claim": {
+    "claim": "Six of eight HUD rows cannot show a real reading until C07 has n above zero.",
+    "measure": "Closed external outcomes in the Accountant cohort; the sample size each gauge prints.",
+    "threshold": "n = 0 means every gauge renders grain; 5 or more closed before any gauge claims a reading.",
+    "window": "2026-12-12",
+    "falsifier": "A gauge rendering a non-grain reading with n = 0."
+   },
+   "rows": [
+    "hud-cold-read-acceptance",
+    "hud-conviction-consonance-readings",
+    "hud-echo-overlap-strip-admin",
+    "hud-evidence-grain-d4",
+    "hud-failcloser-gate",
+    "hud-flow-gauges-pulse",
+    "hud-high-signal-field",
+    "hud-resonance-heldout-loss"
+   ]
+  },
+  {
+   "id": "C07-outcomes-calibration",
+   "name": "Closed outcomes and calibration",
+   "purpose": "Close real outcome loops so the Accountant, HUD and compass have calibration data (today 0 closed external outcomes).",
+   "tool_shape": {
+    "reuse": "operators/arcs_accountant.py (Op 19, READY), receipt_coverage.py, readiness_packet.py.",
+    "route_labels": {
+     "HAVE": 16,
+     "NOT-RESOLVED": 2
+    },
+    "tools_named": [
+     "operators/arcs_accountant.py",
+     "scripts/readiness_packet.py",
+     "scripts/accountant_weekly.py",
+     "public/blog-nftt-the-idempotent-fix.html",
+     "public/good-audit-check.html",
+     "public/good-audit-sample.html"
+    ]
+   },
+   "polarity": {
+    "reading": "PULL",
+    "basis": "Strongest pull in the backlog: n = 0 closed external outcomes blocks the Accountant curve, svc-sage, five HUD gauges and the model eval set. 29 active rows carry Zach's 11-04 triage note 'resume after five-person-outcome-test reads'."
+   },
+   "critical_path": [
+    "agent-receipts-audit-first-conversion",
+    "accountant-external-cohort-nonzero",
+    "accountant-calibration-curve",
+    "accountant-real-cohort-calibration"
+   ],
+   "ready_now": [
+    "accountant-weekly-first-unattended",
+    "agent-receipts-audit-first-conversion",
+    "readiness-card-decision-test"
+   ],
+   "ready_state": [
+    "calibration-literature-echo-scan",
+    "five-person-outcome-test",
+    "universe-outcome-capture"
+   ],
+   "states": {
+    "HOLDING": 7,
+    "OPEN": 7,
+    "READY": 3,
+    "HELD": 1
+   },
+   "n": 18,
+   "fate_default": "Keep. Make five-person-outcome-test and universe-outcome-capture the sprint head.",
+   "owner": "this groom",
+   "claim": {
+    "claim": "The five-person outcome test closes at least one real external outcome; until it does, C06, svc-sage and the model eval set stay blocked.",
+    "measure": "Closed external outcomes in the Accountant cohort.",
+    "threshold": "n of 1 or more by the window; 5 or more for a curve.",
+    "window": "2026-12-04",
+    "falsifier": "Five people asked and zero outcomes closed."
+   },
+   "rows": [
+    "accountant-calibration-curve",
+    "accountant-external-cohort-nonzero",
+    "accountant-real-cohort-calibration",
+    "accountant-weekly-first-unattended",
+    "agent-receipts-audit-first-conversion",
+    "calibration-literature-echo-scan",
+    "compounding-model-prereg",
+    "conviction-chips-calibration",
+    "five-person-outcome-test",
+    "m-and-a-arbitrage-scored-backtest",
+    "model-outcome-eval-set",
+    "readiness-card-decision-test",
+    "readiness-card-oss-extract",
+    "receipt-real-interview-closes",
+    "sharp-render-real-data",
+    "throughput-baseline-2026-10-20",
+    "tributary-answers-eval",
+    "universe-outcome-capture"
+   ]
+  },
+  {
+   "id": "C08-backlog-jtbd-machinery",
+   "name": "Backlog and JTBD graph machinery",
+   "purpose": "Tools that manage the backlog and the JTBD graph itself: triage, graph, orphan audits, catalog drift, session cards.",
+   "tool_shape": {
+    "reuse": "backlog_graph.py, backlog_status_check.py, universe_jtbd_adapter.py, line_triage.py, scrum.py all exist.",
+    "route_labels": {
+     "HAVE": 27,
+     "PARTIAL": 1
+    },
+    "tools_named": [
+     "scripts/universe_jtbd_adapter.py",
+     "scripts/backlog_graph.py",
+     "scripts/line_triage.py",
+     "scripts/tool_catalog_emit.py",
+     "scripts/jtbd_edge_weights.py",
+     "operators/jtbd_query.py"
+    ]
+   },
+   "polarity": {
+    "reading": "PUSH",
+    "basis": "30 rows of tools about tools; 28 already resolve to an existing tool, so most rows extend tools that work. Exceptions with pull: the naive-datetime crash and the merge driver (the conflict class on nearly every PR; that row is in the recoil epic)."
+   },
+   "critical_path": [
+    "catalog-public-flag-and-chain",
+    "night-moves-undecided-tools"
+   ],
+   "ready_now": [
+    "backlog-tiebreak-rule",
+    "card-catalog-q4-rerun-with-receipts",
+    "issue-sync-native-blocked-by",
+    "jtbd-graph-s5-feedback",
+    "line-triage-reads-gates-one-way",
+    "ready-now-door-decision-split",
+    "receipt-coverage-resolved-split",
+    "session-overlay-recurring"
+   ],
+   "ready_state": [
+    "backlog-fate-triage-2026-10-18"
+   ],
+   "states": {
+    "OPEN": 18,
+    "READY": 1,
+    "HELD": 4,
+    "RUNNING": 1,
+    "HOLDING": 4
+   },
+   "n": 28,
+   "fate_default": "Cut hard: keep the crash fix and the orphan audits, hold the rest until a measured miss names them.",
+   "owner": "this groom",
+   "claim": {
+    "claim": "No more than 4 of the 30 tooling rows will be named by a measured miss in 30 days.",
+    "measure": "Incidents (failed gate, crash, session note) citing each row.",
+    "threshold": "4 or fewer of 30 cited; the rest go HELD.",
+    "window": "2026-12-12",
+    "falsifier": "10 or more rows cited by incidents."
+   },
+   "rows": [
+    "assembly-line-wave-1-pilot",
+    "backlog-fate-triage-2026-10-18",
+    "backlog-status-check-naive-datetime-crash",
+    "backlog-tiebreak-rule",
+    "card-catalog-q4-rerun-with-receipts",
+    "catalog-public-flag-and-chain",
+    "catalog-verb-table-drift-check",
+    "choreographed-pickup",
+    "gauntlet-brief-polyform",
+    "gauntlet-wargame-embedding-dedup",
+    "gravity-well-polarize-wiring",
+    "instruments-from-catalog",
+    "issue-sync-native-blocked-by",
+    "jtbd-graph-s5-feedback",
+    "jtbd-graph-s5-wider-sample",
+    "jtbd-graph-triage-2026-10-20",
+    "jtbd-health-probes-held-deps",
+    "jtbd-magnetize-stage",
+    "jtbd-orphan-jobs-groom",
+    "jtbd-orphanage-family-audit",
+    "jtbd-standing-tools",
+    "line-triage-reads-gates-one-way",
+    "night-moves-undecided-tools",
+    "ready-now-door-decision-split",
+    "receipt-coverage-resolved-split",
+    "session-overlay-recurring",
+    "taxonomy-conflict-ledger-and-atlas-edges",
+    "universe-breakoff-conductor-gate"
+   ]
+  },
+  {
+   "id": "C09-session-handoff-memory",
+   "name": "Session, handoff and memory hygiene",
+   "purpose": "Keep sessions oriented: handoff staleness, landing drag, memory reconcile, rotting loops, harness config.",
+   "tool_shape": {
+    "reuse": "scripts/open_loops.py (/loops), handoff_fold.py, night-moves skill, sentries.py.",
+    "route_labels": {
+     "HAVE": 8,
+     "NOT-RESOLVED": 9,
+     "PARTIAL": 1
+    },
+    "tools_named": [
+     "_STATE/assumptions.jsonl",
+     "handoff_cluster.py",
+     "scripts/handoff_excavate.py",
+     "_STATE/2026-10-06-doc-reconciliation.md",
+     "scripts/cruft_sweep.py",
+     "CLAUDE.md"
+    ]
+   },
+   "polarity": {
+    "reading": "MIXED",
+    "basis": "Pull where measured (91 rotting loops in /loops at review; the session-start hook printed 115, 12 days since the last night-moves digest); push where a row measures a thing before anyone asked (landing drag, molt vs pickup)."
+   },
+   "critical_path": [
+    "salvage-pass-promote-two",
+    "archive-proposal-after-salvage"
+   ],
+   "ready_now": [],
+   "ready_state": [],
+   "states": {
+    "HOLDING": 1,
+    "HELD": 3,
+    "OPEN": 14
+   },
+   "n": 18,
+   "fate_default": "Keep pressure-rotting-loops. Keep open-loop-drift-multisurface-reconcile: /loops has no chips or drift-log reader and prints no disagreements.",
+   "owner": "this groom",
+   "claim": {
+    "claim": "Working pressure-rotting-loops cuts the rotting count in /loops (91 at review) by at least half.",
+    "measure": "Rotting count at session start from /loops, before and after.",
+    "threshold": "91 falls to 45 or fewer.",
+    "window": "2026-12-12",
+    "falsifier": "Count at or above 80 after the row is DONE."
+   },
+   "rows": [
+    "archive-proposal-after-salvage",
+    "asm-003-cold-molt-decided",
+    "asm-009-net-direction-decided",
+    "context-routing-and-ask-gate",
+    "drift-classifier-productive-destructive",
+    "handoff-open-items-closes-when",
+    "handoff-timeline-emitter-land",
+    "harness-config-ssot",
+    "hung-schedule-check",
+    "landing-drag-meter",
+    "memory-seven-axis-scorecard",
+    "memory-shard-oracle-github-reconcile",
+    "molt-vs-pickup-efficacy-test",
+    "open-loop-drift-multisurface-reconcile",
+    "pressure-rotting-loops",
+    "salvage-pass-promote-two",
+    "session-drift-detection-eval",
+    "unfold-append-only-ledger"
+   ]
+  },
+  {
+   "id": "C10-repo-integrity-ci",
+   "name": "Repo integrity, gates and CI",
+   "purpose": "Keep main green and true: doc gates, red checks, merge path, prod schema, deploy gaps.",
+   "tool_shape": {
+    "reuse": "safe_merge.sh, merge_train.sh, page_gate.py, the doc gates; Prisma migrate.",
+    "route_labels": {
+     "HAVE": 8,
+     "NOT-RESOLVED": 6
+    },
+    "tools_named": [
+     "_DECISIONS/index.json",
+     "scripts/safe_merge.sh",
+     "AGENTS.md",
+     "canon_propagation_check.py",
+     "scripts/integrity_gate.py",
+     "scripts/integrity_gate_selftest.py"
+    ]
+   },
+   "polarity": {
+    "reading": "PULL",
+    "basis": "Core rows name incidents: the red CI gates job of 10-19 to 10-20 (gates-class-prevent-leak-and-render-drift), the prod schema-drift P0, the Vercel no-deploy on d39a6fc. The Phosphor red checks (pressure-red-checks-main) are HELD with no failed main runs."
+   },
+   "critical_path": [
+    "doc-gate-false-positive-cleanup",
+    "doc-gates-blocking"
+   ],
+   "ready_now": [
+    "ci-orbstack-linux-vm-runners",
+    "doc-gate-false-positive-cleanup",
+    "merge-train-only-path"
+   ],
+   "ready_state": [
+    "ci-orbstack-linux-vm-runners"
+   ],
+   "states": {
+    "HELD": 4,
+    "OPEN": 7,
+    "READY": 1,
+    "HOLDING": 2
+   },
+   "n": 14,
+   "fate_default": "Keep; prod-db-onto-prisma-migrate-deploy has the highest ruin in the cluster.",
+   "owner": "this groom",
+   "claim": {
+    "claim": "Cleaning the about 592 baseline doc-gate findings lets the gates flip to blocking without turning main red.",
+    "measure": "Doc-gate failures on origin/main at flip; main CI for 7 days after.",
+    "threshold": "0 baseline failures at flip, no red main for 7 days.",
+    "window": "2026-12-05",
+    "falsifier": "A red main within 7 days traced to the blocking gate."
+   },
+   "rows": [
+    "adr-index-drift-repair",
+    "arcs-skills-sync-check",
+    "ci-orbstack-linux-vm-runners",
+    "claims-atom-seed-gate",
+    "doc-gate-false-positive-cleanup",
+    "doc-gates-blocking",
+    "gates-class-prevent-leak-and-render-drift",
+    "jsonl-ledgers-merge-union",
+    "merge-train-only-path",
+    "pressure-red-checks-main",
+    "pressure-test-fixtures",
+    "prisma-8-upgrade-plan",
+    "prod-db-onto-prisma-migrate-deploy",
+    "vercel-main-push-no-prod-deploy"
+   ]
+  },
+  {
+   "id": "C11-model-and-spend",
+   "name": "Model roles, provider and API spend",
+   "purpose": "Model roles, provider choice and the shared Anthropic budget.",
+   "tool_shape": {
+    "reuse": "src/lib/claude-models.ts, model_id_gate.py, model_drift_check.py.",
+    "route_labels": {
+     "PARTIAL": 1,
+     "NOT-RESOLVED": 4,
+     "HAVE": 2
+    },
+    "tools_named": [
+     "scripts/open_loops.py",
+     "operators/arcs_api.py",
+     "scan.ts",
+     "scripts/model_drift_check.py",
+     "src/lib/claude-models.ts"
+    ]
+   },
+   "polarity": {
+    "reading": "MIXED",
+    "basis": "Pull on the keys: the old-org key is capped and a runaway caller can drain the shared budget (two BLOCKED rows say so; no drain is recorded). Push on the provider abstraction: Zach held it 11-04, 'no outside user needs it yet'."
+   },
+   "critical_path": [
+    "old-anthropic-callers-moved",
+    "revoke-old-anthropic-keys"
+   ],
+   "ready_now": [],
+   "ready_state": [],
+   "states": {
+    "BLOCKED": 2,
+    "HELD": 2,
+    "OPEN": 2,
+    "HOLDING": 1
+   },
+   "n": 7,
+   "fate_default": "Keep the key migration as one bundle; supersede the compass provider row by model-provider-adapter.",
+   "owner": "this groom",
+   "claim": {
+    "claim": "Once old callers move and old keys are revoked, shared-cap drain incidents drop to zero.",
+    "measure": "Spend-cap drain events and calls from old-org keys after revoke.",
+    "threshold": "0 of each for 14 days.",
+    "window": "2026-12-12",
+    "falsifier": "A drain event or an old-key call after revoke."
+   },
+   "rows": [
+    "anthropic-spend-monitor",
+    "compass-anti-distillation-build",
+    "embedding-storage-target-pgvector-vs-duckdb",
+    "model-provider-adapter",
+    "model-roles-upgrade-haiku-opus",
+    "old-anthropic-callers-moved",
+    "revoke-old-anthropic-keys"
+   ]
+  },
+  {
+   "id": "C12-revenue-engagements",
+   "name": "Paid work and first dollars",
+   "purpose": "Turn work into money: the paid brief, My Ally audit, Brooks proposal, PRL phases, the MCP connector demand probe.",
+   "tool_shape": {
+    "reuse": "Stripe Payment Link, engagement_hours.py, the PRL kit.",
+    "route_labels": {
+     "HAVE": 6,
+     "PARTIAL": 2,
+     "NOT-RESOLVED": 7
+    },
+    "tools_named": [
+     "scripts/attribution_provenance_lint.py",
+     "scripts/page_gate.py",
+     "public/good-agents.txt",
+     "public/good-llms.txt",
+     "scripts/probe_tally.py",
+     "src/app/api/probe/route.ts"
+    ]
+   },
+   "polarity": {
+    "reading": "MIXED",
+    "basis": "Pull on the rows with named counterparts and dollar amounts (paid brief, My Ally, Brooks). PRL is paused by Zach since 09-26, so its 9 HELD rows have no live demander."
+   },
+   "critical_path": [
+    "mcp-connector-wrapper-adr-076",
+    "demand-signal-purge-adr-076"
+   ],
+   "ready_now": [],
+   "ready_state": [],
+   "states": {
+    "HOLDING": 1,
+    "OPEN": 2,
+    "RUNNING": 1,
+    "HELD": 8,
+    "BLOCKED": 3
+   },
+   "n": 15,
+   "fate_default": "Keep; decide the six PRL task rows as one group (keep the kit or compost all six).",
+   "owner": "this groom",
+   "claim": {
+    "claim": "The paid brief takes a first dollar once STRIPE_PAYMENT_LINK and the prod migration are in place.",
+    "measure": "Stripe payments for the brief.",
+    "threshold": "1 or more within 14 days of the paywall going live.",
+    "window": "2026-12-12",
+    "falsifier": "Zero payments 14 days after going live with a named counterpart offered it."
+   },
+   "rows": [
+    "brooks-audit-proposal-send",
+    "connector-demand-threshold",
+    "demand-signal-purge-adr-076",
+    "engagement-compounding-v0",
+    "mcp-connector-wrapper-adr-076",
+    "myally-step1-audit",
+    "paid-brief-first-dollar",
+    "prl-empty-email-e2e",
+    "prl-phase-1-2",
+    "prl-phase-path-close",
+    "prl-task10-zoominfo-email",
+    "prl-task3-sla-zap",
+    "prl-task4-rep-notify",
+    "prl-task7-parser-install",
+    "prl-task9-unassigned-digest"
+   ]
+  },
+  {
+   "id": "C13-job-search-counterparts",
+   "name": "Job search, lenses and counterparts",
+   "purpose": "Job search: role lenses, live counterparts (Harrison, CIA), warm paths, agent-readable profile.",
+   "tool_shape": {
+    "reuse": "The resume-tailor skill, recoil-prep and recoil-close, the profile scan, forge.",
+    "route_labels": {
+     "HAVE": 14,
+     "NOT-RESOLVED": 7,
+     "PARTIAL": 2
+    },
+    "tools_named": [
+     "public/zach.md",
+     "scripts/proof_emit.py",
+     "public/good-llms.txt",
+     "public/llms.txt",
+     "public/resume-llms.txt",
+     "public/status-llms.txt"
+    ]
+   },
+   "polarity": {
+    "reading": "MIXED",
+    "basis": "Pull on the live counterparts with dated promises (Harrison follow-up due 11-09, the CIA screen). Push on the four lens packs and the role-lens rows: no outcome joined yet."
+   },
+   "critical_path": [
+    "verify-spoken-claims-harrison",
+    "harrison-followup-2026-11-09",
+    "harrison-arcs-demo"
+   ],
+   "ready_now": [
+    "cia-technical-screen-prep"
+   ],
+   "ready_state": [
+    "harrison-followup-2026-11-09"
+   ],
+   "states": {
+    "BLOCKED": 1,
+    "OPEN": 14,
+    "RUNNING": 1,
+    "HOLDING": 2,
+    "READY": 1,
+    "HELD": 4
+   },
+   "n": 23,
+   "fate_default": "Keep; verify-spoken-claims-harrison gates the follow-up and is the cluster's critical path.",
+   "owner": "this groom",
+   "claim": {
+    "claim": "The Harrison follow-up, gated by the spoken-claims check, gets a reply or call within 10 days of sending.",
+    "measure": "Replies or scheduled calls after the send, with the send date recorded.",
+    "threshold": "1 or more within 10 days.",
+    "window": "2026-11-26",
+    "falsifier": "No reply in 10 days, or the follow-up still unsent because the check is open."
+   },
+   "rows": [
+    "agent-readable-arcs-hosts",
+    "agent-readable-identity-kit",
+    "cia-technical-screen-prep",
+    "gravity-eir-candidate-brief",
+    "harrison-arcs-demo",
+    "harrison-followup-2026-11-09",
+    "harrison-recoil-close-score",
+    "jobs-sourcing-gmail-digests",
+    "lens-applied-ai-engineer-pack",
+    "lens-deployment-strategist-pack",
+    "lens-embedded-product-pack",
+    "lens-forward-deployed-pack",
+    "profile-scan-strength-gap-card",
+    "req-reality-dim-board-and-champion",
+    "resume-arcs-care-role-lens-page",
+    "role-lens-kaizen-loop",
+    "role-lens-ssot-v0",
+    "sanity-check-plan-time",
+    "scan-huds-migrate-to-tokens-css",
+    "swipe-left-rationale-loop",
+    "verify-spoken-claims-harrison",
+    "warm-path-campaign-v0",
+    "zach-md-build-log"
+   ]
+  },
+  {
+   "id": "C14-public-writing-canon",
+   "name": "Public writing and canon",
+   "purpose": "Public writing and canon: NFTT posts, the demand essay, good.arcs.care agent files, canon fact checks.",
+   "tool_shape": {
+    "reuse": "nftt-story-factory skill, scripts/good_agent_files, claims-skeptic.",
+    "route_labels": {
+     "HAVE": 13,
+     "NOT-RESOLVED": 2
+    },
+    "tools_named": [
+     ".claude/skills/nftt-story-factory/SKILL.md",
+     ".claude/agents/claims-skeptic.md",
+     "scripts/neighbor_scan.py",
+     "operators/arcs_primitives.evidence.jsonl",
+     "scripts/canon_claims_report.py",
+     "scripts/provenance_lint.py"
+    ]
+   },
+   "polarity": {
+    "reading": "PUSH",
+    "basis": "The posts serve the magnetize side of ADR-077 (field strength), but no row reads inbound as its success test, so no demander is named."
+   },
+   "critical_path": [
+    "tao-renders-regenerated-from-projection",
+    "lore-tao-cross-cite"
+   ],
+   "ready_now": [],
+   "ready_state": [],
+   "states": {
+    "HELD": 8,
+    "OPEN": 4,
+    "BLOCKED": 2,
+    "HOLDING": 1
+   },
+   "n": 15,
+   "fate_default": "Keep; two stale RUNNING rows wait on Zach's post and merge.",
+   "owner": "this groom",
+   "claim": {
+    "claim": "At least one named inbound contact cites a post within 30 days of the next publish.",
+    "measure": "Inbound messages or form entries naming a post or good.arcs.care page.",
+    "threshold": "1 or more per published batch.",
+    "window": "2026-12-12",
+    "falsifier": "Zero inbound citing any post after the next publish."
+   },
+   "rows": [
+    "canon-papers-fact-check",
+    "canon-unvalidated-figures-decision",
+    "canon-vocabulary-reconcile-for-share",
+    "essay-tribes-vibes-lies",
+    "good-agent-files",
+    "hyperstition-pipeline-first-graduate",
+    "lore-tao-cross-cite",
+    "moral-to-gate-alchemy-pipeline",
+    "nftt-backlog-since-oct-20",
+    "nftt-every-mistake-became-a-gate",
+    "nftt-monday-fde-takehome-build-log",
+    "nftt-story-factory-index-instructions-stale",
+    "nftt-template-kintsugi-contrast-and-label-heuristics",
+    "rosetta-behavioral-econ-register",
+    "tao-renders-regenerated-from-projection"
+   ]
+  },
+  {
+   "id": "C15-design-system",
+   "name": "Design system and UI kit",
+   "purpose": "One design system: DESIGN.md tokens, legacy _tokens.css, chips and cards, lane edges.",
+   "tool_shape": {
+    "reuse": "DESIGN.md, design-sync, page_gate.py, artifact_wrap_lint.py.",
+    "route_labels": {
+     "HAVE": 5,
+     "NOT-RESOLVED": 6
+    },
+    "tools_named": [
+     "scripts/motion_policy_gate.py",
+     ".claude/skills/impeccable/SKILL.md",
+     "scripts/card_gutter_check.mjs",
+     "src/ui-kit/token-tuner.js",
+     "scripts/token_source_gate.py"
+    ]
+   },
+   "polarity": {
+    "reading": "MIXED",
+    "basis": "Real drift exists (about 42 surfaces inherit legacy tokens) but Zach held most rows until the five-person test reads."
+   },
+   "critical_path": [
+    "unified-design-system-receipts-reports",
+    "tokens-css-vs-ds-font-stack-drift"
+   ],
+   "ready_now": [
+    "token-tuner-why-prompt"
+   ],
+   "ready_state": [
+    "arcs-mini-adopt-design-md-motion",
+    "echo-fake-exit-audit",
+    "echo-surface-restates-receipt-audit"
+   ],
+   "states": {
+    "READY": 3,
+    "HOLDING": 2,
+    "HELD": 4,
+    "OPEN": 2
+   },
+   "n": 11,
+   "fate_default": "Bundle the three token rows into one decision; keep the rest HELD.",
+   "owner": "this groom",
+   "claim": {
+    "claim": "One owner decision on legacy tokens settles the four token rows and the inheriting surfaces then pass one token gate.",
+    "measure": "Surfaces failing scripts/token_source_gate.py before and after.",
+    "threshold": "About 42 down to 5 or fewer within 14 days of the decision.",
+    "window": "2026-12-12",
+    "falsifier": "More than 20 surfaces still failing after the decision."
+   },
+   "rows": [
+    "arcs-mini-adopt-design-md-motion",
+    "brief-problem-shape-layouts",
+    "echo-fake-exit-audit",
+    "echo-surface-restates-receipt-audit",
+    "lane-edge-existing-25",
+    "media-codex-atlas-ziggurat-seeds",
+    "state-of-union-dashboard-ahmed-impeccable-pass",
+    "token-tuner-why-prompt",
+    "tokens-css-vs-ds-font-stack-drift",
+    "ui-kit-reconcile-legacy-tokens",
+    "unified-design-system-receipts-reports"
+   ]
+  },
+  {
+   "id": "C16-operator-registry",
+   "name": "Operators and the periodic table",
+   "purpose": "The operator periodic table: naming rulings, unbuilt atoms, undeclared dependencies.",
+   "tool_shape": {
+    "reuse": "operator_registry_emit.py, operators/mcp-bridge.sh --self-test.",
+    "route_labels": {
+     "HAVE": 8,
+     "PARTIAL": 1
+    },
+    "tools_named": [
+     "scripts/operator_registry_emit.py",
+     "operators/arcs_librarian.py",
+     "runtime/specs/read-friction-tiers.json",
+     "compass/route.ts",
+     "operators/docs/PERIODIC-TABLE.md",
+     "operators/core/operators.py"
+    ]
+   },
+   "polarity": {
+    "reading": "MIXED",
+    "basis": "Naming rulings pull (gotcha 16 violations, op25-sage-naming-ruling is open). The builds (Op 21 posterior, Op 13 unblock) wait on data."
+   },
+   "critical_path": [
+    "op20-somatic-axiom-real-signal-source"
+   ],
+   "ready_now": [
+    "librarian-apex-spine-tier-class"
+   ],
+   "ready_state": [],
+   "states": {
+    "OPEN": 2,
+    "HELD": 7
+   },
+   "n": 9,
+   "fate_default": "Keep; op25-sage-naming-ruling also decides this panel's Sage seat.",
+   "owner": "this groom",
+   "claim": {
+    "claim": "One ruling on op25-sage-naming-ruling closes the naming debt.",
+    "measure": "Bindings operator_registry_emit.py refuses; open naming rows.",
+    "threshold": "0 refused bindings; op25 and svc-sage rows resolved.",
+    "window": "2026-12-05",
+    "falsifier": "A new gotcha 16 violation within 30 days of the ruling."
+   },
+   "rows": [
+    "librarian-apex-spine-tier-class",
+    "op20-somatic-axiom-real-signal-source",
+    "op25-sage-naming-ruling",
+    "operator-13-choreographer-unblock",
+    "operator-25-first-catch",
+    "operator21-gaussian-process-posterior-then-rt-core",
+    "rc-ops-001-graduation-ruling",
+    "svc-sage-should-it-exist-decision",
+    "universe-scenario-anonymizer"
+   ]
+  },
+  {
+   "id": "C17-speculative-holds",
+   "name": "Speculative builds held for a demander",
+   "purpose": "Ideas held until someone asks: on-chain anchors and stakes, a hardware key, a second PLG surface.",
+   "tool_shape": {
+    "reuse": "None needed until a demander appears.",
+    "route_labels": {
+     "HAVE": 2,
+     "NONE": 1,
+     "NOT-RESOLVED": 2
+    },
+    "tools_named": [
+     "operators/arcs_operators_lab.py",
+     "scripts/prior_art.py"
+    ]
+   },
+   "polarity": {
+    "reading": "PUSH",
+    "basis": "All 5 HELD, none with a cost prior, none with a named demander. One depends on a composted row."
+   },
+   "critical_path": [
+    "hypothesis-generator-plg-surface"
+   ],
+   "ready_now": [],
+   "ready_state": [],
+   "states": {
+    "HELD": 5
+   },
+   "n": 5,
+   "fate_default": "Keep HELD; fix the dead dependency on onchain-receipt-anchor-registry.",
+   "owner": "this groom",
+   "claim": {
+    "claim": "None of the 5 held speculative builds gets a named demander in 30 days, so all stay HELD at zero cost.",
+    "measure": "Named requests for any of the 5; rows moved out of HELD.",
+    "threshold": "0 and 0 means keep HELD.",
+    "window": "2026-12-12",
+    "falsifier": "A named demander for any of the 5."
+   },
+   "rows": [
+    "hypothesis-generator-plg-surface",
+    "identity-arcs-care-attraction-rules-parked",
+    "onchain-receipt-anchor-registry",
+    "onchain-stakes-write-locked",
+    "tap-pin-portable-seed-key"
+   ]
+  }
+ ],
+ "verdicts": [
+  {
+   "seat": "Skeptic",
+   "objection": "The index presents hand-written incident, count and PR-state claims (\"drained\", \"PR 1950 open\", \"219\", \"five notes\", \"every store\") as measured basis for polarity and fate decisions, yet at least six are contradicted by the repo's own rows, gh, or scripts/open_loops.py, so no fate in fates_proposed or polarity reading should be applied without re-deriving it.",
+   "outcome": "Changed",
+   "change": "Seven corrections applied: C01 route count (80 of 84), B5 baseline (about 592), C07 (29 rows carry the note), C11 (a drain is possible, none recorded), PR 1950 merged, the /loops supersede withdrawn, C09 count (91 in /loops)."
+  },
+  {
+   "seat": "Skeptic",
+   "objection": "C10: drop \"red CI gates 10-19 to 10-20\". The Phosphor-suite red checks have no failed main runs and the row is HELD.",
+   "outcome": "Rejected",
+   "change": "The incident is named in gates-class-prevent-leak-and-render-drift (\"the red CI gates job of 2026-10-19 to 10-20\", fixed in 39868410), not in pressure-red-checks-main. The basis now cites the row by id and separates the HELD Phosphor checks."
+  },
+  {
+   "seat": "Alchemist",
+   "objection": "The index sorts 310 active rows by judgment alone, and the Librarian, Folksonomist and Auditor seats could not read the backlog, so nothing mechanical checks the clusters, the PULL/PUSH readings or the critical paths, which means one reader's opinion is presented as a measured map.",
+   "outcome": "Held open",
+   "change": "True as stated. The method block labels the clusters a stand-in and polarity a judgment. Closing it needs a backlog-row adapter for Op 20 and a backlog corpus for Op 21; neither is built in this groom."
+  },
+  {
+   "seat": "Alchemist",
+   "objection": "C11: Its own basis calls the provider abstraction push, so the cluster is MIXED; PULL covers only the 2 BLOCKED key rows.",
+   "outcome": "Changed",
+   "change": "C11 PULL to MIXED."
+  },
+  {
+   "seat": "Alchemist",
+   "objection": "C12: Nine of 16 rows are HELD and PRL is paused by Zach, so only the named-counterpart rows are PULL; the cluster reads MIXED.",
+   "outcome": "Changed",
+   "change": "C12 PULL to MIXED."
+  },
+  {
+   "seat": "Alchemist",
+   "objection": "C13: Basis admits four lens packs have no outcome joined and 14 rows are OPEN, so it is MIXED; PULL holds only for Harrison and CIA.",
+   "outcome": "Changed",
+   "change": "C13 PULL to MIXED."
+  },
+  {
+   "seat": "Alchemist",
+   "objection": "C14: Its basis says no row reads inbound as the success test, so it has no demander and reads PUSH until one is added.",
+   "outcome": "Changed",
+   "change": "C14 MIXED to PUSH."
+  },
+  {
+   "seat": "Alchemist",
+   "objection": "C05: The basis cites only staleness, which says nothing about demand; it reads PUSH or unknown, not MIXED.",
+   "outcome": "Held open",
+   "change": "Both rows overlap wave 2 of a pulled epic, which is a demand signal the basis did not state. The recoil orchestrator owns the call; reading stays MIXED until it rules."
+  },
+  {
+   "seat": "Accountant",
+   "objection": "254 of 310 active rows carry a cost_prior, but as prose ('author estimate: 1 to 3 h', 'small', 'tbd'); 7 are bare numbers and 0 DONE rows record an actual, so no prior has ever been scored and no cluster can be ranked by cost.",
+   "outcome": "Held open",
+   "change": "No cost ranking appears in the index. Added a ruin watch list (15 active rows with high ruin or a one-way door). Recording actuals at close is the job of compounding-model-prereg (C07)."
+  },
+  {
+   "seat": "Sentry (stand-in: sentries.py and the status check)",
+   "objection": "None of the five sentries reads the backlog; the seven stale claims surfaced only because backlog_status_check runs at commit time, and its --gh PR-cite list did not reproduce on a second run.",
+   "outcome": "Held open",
+   "change": "Every stale claim now has a proposed fate or an owner routing (acceptance test). Adding a backlog watcher would be a new tool; not done in a groom."
+  },
+  {
+   "seat": "Librarian",
+   "objection": "Op 21 returned ADR-086 for two different backlog queries; the store does not index backlog rows, so its retrieval cannot reconcile clusters against prior decisions.",
+   "outcome": "Held open",
+   "change": "Reconciliation done by hand against the three existing epics; recorded as such."
+  },
+  {
+   "seat": "Folksonomist",
+   "objection": "No backlog-row adapter exists (ADR-086 finding 3); these clusters are not Op 20 output.",
+   "outcome": "Held open",
+   "change": "Clusters labelled a stand-in in the method block."
+  },
+  {
+   "seat": "Impeccable",
+   "objection": "A page whose only job is to elicit approvals gives Zach nothing to approve with, since it has no decision IDs, no per-row control, and its decisions table sits behind 17 collapsed clusters.",
+   "outcome": "Changed",
+   "change": "Decisions numbered D1 to D18, moved above the clusters, linked from the lede, with an approve-all-except line. Cluster summaries now show the default; cards carry an open marker; empty fields dropped; rows nested."
+  },
+  {
+   "seat": "Impeccable",
+   "objection": "The tables break at 375.",
+   "outcome": "Held open",
+   "change": "Tables keep horizontal scroll inside a focusable region (axe clean). Stacked cards on phones is a template change for every proposal page, not this one."
+  },
+  {
+   "seat": "Brand manager",
+   "objection": "\"Skeptic | Verified each factual claim in this index against the repo.\" contradicts the Skeptic's own logged objection that at least six claims were contradicted by the repo, so the Panel table asserts a proof the page itself disproves.",
+   "outcome": "Changed",
+   "change": "Panel cells now say what each seat found, not what it was asked to do. Card gutter, table padding, polarity label, PULL colour, voice and a glossary fixed."
+  },
+  {
+   "seat": "Brand manager",
+   "objection": "Two [design-system-font] hits for Public Sans ... Decide with the 11-08 page whether to declare it in DESIGN.md or drop it, and do not fix only one page.",
+   "outcome": "Held open",
+   "change": "Inherited from the 11-08 proposal page; a ruling for both pages, not this one."
+  },
+  {
+   "seat": "Brand manager",
+   "objection": "The body now says \"your go\" and \"Decisions for you\", but several cells still say \"Zach held it\" ... Make the cluster text second person, or accept the mix.",
+   "outcome": "Held open",
+   "change": "Kept: cluster and fate text quotes the record (status notes name Zach), and the index JSON is read by other sessions, not only by you."
+  }
+ ],
+ "ruin_watch": [
+  "agent-receipts-audit-first-conversion",
+  "brooks-audit-proposal-send",
+  "canon-unvalidated-figures-decision",
+  "canon-vocabulary-reconcile-for-share",
+  "hud-conviction-consonance-readings",
+  "myally-step1-audit",
+  "phosphor-acoustic-sync-test",
+  "phosphor-webkit-eject-lock",
+  "rc-ops-001-graduation-ruling",
+  "readiness-card-oss-extract",
+  "recoil-ship-twin",
+  "rfp-ship-packages-publish",
+  "rfp-ship-public-leak-gate",
+  "rfp-ship-public-repo-create",
+  "rfp-ship-public-repo-decide"
+ ],
+ "skeptic_false_open": 0,
+ "brand_verdict": "PASS",
+ "impeccable_open_p01": 0,
+ "acceptance": [
+  {
+   "seat": "Librarian",
+   "test": "Every active row sits in exactly one cluster, and no cluster lists a row that is not active",
+   "result": "PASS (310 active, 0 missing, 0 doubled, 0 not active)"
+  },
+  {
+   "seat": "Librarian",
+   "test": "Every recoil epic row is in C04 and owned by the recoil orchestrator",
+   "result": "PASS (11 epic rows)"
+  },
+  {
+   "seat": "Folksonomist (stand-in)",
+   "test": "Every cluster has at least 3 rows and a stated job",
+   "result": "PASS (smallest 5)"
+  },
+  {
+   "seat": "Accountant",
+   "test": "Every active row with high ruin or a one-way door is on the ruin watch list",
+   "result": "PASS (15 rows, 0 unlisted)"
+  },
+  {
+   "seat": "Accountant",
+   "test": "No calibration or cost rate is claimed: the index states n = 0 actuals",
+   "result": "PASS"
+  },
+  {
+   "seat": "Sentry (stand-in)",
+   "test": "Every stale RUNNING claim the status check reports has a proposed fate or owner routing",
+   "result": "PASS (7 stale, 0 unfated)"
+  },
+  {
+   "seat": "Alchemist",
+   "test": "Every cluster carries one claim with measure, threshold, window and falsifier",
+   "result": "PASS (0 missing)"
+  },
+  {
+   "seat": "Alchemist",
+   "test": "Every claim reads by 2026-12-12 at the latest",
+   "result": "PASS"
+  },
+  {
+   "seat": "Skeptic",
+   "test": "Every critical-path id is an active row in the file",
+   "result": "PASS (0 bad)"
+  },
+  {
+   "seat": "Skeptic",
+   "test": "Every proposed fate names a row that is still active",
+   "result": "PASS (0 bad)"
+  },
+  {
+   "seat": "Skeptic",
+   "test": "Zero claims the skeptic found FALSE remain uncorrected",
+   "result": "PASS (open 0)"
+  },
+  {
+   "seat": "Brand manager",
+   "test": "Rendered page has 0 em-dashes and wrap-lint is clean",
+   "result": "PASS"
+  },
+  {
+   "seat": "Brand manager",
+   "test": "brand-line-producer returns PASS on the rendered page",
+   "result": "PASS (PASS)"
+  },
+  {
+   "seat": "Impeccable",
+   "test": "No P0 or P1 finding from the impeccable critique is left without a fix or a held-open verdict",
+   "result": "PASS (open 0)"
+  },
+  {
+   "seat": "Auditor",
+   "test": "No seat, so no test: UNBOUND",
+   "result": "n/a"
+  },
+  {
+   "seat": "Sage",
+   "test": "No seat, so no test: UNBOUND",
+   "result": "n/a"
+  },
+  {
+   "seat": "Scholar",
+   "test": "No seat, so no test: UNBOUND",
+   "result": "n/a"
+  }
+ ],
+ "fates_proposed": [
+  {
+   "id": "D1",
+   "row": "good-agent-files",
+   "now": "RUNNING (stale)",
+   "propose": "HOLDING",
+   "reason": "Waits on Zach's merge go; no session is working it.",
+   "applied": "2026-11-12, Zach approved D1-D16; applied as BLOCKED, not HOLDING (waits on a named human, not a depends_on row); resolve_by 2026-11-19 set by the groom (the graph gate requires one on BLOCKED rows)"
+  },
+  {
+   "id": "D2",
+   "row": "nftt-every-mistake-became-a-gate",
+   "now": "RUNNING (stale)",
+   "propose": "HOLDING",
+   "reason": "Post indexed; LinkedIn teaser waits on Zach.",
+   "applied": "2026-11-12, Zach approved D1-D16; applied as BLOCKED, not HOLDING (waits on a named human, not a depends_on row); resolve_by 2026-11-19 set by the groom (the graph gate requires one on BLOCKED rows)"
+  },
+  {
+   "id": "D3",
+   "row": "paid-brief-first-dollar",
+   "now": "RUNNING (stale)",
+   "propose": "HOLDING",
+   "reason": "PR 1950 merged; the paywall waits on STRIPE_PAYMENT_LINK and the prod migration (migration state not re-checked).",
+   "applied": "2026-11-12, Zach approved D1-D16; applied as BLOCKED, not HOLDING (waits on a named human, not a depends_on row); resolve_by 2026-11-19 set by the groom (the graph gate requires one on BLOCKED rows)"
+  },
+  {
+   "id": "D4",
+   "row": "agent-readable-arcs-hosts",
+   "now": "RUNNING (stale)",
+   "propose": "HOLDING",
+   "reason": "Catch-all check left; merge waits on Zach.",
+   "applied": "2026-11-12, Zach approved D1-D16; applied as BLOCKED, not HOLDING (waits on a named human, not a depends_on row); resolve_by 2026-11-19 set by the groom (the graph gate requires one on BLOCKED rows)"
+  },
+  {
+   "id": "D5",
+   "row": "jtbd-orphanage-family-audit",
+   "now": "RUNNING (stale)",
+   "propose": "HELD",
+   "reason": "Child session gone; jtbd-orphan-jobs-groom carries the same baseline.",
+   "applied": "2026-11-12, Zach approved D1-D16"
+  },
+  {
+   "id": "D6",
+   "row": "uikit-recoil-player",
+   "now": "RUNNING (stale)",
+   "propose": "send to recoil orchestrator",
+   "reason": "Recoil-adjacent; fold into wave 2 or hold. Not changed here.",
+   "applied": "2026-11-12, Zach approved D1-D16; routed by message, no state change here"
+  },
+  {
+   "id": "D7",
+   "row": "recoil-backlog-induction-tool-snap",
+   "now": "RUNNING (stale)",
+   "propose": "send to recoil orchestrator",
+   "reason": "Overlaps backlog-session-cards-skill in wave 2. Not changed here.",
+   "applied": "2026-11-12, Zach approved D1-D16; routed by message, no state change here"
+  },
+  {
+   "id": "D8",
+   "row": "prl-golive-empty-email-guard",
+   "now": "HELD",
+   "propose": "SUPERSEDED by prl-empty-email-e2e",
+   "reason": "Same guard; the e2e row carries the proof.",
+   "applied": "2026-11-12, Zach approved D1-D16"
+  },
+  {
+   "id": "D9",
+   "row": "compass-model-agnostic-provider-abstraction",
+   "now": "HELD",
+   "propose": "SUPERSEDED by model-provider-adapter",
+   "reason": "The adapter migrates the compass call site with the other 30.",
+   "applied": "2026-11-12, Zach approved D1-D16"
+  },
+  {
+   "id": "D10",
+   "row": "card-catalog-sweep-quorum",
+   "now": "OPEN",
+   "propose": "DONE",
+   "reason": "PR 1981 merged; the remaining Q4 re-run is its own row (card-catalog-q4-rerun-with-receipts).",
+   "applied": "2026-11-12, Zach approved D1-D16"
+  },
+  {
+   "id": "D11",
+   "row": "decompose-page-atomic-params",
+   "now": "OPEN",
+   "propose": "COMPOSTED",
+   "reason": "Scrum default: no trigger, no tool, stale route.",
+   "applied": "2026-11-12, Zach approved D1-D16"
+  },
+  {
+   "id": "D12",
+   "row": "onchain-receipt-anchor-registry",
+   "now": "HELD",
+   "propose": "drop the dead depends_on fc-derisk-wallet-funding",
+   "reason": "Dependency is COMPOSTED.",
+   "applied": "REVERTED 2026-11-12: dropping the dead dependency leaves the row with no path to any tool, a new ORPHAN-JOB the JTBD graph gate refuses. Back to Zach: compost the row, or keep the dead link."
+  },
+  {
+   "id": "D13",
+   "row": "token-tuner-why-prompt",
+   "now": "OPEN",
+   "propose": "add depends_on token-tuner-plain-view",
+   "reason": "Fixes the unblocks mismatch.",
+   "applied": "2026-11-12, Zach approved D1-D16"
+  },
+  {
+   "id": "D14",
+   "row": "catalog-verb-table-drift-check",
+   "now": "OPEN",
+   "propose": "renew, review_by 2026-12-12",
+   "reason": "Scrum default; trigger has not fired.",
+   "applied": "2026-11-12, Zach approved D1-D16"
+  },
+  {
+   "id": "D15",
+   "row": "op20-somatic-axiom-real-signal-source",
+   "now": "HELD",
+   "propose": "renew, review_by 2026-12-12",
+   "reason": "Scrum default; trigger has not fired.",
+   "applied": "2026-11-12, Zach approved D1-D16"
+  },
+  {
+   "id": "D16",
+   "row": "swipe-left-rationale-loop",
+   "now": "HELD",
+   "propose": "renew, review_by 2026-12-12",
+   "reason": "Scrum default; Zach held it 10-21.",
+   "applied": "2026-11-12, Zach approved D1-D16"
+  },
+  {
+   "id": "D17",
+   "row": "B4-prl-kit (6 task rows)",
+   "now": "HELD",
+   "propose": "Zach decides: keep the kit or compost all six",
+   "reason": "PRL paused since 09-26.",
+   "applied": null
+  },
+  {
+   "id": "D18",
+   "row": "13 phosphor rows without route or trigger",
+   "now": "HELD",
+   "propose": "leave as is; the index carries the bundle",
+   "reason": "Adding fields to 13 HELD rows grows the conflict surface for no runnable gain.",
+   "applied": null
+  }
+ ]
+}

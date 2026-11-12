@@ -1,0 +1,507 @@
+{
+ "spec": "/Users/zharris/Downloads/ARCS_Lossless_Translation_Engine_Spec.md",
+ "lines": 964,
+ "read_fully": true,
+ "claims": [
+  {
+   "id": "C1",
+   "line": 4,
+   "quote": "Classification: ARCS Canon — Patent-Pending",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "No evidence any application was filed. _QUEUE/induced-backlog.jsonl row filing-prior-filings is state READY, human step, gate 'Yes/no with number and date, or none' (never answered); filing-file is HOLDING behind filing-review and filing-wl-file; filing-select-counsel exists. _STATE/earliest-public-disclosure-ledger-2026-10-15.md line 69 (Q6) records 'Patent-Pending' as a question, not a fact; line 49 notes the White Paper header and Q4 2025 filing plan are unconfirmed. 'Patent-pending' also has a legal meaning (an application exists); asserting it without one is a misstatement risk.",
+   "fix": "Say 'Unfiled; patent-candidate disclosure draft' until filing-prior-filings resolves with a number and date."
+  },
+  {
+   "id": "C2",
+   "line": 5,
+   "quote": "Status: Draft — Ready for Claude Code Implementation",
+   "kind": "SELF-GRADE",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Line 5 'Draft' and 'Ready'; Appendix B line 958 admits IPS threshold, wavefunction coefficients and kairos detection are uncalibrated; line 177 weights have a formula bug (see C9). A spec with an unresolved formula conflict is not implementation-ready.",
+   "fix": "Status: Draft v1.0, open issues listed."
+  },
+  {
+   "id": "C3",
+   "line": 6,
+   "quote": "Modules Defined: RRE, Transceiver, Lossless Codex, Signal Processing",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Line 76 says '7-stage pipeline with 4 core modules'; the diagram lines 79-118 draws 6 boxes (Intake, Altitude, Codex, RRE, Recomp, Transceiver). operators/arcs_lte.py line 4 counts 7 only by adding an HC pre-scan stage (arcs_hc.py) that the spec never defines.",
+   "fix": "State the stage count once and make the diagram match; either add the HC pre-scan to the spec or say 6."
+  },
+  {
+   "id": "C4",
+   "line": 17,
+   "quote": "Altitude mismatch causes 80% of communication failures",
+   "kind": "EMPIRICAL",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Searched. No primary source. 80% appears only in secondary roundups (ZipDo-attributed) for project failure from poor communication; PMI Pulse figures are roughly 1 in 5 and 1 in 3. Nothing measures 'altitude mismatch' as a category. https://www.pmi.org/learning/library/communication-11189",
+   "fix": "Drop the number, or say 'a working hypothesis (untested)'."
+  },
+  {
+   "id": "C5",
+   "line": 19,
+   "quote": "treats meaning as the carrier wave and expression as the modulation layer",
+   "kind": "DESIGN",
+   "verdict": "DESIGN",
+   "evidence": "Metaphor. Carrier/modulation implies meaning is separable from expression; the spec's own M4 coefficient and Rule 6 (valence is invariant) show expression changes meaning. Mark as analogy.",
+   "fix": null
+  },
+  {
+   "id": "C6",
+   "line": 15,
+   "quote": "Every ARCS output that reaches a human is routed through the LTE before delivery",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "grep of src/ for arcs_lte: no import (hits are unrelated: proxy.ts, Field.tsx, StickyFooter.tsx matching substring only). Only operators/arcs_lte.py (1111 lines) and operators/arcs_cis.py reference it. operators/README.md line 51 even mislabels LTE as 'Long-term expectation'. No /api route calls it. Compass pipeline (AGENTS.md DEWY section) has no LTE step.",
+   "fix": "Say 'intended; not wired. Sprint 5 step 5 is unbuilt.' Add a backlog row if wiring is wanted (recurring-run rule)."
+  },
+  {
+   "id": "C7",
+   "line": 46,
+   "quote": "IPS >= 0.95 target",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Line 51 rows disagree: P3 line 54 round-trip IPS >= 0.90 and Sprint 2 line 833 >= 0.90, but Test 4 line 912 round-trip >= 0.85; Test 3 line 906 IPS >= 0.90 vs Rule 1 line 860 gate 0.95 universal vs ROM-LTE-003 line 931 (0.95 persuasion, 0.90 brief) vs M7 line 792 (<0.90 flags). Five different gates for one metric.",
+   "fix": "One table: gate per mode and per transition, with Rule 1 deferring to it."
+  },
+  {
+   "id": "C8",
+   "line": 48,
+   "quote": "Invariant 'cannot be dropped' (0% invariants lost) alongside IPS >= 0.95",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Compression table lines 287-294 state '0% invariants' max loss and line 285 says no compression that drops an invariant is permitted; Rule 1 line 860 'Never ship a translation that drops an invariant'. IPS >= 0.95 (line 52) permits dropping 1 in 20; Test 3 allows 0.90. Also Test 5 line 921 blocks on a single dropped invariant, so the gate is really 1.0 when invariant counts are small (1 of 3 dropped = 0.67).",
+   "fix": "Define invariants as hard (gate at 1.0) vs soft (counted by IPS)."
+  },
+  {
+   "id": "C9",
+   "line": 175,
+   "quote": "Altitude = a*AI + b*DI + (1 - g)*UI, a=.45, b=.40, g=.15",
+   "kind": "REPO",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Line 175 uses (1-gamma)=0.85 for UI; T4 code line 684-686 and operators/arcs_lte.py line 450 use 0.15. With 0.85, weights sum to 1.70, so raw_score*5 reaches 8.5 and saturates at L5 (any urgent text with AI=DI=0.1, UI=0.9 scores 4.25 = L4). The code silently fixed it; the spec formula is wrong.",
+   "fix": "Altitude = 0.45*AI + 0.40*DI + 0.15*UI (weights sum to 1)."
+  },
+  {
+   "id": "C10",
+   "line": 177,
+   "quote": "weights empirically validated on ARCS corpus",
+   "kind": "EMPIRICAL",
+   "verdict": "FALSE",
+   "evidence": "No validation artifact in repo: grep for the weights and 'altitude' across _CANON finds no fit, dataset or notebook; Yellow Paper v1.2 contains no altitude model. Appendix B line 958 itself says calibration data is missing. Weights equal the code constants only.",
+   "fix": "Say 'initial guess, uncalibrated'; add a labeled set (P3 asks 100+) before claiming."
+  },
+  {
+   "id": "C11",
+   "line": 173,
+   "quote": "Urgency Index is an altitude axis",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "UI is defined as kairos proximity (line 171), which is a timing property, not cognitive altitude. A crisis message in simple words gets a higher altitude score. The spec later uses UI for KAIROS_INJECT (line 347) and the code dampens it by sender drift (arcs_lte.py line 446), treating it as a separate signal.",
+   "fix": "Remove UI from the altitude score; keep as a separate register axis."
+  },
+  {
+   "id": "C12",
+   "line": 180,
+   "quote": "L0-L5 altitude map",
+   "kind": "REPO",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "L0-L5 already names the compass stack in CLAUDE.md (L0=atomic signal, L1=coherence, L2=path survivability, ...). The spec reuses the labels for audience altitude, so 'L3' means two different things in one repo. Also level bands are not the rounding rule: round(score*5) puts L0 at AI < 0.1, while the table gives L0 AI 0.0-0.2.",
+   "fix": "Rename (A0-A5 or Altitude 0-5) and derive bands from the rounding rule."
+  },
+  {
+   "id": "C13",
+   "line": 188,
+   "quote": "L5 compression tolerance: None (expand only)",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Line 188 says L5 is expand-only; line 287 L5->L0 10:1, L5->L2 4:1 and Tests 2, 3 compress L5 text. Tolerance is keyed to target level in the map but to source level elsewhere.",
+   "fix": "Define compression limits as a (source,target) matrix; drop the per-level column."
+  },
+  {
+   "id": "C14",
+   "line": 293,
+   "quote": "L0 -> L5 1:8 expansion; L5->L0 10:1 table",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "operators/arcs_lte.py lines 56-70 MAX_COMPRESSION differs from the spec table: adds (4,0)=8.0, (5,1)=7.0, (3,1)=3.0, (2,0)=4.0, (1,0)=2.0, but omits the spec's 'lateral +-1 level 2:1' row, and the spec's (4,1)=5:1 and (3,0)=6:1 match only partly. Table says code-and-spec agree; they do not.",
+   "fix": "Generate the table from one source (the code constant) and cite it."
+  },
+  {
+   "id": "C15",
+   "line": 300,
+   "quote": "CF = 1 - (H(out)-H_inv)/(H(in)-H_inv)",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Divides by zero when the input is all invariants (H(in)=H_inv), goes negative for expansion (H(out) > H(in), the L0->L5 case at line 293), and CF=1 requires H(out)=H_inv, i.e. all non-invariant entropy removed. P3 line 53 requires '<= 5% semantic entropy loss', M6 line 786 requires CF >= 0.95 (>= 95% removed). Same word, opposite targets unless 'loss' means invariant loss. 'Shannon entropy of the semantic payload' has no estimator; code _estimate_entropy is a text statistic.",
+   "fix": "Define the estimator; restrict CF to compression; separate 'invariant loss' from 'style entropy removed'."
+  },
+  {
+   "id": "C16",
+   "line": 312,
+   "quote": "|psi_aud> = sum c_i |belief_i>, |c_i|^2 probability",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Requires sum|c_i|^2 = 1 and an orthonormal belief basis; neither is stated. Operators/arcs_lte.py lines 197, 210 store 'amplitudes' like [0.55,0.30,0.15] that sum to 1 as the values themselves, i.e. probabilities, not amplitudes (|c|^2 would be 0.30, 0.09, 0.02, sum 0.41). And _wavefunction_resonance (lines 490-520) never uses them: it is word overlap minus forbidden-word friction.",
+   "fix": "Specify construction of psi_msg and psi_aud (embedding? basis?) or label R a heuristic overlap score."
+  },
+  {
+   "id": "C17",
+   "line": 326,
+   "quote": "R = |<psi_msg|psi_aud>|^2 >= 0.80",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "psi_msg is never defined, so R is not computable from the spec. Line 328: below 0.60 triggers Phase Warning and recompile; 0.60-0.80 behaviour undefined. Yellow Paper v1.2 section 2.1 (line 453-465) states the unsquared <psi_msg|psi_aud> ~ 1; the squared Born-rule form is the spec's own addition.",
+   "fix": "Define the representation and the 0.6-0.8 band."
+  },
+  {
+   "id": "C18",
+   "line": 336,
+   "quote": "destructive when phi1-phi2=pi; delta = |phi_msg - phi_aud| < 0.15",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Line 334 defines S1,S2 with different frequencies w1, w2; relative phase only governs interference at a common frequency (M8 line 800 uses a shared w). Phases of text are never defined, and R (a global-phase-invariant overlap) and delta are independent quantities, so R>=0.8 and delta<0.15 can disagree. |a-b| is not wrapped mod 2pi, so a pair at 0.1 and 2pi-0.05 reads 6.1 instead of 0.15. Code line 517 computes phase_delta = friction share * pi, not a phase.",
+   "fix": "Define phi operationally or drop delta as a separate gate; wrap to [0,pi]."
+  },
+  {
+   "id": "C19",
+   "line": 349,
+   "quote": "BANDWAGON_AMPLIFY: Social proof injection (style op)",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Component 4 line 354 says the propaganda taxonomy is 'detection and defense, not to manipulate'; this op, VALUE_ANCHOR_INJECT and TRUST_BUILDER_WRAP (lines 345-349) apply bandwagon social proof, an offensive use. Conflicts with the Rule 6 no-sycophancy rule (line 874) and the ARCS honest-resonance memory (arcs-purpose-honest-resonance-engine-not-propaganda).",
+   "fix": "Remove BANDWAGON_AMPLIFY, or restrict to real, cited adoption data with a visible seam."
+  },
+  {
+   "id": "C20",
+   "line": 368,
+   "quote": "Kairos Signal = {t : v(t) > v_th AND a(t) > 0}",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Same condition (v>0 and a>0) is the 'Phase Warning' at line 219 and the 'automatic compression' trigger at T3.2 line 634, where it signals abstraction running away from the receiver; here it is the receptive window. Same math, opposite action, no disambiguating variable. v_threshold has no value. Yellow Paper v1.2 (line 480) uses derivative analysis for posting times, not conversation receptiveness.",
+   "fix": "Name distinct signals (S_abstraction vs S_momentum) and give thresholds."
+  },
+  {
+   "id": "C21",
+   "line": 633,
+   "quote": "Detection: v>1.5 abstraction-index gradient triggers altitude drift",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "T3.1 line 623 applies threshold 1.5 to np.gradient of abstraction scores bounded in [0,1]. Verified in Python: max |np.gradient| over a [0,1] signal is 1.0 (0.5 interior). The threshold can never fire. 1.5 is the Rx level-jump threshold (line 488) on a 0-5 scale: unit mismatch.",
+   "fix": "Use a per-paragraph threshold in index units (e.g. 0.3) or compute on altitude levels."
+  },
+  {
+   "id": "C22",
+   "line": 656,
+   "quote": "Decelerator severity = -a/v stops retry loop",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Needs three points to estimate a second derivative, yet ROM-LTE-006 line 933 caps recomp at 3 iterations, so the atom can fire only on the final pass, when the cap has already stopped the loop. Undefined at v=0 (the Yellow Paper v1.2 version at lines 236-250 guards with isfinite, the spec omits it). Applies a derivative of IPS across iterations, a series with n<=3 where noise dominates.",
+   "fix": "Cap by iteration count and IPS plateau test (delta < eps); drop the second-derivative device."
+  },
+  {
+   "id": "C23",
+   "line": 644,
+   "quote": "WaveDiffusionAtom: dS/dt = D grad^2 S - lambda S + f(x,t)",
+   "kind": "DESIGN",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Equation matches Yellow Paper v1.2 line 136 atom, but nothing maps a text message to S, D, lambda, f or the space x, and the spec only offers 'heuristic' (line 649). Not computable as written. Wave math is called 'formalism-by-analogy' (line 964), which is the honest framing.",
+   "fix": "State as metaphor; remove from build scope or give a concrete scalar proxy."
+  },
+  {
+   "id": "C24",
+   "line": 642,
+   "quote": "'AI disruption' to an Institutionalist = destructive interference",
+   "kind": "EMPIRICAL",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Example claim about audience reaction; no study, and the codex lists forbidden vocabulary per archetype with no provenance. Archetype definitions (lines 273-281) have no source beyond the author.",
+   "fix": "Label as hypothesis; collect reaction data."
+  },
+  {
+   "id": "C25",
+   "line": 711,
+   "quote": "detect_altitude code (T4) runs as shown",
+   "kind": "REPO",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "AltitudeProfile (lines 551-559) has no drift_detected field, yet T4 line 704 passes it; Pydantic v2 ignores extras by default so the flag is silently dropped. np is never imported; compute_* helpers and TextSecondDerivativeAtom (required by Sprint 1 line 823) are never defined. altitude_delta=0 'set by caller' while the profile claims the delta.",
+   "fix": "Complete the snippet or mark it pseudo-code."
+  },
+  {
+   "id": "C26",
+   "line": 565,
+   "quote": "amplitudes: list[complex] in Pydantic v2 model",
+   "kind": "EMPIRICAL",
+   "verdict": "VERIFIED",
+   "evidence": "Pydantic added complex support in v2.9 (PR 9654, pydantic-core 2.22.0): https://pydantic.dev/articles/pydantic-v2-9-release . Spec says only 'Pydantic v2'; v2.0-2.8 reject complex. Code in the repo uses dataclasses, not Pydantic, and real floats.",
+   "fix": "Pin pydantic >= 2.9."
+  },
+  {
+   "id": "C27",
+   "line": 507,
+   "quote": "spaCy >= 3.7 or Anthropic API for semantic parsing",
+   "kind": "EMPIRICAL",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Version number plausible (spaCy 3.7 exists), not re-checked. Repo arcs_lte.py needs neither: it imports only stdlib plus arcs_hc/arcs_models (lines 14-35) and uses regex and an llm_client stub. Memory rule: no new dependencies without asking; T1 asks for spaCy, FAISS/ChromaDB, FastAPI, NumPy, SciPy, none declared (also operators/ has no venv deps for them).",
+   "fix": "Mark each dependency as requires-approval."
+  },
+  {
+   "id": "C28",
+   "line": 726,
+   "quote": "Full pipeline P50 < 500ms, P99 < 2s; altitude detection < 50ms",
+   "kind": "EMPIRICAL",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "No benchmark. If 'Anthropic API' (T1) is used for parsing, or llm_client for VISCERAL_TRANSLATE (arcs_lte.py line 609), a single model call alone typically exceeds 500ms. Targets are self-assumed.",
+   "fix": "Targets for the local-only path; separate budget for the LLM path."
+  },
+  {
+   "id": "C29",
+   "line": 739,
+   "quote": "M1: every translation must increase or preserve system coherence; LTE minimizes S",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Line 739 'increase or preserve coherence' and line 743 'minimizes semantic entropy' sit against expansion (L0->L5 adds entropy, line 293) and against CF, which wants output entropy to equal H_inv. S = -k_B sum p ln p uses the Boltzmann constant for a semantic quantity with no units; p_i never defined.",
+   "fix": "Say 'preserves invariants'; drop k_B."
+  },
+  {
+   "id": "C30",
+   "line": 746,
+   "quote": "M2 sourced to Yellow Paper section 2.1",
+   "kind": "REPO",
+   "verdict": "VERIFIED",
+   "evidence": "_CANON/arcs-v9-additional/ARCS-YellowPaper-v1-2.md line 453 '2.1 Audience as Wavefunction', 1.7 at line 257 Energetic Catalysis, 1.8.2 at line 368 Manifold, 3.2 at line 535 Content Localization. Note: _CANON/ARCS-YellowPaper.md (the 1075-line copy) has different section numbers (2.1 'Insufficiency of Deductive Approaches'), so the spec cites v1.2 only.",
+   "fix": "Cite 'Yellow Paper v1.2' by file path."
+  },
+  {
+   "id": "C31",
+   "line": 767,
+   "quote": "M4 projection: sum c_i |native_i> <concept_i|native_i>",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Not a projection: a projection of |Content> onto the native basis is sum_i |native_i><native_i|Content>. Multiplying by a scalar <concept_i|native_i> and swapping the basis does not preserve the c_i norm, and |concept_i>, |native_i> are never shown to live in one Hilbert space. 'Codex stores these coefficients' (line 769) but the Codex JSON (lines 229-244) has no field for them.",
+   "fix": "Rewrite as a lookup weight, or specify the shared space and a native basis."
+  },
+  {
+   "id": "C32",
+   "line": 775,
+   "quote": "M5 Geodesic: multi-step compression preserves more invariants",
+   "kind": "EMPIRICAL",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Metric tensor g_ij and Christoffel symbols are never specified; Appendix B line 958 concedes the Christoffel use is heuristic. The equation is a continuous path; mapping it to discrete steps L5->L3->L1 is an assertion. No experiment compares stepwise vs direct IPS. Yellow Paper v1.2 line 377 uses the same equation with no data either.",
+   "fix": "State as hypothesis; add an A/B on 50 samples before ROM promotion (ROM-LTE-002)."
+  },
+  {
+   "id": "C33",
+   "line": 866,
+   "quote": "Rule 3: never L5 -> L0 direct unless signal < 50 tokens",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Test 3 (line 903) is a direct L5->L0 translation of a 40-word input at ~8:1 and the table (line 289) lists L5->L0 10:1 'Strip all frameworks, one verb-noun'; M5 route is L5->L3->L1->L0 (line 777) while Rule 3 gives L5->L3->L1 and stops. 'Jumps > 2 levels' also excludes L4->L1 (3 levels) from line 290's one-step 5:1 row. No route_geodesic exists in arcs_lte.py (grep: 0 hits).",
+   "fix": "Pick one routing rule; say whether Test 3 is exempt (token count) and state the token threshold basis."
+  },
+  {
+   "id": "C34",
+   "line": 874,
+   "quote": "Rule 6: negative valence is a semantic invariant (ROM-LTE-005)",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "grep arcs_lte.py for valence/negative/sentiment: 0 hits. _compute_ips (lines 689-722) is keyword overlap at 40% per invariant; it cannot detect a flipped sentiment. Sycophancy is only a spec promise.",
+   "fix": "Say 'not implemented'; add a valence atom and a test that flips polarity."
+  },
+  {
+   "id": "C35",
+   "line": 406,
+   "quote": "Recomp: if IPS < 0.95, roll back last style op and retry",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "operators/arcs_lte.py run_recomp (lines 747-780): on IPS < 0.95 it appends missing invariants verbatim ('Key points preserved: [...]') then recomputes IPS; no rollback and no block. Test 5 (line 921) expects a hard 'INVARIANT_DROPPED' error; the code never raises it. Also the appended text re-adds the exact words _compute_ips looks for, so the gate can be satisfied by pasting invariants (circular).",
+   "fix": "Block on hard invariants as the spec says, or rename the code behavior 'recovery pass'."
+  },
+  {
+   "id": "C36",
+   "line": 790,
+   "quote": "IPS = |I_out intersect I_in| / |I_in|",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Code implements it as the share of invariants whose content words (len >= 3, minus 9 stopwords) overlap >= 40% with the output (arcs_lte.py lines 704-720). Not set intersection of semantic invariants; a keyword hit scores as preserved, a paraphrase scores as lost. The spec itself says 'semantic diff' (line 49). The 0.95 threshold is not validated (Appendix B line 958).",
+   "fix": "Embedding or LLM-judge IPS with a labeled invariant test set."
+  },
+  {
+   "id": "C37",
+   "line": 36,
+   "quote": "Altitude Accuracy >= 85% on labeled set of 100+ signals",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Altitude is a 6-class rounded score from regex-level indices; no labeled set exists in the repo (searched tests/, operators/tests: only test_accountant.py, test_librarian_apex.py). Sprint 1 'altitude(L5_text) > altitude(L0_text) must always hold' (line 826) is a property test of ordering, not accuracy.",
+   "fix": "Create labeled set; report per-class confusion."
+  },
+  {
+   "id": "C38",
+   "line": 827,
+   "quote": "Zach-speak scores L4-L5, target outputs L0-L2",
+   "kind": "DESIGN",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Rule for calibration data with no sample provided. Named audiences (Martin, Max, Rebecca) are used as archetypes at lines 44, 848, 885 without definition or consent record; real people in a spec used for counterpart translation raises the repo's unconfirmed-identity rule (memory never-attribute-unconfirmed-identity).",
+   "fix": "Use placeholder archetypes in the spec; map real people in private SSOTs."
+  },
+  {
+   "id": "C39",
+   "line": 274,
+   "quote": "Archetype energy signatures: Long Wave, Pulse Wave, Spike",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "JSON enum line 266 lists square_wave, sine_wave, carrier_wave, pulse; Pydantic literal line 565 adds spike; the table lists 'Long Wave' (PHILOSOPHER), which is in neither. Code (arcs_lte.py lines 194-272) uses 'pulse','sine','square','carrier','long_wave','spike', a third spelling. native_altitude is int 0-5 yet L3-L4 and L1-L2 ranges appear.",
+   "fix": "Single enum shared by JSON, Pydantic and code."
+  },
+  {
+   "id": "C40",
+   "line": 271,
+   "quote": "Built-in Archetype Registry (v1.0) has seven archetypes",
+   "kind": "REPO",
+   "verdict": "VERIFIED",
+   "evidence": "operators/arcs_lte.py line 185 ARCHETYPE_REGISTRY, grep count 'archetype_id =' = 9 occurrences incl. dataclass field; seven archetypes with matching energies per lines 194-272. Names match INSTITUTIONALIST...CAVEMAN.",
+   "fix": null
+  },
+  {
+   "id": "C41",
+   "line": 379,
+   "quote": "mode: persuasion | inform | instruct | brief | receipt",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Line 379 and ROM-LTE-003 line 931 use 'persuasion'; Tx table line 471 and the TranslationMode class (line 533) use 'persuade' and lack 'receipt' in the Tx list; the code's Literal (arcs_lte.py) is inform/persuade/brief/instruct/receipt. 'TranslationMode(str)' (line 530) is a plain class with constants, not an Enum.",
+   "fix": "Fix the enum names to the code's Literal."
+  },
+  {
+   "id": "C42",
+   "line": 66,
+   "quote": "NOTOMATION: LTE cannot replace the human decision to transmit",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Rule 5 (line 872) queues and auto-delivers on a kairos delay, and Sprint 5 (line 855) routes 'all ARCS outputs through LTE before delivery'; the Transceiver (line 442) does 'delivery'. A pending queue that sends without a human yes violates the repo rule confirm-before-outbound-send, and 'Kairos before transmission' puts timing, not the sender, in control.",
+   "fix": "Queue = hold for human approval; delivery stays a human action."
+  },
+  {
+   "id": "C43",
+   "line": 67,
+   "quote": "Kintsugi seam on every output with confidence score",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "operators/arcs_lte.py _build_seam (lines 725-744) emits a seam only if IPS < threshold, resonance low, or CSS low; an empty string '' is returned otherwise (line 744). So 'every output carries a visible seam' (Rule 2 line 863) is FALSE in code for clean translations; the spec's own Sprint 5 line 854 template ('translated from L{s} to L{t}') is not implemented either.",
+   "fix": "Always emit the seam line."
+  },
+  {
+   "id": "C44",
+   "line": 68,
+   "quote": "Every translation logs invariants, compression, altitude delta, resonance",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "TranslationReceipt dataclass built in memory (arcs_lte.py line 129, run_recomp), but no persistence: no sqlite/Postgres write, no /receipts endpoint (grep: 0 hits for sqlite, fastapi, faiss, chroma). Spec T1 line 511 'immutable audit log' unbuilt. Also doesn't use the repo decision_receipt form (question, horizon, stakes, mode, ..., job_id, tool_id) from AGENTS.md.",
+   "fix": "Map to the decision_receipt columns or declare a separate ledger."
+  },
+  {
+   "id": "C45",
+   "line": 930,
+   "quote": "ROM-LTE-001..007 promoted to ROM after validation",
+   "kind": "REPO",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "ROM in this repo is a 7-primitive constitutional set (CLAUDE.md) and graduations are 'earned through gate, never decree' (memory rom-graduation-earn-through-gate-never-decree). Grep of _CANON for ROM-LTE: no hits. Candidates only; seven of them would double the ROM count.",
+   "fix": "Keep as candidate ADRs, not ROM."
+  },
+  {
+   "id": "C46",
+   "line": 956,
+   "quote": "NCI Total 94/100; Ready for v1.0 implementation",
+   "kind": "SELF-GRADE",
+   "verdict": "UNSOURCED-SELF-GRADE",
+   "evidence": "Self-assigned by the author; the 38/40 'Factual' score sits beside the formula bug (C9), false 'Patent-Pending', false 'empirically validated' weights and a false routing claim. Arithmetic is right (38+18+19+19=94) but the rubric (ADR-035) scores code diffs, not the author's own prose. Line 964 also says 'validated against Yellow Paper v1.2 and Master Canon v1.2': only section citations were checked (C30), nothing was run.",
+   "fix": "Drop the self-grade; use an external run of the repo nci-scoring on the diff."
+  },
+  {
+   "id": "C47",
+   "line": 952,
+   "quote": "Grounded in Yellow Paper, White Paper, Canon, and field transcripts",
+   "kind": "SELF-GRADE",
+   "verdict": "UNSOURCED-SELF-GRADE",
+   "evidence": "Yellow Paper citations resolve (C30); the White Paper has no LTE or altitude content (grep 'altitude' in _CANON/arcs-v9-additional/ARCS-WhitePaper-v2-1.md: none); no field transcript is cited by file or id anywhere in the spec.",
+   "fix": "List the transcript ids or delete the claim."
+  },
+  {
+   "id": "C48",
+   "line": 958,
+   "quote": "Honesty 19/20; math is formalism-by-analogy; IPS 0.95 theoretical",
+   "kind": "SELF-GRADE",
+   "verdict": "VERIFIED",
+   "evidence": "The disclosure is true and load-bearing: line 958 admits IPS 0.95 is not validated, coefficients need real data, kairos is approximate. It contradicts line 177 'empirically validated' and line 5 'Ready'. Credit the admission; promote it to the header.",
+   "fix": "Move the unknowns to line 5."
+  },
+  {
+   "id": "C49",
+   "line": 36,
+   "quote": "Compression ceilings 10:1 / 7:1 / 4:1 / 2:1 / 1.5:1 per level",
+   "kind": "EMPIRICAL",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "No source; ratios are invented tolerances. Code copies them (arcs_lte.py lines 46-51 comments) and the linear fallback `abs(delta)*1.5` (line 463) applies to every cell not in the table, e.g. (5,3) gets 3.0:1 while the spec has no row for it.",
+   "fix": "Mark as defaults; derive empirically."
+  },
+  {
+   "id": "C50",
+   "line": 177,
+   "quote": "Altitude detector uses first/second derivatives across paragraphs",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "arcs_lte.py altitude stage (lines 429-485) has no derivative: grep for Derivative, np.gradient, Decelerator in the file: 0 hits (also numpy is not imported). The signal-processing module (T3, five atoms) was not built.",
+   "fix": "Mark T3 as 'not built' and keep it out of the core path."
+  },
+  {
+   "id": "C51",
+   "line": 873,
+   "quote": "Rule 4: CSR warm-starts the altitude detector",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "ChannelStateRegister (arcs_lte.py lines 815-890) stores history, but run_altitude_detector (line 429) takes csr only to dampen urgency; it never reads current_altitude to warm start. Drift counter uses delta > 1.5 on int levels (line 836), which for ints equals delta >= 2.",
+   "fix": "Document actual use."
+  },
+  {
+   "id": "C52",
+   "line": 868,
+   "quote": "Round-trip fidelity IPS >= 0.90 (decomp-recomp-decomp)",
+   "kind": "DESIGN",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Test not run: no test file for arcs_lte in repo. With keyword-overlap IPS, a round trip through L0 (8:1 compression) will lose content words by construction, so the 0.90 target is probably unreachable with the current scorer; Test 4 lowers to 0.85 (line 912) without saying why.",
+   "fix": "Run on 50 samples (Sprint 5 step 3) before keeping a number."
+  },
+  {
+   "id": "C53",
+   "line": 918,
+   "quote": "Test 5: gate blocks and returns INVARIANT_DROPPED: temporal_constraint",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "No 'INVARIANT_DROPPED' string and no typed invariants (temporal_constraint) in arcs_lte.py; _extract_invariants_stub (line 295) returns strings. Recovery pass would re-append '90-day expiry' (see C35) rather than block.",
+   "fix": "Add typed invariants and the block path, then the test."
+  },
+  {
+   "id": "C54",
+   "line": 1,
+   "quote": "File named 'Lossless' Translation Engine",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Operators README (operators/README.md line 51) describes arcs_lte.py as 'Long-term expectation - trajectory modeling', a different name for the same file; _STATE/2026-10-06-tool-clusters-mechanical.json also lists it. Name drift within the repo.",
+   "fix": "Fix the README row."
+  }
+ ],
+ "weak_joints": [
+  "Altitude score formula (line 175 vs line 686): (1-gamma) makes weights sum 1.7; the 'empirically validated' weights have no data, and UI is not an altitude axis.",
+  "IPS gate: five different thresholds (0.95/0.90/0.85/1.0) and a keyword-overlap implementation whose recovery pass pastes invariants back in, so the 'non-negotiable' gate can be satisfied trivially.",
+  "Wavefunction/phase/geodesic math (M2, M4, M5, M8, T3): psi_msg, phase and the metric are undefined, so R and delta are not computable; the drift threshold 1.5 on a 0-1 signal can never fire."
+ ],
+ "summary": {
+  "FALSE": 13,
+  "CONTRADICTED-INTERNALLY": 24,
+  "UNVERIFIABLE": 10,
+  "DESIGN": 1,
+  "VERIFIED": 4,
+  "UNSOURCED-SELF-GRADE": 2,
+  "notes": "54 claims ledgered; about 15 lesser claims skipped (cap 60). Counts follow verdict; DESIGN counts rows where the verdict field is DESIGN."
+ }
+}

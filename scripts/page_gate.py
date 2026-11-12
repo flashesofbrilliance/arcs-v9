@@ -17,6 +17,8 @@ STATIC checks (stdlib, no browser):
   W en-dash      en-dash in visible text (sometimes a legitimate range; reviewed by eye)
   W google-fonts page depends on fonts.googleapis.com (render-blocking chain, swap jump)
   W analytics    a public/ page without the /_vercel/insights snippet
+  E voice        with --counterpart only: scripts/voice_gate.py (royal "we" in visible text;
+                 mark a truly joint we with data-voice="joint")
 
 RENDER checks (headless Chromium via Playwright; skipped with --static):
   E overflow     document wider than the viewport at 375, 790, 1280
@@ -26,8 +28,19 @@ RENDER checks (headless Chromium via Playwright; skipped with --static):
                  The one sanctioned exception, text INDEX pages that put the lede on the 680px
                  measure (2026-09-29), opts out explicitly: <p class="lede" data-measure="index">.
 
+PDF checks (poppler: pdfinfo, pdffonts, pdftotext; a .pdf argument gets these instead of the above):
+  E pdf-pages    at least one page
+  E pdf-title    a real document title (not empty, about:blank, or a file name)
+  E pdf-tagged   tagged PDF (screen readers and reflow depend on it)
+  E pdf-fonts    every font embedded (else the reader's machine substitutes)
+  E pdf-emdash   no em-dash in the text (house rule, same as the HTML wrap lint)
+  E pdf-mojibake no UTF-8-as-1252 debris in the text
+  E pdf-link     every link is https:// or mailto: (no file://, localhost or http://)
+  W pdf-colon    a lowercase word after a colon (house style capitalizes a new idea; review by eye)
+  Banked 2026-11-06: the Louisville proposal PDF shipped with no gate looking at it at all.
+
 USAGE
-  python3 scripts/page_gate.py [--static] [--no-wrap-lint] FILE.html [FILE2.html ...]
+  python3 scripts/page_gate.py [--static] [--no-wrap-lint] [--counterpart] FILE.html|FILE.pdf [...]
 EXIT
   0 pass (warnings allowed) · 1 at least one error · 2 render checks requested but no browser
 Stdlib only; the render step shells out to node + playwright (repo, main checkout or global install).
@@ -85,6 +98,47 @@ class Visible(html.parser.HTMLParser):
     def handle_data(self, data):
         if not self.skip:
             self.text.append(data)
+
+
+PDF_TOOLS = ("pdfinfo", "pdffonts", "pdftotext")
+
+
+def pdf_checks(path):
+    """Return (errs, warns) for one PDF, or None if poppler is not installed."""
+    if not all(shutil.which(t) for t in PDF_TOOLS):
+        return None
+    errs, warns = [], []
+    run = lambda *a: subprocess.run(a, capture_output=True, text=True, errors="replace").stdout
+    info = {}
+    for line in run("pdfinfo", path).splitlines():
+        k, _, v = line.partition(":")
+        info[k.strip()] = v.strip()
+    pages = int(info.get("Pages", "0") or 0)
+    if pages < 1:
+        errs.append("pdf-pages: no pages (not a PDF, or it failed to render)")
+    title = info.get("Title", "")
+    if not title or title.lower() in ("about:blank", "untitled") or re.search(r"\.(html?|pdf)$", title, re.I):
+        errs.append(f"pdf-title: missing or placeholder title ({title!r}); set <title> before printing")
+    if info.get("Tagged", "no") != "yes":
+        errs.append("pdf-tagged: not a tagged PDF (print from Chrome, or export with tags on)")
+    rows = run("pdffonts", path).splitlines()[2:]
+    loose = sorted({r.split()[0] for r in rows if len(r.split()) >= 7 and r.split()[-5] != "yes"})
+    if loose:
+        errs.append("pdf-fonts: not embedded: " + ", ".join(loose[:6]))
+    text = run("pdftotext", path, "-")
+    if "\u2014" in text:
+        errs.append(f"pdf-emdash: {text.count(chr(0x2014))} em-dash(es) in the text")
+    if re.search(r"Â[·\xa0]|â€", text):
+        errs.append("pdf-mojibake: UTF-8 decoded as Windows-1252 in the text")
+    for line in run("pdfinfo", "-url", path).splitlines()[1:]:
+        parts = line.split()
+        url = parts[-1] if parts else ""
+        if not (url.startswith("https://") or url.startswith("mailto:")):
+            errs.append(f"pdf-link: page {parts[0] if parts else '?'} links to {url} (use https:// or mailto:)")
+    lower = sorted(set(re.findall(r": ([a-z][a-z']+)", text)))
+    if lower:
+        warns.append("pdf-colon: lowercase after a colon: " + ", ".join(lower[:8]))
+    return errs, warns
 
 
 def static_checks(path, raw, run_wrap):
@@ -389,15 +443,41 @@ def main():
     ap.add_argument("--browser", choices=sorted(BROWSERS), help="run the render checks in this installed browser (default: Chrome)")
     ap.add_argument("--no-wrap-lint", action="store_true",
                     help="skip artifact_wrap_lint (when a hook already ran it)")
+    ap.add_argument("--counterpart", action="store_true",
+                    help="the page goes to a counterpart: also fail on the royal we (voice_gate.py)")
     a = ap.parse_args()
 
     results = {}
+    pdfs = [f for f in a.files if f.lower().endswith(".pdf")]
+    a.files = [f for f in a.files if f not in pdfs]
+    pdf_skipped = None
+    for f in pdfs:
+        r = pdf_checks(f)
+        if r is None:
+            pdf_skipped = "poppler (pdfinfo, pdffonts, pdftotext) is not installed: brew install poppler"
+            results[f] = ([], ["pdf: checks SKIPPED, " + pdf_skipped])
+        else:
+            results[f] = r
     for f in a.files:
         with open(f, "rb") as fh:
             results[f] = static_checks(f, fh.read(), not a.no_wrap_lint)
+    if a.counterpart:
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import voice_gate
+        for f in a.files:
+            with open(f, encoding="utf-8", errors="replace") as fh:
+                for line, word, ctx in voice_gate.scan(f, fh.read()):
+                    results[f][0].append(f"voice: royal \"{word}\" at line {line}: {ctx} "
+                                         "(write it in I, or mark a joint we data-voice=\"joint\")")
+        import token_tuner_inline
+        for f in a.files:
+            with open(f, encoding="utf-8", errors="replace") as fh:
+                if token_tuner_inline.has_tuner(fh.read()):
+                    results[f][0].append("tuner: the internal token tuner is in a counterpart page "
+                                         "(python3 scripts/token_tuner_inline.py --strip FILE)")
 
     render_skipped = None
-    if not a.static:
+    if not a.static and a.files:
         data, why = render_checks(a.files, a.browser, a.matrix)
         if data is None:
             render_skipped = why
@@ -438,7 +518,8 @@ def main():
     failed = 0
     for f, (errs, warns) in results.items():
         mark = "✖" if errs else "✓"
-        print(f"{mark} page-gate: {f}" + (" (static only)" if a.static or render_skipped else ""))
+        kind = " (pdf)" if f.lower().endswith(".pdf") else (" (static only)" if a.static or render_skipped else "")
+        print(f"{mark} page-gate: {f}" + kind)
         for e in errs:
             print(f"    ERROR {e}")
         for w in warns:
@@ -450,7 +531,7 @@ def main():
     print(f"page-gate: {len(results) - failed}/{len(results)} pass")
     if failed:
         return 1
-    return 2 if render_skipped else 0
+    return 2 if (render_skipped or pdf_skipped) else 0
 
 
 if __name__ == "__main__":

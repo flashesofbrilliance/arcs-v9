@@ -20,9 +20,9 @@ const ASIDE: Record<AsideVariant, { color: string; bg: string; label: string }> 
 export function AsideBox({ variant = 'info', label, children }: AsideBoxProps) {
   const c = ASIDE[variant]
   return (
-    <div style={{ padding: '11px 15px', borderRadius: 8, background: c.bg, border: `1px solid ${c.color}28` }}>
-      <div style={{ fontFamily: T.mono, fontSize: 11, color: c.color, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 6 }}>{label || c.label}</div>
-      <p style={{ fontFamily: T.sans, fontSize: 13, color: T.fg2, lineHeight: 1.65 }}>{children}</p>
+    <div style={{ breakInside: 'avoid', padding: '11px 15px', borderRadius: 8, background: c.bg, border: `1px solid ${c.color}28` }}>
+      <div style={{ fontFamily: T.mono, fontSize: T.fsLabel, color: c.color, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 6 }}>{label || c.label}</div>
+      <p style={{ fontFamily: T.sans, fontSize: T.fsBody, color: T.fg2, lineHeight: 1.65 }}>{children}</p>
     </div>
   )
 }

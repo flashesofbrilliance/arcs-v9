@@ -23,6 +23,9 @@ Usage:  python3 scripts/research_render.py [OUT.html] [DIGEST.json ...]
         (no args -> Atlas digests -> _ARTIFACTS/atlas/atlas-almanac.html)
         python3 scripts/research_render.py --dry-run [OUT.html] [DIGEST.json ...]   (render, write nothing)
         python3 scripts/research_render.py --self-test
+        python3 scripts/research_render.py [OUT.html] [DIGEST.json ...] --tune TUNED.html       (internal copy, live editor)
+        python3 scripts/research_render.py [OUT.html] [DIGEST.json ...] --apply EXPORT [...]    (text back to the digests, rebuild;
+                                                                      no tuner tokens, so slider moves are refused by name)
 
 Stdlib only; data embedded inline (works from file://). Internal research: render LOCAL.
 """
@@ -34,6 +37,13 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import re
 EPOCH_RE = re.compile(r"^\d{4}-\d{2}$")
 
+
+
+def _pt():
+    """page_tune, imported only for --tune/--apply (the self-test runs a lone copy of this script, without it)."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import page_tune
+    return page_tune
 
 def norm_epoch(v, nid=None):
     """YYYY-MM or 'undated'. A malformed tag (number, full date, junk) is coerced and logged
@@ -109,7 +119,7 @@ TEMPLATE = r"""<!doctype html>
 <style>
   :root{
     --bg:#020408; --surface:#0b1017; --elev:#0e141d; --border:#1e2c3a; --border2:#26374a;
-    --fg1:#eff4fa; --fg2:#c6d3e1; --fg3:#a3b4c6; --fg4:#7e8fa4; --dim:#64748b;
+    --fg1:#eff4fa; --fg2:#c6d3e1; --fg3:#a3b4c6; --fg4:#7e8fa4; --dim:#8391a7;
     --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D;
     /* aggregate status palette (4 buckets, well-separated) + prose accent for node detail */
     --live:#00FF9D; --drift:#FFD700; --stale:#7e8fa4; --unv:#4a5a6d; --prose:#00F0FF;
@@ -484,6 +494,9 @@ def main(argv=None):
                     help="optional OUT.html (first, must end .html/.htm) then DIGEST.json files")
     ap.add_argument("--dry-run", action="store_true", help="render in memory and report; write nothing")
     ap.add_argument("--self-test", action="store_true", help="assert the argv contract on synthetic input")
+    ap.add_argument("--tune", metavar="OUT.html", help="internal copy with the live editor inlined; refuses public/")
+    ap.add_argument("--apply", nargs="+", metavar="EXPORT", help="write the editor's exports back to the source, then rebuild")
+    ap.add_argument("--version", type=int, help="with --apply on an Export versions file: that version, not the latest")
     a = ap.parse_args(sys.argv[1:] if argv is None else argv)
     if a.self_test:
         if a.paths:
@@ -497,6 +510,8 @@ def main(argv=None):
         digests = args or sorted(glob.glob(os.path.join(ROOT, "_ARTIFACTS/atlas/digest-*.json")))
     if not digests:
         print("no digests found", file=sys.stderr); sys.exit(1)
+    if a.apply:
+        _pt().apply(a.apply, [("json", p) for p in digests], version=a.version)
     nodes = load_digests(digests)
     meta = {
         "title": "ARCS Almanac \u00b7 read through the Reader",
@@ -509,6 +524,9 @@ def main(argv=None):
     if meta["manifest"] is None:
         print("  no cache-manifest.json; freshness unknown", file=sys.stderr)
     page = render(nodes, meta)
+    if a.tune:
+        _pt().tune_write(page, a.tune)
+        return 0
     if a.dry_run:
         print(f"would render {len(nodes)} nodes -> {out_path} ({len(page.encode('utf-8'))} bytes)")
         return 0

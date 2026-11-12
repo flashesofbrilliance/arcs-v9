@@ -82,7 +82,7 @@ with a stop-loss condition. Register per Step 0 — if it's a friend, the questi
 ### 3b. External-facing gift teardown (addressed directly to them)
 
 Single-file HTML, same token palette, password-gated with their first name. Structure
-(mirrors `public/kiko.html` / `public/daniel.html`):
+(mirrors `_ARCHIVE/retired-surfaces/2026-11-04/public/kiko.html` / `_ARCHIVE/retired-surfaces/2026-11-04/public/daniel.html`):
 
 ```
 00 · The favor       — one cheap, real fix (usually the header/security finding from Step 2.3)
@@ -194,9 +194,9 @@ regression test.)
 
 ## Step 5 — Deploy
 
-1. Work in the **main worktree**, not a feature branch (`git worktree list`, find the one on
-   `main` — as of this session, `/Users/zharris/arcs-v9/.claude/worktrees/frosty-kepler-b69f51`,
-   but re-verify, this drifts across sessions).
+1. Build the change on a feature branch and merge it to `main` (Zach merges). Deploy from any
+   clean checkout whose HEAD is `origin/main` (for example `git switch --detach origin/main`
+   in a worktree); `scripts/deploy-prod.sh` refuses anything else.
 2. `public/<name>.html` (internal) and `public/<name-or-topic>.html` (external) — pick a
    short, memorable external slug if the person's first name is already taken by another
    engagement (this session moved `danny-ext.arcs.care` → `kiko.arcs.care` for exactly this
@@ -204,10 +204,11 @@ regression test.)
 3. Add two `beforeFiles` rewrite entries to `next.config.ts` (see existing entries for the
    exact pattern — `{ source: "/:path*", destination: "/<file>.html", has: [{ type: "host",
    value: "<subdomain>.arcs.care" }] }`).
-4. Commit, push, then `bash scripts/deploy-prod.sh` — this handles main-worktree enforcement
-   and (attempts) domain auto-assignment.
-5. **Verify domain assignment manually** — the pre-flight script has not reliably
-   auto-added new domains in practice this session. Check via the Vercel MCP/API
+4. From that checkout run `bash scripts/deploy-prod.sh --dry-run` (guards plus a read-only
+   domain check, stops before `vercel`), then `bash scripts/deploy-prod.sh` to deploy and
+   auto-assign any missing subdomain.
+5. **Verify domain assignment manually** — the pre-flight used to read only the first 50
+   of 100+ assigned domains (paginated since 2026-11-05); still confirm the new one. Check via the Vercel MCP/API
    (`get_deployment` or a direct `GET .../domains`) and `POST` the domain if missing:
    ```
    curl -X POST "https://api.vercel.com/v9/projects/<PROJECT_ID>/domains?teamId=<TEAM_ID>" \
@@ -224,7 +225,7 @@ regression test.)
 --text:#e2e8f0  --muted:#8b9bb0  --dim:#64748b
 --cyan:#00F0FF  --green:#00FF9D  --gold:#FFD700  --red:#FF4D6D  --steel:#94a3b8
 ```
-Full CSS reference implementation: `public/kiko.html`.
+Full CSS reference implementation: `_ARCHIVE/retired-surfaces/2026-11-04/public/kiko.html`.
 
 ## What this skill is not
 

@@ -1,8 +1,8 @@
 {
  "version": "0.1.0",
- "epoch": null,
- "as_of_sha": null,
- "as_of_date": null,
+ "epoch": 1,
+ "as_of_sha": "286a9dad2b60f3cac5e4a5294dcdb04836a23103",
+ "as_of_date": "2026-11-01",
  "id": "gaunt",
  "label": "Gauntlet — LAB·BAR·COURT·KKL·FunHouse",
  "parent": "universe",
@@ -17,10 +17,10 @@
    "lib": 0.286
   },
   "frequency": {
-   "file_commits": 42,
-   "active_days": 16,
-   "last_change": "2026-10-05",
-   "last_28d": 19
+   "file_commits": 46,
+   "active_days": 19,
+   "last_change": "2026-10-17",
+   "last_28d": 22
   }
  },
  "dimensions": {
