@@ -21,7 +21,7 @@ prior_art: ADR-060 (penteract), ADR-068 (print schedule), ADR-086 (two-pass indu
 - *During:* child sessions build one row each, in dependency order, each in its own worktree, each ending in a PR that runs its gates. Autopilot covers every reversible step. It stops at every one-way door (merge, publish, send, paid call, canon change) and hands Zach the approvals list.
 - *After:* the Brian call is the acceptance fixture. The service rebuilds it end to end with no hand edits, and both reviewers return PASS.
 
-**How to read this page.** §1 shows where each page came from. §2 is the weld (what we keep, cut and leave open). §3 is the customer journey. §4 is the design spec, §5 the product requirements, §6 the service architecture and §7 the plan. §8 lists what waits on Zach.
+**How to read this page.** §1 shows where each page came from. §2 is the weld (what we keep, cut and leave open). §3 is the customer journey. §4 is the design spec, §5 the product requirements, §6 the service architecture and §7 the plan. §8 lists what waits on Zach. §9 is the status as of 2026-11-12.
 
 ---
 
@@ -186,3 +186,20 @@ Child sessions: R1, R2 and R10 start now (independent, separate files). R4 start
 3. Counterpart twin: the same component set with an audience filter, or its own template?
 4. Approve the hard-stop list in §6.3 as the autopilot boundary.
 5. The light page holds a personal email address and a sensitive fact about the counterpart, behind only its artifact link. Keep it, or redact it now?
+
+## 9. Status, 2026-11-12
+
+**Merged (each with one decision receipt).** Spec and backlog PR 2146 (a09381ca). R1 kit reconcile PR 2150 (ac7ab355). R2 SSOT v2 schema PR 2151 (d568e4f2). R3 token unify PR 2155 (e157c8c9), plus PR 2161 (fg4 text sweep, c904fa1e). R4 stage runner PR 2154 (b3196ff8). R5 component set PR 2164 (b6485191). R7 J1 to J3 PR 2158 (36d18b25). R8 J4 hypercube index PR 2166 (101eeb1c). R9 atlas v2 and J5 export PR 2165 (2560d09b). R10 forecast base rates PR 2152 (af08123b). The print fix that started the arc is PR 2145 (50e8b80e).
+
+**Critical path now.** R6 print target and R11 HUD flight are READY and independent of each other. R12 Brian acceptance waits on both. Nothing else in the epic is open.
+
+| Row | State | Waits on |
+|---|---|---|
+| R6 `recoil-print-target` | READY | §8 question 2 (palette) decides its default |
+| R11 `hud-atlas-v2-flight` | READY | §8 question 1 (720°) decides its orbit and scrub |
+| R12 `recoil-brian-acceptance` | HOLDING | R6, R11; the Brian call has no SSOT yet (R5 hand-over) |
+
+**Still open in §8.** All five: 720°, PDF palette, counterpart twin, the §6.3 hard-stop list, and the personal email and sensitive fact on the live Brian artifact. Questions 1 and 2 now gate a ready row each.
+
+**Friction seen.** `_QUEUE/induced-backlog.jsonl` conflicted on nearly every PR in this epic. The READY row `backlog-merge-driver-by-id` (register `scripts/backlog_merge_by_id.py` as a git merge driver) removes that class.
+

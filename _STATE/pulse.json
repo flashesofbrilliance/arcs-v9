@@ -6,7 +6,7 @@
     "time-signature-alignment": "Phase 4 seam \u2014 per-tenant local_beat + alignment factor phase-locked to global_beat (spec \u00a7Time-signature alignment). Not in Phase 0."
   },
   "genesis": "2026-09-08",
-  "global_beat": 27,
+  "global_beat": 65,
   "subsystems": {
     "canon-propagation": {
       "_role": "nightly canon-propagation cron (scripts/canon_propagation_nightly.sh via launchd). Registered so a disabled/unloaded cron SURFACES rather than rotting silently \u2014 the precall/postcall lesson. Set expected:inactive to mark it DORMANT instead of FLATLINE while intentionally off.",
@@ -38,8 +38,8 @@
       "artifacts": [
         "_SEEDS/_oracle.json"
       ],
-      "last_beat": 27,
-      "last_seen": "2026-10-06T01:02:36Z",
+      "last_beat": 65,
+      "last_seen": "2026-11-12T15:01:47Z",
       "max_beats": 60
     },
     "seedbank-drift": {
