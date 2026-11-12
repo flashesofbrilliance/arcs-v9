@@ -11,7 +11,7 @@ let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${m
 const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }), base = pathToFileURL(page).href
 const SIZES = [[1270, 990], [1024, 768], [390, 844]], full = process.env.REACH_FULL === '1'
 for (const [w, h] of SIZES) for (const skin of ['', 'pocket']) for (const lvl of (full ? [1, 2, 3, 4] : [1, 4])) {
-  const ctx = await b.newContext({ viewport: { width: w, height: h } }), pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(String(e)))
+  const ctx = await b.newContext({ viewport: { width: w, height: h } }), pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => { const m = String(e); if (!/^ResizeObserver loop completed with undelivered notifications/.test(m)) errs.push(m) }) // WebKit raises this benign notice under the check's own burst of forced layouts (2026-10-18: 1 in 6 runs at 390 px level 4, same rate with the dock write deferred; the dock does not resize during play). Every other page error still fails.
   await pg.goto(`${base}?test=1&shutter=off&level=${lvl}${skin ? '&skin=pocket' : ''}`); await pg.waitForTimeout(1200)
   await pg.click('#play'); await pg.waitForTimeout(600)
   await pg.evaluate(() => document.querySelectorAll('details').forEach((d) => { if (d.id === 'grown') d.open = true }))

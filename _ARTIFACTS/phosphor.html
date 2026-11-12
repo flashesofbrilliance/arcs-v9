@@ -1122,7 +1122,7 @@ inG.connect(sweepF); sweepF.connect(dist.in);
 AC._bus = inG; AC._anaIn = aIn; AC._fx = { dist: dist, crush: crush, pre: pre, q: q, sweep: sweepF, sends: { echo: eS, room: rS, shim: sS }, echoDelay: eD, setHold: function (v) { n = MX(1, v | 0); } }; AC._bits = 8;
 }
 function fxParams() { if (!AC || !AC._fx) return; var a = GAMT, bits = MX(2, RD(8 - a * 6)); AC._fx.pre.gain.value = 1 + a * 14; AC._fx.setHold(1 + RD(a * 7)); if (bits !== AC._bits) { AC._bits = bits; AC._fx.q.curve = quantCurve(bits); } }
-function fxWet(kind, v, tc) { var s = AC._fx[kind], t0 = AC.currentTime; v *= fxE(kind); s.wet.gain.setTargetAtTime(v, t0, tc || 0.004); s.dry.gain.setTargetAtTime(1 - v, t0, tc || 0.004); }
+function fxWet(kind, v, tc) { var s = AC._fx[kind], t0 = AC.currentTime + 2 * 128 / AC.sampleRate; v *= fxE(kind); s.wet.gain.setTargetAtTime(v, t0, tc || 0.004); s.dry.gain.setTargetAtTime(1 - v, t0, tc || 0.004); }
 function fxTrigger(kind, on) {
 if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); outBus(); FX[kind].on = on; fxParams();
 var tt = AC.currentTime;
@@ -1141,7 +1141,7 @@ for (i = 0; i < 16; i++) if (h[i] > mx) mx = h[i]; if (!mx) { h[0] = 1; mx = 1; 
 return h.map(function (v) { return v >= 0.6 * mx; });
 }
 function fxPump() {
-if (!AC || !AC._fx) return; var now = AC.currentTime, eff = fxEff();
+if (!AC || !AC._fx) return; var now = AC.currentTime + 2 * 128 / AC.sampleRate, eff = fxEff(); /* schedule two render blocks ahead: at currentTime the wet and dry changes could land in different blocks under load and the mix dipped (W5) */
 if (eff === "off") { ['crush', 'dist'].forEach(function (k2) { if (FX[k2].on) fxWet(k2, 1, 0.003); }); return; }
 if (eff === "level") {
 var d = F32(256), i, s = 0; AC._anaIn.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) s += d[i] * d[i]; var db = 20 * Math.log10(Math.sqrt(s / d.length) + 1e-9);
