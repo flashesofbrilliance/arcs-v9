@@ -15,10 +15,10 @@ How a cell comes to exist (never invented):
   1. Code builds one SOCKET per source item: each J2 verb pass, and each J3 claim no verb pass lists.
      A socket carries the atoms and claims it cites, plus the axes code can fix mechanically:
        verb      fixed from the J2 key (a verb pass is that verb).
-       operator  fixed from the J3 ruling when every claim in the socket has the same one, per the
-                 ADR-060 section 4 impedance roles: GROUNDED -> LAB (a low-resistance channel mapped),
-                 INFERENCE -> KKL (the noise term), STRUCK -> FUNHOUSE (a false low-R path).
-     The other axes (lens, resolution, L, and any axis not fixed above) are judgment.
+     Every other axis (lens, resolution, operator, L, and verb for a claim no verb pass lists) is
+     judgment. Operator was fixed from the J3 ruling in version 1; that table was dropped in version 2
+     (Zach's go, 2026-11-12) because a ruling says how well a claim is backed and the operator axis says
+     which adversary engages it, two of the axes ADR-060 section 1 keeps orthogonal.
   2. One model call (role deep, through recoil_decompose.judge: dry run, missing key or budget make it
      NOT RUN) places each socket on those free axes and writes a one-line note.
   3. Code keeps only enum values, overrides any fixed axis the model changed, keeps only atoms and
@@ -49,23 +49,32 @@ AXES = {"lens": hypercube_sampler.AXES["lens"], "resolution": hypercube_sampler.
         "operator": hypercube_sampler.AXES["operator"], "verb": hypercube_sampler.AXES["verb"],
         "l": hypercube_sampler.AXES["lstack"]}
 ORDER = ("lens", "resolution", "operator", "verb", "l")
-OPERATOR_BY_RULING = {"GROUNDED": "LAB", "INFERENCE": "KKL", "STRUCK": "FUNHOUSE"}  # ADR-060 section 4
 EM = chr(0x2014)
-VERSION = "1"
+VERSION = "2"
+# What each operator value means, bound only to operators/docs/PERIODIC-TABLE.md and the generated
+# operators/OPERATOR-REGISTRY.json (AGENTS.md gotcha 16). The self-test fails if a cited entry drifts.
+# BAR and FUNHOUSE have no periodic-table entry; their glosses come from ADR-060 section 4.
+OPERATOR_GLOSS = {
+    "LAB": ("registry op 17 Detective (binding LABOperator)", "challenge via adversarial reasoning"),
+    "KKL": ("periodic table force Kai (Kairos)", "timing: which window is open or closed"),
+    "BAR": ("ADR-060 section 4; registry names only a BAR RUIN_RISK verdict", "ruin: what could not be undone"),
+    "COURT": ("registry op 18 Immune (binding ConstitutionalCourt)", "an axiom or rule the item must hold to"),
+    "FUNHOUSE": ("ADR-060 section 4; no periodic-table entry", "the mirror: a distortion that reads like support"),
+}
 
 SYSTEM = (
     "You place items from one recorded call on the ADR-060 penteract. Axes: "
     "lens (D Decision: what is being chosen; W Window: timing and the kairos of it; H Human: who and how "
     "they move; C Coherence: whether the parts hold; R Risk: what could ruin it), "
     "resolution (Exec, Strategic, Operational, Tactical, Surgical: how big the move is), "
-    "operator (LAB maps what works, KKL is the noise and uncertainty, BAR guards against ruin, COURT checks "
-    "an axiom or a rule, FUNHOUSE catches a distortion that reads like support), "
+    "operator, which adversary engages the item (" + "; ".join(f"{k}: {v[1]}" for k, v in OPERATOR_GLOSS.items())
+    + "), "
     "verb (analyze, assess, evaluate, synthesize, recapitulate), "
     "l (L1 coherence of one signal, L2 the path survives, L3 the immune check, L4 holds across domains, "
     "L5 global coherence). Each socket lists its fixed axes; do not change them. Fill only the free axes, "
     "write one plain sentence on why the item works at that coordinate, and cite only atom ids the socket "
     "lists. If the atoms cannot support a placement, skip the socket. No em-dashes. Reply with JSON only: "
-    '{"s01": {"lens": "D", "resolution": "Tactical", "l": "L2", "note": "...", "cites": ["a001"]}, ...}')
+    '{"s01": {"lens": "D", "resolution": "Tactical", "operator": "LAB", "l": "L2", "note": "...", "cites": ["a001"]}, ...}')
 
 
 # --------------------------------------------------------------------------- sockets (code only)
@@ -89,9 +98,6 @@ def sockets(doc: dict) -> tuple[list[dict], list[str]]:
             notes.append(f"J4 dropped verb:{v}: cites no known atom")
             continue
         fixed = {"verb": v}
-        rulings = {claims[c]["ruling"] for c in cl}
-        if len(rulings) == 1:
-            fixed["operator"] = OPERATOR_BY_RULING[rulings.pop()]
         out.append({"src": f"verb:{v}", "fixed": fixed, "cites": cites, "claims": cl,
                     "text": p.get("verdict", "")})
     for cid, c in claims.items():
@@ -101,7 +107,7 @@ def sockets(doc: dict) -> tuple[list[dict], list[str]]:
         if not cites:
             notes.append(f"J4 dropped claim:{cid}: cites no known atom")
             continue
-        out.append({"src": f"claim:{cid}", "fixed": {"operator": OPERATOR_BY_RULING[c["ruling"]]},
+        out.append({"src": f"claim:{cid}", "fixed": {},
                     "cites": cites, "claims": [cid], "text": c.get("said", "")})
     for i, s in enumerate(out, 1):
         s["id"] = f"s{i:02d}"
@@ -109,7 +115,7 @@ def sockets(doc: dict) -> tuple[list[dict], list[str]]:
 
 
 def socket_lines(sk: list[dict]) -> list[str]:
-    return [f"J4 socket {s['id']} {s['src']} fixed {', '.join(f'{k}={v}' for k, v in s['fixed'].items())}; "
+    return [f"J4 socket {s['id']} {s['src']} fixed {', '.join(f'{k}={v}' for k, v in s['fixed'].items()) or 'none'}; "
             f"free {', '.join(a for a in ORDER if a not in s['fixed'])}; cites {', '.join(s['cites'])}" for s in sk]
 
 
@@ -271,9 +277,9 @@ def self_test(svc, check, snap) -> None:
                  "evidence": [], "cites": ["a004"], "grade": g()}]
             sk, _ = sockets(doc)
             check([s["src"] for s in sk] == [f"verb:{v}" for v in AXES["verb"]] + ["claim:c002"]
-                  and sk[0]["fixed"] == {"verb": "analyze", "operator": "LAB"}
-                  and sk[1]["fixed"] == {"verb": "assess"} and sk[-1]["fixed"] == {"operator": "FUNHOUSE"},
-                  "J4 sockets: verb fixed from J2, operator fixed from the J3 ruling (ADR-060 section 4)")
+                  and sk[0]["fixed"] == {"verb": "analyze"} and sk[1]["fixed"] == {"verb": "assess"}
+                  and sk[-1]["fixed"] == {},
+                  "J4 sockets: verb fixed from J2; operator is judgment, never set from a J3 ruling")
 
             # dry run: sockets print, nothing written, no model call
             open(os.path.join(td, rel), "w").write(svc.dump(doc))
@@ -287,22 +293,23 @@ def self_test(svc, check, snap) -> None:
             ans = {"s01": {"lens": "D", "resolution": "Tactical", "l": "L2", "note": "it holds",
                            "cites": ["a001", "a999", "a005"], "operator": "BAR"},
                    "s02": {"lens": "D", "resolution": "Tactical", "operator": "LAB", "l": "L2", "note": "same spot",
-                           "verb": "assess"},
+                           "verb": "evaluate"},
+                   "s04": {"lens": "C", "resolution": "Exec", "l": "L1", "note": "no operator given"},
                    "s03": {"lens": "Q", "resolution": "Tactical", "operator": "LAB", "l": "L2", "note": "bad lens"},
-                   "s06": {"lens": "R", "resolution": "Surgical", "verb": "evaluate", "l": "L3",
+                   "s06": {"lens": "R", "resolution": "Surgical", "operator": "FUNHOUSE", "verb": "evaluate", "l": "L3",
                            "note": "a false path", "cites": ["a004"]}}
             decompose.CALLER, calls = decompose._fake([ans])
             rc, out = svc.run(rel, root=td, only="J4", budget_usd=1.0)
             d = json.load(open(os.path.join(td, rel)))
             cells = {c["id"]: c for c in d.get("cells") or []}
-            a = cells.get("D.Tactical.LAB.analyze.L2", {})
+            a = cells.get("D.Tactical.BAR.analyze.L2", {})
             check(rc == 0 and calls["n"] == 1 and a.get("cites") == ["a001"] and a.get("claims") == ["c001"],
                   "J4: an invented or foreign atom id is dropped; the cell keeps only its source's atoms")
-            check("D.Tactical.BAR.analyze.L2" not in cells and "D.Tactical.LAB.assess.L2" in cells,
-                  "J4: a model change to a fixed axis is overridden by code")
-            check(not any(k.startswith("Q.") for k in cells) and len(cells) == 3
+            check("D.Tactical.LAB.evaluate.L2" not in cells and "D.Tactical.LAB.assess.L2" in cells,
+                  "J4: a model change to a fixed axis (verb) is overridden by code")
+            check(not any(k.startswith(("Q.", "C.Exec.")) for k in cells) and len(cells) == 3
                   and "R.Surgical.FUNHOUSE.evaluate.L3" in cells,
-                  "J4: an off-axis value is dropped; a STRUCK claim lands on FUNHOUSE")
+                  "J4: an off-axis value or a missing operator drops the cell; nothing is defaulted")
             pr = json.load(open(os.path.join(td, svc.RUNS, "2026-11-02-h", "prints", "J4.json")))
             check(pr["status"] == "PASS" and any("not placed by the model" in ln for ln in pr["gate"]),
                   "J4 print: unplaced sockets are listed, not filled")
@@ -320,13 +327,26 @@ def self_test(svc, check, snap) -> None:
                   "J4 gate: a cell citing an atom no verb or claim cites is refused")
 
             # merge: two sockets landing on one coordinate become one cell with both sources
-            m = {"s01": {"lens": "C", "resolution": "Exec", "l": "L1", "note": "one"},
-                 "s06": {"lens": "C", "resolution": "Exec", "verb": "analyze", "l": "L1", "note": "two"}}
+            m = {"s01": {"lens": "C", "resolution": "Exec", "operator": "LAB", "l": "L1", "note": "one"},
+                 "s06": {"lens": "C", "resolution": "Exec", "operator": "LAB", "verb": "analyze", "l": "L1", "note": "two"}}
             m_doc = json.loads(json.dumps(doc))
-            m_doc["claims"][1]["ruling"] = "GROUNDED"
             sk2, _ = sockets(m_doc)
             cs, _ = cells_from(m_doc, sk2, m)
             check(len(cs) == 1 and cs[0]["cites"] == ["a001", "a002", "a004"] and cs[0]["claims"] == ["c001", "c002"],
                   "J4: two sockets on one coordinate merge into one cell; cites and claims are unioned")
+
+        # operator glosses stay bound to the periodic table and the generated registry (gotcha 16)
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        reg = json.load(open(os.path.join(root, "operators", "OPERATOR-REGISTRY.json"), encoding="utf-8"))
+        ops = reg if isinstance(reg, list) else reg.get("operators", list(reg.values()))
+        by = {o.get("op"): o for o in ops if isinstance(o, dict)}
+        table = open(os.path.join(root, "operators", "docs", "PERIODIC-TABLE.md"), encoding="utf-8").read()
+        check(list(OPERATOR_GLOSS) == AXES["operator"]
+              and (by.get(17) or {}).get("name") == "Detective"
+              and ((by.get(17) or {}).get("binding") or {}).get("symbol") == "LABOperator"
+              and (by.get(18) or {}).get("name") == "Immune"
+              and ((by.get(18) or {}).get("binding") or {}).get("symbol") == "ConstitutionalCourt"
+              and "| **Kai** | Kairos |" in table,
+              "J4: operator glosses cover the five values and their cited registry and table entries still exist")
     finally:
         decompose.CALLER = real
