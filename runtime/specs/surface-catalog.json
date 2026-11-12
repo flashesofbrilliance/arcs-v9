@@ -205,7 +205,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "Reflect on a brief",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-11-12"
   },
   {
    "host": "app.arcs.care",
@@ -1289,7 +1289,7 @@
    "unlisted": true,
    "purpose": "Recoil: Zach x Brian, 2026-11-11",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-11-12"
   },
   {
    "host": "forge-cut.arcs.care",
@@ -3672,19 +3672,19 @@
    "host": "gravity.arcs.care",
    "path": "/open",
    "catch_all": false,
-   "destination": "/gravity-brief-open.html",
+   "destination": "/gravity-brief-eir.html",
    "pattern": false,
-   "file": "public/gravity-brief-open.html",
+   "file": "public/gravity-brief-eir.html",
    "gate": null,
    "gate_file": null,
    "declared_in": [
     "src/proxy.ts"
    ],
-   "title": "Open Application · Zach Harris for Gravity Labs",
+   "title": "Entrepreneur in Residence · Zach Harris for Gravity Labs",
    "description": null,
    "index": "noindex, nofollow",
    "unlisted": true,
-   "purpose": "Open Application · Zach Harris for Gravity Labs",
+   "purpose": "Entrepreneur in Residence · Zach Harris for Gravity Labs",
    "kind": "product page",
    "last_commit": "2026-11-12"
   },
@@ -5380,7 +5380,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-11-11"
+   "last_commit": "2026-11-12"
   },
   {
    "host": "todd-call.arcs.care",
