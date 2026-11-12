@@ -615,6 +615,12 @@ if [ -f scripts/token_source_gate.py ] && command -v python3 >/dev/null 2>&1; th
     fi
     rm -rf "$tmpd"
   fi
+  # Document kit tokens (2026-11-11): src/document/tokens.ts is generated from _tokens.css (+ _tokens-doc.css); a hand edit fails.
+  doc_tok=$(git diff --cached --name-only -- src/document/tokens.ts src/ui-kit/recoil-report/_tokens.css src/ui-kit/recoil-report/_tokens-doc.css scripts/token_source_gate.py 2>/dev/null || true)
+  if [ -n "$doc_tok" ] && ! python3 scripts/token_source_gate.py --doc-ts; then
+    echo "✖ commit blocked: src/document/tokens.ts is generated. Edit _tokens.css or _tokens-doc.css, run python3 scripts/token_source_gate.py --doc-ts --write, re-stage." >&2
+    exit 1
+  fi
 fi
 
 # Motion policy gate (2026-10-16): pages that move read the --mo-* motion and safety tokens from
