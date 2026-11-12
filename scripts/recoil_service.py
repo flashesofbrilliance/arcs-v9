@@ -37,6 +37,13 @@ Stage plug-in interface (R7, R8, R9 fill these in; see STAGES below):
     register(Stage(name="J1", owns=("call",), run=..., gate=..., repair=..., version="1",
                    built=True, print_name="decompose"))
 
+    reads=lambda doc: {...}   # optional: the part of the SSOT the stage reads, for the input hash
+    raise NotRun(reason)      # the stage chose not to run its judgment step (dry run, no key, budget);
+                              # the runner prints NOT RUN, writes the print, leaves the SSOT alone, moves on
+
+J1 to J3 live in scripts/recoil_decompose.py (R7). J2 and J3 call the model role deep only through
+ctx.act("paid_call"), so the default --budget-usd 0 keeps them NOT RUN.
+
 ctx gives: ctx.root, ctx.stem, ctx.run_dir, ctx.dry_run, ctx.source (the --call value parsed),
 ctx.act(kind, detail, fn=None, cost_usd=0.0, path=None) and ctx.write(path, text).
 """
@@ -101,6 +108,7 @@ class Stage:
     built: bool = True
     print_name: str = ""
     builder: str = ""  # backlog row that will fill a NOT BUILT stub
+    reads: Callable | None = None  # the part of the SSOT the stage reads; default: everything it does not own
 
 
 STAGES: dict[str, Stage] = {}
@@ -171,7 +179,7 @@ def dump(doc: dict) -> str:
 
 
 def input_hash(stage: Stage, doc: dict) -> str:
-    rest = {k: v for k, v in doc.items() if k not in stage.owns}
+    rest = stage.reads(doc) if stage.reads else {k: v for k, v in doc.items() if k not in stage.owns}
     return sha(stage.name + "|" + stage.version + "|" + canon(rest))
 
 
@@ -197,9 +205,6 @@ def _not_built(name: str, builder: str):
 
 
 for _name, _owns, _print, _row in [
-    ("J1", ("call",), "decompose", "recoil-decompose-verbs (R7)"),
-    ("J2", ("verbs",), "verbs", "recoil-decompose-verbs (R7)"),
-    ("J3", ("claims",), "deconstruct", "recoil-decompose-verbs (R7)"),
     ("J4", ("cells",), "hypercube", "R8"),
     ("J5", ("atlas",), "atlas", "R9"),
     ("J6", (), "hud-load", "HUD v2 loader row"),
@@ -208,6 +213,10 @@ for _name, _owns, _print, _row in [
 ]:
     _r, _g = _not_built(_name, _row)
     register(Stage(_name, _owns, _r, _g, built=False, print_name=_print, builder=_row))
+
+import recoil_decompose as decompose  # noqa: E402  (R7: J1 decompose, J2 verbs, J3 deconstruct)
+decompose.install(sys.modules[__name__])
+NotRun = decompose.NotRun
 
 
 EM_DASH = chr(0x2014)
@@ -302,7 +311,7 @@ def load_state(ctx: Ctx) -> dict:
 
 
 def run_stage(ctx: Ctx, stage: Stage, doc: dict, state: dict, out: list[str]) -> tuple[str, dict]:
-    """Returns (status, doc). status: PASS UNCHANGED NOT_BUILT FAIL STOP."""
+    """Returns (status, doc). status: PASS UNCHANGED NOT_BUILT NOT_RUN FAIL STOP."""
     if not stage.built:
         out.append(f"{stage.name} {stage.print_name}: NOT BUILT (filled by {stage.builder})")
         return "NOT_BUILT", doc
@@ -326,7 +335,8 @@ def run_stage(ctx: Ctx, stage: Stage, doc: dict, state: dict, out: list[str]) ->
         s = schema_gate(d)
         return Gate(g.ok and s.ok, list(g.lines) + s.lines)
 
-    molts = 0
+    molts, log0 = 0, len(ctx.log)
+    print_rel = os.path.join(ctx.run_dir, "prints", f"{stage.name}.json")
     try:
         work = apply(stage.run(ctx, doc) or {}, "run")
         g = gate_all(work)
@@ -341,10 +351,15 @@ def run_stage(ctx: Ctx, stage: Stage, doc: dict, state: dict, out: list[str]) ->
         out.append(f"{stage.name} {stage.print_name}: STOP")
         out.append(str(e))
         return "STOP", doc
+    except NotRun as e:
+        # the judgment step did not run: say so, write the print, change nothing in the SSOT
+        ctx.write(print_rel, dump({"stage": stage.name, "print": stage.print_name, "status": "NOT_RUN",
+                                   "reason": str(e), "input_hash": ih, "detail": e.lines}))
+        out.append(f"{stage.name} {stage.print_name}: NOT RUN ({e})")
+        return "NOT_RUN", doc
     status = "PASS" if g.ok else "FAIL"
     pr = {"stage": stage.name, "print": stage.print_name, "status": status, "molts": molts,
-          "input_hash": ih, "output_hash": output_hash(stage, work), "gate": g.lines, "actions": ctx.log[:]}
-    print_rel = os.path.join(ctx.run_dir, "prints", f"{stage.name}.json")
+          "input_hash": ih, "output_hash": output_hash(stage, work), "gate": g.lines, "actions": ctx.log[log0:]}
     ctx.write(print_rel, dump(pr))
     if status == "PASS":
         state[stage.name] = {"input": ih, "output": pr["output_hash"], "status": "PASS", "print": print_rel}
@@ -368,14 +383,21 @@ def run(call: str, until: str | None = None, only: str | None = None, dry_run: b
         budget_usd: float = 0.0, root: str = ROOT) -> tuple[int, list[str]]:
     out: list[str] = []
     source, ssot_rel = resolve_call(root, call)
+    raw = None
     if ssot_rel is None:
-        out.append(f"call {source['kind']} {source['id']}: no SSOT carries this id yet.")
-        out.append(f"J1 decompose: NOT BUILT (filled by {STAGES['J1'].builder}); it is the stage that "
-                   "turns a transcript into an SSOT. Stopping: nothing downstream has input.")
-        return 3, out
+        raw = scaffold(root, source)
+        if raw is None:
+            out.append(f"call {source['kind']} {source['id']}: no SSOT carries this id and no transcript is cached.")
+            out.append("J1 decompose: needs the transcript. Fetch it with Granola get_meeting_transcript "
+                       f"(include_timestamps) into {decompose.TRANSCRIPTS}/ with the id in its first lines, then rerun. "
+                       "Stopping: nothing downstream has input.")
+            return 3, out
+        ssot_rel = os.path.join(GENERATED, raw["meta"]["report_id"] + ".json")
+        out.append(f"call {source['kind']} {source['id']}: new SSOT {ssot_rel} from {raw['call']['source']['transcript']}")
     stem = os.path.splitext(os.path.basename(ssot_rel))[0]
     ctx = Ctx(root, stem, dry_run, source, budget_usd)
-    raw = json.load(open(os.path.join(root, ssot_rel), encoding="utf-8"))
+    if raw is None:
+        raw = json.load(open(os.path.join(root, ssot_rel), encoding="utf-8"))
     kind = v2.detect(raw)
     try:
         doc = v2.to_v2(raw, stem=stem)
@@ -414,6 +436,29 @@ def run(call: str, until: str | None = None, only: str | None = None, dry_run: b
     return rc, out
 
 
+MONTHS = {m: i for i, m in enumerate(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
+                                     "Nov", "Dec"], 1)}
+
+
+def scaffold(root: str, source: dict) -> dict | None:
+    """A minimal v2 SSOT for a Granola id whose transcript is cached. The date comes from the transcript header."""
+    if source.get("kind") != "granola_id":
+        return None
+    tpath = decompose.find_transcript(root, source["id"])
+    if not tpath:
+        return None
+    head = open(os.path.join(root, tpath), encoding="utf-8").read(2000)
+    m = re.search(r"\b(\d{4}-\d{2}-\d{2})\b", head) or re.search(r"\b([A-Z][a-z]{2})[a-z]* (\d{1,2}),? (\d{4})\b", head)
+    if not m:
+        return None
+    date = m.group(1) if m.lastindex == 1 else f"{m.group(3)}-{MONTHS.get(m.group(1), 0):02d}-{int(m.group(2)):02d}"
+    if date[5:7] == "00":
+        return None
+    stem = f"{date}-granola-{source['id'][:8]}"
+    return {"schema": v2.SCHEMA_ID, "meta": {"report_id": stem, "date": date},
+            "call": {"source": {"granola_id": source["id"], "transcript": tpath}, "atoms": []}}
+
+
 def receipt_draft(ctx: Ctx, ssot_rel: str, out: list[str], rc: int, state: dict) -> dict:
     """A draft only. Its event_at is deliberately absent: Zach fills it when he approves the insert."""
     return {
@@ -422,7 +467,7 @@ def receipt_draft(ctx: Ctx, ssot_rel: str, out: list[str], rc: int, state: dict)
         "horizon": "today", "stakes": "low", "mode": "QUICKMOVE",
         # from the state ledger, not the run log, so a rerun with no new input drafts the same bytes
         "what_confirmed": [f"{n} PASS on inputs {st['input']}" for n, st in sorted(state.items())],
-        "what_unconfirmed": [ln for ln in out if ("NOT BUILT" in ln or "FAIL" in ln or "STOP" in ln)
+        "what_unconfirmed": [ln for ln in out if ("NOT BUILT" in ln or "NOT RUN" in ln or "FAIL" in ln or "STOP" in ln)
                              and "UNCHANGED" not in ln]
                             + ["render gates not run by the runner: " + ", ".join(RENDER_DEFERRED)],
         "operator": "recoil_service.py", "job_id": "job:backlog:recoil-service-cli",
@@ -544,12 +589,16 @@ def self_test() -> int:
             rc, out = run(rel, only="J2", root=td)
             check(any("J2 verbs: PASS" in ln for ln in out), "new input reruns the stage")
 
-            # 7. unknown call id: J1 is not built, clear stop
+            # 7. unknown call id with no cached transcript: clear stop at J1
             rc, out = run("not_ABCDEF123", root=td)
-            check(rc == 3 and any("NOT BUILT" in ln for ln in out), "a Granola id with no SSOT stops at J1 NOT BUILT")
+            check(rc == 3 and any("needs the transcript" in ln for ln in out),
+                  "a Granola id with no SSOT and no transcript stops at J1 with the fetch step")
     finally:
         STAGES.clear()
         STAGES.update(saved)
+
+    # 7b. the real J1 to J3 stages (scripts/recoil_decompose.py)
+    decompose.self_test(sys.modules[__name__], check, snap)
 
     # 8. dry run on the Gasmi fixture through the real registry: validates via the v2 adapter, writes nothing
     gasmi = os.path.join(GENERATED, "2026-10-29-gasmi.json")
@@ -563,8 +612,11 @@ def self_test() -> int:
              for p in watch if os.path.exists(p)}
     check(any("six-tab.v1" in ln and "valid" in ln for ln in out[:1]), "Gasmi v1 SSOT validates through the v2 adapter")
     check(before == after, "dry run writes nothing")
-    check(all(any(ln.startswith(f"{n} ") and "NOT BUILT" in ln for ln in out) for n in ORDER[:8]),
-          "J1 to J8 report NOT BUILT")
+    check(any(ln.startswith("J1 decompose: PASS") for ln in out), "J1 decomposes Gasmi")
+    check(all(any(ln.startswith(f"{n} ") and "NOT RUN (dry run" in ln for ln in out) for n in ("J2", "J3")),
+          "J2 and J3 report NOT RUN on a dry run (no model call)")
+    check(all(any(ln.startswith(f"{n} ") and "NOT BUILT" in ln for ln in out) for n in ORDER[3:8]),
+          "J4 to J8 report NOT BUILT")
     check(any(ln.startswith("Render") for ln in out), "Render runs the existing renderer")
 
     print(f"\nself-test: {'PASS' if not fails else 'FAIL'} ({len(fails)} failing)")
