@@ -274,6 +274,7 @@ def render_gate(ctx: Ctx, doc: dict) -> Gate:
 
 register(Stage("Render", (), render_run, render_gate, version="1", print_name="render",
                builder="R5 for the component set"))
+__import__("recoil_stage_j5").install(sys.modules[__name__])  # R9: J5 atlas (scripts/recoil_stage_j5.py)
 
 
 # --------------------------------------------------------------------------- call resolution
@@ -616,7 +617,7 @@ def self_test() -> int:
           "J1 decomposes Gasmi (UNCHANGED when a local run already did)")
     check(all(any(ln.startswith(f"{n} ") and "NOT RUN (dry run" in ln for ln in out) for n in ("J2", "J3")),
           "J2 and J3 report NOT RUN on a dry run (no model call)")
-    check(all(any(ln.startswith(f"{n} ") and "NOT BUILT" in ln for ln in out) for n in ORDER[3:8]),
+    check(all(any(ln.startswith(f"{n} ") and "NOT BUILT" in ln for ln in out) for n in ORDER[3:8] if not STAGES[n].built),
           "J4 to J8 report NOT BUILT")
     check(any(ln.startswith("Render") for ln in out), "Render runs the existing renderer")
 
