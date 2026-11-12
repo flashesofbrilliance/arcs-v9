@@ -203,3 +203,34 @@ Child sessions: R1, R2 and R10 start now (independent, separate files). R4 start
 
 **Friction seen.** `_QUEUE/induced-backlog.jsonl` conflicted on nearly every PR in this epic. The READY row `backlog-merge-driver-by-id` (register `scripts/backlog_merge_by_id.py` as a git merge driver) removes that class.
 
+
+## 10. Wave 2 (induced 2026-11-12, ADR-086 two passes)
+
+Wave 1 built every stage and proved it on fake model answers. Wave 2 gets the first ground truth: one real call, one real model run, and acceptance on that run, not on fixtures. Rows carry `epic: recoil-call-service-wave2`. Prior art ran first (`/prior-art`, then the catalog per job): every row reuses an existing tool; only the cards skill may add one, and only if `/fold` and `backlog_graph.py` cannot already do it.
+
+### 10.1 Pass 1: the candidates, each kept, cut or merged
+
+| Candidate | Fate | Row | Why |
+|---|---|---|---|
+| Run J2 to J4 with a real model on one real call | Kept, split in two | `recoil-brian-ssot`, `recoil-real-model-run` | No SSOT exists for the Brian call, so the real run needs one first. The run is a paid step: Zach's go, cap 2 USD, local only. |
+| R12 Brian acceptance and the S1 to S3 count | Merged into the existing row | `recoil-brian-acceptance` | The row already exists. Pass 2 adds two dependencies to it. |
+| Backlog file conflicts on nearly every PR | Merged into the existing row | `backlog-merge-driver-by-id` | The row already names the tool and rejects union merge, since rows are edited in place. Promoted to READY, with a frustration gate added. |
+| Backlog-to-session-cards skill (card task_7114301a) | Kept | `backlog-session-cards-skill` | Briefs drifted twice when written by hand. A brief built from the row's own fields removes that. It runs a reuse check against `/fold` first. |
+| Counterpart twin for recoil-ship | Kept, HOLDING | `recoil-ship-twin` | Waits on §8 Q3. This is a one-way door, so the PII gate and the gauntlet run before anything is sent. |
+| Wire `/recoil-prep` and `/recoil-close` onto the runner | Kept, after the real run | `recoil-skills-on-runner` | Neither skill calls the runner today. Wiring them onto stages that have only seen fake answers would lock in paths nobody has tested. |
+| Kairos and time-scrub acceptance in under 7 seconds | Kept, HOLDING | `recoil-kairos-7s-test` | R11 builds J6 to J8. A person times the read. A headless check covers flat on empty. |
+| Catalog and JTBD-graph entries for the epic's tools | Kept, READY | `recoil-epic-tool-catalog` | `jtbd-graph --check` fails with 3 new orphan tools, and J4 and J5 are missing from the catalog. |
+
+### 10.2 Pass 2: Loki repairs (evidence in each row)
+
+1. **Acceptance on fake answers proves only the plumbing.** R12 now also depends on `recoil-real-model-run` and `recoil-kairos-7s-test`.
+2. **A merge driver does not change what GitHub shows.** GitHub's server-side mergeability ignores local drivers, so PRs will still show CONFLICTING. The driver removes the hand resolution, not the round trip. Measure set in advance: count hand-resolved backlog conflicts over the next 10 PRs.
+3. **The real run spends from the shared API cap.** It is capped at 2 USD, runs locally and never in CI, and does a dry run first.
+4. **The Brian SSOT carries PII.** It stays internal and waits on §8 Q5. Counterpart quotes carry no source tags without the notetaker's consent.
+5. **The cards skill may duplicate `/fold`.** The reuse check is its first gate.
+
+### 10.3 Order
+
+READY now: `recoil-epic-tool-catalog`, `backlog-merge-driver-by-id`. OPEN with no dependency: `backlog-session-cards-skill`. §8 Q5 gates `recoil-brian-ssot`, which leads to `recoil-real-model-run` (a spend go), then `recoil-skills-on-runner` and R12. R11 leads to `recoil-kairos-7s-test`, then R12. §8 Q3 gates `recoil-ship-twin`.
+
+**Merge queue.** One session, recoil-wave2, merges every recoil PR, one at a time, with `scripts/safe_merge.sh`, and only on Zach's own go. Owners merge main into their own branches when the backlog file conflicts. The merge-train session keeps the non-recoil PRs.
