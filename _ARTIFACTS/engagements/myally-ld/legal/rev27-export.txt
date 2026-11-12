@@ -1,0 +1,46 @@
+MyAlly Step 1 agreement (Claude Doc rev 27, exported 2026-11-08 from https://claude.ai/artifact/5f7Mepg8bY7S4mogR9f4Vt)
+2026-11-06 · Zach Harris
+
+Between MyAlly LD and [your business name]. Step 1 of the three-step plan: a light audit and code review for $1,500 fixed, done in a few working days once we start.
+
+1. This step
+- Work: a light audit and code review of the MyAlly app (Lovable and Supabase), done in a few working days.
+- Fee: $1,500 fixed, for up to 12 hours of work at $125 an hour (friends-and-family rate; normal rate $150 an hour).
+- What you keep, in your name: first, a data governance plan: the controls and approvals your pilot schools and families are likely to ask for (keeping each family's data apart, who can see what, consent, what to keep out of the app), the lightest no-code or low-code way to meet each one, what to buy or rent instead of build, and the questions to take to your counsel and accountant, including business structure, grants and vendor pricing; then a go or stop memo, with a map of what your spec says against what is built, stubbed or missing, checked against your pilot and fundraising goals; the code sorted into three piles (ready to build on, keep with tidying, better rebuilt); whether each family's data is kept apart in the current code; a ranked list of problems to fix first (the problems, not fix plans), set out as an order of work in which each step unblocks or lowers the risk of the next; and rough ranges, each with its assumptions, for a build ready to test with up to 100 families, the path from there to public launch, and monthly running costs for AI, hosting and security checks, shown over two years. All in plain language, so your team or any developer can act on it in Steps 2 and 3.
+- Not in this step: fixes, a full security test, firm estimates, or setup work. GitHub, version control, automatic checks and deploys (CI/CD) and test environments start in Step 2 and finish in Step 3. Anything outside this list is quoted before it starts.
+
+2. What starts the clock
+The sprint starts the day after I have these two things, about 10 minutes on your side:
+1. An invite for zach.harris@gmail.com to your Lovable workspace, as a member. I read the code there, so no GitHub setup is needed for this step.
+2. The last one or two monthly bills and usage screens for Lovable, Supabase and your AI provider. Screenshots by email are fine.
+Nothing else is needed: your October 27 walkthrough and the integration spec already show how the app works. If you already have them, attach your business plan, roadmap, token cost analysis, counsel's findings or user stories; nothing new needs to be written.
+If the agreement is signed and paid, and both items are in, by Tuesday, November 10, the sprint starts Wednesday, November 11 and the readout is by Monday, November 16. If any of these land later, the dates move by the same amount. No real family data is needed for this step.
+
+3. Along the way
+Midweek, a short written note on what I'm seeing and anything I need from you. Office hours stay as offered on October 29: 4 hours a month at no charge, in 30-minute slots, booked through my calendar link.
+
+4. Delivery and acceptance
+Delivery is the memo, the plan and the ranges in section 1, walked through together on a 45-minute readout call. One round of changes is included: send your comments together, in one message, within 7 days of the readout, and I update the deliverables once. After that, the step is accepted. I send the invoice when you sign; it is due before the sprint starts.
+
+5. After the readout: more detail, or Step 2
+Each answer comes at a first level of detail. Where more detail would change a decision, the readout lists it as an open question, with what answering it would settle and the hours it takes. Answering one may surface the next question down.
+The readout ends with your choice of next step, a decision date agreed on the call, and the name of the person who decides on your side:
+- More detail on these answers: you pick open questions from the list. Work is billed in 2-hour blocks at $125 an hour, and I start each block only after your written OK. These hours are billed on their own and are not credited toward later steps.
+- Step 2: a new fixed scope and price, quoted after the readout. Step 2 starts only with your written yes.
+
+6. If the work runs past 12 hours
+[Choose one: I stop and ask before going past 12 hours / I absorb the extra hours and show them on the invoice at $0.] Either way, the readout shows the hours actually spent.
+
+7. Blockers we name now
+| What could stall us | How this agreement handles it |
+| Signing, payment or the two items slip | The dates move by the same number of days (section 2) |
+| Work is done but never accepted | Acceptance at the readout, with a 7-day re-check (section 4) |
+| "We'll decide later" with no date | A Step 2 decision date set on the readout call (section 5) |
+| Extra requests folded into the fixed fee | Anything outside section 1 is quoted first (section 1) |
+| Setup work creeps into the audit | GitHub, CI/CD and test environments belong to Steps 2 and 3 (section 1) |
+| Rounds of feedback with no end | One combined round of changes, then 2-hour blocks with your OK (sections 4 and 5) |
+
+8. Confidentiality
+This work is covered by our mutual NDA, signed by both of us on October 26, 2026.
+
+Signatures: MyAlly LD (name, signature, date) | [your business name] Zach Harris (signature, date)

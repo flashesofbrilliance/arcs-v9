@@ -1,0 +1,354 @@
+{
+ "spec": "/Users/zharris/Downloads/SAGE_PRD_TRD_DRD_v1.md",
+ "lines": 690,
+ "read_fully": true,
+ "claims": [
+  {
+   "id": "C1",
+   "line": 1,
+   "quote": "SAGE \u2014 Synthetic Abductive Generative Engine",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "operators/arcs_operators_sage.py:1-8 defines SAGE as 'The Discernment Archetype'; grep for 'Synthetic Abductive' across repo md/py/ts/json returns no hit outside this spec.",
+   "fix": "State SAGE = the Discernment operator ('is this signal or noise?') or rule a rename explicitly; do not invent an acronym."
+  },
+  {
+   "id": "C2",
+   "line": 18,
+   "quote": "Librarian, Detective, Curator, Alchemist, Conductor layers generate signal richness",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "operators/operator_client.py:84 pipeline is 'SAGE -> LAB -> BAR -> CURATOR'; operators/arcs_operators_sage.py:10 calls SAGE 'the first and primary ARCS operator'. Spec puts SAGE last (L4/L5 resolution after those layers).",
+   "fix": "Re-draw the stack from operators/OPERATOR-REGISTRY.json; SAGE precedes, not follows, the curators."
+  },
+  {
+   "id": "C3",
+   "line": 8,
+   "quote": "Core IP, first productized ARCS layer",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "AGENTS.md: product is the compass pipeline (/api/compass). src/app/api/compass/route.ts:268-277 uses SAGE as an advisory, fail-open pre-screen writing an invisible SageTrace row; route.ts:100 forbids naming SAGE in user-facing text. No src/app/api/sage route exists.",
+   "fix": "Say SAGE is an internal advisory pre-screen today, not a productized layer."
+  },
+  {
+   "id": "C4",
+   "line": 20,
+   "quote": "Decision Receipts with cryptographic-grade accountability",
+   "kind": "SELF-GRADE",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "SHA-256 of input/receipt (L214, L376) gives integrity, not signature or non-repudiation. No hashlib/sha256 in operators/arcs_operators_sage.py or arcs_primitives.py (grep).",
+   "fix": "Claim only 'tamper-evident hash'; name the trust anchor if signatures are meant."
+  },
+  {
+   "id": "C5",
+   "line": 61,
+   "quote": "ARCS kinematic primitives (Shot, Lock, lev); lev = 10th+ derivative, superionic",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "operators/arcs_kinematics.py:37-41: D7-8 Lock/Drop, D9-10 Shot/Releve, D12 Eleve (superionic). 'lev' is not a primitive; spec's 10-step ladder omits Releve/Plie/Eleve.",
+   "fix": "Use the repo's 12-order names, or cite the kinematics adjudication."
+  },
+  {
+   "id": "C6",
+   "line": 669,
+   "quote": "Kinematic depth: 10-derivative primitive chain (moat)",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "arcs_kinematics.py:7-20: manifold is a heterogeneous two-zone stack; D5-D12 are coherence operators, not true time-derivatives (_recursive_diff noise-dominated). Naming of D8-D12 flagged unsettled.",
+   "fix": "Drop 'derivative chain' as moat; reference the two-zone ruling."
+  },
+  {
+   "id": "C7",
+   "line": 84,
+   "quote": "NCI = Naive Confidence Index grading input quality",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "runtime/specs/LEGEND.md:44: NCI = net coherence index (decision or commit score). operators/arcs_primitives.py:530 calculate_nci(on_purpose_rate, avg_irreversibility) = 0.7/0.3 weighted; takes no text input.",
+   "fix": "Rename the input grader (e.g. Signal Quality Grade) or define it; do not reuse NCI."
+  },
+  {
+   "id": "C8",
+   "line": 128,
+   "quote": "NCI used as input-quality gate AND session self-grade AND weekly KPI",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "L84 'NCI self-grading on input quality'; L128 'NCI Self-Grade of the session'; L159 'NCI average per session >=70'. One name, three quantities.",
+   "fix": "Split into three named metrics."
+  },
+  {
+   "id": "C9",
+   "line": 240,
+   "quote": "Inputs scoring F (<40) are blocked from L4",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "L84: 'Flags low-quality inputs (NCI < 40/100) with explicit warning before proceeding' vs L240: F (<40) 'blocked from L4 processing'.",
+   "fix": "Pick block or warn."
+  },
+  {
+   "id": "C10",
+   "line": 689,
+   "quote": "NCI Self-Grade: 91/100 \u2014 High fidelity",
+   "kind": "SELF-GRADE",
+   "verdict": "UNSOURCED-SELF-GRADE",
+   "evidence": "No rubric, rater or evidence given; document was model-generated (L688) with no gate in the loop.",
+   "fix": "Delete, or attach rubric output with provenance."
+  },
+  {
+   "id": "C11",
+   "line": 117,
+   "quote": "Kairos Lock if Coherence < 0.9",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "L117 locks on coherence<0.9 alone; L284-289 locks only when coherence<0.9 AND irreversible, else DRIFT. 'Coherence' is never defined, and repo kairos_window_open (sage.py:448) is somatic-score based.",
+   "fix": "Define coherence, one rule, cite repo kairos implementation."
+  },
+  {
+   "id": "C12",
+   "line": 83,
+   "quote": "Routes input type correctly 100% of the time; 50k chars in <3 s",
+   "kind": "EMPIRICAL",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Absolute accuracy claim with no test set; 3 s includes a Kintsugi pathogen scan that spec does not say is non-LLM. Spec admits no latency benchmarks (L690).",
+   "fix": "State measured p95 on a fixture set."
+  },
+  {
+   "id": "C13",
+   "line": 160,
+   "quote": "Time to Red Thread: kill gate >2 min vs hard limit 30 s vs 45 s",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "L160 kill >2 min; L399 hard limit 30 s p50 / 45 s p99; L493 'under 30 seconds'; L681 kill at 45 s p99. Three different kill thresholds.",
+   "fix": "One latency SLO table."
+  },
+  {
+   "id": "C14",
+   "line": 398,
+   "quote": "p50 <15 s through 5 sequential LLM stages plus search grounding",
+   "kind": "EMPIRICAL",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Steel Man, Loki, thread detection, calibration, falsifiability, plus Perplexity grounding (L422 P0) are serial model calls; no benchmark. L690 concedes 'LLM latency benchmarks at scale' unknown.",
+   "fix": "Mark as hypothesis; collapse stages into one structured call or measure."
+  },
+  {
+   "id": "C15",
+   "line": 98,
+   "quote": "Confidence >=0.85 required; stated methodology 'calibrates' it",
+   "kind": "SELF-GRADE",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Confidence is model-self-reported. Repo's calibration curve (accountant-calibration-curve) is HOLDING on external n; outcome capture ~2/247 per backlog row outcome-capture-rate-keel-gap. No data to calibrate against.",
+   "fix": "Label confidence uncalibrated until Accountant sufficiency verdict clears."
+  },
+  {
+   "id": "C16",
+   "line": 148,
+   "quote": "Zero pattern claims on n<5, hard rule",
+   "kind": "DESIGN",
+   "verdict": "DESIGN",
+   "evidence": "n=5 has no stated basis; 'n' means observations (L84), sessions (L148) and claims (L277). Repo Accountant uses a stated per-operator threshold and says 'insufficient' below it.",
+   "fix": "Define n and justify threshold, or reuse Accountant sufficiency verdict."
+  },
+  {
+   "id": "C17",
+   "line": 159,
+   "quote": "OKRs: >=3 sessions/wk, >=85% receipt approval, >=40% pilot-to-paid",
+   "kind": "DESIGN",
+   "verdict": "DESIGN",
+   "evidence": "Targets only. Approval-rate as trust metric rewards agreement, in tension with the spec's own sycophancy pathogen (L248).",
+   "fix": "Add a dissent/override rate counter-metric."
+  },
+  {
+   "id": "C18",
+   "line": 168,
+   "quote": "Pricing $29 / $299 / $5,000 pilot",
+   "kind": "DESIGN",
+   "verdict": "DESIGN",
+   "evidence": "No basis given; L690 admits 'final pricing validation' unknown.",
+   "fix": "Strike or tag as untested hypothesis."
+  },
+  {
+   "id": "C19",
+   "line": 185,
+   "quote": "Callable via internal API /api/sage/* as a decoupled service",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "No src/app/api/sage directory. SAGE reachable only as vercel.json:57-75 service 'sage' (/svc/sage). Backlog svc-sage-should-it-exist-decision is state HELD: GATE 1 'does the pre-screen earn its keep'; NO => remove /svc/sage entirely.",
+   "fix": "Spec cannot assume SAGE exists as a service; gate on that decision."
+  },
+  {
+   "id": "C20",
+   "line": 207,
+   "quote": "Frontend Next.js 15 + Tailwind CSS",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "package.json: next ^16.4.5. AGENTS.md: Tailwind removed 2026-07-11, inline styles only.",
+   "fix": "Next 16, inline styles, globals.css only."
+  },
+  {
+   "id": "C21",
+   "line": 215,
+   "quote": "Deploy Vercel + Railway; Node / FastAPI backend",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "SAGE already deploys as a Vercel experimentalService (vercel.json:57-75, operators/arcs_api.py). Railway appears only in docs/audit-service-hosting-scope.md and archive.",
+   "fix": "Drop Railway."
+  },
+  {
+   "id": "C22",
+   "line": 212,
+   "quote": "Auth: Supabase Auth + Row-Level Security",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "AGENTS.md / src/lib/auth.ts: Auth.js v5 magic link (Resend) with Prisma adapter.",
+   "fix": "Use Auth.js user ids; RLS then needs a separate design."
+  },
+  {
+   "id": "C23",
+   "line": 210,
+   "quote": "Embeddings via OpenAI text-embedding-3-large",
+   "kind": "DESIGN",
+   "verdict": "DESIGN",
+   "evidence": "New vendor and dependency (package.json has no openai); src/app/trust/page.tsx:77 tells users inputs run through Anthropic API only. Violates 'no new deps without asking'.",
+   "fix": "Ask before adding; update trust page if adopted."
+  },
+  {
+   "id": "C24",
+   "line": 210,
+   "quote": "text-embedding-3-large returns 3072 dimensions",
+   "kind": "EMPIRICAL",
+   "verdict": "VERIFIED",
+   "evidence": "OpenAI embeddings guide: default 3072 for text-embedding-3-large, shortenable via dimensions param (https://developers.openai.com/api/docs/guides/embeddings).",
+   "fix": null
+  },
+  {
+   "id": "C25",
+   "line": 368,
+   "quote": "embedding VECTOR(3072) supports semantic search <500 ms",
+   "kind": "EMPIRICAL",
+   "verdict": "FALSE",
+   "evidence": "pgvector HNSW/IVFFlat indexes on type vector cap at 2,000 dims; 3072 needs halfvec (cap 4,000) or dimension truncation (Neon docs https://neon.com/docs/extensions/pgvector; https://particula.tech/blog/pgvector-2000-dimension-index-limit). Index build fails after data is loaded.",
+   "fix": "Use halfvec(3072) or dimensions=1024/1536."
+  },
+  {
+   "id": "C26",
+   "line": 411,
+   "quote": "Sealed receipts: UPDATE/DELETE denied; and GDPR-grade compliance (L413)",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "L411 denies DELETE post-seal; L413 promises GDPR-grade. GDPR Art. 16/17 erasure and rectification conflict with immutability; CNIL says erasure is technically impossible on immutable stores (secureprivacy.ai summary; Oxford cybersecurity 2025). Source text of Art.17 not opened.",
+   "fix": "Keep personal data off the sealed record and erase by key deletion, or drop GDPR-grade claim."
+  },
+  {
+   "id": "C27",
+   "line": 411,
+   "quote": "Raw inputs processed in memory, never logged beyond session hash",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "L216/L608 IndexedDB offline drafts hold raw input; L378 export_md/export_json store receipt content; L501 re-populates input from a receipt; L422 sends input to Perplexity.",
+   "fix": "Say what is stored, where, and which third parties see it."
+  },
+  {
+   "id": "C28",
+   "line": 412,
+   "quote": "No model training on user data, contractually enforced in ToS",
+   "kind": "EMPIRICAL",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "trust/page.tsx:77 asserts this for Anthropic API only. Spec adds OpenAI and Perplexity processors; no ToS for SAGE exists in repo. Not checked against those vendors' terms.",
+   "fix": "Cite each vendor's retention terms or restrict to Anthropic."
+  },
+  {
+   "id": "C29",
+   "line": 134,
+   "quote": "Receipts immutable post-approval",
+   "kind": "DESIGN",
+   "verdict": "DESIGN",
+   "evidence": "Repo precedent: decision_receipt has an append-only DB trigger (AGENTS.md). Spec schema (L345-390) has no trigger; sessions.is_sealed is a mutable boolean and red_threads rows are not covered by receipt_hash.",
+   "fix": "Hash the full thread set into receipt_hash and add the trigger; or reuse the existing Receipt model (sealedAt, schema.prisma:744)."
+  },
+  {
+   "id": "C30",
+   "line": 371,
+   "quote": "New sessions/red_threads/receipts/patterns tables",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Repo already has Receipt (DEWY + Y gate, sealedAt), Outcome and decision_receipt; spec's receipt substrate duplicates it and uses Supabase Postgres while repo is Prisma 7 (SQLite dev).",
+   "fix": "Map Red Threads onto Receipt fields; do not mint a parallel store."
+  },
+  {
+   "id": "C31",
+   "line": 490,
+   "quote": "Layer labels: L0 Exec Scan, L1 Loki, L2 Bayesian, L3 Contemplative Pause, L4 Quantum Precision",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "CLAUDE.md: L0 atomic signal, L1 coherence, L2 path survivability, L3 Kintsugi immune check, L4 cross-domain, L5 global coherence. Contemplative pause = Op 25 ShavasanaSpace, UNBUILT (PERIODIC-TABLE.md:131).",
+   "fix": "Re-label to canon; remove dependence on an unbuilt operator."
+  },
+  {
+   "id": "C32",
+   "line": 64,
+   "quote": "NOTOMATION: SAGE never auto-commits; human approves",
+   "kind": "REPO",
+   "verdict": "VERIFIED",
+   "evidence": "operators/arcs_operators_sage.py:11 'SAGE does NOT make decisions'; route.ts:268-270 advisory-only, never blocks.",
+   "fix": null
+  },
+  {
+   "id": "C33",
+   "line": 505,
+   "quote": "Drift Sentinel after 3+ sessions",
+   "kind": "DESIGN",
+   "verdict": "DESIGN",
+   "evidence": "WORLD.md: Drift Sentinel fires after 5 turns without a new artifact. Different unit and threshold.",
+   "fix": "Align or state why."
+  },
+  {
+   "id": "C34",
+   "line": 565,
+   "quote": "--sage-mist #E8E6E0 secondary text on --sage-white #F5F4F0; WCAG 2.1 AA (L590)",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Computed contrast 1.13:1 (AA needs 4.5:1). Also a different palette from repo tokens (bg #020408; dimmed #8391a7 raised for AA).",
+   "fix": "Use kit tokens or fix the pair."
+  },
+  {
+   "id": "C35",
+   "line": 605,
+   "quote": "iOS Share Sheet target and haptics on Seal from a PWA",
+   "kind": "EMPIRICAL",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Not checked. Web Share Target and Vibration API support on iOS Safari is doubtful; I did not fetch a source.",
+   "fix": "Verify on caniuse or use native shortcut."
+  },
+  {
+   "id": "C36",
+   "line": 664,
+   "quote": "Notion AI / Copilot / generic chat: 'None' on every moat row",
+   "kind": "EMPIRICAL",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Absolute competitor claims, not searched; 'None' in 14 cells is unlikely to survive.",
+   "fix": "Cite dated product pages or soften."
+  },
+  {
+   "id": "C37",
+   "line": 688,
+   "quote": "Generated by ARCS v8.5 Field OS",
+   "kind": "REPO",
+   "verdict": "VERIFIED",
+   "evidence": "runtime/specs/field-os/artifacts/01-arcs-v8.5-field-os-master-spec.md exists; repo is now v9 (SAGE_VERSION 'v9.0-phase2', sage.py).",
+   "fix": null
+  }
+ ],
+ "weak_joints": [
+  "Existence and identity: spec treats SAGE as a built L4/L5 productizable service, but repo SAGE is the Discernment kinematic pre-screen, first in the pipeline, and svc-sage-should-it-exist-decision is HELD on an efficacy gate that has no data.",
+  "Stack and substrate: Next 15+Tailwind+Supabase Auth/RLS+Railway+OpenAI embeddings+new receipt tables all contradict the repo (Next 16, inline styles, Auth.js, Vercel service, Prisma Receipt/decision_receipt); VECTOR(3072) cannot be indexed.",
+  "Calibration and immutability promises: 0.85 confidence, NCI grades, n>=5 and sealed receipts rest on an NCI that means something else in the repo, no calibration data (accountant curve HOLDING, outcomes ~2/247), and an immutability-vs-GDPR-erasure conflict."
+ ],
+ "summary": {
+  "VERIFIED": 3,
+  "FALSE": 13,
+  "UNVERIFIABLE": 7,
+  "CONTRADICTED-INTERNALLY": 7,
+  "UNSOURCED-SELF-GRADE": 1,
+  "DESIGN": 6,
+  "note": "37 claims ledgered; about 25 minor UI/motion/pricing-tier specifics skipped as pure DESIGN. 6 EMPIRICAL web checks only (embedding dims, pgvector cap, GDPR erasure; others marked unchecked)."
+ }
+}

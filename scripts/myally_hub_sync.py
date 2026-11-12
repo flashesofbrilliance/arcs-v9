@@ -8,6 +8,10 @@ sentinels, so the tab, the agreement and Exhibit A all cite one record.
 
   python3 scripts/myally_hub_sync.py          # write
   python3 scripts/myally_hub_sync.py --check  # read-only; exit 1 when the hub is stale
+  python3 scripts/myally_hub_sync.py --tune OUT.html       # internal copy with the live editor (refuses public/)
+  python3 scripts/myally_hub_sync.py --apply EXPORT [...]  # the editor's exports back to source, then re-render and sync:
+      text goes to the hub's own HTML first (the synced Step 1 block is masked), else to engagement.json;
+      tokens and wrapping go to a tuned block in the hub's <style>
 
 Gift files (rows with "download", released once their unlock row is done) are copied from the
 engagement's private gifts/ folder to public/myally-skills/; any file there that is not released is
@@ -16,6 +20,8 @@ removed, so nothing is downloadable before it is earned. --check covers the file
 Stdlib only. Writes only public/myally-hub.html and public/myally-skills/.
 """
 import json, os, re, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import page_tune as pt  # the shared --tune / --apply mechanics
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SRC = os.path.join(ROOT, "_ARTIFACTS", "engagements", "myally-ld", "out", "step1_tree.json")
@@ -65,7 +71,27 @@ def write_gifts(want: dict) -> None:
         os.rmdir(PUB)
 
 
+def tune_apply(argv) -> int:
+    import argparse
+    import engagement_render as er
+    ap = argparse.ArgumentParser(description="myally_hub_sync --tune / --apply")
+    pt.add_args(ap)
+    a = ap.parse_args(argv)
+    if a.tune:
+        pt.tune_write(synced(open(HUB, encoding="utf-8").read()), a.tune)
+        return 0
+    eng = os.path.join(ROOT, "_ARTIFACTS", "engagements", "myally-ld")
+    pt.apply(a.apply, [("html", HUB, PAT.pattern), ("json", os.path.join(eng, "engagement.json"))],
+             style=("block", HUB), version=a.version, validate=lambda d: er.validate(d))
+    er.write(eng)
+    print("re-rendered " + os.path.relpath(eng, ROOT) + "/out")
+    sys.argv = sys.argv[:1]
+    return main()
+
+
 def main() -> int:
+    if "--tune" in sys.argv or "--apply" in sys.argv:
+        return tune_apply(sys.argv[1:])
     hub = open(HUB, encoding="utf-8").read()
     new = synced(hub)
     want = released()

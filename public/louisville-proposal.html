@@ -4,8 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Outside Read: AI Build</title>
-<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('brooksTheme');d.setAttribute('data-theme',t==='dark'?'dark':'light');}catch(e){d.setAttribute('data-theme','light');}})();</script>
+<meta name="description" content="Proposal for Brooks Thomas, Louisville Brands: a two-week checkup of the AI build, traced through two decisions, $5,000. Confidential.">
+<link rel="alternate" type="text/markdown" href="/proposal/proposal.md" title="Plain text for AI tools">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Offer","name":"A checkup on your AI build","description":"A two-week checkup of Louisville Brands' AI build, traced through two decisions the client picks (one technical, one business), with a one-page read, a stop number per decision, and next steps.","price":"5000","priceCurrency":"USD","eligibleDuration":{"@type":"QuantitativeValue","value":2,"unitCode":"WEE"},"paymentAccepted":"Half at kickoff, half at the readout","seller":{"@type":"Person","name":"Zach Harris","email":"zach.harris@gmail.com"},"itemOffered":{"@type":"Service","name":"AI build checkup","serviceType":"AI build checkup"}}</script>
+<title>Checkup: AI Build</title>
+<script>(function(){try{var st=JSON.parse(localStorage.getItem('brooksRead')||'{}')||{},lt=localStorage.getItem('brooksTheme');if(!st.theme&&(lt==='dark'||lt==='light')){st.theme=lt;localStorage.setItem('brooksRead',JSON.stringify(st));}var d=document.documentElement;if(st.theme==='dark'||st.theme==='light')d.setAttribute('data-theme',st.theme);}catch(e){}})();</script>
 <style>
 /* ARCS Recoil Report — Design Tokens */
 :root {
@@ -89,7 +92,7 @@
 }
 
 
-:root{--secondary:var(--text-secondary);--mono:var(--ds-font-mono);--sans:var(--ds-font-sans);--serif:var(--ds-font-display);--measure:720px;--fs-step:1.25rem;--fs-title:0.95rem;--sp-1:8px;--sp-2:16px;--sp-3:24px;--sp-4:40px;--sp-5:64px;}
+:root{--secondary:var(--text-secondary);--mono:var(--ds-font-mono);--sans:var(--ds-font-sans);--serif:var(--ds-font-display);--measure:928px;--fs-step:1.25rem;--fs-title:0.95rem;--sp-1:8px;--sp-2:16px;--sp-3:24px;--sp-4:40px;--sp-5:64px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:var(--fs-body);line-height:1.6;padding:var(--sp-5) 20px 96px;-webkit-font-smoothing:antialiased;}
 .page{max-width:var(--measure);margin:0 auto;display:flex;flex-direction:column;gap:var(--sp-5);}
@@ -163,11 +166,6 @@ header > .tools{grid-row:1;justify-self:end;display:flex;align-items:center;gap:
 .pdfbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:44px;width:44px;padding:0;color:var(--secondary);border:0;border-radius:var(--ds-r-sm);text-decoration:none;font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;}
 .pdfbtn:hover,.pdfbtn:focus-visible{color:var(--cyan);}
 .pdfbtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
-.themebtn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;margin:0;color:var(--secondary);background:none;border:0;border-radius:var(--ds-r-sm);cursor:pointer;}
-.themebtn[hidden]{display:none;}
-.themebtn[data-next="light"] .i-moon,.themebtn[data-next="dark"] .i-sun{display:none;}
-.themebtn:hover,.themebtn:focus-visible{color:var(--cyan);}
-.themebtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
 @media print{:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;} .themebtn,.tools{display:none!important;} body{background:#fff!important;padding:0!important;} .page{gap:var(--sp-3);max-width:none;} body{font-size:10.5pt;line-height:1.5;} h1{font-size:22pt;} .verdict{font-size:13pt;margin-top:var(--sp-2);} .slabel{font-size:13pt;} .hrow > div{padding:10px 0;} section{gap:var(--sp-1);} .lockup,.hrow > div{break-inside:avoid;} .lockup{break-after:avoid;}}
 @page{size:Letter;margin:0.5in 0.6in;}
 
@@ -196,7 +194,7 @@ header > .tools{grid-row:1;justify-self:end;display:flex;align-items:center;gap:
 .plist li{display:grid;grid-template-columns:2.25rem minmax(0,1fr);column-gap:var(--sp-1);padding:var(--sp-1) 0;color:var(--text-secondary);text-wrap:pretty;}
 .plist li + li{border-top:1px solid var(--border);}
 .plist .pn{font-family:var(--mono);font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;}
-.pnote{color:var(--text-secondary);margin-top:var(--sp-2);}
+.pnote{font-family:var(--serif);font-size:var(--fs-step);font-weight:500;line-height:1.45;color:var(--text);margin-top:var(--sp-2);} 
 .pnote + .offer{margin-top:var(--sp-3);}
 @media print{
   .cover{display:flex;flex-direction:column;height:9.9in;break-after:page;}
@@ -293,7 +291,7 @@ footer p{text-align:left;}
 
 @page{size:Letter;margin:0.8in 0.8in 0.75in;
   @top-left{content:"ARCS";font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;font-size:7pt;font-weight:700;letter-spacing:0.32em;color:#00606b;vertical-align:bottom;padding-bottom:14pt;}
-  @top-right{content:"An outside read  \00B7  Louisville Brands";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#566170;vertical-align:bottom;padding-bottom:14pt;}
+  @top-right{content:"AI build checkup  \00B7  Louisville Brands";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#566170;vertical-align:bottom;padding-bottom:14pt;}
   @bottom-left{content:"Zach Harris  \00B7  zach.harris@gmail.com";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;color:#566170;vertical-align:top;padding-top:14pt;}
   @bottom-center{content:"Confidential";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#566170;vertical-align:top;padding-top:14pt;}
   @bottom-right{content:counter(page) " / " counter(pages);font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;font-size:7pt;font-weight:700;color:#1c2430;vertical-align:top;padding-top:14pt;}
@@ -356,9 +354,6 @@ footer p{text-align:left;}
 
 @media screen{
   .page{display:block;max-width:calc(var(--measure) + 2*var(--sp-4));border:1px solid var(--border);border-radius:var(--ds-r-md);background:var(--bg);overflow:hidden;}
-  .mast{padding:var(--sp-1) var(--sp-3) var(--sp-1) var(--sp-4);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:var(--sp-2);}
-  .mast .forline{margin:0;}
-  .mast .tools{display:flex;align-items:center;gap:0;margin:0 calc(-1*var(--sp-1)) 0 0;}
   .pbody{display:flex;flex-direction:column;gap:var(--sp-4);padding:var(--sp-4);}
   .pbody > header{padding-bottom:var(--sp-4);border-bottom:1px solid var(--border);}
   .pbody > .blkbar{margin:calc(-1*var(--sp-2)) 0 calc(-1*var(--sp-3));}
@@ -373,7 +368,6 @@ footer p{text-align:left;}
 }
 @media screen and (max-width:640px){
   body{padding-left:var(--sp-1);padding-right:var(--sp-1);}
-  .mast{padding:var(--sp-1) var(--sp-1) var(--sp-1) var(--sp-2);}
   .pbody{gap:var(--sp-3);padding:var(--sp-2);}
   .pbody > header{padding-bottom:var(--sp-3);}
   .pbody > .blkbar{margin:calc(-1*var(--sp-1)) 0 calc(-1*var(--sp-2));}
@@ -454,7 +448,7 @@ footer p{text-align:left;}
   .gg + .offer,.pnote + .offer{margin-top:var(--sp-1);}
   .offer > *{padding:6px 14px;}
   .gg-row{grid-template-columns:4.5rem minmax(0,1fr) minmax(0,1fr);}
-  .offer-ask{font-size:var(--fs-headline);line-height:1.4;}
+  .offer-ask,.pnote{font-size:var(--fs-headline);line-height:1.4;}
   .offer-price{font-size:var(--fs-body);}
   .offer-proof{display:none;}
 }
@@ -479,17 +473,195 @@ footer p{text-align:left;}
   .cover-toc{margin-top:auto;}
   .cover-sub{font-size:1.5rem;line-height:1.35;color:var(--text);text-wrap:pretty;}
 }
+
+.wordmark { font-family: var(--ds-font-mono); text-transform: uppercase; display: inline-flex; gap: 0.45em; align-items: baseline; max-width: none; }
+.wordmark .wa { color: var(--cyan); font-weight: 800; letter-spacing: 0.22em; }
+.wordmark .wf { color: var(--text-secondary); font-weight: 400; letter-spacing: 0.14em; }
+
+
+:root[data-font="easy"]{--ds-font-sans:Verdana,Tahoma,"Trebuchet MS",Arial,sans-serif;--ds-font-display:Verdana,Tahoma,"Trebuchet MS",Arial,sans-serif}
+:root[data-font="easy"] *{font-style:normal!important}
+:root[data-size="l"]{font-size:112.5%}
+:root[data-size="xl"]{font-size:125%}
+[data-space="roomy"] :is(p,li,dd,dt,button,summary){letter-spacing:.04em;word-spacing:.14em}
+[data-space="roomy"] :is(p,li,dd,dt){line-height:1.8}
+.dprefs{display:flex;align-items:center;gap:8px;flex:none;margin-left:auto}
+.dprefs-theme{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 16px;font:inherit;font-size:var(--fs-body);font-weight:600;color:var(--text-secondary);border:1px solid var(--border);border-radius:var(--ds-r-pill);background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.14);cursor:pointer}
+.dprefs-theme svg{width:18px;height:18px;flex:none}
+.dprefs-theme[aria-pressed="true"] .dprefs-ttl{color:var(--cyan)}
+.dprefs-trk{position:relative;width:34px;height:20px;border-radius:var(--ds-r-pill);background:var(--border);transition:background var(--dur-base)}
+.dprefs-trk::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform var(--dur-base) var(--ease-out)}
+.dprefs-theme[aria-pressed="true"] .dprefs-trk{background:var(--cyan)}
+.dprefs-theme[aria-pressed="true"] .dprefs-trk::after{transform:translateX(14px)}
+.dprefs-aa{flex:none;width:48px;height:48px;border-radius:var(--ds-r-pill);border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.dprefs-aa:hover,.dprefs-theme:hover{border-color:var(--cyan);color:var(--cyan)}
+.dprefs-aa:focus-visible,.dprefs-theme:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.dprefs-panel{position:fixed;z-index:30;width:min(360px,calc(100vw - 32px));max-height:calc(100dvh - 100px);overflow:auto;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:var(--ds-r-md);padding:16px;box-shadow:0 4px 12px rgba(0,0,0,.14)}
+.dprefs-panel.is-static{position:static;width:auto;max-height:none}
+.dprefs-panel[hidden]{display:none}
+.dprefs-title{margin:0 0 10px;font-weight:700}
+.dprefs-group{margin:0 0 12px}
+.dprefs-label{display:block;color:var(--text-secondary);margin:0 0 4px}
+.dprefs-btns{display:flex;flex-wrap:wrap;gap:6px}
+.dprefs-btns button,.dprefs-actions button{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-sm);padding:0 14px;min-height:44px;cursor:pointer}
+.dprefs-btns button[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-bg);font-weight:700}
+.dprefs-btns button:focus-visible,.dprefs-actions button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.dprefs-actions{display:flex;gap:8px;justify-content:flex-end}
+@media (max-width:520px){.dprefs-ttl{display:none}.dprefs-theme{padding:0 12px}}
+@media (prefers-reduced-motion:reduce){.dprefs-trk,.dprefs-trk::after{transition:none}}
+@media print{.dprefs,.dprefs-panel{display:none!important}}
+
+
+.mast .pdfbtn{display:inline-flex;align-items:center;gap:8px;width:auto;height:48px;padding:0 16px;font:inherit;font-size:var(--fs-body);font-weight:600;color:var(--text-secondary);border:1px solid var(--border);border-radius:var(--ds-r-pill);background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.14);text-decoration:none;}
+.mast .pdfbtn svg{width:16px;height:16px;flex:none;}
+.mast .pdfbtn:hover{border-color:var(--cyan);color:var(--cyan);}
+@media (max-width:520px){.mast{flex-wrap:wrap;row-gap:var(--sp-1);} .mast .dprefs{margin-left:auto;} .mast .dl-ttl{display:none;}.mast .pdfbtn{width:48px;padding:0;justify-content:center;}}
+
+@media (max-width:760px){
+  .mast .dprefs-ttl,.mast .dl-ttl{display:none;}
+  .mast .dprefs-theme{height:44px;padding:0 12px;}
+  .mast .dprefs-aa{width:44px;height:44px;}
+  .mast .pdfbtn{width:44px;height:44px;padding:0;justify-content:center;}
+  .mast .dprefs{gap:6px;}
+}
+
+@media screen{
+  footer{display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-2);flex-wrap:wrap;padding-top:var(--sp-2);font-size:var(--fs-label);}
+  footer p{margin:0;}
+}
+
+@media screen{
+  .mast{max-width:calc(var(--measure) + 2*var(--sp-4));margin:0 auto var(--sp-3);padding:0;background:none;border:0;border-radius:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--sp-1) var(--sp-2);}
+  .mast .wordmark{font-size:var(--fs-body);}
+  .mast .dprefs{margin-left:auto;}
+  .mast .mast-for{flex:1 1 100%;margin:0;color:var(--text-secondary);font-size:var(--fs-body);}
+  .mast .mast-for strong{color:var(--text);font-weight:600;margin-right:6px;}
+}
+@media print{.mast{display:none;}}
+
+@media screen{
+  .mast{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:var(--sp-2);row-gap:var(--sp-1);}
+  .mast .wordmark{grid-column:1;grid-row:1;}
+  .mast .mast-for{grid-column:1;grid-row:2;}
+  .mast .dprefs{grid-column:2;grid-row:1 / span 2;align-self:end;margin-left:0;} 
+}
+@media screen and (max-width:520px){
+  .mast .dprefs{grid-row:1;}
+  .mast .mast-for{grid-column:1 / -1;}
+}
+
+@media screen{
+  .mast .dprefs-ttl{display:none;}
+  .mast .dprefs-theme{height:36px;padding:0 12px;}
+  .mast .pdfbtn{height:36px;padding:0 14px;}
+  .mast .mast-for{line-height:1.4;align-self:end;}
+  .mast .dprefs-theme{order:-1;} 
+}
+@media screen and (max-width:760px){
+  .mast .pdfbtn{width:36px;height:36px;padding:0;}
+  .mast .dprefs-theme{height:36px;}
+}
+
+@media screen{
+  .mast .dprefs-theme:hover,.mast .pdfbtn:hover{border-color:var(--text-secondary);color:var(--text);}
+}
+
+.named{margin-top:var(--sp-3);display:flex;flex-direction:column;gap:var(--sp-1);}
+.named-k{margin:0;font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);} 
+.named-v{margin:0;padding:var(--sp-2) var(--sp-3);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);color:var(--text-secondary);}
+@media print{.named{margin-top:var(--sp-1);gap:4px;} .named-v{padding:6px 12px;}}
+.verdict + .verdict{margin-top:var(--sp-2);}
+@media print{.verdict + .verdict{margin-top:var(--sp-1);}}
+
+.named-why{display:block;margin-bottom:var(--sp-1);font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--cyan);}
+
+.named{position:relative;margin:0 0 var(--sp-3);}
+.named-v{padding:var(--sp-1) calc(var(--sp-4) + var(--sp-1)) var(--sp-1) var(--sp-2);}
+.named-why{margin-bottom:2px;}
+.named-x{position:absolute;top:4px;right:4px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0;border:0;background:none;color:var(--muted);border-radius:var(--ds-r-pill);cursor:pointer;}
+.named-x:hover{color:var(--text);}
+.named-x:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
+.named[hidden]{display:none;}
+@media print{.named-x{display:none;} .named{margin:0 0 var(--sp-1);} .named-v{padding:6px 12px;}}
+
+.named{display:flex;flex-direction:column;gap:var(--sp-1);}
+.named .named-why{margin:0;}
+.named-v{position:relative;}
+.named-x{top:50%;transform:translateY(-50%);}
+
+.trace-stop{font-family:var(--sans);font-size:var(--fs-body);font-weight:400;letter-spacing:0;text-transform:none;color:var(--text-secondary);}
+.trace-stop strong{color:var(--text);font-weight:600;}
+
+@media screen{
+  .named{max-width:calc(var(--measure) + 2*var(--sp-4));margin:0 auto var(--sp-3);}
+  .named-v{display:flex;align-items:center;gap:var(--sp-2);padding:var(--sp-1) var(--sp-1) var(--sp-1) var(--sp-2);}
+  .why-pill{flex:none;display:inline-flex;align-items:center;padding:2px 10px;border-radius:var(--ds-r-pill);background:var(--cyan-bg);color:var(--cyan);font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;}
+  .why-t{flex:1 1 auto;min-width:0;}
+  .named-x{position:static;transform:none;flex:none;}
+}
+@media print{.named{display:none;}}
+
+@media screen{
+  .named-v{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:start;column-gap:var(--sp-2);}
+  .why-pill{margin-top:2px;}
+  .named-x{margin-top:-6px;}
+}
+@media screen and (max-width:520px){
+  .named-v{grid-template-columns:auto minmax(0,1fr) auto;row-gap:var(--sp-1);}
+  .why-pill{grid-column:1;grid-row:1;}
+  .named-x{grid-column:3;grid-row:1;margin-top:-6px;}
+  .why-t{grid-column:1 / -1;grid-row:2;}
+}
+
+@media print{
+  .pbody > header{display:block;}
+  .pbody > header > .verdict{display:inline;font-size:var(--fs-headline);line-height:1.5;margin:0;}
+  .pbody > header > .verdict + .verdict::before{content:" ";}
+  .pbody > header{padding-bottom:var(--sp-3);}
+  .hrow > div{padding:10px 0;}
+  section.offerwrap{margin-top:var(--sp-3);}
+  .offerwrap > .lockup{gap:6px;}
+  .offerwrap > .lockup + details.blk.sub{margin-top:var(--sp-3);}
+  .offerwrap details.pbreak{break-before:page;}
+  .offerwrap .specrow{padding:12px 0;}
+  .plist li{padding:4px 0;}
+  .pnote{margin-top:var(--sp-3);line-height:1.35;}
+  .gg{margin-top:var(--sp-2);}
+  .gg-row{padding-top:8px;padding-bottom:8px;}
+  .gg > .gg-row:last-child{border-bottom-width:0;}
+  .offerwrap > .offer{margin-top:var(--sp-4);}
+  .offer > *{padding:10px 16px;}
+  .offerwrap details.pbreak + .offer-eyebrow{margin-top:var(--sp-3);}
+  .offer{break-inside:avoid;}
+  
+  .offerwrap > .lockup,.offerwrap > .offer{margin-left:2.25rem;}
+  .offer{border-radius:0;border-width:1.5px 0 0;border-color:var(--text);}
+  .offer > *{padding-left:0;padding-right:0;}
+  .cover-wm{font-size:var(--fs-headline);}
+  .plist .pn{display:none;}
+  .plist li{grid-template-columns:minmax(0,1fr);padding:5px 0;}
+}
+.offerwrap .deck{text-wrap:pretty;}
+.pnote{text-wrap:balance;}
+.gg-give > span{display:block;}
+.gg-give > span + span{margin-top:4px;}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
+<div class="mast">
+  <span class="wordmark" aria-label="ARCS Field OS"><span class="wa">ARCS</span><span class="wf">Field OS</span></span>
+  <div class="dprefs"><a class="pdfbtn" href="/proposal/outside-read.pdf" data-track="pdf_download" download="Outside-read-Louisville-Brands.pdf" aria-label="Download the proposal as a PDF"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2.5v7.5M4.75 7 8 10.25 11.25 7M3 13.5h10"/></svg><span class="dl-ttl">PDF</span></a><button type="button" class="dprefs-theme" aria-pressed="false" aria-label="Dark mode"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></svg><span class="dprefs-ttl">Dark mode</span><span class="dprefs-trk" aria-hidden="true"></span></button></div>
+  <p class="mast-for"><strong>Prepared for</strong> Brooks Thomas, Louisville Brands</p>
+</div>
+<div class="named" id="why" role="note"><p class="named-v"><span class="why-pill">Why</span><span class="why-t">Confirmation bias, recency bias, the fox watching the henhouse. An outside gut check, not a replacement.</span><button type="button" class="named-x" aria-label="Dismiss"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></p></div>
 <main class="page">
 
 <section class="cover" aria-label="Cover">
   <div class="cover-top"><p class="cover-for">Prepared for Brooks Thomas, Louisville Brands</p><p class="cover-date">November 2026</p></div>
-  <p class="cover-wm" aria-label="ARCS Field OS"><span class="cover-wm-a">ARCS</span><span class="cover-wm-f">FIELD OS</span></p>
+  <p class="cover-wm" aria-label="ARCS Field OS"><span class="cover-wm-a">ARCS</span><span class="cover-wm-f">Field OS</span></p>
   <div class="cover-title">
-    <p class="cover-h">An outside read on your AI build</p>
+    <p class="cover-h">A checkup on your AI build</p>
     <p class="cover-sub">Where it's least efficient, and which hypotheses aren't holding, in time for Q1 planning</p>
   </div>
   <ol class="cover-toc">
@@ -501,54 +673,48 @@ footer p{text-align:left;}
 </section>
 
 
-<div class="mast">
-  <p class="ref forline">For Brooks Thomas, Louisville Brands</p>
-  <div class="tools">
-    <a class="pdfbtn" href="/proposal/outside-read.pdf" data-track="pdf_download" download="Outside-read-Louisville-Brands.pdf" aria-label="Download as PDF" title="Download as PDF"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg></a>
-  <button type="button" class="themebtn" id="themebtn" aria-label="Switch to light mode" title="Switch to light mode" hidden><svg class="i-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="i-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
-  </div>
-</div>
 <div class="pbody">
 
 <header>
-  <h1>An outside read on your AI build</h1>
-  <p class="verdict">You asked: where is your AI build on its arc, where is it least efficient, which hypotheses are failing? I'd answer by tracing two real decisions, one technical and one business, from inputs to outcome, before the next 20,000-bag MOQ rides on it.</p>
-  <p class="aside"><strong>You named it:</strong> Confirmation bias, recency bias, the fox watching the henhouse. An outside audit checks your team's work; it doesn't replace it.</p>
+  
+  <h1>A checkup on your AI build</h1>
+  <p class="verdict">Where is your AI build on its arc, where is it least efficient, which hypotheses are failing?</p>
+  <p class="verdict">I'd answer by following two real decisions, one technical and one business, from what went in to how they turned out, before the next 20,000-bag MOQ rides on it.</p>
 </header>
 
 <div class="blkbar"><button type="button" class="expall">Expand all</button></div>
 
 <section>
   <details class="blk" open>
-    <summary><h2 class="slabel">Questions worth putting to your team</h2><span class="tk" data-voice="joint">Useful whether or not I\'m involved. Each comes from something you raised.</span></summary>
+    <summary><h2 class="slabel">Questions worth putting to your team</h2><span class="tk" data-voice="joint">Useful whether or not I'm involved. Each comes from something you raised.</span></summary>
     <div class="bd">
   <div class="hgrid">
     <h3 class="hhead">What you raised</h3><h3 class="hhead c">Worth asking</h3>
     <div class="hrow"><div class="hh">Volume indicators can miss a rising signal; every day without a call costs time to market.</div><div class="hc">How often was your criteria's peaked-or-rising read right, and what would have flagged it wrong before the MOQ?</div></div>
     <div class="hrow"><div class="hh">You've built partner-risk alarms by hand; analysis before signing is critical.</div><div class="hc">Before the next collab, what runs on the partner, and would it catch trouble early?</div></div>
     <div class="hrow"><div class="hh">A missed simulation means bad data or a wrong hypothesis.</div><div class="hc">For the last miss, which was it, and can your setup tell next time?</div></div>
-    <div class="hrow"><div class="hh">No 20,000-bag MOQ without an early indicator.</div><div class="hc">Which flavor calls carry a stop number agreed before the order?</div></div>
+    <div class="hrow"><div class="hh">No 20,000-bag MOQ without an early indicator.</div><div class="hc">Which flavor calls carry a number that says stop, agreed before the order?</div></div>
   </div>
     </div>
   </details>
 </section>
 
 <section class="offerwrap">
-  <div class="lockup"><h2 class="slabel">If you want the outside read</h2><p class="deck">I read your build through what it decides. Each decision gets three marks: What it relies on, what it can't see, and the date you'll know.</p>
+  <div class="lockup"><h2 class="slabel">If you want the checkup</h2><p class="deck">I read your build through what it decides.</p><p class="deck">Each decision gets three marks: What it relied on, what it couldn't see, and when you'll know if it worked.</p>
   <figure class="trace" aria-label="How one decision is traced">
     <ol class="trace-steps">
       <li><span class="trace-k">Inputs</span><span class="trace-v">What it relies on</span></li>
       <li><span class="trace-k">Decision</span><span class="trace-v">What it can't see</span></li>
       <li><span class="trace-k">Outcome</span><span class="trace-v">The date you'll know</span></li>
     </ol>
-    <p class="trace-stop">Stop number, agreed before the call</p>
+    <p class="trace-stop"><strong>Agreed first:</strong> The number that would tell you to stop, set before the decision is made.</p>
   </figure></div>
   <details class="blk sub fixed" open>
     <summary><h2 class="slabel">The two decisions</h2><span class="tk">You pick. My suggestions:</span></summary>
     <div class="bd">
   <dl class="spec">
-    <div class="specrow"><dt>Technical</dt><dd>How the build works, such as how the warehouse and MCP feed your criteria, or what stays on-prem. Traced from data in to answer out: Where it held, slowed or broke.</dd></div>
-    <div class="specrow"><dt>Business</dt><dd>A call the build informed, such as Filipino Adobo, a partner check before a collab, or an MOQ stop number.</dd></div>
+    <div class="specrow"><dt>Technical</dt><dd>How the build works, such as how the warehouse and MCP feed your criteria, or what stays on-prem. Followed from the data in to the answer out: Where it held, slowed or broke.</dd></div>
+    <div class="specrow"><dt>Business</dt><dd>A call the build informed, such as Filipino Adobo, a partner check before a collab, or the number that says stop before an MOQ.</dd></div>
   </dl>
     </div>
   </details>
@@ -557,24 +723,24 @@ footer p{text-align:left;}
     <div class="bd">
   <div class="punch">
     <ol class="plist">
-      <li><span class="pn">01</span><span>Both decisions traced in writing: Relies on, can't see, date you'll know. A call that has played out sits beside the result.</span></li>
+      <li><span class="pn">01</span><span>Each decision written up with its three marks and the number that would tell you to stop, agreed up front. If one has played out, it sits beside the result.</span></li>
       <li><span class="pn">02</span><span>One page: Where the build stands, what's least efficient, which hypotheses aren't holding.</span></li>
-      <li><span class="pn">03</span><span>Read against your six: Accuracy, efficiency, speed, cost, on-prem, one source of truth without bloat or tech debt.</span></li>
-      <li><span class="pn">04</span><span>Next steps, each with a success number and a check date.</span></li>
+      <li><span class="pn">03</span><span>A read against the five things you said matter: Accuracy, efficiency, speed, cost on your own on-prem setup, one source of truth without bloat or tech debt.</span></li>
+      <li><span class="pn">04</span><span>Next steps with dates, each with a number that shows it worked.</span></li>
       <li><span class="pn">05</span><span>Honest marks: What's unchecked, what's unsure, and your pushback, all on the page.</span></li>
-      <li><span class="pn">06</span><span>A stop number per decision, agreed up front: The figure and date that would call it wrong.</span></li>
+      <li><span class="pn">06</span><span>A one-page field guide so your team can rerun the checks.</span></li>
     </ol>
   </div>
   <p class="pnote">Two weeks. About 3.5 hours of your team's time, a little over 4 with the optional session.</p>
   <div class="gg" role="table" aria-label="What you give and what you get">
     <div class="gg-row gg-head" role="row"><span role="columnheader"><span class="vh">When</span></span><span role="columnheader">What you give</span><span role="columnheader" class="c">What you get</span></div>
-    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Before</span><span class="gg-give" role="cell">Mutual NDA; total sales figures only, nothing at customer level.</span><span class="gg-get" role="cell">Your data stays with you.</span></div>
-    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 1</span><span class="gg-give" role="cell">Kickoff with you, 60 min.<br>Screen-share with your warehouse and MCP lead: Where data lives, who can reach it, 90 min.<br>Optional: 45 min with whoever owns where the data goes next.</span><span class="gg-get" role="cell">Both decisions traced.</span></div>
-    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 2</span><span class="gg-give" role="cell">Readout, 60 min, and your pushback.</span><span class="gg-get" role="cell">The one page, the read against your six, next steps, and a one-page field guide so your team can rerun the checks.</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Before</span><span class="gg-give" role="cell">Mutual NDA; total sales figures only, nothing at customer level.</span><span class="gg-get" role="cell">Customer-level data stays with you.</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 1</span><span class="gg-give" role="cell"><span>Kickoff with you, 60 min.</span><span>Screen-share with your warehouse and MCP lead: Where data lives, who can reach it, 90 min.</span><span>Optional: 45 min with whoever owns where the data goes next.</span></span><span class="gg-get" role="cell">Both decisions written up.</span></div>
+    <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 2</span><span class="gg-give" role="cell">Readout, 60 min, and your pushback.</span><span class="gg-get" role="cell">The rest of the list above, with your pushback on the page.</span></div>
   </div>
     </div>
   </details>
-  <p class="offer-eyebrow">To start</p>
+  <p class="offer-eyebrow">Next steps</p>
   <div class="offer">
     <div class="offer-head">
       <p class="offer-price"><span class="offer-fig">$5,000</span>: Half at kickoff, half at the readout.</p>
@@ -584,17 +750,18 @@ footer p{text-align:left;}
       <p>My RFP engine works the same way: Each answer cites its clause, says "not covered" when it can't, and logs its misses in public.</p>
       <a data-track="rfp_engine_click" class="offer-link" href="https://good.arcs.care/rfp-engine">good.arcs.care/rfp-engine<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
     </div>
-    <p class="offer-ask">Pick the two decisions and I'll send a start date, so the read lands before Q1 plans and the next MOQ lock.</p>
+    <p class="offer-ask">If it fits, the next step is a short call to pick the two decisions. From there, a start date that lands before Q1 plans and the next MOQ lock.</p>
   </div>
 </section>
 
-<footer><p>Zach Harris · <a href="mailto:zach.harris@gmail.com" data-track="email_click">zach.harris@gmail.com</a></p><p class="revline">Want to mark it up? <a href="/proposal/review-copy.pdf" download="Outside-read-review-copy.pdf" data-track="review_copy_download">Download a review copy to print</a>, with numbered paragraphs and room for notes.</p></footer>
+<footer><p class="revline"><a href="/proposal/review-copy.pdf" download="Outside-read-review-copy.pdf" data-track="review_copy_download">Review copy to print</a> · <a href="/proposal/proposal.md" data-track="plain_text_open">Plain text for AI tools</a></p><p class="fsig"><a href="mailto:zach.harris@gmail.com" data-track="email_click">Zach Harris</a></p></footer>
 </div>
 
 </main>
-<script>(function(){var d=document.documentElement,b=document.getElementById('themebtn');if(!b)return;var mq=window.matchMedia?matchMedia('(prefers-color-scheme: light)'):null;function cur(){var t=d.getAttribute('data-theme');if(t)return t;return mq&&mq.matches?'light':'dark';}function label(){var n=cur()==='light'?'dark':'light';b.setAttribute('data-next',n);b.setAttribute('aria-label','Switch to '+n+' mode');b.title='Switch to '+n+' mode';}b.hidden=false;label();b.addEventListener('click',function(){var n=cur()==='light'?'dark':'light';d.setAttribute('data-theme',n);try{localStorage.setItem('brooksTheme',n);}catch(e){}label();});if(mq&&mq.addEventListener)mq.addEventListener('change',label);})();</script>
 <script>(function(){var b=document.querySelector('.expall');var ds=[].slice.call(document.querySelectorAll('details.blk:not(.fixed)'));if(!b||!ds.length)return;function sync(){var all=ds.every(function(d){return d.open});b.textContent=all?'Collapse all':'Expand all';b.setAttribute('aria-expanded',all?'true':'false');}b.addEventListener('click',function(){var all=ds.every(function(d){return d.open});ds.forEach(function(d){d.open=!all});sync();});ds.forEach(function(d){d.addEventListener('toggle',sync)});window.addEventListener('beforeprint',function(){ds.forEach(function(d){d.open=true})});sync();})();</script>
 <script>(function(){window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-track]');if(!a)return;window.va('event',{name:a.getAttribute('data-track'),data:{href:a.getAttribute('href')||''}});});})();</script>
 <script>(function(){[].forEach.call(document.querySelectorAll('details.fixed > summary'),function(m){m.setAttribute('tabindex','-1');m.addEventListener('click',function(e){e.preventDefault();});});})();</script>
+<script>(function(){var d=document.documentElement,b=document.querySelector('.mast .dprefs-theme');if(!b)return;var st={};try{st=JSON.parse(localStorage.getItem('brooksRead')||'{}')||{};}catch(e){}var mq=window.matchMedia&&matchMedia('(prefers-color-scheme: light)');function dark(){return st.theme?st.theme==='dark':!(mq&&mq.matches);}function apply(){st.theme?d.setAttribute('data-theme',st.theme):d.removeAttribute('data-theme');b.setAttribute('aria-pressed',String(dark()));}b.addEventListener('click',function(){st.theme=dark()?'light':'dark';try{localStorage.setItem('brooksRead',JSON.stringify(st));localStorage.setItem('brooksTheme',st.theme);}catch(e){}apply();});apply();})();</script>
+<script>(function(){var c=document.getElementById('why');if(!c)return;var k='brooksWhyClosed';try{if(sessionStorage.getItem(k))c.hidden=true;}catch(e){}var x=c.querySelector('.named-x');x&&x.addEventListener('click',function(){c.hidden=true;try{sessionStorage.setItem(k,'1');}catch(e){}var h=document.querySelector('.pbody h1');if(h){h.setAttribute('tabindex','-1');h.focus();}});})();</script>
 </body>
 </html>

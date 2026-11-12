@@ -64,10 +64,10 @@ function DocFrame({ dt, children }: { dt: typeof DOC_TYPES[number]; children: Re
           <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#FFD70066' }} />
           <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#00FF9D66' }} />
         </span>
-        <span style={{ fontFamily: docT.mono, fontSize: 12, color: dt.accent, fontWeight: 700 }}>{dt.icon}</span>
-        <span style={{ fontFamily: docT.mono, fontSize: 13, fontWeight: 700, color: '#dbe6f1' }}>{dt.label}</span>
-        <span style={{ fontFamily: docT.mono, fontSize: 11, color: docT.fg4 }}>patterns.jsx</span>
-        <span style={{ marginLeft: 'auto', fontFamily: docT.mono, fontSize: 11, color: dt.accent, letterSpacing: '.14em' }}>{dt.mono}</span>
+        <span style={{ fontFamily: docT.mono, fontSize: docT.fsLabel, color: dt.accent, fontWeight: 700 }}>{dt.icon}</span>
+        <span style={{ fontFamily: docT.mono, fontSize: docT.fsBody, fontWeight: 700, color: '#dbe6f1' }}>{dt.label}</span>
+        <span style={{ fontFamily: docT.mono, fontSize: docT.fsLabel, color: docT.fg3 }}>patterns.jsx</span>
+        <span style={{ marginLeft: 'auto', fontFamily: docT.mono, fontSize: docT.fsLabel, color: dt.accent, letterSpacing: '.14em' }}>{dt.mono}</span>
       </div>
       <div style={{ maxWidth: 760, margin: '0 auto', padding: '4px 40px 36px' }}>{children}</div>
     </div>
@@ -79,11 +79,11 @@ function DocCard({ idx, p }: { idx: string; p: typeof DOC_PATTERNS[number] }) {
   return (
     <div style={{ borderRadius: 8, border: '1px solid #243042', overflow: 'hidden', background: 'linear-gradient(165deg,#0c131b,#0a0f15)', display: 'flex', flexDirection: 'column', marginBottom: 18 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '11px 16px', borderBottom: `1px solid ${docT.border}`, background: 'linear-gradient(180deg,#0e151e,#0c121a)' }}>
-        <span style={{ fontFamily: docT.mono, fontSize: 11, color: docT.fg4, width: 20 }}>{idx}</span>
-        <span style={{ fontFamily: docT.mono, fontSize: 13, fontWeight: 700, color: '#dbe6f1' }}>{p.name}</span>
-        <span style={{ marginLeft: 'auto', fontFamily: docT.mono, fontSize: 11, color: docT.fg4 }}>patterns.jsx</span>
+        <span style={{ fontFamily: docT.mono, fontSize: docT.fsLabel, color: docT.fg3, width: 20 }}>{idx}</span>
+        <span style={{ fontFamily: docT.mono, fontSize: docT.fsBody, fontWeight: 700, color: '#dbe6f1' }}>{p.name}</span>
+        <span style={{ marginLeft: 'auto', fontFamily: docT.mono, fontSize: docT.fsLabel, color: docT.fg3 }}>patterns.jsx</span>
       </div>
-      <div style={{ padding: '13px 18px 4px', fontFamily: docT.sans, fontSize: 12.5, lineHeight: 1.55, color: docT.fg3 }}>{p.desc}</div>
+      <div style={{ padding: '13px 18px 4px', fontFamily: docT.sans, fontSize: docT.fsBody, lineHeight: 1.55, color: docT.fg3 }}>{p.desc}</div>
       <div style={{ padding: '10px 20px 24px' }}><Demo /></div>
     </div>
   )
@@ -153,13 +153,13 @@ export default function DesignTestPage() {
       <Section title="Card">
         <Card style={{ width: 280 }}>
           <CardHeader label="DEFAULT CARD" />
-          <div style={{ color: text.secondary, fontSize: 14 }}>Neutral glass body with subtle bevel.</div>
+          <div style={{ color: text.secondary, fontSize: docT.fsBody }}>Neutral glass body with subtle bevel.</div>
           <CardDivider />
-          <div style={{ color: text.dimmed, fontSize: 12 }}>Footer metadata</div>
+          <div style={{ color: text.dimmed, fontSize: docT.fsLabel }}>Footer metadata</div>
         </Card>
         <Card accent={signal.cyan} style={{ width: 280 }}>
           <CardHeader label="ACCENT CARD" accent={signal.cyan} />
-          <div style={{ color: text.secondary, fontSize: 14 }}>Signal glass, underlit-LED finish.</div>
+          <div style={{ color: text.secondary, fontSize: docT.fsBody }}>Signal glass, underlit-LED finish.</div>
         </Card>
       </Section>
 
@@ -184,8 +184,8 @@ export default function DesignTestPage() {
 
       <Section title="Tabs">
         <Tabs style={{ width: 480 }} items={[
-          { value: 'risk', label: 'Risk', glyph: '△', content: <div style={{ color: text.secondary, fontSize: 14 }}>Risk reading panel content.</div> },
-          { value: 'timing', label: 'Timing', glyph: '◆', content: <div style={{ color: text.secondary, fontSize: 14 }}>Timing reading panel content.</div> },
+          { value: 'risk', label: 'Risk', glyph: '△', content: <div style={{ color: text.secondary, fontSize: docT.fsBody }}>Risk reading panel content.</div> },
+          { value: 'timing', label: 'Timing', glyph: '◆', content: <div style={{ color: text.secondary, fontSize: docT.fsBody }}>Timing reading panel content.</div> },
         ]} />
       </Section>
 

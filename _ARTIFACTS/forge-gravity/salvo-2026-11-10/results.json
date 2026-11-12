@@ -1,0 +1,710 @@
+{
+ "classes": {
+  "bomb_proofing": {
+   "lenses": [
+    "BAR",
+    "Funhouse Q2 Concave",
+    "KKL Kairos Lock"
+   ],
+   "verdict": "holds",
+   "weakest_joint": "BAR flags RUIN_RISK only when irreversibility is set above 0.7 (Put read as a build commitment); the call itself is a reversible public post.",
+   "cheapest_fix": "Say on the page that the stake is the post, and time-box any pre-rule build (e.g. 2 weeks)."
+  },
+  "fire_proofing": {
+   "lenses": [
+    "COURT (evidence test)",
+    "LAB L-lens (Loki, custom challenge)"
+   ],
+   "verdict": "leaks",
+   "weakest_joint": "Resolution rule is unregistered: median P is 0.24 network-only, 0.30 as written, 0.62 loose; the reading moves P more than any driver.",
+   "cheapest_fix": "One pre-registered resolution line: who counts, what counts as an intent record, announce vs effective, and a named resolver."
+  },
+  "water_proofing": {
+   "lenses": [
+    "LAB A/B-lens (advisors, Bayesian)",
+    "Monte Carlo sensitivity",
+    "KKL timing window"
+   ],
+   "verdict": "leaks",
+   "weakest_joint": "base_network (judgment 0.04-0.15) carries most variance (tornado swing 0.25, Spearman 0.82) and the call has no decay schedule as the 7.6-month window closes.",
+   "cheapest_fix": "Pre-register a mark-to-market at each Visa/Mastercard rules release before 2027-06-30."
+  },
+  "air_gapping": {
+   "lenses": [
+    "Funhouse Q3 Parabolic",
+    "COURT identity test"
+   ],
+   "verdict": "leaks",
+   "weakest_joint": "Author sells the remedy and grades his own call; the Put's premise overstates what ARCS writes (append-only human receipt, no signature, mandate or transaction binding).",
+   "cheapest_fix": "Disclose the interest in one line, name an outside resolver, reword the Put to what the receipt actually is."
+  }
+ },
+ "monte_carlo": {
+  "seed": 20261110,
+  "n_forward": 30000,
+  "n_reverse": 30000,
+  "priors": {
+   "p_standard": {
+    "low": 0.35,
+    "high": 0.7,
+    "basis": "judgment: AP2 (Google, Sept 2025) or Verifiable Intent in production in at least one network program; announcements recalled, not re-verified this session"
+   },
+   "p_fraud": {
+    "low": 0.25,
+    "high": 0.55,
+    "basis": "judgment: a widely reported agent-payment fraud or mandate-overrun incident"
+   },
+   "p_regulator": {
+    "low": 0.05,
+    "high": 0.25,
+    "basis": "judgment: US/EU/UK guidance that names an authorization or mandate record for agent payments; OCC stablecoin rule effective 2027-01-18 (occ.gov nr-2026-92) is about stablecoin issuers, not card intent records, so it does not count"
+   },
+   "base_network": {
+    "low": 0.04,
+    "high": 0.15,
+    "basis": "judgment: networks publish rule changes on a release cadence; 7.6 months is one or two cycles"
+   },
+   "base_issuer": {
+    "low": 0.02,
+    "high": 0.08,
+    "basis": "judgment: a top-20 issuer rarely sets its own rule ahead of its network"
+   },
+   "lift_standard_network": {
+    "low": 1.5,
+    "high": 3.0,
+    "basis": "judgment"
+   },
+   "lift_fraud": {
+    "low": 1.3,
+    "high": 2.5,
+    "basis": "judgment: applies to network and issuer"
+   },
+   "lift_regulator": {
+    "low": 1.5,
+    "high": 3.0,
+    "basis": "judgment: applies to network and issuer"
+   },
+   "p_existing_counts": {
+    "low": 0.3,
+    "high": 0.6,
+    "basis": "judgment: chance a resolver counts an existing agent program as 'requires an intent record'"
+   },
+   "build_weeks_lo": {
+    "low": 2.0,
+    "high": 2.0,
+    "basis": "judgment: triangular(2, 4, 10) weeks to extend ARCS receipts into a signed, transaction-bound intent record"
+   },
+   "salvage": {
+    "low": 0.3,
+    "high": 0.7,
+    "basis": "judgment: share of that work still useful if the rule is late (human-decision receipts, portfolio)"
+   },
+   "rep_weeks": {
+    "low": 0.0,
+    "high": 0.5,
+    "basis": "judgment: reputation cost of a public miss, in week-equivalents; a calibrated 1-in-3 call that misses is the expected outcome"
+   },
+   "p_nonconform": {
+    "low": 0.5,
+    "high": 0.9,
+    "basis": "judgment: chance the ARCS record does not meet the format a network names (AP2 / Verifiable Intent style signed mandate); repo check: decision_receipt is append-only by trigger but has no signature, mandate or transaction-binding field"
+   },
+   "rework_weeks_lo": {
+    "low": 1.0,
+    "high": 1.0,
+    "basis": "judgment: triangular(1, 3, 6) weeks of rework if non-conforming"
+   }
+  },
+  "forward_P_event": {
+   "network_only": {
+    "mean": 0.2486,
+    "p05": 0.1106,
+    "p25": 0.172,
+    "p50": 0.2425,
+    "p75": 0.3146,
+    "p95": 0.4132,
+    "share_ge_1in3": 0.1961
+   },
+   "as_written": {
+    "mean": 0.3037,
+    "p05": 0.1683,
+    "p25": 0.2347,
+    "p50": 0.2983,
+    "p75": 0.3657,
+    "p95": 0.4601,
+    "share_ge_1in3": 0.3657
+   },
+   "loose": {
+    "mean": 0.6165,
+    "p05": 0.4803,
+    "p25": 0.5605,
+    "p50": 0.6211,
+    "p75": 0.6759,
+    "p95": 0.7369,
+    "share_ge_1in3": 1.0
+   },
+   "as_written_realized_frequency": 0.3077
+  },
+  "midpoint_by_reading": {
+   "network_only_mid": 0.2541,
+   "as_written_mid": 0.309,
+   "loose_mid": 0.6199
+  },
+  "tornado_as_written": [
+   {
+    "prior": "base_network",
+    "at_low": 0.1768,
+    "at_high": 0.4289,
+    "swing": 0.2521
+   },
+   {
+    "prior": "lift_standard_network",
+    "at_low": 0.2547,
+    "at_high": 0.3566,
+    "swing": 0.1019
+   },
+   {
+    "prior": "lift_fraud",
+    "at_low": 0.2596,
+    "at_high": 0.349,
+    "swing": 0.0894
+   },
+   {
+    "prior": "base_issuer",
+    "at_low": 0.2761,
+    "at_high": 0.3419,
+    "swing": 0.0658
+   },
+   {
+    "prior": "p_standard",
+    "at_low": 0.2788,
+    "at_high": 0.3391,
+    "swing": 0.0603
+   },
+   {
+    "prior": "p_regulator",
+    "at_low": 0.2803,
+    "at_high": 0.3377,
+    "swing": 0.0574
+   },
+   {
+    "prior": "p_fraud",
+    "at_low": 0.2807,
+    "at_high": 0.3373,
+    "swing": 0.0566
+   },
+   {
+    "prior": "lift_regulator",
+    "at_low": 0.284,
+    "at_high": 0.3252,
+    "swing": 0.0411
+   }
+  ],
+  "spearman_vs_P_as_written": {
+   "p_standard": 0.169,
+   "p_fraud": 0.164,
+   "p_regulator": 0.155,
+   "base_network": 0.815,
+   "base_issuer": 0.214,
+   "lift_standard_network": 0.299,
+   "lift_fraud": 0.271,
+   "lift_regulator": 0.118
+  },
+  "reverse": {
+   "accepted_happened": 15000,
+   "accepted_not": 15000,
+   "draws_needed": 49390,
+   "happened": {
+    "paths": {
+     "standard+fraud": 0.2731,
+     "standard": 0.222,
+     "fraud": 0.1399,
+     "no driver": 0.1059,
+     "standard+fraud+regulator": 0.0839,
+     "standard+regulator": 0.0827,
+     "fraud+regulator": 0.0488,
+     "regulator": 0.0437
+    },
+    "P(standard)": 0.6617,
+    "P(fraud)": 0.5457,
+    "P(regulator)": 0.2591,
+    "fired_network": 0.8171,
+    "fired_issuer": 0.2638,
+    "issuer_only": 0.1829
+   },
+   "not_happened": {
+    "paths": {
+     "no driver": 0.2964,
+     "standard": 0.2933,
+     "fraud": 0.1719,
+     "standard+fraud": 0.139,
+     "regulator": 0.0432,
+     "standard+regulator": 0.0304,
+     "fraud+regulator": 0.0172,
+     "standard+fraud+regulator": 0.0085
+    },
+    "P(standard)": 0.4713,
+    "P(fraud)": 0.3367,
+    "P(regulator)": 0.0993
+   },
+   "likelihood_ratio": {
+    "standard": 1.404,
+    "fraud": 1.621,
+    "regulator": 2.609
+   }
+  },
+  "put": {
+   "units": "week-equivalents of Zach's time (judgment)",
+   "EL_if_late_branch": {
+    "mean": 2.03,
+    "p05": 0.9726,
+    "p25": 1.4336,
+    "p50": 1.9006,
+    "p75": 2.4899,
+    "p95": 3.5765,
+    "share_ge_1in3": 1.0
+   },
+   "EL_win_branch_nonconformance": {
+    "mean": 0.7082,
+    "p05": 0.2752,
+    "p25": 0.463,
+    "p50": 0.6489,
+    "p75": 0.8928,
+    "p95": 1.3461,
+    "share_ge_1in3": 0.9021
+   },
+   "EL_total": {
+    "mean": 2.7382,
+    "p05": 1.6231,
+    "p25": 2.1558,
+    "p50": 2.6276,
+    "p75": 3.2151,
+    "p95": 4.2393,
+    "share_ge_1in3": 1.0
+   },
+   "share_of_EL_from_branch_the_Put_ignores": 0.2586
+  },
+  "caveat": "These numbers restate the judgment priors above through a fixed structure. They are not evidence about the world."
+ },
+ "lenses": {
+  "note": "Real repo operators (SAGE/LAB/BAR/COURT). Inputs are judgment; see lenses.py.",
+  "runs": [
+   {
+    "signal": "rising",
+    "axioms": "as_posted",
+    "irreversibility": "public_call",
+    "loki": "custom",
+    "sage_nci": 76.5,
+    "sage_class": "noise",
+    "pci": 49.7,
+    "lab_threat": 0.3,
+    "lab_posterior": 0.735,
+    "lab_rec": "PAUSE",
+    "lab_threat_level": "LOW",
+    "bar_verdict": "STRONG",
+    "bar_floor_nci": 67.3,
+    "bar_asym": 7.03,
+    "bar_kelly": 0.697,
+    "bar_ruin": false,
+    "court_verdict": "PERMIT",
+    "court_weight": 0.0,
+    "court_tests": {
+     "AXIOM_TEST": true,
+     "EVIDENCE_TEST": true,
+     "IDENTITY_TEST": true
+    },
+    "court_conditions": []
+   },
+   {
+    "signal": "rising",
+    "axioms": "as_posted",
+    "irreversibility": "public_call",
+    "loki": "auto",
+    "sage_nci": 76.5,
+    "sage_class": "noise",
+    "pci": 49.7,
+    "lab_threat": 0.95,
+    "lab_posterior": 0.508,
+    "lab_rec": "PAUSE",
+    "lab_threat_level": "CRITICAL",
+    "bar_verdict": "RUIN_RISK",
+    "bar_floor_nci": 47.4,
+    "bar_asym": 0.83,
+    "bar_kelly": 0.0,
+    "bar_ruin": true,
+    "court_verdict": "PERMIT",
+    "court_weight": 0.35,
+    "court_tests": {
+     "AXIOM_TEST": true,
+     "EVIDENCE_TEST": false,
+     "IDENTITY_TEST": true
+    },
+    "court_conditions": []
+   },
+   {
+    "signal": "rising",
+    "axioms": "as_posted",
+    "irreversibility": "build_commit",
+    "loki": "custom",
+    "sage_nci": 60.0,
+    "sage_class": "noise",
+    "pci": 49.7,
+    "lab_threat": 0.3,
+    "lab_posterior": 0.529,
+    "lab_rec": "PAUSE",
+    "lab_threat_level": "HIGH",
+    "bar_verdict": "RUIN_RISK",
+    "bar_floor_nci": 52.8,
+    "bar_asym": 2.25,
+    "bar_kelly": 0.32,
+    "bar_ruin": true,
+    "court_verdict": "PERMIT",
+    "court_weight": 0.35,
+    "court_tests": {
+     "AXIOM_TEST": true,
+     "EVIDENCE_TEST": false,
+     "IDENTITY_TEST": true
+    },
+    "court_conditions": []
+   },
+   {
+    "signal": "rising",
+    "axioms": "as_posted",
+    "irreversibility": "build_commit",
+    "loki": "auto",
+    "sage_nci": 60.0,
+    "sage_class": "noise",
+    "pci": 49.7,
+    "lab_threat": 0.95,
+    "lab_posterior": 0.301,
+    "lab_rec": "ABORT",
+    "lab_threat_level": "CRITICAL",
+    "bar_verdict": "RUIN_RISK",
+    "bar_floor_nci": 37.2,
+    "bar_asym": 0.27,
+    "bar_kelly": 0.0,
+    "bar_ruin": true,
+    "court_verdict": "PERMIT",
+    "court_weight": 0.35,
+    "court_tests": {
+     "AXIOM_TEST": true,
+     "EVIDENCE_TEST": false,
+     "IDENTITY_TEST": true
+    },
+    "court_conditions": []
+   },
+   {
+    "signal": "rising",
+    "axioms": "pre_registered",
+    "irreversibility": "public_call",
+    "loki": "custom",
+    "sage_nci": 85.2,
+    "sage_class": "noise",
+    "pci": 52.2,
+    "lab_threat": 0.3,
+    "lab_posterior": 0.865,
+    "lab_rec": "PROCEED",
+    "lab_threat_level": "LOW",
+    "bar_verdict": "STRONG",
+    "bar_floor_nci": 75.0,
+    "bar_asym": 17.98,
+    "bar_kelly": 0.857,
+    "bar_ruin": false,
+    "court_verdict": "PERMIT",
+    "court_weight": 0.0,
+    "court_tests": {
+     "AXIOM_TEST": true,
+     "EVIDENCE_TEST": true,
+     "IDENTITY_TEST": true
+    },
+    "court_conditions": []
+   },
+   {
+    "signal": "rising",
+    "axioms": "pre_registered",
+    "irreversibility": "public_call",
+    "loki": "auto",
+    "sage_nci": 85.2,
+    "sage_class": "noise",
+    "pci": 52.2,
+    "lab_threat": 0.95,
+    "lab_posterior": 0.637,
+    "lab_rec": "PROCEED",
+    "lab_threat_level": "CRITICAL",
+    "bar_verdict": "RUIN_RISK",
+    "bar_floor_nci": 52.8,
+    "bar_asym": 1.57,
+    "bar_kelly": 0.406,
+    "bar_ruin": true,
+    "court_verdict": "PERMIT",
+    "court_weight": 0.0,
+    "court_tests": {
+     "AXIOM_TEST": true,
+     "EVIDENCE_TEST": true,
+     "IDENTITY_TEST": true
+    },
+    "court_conditions": []
+   },
+   {
+    "signal": "rising",
+    "axioms": "pre_registered",
+    "irreversibility": "build_commit",
+    "loki": "custom",
+    "sage_nci": 68.7,
+    "sage_class": "noise",
+    "pci": 52.2,
+    "lab_threat": 0.3,
+    "lab_posterior": 0.616,
+    "lab_rec": "PAUSE",
+    "lab_threat_level": "HIGH",
+    "bar_verdict": "RUIN_RISK",
+    "bar_floor_nci": 60.5,
+    "bar_asym": 3.68,
+    "bar_kelly": 0.512,
+    "bar_ruin": true,
+    "court_verdict": "PERMIT",
+    "court_weight": 0.35,
+    "court_tests": {
+     "AXIOM_TEST": true,
+     "EVIDENCE_TEST": false,
+     "IDENTITY_TEST": true
+    },
+    "court_conditions": []
+   },
+   {
+    "signal": "rising",
+    "axioms": "pre_registered",
+    "irreversibility": "build_commit",
+    "loki": "auto",
+    "sage_nci": 68.7,
+    "sage_class": "noise",
+    "pci": 52.2,
+    "lab_threat": 0.95,
+    "lab_posterior": 0.389,
+    "lab_rec": "PAUSE",
+    "lab_threat_level": "CRITICAL",
+    "bar_verdict": "RUIN_RISK",
+    "bar_floor_nci": 42.6,
+    "bar_asym": 0.46,
+    "bar_kelly": 0.0,
+    "bar_ruin": true,
+    "court_verdict": "PERMIT",
+    "court_weight": 0.35,
+    "court_tests": {
+     "AXIOM_TEST": true,
+     "EVIDENCE_TEST": false,
+     "IDENTITY_TEST": true
+    },
+    "court_conditions": []
+   },
+   {
+    "signal": "flat_noisy",
+    "axioms": "as_posted",
+    "irreversibility": "public_call",
+    "loki": "custom",
+    "sage_nci": 76.5,
+    "sage_class": "noise",
+    "pci": 51.7,
+    "lab_threat": 0.3,
+    "lab_posterior": 0.735,
+    "lab_rec": "PAUSE",
+    "lab_threat_level": "LOW",
+    "bar_verdict": "STRONG",
+    "bar_floor_nci": 67.3,
+    "bar_asym": 7.03,
+    "bar_kelly": 0.697,
+    "bar_ruin": false,
+    "court_verdict": "PERMIT",
+    "court_weight": 0.0,
+    "court_tests": {
+     "AXIOM_TEST": true,
+     "EVIDENCE_TEST": true,
+     "IDENTITY_TEST": true
+    },
+    "court_conditions": []
+   },
+   {
+    "signal": "flat_noisy",
+    "axioms": "as_posted",
+    "irreversibility": "public_call",
+    "loki": "auto",
+    "sage_nci": 76.5,
+    "sage_class": "noise",
+    "pci": 51.7,
+    "lab_threat": 0.95,
+    "lab_posterior": 0.508,
+    "lab_rec": "PAUSE",
+    "lab_threat_level": "CRITICAL",
+    "bar_verdict": "RUIN_RISK",
+    "bar_floor_nci": 47.4,
+    "bar_asym": 0.83,
+    "bar_kelly": 0.0,
+    "bar_ruin": true,
+    "court_verdict": "PERMIT",
+    "court_weight": 0.35,
+    "court_tests": {
+     "AXIOM_TEST": true,
+     "EVIDENCE_TEST": false,
+     "IDENTITY_TEST": true
+    },
+    "court_conditions": []
+   },
+   {
+    "signal": "flat_noisy",
+    "axioms": "as_posted",
+    "irreversibility": "build_commit",
+    "loki": "custom",
+    "sage_nci": 60.0,
+    "sage_class": "noise",
+    "pci": 51.7,
+    "lab_threat": 0.3,
+    "lab_posterior": 0.529,
+    "lab_rec": "PAUSE",
+    "lab_threat_level": "HIGH",
+    "bar_verdict": "RUIN_RISK",
+    "bar_floor_nci": 52.8,
+    "bar_asym": 2.25,
+    "bar_kelly": 0.32,
+    "bar_ruin": true,
+    "court_verdict": "PERMIT",
+    "court_weight": 0.35,
+    "court_tests": {
+     "AXIOM_TEST": true,
+     "EVIDENCE_TEST": false,
+     "IDENTITY_TEST": true
+    },
+    "court_conditions": []
+   },
+   {
+    "signal": "flat_noisy",
+    "axioms": "as_posted",
+    "irreversibility": "build_commit",
+    "loki": "auto",
+    "sage_nci": 60.0,
+    "sage_class": "noise",
+    "pci": 51.7,
+    "lab_threat": 0.95,
+    "lab_posterior": 0.301,
+    "lab_rec": "ABORT",
+    "lab_threat_level": "CRITICAL",
+    "bar_verdict": "RUIN_RISK",
+    "bar_floor_nci": 37.2,
+    "bar_asym": 0.27,
+    "bar_kelly": 0.0,
+    "bar_ruin": true,
+    "court_verdict": "PERMIT",
+    "court_weight": 0.35,
+    "court_tests": {
+     "AXIOM_TEST": true,
+     "EVIDENCE_TEST": false,
+     "IDENTITY_TEST": true
+    },
+    "court_conditions": []
+   },
+   {
+    "signal": "flat_noisy",
+    "axioms": "pre_registered",
+    "irreversibility": "public_call",
+    "loki": "custom",
+    "sage_nci": 85.2,
+    "sage_class": "noise",
+    "pci": 54.2,
+    "lab_threat": 0.3,
+    "lab_posterior": 0.865,
+    "lab_rec": "PROCEED",
+    "lab_threat_level": "LOW",
+    "bar_verdict": "STRONG",
+    "bar_floor_nci": 75.0,
+    "bar_asym": 17.98,
+    "bar_kelly": 0.857,
+    "bar_ruin": false,
+    "court_verdict": "PERMIT",
+    "court_weight": 0.0,
+    "court_tests": {
+     "AXIOM_TEST": true,
+     "EVIDENCE_TEST": true,
+     "IDENTITY_TEST": true
+    },
+    "court_conditions": []
+   },
+   {
+    "signal": "flat_noisy",
+    "axioms": "pre_registered",
+    "irreversibility": "public_call",
+    "loki": "auto",
+    "sage_nci": 85.2,
+    "sage_class": "noise",
+    "pci": 54.2,
+    "lab_threat": 0.95,
+    "lab_posterior": 0.637,
+    "lab_rec": "PROCEED",
+    "lab_threat_level": "CRITICAL",
+    "bar_verdict": "RUIN_RISK",
+    "bar_floor_nci": 52.8,
+    "bar_asym": 1.57,
+    "bar_kelly": 0.406,
+    "bar_ruin": true,
+    "court_verdict": "PERMIT",
+    "court_weight": 0.0,
+    "court_tests": {
+     "AXIOM_TEST": true,
+     "EVIDENCE_TEST": true,
+     "IDENTITY_TEST": true
+    },
+    "court_conditions": []
+   },
+   {
+    "signal": "flat_noisy",
+    "axioms": "pre_registered",
+    "irreversibility": "build_commit",
+    "loki": "custom",
+    "sage_nci": 68.7,
+    "sage_class": "noise",
+    "pci": 54.2,
+    "lab_threat": 0.3,
+    "lab_posterior": 0.616,
+    "lab_rec": "PAUSE",
+    "lab_threat_level": "HIGH",
+    "bar_verdict": "RUIN_RISK",
+    "bar_floor_nci": 60.5,
+    "bar_asym": 3.68,
+    "bar_kelly": 0.512,
+    "bar_ruin": true,
+    "court_verdict": "PERMIT",
+    "court_weight": 0.35,
+    "court_tests": {
+     "AXIOM_TEST": true,
+     "EVIDENCE_TEST": false,
+     "IDENTITY_TEST": true
+    },
+    "court_conditions": []
+   },
+   {
+    "signal": "flat_noisy",
+    "axioms": "pre_registered",
+    "irreversibility": "build_commit",
+    "loki": "auto",
+    "sage_nci": 68.7,
+    "sage_class": "noise",
+    "pci": 54.2,
+    "lab_threat": 0.95,
+    "lab_posterior": 0.389,
+    "lab_rec": "PAUSE",
+    "lab_threat_level": "CRITICAL",
+    "bar_verdict": "RUIN_RISK",
+    "bar_floor_nci": 42.6,
+    "bar_asym": 0.46,
+    "bar_kelly": 0.0,
+    "bar_ruin": true,
+    "court_verdict": "PERMIT",
+    "court_weight": 0.35,
+    "court_tests": {
+     "AXIOM_TEST": true,
+     "EVIDENCE_TEST": false,
+     "IDENTITY_TEST": true
+    },
+    "court_conditions": []
+   }
+  ]
+ }
+}
