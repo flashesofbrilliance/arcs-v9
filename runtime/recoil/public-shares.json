@@ -1,0 +1,3 @@
+{
+  "_doc": "Recoil reports a signed-out reader may open at /recoil/<id>. One entry per report, added only on Zach's explicit go. Lines matching strip_markers are removed server-side before render (the smallest list item or table row that contains one); strip_block_types drops whole blocks; drop_kinematic_series empties the odds series. Read by src/app/recoil/[reportId]/page.tsx."
+}

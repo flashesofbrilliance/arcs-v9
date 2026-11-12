@@ -15,8 +15,8 @@
  "overview": {
   "label": "Overview",
   "headline": [
-   "Most ideas fall to gravity.",
-   "I help the few reach escape velocity."
+   "I've shipped regulated crypto products.",
+   "I want to build Gravity's next one, as an EIR."
   ],
   "tiles": [
    {
@@ -279,9 +279,8 @@
   "bites_source": "[More recommendations](https://zachharris.xyz)",
   "bites_still": true,
   "lede": [
-   "I'm a crypto product lead with two decades of taking new products to market, most of them in regulated sectors.",
-   "A natural skeptic who put the habit to work. I hunt fuzzy ideas like a bobcat: quiet, patient, then all at once. Each one earns a keep or a kill.",
-   "Send me one idea you passed on; one line is enough, no names. In two weeks you get it back: keep, kill or not yet, what has to become true, and the dated test that settles it. [zach.harris@gmail.com](mailto:zach.harris@gmail.com?subject=One%20we%20passed%20on)"
+   "At Grayscale I ran the investor platform for 10 regulated digital-asset products, about $7B. Before that I co-founded a company that went from $0 to $2M+, profitable in 24 months. Compliance is the part I know best, which is why Coda caught my eye.",
+   "Harrison can set up 20 minutes, or write to me: [zach.harris@gmail.com](mailto:zach.harris@gmail.com)"
   ],
   "bites_at": "end",
   "coldread": {
@@ -320,16 +319,279 @@
       "A one-page wedge memo: no chargeback, freeze on legal process, nothing records what the agent expected."
      ]
     ],
-    "read": "Each day ends in something dated you can check. The seat tabs carry 30, 90 and 180 days."
+    "read": "Each day ends in something dated you can check. The seat tabs carry 30, 90 and 180 days. Send me one idea you passed on; one line is enough, no names. In two weeks you get it back: keep, kill or not yet, what has to become true, and the dated test that settles it."
    }
   }
  },
  "tabs": [
   {
+   "id": "eir",
+   "label": "EIR",
+   "name": "Entrepreneur in Residence",
+   "tagline": "The role I'm here for",
+   "headline": "One wedge, not a category.",
+   "lede": "Your page: six months to source hatches in DeFi, stablecoins, infrastructure and prediction markets, and find one to found.",
+   "units": [
+    {
+     "title": "30 / 90 / 180",
+     "blocks": [
+      {
+       "type": "plan",
+       "source": "Rows paraphrase the \"What You'll Do\" list on [your EIR page](https://gravity-labs.xyz/jobs-entrepreneur-in-residence.html).",
+       "rows": [
+        [
+         "Generate and source hatches across crypto: DeFi, stablecoins, infra, prediction markets",
+         "30 one-line theses, kill criteria written first",
+         "5 one-pagers, at least one in a sector new to the portfolio",
+         "The full pass record handed over, rechecked as the market moves"
+        ],
+        [
+         "Take the best ideas from a few sentences to one-pager, memo and IC pitch",
+         "A first one-pager",
+         "A first memo and committee pitch",
+         "The hatch I would found, pitched with its founding plan"
+        ],
+        [
+         "Use the team and advisors as a sounding board, but drive the work",
+         "A short weekly written update",
+         "Advisor reviews on the top two hatches",
+         "A written found-or-walk decision, with reasons"
+        ],
+        [
+         "Spend time with the team and portfolio without being embedded",
+         "One working session with each live portfolio company",
+         "Help on one question for each, where asked",
+         "Not planned"
+        ],
+        [
+         "By month six, one idea worth founding",
+         "The top five candidates named",
+         "The top two, each with a design partner in conversation",
+         "One idea I would found, or a written walk with every kill handed over"
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "title": "You Ask, I Bring",
+     "blocks": [
+      {
+       "type": "table",
+       "head": [
+        "You ask for",
+        "What I bring"
+       ],
+       "rows": [
+        [
+         "A senior operator from a strong crypto company",
+         "Grayscale, 2024 to 2025: owned the investor platform for 10 regulated digital-asset products."
+        ],
+        [
+         "A notable swing and miss",
+         "ARCS, my live swing: built since 2025, this codebase since 2026-04-09, no revenue yet. If no one pays by 2027-03-31, it stops as a product and stays my working tool."
+        ],
+        [
+         "Intellectual honesty",
+         "My [proof page](https://zach.md/proof) links 32 claims to their records, marks the private ones, and names the one I cannot show yet."
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "title": "The Wedge",
+     "blocks": [
+      {
+       "type": "cards",
+       "cards": [
+        {
+         "title": "Receipts for agent spend",
+         "ref": "A hypothesis, not a pitch.",
+         "text": "A stablecoin send has no chargeback, and stablecoin issuers freeze on legal process, not on a customer's complaint. Spend rules record what the agent was allowed to do. Nothing records what it expected or whether that came true. That second half is the wedge."
+        },
+        {
+         "title": "First user, and why it is not built",
+         "text": "Treasury or compliance leads at fintechs piloting agent payments. ARCS records decisions and flags irreversible ones, but has no payment rails or design partner. Your stealth agentic payments company may already own this; I would ask first."
+        },
+        {
+         "title": "Kill it if",
+         "ref": "Kill rule, written before any calls.",
+         "text": "Fewer than 3 of 15 teams piloting agent payments say that not knowing what the agent expected, checked against what happened, blocks going live."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "title": "Commit or Walk",
+     "blocks": [
+      {
+       "type": "p",
+       "text": "I commit when an idea passes the kill criteria I wrote in week one and a named design partner agrees to pilot. If nothing survives by month six, you get the written kills; at your roughly 1 in 30, a written walk is data too."
+      }
+     ]
+    },
+    {
+     "title": "How This Breaks",
+     "blocks": [
+      {
+       "type": "table",
+       "head": [
+        "Risk",
+        "Early signal",
+        "What I would do"
+       ],
+       "rows": [
+        [
+         "I spread across too many sectors.",
+         "By day 30, no one-pager names a real first user.",
+         "Narrow to the two strongest ideas for the rest of the contract."
+        ],
+        [
+         "My best idea overlaps a stealth company you run.",
+         "You flag it at my first one-pager.",
+         "Check for overlap before deep work; move on if it collides."
+        ],
+        [
+         "Month six arrives with nothing I would found.",
+         "By day 90, no customer agrees to a pilot conversation.",
+         "Say so in writing, hand over every kill and why, and step away."
+        ]
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "founder",
+   "label": "Founder",
+   "name": "Founder, Portfolio Company",
+   "tagline": "Where an EIR goes if a hatch works",
+   "headline": "EIR first, then the keys.",
+   "lede": "Your page asks for a CEO or CTO of a validated, funded hatch for five to ten years, with an outside raise in year one. I have covered product, engineering and sales in one seat: co-founder once, GM of a video ad network once. A natural skeptic who put the habit to work. I hunt fuzzy ideas like a bobcat: quiet, patient, then all at once. Each one earns a keep or a kill.",
+   "units": [
+    {
+     "title": "30 / 90 / 180",
+     "blocks": [
+      {
+       "type": "plan",
+       "source": "Rows paraphrase the \"What You'll Do\" list on [your Founder page](https://gravity-labs.xyz/jobs-founder-portfolio-company.html).",
+       "rows": [
+        [
+         "Own the company end to end",
+         "A 12-month plan for the hatch, agreed with you",
+         "Team, budget and milestones set against your tranche terms",
+         "The company at its first tranche milestone"
+        ],
+        [
+         "Get to a first real user fast",
+         "A first user named and using the product",
+         "A small group of active users",
+         "Usage an outside investor would read as pull"
+        ],
+        [
+         "Live with customers",
+         "20 customer conversations, written up",
+         "The thesis restated in their words, with what was killed",
+         "A product reshaped by what they said, with the record of why"
+        ],
+        [
+         "Ship relentlessly",
+         "A first release to the first user",
+         "A weekly release rhythm",
+         "The product the next round is raised on"
+        ],
+        [
+         "Recruit your team, starting with a co-founder",
+         "The co-founder search under way with your search firm",
+         "A co-founder or first engineer signed",
+         "A core team of three"
+        ],
+        [
+         "Raise the next round",
+         "An investor list",
+         "A first draft of the story, reviewed with you",
+         "In conversation with outside investors, inside the first year as your page sets"
+        ]
+       ],
+       "note": "Your page does not name the hatch, so this plan is a shape, not a commitment."
+      }
+     ]
+    },
+    {
+     "title": "You Ask, I Bring",
+     "blocks": [
+      {
+       "type": "table",
+       "head": [
+        "You ask for",
+        "What I bring"
+       ],
+       "rows": [
+        [
+         "Repeat founder or senior fintech operator",
+         "Product, tech and go-to-market in one seat: co-founder, GM of a video ad network, then Grayscale."
+        ],
+        [
+         "Selling to sophisticated customers and investors",
+         "Institutional digital-asset products at Grayscale; Fortune 500 advertisers at the ad network."
+        ],
+        [
+         "Making a thesis you did not originate your own",
+         "Six years as an embedded product partner on other people's ventures, including a first-responder video product and five 5G ventures."
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "title": "One Secret",
+     "blocks": [
+      {
+       "type": "p",
+       "text": "Regulated firms keep the record of what they decided because the rules require it. Almost none keep what they expected to happen, so they cannot score their own judgment."
+      }
+     ]
+    },
+    {
+     "title": "How This Breaks",
+     "blocks": [
+      {
+       "type": "table",
+       "head": [
+        "Risk",
+        "Early signal",
+        "What I would do"
+       ],
+       "rows": [
+        [
+         "The thesis fails with real customers.",
+         "My first ten customer calls contradict it.",
+         "Restate the thesis in their words; agree any change with you."
+        ],
+        [
+         "The first real user is slow to arrive.",
+         "By day 30, no named user has agreed to try it.",
+         "Narrow to one customer type and sell to them directly."
+        ],
+        [
+         "No strong technical co-founder in time.",
+         "By day 90, the search has no finalist.",
+         "Bring in a senior contract engineer to keep shipping meanwhile."
+        ]
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
    "id": "principal",
    "label": "Principal",
    "name": "Principal, New Ventures",
-   "tagline": "My strongest fit",
+   "tagline": "If the studio needs it inside",
    "headline": "Own a hatch end to end, from memo to launch.",
    "lede": "Your page: a builder, not a researcher or investor. I'd rather be crew on a hatch than a passenger in the room.",
    "units": [
@@ -498,361 +760,6 @@
          "Founders will not quit their jobs for a hatch.",
          "By day 90, under three serious founder conversations.",
          "Ask the search firm and advisors early; widen the founder profile."
-        ]
-       ]
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "eir",
-   "label": "EIR",
-   "name": "Entrepreneur in Residence",
-   "tagline": "A strong fit",
-   "headline": "One wedge, not a category.",
-   "lede": "Your page: six months to source hatches in DeFi, stablecoins, infrastructure and prediction markets, and find one to found.",
-   "units": [
-    {
-     "title": "30 / 90 / 180",
-     "blocks": [
-      {
-       "type": "plan",
-       "source": "Rows paraphrase the \"What You'll Do\" list on [your EIR page](https://gravity-labs.xyz/jobs-entrepreneur-in-residence.html).",
-       "rows": [
-        [
-         "Generate and source hatches across crypto: DeFi, stablecoins, infra, prediction markets",
-         "30 one-line theses, kill criteria written first",
-         "5 one-pagers, at least one in a sector new to the portfolio",
-         "The full pass record handed over, rechecked as the market moves"
-        ],
-        [
-         "Take the best ideas from a few sentences to one-pager, memo and IC pitch",
-         "A first one-pager",
-         "A first memo and committee pitch",
-         "The hatch I would found, pitched with its founding plan"
-        ],
-        [
-         "Use the team and advisors as a sounding board, but drive the work",
-         "A short weekly written update",
-         "Advisor reviews on the top two hatches",
-         "A written found-or-walk decision, with reasons"
-        ],
-        [
-         "Spend time with the team and portfolio without being embedded",
-         "One working session with each live portfolio company",
-         "Help on one question for each, where asked",
-         "Not planned"
-        ],
-        [
-         "By month six, one idea worth founding",
-         "The top five candidates named",
-         "The top two, each with a design partner in conversation",
-         "One idea I would found, or a written walk with every kill handed over"
-        ]
-       ]
-      }
-     ]
-    },
-    {
-     "title": "You Ask, I Bring",
-     "blocks": [
-      {
-       "type": "table",
-       "head": [
-        "You ask for",
-        "What I bring"
-       ],
-       "rows": [
-        [
-         "A senior operator from a strong crypto company",
-         "Grayscale, 2024 to 2025: owned the investor platform for 10 regulated digital-asset products."
-        ],
-        [
-         "A notable swing and miss",
-         "ARCS, my live swing: built since 2025, this codebase since 2026-04-09, no revenue yet. If no one pays by 2027-03-31, it stops as a product and stays my working tool."
-        ],
-        [
-         "Intellectual honesty",
-         "My [proof page](https://zach.md/proof) links 32 claims to their records, marks the private ones, and names the one I cannot show yet."
-        ]
-       ]
-      }
-     ]
-    },
-    {
-     "title": "The Wedge",
-     "blocks": [
-      {
-       "type": "cards",
-       "cards": [
-        {
-         "title": "Receipts for agent spend",
-         "ref": "A hypothesis, not a pitch.",
-         "text": "A stablecoin send has no chargeback, and stablecoin issuers freeze on legal process, not on a customer's complaint. Spend rules record what the agent was allowed to do. Nothing records what it expected or whether that came true. That second half is the wedge."
-        },
-        {
-         "title": "First user, and why it is not built",
-         "text": "Treasury or compliance leads at fintechs piloting agent payments. ARCS records decisions and flags irreversible ones, but has no payment rails or design partner. Your stealth agentic payments company may already own this; I would ask first."
-        },
-        {
-         "title": "Kill it if",
-         "ref": "Kill rule, written before any calls.",
-         "text": "Fewer than 3 of 15 teams piloting agent payments say that not knowing what the agent expected, checked against what happened, blocks going live."
-        }
-       ]
-      }
-     ]
-    },
-    {
-     "title": "Commit or Walk",
-     "blocks": [
-      {
-       "type": "p",
-       "text": "I commit when an idea passes the kill criteria I wrote in week one and a named design partner agrees to pilot. If nothing survives by month six, you get the written kills; at your roughly 1 in 30, a written walk is data too."
-      }
-     ]
-    },
-    {
-     "title": "How This Breaks",
-     "blocks": [
-      {
-       "type": "table",
-       "head": [
-        "Risk",
-        "Early signal",
-        "What I would do"
-       ],
-       "rows": [
-        [
-         "I spread across too many sectors.",
-         "By day 30, no one-pager names a real first user.",
-         "Narrow to the two strongest ideas for the rest of the contract."
-        ],
-        [
-         "My best idea overlaps a stealth company you run.",
-         "You flag it at my first one-pager.",
-         "Check for overlap before deep work; move on if it collides."
-        ],
-        [
-         "Month six arrives with nothing I would found.",
-         "By day 90, no customer agrees to a pilot conversation.",
-         "Say so in writing, hand over every kill and why, and step away."
-        ]
-       ]
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "founder",
-   "label": "Founder",
-   "name": "Founder, Portfolio Company",
-   "tagline": "The long game",
-   "headline": "EIR first, then the keys.",
-   "lede": "Your page asks for a CEO or CTO of a validated, funded hatch for five to ten years, with an outside raise in year one. I have covered product, engineering and sales in one seat: co-founder once, GM of a video ad network once.",
-   "units": [
-    {
-     "title": "30 / 90 / 180",
-     "blocks": [
-      {
-       "type": "plan",
-       "source": "Rows paraphrase the \"What You'll Do\" list on [your Founder page](https://gravity-labs.xyz/jobs-founder-portfolio-company.html).",
-       "rows": [
-        [
-         "Own the company end to end",
-         "A 12-month plan for the hatch, agreed with you",
-         "Team, budget and milestones set against your tranche terms",
-         "The company at its first tranche milestone"
-        ],
-        [
-         "Get to a first real user fast",
-         "A first user named and using the product",
-         "A small group of active users",
-         "Usage an outside investor would read as pull"
-        ],
-        [
-         "Live with customers",
-         "20 customer conversations, written up",
-         "The thesis restated in their words, with what was killed",
-         "A product reshaped by what they said, with the record of why"
-        ],
-        [
-         "Ship relentlessly",
-         "A first release to the first user",
-         "A weekly release rhythm",
-         "The product the next round is raised on"
-        ],
-        [
-         "Recruit your team, starting with a co-founder",
-         "The co-founder search under way with your search firm",
-         "A co-founder or first engineer signed",
-         "A core team of three"
-        ],
-        [
-         "Raise the next round",
-         "An investor list",
-         "A first draft of the story, reviewed with you",
-         "In conversation with outside investors, inside the first year as your page sets"
-        ]
-       ],
-       "note": "Your page does not name the hatch, so this plan is a shape, not a commitment."
-      }
-     ]
-    },
-    {
-     "title": "You Ask, I Bring",
-     "blocks": [
-      {
-       "type": "table",
-       "head": [
-        "You ask for",
-        "What I bring"
-       ],
-       "rows": [
-        [
-         "Repeat founder or senior fintech operator",
-         "Product, tech and go-to-market in one seat: co-founder, GM of a video ad network, then Grayscale."
-        ],
-        [
-         "Selling to sophisticated customers and investors",
-         "Institutional digital-asset products at Grayscale; Fortune 500 advertisers at the ad network."
-        ],
-        [
-         "Making a thesis you did not originate your own",
-         "Six years as an embedded product partner on other people's ventures, including a first-responder video product and five 5G ventures."
-        ]
-       ]
-      }
-     ]
-    },
-    {
-     "title": "One Secret",
-     "blocks": [
-      {
-       "type": "p",
-       "text": "Regulated firms keep the record of what they decided because the rules require it. Almost none keep what they expected to happen, so they cannot score their own judgment."
-      }
-     ]
-    },
-    {
-     "title": "How This Breaks",
-     "blocks": [
-      {
-       "type": "table",
-       "head": [
-        "Risk",
-        "Early signal",
-        "What I would do"
-       ],
-       "rows": [
-        [
-         "The thesis fails with real customers.",
-         "My first ten customer calls contradict it.",
-         "Restate the thesis in their words; agree any change with you."
-        ],
-        [
-         "The first real user is slow to arrive.",
-         "By day 30, no named user has agreed to try it.",
-         "Narrow to one customer type and sell to them directly."
-        ],
-        [
-         "No strong technical co-founder in time.",
-         "By day 90, the search has no finalist.",
-         "Bring in a senior contract engineer to keep shipping meanwhile."
-        ]
-       ]
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "open",
-   "label": "Open Application",
-   "name": "Open Application",
-   "tagline": "A sketch to co-design, in the open",
-   "headline": "Choose your own adventure.",
-   "lede": "Your open application asks what I would own that you don't staff today, and why you'd move faster with me. My answer: a hatch desk, sketched to build with you in the open.",
-   "units": [
-    {
-     "title": "The Hatch Desk",
-     "blocks": [
-      {
-       "type": "p",
-       "text": "Most funds call it a deal desk. Mine would keep each memo, its kill criteria and the record of every call in one place."
-      },
-      {
-       "type": "p",
-       "text": "Every pass would be logged with its reasons and a recheck date. The bet is that a recheck finds a pass worth reopening; the two-week test below says whether it does. The call stays yours."
-      },
-      {
-       "type": "p",
-       "text": "It sits on top of your Idea Engine: the agents find and draft, the desk keeps the record. Nothing gets built twice."
-      }
-     ]
-    },
-    {
-     "title": "30 / 90 / 180",
-     "blocks": [
-      {
-       "type": "plan",
-       "source": "Rows paraphrase the four stages of the hatch process on [your about page](https://gravity-labs.xyz/about.html).",
-       "rows": [
-        [
-         "Exploration: short theses, at volume",
-         "Every thesis logged with its date and its keep-or-pass reason",
-         "A monthly list of passes worth a second look",
-         "The pass record feeds each new thesis"
-        ],
-        [
-         "Deep dive: investment documents and founder decks",
-         "One shared template for the deep dive",
-         "Every deep dive starts from the closest past passes",
-         "Deep-dive time per hatch measured"
-        ],
-        [
-         "Gate check: the memo to the Defy investment committee",
-         "Each memo carries its kill criteria and what it expects",
-         "The first memo checked against what happened after",
-         "Every committee call has a record anyone can replay"
-        ],
-        [
-         "Recruitment and launch",
-         "One place for each hatch's founder pipeline",
-         "Expected against actual, written up for each launch",
-         "A read-out of what the passes and launches taught"
-        ]
-       ]
-      }
-     ]
-    },
-    {
-     "title": "How This Breaks",
-     "blocks": [
-      {
-       "type": "table",
-       "head": [
-        "Risk",
-        "Early signal",
-        "What I would do"
-       ],
-       "rows": [
-        [
-         "Your team already has tools for this.",
-         "In week one you show me a system that records passes.",
-         "Build on it and drop anything that repeats it."
-        ],
-        [
-         "Recording passes adds paperwork.",
-         "Entries stop within the first month.",
-         "Cut each to three fields and fill them in myself from the memos."
-        ],
-        [
-         "Rechecking old passes finds no real lead.",
-         "By day 90, no past pass looks worth reopening.",
-         "Run a two-week test on old passes; if nothing turns up, close the desk."
         ]
        ]
       }
