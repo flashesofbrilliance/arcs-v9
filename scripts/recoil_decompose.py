@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Recoil call service stages J1 decompose, J2 verbs, J3 deconstruct (stdlib only). Backlog row
-recoil-decompose-verbs (R7). Spec: _PROPOSALS/2026-11-11-recoil-call-service-arc-weld.md §3 J1 to J3, §5, §6.
+"""Recoil call service stages J1 decompose, J2 verbs, J3 deconstruct (stdlib only).
+
+Backlog row recoil-decompose-verbs (R7). Spec: _PROPOSALS/2026-11-11-recoil-call-service-arc-weld.md §3 J1 to J3, §5, §6.
 
 Plugged into scripts/recoil_service.py with install(svc); not run on its own.
 Tests live in `python3 scripts/recoil_service.py --self-test`.

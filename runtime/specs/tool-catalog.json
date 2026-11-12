@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 292,
+  "script": 295,
   "skill": 28,
   "workflow": 2
  },
- "total": 424,
+ "total": 427,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 582,
+   "WIRED": 585,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
@@ -2468,10 +2468,34 @@
   },
   {
    "kind": "script",
+   "name": "recoil_decompose.py",
+   "path": "scripts/recoil_decompose.py",
+   "jtbd": "Recoil call service stages J1 decompose, J2 verbs, J3 deconstruct (stdlib only).",
+   "invoke": "python3 scripts/recoil_decompose.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "recoil_induce.py",
    "path": "scripts/recoil_induce.py",
    "jtbd": "recoil_induce.py: induce candidate backlog rows from a recoil report or war room. Stdlib only, no model calls.",
    "invoke": "python3 scripts/recoil_induce.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "recoil_service.py",
+   "path": "scripts/recoil_service.py",
+   "jtbd": "Recoil call service: the stage runner (stdlib only). Backlog row recoil-service-cli (R4).",
+   "invoke": "python3 scripts/recoil_service.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "recoil_ssot_v2.py",
+   "path": "scripts/recoil_ssot_v2.py",
+   "jtbd": "Recoil SSOT v2: validator, v1 adapter and sweep (stdlib only).",
+   "invoke": "python3 scripts/recoil_ssot_v2.py",
    "state": "WIRED"
   },
   {
