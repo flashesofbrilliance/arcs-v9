@@ -67,7 +67,7 @@ export default async function DynamicRecoilReportPage({
   return (
     <div style={{ background: "#020408", minHeight: "100vh", padding: "40px 0" }}>
       <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 20px" }}>
-        <ReportActions />
+        <ReportActions sharePath={externalTwin(reportId)} />
         <RecoilReportFromData data={data} />
       </div>
     </div>

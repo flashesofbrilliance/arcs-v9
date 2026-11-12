@@ -1295,6 +1295,16 @@ if [ -n "$jg" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/universe_j
   rm -f /tmp/jtbd-check.$$
 fi
 
+# Share-control gate (2026-11-12, Frustration Gate): a share button on a gated page must emit a
+# minted share path, never the page's own URL (four recurrences; see scripts/share_control_gate.py).
+sc=$(git diff --cached --name-only -- src scripts/share_control_gate.py 2>/dev/null || true)
+if [ -n "$sc" ] && [ -f scripts/share_control_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/share_control_gate.py || ! python3 scripts/share_control_gate.py --self-test >/dev/null; then
+    echo "✖ commit blocked: a share control copies a gated URL (python3 scripts/share_control_gate.py)." >&2
+    exit 1
+  fi
+fi
+
 # Ripple ledger (2026-10-16): warn, never block, when a staged path touches a one-way door that is not yet de-risked.
 # See scripts/ripple_ledger.py and _QUEUE/ripple-ledger.jsonl.
 if [ -f scripts/ripple_ledger.py ] && command -v python3 >/dev/null 2>&1; then
