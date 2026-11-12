@@ -139,7 +139,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .ftile-fig { font-family: var(--ds-font-mono); color: var(--cyan); letter-spacing: -0.01em; }
 .ftile-lab { font-family: var(--ds-font-mono); letter-spacing: 0.1em; color: var(--text-secondary); }
 /* byline: the author's name under the claim, so the page reads as a person, not a vendor */
-.tb-byline { margin: -18px 0 18px; font-family: var(--ds-font-mono); font-size: var(--fs-body); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); }
+.tb-byline { margin: 4px 0 24px; font-family: var(--ds-font-mono); font-size: var(--fs-body); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); }
 /* four fact tiles sit 2x2 on a phone so the first screen reaches the ledger */
 @container (min-width: 18rem) { .ftiles.is-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container (min-width: 54rem) { .ftiles.is-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
@@ -149,3 +149,6 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .unit .callout { max-width: none; }
 /* seam (2026-11-10): this file ended in a truncated '@media (prefers-reduced-motion) { @media print {' since it was created, which swallowed any rule added after it. Closed here as the reduced-motion rule it was meant to be. */
 @media (prefers-reduced-motion: reduce) { .tb-fold-btn::before, .stacked .seat-btn::before { transition: none; } }
+
+/* the "More recommendations" link clears the 24px touch-target floor (page_gate phone warning) */
+.sb-src a { display: inline-block; padding: 6px 0; }
