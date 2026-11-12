@@ -1,6 +1,8 @@
 {
  "id": "gravity",
  "doc_title": "Zach Harris for Gravity Labs",
+ "masthead": "Zach Harris",
+ "masthead_sub": "[zachharris.eth](https://app.ens.domains/zachharris.eth) · [zach.md](https://zach.md)",
  "storage_key": "gravityTheme",
  "analytics": true,
  "horizons": [
@@ -15,8 +17,8 @@
  "overview": {
   "label": "Overview",
   "headline": [
-   "Ideas are getting cheap. Trusting them is not.",
-   "I keep a dated record of which calls held up."
+   "Gravity's agents made ideas cheap.",
+   "Judgment is still expensive. I want that job."
   ],
   "tiles": [
    {
@@ -32,7 +34,7 @@
    {
     "v": "23 of 32",
     "k": "Claims, public record",
-    "note": "32 claims about my work, each linked to its record: 8 on request, 1 not yet shown"
+    "note": "32 claims, each linked to its record: 8 on request, 1 not yet shown"
    },
    {
     "v": "48",
@@ -79,36 +81,6 @@
     ]
    },
    {
-    "id": "week-one",
-    "title": "Week One",
-    "tagline": "What I would do in the first week.",
-    "open": true,
-    "blocks": [
-     {
-      "type": "p",
-      "text": "[Kyle Libra's Idea Engine post](https://kylelibra.substack.com/p/how-to-find-startup-ideas): a good memo 6x faster than six months ago; the raw drafts are at times unusable. Its footnote 4 is about tuning the agents' filters, and says that is getting easier. I work one step later: for each memo that passes or dies, a dated note of what it expected and whether that came true."
-     },
-     {
-      "type": "cards",
-      "cards": [
-       {
-        "title": "Your pass list, on the record",
-        "text": "You already say \"no right now\". I would write down what each \"no right now\" expects to see, so the recheck is a test, not a reread."
-       },
-       {
-        "title": "How I would test Coda",
-        "ref": "From your portfolio page's one line; you know more. Written 2026-11-10.",
-        "text": "[Kyle's everything-bank post](https://kylelibra.substack.com/p/the-race-to-be-the-new-everything) puts net interest income at about 54% of JPM's Q4 2024 revenue. I'd test whether that, more than compliance, is what keeps banks from taking crypto deposits. 15 calls with bank digital-asset and compliance leads; kill it if fewer than 2 will sign a pilot letter of intent. Under two weeks and $10k."
-       },
-       {
-        "title": "The agent-payments wedge",
-        "text": "A stablecoin send has no chargeback, and stablecoin issuers freeze on legal process, not on a customer's complaint. Spend rules record what the agent was allowed to do. Nothing records what it expected or whether that came true. That second half is the wedge."
-       }
-      ]
-     }
-    ]
-   },
-   {
     "id": "bull-bear",
     "title": "Bull vs Bear",
     "tagline": "Activity over size, applied to agent payments: counts say yes, filtered volume says not yet.",
@@ -128,13 +100,13 @@
           "chip": "Bull",
           "tone": "plain",
           "signal": "Transaction counts (leading, noisy)",
-          "text": "[x402 reported](https://www.rzlt.io/blog/agentic-payments-2026-x402-explainer) over 165M agent transactions by April, about half of them tests. As of April 2026; re-read due."
+          "text": "[x402 reported](https://www.rzlt.io/blog/agentic-payments-2026-x402-explainer) over 165M agent transactions by April 2026, about half tests. Re-read due."
          },
          {
           "chip": "Bull",
           "tone": "plain",
           "signal": "Chain fee per payment (leading, partial)",
-          "text": "The [median L2 fee](https://www.growthepie.com/answers/are-ethereum-l2-fees-getting-cheaper) fell from 20¢ in February 2024 to 0.06¢ in April 2026, cheap enough for machine-sized payments. Ramps are not in this number; an agent's float has to get on-chain first."
+          "text": "The [median L2 fee](https://www.growthepie.com/answers/are-ethereum-l2-fees-getting-cheaper) fell from 20¢ in February 2024 to 0.06¢ in April 2026, cheap enough for machine-sized payments. Ramps are not counted; an agent's float must get on-chain first."
          },
          {
           "chip": "Bear",
@@ -152,7 +124,7 @@
           "chip": "Rules",
           "tone": "plain",
           "signal": "Who owns distribution",
-          "text": "My read: the liability rule gets written where the loss lands. On cards that is Visa and Mastercard's rulebook, pushed by the card issuers who eat the fraud. On-chain there is no rulebook yet. The call below counts only the card side, because I can check it."
+          "text": "My read: the liability rule gets written where the loss lands. On cards that is Visa and Mastercard's rulebook, pushed by issuers who eat the fraud. On-chain there is no rulebook yet. The call below counts only cards, because I can check them."
          }
         ]
        },
@@ -164,19 +136,19 @@
           "chip": "Trigger",
           "tone": "gold",
           "signal": "Who pays when an agent exceeds its mandate",
-          "text": "[Footnote 25 of Kyle's stablecoin post](https://kylelibra.substack.com/p/a-lot-of-what-people-think-about): crypto payments will have to address chargebacks and fraud liability \"to some extent to be viable.\" For agents, I think that starts with a record of what the user told the agent. Today it is [unsettled](https://worldpay.com/en/insights/articles/agentic-commerce-liability-is-still-being-written), and the first network rule that requires an intent record decides it."
+          "text": "[Footnote 25 of Kyle's stablecoin post](https://kylelibra.substack.com/p/a-lot-of-what-people-think-about): crypto payments will have to address chargebacks and fraud liability \"to some extent to be viable.\" For agents, I think that starts with a record of what the user told the agent. It is [unsettled](https://worldpay.com/en/insights/articles/agentic-commerce-liability-is-still-being-written) today; the first network rule requiring an intent record decides it."
          },
          {
           "chip": "My call",
           "tone": "gold",
           "signal": "Enter small, before the rule",
-          "text": "Volume is the lagging bet. The liability rule is the leading one. My read: 1 in 3 that Visa, Mastercard or a top-10 US card issuer has a rule in effect by 2027-06-30 requiring a record of what the user told the agent. Announcements without an effective date do not count. I will post the outcome either way."
+          "text": "Volume is the lagging bet; the liability rule is the leading one. My read: 1 in 3 that Visa, Mastercard or a top-10 US card issuer has a rule in effect by 2027-06-30 requiring a record of what the user told the agent. Announcements without an effective date do not count. I will post the outcome either way."
          },
          {
           "chip": "If I'm wrong",
           "tone": "gold",
           "signal": "The other 2 in 3",
-          "text": "No network rule is in effect by mid-2027, and I have spent about three weeks. ARCS records human decisions this way today; it does not yet do signed agent mandates."
+          "text": "No network rule by mid-2027, and about three weeks spent. ARCS records human decisions this way today; it does not yet do signed agent mandates."
          }
         ]
        },
@@ -188,13 +160,13 @@
           "chip": "Wording",
           "tone": "gold",
           "signal": "The odds moved with the wording",
-          "text": "My own estimate swung from about 1 in 4 to about 3 in 5 depending on how the rule was worded, so I wrote the resolution rule above before picking a number. The inputs were my judgment, not data; the simulation is on request. The base rate of a network rule drives most of what spread is left; I re-mark at each Visa and Mastercard rules release."
+          "text": "My estimate swung from about 1 in 4 to about 3 in 5 depending on the rule's wording, so I wrote the resolution rule above before picking a number. The inputs were my judgment, not data; the simulation is on request. The base rate of a network rule drives most of the remaining spread; I re-mark at each Visa and Mastercard rules release."
          },
          {
           "chip": "Conflict",
           "tone": "gold",
           "signal": "I build the thing that would benefit",
-          "text": "So I am not the one who should grade it. Gravity resolves it, and the If I'm wrong row says what ARCS does not do yet."
+          "text": "So I wrote the kill rule so the rulebooks settle it, not me; anyone can check, Gravity included."
          }
         ]
        },
@@ -206,7 +178,7 @@
           "chip": "False positive",
           "tone": "gold",
           "signal": "Counts read as adoption",
-          "text": "Tests and self-dealing loops inflate the count, so I discount it by the half that is tests."
+          "text": "Tests and self-dealing loops inflate the count; I discount the half that is tests."
          },
          {
           "chip": "False negative",
@@ -218,7 +190,7 @@
           "chip": "Undercount",
           "tone": "gold",
           "signal": "Untested",
-          "text": "An operator's agents paying its own services look like wash trades, so the strict filter may drop real use. I have not tested this."
+          "text": "An operator's agents paying its own services look like wash trades, so the strict filter may drop real use. Not tested."
          },
          {
           "chip": "Overtaken",
@@ -254,13 +226,13 @@
           "chip": "Running",
           "tone": "cyan",
           "signal": "RFP-O-Matic",
-          "text": "Answers RFP questions and cites the clause, or says the document is silent. [Four short videos](https://good.arcs.care/rfp-engine) and [its source](https://github.com/flashesofbrilliance/rfp-engine)."
+          "text": "Cites the clause or says the document is silent. [Four short videos](https://good.arcs.care/rfp-engine) and [source](https://github.com/flashesofbrilliance/rfp-engine)."
          },
          {
           "chip": "Running",
           "tone": "cyan",
           "signal": "ARCS",
-          "text": "[The tool these records come from](https://app.arcs.care): you ask a question; it writes a dated record. [11 saved decisions from outside users, 0 outcomes closed](https://status.arcs.care); 5 people behind them, from a production read on request. Nobody outside has logged an outcome yet."
+          "text": "[The tool these records come from](https://app.arcs.care): you ask a question; it writes a dated record. [11 saved decisions from outside users, 0 outcomes closed](https://status.arcs.care); 5 people behind them, from a production read on request."
          }
         ]
        },
@@ -271,7 +243,7 @@
           "chip": "Kills",
           "tone": "cyan",
           "signal": "My own kill rate",
-          "text": "[48 beliefs overturned since June](https://status.arcs.care/beliefs), about 10 a month, dated on a public timeline; the belief and test behind each are on request. For example, \"a green production build means the database works\", killed 2026-06-03 by the first real query against prod. 20 changed the rulebook."
+          "text": "[48 beliefs overturned since June](https://status.arcs.care/beliefs), about 10 a month, dated on a public timeline; the belief and test behind each on request. For example, \"a green production build means the database works\", killed 2026-06-03 by the first real query against prod. 20 changed the rulebook."
          },
          {
           "chip": "Proof",
@@ -289,24 +261,7 @@
           "chip": "Calls",
           "tone": "cyan",
           "signal": "Falsifiable predictions, scored",
-          "text": "From 20 calls in my LinkedIn articles since January (ledger on request): 9 resolved, 2 hit (one weak), 1 partly, 6 missed; 9 open, 2 unverified. The falsifiers held; my 85 to 90% confidence did not, so every new call ships with a lower number, like the 1 in 3 above. Method: [seven calls, seven falsifiers](https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers). Same shape as Mogg, a dated YES or NO resolved by the world, but 20 calls in ten months, not 10 a day."
-         }
-        ]
-       },
-       {
-        "label": "Public goods and fine print",
-        "rows": [
-         {
-          "chip": "Open",
-          "tone": "cyan",
-          "signal": "Public goods",
-          "text": "[MIT-licensed tools](https://good.arcs.care) I built for my own work, free to use."
-         },
-         {
-          "chip": "Terms",
-          "tone": "cyan",
-          "signal": "Trust posture",
-          "text": "[Trust](https://arcs.care/trust), [privacy](https://arcs.care/privacy) and [terms](https://arcs.care/terms), in plain words."
+          "text": "From 20 calls in my LinkedIn articles since January (ledger on request): 9 resolved (2 hit, one weak; 1 partly; 6 missed), 9 open, 2 unverified. The falsifiers held; my 85 to 90% confidence did not, so new calls ship with lower numbers, like the 1 in 3 above. Method: [seven calls, seven falsifiers](https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers). Same shape as Mogg, a dated YES or NO resolved by the world, but 20 calls in ten months, not 10 a day."
          }
         ]
        }
@@ -315,7 +270,6 @@
     ]
    }
   ],
-  "byline": "Zach Harris",
   "bites": [
    {
     "text": "Zach is a ball of livewire energy who gets projects done with great velocity, humor and craft. He's a great Swiss army knife to have in the team.",
@@ -326,199 +280,53 @@
   "bites_source": "[More recommendations](https://zachharris.xyz)",
   "bites_still": true,
   "lede": [
-   "I'm Zach Harris, a crypto product lead (10 regulated products at Grayscale), applying for Principal, New Ventures, my strongest fit; the other seats have their own tabs. The ask: a conversation with whoever owns that hire.",
-   "ARCS is a tool I built that keeps a dated record of each call and whether it came true."
+   "Kyle wrote that “significance” is in the eye of the beholder, and AI “is not particularly good at assessing it.” I am, and I keep the receipts. At Grayscale I owned the investor platform 10 regulated digital-asset products ran on, about $7B. I co-founded a company that went from $0 to $2M+, profitable in 24 months. Since June I have killed 48 of my own beliefs with runnable tests. When I tell you no on a hatch, you get the test that would reopen it.",
+   "Harrison can set up 20 minutes, or write to me: [zach.harris@gmail.com](mailto:zach.harris@gmail.com)"
   ],
-  "bites_at": "end"
+  "bites_at": "end",
+  "coldread": {
+   "id": "week-one",
+   "title": "Week One",
+   "block": {
+    "type": "coldread",
+    "slots": [
+     [
+      "The gap",
+      "[Kyle's Idea Engine post](https://kylelibra.substack.com/p/how-to-find-startup-ideas): good memos 6x faster. I work one step later: did each call hold up?"
+     ],
+     [
+      "What I do",
+      "Give every pass a dated note of what would reopen it, so a recheck is a test, not a reread."
+     ],
+     [
+      "What you get",
+      "Two things you can check by Friday, each dated, each with what would reopen it."
+     ]
+    ],
+    "how": [
+     [
+      "Day 1",
+      "Your pass list",
+      "Each \"no right now\" gets the signal that would reopen it."
+     ],
+     [
+      "Day 5",
+      "Agent payments",
+      "A one-page wedge memo: no chargeback, freeze on legal process, nothing records what the agent expected."
+     ]
+    ],
+    "read": "Each day ends in something dated you can check. The seat tabs carry 30, 90 and 180 days. Send me one idea you passed on; one line is enough, no names. In two weeks you get it back: keep, kill or not yet, what has to become true, and the dated test that settles it."
+   }
+  }
  },
  "tabs": [
-  {
-   "id": "principal",
-   "label": "Principal",
-   "name": "Principal, New Ventures",
-   "tagline": "My strongest fit",
-   "headline": "Own a hatch end to end, from memo to launch.",
-   "lede": "Your page: own hatches end to end, from memo to launch. Builder, not researcher or investor.",
-   "units": [
-    {
-     "title": "30 / 90 / 180",
-     "blocks": [
-      {
-       "type": "plan",
-       "source": "Rows paraphrase the \"What You'll Do\" list on [your Principal page](https://gravity-labs.xyz/jobs-principal-new-ventures.html).",
-       "rows": [
-        [
-         "Generate and validate hatch ideas",
-         "30 one-line theses, each with its kill criteria written first",
-         "3 to 5 taken to one-pagers",
-         "A steady weekly flow, every pass recorded and rechecked"
-        ],
-        [
-         "Write the docs that move ideas forward",
-         "A first memo outline, with its strongest counter-argument",
-         "A first full investment memo",
-         "A memo template the team reuses"
-        ],
-        [
-         "Pitch Defy's investment committee",
-         "The first hatch chosen for the committee",
-         "The first hatch pitched",
-         "A second hatch pitched"
-        ],
-        [
-         "Build MVPs with AI coding tools",
-         "A clickable prototype for the lead hatch",
-         "The prototype in front of design partners",
-         "A prototype handed to the founder hired for it"
-        ],
-        [
-         "Recruit founders",
-         "A founder candidate list for the lead hatch",
-         "A shortlist of three CEO or CTO candidates",
-         "One founder signed"
-        ],
-        [
-         "Advise after launch",
-         "Not yet",
-         "Not yet",
-         "A standing weekly call with the founder I placed"
-        ],
-        [
-         "Kill your darlings",
-         "Every killed thesis has a written reason",
-         "A first review of every pass",
-         "One pass reopened, or confirmed, as the market moved"
-        ]
-       ]
-      }
-     ]
-    },
-    {
-     "title": "ARCS in the Seat",
-     "blocks": [
-      {
-       "type": "p",
-       "text": "[Kyle's Idea Engine post](https://kylelibra.substack.com/p/how-to-find-startup-ideas): a good memo 6x faster than six months ago; the raw drafts are at times unusable. Each use below aims at the ones that don't make it."
-      },
-      {
-       "type": "cards",
-       "cards": [
-        {
-         "title": "Why each hatch was passed, rechecked",
-         "ref": "Built: a dated record with a recheck date.",
-         "text": "You already say \"no right now\". I would write down what each one expects to see, so the recheck is a test. Not yet tried on a real pass list."
-        },
-        {
-         "title": "How sure, and what would kill it",
-         "ref": "Built: how sure I was, written down at the time.",
-         "text": "Each hatch carries what the team expects, how sure it is, and what kills it. The pipeline reads by risk, not just excitement."
-        },
-        {
-         "title": "Tests written before they run",
-         "ref": "Built: tests written before they run, run once, failures published.",
-         "text": "A failed test still pays: the next thesis starts from what it ruled out."
-        }
-       ]
-      }
-     ]
-    },
-    {
-     "title": "You Ask, I Bring",
-     "blocks": [
-      {
-       "type": "table",
-       "head": [
-        "You ask for",
-        "What I bring"
-       ],
-       "rows": [
-        [
-         "Early-stage startup experience",
-         "Co-founder, 2012 to 2016: $0 to profitable in 24 months. GM of a video ad network, 2010 to 2011: $4,500 to over $1M a month."
-        ],
-        [
-         "Crypto experience, a thesis not a meme",
-         "Grayscale, 2024 to 2025: owned the investor platform for 10 regulated digital-asset products. Mentor at Outlier Ventures, 2024."
-        ],
-        [
-         "PM instincts: the riskiest assumption, a spec an engineer can ship",
-         "Embedded product partner since 2020 in health, government and media. Three lines tested, two taken forward."
-        ],
-        [
-         "A working prototype built with Claude Code or Cursor",
-         "[RFP-O-Matic](https://github.com/flashesofbrilliance/rfp-engine), public since 2026-11-02. It answers RFP questions and cites the clause, or says the document is silent."
-        ],
-        [
-         "Where the AI got it wrong",
-         "Agents reported my gates green while running a stale checker from another branch, so a layout bug shipped repeatedly. Now every gate runs from the branch it checks, and that rule is itself a check."
-        ],
-        [
-         "A high kill rate",
-         "In October I wrote a retrieval benchmark before running it, ran it once, and kept every failure in the record (on request). Overturned beliefs are dated on a [public timeline](https://status.arcs.care/beliefs); the test behind each is on request."
-        ]
-       ]
-      }
-     ]
-    },
-    {
-     "title": "Homework, Done",
-     "blocks": [
-      {
-       "type": "cards",
-       "cards": [
-        {
-         "title": "Coda Network: the riskiest assumption",
-         "ref": "From the one-line description on your portfolio page; the team will know more.",
-         "text": "[Kyle's everything-bank post](https://kylelibra.substack.com/p/the-race-to-be-the-new-everything) puts net interest income at about 54% of JPM's Q4 2024 revenue. I'd test whether that, more than compliance, is what keeps banks from taking crypto deposits."
-        },
-        {
-         "title": "The kill test: under two weeks, under $10k",
-         "ref": "Kill rule, written before any calls.",
-         "text": "15 calls with bank digital-asset and compliance leads; kill it if fewer than 2 will sign a pilot letter of intent. Opinions are cheap; signatures are not."
-        }
-       ]
-      }
-     ]
-    },
-    {
-     "title": "How This Breaks",
-     "blocks": [
-      {
-       "type": "table",
-       "head": [
-        "Risk",
-        "Early signal",
-        "What I would do"
-       ],
-       "rows": [
-        [
-         "My ideas read well but fail with real buyers.",
-         "By day 30, few ideas survive a first customer call.",
-         "Two likely customers see each idea before I write a one-pager."
-        ],
-        [
-         "My first memo is not committee-ready.",
-         "It comes back with structural changes, not wording.",
-         "Model it on a memo the committee funded; review with you at half draft."
-        ],
-        [
-         "Founders will not quit their jobs for a hatch.",
-         "By day 90, under three serious founder conversations.",
-         "Ask the search firm and advisors early; widen the founder profile."
-        ]
-       ]
-      }
-     ]
-    }
-   ]
-  },
   {
    "id": "eir",
    "label": "EIR",
    "name": "Entrepreneur in Residence",
-   "tagline": "A strong fit",
+   "tagline": "The role I'm here for",
    "headline": "One wedge, not a category.",
-   "lede": "Your page: six months to source hatches across DeFi, stablecoins, infrastructure and prediction markets, and find one worth founding.",
+   "lede": "Your page: six months to source hatches in DeFi, stablecoins, infrastructure and prediction markets, and find one to found.",
    "units": [
     {
      "title": "30 / 90 / 180",
@@ -534,7 +342,7 @@
          "The full pass record handed over, rechecked as the market moves"
         ],
         [
-         "Take the best ideas from a few sentences to a one-pager, a memo and an IC pitch",
+         "Take the best ideas from a few sentences to one-pager, memo and IC pitch",
          "A first one-pager",
          "A first memo and committee pitch",
          "The hatch I would found, pitched with its founding plan"
@@ -600,12 +408,12 @@
         },
         {
          "title": "First user, and why it is not built",
-         "text": "Treasury or compliance leads at fintechs piloting agent payments. ARCS already records what was decided and flags decisions that cannot be undone, but no payment rails or design partner. Your stealth agentic payments company may already own this; I would ask first."
+         "text": "Treasury or compliance leads at fintechs piloting agent payments. ARCS records decisions and flags irreversible ones, but has no payment rails or design partner. Your stealth agentic payments company may already own this; I would ask first."
         },
         {
          "title": "Kill it if",
          "ref": "Kill rule, written before any calls.",
-         "text": "Fewer than 3 of 15 teams piloting agent payments say that not knowing what the agent expected, checked against what happened, keeps them from going live."
+         "text": "Fewer than 3 of 15 teams piloting agent payments say that not knowing what the agent expected, checked against what happened, blocks going live."
         }
        ]
       }
@@ -616,7 +424,7 @@
      "blocks": [
       {
        "type": "p",
-       "text": "I commit when an idea passes the kill criteria I wrote in week one and a named design partner agrees to pilot. If nothing survives by month six, you get the written kills. At your roughly 1 in 30, a written walk is data too."
+       "text": "I commit when an idea passes the kill criteria I wrote in week one and a named design partner agrees to pilot. If nothing survives by month six, you get the written kills; at your roughly 1 in 30, a written walk is data too."
       }
      ]
     },
@@ -656,9 +464,9 @@
    "id": "founder",
    "label": "Founder",
    "name": "Founder, Portfolio Company",
-   "tagline": "The long game",
+   "tagline": "Where an EIR goes if a hatch works",
    "headline": "EIR first, then the keys.",
-   "lede": "Your page asks for a CEO or CTO of a hatch you have validated and funded, for five to ten years, with an outside raise in year one. I have covered product, engineering and sales in one seat before: co-founder once, GM of a video ad network once.",
+   "lede": "Your page asks for a CEO or CTO of a validated, funded hatch for five to ten years, with an outside raise in year one. I have covered product, engineering and sales in one seat: co-founder once, GM of a video ad network once.",
    "units": [
     {
      "title": "30 / 90 / 180",
@@ -720,7 +528,7 @@
        "rows": [
         [
          "Repeat founder or senior fintech operator",
-         "Product, tech and go-to-market in one seat. Co-founder once, GM of a video ad network once, then Grayscale."
+         "Product, tech and go-to-market in one seat: co-founder, GM of a video ad network, then Grayscale."
         ],
         [
          "Selling to sophisticated customers and investors",
@@ -776,60 +584,128 @@
    ]
   },
   {
-   "id": "open",
-   "label": "Open Application",
-   "name": "Open Application",
-   "tagline": "A sketch to co-design, in the open",
-   "headline": "Choose your own adventure.",
-   "lede": "Your open application asks what I would own that you don't staff today, and why you'd move faster with me. My answer: a hatch desk, sketched to build with you, in the open.",
+   "id": "principal",
+   "label": "Principal",
+   "name": "Principal, New Ventures",
+   "tagline": "If the studio needs it inside",
+   "headline": "Own a hatch end to end, from memo to launch.",
+   "lede": "Your page: a builder, not a researcher or investor. I'd rather be crew on a hatch than a passenger in the room.",
    "units": [
-    {
-     "title": "The Hatch Desk",
-     "blocks": [
-      {
-       "type": "p",
-       "text": "Most funds call it a deal desk. Mine would keep each memo, its kill criteria and the record of every call in one place."
-      },
-      {
-       "type": "p",
-       "text": "Every pass would be logged with its reasons and a recheck date. The bet is that a recheck finds a pass worth reopening; the two-week test below says whether it does. The call stays yours."
-      },
-      {
-       "type": "p",
-       "text": "It sits on top of your Idea Engine: the agents find and draft, the desk keeps the record. Nothing gets built twice."
-      }
-     ]
-    },
     {
      "title": "30 / 90 / 180",
      "blocks": [
       {
        "type": "plan",
-       "source": "Rows paraphrase the four stages of the hatch process on [your about page](https://gravity-labs.xyz/about.html).",
+       "source": "Rows paraphrase the \"What You'll Do\" list on [your Principal page](https://gravity-labs.xyz/jobs-principal-new-ventures.html).",
        "rows": [
         [
-         "Exploration: short theses, at volume",
-         "Every thesis logged with its date and its keep-or-pass reason",
-         "A monthly list of passes worth a second look",
-         "The pass record feeds each new thesis"
+         "Generate and validate hatch ideas",
+         "30 one-line theses, each with its kill criteria written first",
+         "3 to 5 taken to one-pagers",
+         "A steady weekly flow, every pass recorded and rechecked"
         ],
         [
-         "Deep dive: investment documents and founder decks",
-         "One shared template for the deep dive",
-         "Every deep dive starts from the closest past passes",
-         "Deep-dive time per hatch measured"
+         "Write the docs that move ideas forward",
+         "A first memo outline, with its strongest counter-argument",
+         "A first full investment memo",
+         "A memo template the team reuses"
         ],
         [
-         "Gate check: the memo to the Defy investment committee",
-         "Each memo carries its kill criteria and what it expects",
-         "The first memo checked against what happened after",
-         "Every committee call has a record anyone can replay"
+         "Pitch Defy's investment committee",
+         "The first hatch chosen for the committee",
+         "The first hatch pitched",
+         "A second hatch pitched"
         ],
         [
-         "Recruitment and launch",
-         "One place for each hatch's founder pipeline",
-         "Expected against actual, written up for each launch",
-         "A read-out of what the passes and launches taught"
+         "Build MVPs with AI coding tools",
+         "A clickable prototype for the lead hatch",
+         "The prototype in front of design partners",
+         "A prototype handed to the founder hired for it"
+        ],
+        [
+         "Recruit founders",
+         "A founder candidate list for the lead hatch",
+         "A shortlist of three CEO or CTO candidates",
+         "One founder signed"
+        ],
+        [
+         "Advise after launch",
+         "Not yet",
+         "Not yet",
+         "A standing weekly call with the founder I placed"
+        ],
+        [
+         "Kill your darlings",
+         "Every killed thesis has a written reason",
+         "A first review of every pass",
+         "One pass reopened, or confirmed, as the market moved"
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "title": "ARCS in the Seat",
+     "blocks": [
+      {
+       "type": "p",
+       "text": "[Kyle's Idea Engine post](https://kylelibra.substack.com/p/how-to-find-startup-ideas): a good memo 6x faster than six months ago; raw drafts are at times unusable. Each use below aims at the drafts that fail."
+      },
+      {
+       "type": "cards",
+       "cards": [
+        {
+         "title": "Why each hatch was passed, rechecked",
+         "ref": "Built: a dated record with a recheck date.",
+         "text": "You already say \"no right now\". I would write down what each one expects to see, so the recheck is a test. Not yet tried on a real pass list."
+        },
+        {
+         "title": "How sure, and what would kill it",
+         "ref": "Built: how sure I was, written down at the time.",
+         "text": "Each hatch carries what the team expects, how sure it is, and what kills it. The pipeline reads by risk, not just excitement."
+        },
+        {
+         "title": "Tests written before they run",
+         "ref": "Built: tests written before they run, run once, failures published.",
+         "text": "A failed test still pays: the next thesis starts from what it ruled out."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "title": "You Ask, I Bring",
+     "blocks": [
+      {
+       "type": "table",
+       "head": [
+        "You ask for",
+        "What I bring"
+       ],
+       "rows": [
+        [
+         "Early-stage startup experience",
+         "Co-founder, 2012 to 2016: $0 to profitable in 24 months. GM of a video ad network, 2010 to 2011: $4,500 to over $1M a month."
+        ],
+        [
+         "Crypto experience, a thesis not a meme",
+         "Grayscale, 2024 to 2025: owned the investor platform for 10 regulated digital-asset products. Mentor at Outlier Ventures, 2024."
+        ],
+        [
+         "PM instincts: the riskiest assumption, a spec an engineer can ship",
+         "Embedded product partner since 2020 in health, government and media. Three lines tested, two taken forward."
+        ],
+        [
+         "A working prototype built with Claude Code or Cursor",
+         "[RFP-O-Matic](https://github.com/flashesofbrilliance/rfp-engine), public since 2026-11-02. Cites the clause or says the document is silent."
+        ],
+        [
+         "Where the AI got it wrong",
+         "Agents ran a stale checker from another branch and reported my gates green, so a layout bug shipped repeatedly. Now each gate runs from the branch it checks; that rule is itself a check."
+        ],
+        [
+         "A high kill rate",
+         "In October I wrote a retrieval benchmark before running it, ran it once, and kept every failure (record on request). Overturned beliefs are on a [public timeline](https://status.arcs.care/beliefs); the test behind each is on request."
         ]
        ]
       }
@@ -847,19 +723,19 @@
        ],
        "rows": [
         [
-         "Your team already has tools for this.",
-         "In week one you show me a system that records passes.",
-         "Build on it and drop anything that repeats it."
+         "My ideas read well but fail with real buyers.",
+         "By day 30, few ideas survive a first customer call.",
+         "Two likely customers see each idea before I write a one-pager."
         ],
         [
-         "Recording passes adds paperwork.",
-         "Entries stop within the first month.",
-         "Cut each to three fields and fill them in myself from the memos."
+         "My first memo is not committee-ready.",
+         "It comes back with structural changes, not wording.",
+         "Model it on a memo the committee funded; review with you at half draft."
         ],
         [
-         "Rechecking old passes finds no real lead.",
-         "By day 90, no past pass looks worth reopening.",
-         "Run a two-week test on old passes; if nothing turns up, close the desk."
+         "Founders will not quit their jobs for a hatch.",
+         "By day 90, under three serious founder conversations.",
+         "Ask the search firm and advisors early; widen the founder profile."
         ]
        ]
       }

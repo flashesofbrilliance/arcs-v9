@@ -31,9 +31,9 @@ def e(s):
 
 
 def md(s, src=None):
-    """Escape, then allow two inline marks only: [text](https://...) and **bold**. src: the JSON pointer of s (used by --tune only)."""
+    """Escape, then allow two inline marks only: [text](https://... or mailto:...) and **bold**. src: the JSON pointer of s (used by --tune only)."""
     t = e(s)
-    t = re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)", lambda m: '<a href="%s">%s</a>' % (m.group(2), m.group(1)), t)
+    t = re.sub(r"\[([^\]]+)\]\(((?:https?://|mailto:)[^)\s]+)\)", lambda m: '<a href="%s">%s</a>' % (m.group(2), m.group(1)), t)
     t = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", t)
     return pt.span(t, src)
 
@@ -245,6 +245,20 @@ def r_overview(d):
             '<div class="tb-folds">%s</div>\n</div>') % (h, (('<p class="tb-byline">%s</p>\n' % md(o["byline"], "/overview/byline")) if o.get("byline") else "") + ("" if o.get("bites_at") == "end" else r_bites(o)), ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"], "/overview/subhead")) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(nbh(x), "/overview/lede/%d" % i) for i, x in enumerate(o["lede"]))) if o.get("lede") else "",
          tiles, go, cr,
          " solo" if len(o["sections"]) < 2 else "", folds)
+    if o.get("receipt"):  # the proof object: one real dated call, above the tiles
+        r = o["receipt"]
+        ask = ""
+        if r.get("ask"):
+            link = ('<a class="rcpt-mail" href="%s">%s</a>' % (e(r["ask_href"]), e(r.get("ask_label") or r["ask_href"].replace("mailto:", "")))) if r.get("ask_href") else ""
+            ask = '<p class="rcpt-ask">%s %s</p>\n' % (md(r["ask"], "/overview/receipt/ask"), link)
+        card = ask + ('<section class="rcpt" aria-labelledby="rcpt-claim"><p class="rcpt-meta"><span>%s</span><span>Written %s</span><span>Resolves %s</span></p>'
+                '<p class="rcpt-claim" id="rcpt-claim">%s%s</p><dl class="rcpt-rows"><dt>Kill it if</dt><dd>%s</dd><dt>Status</dt><dd>%s</dd>%s</dl></section>\n%s') % (
+            md(r["kind"], "/overview/receipt/kind"), md(r["written"], "/overview/receipt/written"), md(r["resolves"], "/overview/receipt/resolves"),
+            ('<span class="rcpt-odds">%s</span> ' % md(r["odds"], "/overview/receipt/odds")) if r.get("odds") else "",
+            md(r["claim"], "/overview/receipt/claim"), md(r["kill"], "/overview/receipt/kill"), md(r["status"], "/overview/receipt/status"),
+            ('<dt>Last resolved</dt><dd>%s</dd>' % md(r["last"], "/overview/receipt/last")) if r.get("last") else "", "")
+        assert '<div class="ftiles-c">' in out
+        out = out.replace('<div class="ftiles-c">', card + '<div class="ftiles-c">', 1)
     if o.get("bites_at") == "end" and o.get("bites"):  # evidence first, then what colleagues say
         assert out.endswith("</div>\n</div>")
         out = out[:-len("</div>")] + r_bites(o) + "</div>"
@@ -303,8 +317,8 @@ def page_hrefs(d, artifact):
 def r_nav_links(d, cur, hrefs):
     items = [("ov", d["overview"]["label"])] + [(t["id"], t["label"]) for t in d["tabs"]]
     tabs = "".join('<a class="shnav-tab" href="%s" data-target="pane-%s" aria-current="%s">%s</a>' % (e(hrefs[i]), i, "page" if i == cur else "false", md(lab)) for i, lab in items)
-    return ('<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Pages" data-menu-below="%d"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs">%s</div>'
-            '<button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Go to a page"><span></span></button></nav></div>') % (stack_below(d), tabs)
+    return ('<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Pages" data-menu-below="%d"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs">%s</div>%s'
+            '<button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Go to a page"><span></span></button></nav></div>') % (stack_below(d), tabs, r_name(d))
 
 
 def r_nav(d):
@@ -312,8 +326,16 @@ def r_nav(d):
     for t in d["tabs"]:
         tabs.append('<button type="button" class="shnav-tab" role="tab" id="t-%s" aria-controls="pane-%s" data-target="pane-%s" aria-selected="false" tabindex="-1">%s%s</button>' % (
             t["id"], t["id"], t["id"], md(t["label"]), ('<span class="shnav-pill">%s</span>' % md(t["rank"])) if t.get("rank") else ""))
-    return ('<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Sections" data-menu-below="%d"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs" aria-label="View">%s</div>'
-            '<button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Jump to a section"><span></span></button></nav></div>') % (stack_below(d), "".join(tabs))
+    return ('<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Sections" data-menu-below="%d"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs" aria-label="View">%s</div>%s'
+            '<button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Jump to a section"><span></span></button></nav></div>') % (stack_below(d), "".join(tabs), r_name(d))
+
+
+def r_name(d):
+    """The author's name, large, at the right end of the tab row (replaces the From line in the meta strip)."""
+    if not d.get("masthead"):
+        return ""
+    sub = ('<span class="tb-name-sub">%s</span>' % md(d["masthead_sub"], "/masthead_sub")) if d.get("masthead_sub") else ""
+    return '<p class="tb-name"><span class="tb-name-main">%s</span>%s</p>' % (md(d["masthead"], "/masthead"), sub)
 
 
 def stack_below(d):
@@ -340,9 +362,9 @@ def render(d, artifact=False, page=None):
                "s=r.charAt(0)==='{'?JSON.parse(r):(r?{theme:r}:{})}catch(e){}"
                "d.setAttribute('data-theme',(s.theme||'%s')==='dark'?'dark':'light');"
                "var A={font:'data-font',size:'data-size',space:'data-space'};for(var k in A){if(s[k]&&s[k]!=='std')d.setAttribute(A[k],s[k])}})();</script>") % (d["storage_key"], d.get("default_theme", "light"))
-    meta = ('<dl class="tb-meta"><div class="opt"><dt>Prepared for</dt><dd>%s</dd></div><div><dt>From</dt><dd>%s</dd></div>'
+    meta = ('<dl class="tb-meta"><div class="opt"><dt>Prepared for</dt><dd>%s</dd></div>%s'
             '%s%s</dl>') % (
-        md(m["prepared_for"]), md(m["from"]),
+        md(m["prepared_for"]), "" if d.get("masthead") else '<div><dt>From</dt><dd>%s</dd></div>' % md(m["from"]),
         ('<div><dt>Updated</dt><dd><time datetime="%s">%s</time></dd></div>' % (e(m["updated"]), date_long(m["updated"]))) if m.get("updated") else "",
         ('<div class="opt"><dt>Status</dt><dd>%s</dd></div>' % md(m["status"])) if m.get("status") else "")
     line = ('<span class="chip cyan">Private</span><p>%s</p>' % md(d["top_line"])) if d.get("top_line") else ""

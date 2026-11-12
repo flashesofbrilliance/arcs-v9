@@ -19,6 +19,14 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .dprefs-ttl { display: none; } /* as on MyAlly: icon and track only; aria-label keeps the name */
 .tb-brand { font-size: var(--fs-body); margin-right: auto; }
 .tb-top p { margin: 0; flex: 1 1 320px; font-size: var(--fs-body); color: var(--text-secondary); }
+/* masthead: the author's name, large, at the right end of the tab row */
+.shnav .tb-name { margin: 0 0 0 auto; flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-family: var(--ds-font-mono); white-space: nowrap; color: var(--text); }
+.tb-name-main { font-size: var(--fs-headline); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.2; }
+.tb-name-sub { font-size: var(--fs-label); font-weight: 600; letter-spacing: 0.04em; color: var(--text-secondary); }
+.tb-name-sub a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.tb-name-sub a:hover { color: var(--cyan); }
+@media (max-width: 599px) { .tb-name-main { font-size: var(--fs-body); letter-spacing: 0.1em; } .tb-name-sub { display: none; } }
+.shnav .tb-name + .shnav-menu { margin-left: 0; }
 .tb-frame { border: 1px solid var(--border); border-radius: var(--ds-r-md); background: var(--bg); }
 .tb-head { position: sticky; top: 0; z-index: 20; border-radius: var(--ds-r-md) var(--ds-r-md) 0 0; }
 .tb-meta { margin: 0; display: flex; flex-wrap: wrap; gap: 2px 22px; padding: 8px 20px; background: var(--surface-2); border-bottom: 1px solid var(--border);
@@ -139,7 +147,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .ftile-fig { font-family: var(--ds-font-mono); color: var(--cyan); letter-spacing: -0.01em; }
 .ftile-lab { font-family: var(--ds-font-mono); letter-spacing: 0.1em; color: var(--text-secondary); }
 /* byline: the author's name under the claim, so the page reads as a person, not a vendor */
-.tb-byline { margin: -18px 0 18px; font-family: var(--ds-font-mono); font-size: var(--fs-body); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); }
+.tb-byline { margin: 4px 0 24px; font-family: var(--ds-font-mono); font-size: var(--fs-body); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); }
 /* four fact tiles sit 2x2 on a phone so the first screen reaches the ledger */
 @container (min-width: 18rem) { .ftiles.is-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container (min-width: 54rem) { .ftiles.is-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
@@ -149,3 +157,20 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .unit .callout { max-width: none; }
 /* seam (2026-11-10): this file ended in a truncated '@media (prefers-reduced-motion) { @media print {' since it was created, which swallowed any rule added after it. Closed here as the reduced-motion rule it was meant to be. */
 @media (prefers-reduced-motion: reduce) { .tb-fold-btn::before, .stacked .seat-btn::before { transition: none; } }
+
+/* the "More recommendations" link clears the 24px touch-target floor (page_gate phone warning) */
+.sb-src a { display: inline-block; padding: 6px 0; }
+
+/* receipt card (2026-11-12): the page's proof object, one real dated call above the tiles.
+   Judgment, so gold; a dashed rule reads as a perforated ticket, not decoration. */
+.rcpt { margin: 8px 0 12px; padding: 20px 24px; border: 1px solid var(--gold); border-radius: var(--ds-r-sm); background: var(--gold-bg); }
+.rcpt-meta { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0 0 12px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; color: var(--text-secondary); }
+.rcpt-meta span:first-child { color: var(--gold); }
+.rcpt-claim { margin: 0; font-size: var(--fs-headline); line-height: 1.4; font-weight: 500; color: var(--text); }
+.rcpt-odds { display: block; margin-bottom: 4px; font-size: var(--fs-display); line-height: 1.1; font-weight: 600; color: var(--text); }
+.rcpt-rows { display: grid; grid-template-columns: max-content 1fr; gap: 8px 16px; margin: 16px 0 0; padding-top: 14px; border-top: 1px dashed var(--gold); font-size: var(--fs-body); }
+.rcpt-rows dt { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; color: var(--gold); padding-top: 3px; }
+.rcpt-rows dd { margin: 0; color: var(--text); }
+.rcpt-ask { margin: 0 0 12px; font-size: var(--fs-headline); line-height: 1.45; color: var(--text); }
+.rcpt-mail { display: inline-block; padding: 4px 0; font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--cyan); }
+@media (max-width: 520px) { .rcpt { padding: 16px; } .rcpt-rows { grid-template-columns: 1fr; gap: 2px; } .rcpt-rows dd { margin-bottom: 8px; } }

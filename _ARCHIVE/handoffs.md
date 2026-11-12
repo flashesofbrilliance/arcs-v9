@@ -1,3 +1,297 @@
+# Handoff — v3.145.0 (2026-11-12)
+
+## Goal / true north
+Weld the war-room recoil report and the recoil-skim page into one standalone composable call service: call in, decompose, five verbs, deconstruct, ADR-060 hypercube, atlas v2, HUD flight with time scrub and kairos.
+
+## What changed
+- PR 2166 merged (101eeb1c): R8 J4 hypercube index and explorer; receipt 2026-11-12--recoil-hypercube-index-pr2166--ZH (approval relayed from the parent session: Zach, "lets merge those", for 2164, 2165, 2166).
+- PR 2164 merged (b6485191): R5 component set; receipt 2026-11-12--recoil-component-set-pr2164--ZH.
+- PR 2165 merged (2560d09b): R9 atlas v2 schema and J5 export; receipt 2026-11-12--atlas-v2-schema-export-pr2165--ZH.
+- Backlog trued up in this sweep's PR: R5, R7, R8, R9, R10 DONE with sha and receipt; R6 and R11 READY.
+- Spec gained §9 Status (merged list, critical path, open §8 questions).
+
+## Current state
+- Epic recoil-call-service: R1 to R5 and R7 to R10 DONE. R6 recoil-print-target READY, R11 hud-atlas-v2-flight READY, R12 recoil-brian-acceptance HOLDING on R6 and R11.
+- All 15 epic PRs checked with gh pr view: every one merged except PR 2149 (allowlist, open).
+- Every merged epic PR has a decision receipt in public.decision_receipt.
+- Child sessions R1, R2, R3, R4, R5, R7, R9, R10 and the fg4 sweep are idle with their PRs merged; R8 is merged too. None archived.
+
+## Decisions made
+- Backlog edits waited until 2166 merged, since R8's branch carried its own row.
+- R8 resolved its main merge with the handoff-molt-guard override ARCS_ALLOW_DIRECT_HANDOFF=1 on the merge commit only, after checking CLAUDE.md, _ARCHIVE/handoffs.md and _SEEDS/_oracle.json were byte-identical to main; recorded as unconfirmed in the receipt.
+
+## Open decisions (waiting on Zach)
+1. Zach: spec §8 questions 1 to 5 (720 degrees, PDF palette, counterpart twin, §6.3 hard-stop list, PII on the live Brian artifact). Question 1 gates R11, question 2 gates R6.
+2. Zach: start R6 and R11 session cards, or hold.
+3. Zach: archive the idle child sessions (R1, R2, R3, R4, R5, R7, R8, R9, R10, fg4 sweep) or keep them.
+4. Zach: merge PR 2149 (allowlist).
+5. Zach: start or dismiss the backlog-cards skill card (task_7114301a) and the parent's "Merge train, night-moves and dream catch-up" card (offered, never started).
+
+## Open (other)
+1. READY row backlog-merge-driver-by-id would end the induced-backlog.jsonl conflict class seen on nearly every epic PR.
+2. handoff-molt-guard should skip merge commits whose CLAUDE.md equals the merged parent (R8 finding).
+3. Kit gap: no .chip.magenta in kit 28; needs a kit release (R5 finding). R3's DOC_EXTRA folds into _tokens.css at the same release.
+4. R12 needs an SSOT for the Brian call; caching the Granola transcript would let J1 read real turns (R5, R7 findings).
+
+## Next action
+Zach answers §8 questions 1 and 2, then starts the R6 and R11 session cards.
+
+## Cold-start recipe
+- _PROPOSALS/2026-11-11-recoil-call-service-arc-weld.md §7, §8, §9.
+- python3 scripts/backlog_status_check.py --check; python3 scripts/backlog_graph.py --top 30.
+- Hand-over notes per row: ~/Library/Application Support/Claude/side-session-notes/local_dfd22ff0-bc9a-47ce-bc38-d897e249ad24/R*.md.
+- Merge with scripts/safe_merge.sh <pr> <head>; one decision_receipt per merge (job_id job:backlog:<row>, tool_id tool:script:safe_merge.sh).
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: Shavasana
+> - **Exhale** (what went out): 1 commits, 0 merges to main (scope: branch claude/recoil-sweep-molt-ee9c62), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 1 unconfirmed markers in the day's records.
+> - **Breath balance**: manifesto (exhale, no inhale).
+> - **Sycophancy check**: agreement 12 / dissent 1 (ratio 6.0) → THIN: high agreement, little dissent.
+> - **Cold re-read (canary on the draft frag.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+> _This block asserts nothing new. Counts, paths, and questions only._
+>
+> - Attachment release: merges, shas and receipt ids were checked here with gh and SQL; R8's override and self-test claims are labelled as R8's report. Sycophancy THIN; dissent on record: backlog edits deferred until 2166 merged instead of editing in parallel. Somatic: not asked. Disposition: release.
+
+> Molted from `_HANDOFFS/fragments/20261112T150139Z--claude-recoil-sweep-molt-ee9c62.md` (branch `claude/recoil-sweep-molt-ee9c62`).
+
+---
+
+# Handoff — v3.144.0 (2026-11-12)
+
+> ### Shavasana — handoff pause, 2026-11-12 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+>
+> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-recoil-call-service), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 1 unconfirmed markers in the day's records.
+> - **Breath balance**: breathing (both directions).
+> - **Sycophancy check**: agreement 14 / dissent 1 (ratio 7.0) → THIN: high agreement, little dissent.
+> - **Cold re-read (canary on the draft frag.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+>
+> _This block asserts nothing new. Counts, paths, and questions only._
+>
+> - Attachment release: merges, shas and receipt ids are checked here; R3, R7 and R9 claims are labelled as those sessions' reports. Sycophancy THIN; dissent on record: merged 2154 out of the approved order and said so, and flagged R3's self-merging PR against the safe_merge rule. Somatic: not asked. Disposition: release.
+>
+> > Recoil call service session, 2026-11-11 to 11-12: PDF print fix, arc-weld spec and induced backlog, then a merge train of 8 child PRs.
+
+## Goal / true north
+Weld the war-room recoil report and the recoil-skim page into one standalone composable call service: call in, decompose, five verbs, deconstruct, ADR-060 hypercube, atlas v2, HUD flight with time scrub and kairos.
+
+## What changed
+- PR 2145 merged (50e8b80e): recoil PDF print clean (site chrome data-print="hide", page breaks) and module order (Where it stands first, method in lifecycle order); prod READY at 50e8b80e; receipt 2026-11-12--recoil-pdf-print-order-pr2145--ZH.
+- PR 2146 merged (a09381ca): spec _PROPOSALS/2026-11-11-recoil-call-service-arc-weld.md plus 13 backlog rows (epic recoil-call-service, R0 to R12); receipt 2026-11-12--recoil-call-service-spec-pr2146--ZH.
+- PR 2150 merged (ac7ab355): R1 kit reconcile; receipt 2026-11-12--recoil-kit-reconcile-pr2150--ZH.
+- PR 2151 merged (d568e4f2): R2 SSOT v2 schema and v1 adapter; receipt 2026-11-12--recoil-ssot-v2-schema-pr2151--ZH.
+- PR 2154 merged (b3196ff8): R4 stage runner scripts/recoil_service.py; receipt 2026-11-12--recoil-service-cli-pr2154--ZH.
+- PR 2155 merged (e157c8c9) by the R3 session: token unify; its receipt 2026-11-12--recoil-token-unify-pr2155--ZH; PR 2159 set its row DONE (2df12a52); PR 2161 (fg4 sweep) merged per the R3 session's report.
+- PR 2158 merged (36d18b25): R7 J1 to J3; receipt 2026-11-12--recoil-decompose-verbs-pr2158--ZH.
+- PR 2152 merged (af08123b): R10 forecast base rates; receipt 2026-11-12--forecast-base-rates-pr2152--ZH.
+- PR 2149 open: allowlist impeccable context and Apple Notes reads (fewer-permission-prompts).
+
+## Current state
+- PR 2164 (R5 component set) open, all checks SUCCESS, MERGEABLE CLEAN; not merged (head per gh pr view 2164).
+- PR 2165 (R9 atlas v2 schema, J5) open; CI was running at the R9 session's last report; loader not opened in a browser.
+- R8 hypercube index session (local_d5cf3d9b) still working, no PR yet.
+- Card proposed, not started: backlog rows to session cards skill (task_7114301a).
+- Backlog rows still RUNNING on main though merged: recoil-ssot-v2-schema, recoil-service-cli (R7 PR 2158 flipped them per its report, unverified here), forecast-base-rates (R8 brief flips it), recoil-kit-reconcile (R5 PR 2164 flips it).
+
+## Decisions made
+- Zach: merge 2145 and 2146; then "go ahead" on 2150, 2151, 2155, 2154; then "Yes, merge both" on 2158 and 2152.
+- 2154 merged before 2155 (out of the approved order) because 2155 was red and 2154 does not depend on it; noted in its receipt.
+- The lite page's generating prompt is not on this machine; its own Glass box is the only record (cited in spec §1).
+
+## Open decisions (waiting on Zach)
+None.
+
+## Open (other)
+1. Merge PR 2164 (R5) and PR 2165 (R9) once green.
+2. Spec §8: meaning of 720 degrees, PDF palette, counterpart twin, autopilot hard-stop list, PII on the live Brian artifact (personal email and a sensitive fact behind the link only).
+3. Start or dismiss the backlog-cards skill card.
+4. Merge PR 2149 (allowlist).
+5. _QUEUE/induced-backlog.jsonl conflicted on nearly every PR this session (at least 6 merges of main into branches); a per-row file or a union merge rule would remove the class.
+6. Unstarted rows: R6 print target (after 2164), R11 HUD flight (after 2165), R12 Brian acceptance (after R5, R6, R8, R11).
+
+## Next action
+Zach gives or withholds the merge go on PR 2164 and PR 2165.
+
+## Cold-start recipe
+- Read the spec _PROPOSALS/2026-11-11-recoil-call-service-arc-weld.md §7 (row graph) and §8.
+- gh pr view 2164; gh pr view 2165; python3 scripts/backlog_status_check.py --check.
+- Merge with scripts/safe_merge.sh <pr> <head>; file one decision_receipt per merge (job_id job:backlog:<row>, tool_id tool:script:safe_merge.sh).
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261112T144547Z--claude-handoff-recoil-call-service.md` (branch `claude/handoff-recoil-call-service`, head `581cf0f6`).
+
+---
+
+# Handoff — v3.143.0 (2026-11-10)
+
+> ### Shavasana — handoff pause, 2026-11-08 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+>
+> - **Exhale** (what went out): 1 commits, 1 merges to main (scope: branch claude/allowlist-read-only-batch), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 1 unconfirmed markers in the day's records.
+> - **Breath balance**: manifesto (exhale, no inhale).
+> - **Sycophancy check**: agreement 7 / dissent 1 (ratio 3.5) → OK: dissent present.
+> - **Cold re-read (canary on the draft handoff-frag.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+>
+> _This block asserts nothing new. Counts, paths, and questions only._
+>
+> - Attachment release: every claim cites a PR, merge sha, receipt id or file; kept. "Production deploy not checked" stays unconfirmed. Somatic: not asked. Disposition: release.
+>
+> > Louisville proposal session, 2026-11-06 to 11-08: the build pipeline and PDF gate landed, the PDF was redesigned from the page's own parts, and the page was rewritten audit-first with a give/get time trade. Plus side work: a plain-verb /catalog table, backlog routing at induction, a sanity-check agent, an allowlist batch, and the main checkout moved onto origin/main.
+>
+> > Rebuilt good.arcs.care/rfp-engine from verbatim UI kit blocks with earned-fidelity rendering, merged as PR 2110, live and receipted.
+>
+> ### Shavasana — handoff pause, 2026-11-10 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+>
+> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/rfp-engine-handoff), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
+> - **Breath balance**: breathing (both directions).
+> - **Sycophancy check**: agreement 2 / dissent 0 (ratio 2.0) → OK: dissent present.
+> - **Cold re-read (canary on the draft frag.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+>
+> _This block asserts nothing new. Counts, paths, and questions only._
+>
+> - Attachment release: every claim cites a PR, sha, path or receipt id; the light-mode claim is held to "headless screenshot at 1280 only". Somatic: not asked. Disposition: release.
+>
+> > My Ally hub polish and docs restyle, the permission allowlist, then orchestration of the Gravity (Harrison Wright) brief through review and merge, 2026-11-06 to 2026-11-10.
+>
+> ### Shavasana — handoff pause, 2026-11-10 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+>
+> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-myally-gravity-2026-11-10), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
+> - **Breath balance**: breathing (both directions).
+> - **Sycophancy check**: agreement 8 / dissent 0 (ratio 8.0) → RETURN: agreement with no dissent on record.
+> - **Cold re-read (canary on the draft frag.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+>
+> _This block asserts nothing new. Counts, paths, and questions only._
+>
+> - Attachment release: the sycophancy check returned RETURN (no dissent marker in the day's records). Dissent did happen and is recorded here: I corrected Zach's reading of the Bull vs Bear rows (the bull row is transaction counts, not cost; Allium is a volume filter, not a trend signal), and PR 2115 kept three parts over Grug's cut. Two claims are held as the owner session's report, not checked by me: PR 2120's gates, and Zach's approval of the four rows. Somatic: not asked. Disposition: release, with RETURN noted.
+
+## Goal / true north
+Get the My Ally Step 1 agreement and hub in front of the founders, and get the Gravity Labs brief to a reviewed, merged state Zach can send.
+
+## What changed
+- #1891 free repo check at good.arcs.care/audit/check (receipt 2026-10-31--audit-check-pr1891--ZH)
+- #1896 audit report generator, cold-1 as the first sample (receipt 2026-10-31--audit-report-gen-pr1896--ZH)
+- #1898 /audit and /audit/check re-poured onto current kit tokens; 3 design waivers deleted (receipt 2026-11-01--audit-kit-converge-pr1898--ZH)
+- #1900 RFP engine card on the good.arcs.care index (receipt 2026-11-01--good-index-rfp-pr1900--ZH)
+- #1902 NFTT post "!Hot-Fix to The Idempotent Fix" (receipt 2026-11-01--nftt-idempotent-fix-pr1902--ZH)
+- #1904 cold-1 report through two counterpart gauntlets and a grug pass (receipt 2026-11-01--audit-report-gauntlets-pr1904--ZH)
+- #1907 HUD ripples labelled "roadmap waypoints, not data"; merged over a stuck fe-smoke on Zach's go (receipt 2026-11-01--hud-ripples-label-pr1907--ZH)
+- fbc2920d universe snapshot refresh, history epoch 1 as of 286a9dad (receipt 2026-11-01--universe-snapshot-refresh-epoch1--ZH)
+- #1911 WORLD.md "THE HUD" section (route-finding, three layers); merged by another session with its own receipt
+- Sessions started from here merged #1903, #1905, #1909 (kit pull), #1912 (HUD widget registry), #1913, #1914, #1916 (gate hygiene), #1919, #1920 (flight manual), each with its own receipt per their reports
+- #2054 merged (`b0609c04`): `scripts/proposal_build.py` and the PDF checks in `page_gate.py`; receipt 2026-11-06--proposal-build-pipeline-pr2054--ZH
+- #2062 merged (`6e12621e`): PDF redesign (cover with contents line, running header and footer, numbered sections); receipt 2026-11-08--louisville-pdf-design-pr2062--ZH
+- #2064 merged (`ed76a041`): the three-part rule planted, then echoed on the RFP engine card; receipt 2026-11-08--louisville-rfp-tie-in-pr2064--ZH
+- #2069 merged (`ca47d910`): give/get grid, trimmed list, H2 sections, audit-first rewrite through two decisions; receipt 2026-11-08--louisville-audit-first-give-get-pr2069--ZH
+- #2082 merged (`d4d064cc`): read-only allowlist batch; receipt 2026-11-08--allowlist-read-only-batch-pr2082--ZH (job_id NULL, no backlog row)
+- Child sessions: #2065 /catalog plain-verb table (`0807af01`), #2067 backlog rows need a route and a trigger (`b66b5bce`), #2079 sanity-check agent (`64796b29`), #2083 sanity-check sample 1 (`c37e0334`); each filed its own receipt.
+- The main checkout was moved to detached origin/main (`d4d064cc`). Its four edits are saved on local branch `backup/main-checkout-wip-2026-11-08`.
+- PR 2110 merged (`2d877499`, head `bdce89e6`); receipt 2026-11-10--rfp-engine-kit-rebuild-pr2110--ZH (job:backlog:rfp-engine-public-good, tool:script:safe_merge.sh).
+- `public/good-rfp-engine.html` now carries kit blocks 27 section-label, 30 button, 37 fidelity, 39 theme, 45 fact-tile and 51 display preferences, plus the generated grammar-chip CSS; tool swatch moved to steel `#3d6a9e` (plan C).
+- `.impeccable/config.json`: four one-file waivers for kit-origin findings on this page; seam booked in `_PATTERNS/kintsugi-visual-grammar-seams.md`.
+- `_QUEUE/induced-backlog.jsonl`: anthropic-spend-monitor resolve_by moved 2026-11-09 to 2026-11-16 (Zach), which had failed jtbd-graph --check for every commit.
+- PRs 2087, 2101 (My Ally hub polish), 2103 (fewer-permission-prompts allowlist) and 2104 (classname_guard kit CSS) merged; prod READY at 4b1e9f83; a receipt for each.
+- Word file and Google Doc restyled to match the PDF (same Doc link).
+- Gravity: PR 2074 merged (9619bf1d); gravity.arcs.care live behind GRAVITY_PASSCODE. PR 2114 merged (6ea9b0bb, proof-of-judgment rework, two review rounds). PR 2117 merged (byline, dated forecast). PR 2115 merged (65311f6b, token tuner: breakpoint, wrap, rhythm and in-place text edit with a JSON patch).
+- Bull vs Bear rebuild brief sent to the Harrison session (local_9625ee21) on Zach's "Yes, send it"; result is PR 2120.
+
+## Current state
+- PR 2120 (signal-ledger kit part, four approved rows, four real recommendation quotes in the hero) is open and MERGEABLE, gates reported passing by its owner session; not merged.
+- PR 2073 (Wright recoil close + findings) is open and MERGEABLE; the war-room report renders only after it merges.
+- The war room has no password: /warroom/[slug]/recoil is Auth.js sign-in plus ADMIN_EMAILS; RECOIL_PASSWORD is retired.
+- The page editor works on tabbed-brief pages only (Gravity's five): `scripts/tabbed_brief_build.py --tune OUT.html`, then `?tune` or `?edit`, Copy JSON, `--apply PATCH.json`. Other single-file pages get sliders only via `scripts/token_tuner_inline.py`.
+- Louisville: louisville.arcs.care/proposal serves "A checkup on your AI build" (PR 2119, curl-checked). Row brooks-audit-proposal-send is HOLDING on Jeben's review; Zach sends.
+
+## Decisions made
+- Zach: drop the repo-alias claim on the cold-1 report.
+- Zach: the HUD's shared mental model is "the clearest, safest approach to a destination", loading terrain, route and time (belief change).
+- Zach: refresh the universe snapshot; ratify the 2-of-3 cold-read threshold.
+- Zach: merge #1907 over the stuck fe-smoke check; hold #1917.
+- Positioning frame: "cold start problem / cold read problem", one problem from two sides; receipts solve both.
+- Zach: audit first. Adobo is one example decision, not the subject, because leading with it read as a disconnect from his ask.
+- Zach: two decisions, one technical and one business ("decisions, not phone calls").
+- Zach: no Justin session and no security session in the give list; the optional call is staffed by Brooks.
+- Zach: keep 50/50 for Brooks. Default terms by size: about $2K or under 100% up front, larger fixed fee 50/50, multi-month monthly.
+- Zach: no tiers or second lane on the page until a receipt exists (the Jeben-era tiers stay air-gapped).
+- myAlly asks typed here by mistake went to the Sync MyAlly hub session (PR 2059 owner).
+- Zach: keep OS-following light/dark rather than pinning dark.
+- Zach: move the expired resolve_by to 2026-11-16 rather than skip the hook.
+- The chip block's internal sentinel comment was removed from the public copy (J24 leak check), not allowlisted; nothing reads it on the page.
+- Zach: approved all four candidate Bull vs Bear rows (cost per payment, AML/KYC blind spot, Put beside the Call, reading errors), per the owner session's report.
+- One owner per PR branch: the Harrison session owns 2073, 2117 and 2120; this session only briefed it.
+
+## Open decisions (waiting on Zach)
+1. Zach: grade the s5 blind-judging sheet, runtime/specs/jtbd-s5-quality/JUDGE.md.
+2. Zach: read and approve the DRAFT abort and rollback on backlog row agent-receipts-audit-first-conversion (releases 4 rows; conviction 75 given).
+3. Zach: accept or reject ADR-090, ADR-091, ADR-092 (PROPOSED).
+4. Zach: #1917 hold, trim to sourced gauges, or keep.
+5. Zach: send Brooks the link, with the passcode in a separate message; delete stale Gmail drafts.
+6. Zach: file the ex-ante receipt at send, scope line "two decisions, $5K, no tiers until a receipt".
+7. Zach: check the live gated page and PDF after deploy.
+8. Zach: cold-read header (Why, What, Why now, How, How to read) is not applied to tool-getting-started pages; a template-level decision.
+9. Zach: merge PR 2120 and PR 2073 (say it in the Harrison session, which owns them).
+10. Zach: confirm Jeben's review of the Brooks proposal, then send it himself.
+11. Zach: send the Harrison note himself; then mark row gravity-eir-candidate-brief DONE.
+
+## Open (other)
+1. Repo cold read to hardened README to video session is running; it stops for Zach after the README PR and before any paid voice or upload.
+2. Approvals ledger gap: a merge (#1912) landed when its session reported none, and a child session cited a mount approval not given in the parent. The flight manual's ledger script now lists approvals; enforcing the cruise agent's no-merge limit is still open (#1922).
+3. Reading Room digests have not been re-graded since 2026-09; 19 of 20 slices dirty; nothing regenerates them.
+4. No canon file maps public surfaces to roles and on and off ramps.
+5. Sanity-check agent has 1 of 3 fresh samples; run it before any future proposal polish round.
+6. Open backlog rows from the verb table: decompose-page-atomic-params, catalog-verb-table-drift-check.
+7. Kit file 45 fact-tile label is .75rem, off the type ramp; fix in the kit file, then drop the font-size waiver.
+8. The video facade on this page is a candidate kit primitive.
+9. Copying the grammar chip block onto a public page needs its sentinel stripped; no build step does this yet.
+10. My Ally discovery is over its cap (33.6 to 45.9 h unpaid vs a 10 h cap, sentry finding): a choice to make on purpose.
+11. Optional: wire the editor onto My Ally and Louisville (needs the tabbed-brief data build for text editing).
+
+## Next action
+Zach reviews PR 2120 in the Harrison session and gives or withholds the merge go.
+
+## Cold-start recipe
+- Read PR 2120 and PR 2073 descriptions; `gh pr view 2120`.
+- Editor how-to: PR 2115 description.
+- Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection).
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: Lessons
+- Fix the mold, not the cast: a hand edit to a generated page is refused; edit the generator or its data.
+- A stale status note on a DONE row misled this session into reporting a ruling as pending; read the state field, not the prose.
+- Pages that inline an old token copy fall back to browser defaults with no error, and the design detector still scores them 0; check a re-tokened page in a real browser.
+- Relayed approvals must be quoted verbatim and labelled relayed in the receipt.
+
+### Notes: Shavasana
+- Exhale and inhale as printed by scripts/shavasana_handoff.py on this draft: canary GROUNDED, no ground return none, thin air none.
+- Sycophancy check: THIN (agreement 10, dissent 1). Dissent on record this session: refused "100% reconstructable" for a 5,000-commit repo; corrected "ziggurat as the altitude axis" after the moire audit's network finding; retracted the nested-doll load-in object and flocking as new work once prior art was read; recommended holding #1917 over Zach's earlier yes.
+- Attachment release: merges by other sessions are stated "per their reports"; #1915, #1921, #1922, #1923 are listed as not confirmed here.
+- Somatic: not asked.
+- Disposition: release.
+
+> Molted from `_HANDOFFS/fragments/20261101T051357Z--claude-handoff-audit-hud-night.md` (branch `claude/handoff-audit-hud-night`, head `9d596480`); `_HANDOFFS/fragments/20261109T040317Z--claude-handoff-louisville-2026-11-08.md` (branch `claude/handoff-louisville-2026-11-08`, head `d4d064cc`); `_HANDOFFS/fragments/20261110T142439Z--claude-rfp-engine-handoff.md` (branch `claude/rfp-engine-handoff`, head `2d877499`); `_HANDOFFS/fragments/20261110T172255Z--claude-handoff-myally-gravity-2026-11-10.md` (branch `claude/handoff-myally-gravity-2026-11-10`, head `e4784510`).
+
+---
+
 # Handoff — v3.142.0 (2026-10-28)
 
 > > Monday FDE arc (2026-10-20 to 2026-10-27): handoff provenance bench, walkthrough prep, the 2026-10-26 panel walkthrough and recoil close, and the follow-up guide at monday.arcs.care (nav click events, rc46 ZIP hosted behind the gate).

@@ -42,6 +42,14 @@
       },
       "description": "Day marks for every plan on the page, for example [30, 90, 180]."
     },
+    "masthead": {
+      "type": "string",
+      "description": "Optional: the author's name, set large at the right end of the tab row; it replaces the meta strip's From line. Use it instead of overview.byline, not both."
+    },
+    "masthead_sub": {
+      "type": "string",
+      "description": "Optional: one small line under the masthead name, for handles or links (markdown links allowed). Hidden on phones."
+    },
     "top_line": {
       "type": "string",
       "description": "Optional: a Private chip and one line on who it is for and how it was shared. Leave it out when the meta strip says enough."
@@ -236,6 +244,17 @@
         "bites_still": {
           "type": "boolean",
           "description": "Optional: show the sound bite whole, with no typing and no timer (one focal point in the hero)."
+        },
+        "receipt": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "written", "resolves", "claim", "kill", "status"],
+          "description": "Optional: one real dated call shown as a receipt card above the tiles, the page's proof object. ask and ask_href put the next step under it.",
+          "properties": {
+            "kind": {"type": "string"}, "written": {"type": "string"}, "resolves": {"type": "string"},
+            "odds": {"type": "string"}, "claim": {"type": "string"}, "kill": {"type": "string"}, "status": {"type": "string"}, "last": {"type": "string"},
+            "ask": {"type": "string"}, "ask_href": {"type": "string"}, "ask_label": {"type": "string"}
+          }
         },
         "bites_at": {
           "enum": ["hero", "end"],

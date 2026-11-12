@@ -10,6 +10,8 @@ const SUBDOMAIN_MAP: Record<string, string> = {
   'honest':       '/honest.html',
   // dj.arcs.care: Phosphor, the family audio instrument. Static, built from _ARTIFACTS/phosphor-src by scripts/phosphor_build.py; noindex.
   'dj':           '/dj.html',
+  // downshift.arcs.care: post-call debrief for Brian K. Smith (downshift.eth), call of 2026-11-11, with the full raw call transcript (search + .md download) Zach promised on the call. OPEN (ungated) by Zach's call 2026-11-12; noindex via the page meta. Source: the recoil build (counterpart scope); remove on Brian's request.
+  'downshift':    '/downshift.html',
   // NOTE: 'recruithaus' is handled explicitly below (it has a gated /ammo
   // sub-surface), so it is intentionally NOT in this simple one-to-one map.
 }
@@ -69,7 +71,7 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // dioptra.arcs.care: candidate brief for the Dioptra Staff PM role (2026-10-29). Gated by DIOPTRA_PASSCODE; noindex. /work-sample.zip maps to a /dioptra-brief-* file, which the prefix gate locks on every host.
   'dioptra':   { '/work-sample.zip': '/dioptra-brief-sample.zip', default: '/dioptra-brief.html' },
   // gravity.arcs.care: candidate positioning for the four open Gravity Labs roles, via Crossbridge Executive (2026-11-09). Gated by GRAVITY_PASSCODE; noindex.
-  'gravity':   { '/principal': '/gravity-brief-principal.html', '/eir': '/gravity-brief-eir.html', '/founder': '/gravity-brief-founder.html', '/open': '/gravity-brief-open.html', default: '/gravity-brief.html' },
+  'gravity':   { '/principal': '/gravity-brief-principal.html', '/eir': '/gravity-brief-eir.html', '/founder': '/gravity-brief-founder.html', '/open': '/gravity-brief-eir.html', default: '/gravity-brief.html' },
   'monday':    { '/monday-guide-rc46.zip': '/monday-guide-rc46.zip', default: '/monday-guide.html' },
   'success-academy': { '/resume': '/success-academy-resume-viewer.html', '/success-academy-resume.pdf': '/success-academy-resume.pdf', '/success-academy-resume-ats.txt': '/success-academy-resume-ats.txt', default: '/success-academy.html' },
   // squad.arcs.care — Squad (gosquad.ai) Product Engineer bundle (2026-09-24): OPEN (ungated), noindex. root = positioning brief + fit score (the thesis mirror aimed at founder Ignacio García León), /resume = print-ready HTML resume (technical cut, leadership scope kept), + ATS txt. Asset paths mapped to themselves so the default-page rewrite does not swallow the resume/txt.
