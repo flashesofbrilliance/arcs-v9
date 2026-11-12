@@ -1,0 +1,129 @@
+{
+ "number": "57",
+ "name": "Ledger Row",
+ "slug": "ledger-row",
+ "layer": "Molecule",
+ "job": "List keyed facts as rows, each with its chips, one line of evidence and its source, and show by fidelity which rows are proven, which are a reading, and which disagree with another record.",
+ "anatomy": [
+  {
+   "part": "Ledger",
+   "role": "The frame: surface, hairline border, rows separated by hairlines",
+   "token": "`surface`, `border`"
+  },
+  {
+   "part": "Key",
+   "role": "Mono, sentence case, at the label step; a left column from a 38rem container, above the body below it",
+   "token": "`text-secondary`"
+  },
+  {
+   "part": "Chips",
+   "role": "28 Chip row: owner and status in words; colour by its one meaning",
+   "token": "plain, `cyan`, `green`, `gold`, `red`"
+  },
+  {
+   "part": "Body",
+   "role": "One or two sentences of evidence",
+   "token": "`text`"
+  },
+  {
+   "part": "Source",
+   "role": "32 Evidence ref: timestamp, file or command the row rests on",
+   "token": "`dimmed`"
+  },
+  {
+   "part": "Fidelity",
+   "role": "37 classes on the row: `grain` for grade D or not scored (no motion), `moire` plus a magenta tint where two records disagree",
+   "token": "`magenta`, `magenta-bg`"
+  }
+ ],
+ "states": [
+  {
+   "name": "Plain",
+   "args": [
+    "plain",
+    "100%"
+   ],
+   "note": "A sourced row: key, chips, body, source."
+  },
+  {
+   "name": "Grain",
+   "args": [
+    "grain",
+    "100%"
+   ],
+   "note": "A grade D reading or an unscored forecast: lighter weight and the grain texture, with its sample size in the body."
+  },
+  {
+   "name": "Moire",
+   "args": [
+    "moire",
+    "100%"
+   ],
+   "note": "Two records disagree (the transcript and a summary): magenta tint and key."
+  },
+  {
+   "name": "Phone width",
+   "args": [
+    "plain",
+    "20rem"
+   ],
+   "note": "Below 38rem the key sits above the body; left edges line up."
+  }
+ ],
+ "use_when": [
+  "Facts that share a shape (commitments, forecasts, readings) and each need an owner, a status and a source.",
+  "A short skim table at the top of a page, one row a section, each linking to its fold."
+ ],
+ "avoid_when": [
+  "Do not render a grade D forecast as a bar; it is a grain row with `n = k` in its body.",
+  "Do not use green for a reading or red for a parked idea. Colour has one meaning across the kit (arc weld spec 4.3): red a failed check, gold a limit, green proven, cyan an action or focus, plain (steel) unknown, magenta a paradox.",
+  "Do not use it for a comparison across many columns; that is a table."
+ ],
+ "data": [
+  {
+   "field": "rows[]",
+   "type": "{key, chips[], body, ref, state}",
+   "required": true,
+   "note": "`state` is `plain`, `grain` or `moire`; `chips[]` are `{label, tone}`."
+  }
+ ],
+ "access": [
+  "Rows are plain block elements in source order; the key comes first, so a screen reader reads key, chips, body, source.",
+  "Fidelity never hides text: grain lowers weight and adds texture at full opacity; moire adds a tint and keeps the chip text.",
+  "The grid uses `minmax(0, 1fr)` and rem sizes, so large text wraps inside the row."
+ ],
+ "built_from": [
+  {
+   "name": "Kit tokens (atoms)",
+   "href": "_tokens.css"
+  },
+  {
+   "name": "28 Chip",
+   "href": "28-chip.html"
+  },
+  {
+   "name": "32 Evidence ref",
+   "href": "32-evidence-ref.html"
+  },
+  {
+   "name": "37 Fidelity grain",
+   "href": "37-fidelity-grain.html"
+  }
+ ],
+ "used_by": [
+  {
+   "name": "Recoil: Zach x Brian, 2026-11-11 (_ARTIFACTS/recoil-brian-2026-11-11.html), template recoil-skim"
+  }
+ ],
+ "gates": [
+  "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+  "`kit_primitive_sync.py --check`: every page that marks this block carries it line for line.",
+  "`artifact_wrap_lint.py` and `page_gate.py` on every page that carries it; sweep 360 to 1440, including 700 to 1000."
+ ],
+ "links": [
+  "_tokens-light.css",
+  "_kit-sr.css"
+ ],
+ "css": ":root { --fs-label: 0.75rem; --fs-body: 0.9375rem; } /* recoil-skim steps: label 12px, body 15px (arc weld spec 4.3); move into _tokens.css with recoil-token-unify */\n/* composed with, from 28-chip, 32-evidence-ref and 37-fidelity-grain */\n.chip { display: inline-flex; align-items: center; gap: 6px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: var(--ds-r-pill); border: 1px solid var(--border); color: var(--text-secondary); }\n.chip.cyan { color: var(--cyan); border-color: var(--cyan); background: var(--cyan-bg); }\n.chip.green { color: var(--green); border-color: var(--green); background: var(--green-bg); }\n.chip.gold { color: var(--gold); border-color: var(--gold); background: var(--gold-bg); }\n.chip.red { color: var(--red); border-color: var(--red); background: var(--red-bg); }\n.ref { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--dimmed); }\n.grain { font-weight: 300; letter-spacing: 0.02em; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E\"); }\n.moire { font-weight: 300; letter-spacing: 0.03em; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.02 0.6' numOctaves='1'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E\"); }\n/* @prim:begin 57-ledger-row */\n.ledger { container-type: inline-size; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-sm); overflow: hidden; }\n.ledger-row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px 16px; padding: 12px 16px; border-top: 1px solid var(--border); }\n.ledger-row:first-child { border-top: 0; }\n.lr-key { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.02em; line-height: 1.5; color: var(--text-secondary); }\n.lr-body { display: flex; flex-direction: column; gap: 8px; min-width: 0; color: var(--text); }\n.lr-chips { display: flex; flex-wrap: wrap; gap: 8px; }\n.ledger-row.moire { background-color: var(--magenta-bg); }\n.ledger-row.moire .lr-key { color: var(--magenta); }\n@container (min-width: 38rem) { .ledger-row { grid-template-columns: minmax(8rem, 22%) minmax(0, 1fr); } }\n/* @prim:end 57-ledger-row */\n",
+ "demo": "function kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar LR={plain:['Share the transcript',[['Zach',''],['Open','']],'Offered at the start so he would not need notes.','S1 [5:05]'],grain:['Times by Fri 11-13',[['Grade D',''],['n = 0','']],'60%, a judgment with no base rate yet.','No base rate'],moire:['Times for next week',[['Brian',''],['Summary wrong','']],'He asked to schedule; the summary assigned it to Zach.','S1 [83:01]']};\nfunction kitLedgerRow(r,state){return '<div class=\"ledger-row'+(state&&state!=='plain'?' '+state:'')+'\"><div class=\"lr-key\">'+kEsc(r[0])+'</div><div class=\"lr-body\"><div class=\"lr-chips\">'+r[1].map(function(c){return '<span class=\"chip'+(c[1]?' '+c[1]:'')+'\">'+kEsc(c[0])+'</span>'}).join('')+'</div><span>'+kEsc(r[2])+'</span><span class=\"ref\">'+kEsc(r[3])+'</span></div></div>'}\nfunction kitLedger(host,rows){var w=document.createElement('div');w.className='ledger';w.innerHTML=rows.map(function(x){return kitLedgerRow(LR[x],x)}).join('');host.appendChild(w);return w}\nkitLedger(kSlot(),['plain','grain','moire']);\nSTATES.forEach(function(a,i){var b=document.createElement('div');b.style.maxWidth=a[1];kSlot(i).appendChild(b);kitLedger(b,[a[0]])});"
+}

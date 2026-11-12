@@ -1,0 +1,99 @@
+{
+ "number": "62",
+ "name": "Attributed Notes",
+ "slug": "attributed-notes",
+ "layer": "Organism",
+ "job": "Record what a counterpart said about themselves in panels, each line timestamped and marked as their words, with unverified figures rendered in grain.",
+ "anatomy": [
+  {
+   "part": "Panel",
+   "role": "Elevated card, one topic a panel; panels sit in an auto-fit grid of 18rem columns",
+   "token": "`elevated`, `border`"
+  },
+  {
+   "part": "Head",
+   "role": "Topic in mono caps (h3), and the source line: His words, unverified",
+   "token": "`text`, `text-secondary`"
+  },
+  {
+   "part": "Line",
+   "role": "A bold lead phrase, then the note in their words",
+   "token": "`text`, `text-secondary`"
+  },
+  {
+   "part": "Timestamp",
+   "role": "Where in the transcript, right aligned from a 22rem panel",
+   "token": "`text-secondary`, tabular figures"
+  },
+  {
+   "part": "Unverified figure",
+   "role": "37 `grain` on the line: a number they gave that nobody checked",
+   "token": "none"
+  }
+ ],
+ "states": [
+  {
+   "name": "Plain",
+   "args": [
+    false,
+    "100%"
+   ],
+   "note": "Their words, each with a timestamp."
+  },
+  {
+   "name": "Unverified figure",
+   "args": [
+    true,
+    "100%"
+   ],
+   "note": "A number they gave, in grain, labelled as theirs."
+  }
+ ],
+ "use_when": [
+  "Background a counterpart gave about themselves, kept apart from what was checked.",
+  "A recap where attribution matters: who said it, when."
+ ],
+ "avoid_when": [
+  "Do not put a sensitive personal fact in a note, even in their words; leave it out of the page.",
+  "Do not present an unverified figure in sharp type.",
+  "Do not mix the author's reading into a panel; that is 57 Ledger row."
+ ],
+ "data": [
+  {
+   "field": "panels[]",
+   "type": "{title, source, lines[]}",
+   "required": true,
+   "note": "`lines[]` are `{lead, text, at, unverified?}`."
+  }
+ ],
+ "access": [
+  "Each panel is a heading and a list, so a screen reader announces the topic and the count.",
+  "Unverified is said in words in the source line and in the text; grain repeats it."
+ ],
+ "built_from": [
+  {
+   "name": "Kit tokens (atoms)",
+   "href": "_tokens.css"
+  },
+  {
+   "name": "37 Fidelity grain",
+   "href": "37-fidelity-grain.html"
+  }
+ ],
+ "used_by": [
+  {
+   "name": "Recoil: Zach x Brian, 2026-11-11 (_ARTIFACTS/recoil-brian-2026-11-11.html), template recoil-skim"
+  }
+ ],
+ "gates": [
+  "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+  "`kit_primitive_sync.py --check`: every page that marks this block carries it line for line.",
+  "`artifact_wrap_lint.py` and `page_gate.py` on every page that carries it; sweep 360 to 1440, including 700 to 1000."
+ ],
+ "links": [
+  "_tokens-light.css",
+  "_kit-sr.css"
+ ],
+ "css": ":root { --fs-label: 0.75rem; --fs-body: 0.9375rem; } /* recoil-skim steps: label 12px, body 15px (arc weld spec 4.3); move into _tokens.css with recoil-token-unify */\n/* composed with, from 28-chip, 32-evidence-ref and 37-fidelity-grain */\n.chip { display: inline-flex; align-items: center; gap: 6px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: var(--ds-r-pill); border: 1px solid var(--border); color: var(--text-secondary); }\n.chip.cyan { color: var(--cyan); border-color: var(--cyan); background: var(--cyan-bg); }\n.chip.green { color: var(--green); border-color: var(--green); background: var(--green-bg); }\n.chip.gold { color: var(--gold); border-color: var(--gold); background: var(--gold-bg); }\n.chip.red { color: var(--red); border-color: var(--red); background: var(--red-bg); }\n.ref { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--dimmed); }\n.grain { font-weight: 300; letter-spacing: 0.02em; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E\"); }\n.moire { font-weight: 300; letter-spacing: 0.03em; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.02 0.6' numOctaves='1'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E\"); }\n/* @prim:begin 62-attributed-notes */\n.notes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 16px; }\n.note-panel { container-type: inline-size; background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-sm); padding: 16px; display: flex; flex-direction: column; gap: 12px; }\n.note-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; }\n.note-head h3 { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); }\n.note-src { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--text-secondary); }\n.note-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }\n.note-list li { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px 12px; color: var(--text-secondary); }\n.note-list b { color: var(--text); font-weight: 600; }\n.note-ts { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-variant-numeric: tabular-nums; color: var(--text-secondary); white-space: nowrap; }\n@container (min-width: 22rem) { .note-list li { grid-template-columns: minmax(0, 1fr) auto; } }\n/* @prim:end 62-attributed-notes */\n",
+ "demo": "function kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar AN=[['Belief','Distribution beats implementation now.','[22:36]',false],['Model','Co-op, open source, about $3 a month.','[23:34]',false],['Market figure','$100 million a year, his number, unverified.','[28:54]',true]];\nfunction kitNotes(host,lines){var w=document.createElement('div');w.className='notes-grid';w.innerHTML='<div class=\"note-panel\"><div class=\"note-head\"><h3>Campfire and music</h3><span class=\"note-src\">His words, unverified</span></div><ul class=\"note-list\">'+lines.map(function(l){return '<li'+(l[3]?' class=\"grain\"':'')+'><span><b>'+kEsc(l[0])+'.</b> '+kEsc(l[1])+'</span><span class=\"note-ts\">'+kEsc(l[2])+'</span></li>'}).join('')+'</ul></div>';host.appendChild(w);return w}\nkitNotes(kSlot(),AN);\nSTATES.forEach(function(a,i){var b=document.createElement('div');b.style.maxWidth=a[1];kSlot(i).appendChild(b);kitNotes(b,a[0]?[AN[2]]:AN.slice(0,2))});"
+}

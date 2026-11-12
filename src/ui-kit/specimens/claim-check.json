@@ -1,0 +1,129 @@
+{
+ "number": "59",
+ "name": "Claim Check",
+ "slug": "claim-check",
+ "layer": "Molecule",
+ "job": "Set what someone said beside what the record shows, with a state chip, so a reader sees at once which claims hold, which drifted, which are unchecked and which slipped.",
+ "anatomy": [
+  {
+   "part": "Said",
+   "role": "Who said it and when (mono, label step), then the claim as quoted",
+   "token": "`text-secondary`, `text`"
+  },
+  {
+   "part": "State chip",
+   "role": "28 Chip: Sharp (green, proven), Degraded (gold, right size and wrong unit), Unchecked (plain), Slip (red, failed)",
+   "token": "`green`, `gold`, plain, `red`"
+  },
+  {
+   "part": "Value",
+   "role": "What the record shows, mono at the headline step, in the state colour",
+   "token": "`--fs-headline`"
+  },
+  {
+   "part": "Note",
+   "role": "One line on the gap",
+   "token": "`text-secondary`"
+  },
+  {
+   "part": "Source",
+   "role": "32 Evidence ref: the command or file that checked it",
+   "token": "`dimmed`"
+  },
+  {
+   "part": "Fidelity",
+   "role": "37 classes on the row: `sharp`, `degraded`, `grain` (unchecked) set the weight",
+   "token": "none"
+  }
+ ],
+ "states": [
+  {
+   "name": "Sharp",
+   "args": [
+    "sharp",
+    "100%"
+   ],
+   "note": "The record confirms it."
+  },
+  {
+   "name": "Degraded",
+   "args": [
+    "degraded",
+    "100%"
+   ],
+   "note": "Right size, wrong unit or rounding."
+  },
+  {
+   "name": "Unchecked",
+   "args": [
+    "grain",
+    "100%"
+   ],
+   "note": "Not checked yet: plain chip and grain, never red."
+  },
+  {
+   "name": "Slip",
+   "args": [
+    "slip",
+    "20rem"
+   ],
+   "note": "The record contradicts it (phone width: one column)."
+  }
+ ],
+ "use_when": [
+  "A call or a page made factual claims that can be checked against a record (git, a catalog, a source).",
+  "The reader needs to know what to correct before writing anything down."
+ ],
+ "avoid_when": [
+  "Do not mark an unchecked claim red; red is only for a claim the record contradicts.",
+  "Do not use it for opinions; a take is 60 Heat take.",
+  "Colour has one meaning across the kit (arc weld spec 4.3): red a failed check, gold a limit, green proven, cyan an action or focus, plain (steel) unknown, magenta a paradox."
+ ],
+ "data": [
+  {
+   "field": "claims[]",
+   "type": "{who, at, said, state, value, note, ref}",
+   "required": true,
+   "note": "`state` is `sharp`, `degraded`, `grain` or `slip`."
+  }
+ ],
+ "access": [
+  "Source order is said, state, record, so a screen reader reads the claim before the verdict.",
+  "The chip names the state in words; colour repeats it, never replaces it.",
+  "One column below 38rem; three from 38rem."
+ ],
+ "built_from": [
+  {
+   "name": "Kit tokens (atoms)",
+   "href": "_tokens.css"
+  },
+  {
+   "name": "28 Chip",
+   "href": "28-chip.html"
+  },
+  {
+   "name": "32 Evidence ref",
+   "href": "32-evidence-ref.html"
+  },
+  {
+   "name": "37 Fidelity grain",
+   "href": "37-fidelity-grain.html"
+  }
+ ],
+ "used_by": [
+  {
+   "name": "Recoil: Zach x Brian, 2026-11-11 (_ARTIFACTS/recoil-brian-2026-11-11.html), template recoil-skim"
+  }
+ ],
+ "gates": [
+  "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+  "`kit_primitive_sync.py --check`: every page that marks this block carries it line for line.",
+  "`artifact_wrap_lint.py` and `page_gate.py` on every page that carries it; sweep 360 to 1440, including 700 to 1000."
+ ],
+ "links": [
+  "_tokens-light.css",
+  "_kit-sr.css"
+ ],
+ "css": ":root { --fs-label: 0.75rem; --fs-body: 0.9375rem; } /* recoil-skim steps: label 12px, body 15px (arc weld spec 4.3); move into _tokens.css with recoil-token-unify */\n/* composed with, from 28-chip, 32-evidence-ref and 37-fidelity-grain */\n.chip { display: inline-flex; align-items: center; gap: 6px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: var(--ds-r-pill); border: 1px solid var(--border); color: var(--text-secondary); }\n.chip.cyan { color: var(--cyan); border-color: var(--cyan); background: var(--cyan-bg); }\n.chip.green { color: var(--green); border-color: var(--green); background: var(--green-bg); }\n.chip.gold { color: var(--gold); border-color: var(--gold); background: var(--gold-bg); }\n.chip.red { color: var(--red); border-color: var(--red); background: var(--red-bg); }\n.ref { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--dimmed); }\n.grain { font-weight: 300; letter-spacing: 0.02em; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E\"); }\n.moire { font-weight: 300; letter-spacing: 0.03em; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.02 0.6' numOctaves='1'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E\"); }\n/* @prim:begin 59-claim-check */\n.claims { container-type: inline-size; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-sm); overflow: hidden; }\n.claim { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px 16px; align-items: start; padding: 16px; border-top: 1px solid var(--border); }\n.claim:first-child { border-top: 0; }\n.claim-said, .claim-record { display: flex; flex-direction: column; gap: 4px; min-width: 0; }\n.claim-k { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.02em; color: var(--text-secondary); }\n.claim > .chip { justify-self: start; }\n.claim-v { font-family: var(--ds-font-mono); font-size: var(--fs-headline); font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; color: var(--text); }\n.claim-note { color: var(--text-secondary); }\n.claim.sharp .claim-v { color: var(--green); }\n.claim.degraded .claim-v { color: var(--gold); font-weight: 500; }\n.claim.grain .claim-v { color: var(--text-secondary); font-weight: 300; }\n.claim.slip .claim-v { color: var(--red); }\n@container (min-width: 38rem) { .claim { grid-template-columns: minmax(0, 1fr) 7rem minmax(0, 1.25fr); } }\n/* @prim:end 59-claim-check */\n",
+ "demo": "function kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar CC={sharp:['[21:20]','\"in 216 days\"','Sharp','green','216 days','First commit on 2026-04-09.','git log --reverse origin/main'],degraded:['[21:20]','\"270-something services\"','Degraded','gold','280 surfaces','Right size, wrong unit: say surfaces.','surface-catalog.json'],grain:['[64:07]','The status page has a beliefs view','Unchecked','','Not checked','Not opened live yet.','S1 [64:07]'],slip:['[38:05]','\"Frankie Knuckles from Detroit\"','Slip','red','Chicago','Harmless in a riff; costly in writing.','general knowledge']};\nfunction kitClaim(s){var c=CC[s];return '<div class=\"claim '+s+'\"><div class=\"claim-said\"><span class=\"claim-k\">You said · '+kEsc(c[0])+'</span><span>'+kEsc(c[1])+'</span></div><span class=\"chip'+(c[3]?' '+c[3]:'')+'\">'+kEsc(c[2])+'</span><div class=\"claim-record\"><span class=\"claim-v\">'+kEsc(c[4])+'</span><span class=\"claim-note\">'+kEsc(c[5])+'</span><span class=\"ref\">'+kEsc(c[6])+'</span></div></div>'}\nfunction kitClaims(host,ss){var w=document.createElement('div');w.className='claims';w.innerHTML=ss.map(kitClaim).join('');host.appendChild(w);return w}\nkitClaims(kSlot(),['sharp','degraded','grain','slip']);\nSTATES.forEach(function(a,i){var b=document.createElement('div');b.style.maxWidth=a[1];kSlot(i).appendChild(b);kitClaims(b,[a[0]])});"
+}

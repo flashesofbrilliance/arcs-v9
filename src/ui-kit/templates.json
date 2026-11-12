@@ -239,6 +239,26 @@
         ".pm"
       ],
       "min_signatures": 3
+    },
+    "recoil-skim": {
+      "mode": "operate",
+      "kind": "instrument-dashboard",
+      "description": "Post-call recoil read skim first (arc weld spec 4.1, _PROPOSALS/2026-11-11-recoil-call-service-arc-weld.md): a header (eyebrow, title, lede, Y state and NCI chips), one glance ledger whose first row is the next move (kit 24 segmented control and 30 buttons; nothing is sent from the page), then kit 56 folds in groups (Decide, Evidence, System, Method) whose summaries state their verdict, holding kit 57 ledger rows, 59 claim checks, 60 heat takes, 61 options, 62 attributed notes, 63 operator passes and 64 kintsugi seams, with one 58 toast for the standing guard. Label step 12px; colour has one meaning; grade D and unscored items render grain with no motion.",
+      "canonical_examples": [
+        "_ARTIFACTS/recoil-brian-2026-11-11.html"
+      ],
+      "signature_selectors": [
+        ".fold-verdict",
+        ".ledger-row",
+        ".claim-v",
+        ".take-text",
+        ".option-name",
+        ".note-panel",
+        ".pass-v",
+        ".seam-rows",
+        ".toast-msg"
+      ],
+      "min_signatures": 5
     }
   }
 }
