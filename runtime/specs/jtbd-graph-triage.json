@@ -115,14 +115,6 @@
   },
   {
    "rule": "ORPHAN-TOOL",
-   "id": "tool:script:backlog_append.py",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
-   "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
    "id": "tool:script:orphanage.py",
    "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
    "row": "jtbd-standing-tools",
