@@ -46,6 +46,10 @@
       "type": "string",
       "description": "Optional: the author's name, set large at the right end of the tab row; it replaces the meta strip's From line. Use it instead of overview.byline, not both."
     },
+    "masthead_sub": {
+      "type": "string",
+      "description": "Optional: one small line under the masthead name, for handles or links (markdown links allowed). Hidden on phones."
+    },
     "top_line": {
       "type": "string",
       "description": "Optional: a Private chip and one line on who it is for and how it was shared. Leave it out when the meta strip says enough."

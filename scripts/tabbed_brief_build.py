@@ -332,7 +332,10 @@ def r_nav(d):
 
 def r_name(d):
     """The author's name, large, at the right end of the tab row (replaces the From line in the meta strip)."""
-    return ('<p class="tb-name">%s</p>' % md(d["masthead"], "/masthead")) if d.get("masthead") else ""
+    if not d.get("masthead"):
+        return ""
+    sub = ('<span class="tb-name-sub">%s</span>' % md(d["masthead_sub"], "/masthead_sub")) if d.get("masthead_sub") else ""
+    return '<p class="tb-name"><span class="tb-name-main">%s</span>%s</p>' % (md(d["masthead"], "/masthead"), sub)
 
 
 def stack_below(d):
