@@ -28,9 +28,16 @@ START, END = "<!-- arcs-token-tuner:start -->", "<!-- arcs-token-tuner:end -->"
 BLOCK_RE = re.compile(re.escape(START) + r".*?" + re.escape(END) + r"\n?", re.S)
 
 
+def check_src(js):
+    """A closing script tag anywhere in the source (even a comment) ends the inlined script early; refuse it."""
+    if re.search(r"</script", js, re.I):
+        raise ValueError(f"{SRC} contains '</script'; write it as '<\\/script' or reword it")
+    return js
+
+
 def block():
     with open(SRC, encoding="utf-8") as fh:
-        return f"{START}\n<script>\n{fh.read().rstrip()}\n</script>\n{END}\n"
+        return f"{START}\n<script>\n{check_src(fh.read()).rstrip()}\n</script>\n{END}\n"
 
 
 def strip(html):
@@ -151,6 +158,12 @@ def self_test():
     assert strip(a) == page, "strip restores the page"
     assert not has_tuner(strip(a)), "a stripped page carries no marker"
     assert a.index(START) < a.index("<p>x</p>"), "the tuner runs before the page's own content and scripts"
+    try:
+        check_src("/* a map in </SCRIPT> */")
+        raise AssertionError("a closing script tag in the source is refused")
+    except ValueError:
+        pass
+    assert check_src("var s = '<\\/script>';"), "an escaped closing tag is fine"
     src = "<p>Tom &amp; Jerry&rsquo;s plan</p><p>two</p><p>two</p><li>one</li>"
     out, err = apply_text(src, [{"old": "Tom & Jerry\u2019s plan", "new": "Tom & Jerry's <new> plan"}])
     assert not err and "<p>Tom &amp; Jerry's &lt;new&gt; plan</p>" in out, ("apply-text matches entities, escapes new text", out, err)
