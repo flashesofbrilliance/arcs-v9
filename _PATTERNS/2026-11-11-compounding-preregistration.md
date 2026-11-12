@@ -40,7 +40,12 @@ Sources: `public.decision_receipt` (job_id, tool_id, refs, event_at; AGENTS.md "
    chaining several scores higher.
 6. **Upkeep share, u.** The share of rows closed per week whose `id` or `jtbd` contains any of: fix, repair, drift,
    stale, gate, hygiene, refresh, regen, reconcile. A crude keyword rule, fixed now so it cannot be tuned later.
-7. **Controls.** Model mix (share of output tokens from the top tier), row size (log of lines changed across the
+7. **Fit, f (Zach's mechanism, added 2026-11-11 before any count).** The claim: as orthogonal echoes on the lattice
+   grow, the match between a job's shape and the best tool sharpens, so the right tool is found, not rebuilt. Measured as
+   the first-rank hit rate: for each row, run `scripts/prior_art.py "<row jtbd>"` against a checkout of origin/main as of
+   the row's `added` date and score 1 if its top-ranked tool is one the row's sessions actually ran, else 0. A second
+   read for front-end rows: the share of the shipped page assembled from existing `src/ui-kit/` blocks.
+8. **Controls.** Model mix (share of output tokens from the top tier), row size (log of lines changed across the
    row's PRs), priority.
 
 ## Models
@@ -60,6 +65,9 @@ conventional cut, not derived from this repo.
   interval that excludes 0. Otherwise the shape is reported as a power law, or as no detectable trend.
 - **Compounding falsified:** the 90% interval for b includes 0 or sits below it; or upkeep share u exceeds 50% of
   closed rows in the last two weeks of the window (the stock of tools costing more to keep than it saves).
+- **Fit supported:** hit rate f rises with lattice size (logistic regression of f on ln X, slope above 0 with a 90%
+  interval that excludes 0), and in M3 adding f lowers cost beyond what r explains. If f rises but cost does not fall,
+  the report says matching improved without paying off yet; if neither moves, the mechanism is not shown.
 - **Attention check:** the same M0/M1 comparison is run on h. Compute can fall while attention does not; if so, the
   report says so, because attention is the cost The Posted Rate left unpriced.
 
