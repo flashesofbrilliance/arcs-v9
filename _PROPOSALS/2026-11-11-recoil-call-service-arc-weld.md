@@ -185,7 +185,7 @@ Child sessions: R1, R2 and R10 start now (independent, separate files). R4 start
 2. PDF default palette: dark, as on screen, or light, to save ink and suit a printed read? **Answered, Zach 2026-11-12: light for print** (R6 builds to it; the screen stays dark).
 3. Counterpart twin: the same component set with an audience filter, or its own template? **Answered, Zach 2026-11-12: "yes same component set with audience filter and ability to set light vs dark mode as the default setting".**
 4. Approve the hard-stop list in §6.3 as the autopilot boundary.
-5. The light page holds a personal email address and a sensitive fact about the counterpart, behind only its artifact link. Keep it, or redact it now?
+5. The light page holds a personal email address and a sensitive fact about the counterpart, behind only its artifact link. Keep it, or redact it now? **Answered, Zach 2026-11-12: "keep for internal and remove email / sensitive facts on external one (or show them as redacted - think how the cia blacklines stuff - to preserve confidentiality and identifable sensitive info)".** The Brian page (artifact `RUNuc7zkSW9tPQhptnPCoY`) is the internal one, so it keeps both. Every external render shows them as visible black redaction bars.
 
 ## 9. Status, 2026-11-12
 
