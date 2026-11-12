@@ -1305,6 +1305,20 @@ if [ -n "$sc" ] && [ -f scripts/share_control_gate.py ] && command -v python3 >/
   fi
 fi
 
+# ---------------------------------------------------------------------------
+# public-share gate (Kintsugi seam 2026-11-12, PR 2194 exposed the Gasmi war room on a
+# signed-out link; backlog recoil-public-share-gate). A staged public-shares.json, its
+# projection, or a shared report's SSOT re-renders every share's signed-out payload with
+# the real projection and blocks on any leak class or an entry without a gauntlet ref.
+ps=$(git diff --cached --name-only -- runtime/recoil/public-shares.json src/lib/recoilPublicShare.ts scripts/recoil_public_share_gate.py scripts/recoil_public_share_render.mjs 'runtime/recoil/generated/*.json' 2>/dev/null || true)
+if [ -n "$ps" ] && [ -f scripts/recoil_public_share_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! command -v node >/dev/null 2>&1 || ! python3 scripts/recoil_public_share_gate.py --staged || ! python3 scripts/recoil_public_share_gate.py --self-test >/dev/null; then
+    echo "✖ commit blocked: a public recoil share fails its signed-out render check (python3 scripts/recoil_public_share_gate.py --staged)." >&2
+    echo "  a strip list is not a gate: tag the SSOT audience \"both\" and cite the gauntlet run on the entry." >&2
+    exit 1
+  fi
+fi
+
 # Ripple ledger (2026-10-16): warn, never block, when a staged path touches a one-way door that is not yet de-risked.
 # See scripts/ripple_ledger.py and _QUEUE/ripple-ledger.jsonl.
 if [ -f scripts/ripple_ledger.py ] && command -v python3 >/dev/null 2>&1; then
