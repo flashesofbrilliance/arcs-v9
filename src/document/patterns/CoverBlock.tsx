@@ -20,7 +20,7 @@ export interface CoverBlockProps {
   tokens?: {
     fg1?: string      // title color
     fg2?: string      // subtitle color
-    fg4?: string      // meta/label color
+    fg4?: string      // meta/label color (defaults to T.fg3: fg4 fails AA on text)
     border?: string   // border color
     bg?: string       // button background (primary)
   }
@@ -30,7 +30,7 @@ export function CoverBlock({ badges = [], title, subtitle, meta, actions = [], a
   // Token resolution: use overrides if provided, otherwise fall back to document tokens (T)
   const fg1 = tokens?.fg1 ?? T.fg1
   const fg2 = tokens?.fg2 ?? T.fg2
-  const fg4 = tokens?.fg4 ?? T.fg4
+  const metaColor = tokens?.fg4 ?? T.fg3
   const border = tokens?.border ?? T.border
   const bg = tokens?.bg ?? T.bg
 
@@ -41,13 +41,13 @@ export function CoverBlock({ badges = [], title, subtitle, meta, actions = [], a
           {badges.map((b, i) => <Pill key={i} accent={accent} solid={i === 0}>{b}</Pill>)}
         </div>
       )}
-      <h1 style={{ fontFamily: T.sans, fontSize: 28, fontWeight: 600, color: fg1, letterSpacing: '-0.02em', lineHeight: 1.2, marginBottom: 12 }}>{title}</h1>
-      {subtitle && <p style={{ fontFamily: T.sans, fontSize: 15, color: fg2, lineHeight: 1.7, marginBottom: 16, maxWidth: 640 }}>{subtitle}</p>}
-      {meta && <div style={{ fontFamily: T.mono, fontSize: 11, color: fg4, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16 }}>{meta}</div>}
+      <h1 style={{ fontFamily: T.sans, fontSize: T.fsDisplay, fontWeight: 600, color: fg1, letterSpacing: '-0.02em', lineHeight: 1.2, marginBottom: 12 }}>{title}</h1>
+      {subtitle && <p style={{ fontFamily: T.sans, fontSize: T.fsBody, color: fg2, lineHeight: 1.7, marginBottom: 16, maxWidth: 640 }}>{subtitle}</p>}
+      {meta && <div style={{ fontFamily: T.mono, fontSize: T.fsLabel, color: metaColor, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16 }}>{meta}</div>}
       {actions.length > 0 && (
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
           {actions.map((a, i) => (
-            <button key={i} onClick={onAction ? () => onAction(i) : undefined} style={{ height: 38, padding: '0 18px', borderRadius: 7, cursor: 'pointer', fontFamily: T.sans, fontSize: 13, fontWeight: 500,
+            <button key={i} onClick={onAction ? () => onAction(i) : undefined} style={{ height: 38, padding: '0 18px', borderRadius: 7, cursor: 'pointer', fontFamily: T.sans, fontSize: T.fsBody, fontWeight: 500,
               background: i === 0 ? accent : 'transparent', color: i === 0 ? bg : fg2, border: i === 0 ? 'none' : `1px solid ${border}` }}>
               {a}
             </button>
