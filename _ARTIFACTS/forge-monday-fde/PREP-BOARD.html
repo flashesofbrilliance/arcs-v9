@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>monday take-home prep board</title>
+<!-- KINTSUGI SEAMS: view of PREP-SSOT.md. Priors are subjective; research is static reads; personas are hypotheses with placeholder names; no assignment content; no credentials. -->
+<style>
+:root{--bg:#020408;--surface:#0d1117;--elev:#111823;--border:#1e293b;--text:#e2e8f0;--muted:#8391a7;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--violet:#a78bfa}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:0;z-index:10;background:rgba(2,4,8,.94);border-bottom:1px solid var(--border)}
+nav .wrap{display:flex;gap:4px;overflow-x:auto;padding:8px 20px}
+nav a{white-space:nowrap;font-size:12.5px;color:var(--muted);padding:6px 10px;border-radius:8px}
+nav a:hover{color:var(--text);background:var(--surface);text-decoration:none}
+header{padding:34px 0 22px;border-bottom:1px solid var(--border)}
+h1{font-size:clamp(26px,4vw,40px);line-height:1.12;letter-spacing:-.02em;font-weight:700}
+h1 span{color:var(--cyan)}
+.sub{color:var(--muted);margin-top:8px;max-width:78ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-size:12px;border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:5px 12px;color:var(--text)}
+.chip b{font-weight:600}
+.ok{border-color:rgba(0,255,157,.45);color:var(--green)}
+.warn{border-color:rgba(255,215,0,.5);color:var(--gold)}
+.stop{border-color:rgba(255,77,109,.5);color:var(--red)}
+.clock{margin-top:18px;display:inline-block;border:1px solid var(--border);background:var(--surface);border-radius:12px;padding:12px 16px}
+.clock .big{font-size:26px;font-weight:700;color:var(--cyan);letter-spacing:-.01em}
+.clock .lbl{font-size:12px;color:var(--muted)}
+section{padding:34px 0;border-bottom:1px solid var(--border)}
+h2{font-size:21px;letter-spacing:-.01em;margin-bottom:6px}
+h2 small{font-size:12px;color:var(--muted);font-weight:400;margin-left:8px}
+.lead{color:var(--muted);max-width:80ch;margin-bottom:16px}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g6{grid-template-columns:repeat(6,minmax(0,1fr))}
+@media(max-width:860px){.g2,.g3,.g6{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.card h3{font-size:14px;margin-bottom:6px}
+.card p,.card li{font-size:13.5px;color:#cbd5e1}
+.card ul{padding-left:18px}
+.tag{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--border)}
+td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.scroll{overflow-x:auto}
+.day{border-top:3px solid var(--cyan)}
+.day.now{border-top-color:var(--green)}
+.day .d{font-weight:700;font-size:13px}
+.day .t{font-size:12.5px;color:var(--muted);margin-bottom:6px}
+.check{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-bottom:1px solid var(--border);font-size:14px}
+.check input{margin-top:3px;width:17px;height:17px;accent-color:#00F0FF}
+.prog{height:8px;background:var(--surface);border:1px solid var(--border);border-radius:999px;overflow:hidden;margin:8px 0 12px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));width:0}
+.bar{display:grid;grid-template-columns:200px 1fr 54px;gap:10px;align-items:center;margin:7px 0;font-size:13px}
+.bar .track{height:12px;background:var(--surface);border:1px solid var(--border);border-radius:999px;overflow:hidden}
+.bar .fill{height:100%;background:var(--cyan)}
+.bar .fill.g{background:var(--green)}.bar .fill.r{background:var(--red)}.bar .fill.y{background:var(--gold)}
+.bar .v{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+@media(max-width:620px){.bar{grid-template-columns:1fr 54px}.bar .track{grid-column:1/-1;order:3}}
+.rung{display:grid;grid-template-columns:150px 1fr;gap:14px;border:1px solid var(--border);background:var(--surface);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+@media(max-width:700px){.rung{grid-template-columns:1fr}}
+.rung .lvl{font-weight:700}
+.rung .meta{font-size:12px;color:var(--muted);margin-top:4px}
+.pers{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.pers span{font-size:12px;border:1px solid var(--border);border-radius:999px;padding:2px 9px;background:var(--elev)}
+.k{display:inline-block;font-size:11px;border-radius:6px;padding:1px 7px;margin-right:6px}
+.k.v{background:rgba(0,255,157,.12);color:var(--green)}.k.i{background:rgba(255,215,0,.12);color:var(--gold)}.k.n{background:rgba(255,77,109,.12);color:var(--red)}
+details{border:1px solid var(--border);background:var(--surface);border-radius:12px;padding:10px 14px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:600;font-size:14px}
+details[open] summary{margin-bottom:8px}
+.say td:first-child{width:18%;font-weight:600}
+.no{color:#fda4af}
+footer{padding:28px 0 50px;color:var(--muted);font-size:12.5px}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:#cbd5e1}
+</style></head>
+<body>
+<nav><div class="wrap">
+<a href="#ready">Readiness</a><a href="#runway">Runway</a><a href="#risk">Risk</a><a href="#altitude">Altitude</a><a href="#research">Research</a><a href="#spine">Spine</a><a href="#claims">Claims</a><a href="#gates">Gates</a><a href="#files">Files</a>
+</div></nav>
+
+<header><div class="wrap">
+<h1>monday.com take-home: <span>prep board</span></h1>
+<p class="sub">Forward Deployed Engineer, Strategic Deployments. One view of everything built so far, on three axes: time (runway), altitude (who reads it and at what depth) and risk (the gates that can kill a submission). Canonical text lives in <code>PREP-SSOT.md</code>; this board is a view of it.</p>
+<div class="chips">
+<span class="chip ok"><b>Advanced</b> past the hiring-manager call</span>
+<span class="chip ok"><b>Deadline confirmed</b> with Sam</span>
+<span class="chip stop"><b>Link not opened</b> (one-time, credential)</span>
+<span class="chip warn"><b>Brief unseen</b> so the rubric is provisional</span>
+<span class="chip warn"><b>Leave-behind</b> not send-ready</span>
+</div>
+<div class="clock"><div class="big" id="cd">Thu Oct 15, 5pm ET</div><div class="lbl">time to deadline (internal target: submit Wed Oct 14 evening)</div></div>
+</div></header>
+
+<section id="ready"><div class="wrap">
+<h2>Go / no-go before you open the link <small>progress saves in this browser only</small></h2>
+<p class="lead">Opening the link is one-way (single use). Tick these first. If a box stays empty, decide deliberately whether to accept that risk.</p>
+<div class="prog"><i id="pbar"></i></div><div class="tag" id="ptxt">0 of 8</div>
+<div class="card" style="padding:4px 0" id="checks"></div>
+</div></section>
+
+<section id="runway"><div class="wrap">
+<h2>Runway <small>time axis, Oct 8 to Oct 15</small></h2>
+<p class="lead">The deadline is fixed; activating the link does not start a personal timer. Open it early enough to watch the video, read the pre-read and still have days to ask questions.</p>
+<div class="grid g6">
+<div class="card day now"><div class="d">Oct 8</div><div class="t">Today</div><p>Prep, rubric, pre-mortem, research, deadline confirmed.</p></div>
+<div class="card day"><div class="d">Oct 9</div><div class="t">Read</div><p>Activate. Watch the video. Read the pre-read. Reconcile the rubric. Write acceptance criteria and a not-doing list.</p></div>
+<div class="card day"><div class="d">Oct 10 to 12</div><div class="t">Build</div><p>Thin slices. Log before and after each choice. Disclose every AI use.</p></div>
+<div class="card day"><div class="d">Oct 13</div><div class="t">Draft</div><p>Deck and executive page. Run the mechanical gates.</p></div>
+<div class="card day"><div class="d">Oct 14</div><div class="t">Prove</div><p>Red and blue round. Rehearse aloud. Package. Submit in the evening.</p></div>
+<div class="card day"><div class="d">Oct 15</div><div class="t">Buffer</div><p>Deadline 5pm ET. Do not plan work here.</p></div>
+</div></div></section>
+
+<section id="risk"><div class="wrap">
+<h2>Risk board <small>subjective priors; ranks pre-work, does not predict</small></h2>
+<p class="lead">A Monte Carlo of 13 failure modes, with two audience bars (customer outcome, builder defense) and a KILL bar (process, claims, confidentiality, silent repairs). Failure modes 14 to 17 (criticizing monday's own repo, stating unrun findings as fact, stale counts, heavy ARCS vocabulary) were added after the research and are not yet modeled.</p>
+<div class="grid g2">
+<div class="card"><h3>P(pass all bars) as evidence accumulates</h3>
+<div class="bar"><span>No pre-work</span><div class="track"><div class="fill r" style="width:23.5%"></div></div><span class="v">0.24</span></div>
+<div class="bar"><span>With about 15.5 h of mitigation</span><div class="track"><div class="fill y" style="width:51.8%"></div></div><span class="v">0.52</span></div>
+<div class="bar"><span>+ brief read, rubric reconciled</span><div class="track"><div class="fill" style="width:55.3%"></div></div><span class="v">0.55</span></div>
+<div class="bar"><span>+ rehearsed aloud</span><div class="track"><div class="fill" style="width:58.8%"></div></div><span class="v">0.59</span></div>
+<div class="bar"><span>+ packaging dry run</span><div class="track"><div class="fill" style="width:60.1%"></div></div><span class="v">0.60</span></div>
+<div class="bar"><span>+ gates pass</span><div class="track"><div class="fill g" style="width:61.9%"></div></div><span class="v">0.62</span></div>
+<div class="bar"><span>+ independent bar-raiser clear</span><div class="track"><div class="fill g" style="width:65%"></div></div><span class="v">0.65</span></div>
+<p class="tag" style="margin-top:8px">Pre-work alone does not reach 0.65; the evidence steps carry it.</p></div>
+<div class="card"><h3>KILL-bar failure rate</h3>
+<div class="bar"><span>No mitigation</span><div class="track"><div class="fill r" style="width:36.9%"></div></div><span class="v">0.37</span></div>
+<div class="bar"><span>Plan applied</span><div class="track"><div class="fill y" style="width:10.8%"></div></div><span class="v">0.11</span></div>
+<div class="bar"><span>Plan + evidence events</span><div class="track"><div class="fill g" style="width:5.3%"></div></div><span class="v">0.05</span></div>
+<h3 style="margin-top:14px">Red team: weakest joints (change in P(pass))</h3>
+<div class="bar"><span>Monday platform fluency</span><div class="track"><div class="fill r" style="width:55%"></div></div><span class="v">-0.055</span></div>
+<div class="bar"><span>Wrong question or sprawl</span><div class="track"><div class="fill r" style="width:37%"></div></div><span class="v">-0.037</span></div>
+<div class="bar"><span>Demo, not customer outcome</span><div class="track"><div class="fill r" style="width:36%"></div></div><span class="v">-0.036</span></div>
+<div class="bar"><span>Overpromised local-model claim</span><div class="track"><div class="fill r" style="width:33%"></div></div><span class="v">-0.033</span></div>
+<p class="tag" style="margin-top:8px">Worst pair: demo-not-outcome + platform fluency, P(pass) 0.42.</p></div>
+</div>
+<div class="card" style="margin-top:12px"><h3>Best value per hour (blue team order)</h3><div class="scroll"><table>
+<tr><th>Mitigation</th><th>Hours</th><th>Gain</th></tr>
+<tr><td>Log every repair before fixing it (kintsugi)</td><td>0.5</td><td>+0.025</td></tr>
+<tr><td>Confidentiality and IP rule</td><td>0.5</td><td>+0.012</td></tr>
+<tr><td>Outcome-first framing for the customer reader</td><td>2.0</td><td>+0.046</td></tr>
+<tr><td>One-time-link dry run (browser, device, packaging)</td><td>1.5</td><td>+0.035</td></tr>
+<tr><td>Acceptance criteria and a not-doing list</td><td>3.0</td><td>+0.052</td></tr>
+<tr><td>Claim and consistency gates</td><td>2.0</td><td>+0.031</td></tr>
+<tr><td>Clarifying questions written in advance</td><td>1.0</td><td>+0.017</td></tr>
+<tr><td>Keep the ARCS wrapper plain and optional</td><td>1.0</td><td>+0.017</td></tr>
+<tr><td>Rehearse the walkthrough aloud</td><td>4.0</td><td>+0.049</td></tr>
+</table></div></div>
+</div></section>
+
+<section id="altitude"><div class="wrap">
+<h2>Altitude ladder <small>the chorus: ten voices, 25 personas, placeholder names</small></h2>
+<p class="lead">One deliverable, read at five depths. Fidelity control: the same numbers at every level, nothing more precise than its evidence, every higher claim traceable to evidence below it. Names are placeholders for role archetypes, not people; use them only here.</p>
+<div class="rung"><div><div class="lvl">Executive</div><div class="meta">Decide: endorse or fund<br>Read: 60 to 90 s<br>Lives in: presentation, page 1</div></div><div>
+<div class="pers"><span>Sasha V. services leader</span><span>Emerson C. GTM head</span><span>Rowan G. product alignment</span><span>Blake E. partnerships head</span></div>
+<p><b>Dealbreakers:</b> not repeatable or costed; no time-to-first-value story; anecdotes instead of evidence; not reusable by partners.</p>
+<p><b>Fidelity control:</b> one-sentence outcome, one sourced number, one-line risk.</p></div></div>
+<div class="rung"><div><div class="lvl">Strategic</div><div class="meta">Decide: coherent and scalable?<br>Read: about 5 min<br>Lives in: presentation</div></div><div>
+<div class="pers"><span>Hiring manager</span><span>Avery L. deployment strategy</span><span>Harper W. alliance</span><span>Sage I. portfolio and ROI</span><span>Lennox U. org design</span></div>
+<p><b>Dealbreakers:</b> cannot show real building; no methodology; no ecosystem fit; no ROI view; process nobody can adopt.</p>
+<p><b>Fidelity control:</b> one page of strategy, tradeoffs, sequencing, KPIs, risks.</p></div></div>
+<div class="rung"><div><div class="lvl">Operational</div><div class="meta">Decide: can we run and staff it?<br>Read: about 10 min<br>Lives in: presentation appendix</div></div><div>
+<div class="pers"><span>Taylor S. engagement manager</span><span>Riley D. delivery PM</span><span>Drew N. CX quality metrics</span><span>Parker J. enablement</span><span>Skyler P. partner programs</span><span>Reese F. regional enablement</span><span>Finley O. programs</span></div>
+<p><b>Dealbreakers:</b> no estimate or assumptions; no owners or dependencies; quality sampled, not covered; unteachable or jargon-heavy.</p>
+<p><b>Fidelity control:</b> plan, RACI, estimate, assumptions, handoff, dependency table.</p></div></div>
+<div class="rung"><div><div class="lvl">Tactical</div><div class="meta">Decide: can I deploy and teach it?<br>Read: about 15 min<br>Lives in: presentation, README</div></div><div>
+<div class="pers"><span>Jordan T. forward deployed consultant</span><span>Casey R. product consultant</span><span>Jamie H. adoption advisor</span><span>Robin A. CSM</span><span>Kai B. CSM</span><span>Dakota Y. enterprise AE</span></div>
+<p><b>Dealbreakers:</b> misuses monday concepts or an admin could not adopt it; no value story; no executive narrative; no ROI or adoption evidence.</p>
+<p><b>Fidelity control:</b> tested steps, defaults, templates, EBR-style page, one-sentence value.</p></div></div>
+<div class="rung"><div><div class="lvl">Surgical</div><div class="meta">Decide: correct and safe?<br>Read: 30+ min<br>Lives in: source</div></div><div>
+<div class="pers"><span>Morgan K. integration architect</span><span>Quinn M. agentic practitioner</span></div>
+<p><b>Dealbreakers:</b> ignores auth, rate limits and failure modes; cannot show who built it, why this tool shape, or evals. Path: "AI wrote it" suspicion, then the walkthrough collapses, then the loop loses credibility.</p>
+<p><b>Fidelity control:</b> failure-mode table, read-after-write checks, evals with a pass bar, AI-use log, reproducible source.</p></div></div>
+<div class="card"><h3>Round-robin: strophe, antistrophe, epode</h3><p><b>Strophe</b> top-down: does the story hold as detail increases? <b>Antistrophe</b> bottom-up: is every claim supported one level down (the claim ladder)? <b>Epode</b>: reconcile conflicts by layering and linking, book each change as a seam. Two rounds, then stop. Process gatekeeper (recruiter): policy breaches disqualify before anyone reads it.</p></div>
+</div></section>
+
+<section id="research"><div class="wrap">
+<h2>Research map <small>monday GitHub, Hugging Face, docs: static reads, nothing run</small></h2>
+<p class="lead">Confidence key: <span class="k v">verified</span> read in source or docs, <span class="k i">inferred</span> reasoned, <span class="k n">not found</span>. Respectful framing: say what an eval needs next, never what is broken.</p>
+<div class="grid g3">
+<div class="card"><h3><span class="k v">verified</span> What monday publishes</h3><ul><li>MCP server and agent toolkit (open), plus a hosted MCP whose source is not public</li><li>Agent Tool Protocol: code-first alternative to tool calling</li><li>agentic-monday: Claude Code plugin marketplace</li><li>Vibe design system, apps SDK and CLI</li><li>Developer docs with machine-readable llms.txt pages</li><li>Models API: OpenAI-compatible gateway; OpenAI and Anthropic upstreams</li></ul></div>
+<div class="card"><h3><span class="k i">inferred</span> What it suggests</h3><ul><li>Sensei looks dormant since March 2026 and is not in monday's docs index</li><li>Hosted MCP controls cannot be audited from public code</li><li>Most tests are mock-based; no live-account or agent-behavior tests</li><li>The deployment function was formed from Professional Services</li><li>Deployment work reaches into the sale (scoping, estimates, SOWs)</li></ul></div>
+<div class="card"><h3><span class="k n">not found</span></h3><ul><li>An official monday Hugging Face organization (API returned none)</li><li>A public report on this exact take-home or an accepted-offer story for this track</li><li>Self-service per-tool-call audit export for MCP</li><li>A published harness for the routing eval (404s)</li></ul></div>
+</div>
+<details><summary>Sensei read in source (not reproduced)</summary>
+<ul style="padding-left:18px;font-size:13.5px;color:#cbd5e1">
+<li>Good: clean YAML suite schema, transparent scoring (50, 30, 20 layer weights), deterministic KPI primitives, seeded pools, HTML report.</li>
+<li>The judge never sees the fixtures; two of four adapters drop fixtures; the agent model name is fixed; no clamp on scores; a judge outage becomes a zero.</li>
+<li>Layers 2 and 3 are thin (a fresh prompt, a static feedback string); shipped suites cover SDR, support and content only.</li>
+<li>Falsify before you say any of this: run one suite with the judge prompt logged, try a stub adapter, a score of 15 on a 10-point scale, a <code>model:</code> key, and <code>multi_judge</code>. Strike whatever does not reproduce.</li>
+</ul></details>
+<details><summary>Do not claim</summary>
+<ul style="padding-left:18px;font-size:13.5px;color:#cbd5e1">
+<li>That sensei is monday's standard, adopted or maintained; or that monday has a Hugging Face presence.</li>
+<li>That any code, test or eval was run; counts are grep-based and drift daily.</li>
+<li>That ARCS calibration is proven (outcome capture is low) or that ARCS is certified or compliant.</li>
+<li>That monday's hosted MCP lacks or enforces a control; or that monday has no audit at all (say "no self-service per-tool-call export").</li>
+<li>Anything about a named maintainer, or the default-secret finding in a protocol repo (a private maintainer matter, not interview material).</li></ul></details>
+</div></section>
+
+<section id="spine"><div class="wrap">
+<h2>Consonance spine, kairos, and what compounds</h2>
+<p class="lead">Put first what many altitudes want. Treat compounding as a hypothesis with a falsifier; say "compress time to value," never "exponentially."</p>
+<div class="grid g3">
+<div class="card"><h3>Spine (lead with these)</h3><ul><li>Time to first value, with a baseline and target</li><li>A repeatable playbook or offering</li><li>An EBR-style one-pager of adoption and outcome</li><li>Quality at full coverage with a stated pass bar</li><li>Governance in proportion to the scenario</li><li>AI-assisted building shown plainly, reasoning logged</li></ul></div>
+<div class="card"><h3>Five time-signature questions</h3><ul><li>Why now (kairos)?</li><li>Why this instrument?</li><li>Can you actually play it? Show receipts, not comparisons</li><li>Does this make my life easier? Say it in each altitude's currency</li><li>What compounds?</li></ul></div>
+<div class="card"><h3>Compounding menu (pick one or two after the brief)</h3><ul><li>Engagement playbook: days to first value, engagement one versus two</li><li>Discovery and friction-audit template: hours to a ranked list</li><li>Connector patterns with read-after-write checks: defects per integration</li><li>Agent qualification harness fixing known gaps: runs to a stable pass rate</li><li>Receipts per engagement; governance pack; land-and-expand map</li></ul></div>
+</div></div></section>
+
+<section id="claims"><div class="wrap">
+<h2>Claims and wording <small>one wording per claim, same numbers everywhere</small></h2>
+<div class="card scroll"><table class="say">
+<tr><th>Topic</th><th>Say</th><th>Not</th></tr>
+<tr><td>MCP and ARCS</td><td>A live decision app on Claude, plus an MCP tool layer I use for my own agent work. No customer runs on the MCP side yet.</td><td class="no">"MCP live in production, not a lab demo"</td></tr>
+<tr><td>Claude Code</td><td>I build with Claude Code as my pair, own the architecture and review everything.</td><td class="no">silence about it</td></tr>
+<tr><td>TypeScript</td><td>About a year and a half of daily TypeScript, all on ARCS; under the five-year bar; the take-home is where you check the build.</td><td class="no">"sustained" with Squat</td></tr>
+<tr><td>Evals and closure</td><td>Each decision is scored when made; closing the loop is up to the user and few have; no accuracy number published.</td><td class="no">"each decision is closed against its outcome"</td></tr>
+<tr><td>Repo</td><td>The ARCS repository is private; walkthrough on request.</td><td class="no">"public commit trail"</td></tr>
+<tr><td>Ideal Protein</td><td>Qualified leads up 40 percent (published case study).</td><td class="no">"product-qualified leads"</td></tr>
+<tr><td>Grayscale</td><td>Ten regulated products on a platform of about $7B; my part was release gates and go-to-market; cycle time down 35 percent.</td><td class="no">"I owned $7B"</td></tr>
+<tr><td>Squat and monday</td><td>Set up a tenant for the client, portfolio company and PE operations team, role-based access, about 20 users (confirm which client).</td><td class="no">"owned" without the detail</td></tr>
+</table></div>
+</div></section>
+
+<section id="gates"><div class="wrap">
+<h2>Hard gates and scored dimensions <small>rubric v0: reconcile after you read the real checklist</small></h2>
+<p class="lead">Any hard gate failing is a KILL: fix or cut, never average. Two audience bars must both clear: Bar A (customer outcome) and Bar B (builder defense). The author never self-clears; an independent bar-raiser issues CLEAR, CONDITIONAL CLEAR or HOLD.</p>
+<div class="grid g2">
+<div class="card scroll"><h3>Hard gates</h3><table>
+<tr><td>H1</td><td>On time (target Oct 14 evening)</td></tr><tr><td>H2</td><td>One ZIP under 10 MB; source/ and presentation/ non-empty</td></tr>
+<tr><td>H3</td><td>Every portal checklist item complete</td></tr><tr><td>H4</td><td>Video watched, pre-read reviewed, dated notes</td></tr>
+<tr><td>H5</td><td>Same browser and device; no incognito, no cookie clearing, no forwarding</td></tr><tr><td>H6</td><td>Confidentiality: no secrets, PII or private IP</td></tr>
+<tr><td>H7</td><td>Every AI use logged; every file explainable</td></tr><tr><td>H8</td><td>Provenance and consistency pass</td></tr>
+<tr><td>H9</td><td>Brief answered against written acceptance criteria</td></tr><tr><td>H10</td><td>No silent repair (kintsugi entry per fix)</td></tr>
+<tr><td>H11</td><td>No unrun claim stated as fact</td></tr><tr><td>H12</td><td>Respectful framing of monday's own work</td></tr></table></div>
+<div class="card scroll"><h3>Scored dimensions (0 to 3)</h3><table>
+<tr><td>A</td><td>Outcome framing; scoping and assumptions; adoption and rollout; governance (if relevant); communication; reusability</td></tr>
+<tr><td>B</td><td>Build quality; evidence it works; defensibility; time discipline</td></tr>
+<tr><td>A+B</td><td>Honest limits</td></tr>
+<tr><td colspan="2" class="tag">A bar clears at 2 or more on every dimension and a 2.3 average; both bars must clear.</td></tr></table>
+<h3 style="margin-top:14px">Red and blue, bounded</h3><p>Round 1: a fresh agent given only the brief, the rubric and the draft, told to refute. Fix, logging each seam. Round 2 only if round 1 returned a HOLD. Then stop. If a section still fails and time is short: cut it.</p></div>
+</div></div></section>
+
+<section id="files"><div class="wrap">
+<h2>Files <small>everything lives beside this page</small></h2>
+<div class="grid g3">
+<div class="card"><h3>Canonical</h3><ul><li><a href="PREP-SSOT.md">PREP-SSOT.md</a></li><li><a href="TAKEHOME-LOG.md">TAKEHOME-LOG.md</a> (append-only)</li><li><a href="TAKEHOME-RUBRIC-hardened.md">TAKEHOME-RUBRIC-hardened.md</a></li><li><a href="PREMORTEM-takehome-blind.md">PREMORTEM-takehome-blind.md</a></li></ul></div>
+<div class="card"><h3>Method and personas</h3><ul><li><a href="CHORUS-persona-gauntlet.md">CHORUS-persona-gauntlet.md</a></li><li><a href="research/team-roster-roles.md">research/team-roster-roles.md</a></li><li><a href="ALTITUDE-FRICTION-AUDIT-method.md">ALTITUDE-FRICTION-AUDIT-method.md</a></li><li><a href="KAIROS-COMPOUNDING-layer.md">KAIROS-COMPOUNDING-layer.md</a></li></ul></div>
+<div class="card"><h3>Research and tools</h3><ul><li><a href="research/monday-oss-forensics-report.md">research/monday-oss-forensics-report.md</a></li><li><a href="research/monday-oss-forensics-critic.md">research/monday-oss-forensics-critic.md</a></li><li><a href="takehome-workspace/montecarlo_premortem.py">montecarlo_premortem.py</a></li><li><a href="takehome-workspace/package.sh">package.sh</a> (ZIP check)</li></ul></div>
+</div>
+</div></section>
+
+<footer><div class="wrap">Built Oct 8 2026 from the files above. Priors are subjective, research is static reads, personas are hypotheses with placeholder names. No assignment content and no credentials are stored here. Next: read the brief, reconcile the rubric, then run round 1 on your outline.</div></footer>
+
+<script>
+(function(){
+  var items=[
+   "Browser and device chosen (the one you will finish on)",
+   "No extension that clears cookies; not incognito; no link forwarding",
+   "A protected block of time and a stable connection",
+   "Log started and AI-use rule written",
+   "Sandbox practice done (boards, automations, MCP or agents)",
+   "Deliverable skeleton ready: outcome first, then approach, proof, rollout, risks, next step",
+   "Packaging dry run passed (package.sh)",
+   "Confidentiality rule understood; time cap decided"
+  ];
+  var key="monday-prep-board-checks-v1", saved={};
+  try{ saved=JSON.parse(localStorage.getItem(key)||"{}"); }catch(e){ saved={}; }
+  var box=document.getElementById("checks");
+  function update(){
+    var n=0; items.forEach(function(_,i){ if(saved[i]) n++; });
+    document.getElementById("pbar").style.width=(n/items.length*100)+"%";
+    document.getElementById("ptxt").textContent=n+" of "+items.length;
+  }
+  items.forEach(function(t,i){
+    var l=document.createElement("label"); l.className="check";
+    var c=document.createElement("input"); c.type="checkbox"; c.checked=!!saved[i];
+    c.addEventListener("change",function(){ saved[i]=c.checked; try{ localStorage.setItem(key,JSON.stringify(saved)); }catch(e){} update(); });
+    var s=document.createElement("span"); s.textContent=t;
+    l.appendChild(c); l.appendChild(s); box.appendChild(l);
+  });
+  update();
+  function tick(){
+    var end=new Date("2026-10-15T17:00:00-04:00").getTime(), ms=end-new Date().getTime(), el=document.getElementById("cd");
+    if(ms<=0){ el.textContent="Deadline passed"; return; }
+    var d=Math.floor(ms/864e5), h=Math.floor(ms%864e5/36e5), m=Math.floor(ms%36e5/6e4);
+    el.textContent=d+" days "+h+" h "+m+" min";
+  }
+  tick(); setInterval(tick,60000);
+})();
+</script>
+</body></html>
