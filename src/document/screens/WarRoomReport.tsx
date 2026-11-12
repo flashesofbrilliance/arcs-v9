@@ -52,16 +52,16 @@ function H({ html, style }: { html: unknown; style?: React.CSSProperties }) {
   return <span style={style} dangerouslySetInnerHTML={{ __html: clean(s(html)) }} />
 }
 
-const P: React.CSSProperties = { fontFamily: T.sans, fontSize: 13.5, color: T.fg2, lineHeight: 1.7, margin: '0 0 10px' }
-const H2: React.CSSProperties = { fontFamily: T.sans, fontSize: 15, fontWeight: 600, color: T.fg1, margin: '0 0 10px' }
+const P: React.CSSProperties = { fontFamily: T.sans, fontSize: T.fsBody, color: T.fg2, lineHeight: 1.7, margin: '0 0 10px' }
+const H2: React.CSSProperties = { fontFamily: T.sans, fontSize: T.fsBody, fontWeight: 600, color: T.fg1, margin: '0 0 10px' }
 const card = (accent?: string): React.CSSProperties => ({
   border: `1px solid ${accent ? `${accent}55` : T.border}`, borderRadius: 8, background: T.surface, padding: '16px 18px',
   // Print: a tall card may split, but its border repeats on each page; the
   // rows, list items and key/value pairs inside never split.
   boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone',
 })
-const TH: React.CSSProperties = { fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', color: T.fg3, textTransform: 'uppercase', textAlign: 'left', padding: '8px 10px', borderBottom: `1px solid ${T.border}`, verticalAlign: 'bottom' }
-const TD: React.CSSProperties = { fontFamily: T.sans, fontSize: 12.5, color: T.fg1, lineHeight: 1.55, padding: '9px 10px', borderBottom: `1px solid ${T.border}`, verticalAlign: 'top' }
+const TH: React.CSSProperties = { fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.1em', color: T.fg3, textTransform: 'uppercase', textAlign: 'left', padding: '8px 10px', borderBottom: `1px solid ${T.border}`, verticalAlign: 'bottom' }
+const TD: React.CSSProperties = { fontFamily: T.sans, fontSize: T.fsBody, color: T.fg1, lineHeight: 1.55, padding: '9px 10px', borderBottom: `1px solid ${T.border}`, verticalAlign: 'top' }
 const DOT: Record<string, string> = { g: T.green, c: T.cyan, r: T.red, y: T.gold, o: T.orange }
 
 function Table({ head, rows }: { head: unknown[]; rows: unknown[][] }) {
@@ -111,7 +111,7 @@ function Chart({ series }: { series: Series[] }) {
         {[0, 0.5, 1].map((g) => (
           <g key={g}>
             <line x1={pad} x2={W - pad} y1={yAt(g)} y2={yAt(g)} stroke={T.border} strokeWidth={1} />
-            <text x={4} y={yAt(g) + 3} fill={T.fg4} fontSize={9} fontFamily="monospace">{g}</text>
+            <text x={4} y={yAt(g) + 3} fill={T.fg3} fontSize={T.fsLabel} fontFamily="monospace">{g}</text>
           </g>
         ))}
         {series.map((x) => (
@@ -122,7 +122,7 @@ function Chart({ series }: { series: Series[] }) {
         {series.map((x) => (
           <div key={x.key} style={{ display: 'flex', gap: 8, alignItems: 'baseline' }}>
             <span style={{ width: 10, height: 10, borderRadius: 2, background: x.color, flexShrink: 0 }} />
-            <span style={{ fontFamily: T.sans, fontSize: 12, color: T.fg2, lineHeight: 1.5 }}>
+            <span style={{ fontFamily: T.sans, fontSize: T.fsLabel, color: T.fg2, lineHeight: 1.5 }}>
               {x.label}{x.quote && <em style={{ color: T.fg3 }}> · &ldquo;{x.quote}&rdquo;</em>}
             </span>
           </div>
@@ -136,7 +136,7 @@ function Block({ b, raw }: { b: Raw; raw: Raw }) {
   const t = s(b.type)
   switch (t) {
     case 'sec_label':
-      return <div style={{ fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', color: T.fg3, textTransform: 'uppercase' }}><H html={b.text} /></div>
+      return <div style={{ fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.14em', color: T.fg3, textTransform: 'uppercase' }}><H html={b.text} /></div>
     case 'prose':
     case 'pilot':
       return <Card h2={b.h2} accent={t === 'pilot' ? T.green : undefined}>{arr(b.p).map((p, i) => <p key={i} style={P}><H html={p} /></p>)}</Card>
@@ -164,7 +164,7 @@ function Block({ b, raw }: { b: Raw; raw: Raw }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {rows.map(([k, v], i) => (
               <div key={i} style={{ breakInside: 'avoid' }}>
-                <div style={{ fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', color: T.fg3, textTransform: 'uppercase', marginBottom: 3, breakAfter: 'avoid' }}><H html={k} /></div>
+                <div style={{ fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.1em', color: T.fg3, textTransform: 'uppercase', marginBottom: 3, breakAfter: 'avoid' }}><H html={k} /></div>
                 <H html={v} style={{ ...P, margin: 0, color: T.fg1, display: 'block' }} />
               </div>
             ))}
@@ -177,7 +177,7 @@ function Block({ b, raw }: { b: Raw; raw: Raw }) {
         <Card h2={b.h2}>
           <Intro v={b.intro} />
           <Table head={arr(b.columns)} rows={arr(b.rows).map(arr)} />
-          {s(b.note) && <p style={{ ...P, fontSize: 11, color: T.fg3, marginTop: 10 }}><H html={b.note} /></p>}
+          {s(b.note) && <p style={{ ...P, fontSize: T.fsLabel, color: T.fg3, marginTop: 10 }}><H html={b.note} /></p>}
         </Card>
       )
     case 'rosetta':
@@ -193,7 +193,7 @@ function Block({ b, raw }: { b: Raw; raw: Raw }) {
         <Card h2="Source & provenance" accent={T.gold}>
           <p style={P}>Captured: <H html={prov.captured} /></p>
           {s(prov.load_bearing_quote) && (
-            <div style={{ borderLeft: `2px solid ${T.gold}`, paddingLeft: 12, fontFamily: T.sans, fontSize: 15, fontStyle: 'italic', color: T.fg1, lineHeight: 1.5 }}>
+            <div style={{ borderLeft: `2px solid ${T.gold}`, paddingLeft: 12, fontFamily: T.sans, fontSize: T.fsBody, fontStyle: 'italic', color: T.fg1, lineHeight: 1.5 }}>
               &ldquo;<H html={prov.load_bearing_quote} />&rdquo;
             </div>
           )}
@@ -215,8 +215,8 @@ function Block({ b, raw }: { b: Raw; raw: Raw }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {arr(raw.insights).filter(isRec).map((it, i) => (
               <div key={i} style={{ borderLeft: `2px solid ${[T.cyan, T.gold, T.green, T.purple][i % 4]}`, paddingLeft: 12 }}>
-                <div style={{ fontFamily: T.mono, fontSize: 11, color: T.fg4, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{s(it.plane)}</div>
-                <div style={{ ...H2, fontSize: 14, margin: '2px 0 4px' }}><H html={it.title} /></div>
+                <div style={{ fontFamily: T.mono, fontSize: T.fsLabel, color: T.fg3, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{s(it.plane)}</div>
+                <div style={{ ...H2, margin: '2px 0 4px' }}><H html={it.title} /></div>
                 <H html={it.text} style={{ ...P, margin: 0, display: 'block' }} />
               </div>
             ))}
@@ -240,7 +240,7 @@ function Block({ b, raw }: { b: Raw; raw: Raw }) {
       return (
         <Card h2={b.h2}>
           <Table head={['signal', 'D1 peak/term', 'D2 term', 'D3 term']} rows={rows} />
-          <p style={{ ...P, fontSize: 11, color: T.fg3, marginTop: 10 }}>
+          <p style={{ ...P, fontSize: T.fsLabel, color: T.fg3, marginTop: 10 }}>
             {kinematicsNote(n)}
           </p>
         </Card>
@@ -248,7 +248,7 @@ function Block({ b, raw }: { b: Raw; raw: Raw }) {
     }
     case 'foot':
     case 'stamp':
-      return <p style={{ ...P, fontFamily: t === 'stamp' ? T.mono : T.sans, fontSize: t === 'stamp' ? 10.5 : 13, color: T.fg3 }}><H html={b.text} /></p>
+      return <p style={{ ...P, fontFamily: t === 'stamp' ? T.mono : T.sans, fontSize: t === 'stamp' ? T.fsLabel : T.fsBody, color: T.fg3 }}><H html={b.text} /></p>
     default:
       return (
         <AsideBox variant="caution" label={`Unrendered block · ${t || 'untyped'}`}>
@@ -258,27 +258,32 @@ function Block({ b, raw }: { b: Raw; raw: Raw }) {
   }
 }
 
+// Y chip takes its state's color (brand rule, spec 4.3): green proven, gold limit, red failed,
+// magenta paradox (MOIRE), violet DELTA; anything else (SCRATCH, DRIFT, unset) is steel, unknown.
+const Y_COLOR: Record<string, string> = { GREEN: T.green, YELLOW: T.gold, FORK: T.gold, RED: T.red, PARADOX: T.magenta, DELTA: T.purple }
+const yColor = (y: string) => Y_COLOR[y.trim().toUpperCase()] ?? T.steel
+
 function Cover({ raw }: { raw: Raw }) {
   const meta = isRec(raw.meta) ? raw.meta : {}
   const opp = isRec(raw.opportunity) ? raw.opportunity : {}
   const page = isRec(raw.page) ? raw.page : {}
   const hd = isRec(page.header) ? page.header : {}
   const chips: [string, string][] = []
-  if (s(opp.y_state)) chips.push([`Y · ${s(opp.y_state)}`, T.gold])
+  if (s(opp.y_state)) chips.push([`Y · ${s(opp.y_state)}`, yColor(s(opp.y_state))])
   if (s(opp.topology)) chips.push([s(opp.topology), T.steel])
   if (typeof opp.nci_prior === 'number' || typeof opp.nci_post === 'number') chips.push([`NCI ${opp.nci_prior ?? '--'} → ${opp.nci_post ?? '--'}`, T.cyan])
   if (typeof opp.req_reality === 'number') chips.push([`req reality ${opp.req_reality}`, T.steel])
   return (
     <div style={{ border: `1px solid ${T.border}`, borderRadius: 10, background: T.surface, padding: '22px 22px 18px', marginBottom: 8 }}>
-      <div style={{ fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', color: T.cyan, textTransform: 'uppercase', marginBottom: 8 }}>
+      <div style={{ fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.14em', color: T.cyan, textTransform: 'uppercase', marginBottom: 8 }}>
         <H html={hd.eyebrow || 'War Room'} />
       </div>
-      <h1 style={{ fontFamily: T.sans, fontSize: 24, fontWeight: 600, color: T.fg1, lineHeight: 1.25, margin: '0 0 6px' }}>
+      <h1 style={{ fontFamily: T.sans, fontSize: T.fsDisplay, fontWeight: 600, color: T.fg1, lineHeight: 1.25, margin: '0 0 6px' }}>
         <H html={hd.title || `${s(meta.counterpart)} · ${s(meta.date)}`} />
       </h1>
       {s(hd.sub) && <p style={{ ...P, margin: '0 0 12px' }}><H html={hd.sub} /></p>}
       {chips.length > 0 && <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>{chips.map(([c, a]) => <Pill key={c} accent={a}>{c}</Pill>)}</div>}
-      <div style={{ fontFamily: T.mono, fontSize: 11, color: T.fg4, letterSpacing: '0.06em' }}>
+      <div style={{ fontFamily: T.mono, fontSize: T.fsLabel, color: T.fg3, letterSpacing: '0.06em' }}>
         ARCS WAR ROOM · {s(meta.report_id)} · {s(meta.counterpart)}{typeof meta.segments === 'number' ? ` · ${meta.segments} segments` : ''}
       </div>
     </div>
@@ -327,7 +332,7 @@ export function WarRoomReport({ raw }: { raw: Raw }) {
     <div>
       <Cover raw={raw} />
       {hasNext && (
-        <Sec id="w-next" idx="01" label="Where it stands" title="Opportunity & Next Steps" accent={T.green}>
+        <Sec id="w-next" idx="01" label="Where it stands" title="Opportunity & Next Steps" accent={T.cyan}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {s(opp.note) && <Card h2="Opportunity note"><p style={{ ...P, whiteSpace: 'pre-wrap' }}><H html={opp.note} /></p></Card>}
             {nextSteps.length > 0 && (
