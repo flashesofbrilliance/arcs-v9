@@ -94,6 +94,9 @@ python3 "$CLAUDE_PROJECT_DIR/scripts/seedbank_drift_check.py" 2>/dev/null || tru
 # Regeneration and `--refresh` (which pushes to origin/main) stay human-gated. Never fails the hook.
 python3 "$CLAUDE_PROJECT_DIR/scripts/universe_snapshot_drift_check.py" 2>/dev/null || true
 
+# PR briefs: big open PRs with no _PROPOSALS design brief, and briefs whose status contradicts their
+# PR's real state (scripts/pr_brief_check.py). Read-only, one gh list plus one view per linked PR; silent when clean.
+python3 "$CLAUDE_PROJECT_DIR/scripts/pr_brief_check.py" --line 2>/dev/null || true
 # Findings gait — the pace line (ADR-086 part E). Read-only: prints the EXTEND/CONTRACT phase,
 # open findings, displacement and the next aid station from _STATE/findings.jsonl so the
 # detectors above have a place where findings get a fate and a close. Never fails the hook.

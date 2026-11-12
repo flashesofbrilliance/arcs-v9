@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 302,
+  "script": 305,
   "skill": 28,
   "workflow": 2
  },
- "total": 434,
+ "total": 437,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 591,
+   "WIRED": 595,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 3,
    "DUPLICATE": 6,
@@ -2244,6 +2244,14 @@
   },
   {
    "kind": "script",
+   "name": "pr_brief_check.py",
+   "path": "scripts/pr_brief_check.py",
+   "jtbd": "pr_brief_check.py: keep design briefs tied to big PRs, and keep their status true.",
+   "invoke": "python3 scripts/pr_brief_check.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "pre_prep_gate.py",
    "path": "scripts/pre_prep_gate.py",
    "jtbd": "pre_prep_gate — the INPUT end of the legibility clean room (ADR-075, amendment A).",
@@ -2532,6 +2540,14 @@
   },
   {
    "kind": "script",
+   "name": "recoil_public_share_gate.py",
+   "path": "scripts/recoil_public_share_gate.py",
+   "jtbd": "Gate runtime/recoil/public-shares.json (backlog recoil-public-share-gate, 2026-11-12).",
+   "invoke": "python3 scripts/recoil_public_share_gate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "recoil_service.py",
    "path": "scripts/recoil_service.py",
    "jtbd": "Recoil call service: the stage runner (stdlib only). Backlog row recoil-service-cli (R4).",
@@ -2720,6 +2736,14 @@
    "path": "scripts/serialize_grade.py",
    "jtbd": "serialize_grade.py — grade a serialized pre-call briefing against the outcome.",
    "invoke": "python3 scripts/serialize_grade.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "share_control_gate.py",
+   "path": "scripts/share_control_gate.py",
+   "jtbd": "Share-control gate (Frustration Gate, AGENTS.md gotcha 15; 2026-11-12).",
+   "invoke": "python3 scripts/share_control_gate.py",
    "state": "WIRED"
   },
   {
