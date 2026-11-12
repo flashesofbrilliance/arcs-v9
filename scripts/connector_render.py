@@ -201,6 +201,84 @@ def live_channels(row):
     return out
 
 
+# ---- tool-getting-started (src/ui-kit/templates.json; docs/ui-kit-tool-template-plan.md) ----
+# The template's head (tokens, grammar chips, kit CSS, fonts) is read from its canonical example so
+# the kit has one copy; only title, description and the tool's one non-signal swatch change.
+TOOL_TEMPLATE_SRC = os.path.join(OUTDIR, "good-rfp-engine.html")
+
+
+FONT_REQUEST = ('<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800'
+                '&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">')
+
+
+def tool_template_head(title, desc, accent, note, jtbd=None):
+    import re
+    src = open(TOOL_TEMPLATE_SRC, encoding="utf-8").read()
+    head = src[:src.index("</head>")]
+    tail = src[src.index('<script>\ndocument.querySelectorAll("pre")'):]
+    head = re.sub(r'<link rel="alternate"[^>]*>\n', "", head)
+    head = re.sub(r'<link rel="preload"[^>]*as="font"[^>]*>\n', "", head)  # write_page re-adds fonts
+    head = re.sub(r"/\* fonts_selfhost:begin.*?fonts_selfhost:end \*/\n", "", head, flags=re.S)
+    head = head.replace("</title>", "</title>\n" + FONT_REQUEST, 1)
+    head = re.sub(r"<title>[^<]*</title>", f"<title>{esc(title)}</title>", head)
+    head = re.sub(r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{esc(desc)}">', head)
+    head = re.sub(r":root\{--tool-accent:#[0-9a-fA-F]{6}\}", ":root{--tool-accent:%s}" % accent, head)
+    head = re.sub(r"rfp-engine wears [^.]*?\)", note, head)
+    head = re.sub(r'<html lang="en"[^>]*>', f'<html lang="en" data-jtbd="{esc(jtbd)}">' if jtbd else '<html lang="en">', head, count=1)
+    return head, tail
+
+
+def render_tool_page(repo, data, row, live):
+    url = row["url"]
+    gh = "https://" + url if not url.startswith("http") else url
+    t = data["tool"]
+    head, tail = tool_template_head(f"{repo} · ARCS public goods", data["desc"], t["accent"], t["accent_note"], t.get("jtbd"))
+    chips = "\n".join(
+        f'<span class="g-chip" data-tone="{c["tone"]}"><span class="g-glyph">{ {"show": "●", "say": "◆", "limit": "▲"}[c["tone"]] }</span>'
+        f'<span class="g-tag">{esc(c["tag"])}</span><span class="g-body">{esc(c["body"])}</span></span>'
+        for c in t["chips"])
+    installs = "\n".join(f'<pre>{esc(data["install"][ch]["cmd"])}</pre>' for ch in live if ch in data["install"])
+    note = f'\n<p>{esc(data["note_linux"])}</p>' if data.get("note_linux") else ""
+    rules = "\n".join(f'<div class="panel"><h3>{esc(c["t"])}</h3><p>{esc(c["p"])}</p></div>' for c in t["what"])
+    gaps = "\n".join(f"<li>{esc(g)}</li>" for g in t["not_proven"])
+    body = f"""</head>
+<script defer src="/_vercel/insights/script.js"></script>
+<body>
+<main>
+<div class="eyebrow">ARCS public goods · {esc(t["stage"])}</div>
+<h1>{esc(t["h1"])}</h1>
+<p class="lede">{esc(t["lede"])}</p>
+<div class="chips">
+{chips}
+</div>
+
+<h2>Why it exists</h2>
+<p>{esc(t["why"])}</p>
+
+<h2>Install</h2>
+{installs}{note}
+
+<h2>{esc(t["what_label"])}</h2>
+<div class="rules">
+{rules}
+</div>
+
+<h2>Not proven yet</h2>
+<ul>
+{gaps}
+</ul>
+
+<h2>For agents</h2>
+<p>MIT and public: read the source at <a href="{esc(gh)}">{esc(url)}</a> before you install it.</p>
+<p><a href="/">ARCS public goods</a> · <a href="/llms.txt">site llms.txt</a> · <a href="/AGENTS.md">site AGENTS.md</a></p>
+</main>
+"""
+    out = os.path.join(OUTDIR, f"{repo}.html")
+    write_page(out, head + body + tail)
+    chans = ", ".join(f"{c}✓" for c in live if c in data["install"])
+    print(f"rendered public/{repo}.html  [{chans}] (tool-getting-started)")
+
+
 def render(repo, data, row):
     live = live_channels(row)
     if not live:
@@ -212,6 +290,9 @@ def render(repo, data, row):
             raise SystemExit(
                 f"REFUSED: {repo} copy references channel '{chname}' which is NOT live:true in SSOT. "
                 f"live channels: {sorted(live)}")
+
+    if data.get("template") == "tool-getting-started":
+        return render_tool_page(repo, data, row, live)
 
     url = row["url"]
     gh = "https://" + url if not url.startswith("http") else url
