@@ -44,7 +44,7 @@
     },
     "masthead": {
       "type": "string",
-      "description": "Optional: the author's name, set large at the top right of the header row. Use it instead of overview.byline, not both."
+      "description": "Optional: the author's name, set large at the right end of the tab row; it replaces the meta strip's From line. Use it instead of overview.byline, not both."
     },
     "top_line": {
       "type": "string",
