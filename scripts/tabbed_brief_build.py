@@ -250,11 +250,13 @@ def r_overview(d):
         ask = ""
         if r.get("ask"):
             link = ('<a class="rcpt-mail" href="%s">%s</a>' % (e(r["ask_href"]), e(r.get("ask_label") or r["ask_href"].replace("mailto:", "")))) if r.get("ask_href") else ""
-            ask = '<p class="rcpt-ask">%s %s</p>' % (md(r["ask"], "/overview/receipt/ask"), link)
-        card = ('<section class="rcpt" aria-labelledby="rcpt-claim"><p class="rcpt-meta"><span>%s</span><span>Written %s</span><span>Resolves %s</span></p>'
-                '<p class="rcpt-claim" id="rcpt-claim">%s</p><dl class="rcpt-rows"><dt>Kill it if</dt><dd>%s</dd><dt>Status</dt><dd>%s</dd></dl></section>\n%s\n') % (
+            ask = '<p class="rcpt-ask">%s %s</p>\n' % (md(r["ask"], "/overview/receipt/ask"), link)
+        card = ask + ('<section class="rcpt" aria-labelledby="rcpt-claim"><p class="rcpt-meta"><span>%s</span><span>Written %s</span><span>Resolves %s</span></p>'
+                '<p class="rcpt-claim" id="rcpt-claim">%s%s</p><dl class="rcpt-rows"><dt>Kill it if</dt><dd>%s</dd><dt>Status</dt><dd>%s</dd>%s</dl></section>\n%s') % (
             md(r["kind"], "/overview/receipt/kind"), md(r["written"], "/overview/receipt/written"), md(r["resolves"], "/overview/receipt/resolves"),
-            md(r["claim"], "/overview/receipt/claim"), md(r["kill"], "/overview/receipt/kill"), md(r["status"], "/overview/receipt/status"), ask)
+            ('<span class="rcpt-odds">%s</span> ' % md(r["odds"], "/overview/receipt/odds")) if r.get("odds") else "",
+            md(r["claim"], "/overview/receipt/claim"), md(r["kill"], "/overview/receipt/kill"), md(r["status"], "/overview/receipt/status"),
+            ('<dt>Last resolved</dt><dd>%s</dd>' % md(r["last"], "/overview/receipt/last")) if r.get("last") else "", "")
         assert '<div class="ftiles-c">' in out
         out = out.replace('<div class="ftiles-c">', card + '<div class="ftiles-c">', 1)
     if o.get("bites_at") == "end" and o.get("bites"):  # evidence first, then what colleagues say

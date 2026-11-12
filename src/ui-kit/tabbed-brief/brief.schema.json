@@ -244,7 +244,7 @@
           "description": "Optional: one real dated call shown as a receipt card above the tiles, the page's proof object. ask and ask_href put the next step under it.",
           "properties": {
             "kind": {"type": "string"}, "written": {"type": "string"}, "resolves": {"type": "string"},
-            "claim": {"type": "string"}, "kill": {"type": "string"}, "status": {"type": "string"},
+            "odds": {"type": "string"}, "claim": {"type": "string"}, "kill": {"type": "string"}, "status": {"type": "string"}, "last": {"type": "string"},
             "ask": {"type": "string"}, "ask_href": {"type": "string"}, "ask_label": {"type": "string"}
           }
         },
