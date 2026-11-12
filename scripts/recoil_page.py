@@ -382,6 +382,15 @@ def kit_prim(name):
     raise SystemExit(f"kit primitive {name} has no @prim block")
 
 
+def print_palette():
+    """The @media print block of the kit light remap, verbatim: print is light (spec 8 Q2, Zach 2026-11-12)."""
+    light = open(os.path.join(KIT, "_tokens-light.css"), encoding="utf-8").read()
+    m = re.search(r"^@media print\{.*\}\}$", light, re.M)
+    if not m:
+        raise SystemExit("_tokens-light.css has no @media print block")
+    return "/* Print palette, from src/ui-kit/recoil-report/_tokens-light.css (its @media print block, verbatim) */\n" + m.group(0) + "\n"
+
+
 PAGE_CSS = """/* Page layer, recoil-skim template: layout, tables and print only. Every component rule above is a kit block. */
 :root { --fs-label: 0.75rem; --fs-body: 0.9375rem; --measure: 680px; } /* label 12px, body 15px (spec 4.3); one px measure */
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -408,6 +417,7 @@ a { color: var(--cyan); text-underline-offset: 3px; }
 .ledger-row, .claim, .tbl tr, .chart { break-inside: avoid; }
 .fold > summary { break-after: avoid; }
 @media (max-width: 760px) { .wrap { padding: 20px 16px 160px; gap: 16px; } }
+@page { margin: 14mm 12mm; }
 @media print { .wrap { max-width: none; padding: 0; } .controls, [data-copy] { display: none; } details.fold::details-content { content-visibility: visible; display: contents; } .fold { break-inside: auto; } }
 """
 
@@ -656,6 +666,7 @@ def render(raw):
     h = p["header"]
     css = "".join(kit_prim(n) + "\n" for n in PRIMS)
     tokens = open(os.path.join(KIT, "_tokens.css"), encoding="utf-8").read()
+    tokens += print_palette()
     glance = []
     for i, g in enumerate(p["glance"]):
         key = esc(g["key"])
@@ -752,6 +763,8 @@ def self_test():
     page = render(raw)
     expect("section label never printed twice", page.count("01 · Pre-Call") == 0)
     expect("no em-dash in the body", "—" not in page.split("</style>")[-1])
+    pr = page[page.find("Print palette, from"):]
+    expect("print is light: the kit print block is inlined", "@media print{:root{--bg:#f7f8fa;" in pr and "--magenta:#a21caf" in pr)
     print("recoil_page self-test:", "PASS" if ok else "FAIL")
     return 0 if ok else 1
 

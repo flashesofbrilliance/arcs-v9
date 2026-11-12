@@ -182,7 +182,7 @@ Child sessions: R1, R2 and R10 start now (independent, separate files). R4 start
 ## 8. Waiting on Zach
 
 1. **"720°":** proposed as a 360° orbit in space plus a full scrub in time, forward and back. Or did you mean two full rotations, or yaw plus pitch?
-2. PDF default palette: dark, as on screen, or light, to save ink and suit a printed read?
+2. PDF default palette: dark, as on screen, or light, to save ink and suit a printed read? **Answered, Zach 2026-11-12: light for print** (R6 builds to it; the screen stays dark).
 3. Counterpart twin: the same component set with an audience filter, or its own template?
 4. Approve the hard-stop list in §6.3 as the autopilot boundary.
 5. The light page holds a personal email address and a sensitive fact about the counterpart, behind only its artifact link. Keep it, or redact it now?
@@ -234,3 +234,20 @@ Wave 1 built every stage and proved it on fake model answers. Wave 2 gets the fi
 READY now: `recoil-epic-tool-catalog`, `backlog-merge-driver-by-id`. OPEN with no dependency: `backlog-session-cards-skill`. §8 Q5 gates `recoil-brian-ssot`, which leads to `recoil-real-model-run` (a spend go), then `recoil-skills-on-runner` and R12. R11 leads to `recoil-kairos-7s-test`, then R12. §8 Q3 gates `recoil-ship-twin`.
 
 **Merge queue.** One session, recoil-wave2, merges every recoil PR, one at a time, with `scripts/safe_merge.sh`, and only on Zach's own go. Owners merge main into their own branches when the backlog file conflicts. The merge-train session keeps the non-recoil PRs.
+
+### 10.4 First real run, 2026-11-12 (Gasmi)
+
+On Zach's "go ahead" for the spend, the runner ran J1 to J4 on the Gasmi SSOT with the deep-role model and a 1 USD cap. The run used Gasmi because its SSOT is on main and Brian has none. Every stage passed. Measured against R8's bar, set before the run:
+
+| Bar | Result |
+|---|---|
+| 0 invented cells | Met. The gate allows none. |
+| At least 3 filled cells on one real call | Met. 9 cells of 3,125. |
+| A rerun shows J4 UNCHANGED at no new cost | Met. J1 to J4 UNCHANGED, no new calls. |
+| A cold reader agrees with at least 2 of 3 sampled cells | Not run yet. This needs a person. |
+
+What real answers showed:
+- J3 dropped 8 of the model's 14 claims because they cite no atom. The gate did its job.
+- J2 graded every verb C or D on only 7 atoms, so this run sits at grain.
+- J4 ran at version 1, with the fixed operator mapping. PR 2177 replaces that mapping with a judged axis, so J4 runs once more after 2177 merges.
+- The runner prints no spend figure. That is a gap for the budget gate's audit.
