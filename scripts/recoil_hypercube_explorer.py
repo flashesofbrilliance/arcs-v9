@@ -103,11 +103,10 @@ BODY = """<main>
     <div class="fold-body"><div class="ledger" id="hx-atoms"></div></div>
   </details>
   <details class="fold" id="f-axes">
-    <summary><div class="fold-title"><h2>How each axis is set</h2><span class="fold-verdict">Verb and operator by code where the record fixes them; the rest by one checked judgment call</span></div></summary>
+    <summary><div class="fold-title"><h2>How each axis is set</h2><span class="fold-verdict">Verb by code from the verb read; the rest by one checked judgment call</span></div></summary>
     <div class="fold-body"><div class="passes">
       <div class="pass"><div><span class="pass-k">Verb</span><p>analyze, assess, evaluate, synthesize, recapitulate</p></div><div><span class="pass-k">Source</span><p>The J2 verb pass the cell came from.</p></div><div><span class="pass-k">Set by</span><p><span class="pass-v held">Code</span>A claim no verb pass lists gets its verb by judgment.</p></div></div>
-      <div class="pass"><div><span class="pass-k">Operator</span><p>LAB, KKL, BAR, COURT, FUNHOUSE</p></div><div><span class="pass-k">Source</span><p>The J3 ruling: GROUNDED to LAB, INFERENCE to KKL, STRUCK to FUNHOUSE (ADR-060 section 4).</p></div><div><span class="pass-k">Set by</span><p><span class="pass-v held">Code</span>When the claims in a source disagree, or there are none, by judgment.</p></div></div>
-      <div class="pass"><div><span class="pass-k">Lens, resolution, L-stack</span><p>D W H C R · Exec to Surgical · L1 to L5</p></div><div><span class="pass-k">Source</span><p>One model call places each source; code keeps only valid values and the source's own atoms.</p></div><div><span class="pass-k">Set by</span><p><span class="pass-v changed">Judgment</span>Graded by code from the atoms cited; one atom is grade D.</p></div></div>
+      <div class="pass"><div><span class="pass-k">Other four axes</span><p>D W H C R · LAB KKL BAR COURT FUNHOUSE · Exec to Surgical · L1 to L5</p></div><div><span class="pass-k">Source</span><p>One model call places each source; code keeps only valid values and the source's own atoms.</p></div><div><span class="pass-k">Set by</span><p><span class="pass-v changed">Judgment</span>Graded by code from the atoms cited; one atom is grade D.</p></div></div>
     </div></div>
   </details>
 </div>
