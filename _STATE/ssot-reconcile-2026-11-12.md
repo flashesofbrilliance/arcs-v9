@@ -2,8 +2,10 @@
 title: SSOT cross-store reconciliation, 2026-11-12
 row: ssot-cross-store-reconcile
 measured_at: 2026-11-12T18:12Z (oracle now), origin/main 1992584b
-mode: read-only (nothing closed, labelled, written or re-pinned)
+mode: measured read-only; fixes 1 and 2 applied 2026-11-12 18:25Z on Zach's "Yes, apply both"
 ---
+
+> **Applied 2026-11-12 18:25Z** (Zach: "Yes, apply both"). The `reconcile` subcommand in section 4.2 is built (`scripts/backlog_issue_sync.py`, self-test 24/24) and was run with `--apply` against origin/main `4e4b6cc6`: 25 issues closed (11 DONE as completed, 14 COMPOSTED or SUPERSEDED as not planned, each with a comment naming its row) and 32 labelled (31 `held`, 1 `blocked`). A rerun plans 0 actions, and open issues dropped from 131 to 106. Fixes 3 to 8 are not applied. Wiring and the oracle namespace are filed as rows `open-loops-ssot-drift-line` (OPEN) and `oracle-sync-namespace` (HELD).
 
 # SSOT cross-store reconciliation, 2026-11-12
 
