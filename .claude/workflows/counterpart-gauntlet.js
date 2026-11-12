@@ -8,6 +8,12 @@ export const meta = {
 }
 
 // ---------------------------------------------------------------------------
+// AFTER EVERY RUN (the caller does this; a workflow cannot write files): save the run, log it, render it.
+//   python3 scripts/gauntlet_brief.py ingest <task output file> --slug <who-what> --run-id <wf_...> [--context ctx.json]
+//   python3 scripts/tabbed_brief_build.py _ARTIFACTS/gauntlets/<date>-<slug>/brief.json --artifact OUT.html   (internal only)
+//   python3 scripts/gauntlet_log_emit.py && python3 scripts/warroom_board.py
+// A run that is not ingested is lost: the ledger and both ledger views only know what was logged.
+// ---------------------------------------------------------------------------
 // args (all counterpart-specific context is passed in — nothing hardcoded):
 // {
 //   counterpart: "Yuri Kleban",

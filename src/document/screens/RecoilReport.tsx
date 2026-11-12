@@ -385,6 +385,7 @@ function DeepStrata({ raw, skip = [], idx = '07' }: { raw: RecoilReportRaw; skip
               background: crystal ? 'rgba(0,240,255,0.02)' : `${amber}08`,
               boxShadow: crystal ? '0 0 20px rgba(0,240,255,0.07), inset 0 0 30px rgba(255,215,0,0.03)' : 'none',
               opacity: fid.opacity,
+              breakInside: 'avoid',
             }}>
               <button
                 onClick={() => setOpen(isOpen ? -1 : i)}

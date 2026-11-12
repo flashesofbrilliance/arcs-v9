@@ -1,0 +1,957 @@
+{
+ "counterpart": "Kyle Libra (Gravity Labs advisor, ex-CEO and partner; ex-Paxos Head of Brokerage Product)",
+ "facet_count": 6,
+ "raw_findings": [
+  {
+   "facet": "Kyle runs his own 2026-08-07 checklist (\"How investors now evaluate early products\") on Zach: product sense, grit, technical proficiency, traction, domain expertise, the red flags, and the \"one of many\" bar-lowerer, scored only from what the five pages show.",
+   "cracks": [
+    {
+     "severity": "break",
+     "surface": "Every page's default theme. gravity-brief.html line 11 sets data-theme to 'dark' unless localStorage says otherwise, so the OS light preference is overridden. Tokens: --bg #020408, --cyan #00F0FF (28 var(--cyan) uses on the overview). Header label 'ARCS FIELD OS'.",
+     "quote": "Pick an aesthetic that isn't blue/purple on black.",
+     "why_fails": "This is the first item under his 'Clean up the obvious hallmarks of AI driven design.' Saturated cyan on near-black is the blue-on-black look he names, and it is what he sees in the first second, before any receipt loads. Violet is defined but never used, so purple is clear. The page does have a good light theme, but the pin hides it. The 2026-11-10 handoff records Zach's choice for the RFP engine page to 'keep OS-following light/dark rather than pinning dark', and this family does the opposite.",
+     "basis": "Kyle corpus, 'How investors now evaluate early products', red-flag list. Repo: public/gravity-brief.html line 11 (default 'dark') and lines 176 to 177 (light tokens that only apply without the pin). CLAUDE.md handoff Decisions: 'Zach: keep OS-following light/dark rather than pinning dark.'",
+     "fix": "Make the default follow the OS (no data-theme unless the reader picked one), so a light-mode reader gets the #f7f8fa / #00606b theme. Drop 'ARCS FIELD OS' from the header. Better still, open in light for this reader: he names that aesthetic as a tell, so don't make him toggle away from it."
+    },
+    {
+     "severity": "break",
+     "surface": "Overview, Bull vs Bear, 'Salvo, 2026-11-10: 30,000 runs each way': rows 'Bomb / Ruin, one-way doors (BAR)', 'Fire / Cross-examination (COURT, Loki)', 'Water / Drift over time (LAB, KKL)', 'Air gap / Conflict of interest (Funhouse)'.",
+     "quote": "Remove all the superfluous copy.",
+     "why_fails": "Four element names plus six internal operator codes (BAR, COURT, Loki, LAB, KKL, Funhouse), none defined anywhere on the page. A reader outside ARCS can't decode any of them. And '30,000 runs each way' on a probability Zach himself calls 'My read' is false precision: he can't use that number and has to take it on trust. This is the exact feature he says lowers his estimate of the person. The one useful sentence in the block (the resolution rule fixed the 0.24 to 0.62 wording spread) is buried under the jargon.",
+     "basis": "Kyle corpus, 2026-08-07 red flags ('superfluous copy'). Thesis note register line: he calls evals 'just a test framework' and dislikes hype. Page text from public/gravity-brief.html.",
+     "fix": "Cut the Salvo block to one plain line under the Call, for example: 'I stress-tested the wording; without a resolution rule the odds swung from 0.24 to 0.62, so I added the rule above.' Delete the element names, the operator codes and the run count."
+    },
+    {
+     "severity": "break",
+     "surface": "EIR 'Kill it if: Fewer than 3 of 15 teams piloting agent payments say...'. Principal and overview Coda test: '15 calls with bank digital-asset and compliance leads'. EIR 'First user, and why it is not built ... no payment rails or design partner.'",
+     "quote": "if this is the right person to deeply understand this problem, why weren't they able to immediately get 10 people on the phone the next day to take a look?",
+     "why_fails": "Every customer test on the pages is planned for later, and none has been run. The wedge names its first user ('Treasury or compliance leads at fintechs piloting agent payments') and then says there is no design partner. Zach spent 2024 to 2025 at Grayscale and pitches 'Selling to sophisticated customers'. Kyle's own question applies directly: if you know this space, where are the calls? A pre-registered kill test is good method, but an unrun one is still a plan, and the wedge exists only on paper.",
+     "basis": "Kyle corpus, 2026-08-07 checklist, 'Domain expertise' item. Page text in gravity-brief-eir.html (The Wedge) and gravity-brief-principal.html (Homework, Done).",
+     "fix": "Make three to five of the 15 wedge calls before sending, then replace the plan with the result in one line: 'I asked 5 treasury or compliance leads piloting agent payments; N said the approval trail is what blocks go-live. Notes on request.' Even a null result answers his question, and it matches his own habit of publishing results he didn't want ('I'm posting this because I said I would')."
+    },
+    {
+     "severity": "crack",
+     "surface": "Overview Receipts, 'In the trenches': three rows labelled 'Live' (Build telemetry 6,195 commits; RFP-O-Matic; ARCS 'question in, dated record out'). Hero tile 'Claims, public record 23 of 32'.",
+     "quote": "Traction: is anyone using this?",
+     "why_fails": "'Live' answers 'does it run?', not 'is anyone using it?'. The overview gives no user count, no usage figure, no named user for ARCS or RFP-O-Matic (the principal page dates it 'public since 2026-11-02', nine days ago). The only traction admission in the family is on the EIR page ('built since 2025, no revenue yet'). Someone who reads only the overview will notice the silence, and he says a product with no traction 'likely raises so many doubts it would almost be better if you didn't have a product.' The removed Limit callout is not being re-flagged here. The problem is that the 'Live' chips now read as traction they don't show.",
+     "basis": "Kyle corpus, 2026-08-07: 'Traction: is anyone using this?' and 'A half baked AI built product with no traction likely raises so many doubts...'. Page text in public/gravity-brief.html and gravity-brief-eir.html.",
+     "fix": "Put one honest usage number on each Live row, whatever it is (for example 'RFP-O-Matic: N outside runs since 11-02' or 'ARCS: used daily by me; 0 outside users'). Or relabel the chips 'Running' so they claim only what they show. Don't restore the removed callout. A plain number in the row does the same job with less copy."
+    },
+    {
+     "severity": "crack",
+     "surface": "Overview hero: 'Your idea engine fills the funnel. ARCS tests the top and de-risks the bottom.' Principal 'ARCS in the Seat' labels: 'An alpha engine', 'A risk-adjusted pipeline', 'An anti-fragile test bench'. Open page: 'an AI-native platform team that compounds'.",
+     "quote": "If you have grandiose marketing language around a bunch of features that don't exist, that's bad.",
+     "why_fails": "The hero claims ARCS de-risks Gravity's pipeline. The EIR page says the same product has no revenue, no payment rails and no design partner, and ARCS has never been run on a studio's pass list. That is the gap he calls 'a giant scope vs vision mismatch'. The principal labels add fund-deck words (alpha, risk-adjusted, anti-fragile) on top of rows that are honestly marked 'Built:'. The body copy is more modest than the labels, and he will notice the mismatch.",
+     "basis": "Kyle corpus, 2026-08-07, 'Avoid a giant scope vs vision mismatch' and the grandiose-language line. Thesis note: he prizes intellectual honesty. Page text across gravity-brief.html, -principal.html, -open.html.",
+     "fix": "Make the hero describe what has been done: 'Your Idea Engine drafts memos 6x faster. I keep the record of why each one was passed, and recheck it.' Rename the three principal labels to what each is: 'Pass record and recheck', 'Conviction score per decision', 'Pre-registered kill tests'. Keep the 'Built:' lines as written."
+    },
+    {
+     "severity": "crack",
+     "surface": "Overview Receipts, 'Public goods and fine print': 'Open Public goods: MIT-licensed tools I built for my own work, free to use' (one link to good.arcs.care, no list).",
+     "quote": "Frame this project as one of many and show a long list of things you've built.",
+     "why_fails": "He calls this 'probably the one thing you can do to lower the bar you're evaluated on' and models it himself with 18 side projects and a growth chart. The pages build all of Zach's credibility on ARCS, so ARCS reads as the one big bet, the opposite of the framing he advises. The list exists (RFP-O-Matic, NFTT essays, status ledger, public goods) but sits behind a link at the bottom of the last section.",
+     "basis": "Kyle corpus, 2026-08-07, last suggestion and the paragraph after it ('you aren't presenting the next Anthropic'). Thesis note: '18 side projects in a year'.",
+     "fix": "Add a short dated list near the top of Receipts: '[N] things I shipped this year', one line each with date and a link (RFP-O-Matic, the tool you see, the beliefs ledger, the essays...), with ARCS as 'the one I am most excited about'. That puts it in his framing, in his words."
+    },
+    {
+     "severity": "nit",
+     "surface": "Overview hero tile 'Beliefs killed 48: By a runnable test since June; 20 became rules I now work by' and Receipts 'My own kill rate... about 10 a month'.",
+     "quote": "did this person create something basic after two prompts and then stop?",
+     "why_fails": "For grit the page scores well (6,195 commits, day 0 to 210, solo). But when agents write code, a commit count and a self-graded beliefs count are both cheap to inflate, and he knows that ('the frontier models have simultaneously raised the bar on how these things are evaluated'). The figures need one example he can check, or they read as self-quantification.",
+     "basis": "Kyle corpus, 2026-08-07, opening paragraphs and the 'Grit' item.",
+     "fix": "Link one killed belief by name in the tile, for example 'e.g. [belief], killed [date] by [test]', so he can open one record in one click and judge the rest from it."
+    }
+   ],
+   "resonates": [
+    "'Where the AI got it wrong' (principal): agents reported gates green while running a stale checker from another branch, and the fix is now itself a check. It is concrete and self-incriminating, the strongest technical-proficiency signal on the pages.",
+    "'Of 9 resolved calls since January, 2 hit, 1 partly hit and 6 missed... My 85 to 90% crypto calls ran hot'. Publishing a losing record matches his own 'I'm posting this because I said I would'. Keep it word for word.",
+    "The EIR 'A notable swing and miss' row: 'built since 2025, no revenue yet. If no one pays by 2027-03-31, it stops as a product.' A dated kill criterion on his own venture follows his 'getting projects to no is just as valuable as yes'.",
+    "Bull vs Bear reads activity, not size (x402 counts discounted by half for tests, Allium's strict-filter volume near $1.6M/month, the card-rails false negative). That is his own lens, and the chips are plain.",
+    "Kill tests pre-registered with a price and time box ('Under two weeks and $10k... Opinions are cheap; signatures are not') suit a studio that shelves about 19 of 20 memos.",
+    "Not a single page: five role tabs plus linked proof, ledger and essays pass his 'more than a single page' test, and no purple is used anywhere (var(--violet) has 0 uses).",
+    "The Open page's 'It sits on top of your Idea Engine... Nothing gets built twice' and the 'Your team already has tools for this' risk row: it credits his tool rather than competing with it."
+   ],
+   "verdict": "On his own checklist Zach passes grit (6,195 solo commits over 210 days) and technical proficiency (the stale-checker story). Product sense is mixed: the wedge is plausible but stays a hypothesis. He falls short on traction (the 'Live' chips show that things run, not that anyone uses them) and on domain expertise (every customer test is planned, none has been run, so 'why weren't they able to get 10 people on the phone' goes unanswered). The pages hit three of Kyle's named AI-design tells. They open pinned to cyan on near-black. The Salvo block is undecoded jargon with false precision. The hero promises more than the EIR page admits ARCS can do. They also miss his one bar-lowerer, a visible long list of things shipped. Four fixes would turn this from 'another AI-built pitch' into 'a curious builder with receipts': default to OS or light theme, cut Salvo to one line, make five wedge calls and report the result, and add a dated list of things shipped. Keep the losing call record, the dated kill on ARCS and the 'Where the AI got it wrong' row exactly as they are."
+  },
+  {
+   "facet": "THE PAXOS PRACTITIONER: the crypto, payments, stablecoin, agent-payments and regulatory claims (Bull vs Bear ledger, the 1 in 3 call, cost per payment, Allium, AML/KYC, Coda, the agent-payments wedge)",
+   "cracks": [
+    {
+     "severity": "break",
+     "surface": "The agent-payments wedge (Overview, Week One) and the EIR page's 'Receipts for agent spend' card",
+     "location": "public/gravity-brief.html Week One card 'The agent-payments wedge'; public/gravity-brief-eir.html The Wedge card 1; SSOT _ARTIFACTS/tabbed-brief/gravity.json",
+     "quote": "When an AI agent sends stablecoins, the send is final.",
+     "why_fails": "The whole wedge rests on finality, and finality is the one point where Kyle has gone on record against it. Paxos built regulated, issuer-controlled stables. To him, 'final' is the crypto-native simplification he spends his posts correcting. He would read it as Zach explaining his job back to him, and getting it wrong. The real gap is narrower and sounds better: an issuer can freeze funds, but nothing records what the user authorised, so a freeze or a dispute has no intent record to rule on.",
+     "basis": "Corpus, 'A lot of what people think about stablecoins is wrong' (2025-09-16): 'regulated stablecoins are actually better than wires because of seize and freeze capabilities'. Memory: he shipped BUSD, PYUSD, USDG and USDP at Paxos.",
+     "fix": "Rewrite in his terms: 'A regulated stable can be frozen, but it cannot be charged back, and nothing on-chain records what the user told the agent. When a send goes wrong, the issuer can freeze it with no record of intent to rule on. That gap is the wedge.' Make the same edit on the EIR card ('every send is final')."
+    },
+    {
+     "severity": "crack",
+     "surface": "Liability trigger row and the Call: Kyle's own footnote is the best hook, and it goes uncited",
+     "location": "public/gravity-brief.html Bull vs Bear > My judgment > Trigger 'Who pays when an agent exceeds its mandate' and Call 'Enter small, before the rule'",
+     "quote": "without a record of what the user asked, a dispute is close to a coin flip. My view: the first network rule that requires an intent record decides it.",
+     "why_fails": "The page's thesis (liability and chargeback rules decide agent payments) is something Kyle already wrote down. His interchange section argues that card fees buy chargebacks and fraud liability, and that crypto payments must replicate them. The page presents the idea as Zach's own. Kyle will either see it as his point coming back to him without credit, or not notice the echo at all. The brief cites his Idea Engine post everywhere else, so leaving this one out is the larger miss.",
+     "basis": "Corpus, stablecoin post: 'Consumer protections like charge backs and lack of liability for fraud on your card are hugely valuable' and footnote 25: 'Crypto payments will have to address these to some extent to be viable.'",
+     "fix": "Open the Trigger row with his line: 'Your footnote 25: crypto payments have to answer chargebacks and fraud liability. For agents, the answer starts with a record of what the user told the agent.' Link the post. The call then extends his claim instead of reinventing it."
+    },
+    {
+     "severity": "crack",
+     "surface": "'How I would test Coda' (Overview) and 'Coda Network: the riskiest assumption' (Principal)",
+     "location": "public/gravity-brief.html Week One card 'How I would test Coda'; public/gravity-brief-principal.html Homework, Done",
+     "quote": "The riskiest assumption I see: banks will take crypto deposits once compliance is solved.",
+     "why_fails": "Kyle's published view is that banks resist stablecoins and crypto deposits because of deposit economics, not compliance. Yield on stables threatens net interest income, which he puts at about 54% of JPM's revenue. Naming compliance as the blocker is the outsider version of the bank problem. It also sits beside a Coda team that has its own CEO. The Overview card still states the assumption flatly, even though the ref line says 'you know more'.",
+     "basis": "Corpus, 'The Race To Be The New Everything Bank' (2025-11-26): 'A huge way they make money is by earning and keeping the yield generated by their own customer's assets... if JPM has to go from offering 0.05% to 3.5%... that is going to get very expensive very fast.' Memory (thought-leadership map): 'Coda presumptuous (Coda CEO on their team)'.",
+     "fix": "Turn it into a two-sided question in his frame: 'The question I would ask your team: is the blocker compliance, or what crypto deposits do to a bank's net interest income? Your everything-bank post says the second. I would run 15 calls to find out which, and kill it if fewer than 2 sign a pilot letter.'"
+    },
+    {
+     "severity": "crack",
+     "surface": "Bull row 'Cost per payment (leading)'",
+     "location": "public/gravity-brief.html Bull vs Bear > Observed > row 2",
+     "quote": "The median L2 fee fell from 20¢ in February 2024 to 0.06¢ in April 2026, cheap enough for machine-sized payments.",
+     "why_fails": "A chain fee is not the cost of a payment, and Kyle has argued exactly this. He says stablecoins are not yet cheaper or faster than the alternatives, because on-ramps and off-ramps take days and cost money. Calling the gas fee 'cost per payment' is the naive version he takes apart. For agents in particular, the ramp cost and the float sitting in the agent's wallet are the real cost.",
+     "basis": "Corpus, stablecoin post: 'Stablecoins today are universally cheaper and faster than alternatives... I'd argue that today this isn't really true most of the time' and 'On/Off-ramp problems have to be solved before we can say Stablecoins are faster than existing alternatives... This step can often be measured in days.'",
+     "fix": "Rename the signal to 'Chain fee per payment (leading, partial)' and add: 'Ramps are not in this number; an agent's float has to get on-chain first.' Or move the ramp cost into the 'How I could read it wrong' group as a false positive."
+    },
+    {
+     "severity": "crack",
+     "surface": "AML/KYC row in 'How I could read it wrong'",
+     "location": "public/gravity-brief.html Bull vs Bear > How I could read it wrong > row 4 'Filter blind spot'",
+     "quote": "The strict filter removes tests and wash trades, not illicit flow: it cannot tell compliant volume from illicit volume.",
+     "why_fails": "The row treats illicit flow as a large unknown share of agent volume. That is the media framing Kyle mocks: he rebuts a 'dirty money' headline as under 0.01% of transactions and notes that AML law already applies. It also tells a former Paxos product head something obvious, that a volume filter is not an AML screen. It reads as filler that copies the narrative he dislikes.",
+     "basis": "Corpus, everything-bank post footnote 13: 'could alternatively be titled \"in a three year timeframe we found a sort of bad association of less than 0.01% of transactions with nefarious entities\"'. Stablecoin post: 'AML laws are still very much a thing'.",
+     "fix": "Cut the row, or make it about what ARCS does: 'AML/KYC: issuers screen the wallet, not the mandate. Nobody checks whether the agent stayed inside what the user allowed.' That turns a cliché into the wedge."
+    },
+    {
+     "severity": "crack",
+     "surface": "The ledger as a whole never uses his distribution-over-issuance lens",
+     "location": "public/gravity-brief.html Bull vs Bear, all three groups",
+     "quote": "Crypto theses pick a side. I name which signal each side rests on, and what would settle it.",
+     "why_fails": "Kyle's core claim is that value goes to whoever owns distribution and core infrastructure, not to issuers. The ledger measures counts, fees and volume, but never asks who owns the agent's wallet and the end-user relationship. x402 is a Coinbase protocol, and Visa, Mastercard and Stripe are distribution in his own taxonomy. The 1 in 3 call is in fact a bet that distribution (the networks) sets the rule. The page doesn't say so, and it misses the one sentence that would show Zach read the thesis instead of skimming it.",
+     "basis": "Corpus, stablecoin post: 'The real economic winners will be whoever owns distribution and core infrastructure... Distribution is everyone who owns the relationship with the end user... payment providers (PayPal, Stripe) and Exchanges'. Also: 'whoever owns distribution is going to be able to force adoption in a big way.'",
+     "fix": "Add one Observed row: chip 'Rules', signal 'Who owns distribution'. Text: 'x402 is Coinbase's; card-rail agents run through Visa and Mastercard. In your terms, the networks own distribution, so their rulebook, not issuance, decides liability.' Then the Call reads as an extension of his thesis."
+    },
+    {
+     "severity": "crack",
+     "surface": "Salvo block under the Call ('30,000 runs each way', Bomb/Fire/Water/Air gap, BAR, COURT, Loki, LAB, KKL, Funhouse)",
+     "location": "public/gravity-brief.html Bull vs Bear > Salvo, 2026-11-10",
+     "quote": "As written, the middle 90% of runs is 0.17 to 0.46; 1 in 3 sits inside.",
+     "why_fails": "A 90% band from 30,000 simulation runs, attached to a number that is plainly a judgment, is false precision wrapped in house jargon. Kyle deflates this kind of thing on sight: he calls evals 'just a test framework' and says AI is bad at judging significance. Next to a careful, dated, effective-date-gated call, the simulation weakens the honest part.",
+     "basis": "Corpus, Last Week in Crypto build notes: 'I think people are just hyping it up in the name of influencing. It's just a test framework.' And: '\"significance\" is in the eye of the beholder and AI is not particularly good at assessing it.'",
+     "fix": "Collapse the Salvo to two plain lines: 'Odds moved from 0.24-0.62 to about 1 in 3 once I wrote a resolution rule. Biggest swing factor: the base rate of a network rule; I re-mark at each Visa and Mastercard rules release.' Drop the operator names and the run count from this page."
+    },
+    {
+     "severity": "nit",
+     "surface": "Bull row transaction count is seven months stale on a ledger dated 2026-11-10",
+     "location": "public/gravity-brief.html Bull vs Bear > Observed > row 1",
+     "quote": "x402 reported over 165M agent transactions by April, about half of them tests.",
+     "why_fails": "The ledger is dated 'read 2026-11-10' but its headline activity number is from April. Kyle, who flags his own one-week snapshot and says the better method is to track over time, would see a figure that has not been re-read.",
+     "basis": "Corpus, 'Which is the third best stablecoin?': 'I recognize that a better way to do this is to build a dashboard and track over a longer period of time.'",
+     "fix": "Refresh the count to a current read, or label it 'as of April 2026; re-read due' so the ledger date and the data date agree."
+    }
+   ],
+   "resonates": [
+    "The Bear row (Allium's strict filter: about $1.6M a month of real agent volume against 165M headline transactions) applies his own 'market cap is not activity' point one level down. It is the strongest row for him; keep it.",
+    "False negative, 'Agent commerce on card rails': on-chain volume undercounts because Visa and Mastercard run agent payments on tokenized cards. He sources Visa data himself and will read this as practitioner-aware.",
+    "The 1 in 3 call's resolution rule ('Announcements without an effective date do not count') is how someone who has shipped regulated products thinks. Rule-gated, dated and falsifiable, it matches his honesty register.",
+    "'My 85 to 90% crypto calls ran hot, so every call now ships with its falsifier and a lower number' mirrors how he publishes results that did not work out. Keep it verbatim.",
+    "The Inlier row ('An operator's agents paying its own services look like wash trades... I have not tested this') admits an untested point on the page itself, which he values.",
+    "EIR: 'Your stealth agentic payments company may already own this; I would ask first.' This is the right humility toward the portfolio. Keep it.",
+    "Keeping the whole ledger inside stablecoins and payments plays to the one area where he says he has unique insight, so he can actually judge it."
+   ],
+   "verdict": "For Kyle as a Paxos practitioner, the crypto content is mostly credible, and two rows (Allium's strict filter, and agent payments on card rails undercounting on-chain) show real fluency in his activity-over-size lens. Fix one break before sending: the wedge rests on 'the send is final'. To the person who shipped freezable regulated stables, that is the naive version, and it puts the page's central claim on ground he has publicly rejected. Three smaller cracks repeat outsider framings he has written against. The L2 fee is labelled 'cost per payment' with ramps ignored. AML is framed as a large illicit-flow unknown. Coda's blocker is called compliance, when his own thesis says it is bank net interest income. The biggest missed opportunity is that the liability call is really his own footnote 25 (crypto payments must answer chargebacks and fraud liability) and his distribution-owns-the-rules thesis carried forward, and the page cites neither. Rewrite the wedge in freeze-and-intent terms, cite footnote 25 in the Trigger row, add a single 'who owns distribution' row, and cut the 30,000-run Salvo down to two plain lines. Then the ledger reads as built on his physics rather than as a better version of it."
+  },
+  {
+   "facet": "THE STUDIO OPERATOR: Kyle reading the headline, Week One and Receipts against his own posts. His posts say studios kill 19 of 20 ideas, that \"getting projects to no is just as valuable as yes\", that AI is bad at judging significance, and that the filter is the hard part.",
+   "cracks": [
+    {
+     "severity": "break",
+     "surface": "Overview headline, gravity-brief.html hero",
+     "location": "_ARTIFACTS/tabbed-brief/gravity.json overview.headline",
+     "quote": "Your idea engine fills the funnel. ARCS tests the top and de-risks the bottom.",
+     "why_fails": "There are three problems. (1) For the stage process, Kyle rejects funnel framing in so many words. He thinks of it \"less in terms of moving projects through a funnel to hit quotas and more about what is the next immediate step\". So line one describes his studio in a frame he has disowned. (2) \"De-risks the bottom\" claims ARCS works at founder search, launch and post-launch. Nothing on the page shows that. The EIR tab itself says \"no revenue yet\". This matches his named red flag: grandiose language about things that do not exist, and scope that does not match vision. (3) The headline never names the gap his own footnotes admit, which is the filter. So it reads as one engine pitching over another, not as the missing stage.",
+     "basis": "Corpus, where-do-good-startup-ideas-come: \"We think about it less in terms of moving projects through a funnel to hit quotas\". how-investors-now-evaluate-early, via memory kyle-libra-thesis: red flags \"scope vs vision mismatch, grandiose language about features that don't exist\". gravity.json tabs[1] EIR: \"built since 2025, no revenue yet\".",
+     "fix": "Lead with his sentence, not a metaphor. For example: \"Your footnote says tuning the filter is the hardest part of the Idea Engine. I keep the record of which filter calls turned out right.\" Or promote the Open tab line, which already gets this right: \"The agents find and draft, the desk keeps the record.\" Drop \"de-risks the bottom\" until a launch receipt exists."
+    },
+    {
+     "severity": "crack",
+     "surface": "Week One lede, gravity-brief.html",
+     "location": "gravity.json overview.sections[1].blocks[0]",
+     "quote": "a good memo now comes 6x faster, and some still come out unusable. Ideas are getting cheap. Trusting them is not. ARCS builds conviction the way an oak builds rings",
+     "why_fails": "The lede quotes only the self-critical half of his sentence and drops his counterweight. The page reads as \"your engine outputs junk\", which is the pitch-that-his-engine-is-broken failure. The words that name the real gap go uncited: his footnote that filtering is the hardest part, and his line that AI is bad at judging significance. Those would make ARCS his filter, not his critic. The oak-rings metaphor is the superfluous copy he lists as an AI-design hallmark.",
+     "basis": "Corpus, Idea Engine post: \"The memo's produced are at times unusable, but there is immense value in having something nearly instantly and free created.\" Footnote 4: \"Tuning an agent to return results that are actionable and set the filtering at the right level is bar far the most difficult and time consuming part of this system.\" Last Week in Crypto footnote 3: \"'significance' is in the eye of the beholder and AI is not particularly good at assessing it.\" Memory: AI-design red flag \"superfluous copy\".",
+     "fix": "Quote both halves, then point at his footnote. For example: \"Your Idea Engine post: memos 6x faster, some unusable, and still worth it. Your footnote 4 says the filter is the hard part. That part is what I work on.\" Cut the oak sentence."
+    },
+    {
+     "severity": "crack",
+     "surface": "Receipts > My own kill rate; hero tile '48 Beliefs killed'",
+     "location": "gravity.json overview.sections[2].blocks[0].groups[1].rows[0] and overview.tiles[3]",
+     "quote": "48 beliefs I held, killed by a test since June, about 10 a month. 20 changed the rulebook. Most hatches die; so do most of my beliefs, and the record keeps why.",
+     "why_fails": "Kyle's kill rate is a ratio over a counted denominator: 19 of 20 memos shelved, 1 of 29 stage-3 memos funded. The page puts a bare count (48) next to it and asserts \"most of my beliefs\" die without saying of how many. He measures activity over size, footnotes survivorship bias, and would ask \"48 of how many?\" at once. Without that number the mirror one-ups his metric instead of matching it. \"Most hatches die\" is borrowed from Gravity's own language without credit.",
+     "basis": "Corpus, venture-studios post, footnote 6: \"Our kill rate is something like 19 of every 20 investment memos get shelved.\" Where-do-good-ideas post: \"1 of every 29 ideas that gets the stage 3 memo ultimately gets investment.\" Same studio post: \"survivorship bias runs through all of this.\" Memory, gravity-thought-leadership-map: \"Most hatches will die\" is Gravity's phrasing.",
+     "fix": "State it as a ratio, or drop \"most\". For example: \"48 of N beliefs I wrote down since June failed their test, about 10 a month.\" Credit the phrase: \"Your about page says most hatches die. Mine do too, at this rate.\""
+    },
+    {
+     "severity": "crack",
+     "surface": "Week One card 'Your pass list, on the record'; Principal 'An alpha engine'; Open 'Hatch Desk' recheck",
+     "location": "gravity.json overview.sections[1].blocks[1].cards[0]; tabs[0].units[1].blocks[1].cards[0]; tabs[3].units[0].blocks[1]",
+     "quote": "Each idea you passed gets its reason and a recheck date. When the market moves, a wrong pass comes back as a lead, not a loss.",
+     "why_fails": "The card sells re-opening passes as new, but his process already does it. He writes \"no (or at least no right now)\", says ideas move \"backwards and forwards in the process multiple time\", and says \"We track what stage an idea is in.\" Pitching his own practice back to him without credit reads as not having read the post. What ARCS actually adds goes unsaid: a dated expectation against which the recheck can be scored.",
+     "basis": "Corpus, where-do-good-startup-ideas-come: \"Very often ideas go backwards and forwards in the process multiple time as they evolve\"; \"Getting projects to no (or at least no right now) is just as valuable as yes\"; \"We track what stage an idea is in.\"",
+     "fix": "Credit it, then add only the increment. For example: \"You already say 'no right now'. I would write down what each 'no right now' expects to see, so the recheck is a test, not a reread.\""
+    },
+    {
+     "severity": "crack",
+     "surface": "Bull vs Bear > Salvo group (the filter shown at work)",
+     "location": "gravity.json overview.sections[0].blocks[1].groups[2]",
+     "quote": "Salvo, 2026-11-10: 30,000 runs each way ... Ruin, one-way doors (BAR) ... Cross-examination (COURT, Loki) ... Drift over time (LAB, KKL) ... Conflict of interest (Funhouse)",
+     "why_fails": "This is the one place the page shows the eval layer actually working, and it hides it behind in-house operator names and an unexplained \"30,000 runs\". Kyle calls evals \"just a test framework\" and mocks hype around them. He jokes about his own Idea Engine trademark. Branded operator names on a test are the influencer register he cringes at. It also never says what the 30,000 runs vary, so he cannot judge whether it is a real test.",
+     "basis": "Corpus, Last Week in Crypto footnote 5: \"evals are all the rage. I think people are just hyping it up in the name of influencing. It's just a test framework.\" Idea Engine footnote 1: \"The idea of trademarking a platform that creates ideas is a bit silly.\"",
+     "fix": "Retitle it something like \"How I tested this call\" and say in one line what was varied (\"the same question asked 30,000 ways\"). Keep the four findings in plain words. Drop BAR, COURT, Loki, LAB, KKL and Funhouse from the counterpart surface."
+    },
+    {
+     "severity": "crack",
+     "surface": "Principal > ARCS in the Seat card titles",
+     "location": "gravity.json tabs[0].units[1].blocks[1].cards[0..2].title",
+     "quote": "An alpha engine / A risk-adjusted pipeline / An anti-fragile test bench",
+     "why_fails": "\"Alpha engine\" sits right beside his self-mocking \"Idea Engine™\" and reads as naming a rival engine instead of the stage after his. All three titles are buzzwords from the hype register his posts avoid. The card bodies are plain and good; the titles undercut them.",
+     "basis": "Corpus, Idea Engine footnote 1 (the self-mocking trademark). Memory register: \"Plain, self-deprecating ... hates hype\".",
+     "fix": "Use plain verbs that say what each one does: \"Why each hatch was passed, rechecked\", \"Each hatch's odds and its kill test\", \"Tests written before they run\"."
+    },
+    {
+     "severity": "crack",
+     "surface": "Receipts > Falsifiable predictions, scored; Bull vs Bear 1-in-3 call",
+     "location": "gravity.json overview.sections[2].blocks[0].groups[1].rows[3]; overview.sections[0].blocks[1].groups[1].rows[1]",
+     "quote": "Of 9 resolved calls since January, 2 hit, 1 partly hit and 6 missed ... Gravity can resolve it; I will post the outcome either way.",
+     "why_fails": "This is the strongest mirror on the page, a dated YES/NO call resolved by the world. It never names Mogg, the daily YES/NO prediction game his studio launched in June. He would see the shape and wonder whether Zach knew it. Left uncredited, it can read as presenting the studio's own idea back as Zach's method. Citing it turns one-upping into homage. Small n (9) is honestly stated, which is good.",
+     "basis": "Corpus, Mogg post: \"call YES or NO on one event per category ... The world resolves your picks.\" Memory, gravity-thought-leadership-map top edit (2): \"mirror Mogg (their daily YES/NO prediction game) with a public resolution log for dated calls\".",
+     "fix": "Add one line: \"Same shape as Mogg: a dated YES or NO, resolved by the world, kept even when I miss. Mine is 9 calls, not 10 a day.\""
+    },
+    {
+     "severity": "nit",
+     "surface": "Principal tab headline and lede",
+     "location": "gravity.json tabs[0].headline / lede",
+     "quote": "Break the CEO bottleneck. Your page: own hatches end to end, so ideas stop queuing at the CEO.",
+     "why_fails": "Kyle was Gravity's CEO from May to Oct 2026. To him, the studio operator, the line reads \"you were the bottleneck\", the same broken-engine framing pointed at him. It may paraphrase the job page, but it is the headline.",
+     "basis": "Memory kyle-libra-thesis: \"He moved from CEO to Advisor in Oct 2026 ... check every 'CEO' use.\"",
+     "fix": "Name the outcome, not the person. For example: \"Own a hatch end to end.\" Or quote the job page with the quotation marks shown."
+    },
+    {
+     "severity": "nit",
+     "surface": "EIR > Commit or Walk",
+     "location": "gravity.json tabs[1].units[3].blocks[0]",
+     "quote": "At one in thirty, that is data.",
+     "why_fails": "His own posts give the number two ways (19 of 20 memos shelved; 1 in 29 stage-3 memos funded). \"One in thirty\" matches neither exactly and carries no credit. Memory warns the kill rate is stated three ways and should not be cited as exact.",
+     "basis": "Corpus: \"1 of every 29 ideas that gets the stage 3 memo\"; \"19 of every 20 investment memos get shelved\". Memory: \"kill rate stated 3 ways, don't cite as exact\".",
+     "fix": "Write \"At your roughly 1 in 30, a written walk is data too\" so it reads as his number."
+    }
+   ],
+   "resonates": [
+    "Open tab, The Hatch Desk: 'It sits on top of your Idea Engine: the agents find and draft, the desk keeps the record. Nothing gets built twice.' This is the right position (the stage after volume, crediting his engine) and should be the hero line.",
+    "Open tab, How This Breaks: 'Your team already has tools for this ... Build on it and drop anything that repeats it' and 'if nothing turns up, close the desk.' This is his own kill discipline applied to Zach's own proposal; keep it.",
+    "Falsifiable predictions, scored: 2 hit, 1 partly hit, 6 missed of 9, '85 to 90% crypto calls ran hot', shipping lower odds. This is his 'posting this because I said I would' honesty register and his idea of getting to no. Do not cut.",
+    "The 1-in-3 network-rule call with a dated resolution rule ('Announcements without an effective date do not count') and 'I will post the outcome either way.' A real YES/NO with a stated falsifier fits his 'what has to become true' memo test.",
+    "Every kill test written before it runs (Principal 'Kill your darlings' row; EIR 'Kill it if ... Pre-registered'). This mirrors 'getting projects to no' as a practice, not a slogan.",
+    "EIR 'A notable swing and miss': ARCS has no revenue, with a stop date of 2027-03-31. This is the intellectual honesty he says he prizes, and it defuses the grandiosity risk elsewhere.",
+    "The Bull vs Bear 'How I could read it wrong' group (counts inflated by tests, card rails undercount, strict filter blind spot). It reads as activity-over-size reasoning in his own lens."
+   ],
+   "verdict": "Kyle would half-recognise himself here, and for this reader the problem is which half the page quotes back. The headline and Week One lede quote the self-critical part of his Idea Engine post (\"some unusable\") and call it a funnel. His posts reject that frame for the stage process. They also claim ARCS de-risks the bottom, which nothing on the page shows. So the opening reads as a rival engine telling him his engine leaks. The page never cites the words that make Zach the stage after his: his footnote that tuning the filter is the hardest part, and his line that AI is bad at judging significance. The kill-rate mirror (48 beliefs) has no denominator next to his measured 19 of 20. The pass recheck repeats his own \"no right now\" without credit. The prediction record, the one true echo of Mogg, never names Mogg. The material that would land is already on the page: the Hatch Desk line, the scored 2-of-9 calls, the pre-registered kill tests, and the \"close the desk\" exit. Fix by retiring the funnel headline in favour of the Hatch Desk line plus his footnote 4, crediting \"no right now\" and Mogg, stating the belief kill rate as a ratio, and putting the Salvo operator names into plain words. That moves the page from one-upping him to being the filter his own posts say he lacks."
+  },
+  {
+   "facet": "THE PROPOSED NEW FRAME: 'ripples in space and time, my gravity well mirrors his but with better physics', judged as Kyle Libra (Gravity Labs Advisor since Oct 2026, CEO May to Oct 2026), plus a check of existing copy and any stale-CEO assumptions",
+   "cracks": [
+    {
+     "severity": "pathogen",
+     "surface": "The proposed frame itself ('my gravity well mirrors his but with better physics'), not yet on any page",
+     "quote": "Played around with a lot of things but only published this fun little visualization of how gravity works. We might use it for part of our brand identity for Gravity Labs, not sure yet. ... It is a sort of web based fidget spinner.",
+     "location": "Kyle corpus, 'Footnotes are unexpectedly divisive' (2025-12-02), lines 270-272",
+     "why_fails": "Kyle undersells his own gravity toy on purpose ('fun little', 'fidget spinner', 'not sure yet'). Showing up with 'better physics' answers that modesty with a one-up on his toy and on the studio's possible brand mark. Two outcomes: he reads it as a status play against the thing he made for fun, or as a candidate who studied the name instead of the business. Either way the first impression is about Zach, not about Gravity's problem. His own checklist says investors judge 'the person first'; this is the person reaching for the room's logo.",
+     "basis": "Transcript line 270-272 (his self-deprecating description of the viz); memory kyle-libra-thesis-2026-11-11.md: 'A \"my gravity well, better physics\" frame competes with his own toy; it reads as one-upping unless it credits his.'",
+     "fix": "Drop 'better physics' entirely. If the gravity viz is mentioned at all, credit it as his and keep it as small as he does. Plain version in his register: 'You called your gravity toy a web-based fidget spinner. Mine is less fun to play with: a dated log of which calls landed and which did not.' Then move straight on to the record."
+    },
+    {
+     "severity": "break",
+     "surface": "'Ripples in space and time' as copy on a page sent to Kyle",
+     "quote": "If you have grandiose marketing language around a bunch of features that don't exist, that's bad.",
+     "location": "Kyle corpus, 'How investors now evaluate early' (2026-08-07), line 338; also line 241: 'that's like saying \"AI doing quantum physics is getting good.\" My reaction is…ok that's great I guess? The video advancement feels so much more tangible.'",
+     "why_fails": "'Ripples in space and time' is cosmic language for an append-only record of decisions and a scored calls list. That is the scope vs vision mismatch he names as a red flag. His line 241 says abstract claims of heavy capability leave him cold and tangible demos land. The current pages already have the tangible version: 9 resolved calls, 2 hit, 6 missed, 48 killed beliefs. A spacetime metaphor on top makes those real numbers read like decoration.",
+     "basis": "Transcript lines 338 and 241; memory thesis file register note: 'hates hype and influencer cringe', 'Prizes intellectual honesty'.",
+     "fix": "Keep the time axis, lose the physics words. Say what it is: 'Every call has a date, a falsifier and an outcome. Here is the list, misses first.' The current Receipts 'Calls' row already does this; let it carry the frame."
+    },
+    {
+     "severity": "crack",
+     "surface": "The Principal tab headline and lede, live now",
+     "quote": "Break the CEO bottleneck. Your page: own hatches end to end, so ideas stop queuing at the CEO.",
+     "location": "public/gravity-brief-principal.html headline and lede; SSOT _ARTIFACTS/tabbed-brief/gravity.json, roles[principal].headline / lede",
+     "why_fails": "Kyle was the CEO from May to Oct 2026, so the bottleneck this line names was him, and he may have written or approved the role page it paraphrases. Read by him now, it is either a dig at his tenure or out of date (he is Advisor; the CEO seat has changed). The words are paraphrased from the role page, so the line is not false, but a cold reader cannot see the source in the headline. It carries his title more than his problem.",
+     "basis": "Memory kyle-libra-thesis-2026-11-11.md: 'Gravity Labs Advisor since Oct 2026; CEO May to Oct 2026' and 'check every \"CEO\" use'. The page copy, grepped from the rendered HTML.",
+     "fix": "Name the queue, not the seat: 'Own hatches end to end, so ideas stop waiting in line.' If the role page's wording has to stay, quote it as a quote with a link, so it reads as their words and not as Zach's view of whoever held the job. Leave 'A shortlist of three CEO or CTO candidates' (Principal) and the Founder tab's 'CEO or CTO of a hatch' alone; those are the hires, not him."
+    },
+    {
+     "severity": "crack",
+     "surface": "Overview, Week One: the oak-rings metaphor already on the page",
+     "quote": "ARCS builds conviction the way an oak builds rings: every pass with its reason, every kill test written before it runs, every overturned belief kept on the record. The rings are what hold the tree up.",
+     "location": "public/gravity-brief.html, Week One block (SSOT gravity.json overview Week One p block)",
+     "why_fails": "The pages already have one nature metaphor for the time axis. A gravity-well frame on top would give two competing metaphors for one append-only log. That is the 'superfluous copy' hallmark he names. The oak line is also the one place in Week One that explains instead of shows; the sentences around it ('Ideas are getting cheap. Trusting them is not.' and the pass-list row) already make the point.",
+     "basis": "Transcript line 348-350: 'Clean up the obvious hallmarks of AI driven design... Remove all the superfluous copy.'",
+     "fix": "Pick at most one image. Better: neither. Cut the oak sentence to its plain clause ('Every pass keeps its reason, every kill test is written before it runs, and every overturned belief stays on the record') and do not add the gravity well."
+    },
+    {
+     "severity": "nit",
+     "surface": "The word 'ripples' in a crypto pitch",
+     "quote": "Ripple completes $1B GTreasury acquisition for enterprise treasury management (via CoinDesk) 🔥🔥🔥🔥🔥",
+     "location": "Kyle corpus, Last Week in Crypto digests, lines 601, 685, 714",
+     "why_fails": "Ripple is a company that comes up again and again in his weekly news digests. To a crypto reader, 'ripples' brushes against XRP and Ripple before it reads as physics. It is a small snag, and one more reason the frame reads like brand play.",
+     "basis": "Transcript lines 601, 685, 714.",
+     "fix": "If a time-axis image survives at all, use 'record' or 'ledger', which are already his domain's words."
+    },
+    {
+     "severity": "nit",
+     "surface": "Where the mirror should actually point (resonance that is missing, not broken copy)",
+     "quote": "I'm realizing \"significance\" is in the eye of the beholder and AI is not particularly good at assessing it.",
+     "location": "Kyle corpus, Last Week in Crypto launch post (2025-10-02), footnote line 669; also line 428: 'AI is at this point in time, particularly bad at inventing the future.'",
+     "why_fails": "The real mirror between Kyle and Zach is not gravity. It is that Kyle built a volume engine (Idea Engine, a news scorer with fire-emoji significance grades) and said in writing that judging significance is the hard, unsolved part. The pages quote the Idea Engine's '6x' and 'unusable' lines but not his own admission about the filter, which is the strongest hook and fully his words.",
+     "basis": "Transcript lines 669, 428; memory thesis file: 'it is his own words that name it, so the page can point at his sentence rather than at a metaphor.'",
+     "fix": "Plainest mirror that gets past his hype allergy: 'You wrote that significance is in the eye of the beholder and AI is not good at judging it. I have been keeping score on my own judgment: 9 resolved calls, 2 hits, 6 misses, every one dated. That is the part of your engine I would want to own.' Credit his gravity toy only as a passing aside, if at all."
+    }
+   ],
+   "resonates": [
+    "The Receipts 'Calls' row ('Of 9 resolved calls since January, 2 hit, 1 partly hit and 6 missed... My 85 to 90% crypto calls ran hot') is the honest, unflattering result he publishes himself ('I'm posting this because I said I would'). It already does the 'ripples in time' job in plain words; do not dress it up.",
+    "'Ideas are getting cheap. Trusting them is not.' matches his own Idea Engine line about volume without judgment, short and in his register.",
+    "'Gravity can resolve it; I will post the outcome either way' hands the scoring to his side, the opposite of one-upping. It is the right posture for any mirror.",
+    "The Bull vs Bear row 'Volume with tests and wash trades removed' and the discount on x402 counts match his activity-over-size and 'hyperbolic media' instincts.",
+    "Kills framed as 'Most hatches die; so do most of my beliefs' matches his '19 of 20 memos shelved' and 'getting projects to no is just as valuable as yes'.",
+    "No copy on any of the five pages uses gravity-well, physics, spacetime or ripple language today (checked against the rendered text and the SSOT), so there is nothing to undo, only a frame to leave out.",
+    "Every page is addressed 'Prepared for The Gravity Labs team', not to Kyle as the decision maker. That holds up after his move to Advisor."
+   ],
+   "verdict": "Do not ship 'my gravity well mirrors his but with better physics.' Kyle calls his own gravity visualization a 'fun little' 'web based fidget spinner' the studio 'might' use for its brand. Answering it with 'better physics' one-ups his toy and the studio's possible logo. 'Ripples in space and time' is the grandiose language he lists as a red flag for a scope vs vision mismatch. Nothing on the five pages uses that frame today, so the fix is to leave it out, not to cut anything. The mirror that would land is his own sentence: 'significance is in the eye of the beholder and AI is not particularly good at assessing it.' Pair it with the scored calls list already in Receipts (9 resolved, 2 hit, 6 missed). If the gravity toy comes up at all, credit it as his in one modest aside. One live problem to fix separately: the Principal tab's 'Break the CEO bottleneck... ideas stop queuing at the CEO' names a seat Kyle held until October. Reword it to the queue, not the seat, or quote the role page with a link. Also cut the oak-rings metaphor so the pages carry no metaphor for the record at all."
+  },
+  {
+   "facet": "THE HYPE-ALLERGIC KYLE: invented terms, ARCS-internal vocabulary, grandiose metaphor, simulation theatre, disclaimers that protest too much, and claims he cannot check in one click",
+   "cracks": [
+    {
+     "severity": "pathogen",
+     "surface": "Overview, Bull vs Bear ledger, the 'Salvo' block",
+     "location": "public/gravity-brief.html Bull vs Bear section; SSOT _ARTIFACTS/tabbed-brief/gravity.json:111",
+     "quote": "Salvo, 2026-11-10: 30,000 runs each way ... Bomb / Ruin, one-way doors (BAR) ... Fire / Cross-examination (COURT, Loki) ... Water / Drift over time (LAB, KKL) ... Air gap / Conflict of interest (Funhouse)",
+     "why_fails": "This is the one block that would lose him. It uses four ARCS operator names he has no key for (BAR, COURT, Loki, LAB, KKL, Funhouse), an elemental naming scheme (Bomb/Fire/Water/Air gap) with a military title, and a '30,000 runs' and 'middle 90% of runs is 0.17 to 0.46' confidence band laid over what the page itself calls 'My judgment'. That is Monte Carlo wrapped around a guess. He wrote that evals are 'just a test framework' and said people hype them 'in the name of influencing'. He also wrote that significance 'is in the eye of the beholder'. Both mean he will read a simulated spread on a subjective probability as theatre. None of it can be checked in one click, because there is no link to the runs.",
+     "basis": "Corpus line 774: 'I think people are just hyping it up in the name of influencing. It's just a test framework. You should always test things.' Line 669: 'significance is in the eye of the beholder and AI is not particularly good at assessing it.' Line 338: 'If you have grandiose marketing language around a bunch of features that don't exist, that's bad.'",
+     "fix": "Cut the Salvo block. Keep the one real finding as a footnote-style line under the Call, in his register: 'When I first wrote this, the odds moved between 0.24 and 0.62 depending on how I worded the question. So I wrote down the resolution rule above before picking a number. I build the thing that would benefit, so I'm not the one who should grade it.'"
+    },
+    {
+     "severity": "crack",
+     "surface": "Overview, Bull vs Bear ledger, Call and Put rows",
+     "location": "public/gravity-brief.html 'My judgment' group",
+     "quote": "Put / The other 2 in 3 / If the rule is late, the loss is small: about 2.7 weeks of my time ... Long the liability record layer; short raw counts as proof of use.",
+     "why_fails": "He ran brokerage product at Paxos. A put is not the complementary probability of a call, and 'long X; short Y' reads as trading-desk cosplay. The metaphor is borrowed and the mapping is wrong, so it costs credibility exactly with the reader who knows the instrument. '2.7 weeks' is false precision on a time estimate.",
+     "basis": "Memory (kyle-libra-thesis): 'Paxos Head of Brokerage Product 2019 to 2025'. Corpus line 1463, his own footing on finance claims: 'Nothing in this blog post is financial advice... I am a person who is still holding the Scottie Pippen meme token'. He jokes about it, he does not borrow desk language to sound serious.",
+     "fix": "Rename the rows 'My call' and 'If I'm wrong', and drop the long/short line. 'If I'm wrong: if no network rule is in effect by mid-2027, I've spent about three weeks. ARCS already records human decisions this way. It does not yet do signed agent mandates.'"
+    },
+    {
+     "severity": "crack",
+     "surface": "Overview, Week One lede",
+     "location": "public/gravity-brief.html Week One; SSOT gravity.json:182",
+     "quote": "ARCS builds conviction the way an oak builds rings: every pass with its reason, every kill test written before it runs, every overturned belief kept on the record. The rings are what hold the tree up.",
+     "why_fails": "This is a nature metaphor sitting right after a fair two-sentence read of his own post ('Ideas are getting cheap. Trusting them is not.'). Those two sentences already did the work, and the oak line adds a quotable-poster register he avoids. He strips copy, and he named superfluous copy as an AI-design hallmark.",
+     "basis": "Corpus line 350: 'Remove all the superfluous copy.' Line 268: 'I just cringe so hard every time I hit publish.'",
+     "fix": "Delete the oak sentence and its tail. Let the two plain sentences stand, then go straight to the pass list."
+    },
+    {
+     "severity": "crack",
+     "surface": "Principal tab, 'ARCS in the Seat'",
+     "location": "public/gravity-brief-principal.html; SSOT gravity.json:371",
+     "quote": "An alpha engine ... A risk-adjusted pipeline ... An anti-fragile test bench",
+     "why_fails": "Three buzzword titles in a row. Each sits on a 'Built:' claim ('a conviction score on every decision') that has no link on the tab, so they are the grandiose-labels-on-features pattern he names as a red flag. 'Alpha engine' also invites a direct comparison with his trademarked Idea Engine, which he called a joke.",
+     "basis": "Corpus line 338 (grandiose marketing language about features). Line 432: 'The idea of trademarking a platform that creates ideas is a bit silly and what qualifies as a funny venture capital joke.'",
+     "fix": "Use plain verb titles, each linked to the live thing: 'Why we passed, and when to look again' (link to a sample pass record), 'How sure, and what would kill it' (link to one receipt), 'Tests written before they run' (link to the October benchmark). Drop 'Built:' wherever there is no link."
+    },
+    {
+     "severity": "crack",
+     "surface": "Open Application and Founder tabs, coined self-labels",
+     "location": "public/gravity-brief-open.html 'The Hatch Desk'; public/gravity-brief-founder.html lede and You Ask, I Bring; SSOT gravity.json:626, 688, 756",
+     "quote": "I would run it as an AI-native platform team that compounds ... An AI-native hatch needs a multi-hyphen chief more than a single title ... A multi-hyphen chief across product, tech and go-to-market.",
+     "why_fails": "'Multi-hyphen chief' is a coined term used twice. 'AI-native platform team that compounds' is three trend words in one clause, and he would never say it at dinner. He tells builders to show a long list of things built rather than describe themselves. On the Founder tab the coinage stands in for the evidence (co-founder, turnaround GM, Grayscale), which is right there in the same row.",
+     "basis": "Corpus line 364: 'Frame this project as one of many and show a long list of things you've built.' Line 136: vibe coding 'is bit overhyped'. Line 350 (superfluous copy).",
+     "fix": "Founder: 'I've covered product, engineering and sales in one seat before: co-founder once, turnaround GM once.' Open: 'Most funds call it a deal desk. Mine would keep each memo, its kill criteria and the record of every call in one place.' Drop 'AI-native' and 'compounds'."
+    },
+    {
+     "severity": "crack",
+     "surface": "Overview hero",
+     "location": "public/gravity-brief.html hero",
+     "quote": "Your idea engine fills the funnel. ARCS tests the top and de-risks the bottom.",
+     "why_fails": "This is a slogan, not a claim. 'Tests the top and de-risks the bottom' does not say what ARCS does, and he cannot check it. His own post locates the hard part exactly: tuning the filter, and the fact that nobody keeps score on judgments. The hero should point at that sentence.",
+     "basis": "Corpus line 435: 'Tuning an agent to return results that are actionable and set the filtering at the right level is bar far the most difficult and time consuming part'. Memory (thesis): 'he has no record of which of his judgments were right.'",
+     "fix": "'Your Idea Engine writes the memos. I'd keep the record of which passes and picks turned out right.'"
+    },
+    {
+     "severity": "crack",
+     "surface": "Kill tests across EIR, Principal, Overview",
+     "location": "public/gravity-brief-eir.html The Wedge; public/gravity-brief-principal.html Homework, Done",
+     "quote": "A hypothesis, not a pitch. / My read; to test. / Pre-registered. / Pre-registered before the first call.",
+     "why_fails": "'Pre-registered' is stamped on tests that have never run. That is ceremony, and it is the same move he mocks with evals: a research word put on ordinary testing to sound rigorous. Add the stacked hedges ('not a pitch', 'my read', 'you know more', 'a shape, not a commitment') and the disclaimers start to protest too much. He hedges once, in a footnote, with a joke.",
+     "basis": "Corpus line 774 ('It's just a test framework. You should always test things. No different than it has ever been with software.'). Line 628: 'I'm not sure if it is good or even useful but that's ok.' That is one plain hedge, then on.",
+     "fix": "Replace 'Pre-registered' with 'Kill rule, written before any calls:'. Keep one hedge per tab (the Coda 'you know more' is the right one) and cut the others."
+    },
+    {
+     "severity": "crack",
+     "surface": "Proposed new framing (the user's 'my gravity well mirrors his, with better physics')",
+     "location": "Not yet on the pages; a guardrail for the next edit",
+     "quote": "how my gravity well mirrors his but with better physics",
+     "why_fails": "He built and published a gravity visualization for Gravity Labs' brand. A 'better physics' line one-ups his own toy in his own brand metaphor. Worse, 'ripples in space and time' is exactly the grandiose cosmic register he cringes at. The pages are currently free of it, and that is a strength.",
+     "basis": "Corpus line 270: 'only published this fun little visualization of how gravity works. We might use it for part of our brand identity for Gravity Labs, not sure yet.' Memory (thesis): 'A \"my gravity well, better physics\" frame competes with his own toy; it reads as one-upping unless it credits his.'",
+     "fix": "Do not add it. If gravity appears at all, credit him in one plain line: 'You built a gravity sim for the brand. Here is the record that sits under the decisions it represents.' Or leave the metaphor to him."
+    },
+    {
+     "severity": "crack",
+     "surface": "Visual system, dark mode",
+     "location": "public/gravity-brief.html tokens (--bg #020408, --cyan #00F0FF with glow) and the 'ARCS FIELD OS' wordmark",
+     "quote": "fact tiles as instrument readouts (Field OS): mono figures in signal cyan",
+     "why_fails": "In dark mode he sees glowing cyan mono numbers on near-black with a 'FIELD OS' wordmark. That is close to the 'blue/purple on black' AI-design hallmark he lists as a red flag, and 'FIELD OS' is internal branding with no meaning to him. Light mode follows the OS, so whether he hits this depends on his machine.",
+     "basis": "Corpus line 348: 'Pick an aesthetic that isn't blue/purple on black.'",
+     "fix": "Drop the cyan glow on the fact tiles and replace the 'ARCS FIELD OS' wordmark with plain 'Zach Harris'. Or pin this family to the light theme for the send."
+    },
+    {
+     "severity": "nit",
+     "surface": "Receipts, 'ARCS' row and section vocabulary",
+     "location": "public/gravity-brief.html Receipts",
+     "quote": "The decision instrument these receipts come from: question in, dated record out. / Build telemetry / Day 0 to day 210",
+     "why_fails": "'Decision instrument' and 'build telemetry' are house words. 'Question in, dated record out' is plain and good. The label wrapped around it is not.",
+     "basis": "Corpus line 350 (superfluous copy). Line 791: he describes his own tool in one plain sentence ('scrapes ... organizes the headlines by significance and then explains each in plain English').",
+     "fix": "'ARCS: the tool these records come from. You ask a question, it writes a dated record.' Rename 'Build telemetry' to 'Commit history'."
+    }
+   ],
+   "resonates": [
+    "The calls scorecard: 'Of 9 resolved calls since January, 2 hit, 1 partly hit and 6 missed ... My 85 to 90% crypto calls ran hot.' This is exactly his 'I'm posting this because I said I would' honesty (corpus 1335). Do not cut it.",
+    "'Where the AI got it wrong' (stale checker, gates reported green, a bug shipped repeatedly) mirrors his line that agents are 'far from perfect' with a human in the loop (corpus 425). It is self-deprecating and concrete.",
+    "'23 public, 8 on request, and the 1 I cannot show yet, named' is checkable in one click and honest about the gap.",
+    "Bear row on Allium's strict filter (~$1.6M a month real volume) and the false-positive row discounting tests is activity over size, his own lens, and it uses no metaphor.",
+    "'Ideas are getting cheap. Trusting them is not.' (Week One) is a plain two-sentence read of his Idea Engine post. It is the best line on the page once the oak is cut.",
+    "The Coda kill test ('15 calls ... kill it if fewer than 2 will sign a pilot letter. Opinions are cheap; signatures are not.') matches his 'what has to become true' and 'getting projects to no' (corpus 1163, 1171).",
+    "EIR 'A notable swing and miss: ARCS ... no revenue yet. If no one pays by 2027-03-31, it stops as a product' answers his 'is anyone using this?' (corpus 328) straight.",
+    "Open Application's How This Breaks row 'Your team already has tools for this ... Build on it and drop anything that repeats it' is the right humility toward the Idea Engine.",
+    "Using Gravity's own vocabulary (hatch, IC, Defy, one-pager, memo, kill) rather than ARCS terms on the role tabs."
+   ],
+   "verdict": "The substance would land with him: dated calls with their misses published, a plain kill rule on Coda, the AI-failure confession and checkable claim counts are all things he values in his own writing. The hype layer would cool him off. The worst offender is the Salvo block (BAR, COURT, Loki, LAB, KKL, Funhouse, '30,000 runs', a simulated 90% band on a judgment call), which is the eval theatre he calls 'just a test framework' and the 'grandiose language' he names as a red flag. Below it come the coined self-labels ('alpha engine', 'anti-fragile test bench', 'multi-hyphen chief', 'AI-native platform team that compounds'), the oak-rings metaphor, a misused call/put framing in front of an ex-Paxos brokerage head, and 'Pre-registered' stamped on tests that have not run. Cut those, say each claim in one plain sentence with a link, and do not add the 'gravity well, better physics' frame: he built the studio's gravity sim himself, so it would read as one-upping him. The honest record is the pitch and needs no cosmology around it."
+  },
+  {
+   "facet": "Kyle as a busy advisor reading a forward from recruiter Harrison Wright with no context: the 60-second overview test (what is this, who is it for, what do you want from me), whether he reaches the good part, whether he would forward it to Defy partners, and whether the cold-read order holds.",
+   "cracks": [
+    {
+     "severity": "break",
+     "surface": "Overview first screen: header 'Prepared for The Gravity Labs team / From Zach Harris', hero 'Your idea engine fills the funnel. ARCS tests the top and de-risks the bottom.', header brand 'ARCS FIELD OS'",
+     "location": "public/gravity-brief.html top; gravity.json meta.prepared_for and overview.headline",
+     "quote": "Your idea engine fills the funnel. ARCS tests the top and de-risks the bottom.",
+     "why_fails": "In 60 seconds Kyle cannot answer 'what do you want from me'. Nothing on the overview says this is a job application, which role, or what the ask is. The roles show up only as tab labels (Principal, EIR, Founder, Open Application). ARCS is never defined above the fold, and 'FIELD OS' is house vocabulary. The cold-read order is missing: Why (the filter gap) sits in Week One, below the fold. What (ARCS) is undefined. Why now is absent. How (30/90/180) is on another tab. He has been Advisor since Oct 2026, not the hiring CEO, so the page also has to say what an advisor is being asked to do.",
+     "basis": "Memory: Kyle moved CEO to Advisor in Oct 2026 (kyle-libra-thesis note, profile PDF). His own register opens with the point: 'TL;DR - we've launched a free community tool which gives you...' Zach's global rule cold-start-why-what-whynow-how-framing.",
+     "fix": "Add one plain line above the hero that he can forward as is: 'I'm Zach Harris, a crypto product lead (10 regulated products at Grayscale). I'm applying for Principal, New Ventures. If it fits, the ask is 20 minutes with whoever owns that hire.' Then one line defining ARCS in his terms: 'ARCS is a tool I built that keeps a dated record of each call and whether it came true.' Write Why now from his own calendar, for example his Sept 21 Idea Engine post, and never invent urgency."
+    },
+    {
+     "severity": "break",
+     "surface": "Salvo section: 'Salvo, 2026-11-10: 30,000 runs each way' with rows Bomb / Fire / Water / Air gap and labels BAR, COURT, Loki, LAB, KKL, Funhouse",
+     "location": "public/gravity-brief.html, Bull vs Bear section, third group",
+     "quote": "FireCross-examination (COURT, Loki) Leaked: no resolution rule, so the odds read 0.24 to 0.62 by wording.",
+     "why_fails": "This is internal operator vocabulary with no definitions, and it sits in the first section he scrolls. To Kyle it reads as the 'incomprehensible configurations' and 'superfluous copy' he lists as red flags. It also signals scope inflation: a simulation suite named after elements, wrapped around one 1-in-3 call. He would glaze here and stop before Week One.",
+     "basis": "Kyle, how-investors-now-evaluate-early: 'This includes obviously broken flows, orphaned pages and incomprehensible configurations'; 'Remove all the superfluous copy.' Zach's memory rule always-expand-acronyms-with-operational-definition.",
+     "fix": "Collapse the four rows into one sentence behind a fold: 'I tried to break this call three ways (wording, base rate, my own conflict of interest). Each fix is in the call above.' Drop BAR/COURT/Loki/LAB/KKL/Funhouse and the element names from the public page."
+    },
+    {
+     "severity": "crack",
+     "surface": "Section order: Bull vs Bear (agent payments) opens by default before Week One",
+     "location": "gravity.json overview.sections[0] id bull-bear, open: true; Week One second",
+     "quote": "Bull vs Bear: One ledger, read 2026-11-10: agent payments.",
+     "why_fails": "The good part is Week One, which quotes his post and names his pass list, and it sits under a 4-group, 15-row ledger on a topic he has never written about. The corpus has zero hits for x402, agent payment or agentic payment. So the first scroll is Zach's thesis, not Kyle's, and a busy advisor never reaches the passage written for him.",
+     "basis": "Corpus grep: 'x402' 0, 'agent payment' 0, 'agentic payment' 0 across all 24 posts. Thesis note: the strongest hook is his own filter sentence.",
+     "fix": "Put Week One first and open. Collapse Bull vs Bear by default and give it a one-line tagline in his frame: 'Activity over size, applied to agent payments: counts say yes, filtered volume says not yet.'"
+    },
+    {
+     "severity": "crack",
+     "surface": "Week One lede: the oak-rings metaphor",
+     "location": "gravity.json Week One first paragraph; public/gravity-brief.html",
+     "quote": "ARCS builds conviction the way an oak builds rings",
+     "why_fails": "He writes plainly and with footnotes, and he mocks his own copy. A nature metaphor where a mechanism should be is the superfluous copy he flags. The paragraph also passes over the sentence that would land hardest: his own admission that the filter is the hard part.",
+     "basis": "Kyle, Idea Engine post footnote 4: 'Tuning an agent to return results that are actionable and set the filtering at the right level is bar far the most difficult and time consuming part'; footnote 3: 'AI is not particularly good at assessing it.' Red flag: 'Remove all the superfluous copy.'",
+     "fix": "Cut the oak sentence and the one after it. Replace them with: 'You wrote that tuning the filter is by far the hardest part. ARCS is the record of which filter calls were right: every pass with its reason and a recheck date.'"
+    },
+    {
+     "severity": "crack",
+     "surface": "Builder list placed at the bottom (Receipts), while a testimonial carousel sits at the top",
+     "location": "public/gravity-brief.html: carousel under the hero; 'In the trenches' / 'In public' / 'Public goods' at the end",
+     "quote": "Zach is a ball of livewire energy who gets projects done with great velocity, humor and craft.",
+     "why_fails": "Kyle names the single thing that lowers the bar: show a long list of things you've built, with this one as one of many. That list (RFP-O-Matic, ARCS, 35 field notes, MIT tools, 6,195 commits) is the last thing on the page. The first evidence he sees is an auto-rotating quote in a hype-adjacent register.",
+     "basis": "Kyle: 'Frame this project as one of many and show a long list of things you've built. This is probably the one thing you can do to lower the bar you're evaluated on.' Also: 'investors are evaluating the person first and the product second.'",
+     "fix": "Move a three-to-five item 'Things I've shipped' row right under the tiles, with links. Keep the recommendations, but below it and paused by default."
+    },
+    {
+     "severity": "crack",
+     "surface": "Default theme: near-black background with cyan accent; violet and magenta tokens in the palette",
+     "location": "gravity.json default_theme: 'dark'; CSS --bg #020408, --cyan #00F0FF, --violet #A78BFA, --magenta #E879F9",
+     "quote": "Pick an aesthetic that isn't blue/purple on black.",
+     "why_fails": "On first paint it matches the exact AI-design hallmark he tells founders to avoid. That primes him to read the rest as generated, which hits hardest on a page that is about trust.",
+     "basis": "Kyle, how-investors-now-evaluate-early: 'Clean up the obvious hallmarks of AI driven design. Pick an aesthetic that isn't blue/purple on black.'",
+     "fix": "Default this family to light, or follow the OS setting with light as the fallback. The light tokens already exist (--bg #f7f8fa, --cyan #00606b)."
+    },
+    {
+     "severity": "crack",
+     "surface": "Principal tab headline and lede (one click from the overview; the first tab he would open)",
+     "location": "public/gravity-brief-principal.html; gravity.json tabs[0].headline/lede",
+     "quote": "Break the CEO bottleneck. ... so ideas stop queuing at the CEO.",
+     "why_fails": "Kyle was the CEO until Oct 2026. Forwarded to him, this reads as 'you were the bottleneck', and to Defy partners it reads as a dig at the previous CEO. Even if it paraphrases the job page, out of that context it feels pointed.",
+     "basis": "Memory: CEO May to Oct 2026, Advisor since Oct 2026 (profile PDF via kyle-libra-thesis note).",
+     "fix": "Change it to: 'One owner per hatch, from memo to launch.' Keep the job-page paraphrase in the source note."
+    },
+    {
+     "severity": "nit",
+     "surface": "Forwardability: second-person 'your' copy aimed at Kyle and the former CEO's artifacts",
+     "location": "Week One: 'Your Idea Engine post', 'Your pass list, on the record'; Call row: 'Gravity can resolve it'",
+     "quote": "Gravity can resolve it; I will post the outcome either way.",
+     "why_fails": "A Defy partner who gets the forward does not know which post 'your' points to. 'Gravity can resolve it' asks the studio to referee his bet before any relationship exists. Kyle forwards with something like 'dense but real, start at Receipts', which means the page did not carry its own one-liner.",
+     "basis": "Kyle's studio flow routes ideas to other partners for review ('This is also how we ask another Partner at the fund to review'), so the page has to read cold to a second reader.",
+     "fix": "Name the post in full the first time ('Kyle Libra's Idea Engine post, Sept 2026'). Change 'Gravity can resolve it' to 'Anyone can resolve it from the network rulebooks; I will post the outcome either way.'"
+    }
+   ],
+   "resonates": [
+    "Calls scored against himself ('Of 9 resolved calls since January, 2 hit, 1 partly hit and 6 missed', and his 85 to 90% calls ran hot). This is the intellectual honesty he practices himself ('I'm posting this because I said I would'). Do not cut it.",
+    "The Bull row discounts the x402 count by 'the half that is tests', and the Bear row uses filtered volume. That is his activity-over-size lens applied without being named. Keep it, collapsed.",
+    "The 'Regulated products 10, Grayscale ~$7B' tile answers his domain-expertise test straight away.",
+    "'Most hatches die; so do most of my beliefs' reuses his own vocabulary (hatch, kill) honestly.",
+    "Coda test with a kill threshold (under 2 of 15 pilot letters, under two weeks, $10k) matches his memo test and the value he puts on getting to no.",
+    "The Put names a small, bounded loss (about 2.7 weeks), which is the opposite of grandiose scope.",
+    "The page makes no 'gravity well' or 'better physics' claim (grep finds 0 hits across all five pages). Keep it that way. He built his own gravity visualization for the brand, and one-upping it would read as a bad-faith flex."
+   ],
+   "verdict": "The overview does not pass the 60-second test. Kyle cannot tell from the first screen that this is an application, which role it is for, or what is being asked of him now that he is an Advisor. ARCS is never defined, and the first open section is an agent-payments ledger, a topic outside his writing, wrapped in Salvo jargon (BAR, COURT, Loki, KKL, Funhouse) that he would read as incomprehensible, superfluous copy. The good part is Week One, his own post and the filter gap he admits, and it sits below that, so a busy advisor likely never reaches it. The default dark cyan-and-violet-on-black theme also trips his named AI-design red flag on first paint. The substance underneath is strong and in his register: scored misses, kill thresholds, regulated-product depth, a long list of shipped work. Today he would forward it with something like \"dense, but there's a real builder in here, skip to Receipts\", which means the page made him do the triage. The fix is mostly reordering and cutting, not new work: a forwardable top line with role and ask, a one-line definition of ARCS, Week One first with his footnote quoted, the shipped-things list moved up, Salvo cut to one sentence, the oak metaphor dropped, light as the default theme, and the Principal headline changed so it does not read as a dig at the former CEO."
+  }
+ ],
+ "synthesis": {
+  "verified": [
+   {
+    "rank": 1,
+    "severity": "pathogen",
+    "surface": "The proposed frame ('ripples in space and time', 'my gravity well mirrors his but with better physics'). It is not on any of the five pages yet; this is a guardrail for the next edit.",
+    "location": "Not on any page (no gravity-well, physics, spacetime or ripple copy in the rendered text of all five pages)",
+    "quote": "only published this fun little visualization of how gravity works. We might use it for part of our brand identity for Gravity Labs, not sure yet. ... It is a sort of web based fidget spinner.",
+    "issue": "Kyle talks down his own gravity toy, which may become the studio's brand mark. Answering it with 'better physics' one-ups both the toy and the logo. 'Ripples in space and time' is cosmic language for a dated decision log, which is the grandiose, scope-vs-vision tell he names. His first read would be about Zach's status, not Gravity's problem.",
+    "basis": "Corpus lines 270 and 272 (the gravity viz), 335 ('Avoid a giant scope vs vision mismatch'), 338 ('grandiose marketing language around a bunch of features that don't exist'). Memory kyle-libra-thesis: the 'better physics' frame 'reads as one-upping unless it credits his.'",
+    "fix": "Leave it out. If the toy comes up at all, credit it in one plain aside, for example: 'You called your gravity sim a web-based fidget spinner. Mine is less fun: a dated list of which calls landed.' Then let the scored-calls row carry the time axis. The real mirror is his own line: 'significance is in the eye of the beholder and AI is not particularly good at assessing it' (line 669).",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "proposed-new-frame",
+     "hype-allergic",
+     "advisor-60s",
+     "checklist"
+    ]
+   },
+   {
+    "rank": 2,
+    "severity": "break",
+    "surface": "The agent-payments wedge (Overview, Week One card) and EIR 'Receipts for agent spend'",
+    "location": "public/gravity-brief.html Week One 'The agent-payments wedge'; public/gravity-brief-eir.html The Wedge; SSOT _ARTIFACTS/tabbed-brief/gravity.json",
+    "quote": "When an AI agent sends stablecoins, the send is final. / When an AI agent moves stablecoins, every send is final.",
+    "issue": "The central claim rests on finality, and Kyle has publicly argued the opposite: regulated stables beat wires because they can be seized and frozen. He shipped regulated, issuer-controlled stables at Paxos, so this reads as the crypto-native simplification he corrects, explained back to him in his own field. The real gap is narrower and stronger: a freeze or a dispute has no record of what the user authorised.",
+    "basis": "Corpus line 46: 'regulated stablecoins are actually better than wires because of seize and freeze capabilities'. Line 836: his unique insight is bounded to this area, so this is exactly where he will check. Memory: ex-Paxos Head of Brokerage Product.",
+    "fix": "'A regulated stable can be frozen, but it can't be charged back, and nothing records what the user told the agent. When a send goes wrong, the issuer can freeze it with no record of intent to rule on. That gap is the wedge.' Make the same edit on the EIR card.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "paxos-practitioner"
+    ]
+   },
+   {
+    "rank": 3,
+    "severity": "break",
+    "surface": "Overview, Bull vs Bear, 'Salvo, 2026-11-10: 30,000 runs each way' (Bomb/Fire/Water/Air gap; BAR, COURT, Loki, LAB, KKL, Funhouse; 'middle 90% of runs is 0.17 to 0.46')",
+    "location": "public/gravity-brief.html Bull vs Bear, third group; SSOT gravity.json overview.sections[0].blocks[1].groups[2]",
+    "quote": "Fire Cross-examination (COURT, Loki) Leaked: no resolution rule, so the odds read 0.24 to 0.62 by wording. ... As written, the middle 90% of runs is 0.17 to 0.46",
+    "issue": "Six undefined in-house operator names, an element naming scheme under a military title, and a simulated 90% band on a number the page itself labels 'My read'. This is the eval theatre he calls hype, plus false precision he can't check (there's no link to the runs). It sits in the first open section, so it's where he glazes. The one useful finding, that the resolution rule closed a 0.24 to 0.62 spread, is buried.",
+    "basis": "Corpus line 774: 'evals are all the rage. I think people are just hyping it up in the name of influencing. It's just a test framework.' Line 669 ('significance is in the eye of the beholder'). Line 350: 'Remove all the superfluous copy.'",
+    "fix": "Cut it to two plain lines under the Call: 'When I first wrote this, the odds swung from 0.24 to 0.62 depending on wording, so I wrote the resolution rule above before picking a number. The biggest swing factor is the base rate of a network rule; I re-mark at each Visa and Mastercard rules release. I build the thing that would benefit, so I'm not the one who should grade it.' Drop the operator codes, the element names and the run count from every counterpart page.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "checklist",
+     "paxos-practitioner",
+     "studio-operator",
+     "hype-allergic",
+     "advisor-60s"
+    ]
+   },
+   {
+    "rank": 4,
+    "severity": "break",
+    "surface": "Default theme on all five pages: pinned dark (near-black #020408, cyan #00F0FF readouts) with an 'ARCS FIELD OS' header wordmark",
+    "location": "public/gravity-brief*.html line 11: setAttribute('data-theme',(s.theme||'dark')==='dark'?'dark':'light'); gravity.json default_theme 'dark'",
+    "quote": "Pick an aesthetic that isn't blue/purple on black.",
+    "issue": "Unless localStorage holds a choice, the page always sets data-theme='dark', so a reader whose OS is in light mode never gets the existing light theme (#f7f8fa / #00606b). The first paint is saturated cyan on near-black, the blue-on-black tell he lists under 'obvious hallmarks of AI driven design'. On a page about trust, that primes him to read the rest as generated. 'ARCS FIELD OS' is house branding that means nothing to him. Dark default was a deliberate Round 1 change on 2026-11-10 (gravity-ui-decomposition note), so this is a decision to revisit, not a regression.",
+    "basis": "Corpus line 348. Repo: the line-11 boot script in all five pages. Side-session note gravity-ui-decomposition-2026-11-10 'Changed: dark default (light toggle kept)'.",
+    "fix": "For this send, default to light, or follow the OS with light as the fallback (set no data-theme unless the reader picked one). Replace the 'ARCS FIELD OS' wordmark with 'Zach Harris'. Keep the toggle.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "checklist",
+     "hype-allergic",
+     "advisor-60s"
+    ]
+   },
+   {
+    "rank": 5,
+    "severity": "break",
+    "surface": "Overview hero headline",
+    "location": "public/gravity-brief.html hero; gravity.json overview.headline",
+    "quote": "Your idea engine fills the funnel. ARCS tests the top and de-risks the bottom.",
+    "issue": "Line one describes his studio in a frame he has disowned in writing ('less in terms of moving projects through a funnel to hit quotas'). 'De-risks the bottom' claims ARCS works through founder search and launch, while the EIR tab says ARCS has 'no revenue yet' and 'no payment rails or design partner'. That is his named scope-vs-vision mismatch. It also never names the gap his own footnote admits, the filter, so it reads as one engine pitching over another.",
+    "basis": "Corpus line 1171 (funnel/quotas), 435 (footnote 4: 'Tuning an agent ... set the filtering at the right level is bar far the most difficult and time consuming part'), 335, 338. EIR page text.",
+    "fix": "Lead with his sentence and what has been done: 'Your footnote says tuning the filter is the hardest part of the Idea Engine. I keep the record of which filter calls turned out right.' Or promote the Open tab line: 'The agents find and draft, the desk keeps the record.' Drop 'de-risks the bottom' until a launch receipt exists.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "checklist",
+     "studio-operator",
+     "hype-allergic",
+     "advisor-60s"
+    ]
+   },
+   {
+    "rank": 6,
+    "severity": "break",
+    "surface": "Every customer test across the family is planned, none has been run: EIR 'Kill it if: Fewer than 3 of 15 teams...', Overview/Principal Coda '15 calls...', EIR 'no payment rails or design partner'",
+    "location": "public/gravity-brief-eir.html The Wedge; public/gravity-brief.html and gravity-brief-principal.html Coda test",
+    "quote": "Domain expertise: if this is the right person to deeply understand this problem, why weren't they able to immediately get 10 people on the phone the next day to take a look?",
+    "issue": "The wedge names its first user (treasury or compliance leads at fintechs piloting agent payments), then admits no design partner. A pre-registered test that hasn't run is still a plan. His own checklist question is unanswered for someone pitching a decade in regulated crypto products.",
+    "basis": "Corpus line 330. EIR and Principal page text. His habit of publishing results he didn't like: line 1335 ('I'm posting this because I said I would').",
+    "fix": "Before sending, make 3 to 5 of the wedge calls and replace the plan with the result in one line: 'I asked 5 treasury or compliance leads piloting agent payments; N said the approval trail is what blocks go-live. Notes on request.' A null result answers his question too.",
+    "confidence": "medium",
+    "facets_that_flagged": [
+     "checklist"
+    ]
+   },
+   {
+    "rank": 7,
+    "severity": "break",
+    "surface": "Overview first screen as a cold forward: header 'Prepared for The Gravity Labs team / From Zach Harris', tab labels, hero; ARCS never defined above the fold",
+    "location": "public/gravity-brief.html top; gravity.json meta and overview.headline",
+    "quote": "Prepared for The Gravity Labs team From Zach Harris Overview Principal EIR Founder Open Application",
+    "issue": "In 60 seconds he can't tell that this is an application, which role it's for, or what an Advisor is being asked to do. ARCS is used before it's defined. The cold-read order (Why, What, Why now, How) is missing: the Why sits in Week One below the fold, and Why now is absent. His own launch posts open with a one-line TL;DR of what it is and what you get.",
+    "basis": "Memory: Advisor since Oct 2026 (kyle-libra-thesis). Corpus line 443 ('TL;DR - we've launched a free community tool which gives you...'). Zach's global cold-start-why-what-whynow-how rule.",
+    "fix": "Add one forwardable line above the hero: 'I'm Zach Harris, a crypto product lead (10 regulated products at Grayscale), applying for Principal, New Ventures. If it fits, the ask is 20 minutes with whoever owns that hire.' Then one line: 'ARCS is a tool I built that keeps a dated record of each call and whether it came true.' Take Why now from a real date, such as his 2026-09-21 Idea Engine post; never invent urgency.",
+    "confidence": "medium",
+    "facets_that_flagged": [
+     "advisor-60s"
+    ]
+   },
+   {
+    "rank": 8,
+    "severity": "crack",
+    "surface": "Principal tab headline and lede",
+    "location": "public/gravity-brief-principal.html; gravity.json tabs[0].headline / lede",
+    "quote": "Break the CEO bottleneck. Your page: own hatches end to end, so ideas stop queuing at the CEO.",
+    "issue": "Kyle was CEO until October 2026. Read by him, or by a Defy partner he forwards to, it reads as 'you were the bottleneck'. It paraphrases the role page, but a cold reader can't see the source in a headline.",
+    "basis": "Memory kyle-libra-thesis: 'He moved from CEO to Advisor in Oct 2026 ... check every \"CEO\" use.'",
+    "fix": "Name the queue, not the seat: 'Own a hatch end to end, from memo to launch.' If the role-page wording stays, show it as a quote with a link. Leave the founder-hire 'CEO or CTO' rows alone; those are the hires, not him.",
+    "confidence": "medium",
+    "facets_that_flagged": [
+     "studio-operator",
+     "proposed-new-frame",
+     "advisor-60s"
+    ]
+   },
+   {
+    "rank": 9,
+    "severity": "crack",
+    "surface": "Bull vs Bear > My judgment > Trigger 'Who pays when an agent exceeds its mandate' and the 1-in-3 Call",
+    "location": "public/gravity-brief.html My judgment group",
+    "quote": "without a record of what the user asked, a dispute is close to a coin flip. My view: the first network rule that requires an intent record decides it.",
+    "issue": "The thesis that liability and chargeback rules decide crypto payments is his footnote 25, carried forward, and it goes uncited. The brief credits his Idea Engine post elsewhere, so leaving this out reads as either reinventing his point or not having read it.",
+    "basis": "Corpus line 75 ('Consumer protections like charge backs and lack of liability for fraud on your card are hugely valuable25') and line 121 ('25Crypto payments will have to address these to some extent to be viable.').",
+    "fix": "Open the Trigger row with: 'Your footnote 25: crypto payments have to answer chargebacks and fraud liability. For agents, that answer starts with a record of what the user told the agent.' Link the post.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "paxos-practitioner"
+    ]
+   },
+   {
+    "rank": 10,
+    "severity": "crack",
+    "surface": "'How I would test Coda' (Overview) and Principal Homework",
+    "location": "public/gravity-brief.html Week One; public/gravity-brief-principal.html Homework, Done",
+    "quote": "The riskiest assumption I see: banks will take crypto deposits once compliance is solved.",
+    "issue": "This is a new substantive problem, separate from the softening already made (the 'you know more' caveat is in place). His published view is that banks resist because of deposit economics, with net interest income about 54% of JPM revenue, not compliance. Naming compliance is the outsider version, put in front of a team with the Coda CEO on it.",
+    "basis": "Corpus line 1004 (JPM NII $23.5B of $43.7B, 'about 54%'). Memory gravity-thought-leadership-map: 'Coda presumptuous (Coda CEO on their team)'; top edit (3) 'soften Coda to \"a question I would ask your team\"'.",
+    "fix": "'The question I'd ask your team: is the blocker compliance, or what crypto deposits do to a bank's net interest income? Your everything-bank post says the second. 15 calls would tell; kill it if fewer than 2 sign a pilot letter.'",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "paxos-practitioner"
+    ]
+   },
+   {
+    "rank": 11,
+    "severity": "crack",
+    "surface": "Bull row 'Cost per payment (leading)'",
+    "location": "public/gravity-brief.html Bull vs Bear > Observed",
+    "quote": "The median L2 fee fell from 20¢ in February 2024 to 0.06¢ in April 2026, cheap enough for machine-sized payments.",
+    "issue": "A chain fee is not the cost of a payment. He argues that stablecoins aren't yet cheaper or faster mostly because on- and off-ramps take days and cost money. Calling gas 'cost per payment' is the naive version he takes apart.",
+    "basis": "Corpus lines 62 and 63 ('I'd argue that today this isn't really true most of the time'), 65 and 66 (ramps 'can often be measured in days').",
+    "fix": "Rename it 'Chain fee per payment (leading, partial)' and add: 'Ramps aren't in this number; an agent's float has to get on-chain first.' Or move ramp cost into 'How I could read it wrong'.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "paxos-practitioner"
+    ]
+   },
+   {
+    "rank": 12,
+    "severity": "crack",
+    "surface": "Week One lede: the Idea Engine quote plus the oak-rings metaphor",
+    "location": "public/gravity-brief.html Week One; gravity.json overview.sections[1].blocks[0]",
+    "quote": "a good memo now comes 6x faster, and some still come out unusable. Ideas are getting cheap. Trusting them is not. ARCS builds conviction the way an oak builds rings",
+    "issue": "The lede quotes only the self-critical half of his sentence ('at times unusable') and drops his counterweight ('immense value'), so it reads as 'your engine leaks'. The words that make Zach his filter go uncited: footnote 4 and the significance line. The oak sentence is a nature metaphor where a mechanism should be, the superfluous copy he flags. The note records it as held open as the owner's words, so this is Zach's call.",
+    "basis": "Corpus line 428 ('The memo's produced are at times unusable, but there is immense value...'), 435 (footnote 4), 669, 350. Side-session note: 'Held open: oak-rings line (owner's words)'.",
+    "fix": "'Your Idea Engine post: memos 6x faster, some unusable, and still worth it. Your footnote 4 says the filter is the hard part. That's the part I work on.' Then 'Ideas are getting cheap. Trusting them is not.' Cut the oak sentence and the one after it.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "studio-operator",
+     "hype-allergic",
+     "proposed-new-frame",
+     "advisor-60s"
+    ]
+   },
+   {
+    "rank": 13,
+    "severity": "crack",
+    "surface": "Coined self-labels: Principal 'An alpha engine / A risk-adjusted pipeline / An anti-fragile test bench'; Founder 'multi-hyphen chief' (twice); Open 'an AI-native platform team that compounds'",
+    "location": "public/gravity-brief-principal.html ARCS in the Seat; gravity-brief-founder.html lede and You Ask, I Bring; gravity-brief-open.html The Hatch Desk",
+    "quote": "An alpha engine ... A risk-adjusted pipeline ... An anti-fragile test bench",
+    "issue": "Fund-deck buzzwords sit on body copy that is plain and honest ('Built:'). He'll notice the gap between label and content. 'Alpha engine' next to his self-mocking Idea Engine trademark reads as naming a rival engine. The coinages stand in for evidence that is already in the same row.",
+    "basis": "Corpus line 432 ('trademarking a platform that creates ideas is a bit silly'), 338, 350, 136 (vibe coding 'is bit overhyped'), 364.",
+    "fix": "Use plain titles: 'Why each hatch was passed, rechecked', 'How sure, and what would kill it', 'Tests written before they run'. Founder: 'I've covered product, engineering and sales in one seat before: co-founder once, turnaround GM once.' Open: 'Mine would keep each memo, its kill criteria and the record of every call in one place.' Drop 'AI-native' and 'compounds'.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "checklist",
+     "studio-operator",
+     "hype-allergic"
+    ]
+   },
+   {
+    "rank": 14,
+    "severity": "crack",
+    "surface": "Receipts 'In the trenches': three rows chipped 'Live' (Build telemetry, RFP-O-Matic, ARCS)",
+    "location": "public/gravity-brief.html Receipts",
+    "quote": "Traction: is anyone using this?",
+    "issue": "'Live' answers 'does it run?', not 'is anyone using it?'. The overview gives no usage number for any row, and the only traction admission is on the EIR tab. With the Limit callout removed (correctly, not re-flagged), the 'Live' chips now read as traction they don't show.",
+    "basis": "Corpus line 328, and line 320 ('A half baked AI built product with no traction likely raises so many doubts...').",
+    "fix": "Put one honest number on each row ('RFP-O-Matic: N outside runs since 11-02'; 'ARCS: used daily by me; 0 outside users'), or relabel the chips 'Running'. Don't restore the callout.",
+    "confidence": "medium",
+    "facets_that_flagged": [
+     "checklist"
+    ]
+   },
+   {
+    "rank": 15,
+    "severity": "crack",
+    "surface": "The builder list is buried: 'Public goods' is one link at the end of Receipts, while an auto-rotating testimonial sits under the hero",
+    "location": "public/gravity-brief.html hero carousel (setInterval present) and Receipts 'Public goods and fine print'",
+    "quote": "Frame this project as one of many and show a long list of things you've built.",
+    "issue": "He calls this the single bar-lowerer. The page rests all of Zach's credibility on ARCS, so ARCS reads as the one big bet. The first evidence he sees is a 'ball of livewire energy' quote in a register close to hype.",
+    "basis": "Corpus lines 364 and 367 ('one of many ... or the one you are most excited about ... you aren't presenting the next Anthropic').",
+    "fix": "Directly under the tiles, add a dated 'Things I shipped this year' list, one line each with a link (RFP-O-Matic, the beliefs ledger, the essays, the public tools), with ARCS as 'the one I'm most excited about'. Keep the recommendations below it and paused by default.",
+    "confidence": "medium",
+    "facets_that_flagged": [
+     "checklist",
+     "advisor-60s"
+    ]
+   },
+   {
+    "rank": 16,
+    "severity": "crack",
+    "surface": "Week One 'Your pass list, on the record'; Principal 'An alpha engine' body",
+    "location": "gravity.json overview.sections[1].blocks[1].cards[0]; tabs[0] ARCS in the Seat",
+    "quote": "Each idea you passed gets its reason and a recheck date. When the market moves, a wrong pass comes back as a lead, not a loss.",
+    "issue": "His process already reopens passes ('no (or at least no right now)', ideas move 'backwards and forwards', 'We track what stage an idea is in'). Pitching that back without credit reads as not having read the post. What ARCS actually adds, a dated expectation the recheck is scored against, goes unsaid.",
+    "basis": "Corpus line 1171.",
+    "fix": "'You already say \"no right now\". I'd write down what each \"no right now\" expects to see, so the recheck is a test, not a reread.'",
+    "confidence": "medium",
+    "facets_that_flagged": [
+     "studio-operator"
+    ]
+   },
+   {
+    "rank": 17,
+    "severity": "crack",
+    "surface": "Receipts 'Falsifiable predictions, scored' and the 1-in-3 Call",
+    "location": "public/gravity-brief.html Receipts Calls row; Bull vs Bear Call",
+    "quote": "Of 9 resolved calls since January, 2 hit, 1 partly hit and 6 missed",
+    "issue": "The strongest mirror on the page is the same shape as Mogg, the studio's daily YES/NO game resolved by the world, and Mogg is never named (0 mentions across the five pages). Left uncredited, it can read as presenting the studio's own idea back as Zach's method.",
+    "basis": "Corpus line 1086 ('call YES or NO on one event per category ... walk away'). Memory gravity-thought-leadership-map top edit (2): 'mirror Mogg ... with a public resolution log for dated calls'.",
+    "fix": "Add one line: 'Same shape as Mogg: a dated YES or NO, resolved by the world, kept even when I miss. Mine is 9 calls, not 10 a day.'",
+    "confidence": "medium",
+    "facets_that_flagged": [
+     "studio-operator"
+    ]
+   },
+   {
+    "rank": 18,
+    "severity": "crack",
+    "surface": "My judgment 'Put / The other 2 in 3' and 'Long the liability record layer; short raw counts'",
+    "location": "public/gravity-brief.html My judgment group",
+    "quote": "Put The other 2 in 3 If the rule is late, the loss is small: about 2.7 weeks of my time. ... Long the liability record layer; short raw counts as proof of use.",
+    "issue": "A put is not the complement of a call's probability. Borrowed desk language with the wrong mapping costs credibility with the one reader who ran brokerage product. '2.7 weeks' is false precision on a time estimate.",
+    "basis": "Memory: Paxos Head of Brokerage Product 2019 to 2025. Corpus line 1463: he jokes about finance rather than borrowing desk language to sound serious.",
+    "fix": "Rename the rows 'My call' and 'If I'm wrong'. 'If I'm wrong: no network rule is in effect by mid-2027 and I've spent about three weeks. ARCS records human decisions this way today; it doesn't yet do signed agent mandates.' Drop the long/short line.",
+    "confidence": "medium",
+    "facets_that_flagged": [
+     "hype-allergic"
+    ]
+   },
+   {
+    "rank": 19,
+    "severity": "crack",
+    "surface": "'How I could read it wrong' > AML/KYC 'Filter blind spot'",
+    "location": "public/gravity-brief.html Bull vs Bear, fourth group",
+    "quote": "The strict filter removes tests and wash trades, not illicit flow: it cannot tell compliant volume from illicit volume.",
+    "issue": "It frames illicit flow as a large unknown, which is the media narrative he mocks. It also tells a former Paxos product head that a volume filter isn't an AML screen, which is filler.",
+    "basis": "Corpus line 1020 (the 'Dirty Money' headline 'could alternatively be titled ... less than 0.01% of transactions'), line 46 ('AML laws are still very much a thing').",
+    "fix": "Turn it into the wedge: 'AML/KYC: issuers screen the wallet, not the mandate. Nobody checks whether the agent stayed inside what the user allowed.' Or cut it.",
+    "confidence": "medium",
+    "facets_that_flagged": [
+     "paxos-practitioner"
+    ]
+   },
+   {
+    "rank": 20,
+    "severity": "crack",
+    "surface": "Bull vs Bear ledger as a whole: his distribution-over-issuance lens is never used",
+    "location": "public/gravity-brief.html Bull vs Bear",
+    "quote": "Crypto theses pick a side. I name which signal each side rests on, and what would settle it.",
+    "issue": "His core claim is that whoever owns distribution forces adoption and captures the value. The 1-in-3 call is in fact a bet that distribution (Visa, Mastercard, Coinbase's x402) sets the liability rule, but the page never says so and misses the sentence that would show the thesis was read.",
+    "basis": "Corpus line 82 ('The real economic winners will be whoever owns distribution and core infrastructure. Distribution can force adoption...').",
+    "fix": "Add one Observed row, chip 'Rules', signal 'Who owns distribution': 'x402 is Coinbase's; card-rail agents run through Visa and Mastercard. In your terms the networks own distribution, so their rulebook, not issuance, decides liability.'",
+    "confidence": "medium",
+    "facets_that_flagged": [
+     "paxos-practitioner"
+    ]
+   },
+   {
+    "rank": 21,
+    "severity": "crack",
+    "surface": "Hero tile 'Beliefs killed 48' and Receipts 'My own kill rate'",
+    "location": "gravity.json overview.tiles[3]; overview.sections[2] Kills row",
+    "quote": "48 beliefs I held, killed by a test since June, about 10 a month. 20 changed the rulebook. Most hatches die; so do most of my beliefs",
+    "issue": "His kill rate is a ratio over a counted denominator (19 of 20 memos). A bare 48 plus 'most of my beliefs' invites '48 of how many?'. Agent-assisted counts are cheap to inflate, and nothing lets him open a single example.",
+    "basis": "Corpus line 1073 ('19 of every 20 investment memos get shelved'), line 1047 (survivorship bias). Memory: 'Most hatches will die' is Gravity's own phrasing.",
+    "fix": "'48 of N beliefs I wrote down since June failed their test, about 10 a month; e.g. [belief], killed [date] by [test].' Credit the phrase: 'Your about page says most hatches die. Mine do too.'",
+    "confidence": "medium",
+    "facets_that_flagged": [
+     "studio-operator",
+     "checklist"
+    ]
+   },
+   {
+    "rank": 22,
+    "severity": "nit",
+    "surface": "'Pre-registered' stamped on tests that haven't run, plus stacked hedges ('A hypothesis, not a pitch', 'My read; to test', 'you know more')",
+    "location": "public/gravity-brief-eir.html The Wedge; public/gravity-brief-principal.html Homework",
+    "quote": "Kill it if Pre-registered. Fewer than 3 of 15 teams piloting agent payments say...",
+    "issue": "A research word on ordinary testing reads as ceremony, the move he deflates with evals. Several hedges in a row start to protest too much; he hedges once and moves on.",
+    "basis": "Corpus line 774 ('You should always test things. No different than it has ever been with software.').",
+    "fix": "'Kill rule, written before any calls:'. Keep one hedge per tab (the Coda 'you know more' is the right one).",
+    "confidence": "low",
+    "facets_that_flagged": [
+     "hype-allergic"
+    ]
+   },
+   {
+    "rank": 23,
+    "severity": "nit",
+    "surface": "Section order: Bull vs Bear opens first, ahead of Week One",
+    "location": "gravity.json overview.sections (all open: true; bull-bear first)",
+    "quote": "Bull vs Bear One ledger, read 2026-11-10: agent payments.",
+    "issue": "The passage written for him (his post, his pass list) sits under a 15-row ledger. His corpus never mentions x402 or agent payments, though it is adjacent to his stablecoin expertise. Bull vs Bear first was a deliberate Round 1 choice, so this is a judgment call.",
+    "basis": "Corpus: zero hits for 'x402' or 'agent payment'. Side-session note: 'Bull vs Bear moved first'.",
+    "fix": "Consider putting Week One first, and collapsing Bull vs Bear with a tagline in his frame: 'Activity over size, applied to agent payments: counts say yes, filtered volume says not yet.'",
+    "confidence": "low",
+    "facets_that_flagged": [
+     "advisor-60s"
+    ]
+   },
+   {
+    "rank": 24,
+    "severity": "nit",
+    "surface": "Bull row transaction count",
+    "location": "public/gravity-brief.html Observed row 1",
+    "quote": "x402 reported over 165M agent transactions by April, about half of them tests.",
+    "issue": "The ledger is dated 'read 2026-11-10' but its headline activity figure is from April. He prefers tracking over time to snapshots.",
+    "basis": "Corpus line 1310 ('a better way to do this is to build a dashboard and track over a longer period of time').",
+    "fix": "Refresh the figure, or label it 'as of April 2026; re-read due'.",
+    "confidence": "medium",
+    "facets_that_flagged": [
+     "paxos-practitioner"
+    ]
+   },
+   {
+    "rank": 25,
+    "severity": "nit",
+    "surface": "EIR 'Commit or Walk'",
+    "location": "gravity.json tabs[1] Commit or Walk",
+    "quote": "At one in thirty, that is data.",
+    "issue": "His posts give 19 of 20 and 1 in 29; 'one in thirty' matches neither and carries no credit. The memory note warns not to cite it as exact.",
+    "basis": "Corpus lines 1073 and 1167. Memory: 'kill rate stated 3 ways, don't cite as exact'.",
+    "fix": "'At your roughly 1 in 30, a written walk is data too.'",
+    "confidence": "medium",
+    "facets_that_flagged": [
+     "studio-operator"
+    ]
+   },
+   {
+    "rank": 26,
+    "severity": "nit",
+    "surface": "House vocabulary in Receipts: 'The decision instrument these receipts come from', 'Build telemetry'",
+    "location": "public/gravity-brief.html Receipts",
+    "quote": "Live ARCS The decision instrument these receipts come from: question in, dated record out.",
+    "issue": "'Question in, dated record out' is plain and good. The labels around it are house words.",
+    "basis": "Corpus line 350.",
+    "fix": "'ARCS: the tool these records come from. You ask a question; it writes a dated record.' Rename 'Build telemetry' to 'Commit history'.",
+    "confidence": "low",
+    "facets_that_flagged": [
+     "hype-allergic"
+    ]
+   }
+  ],
+  "rejected_overflags": [
+   {
+    "claim": "The pages use blue/purple on black, with violet and magenta tokens in the palette (advisor facet).",
+    "why_rejected": "var(--violet) and var(--magenta) have 0 uses in gravity-brief.html. Purple is defined but never rendered. Only the blue-on-black part stands, and it is kept in rank 4."
+   },
+   {
+    "claim": "'Light mode follows the OS, so whether he hits this depends on his machine' (hype-allergic facet).",
+    "why_rejected": "Factually wrong. The line-11 boot script sets data-theme to 'dark' unless localStorage holds a choice, so the OS light preference never applies. The real problem is worse, and it is kept in rank 4."
+   },
+   {
+    "claim": "Basis: Zach's handoff decision to 'keep OS-following light/dark rather than pinning dark' shows this family went against his choice (checklist facet).",
+    "why_rejected": "That decision was about the RFP engine page. For this family, dark default was a deliberate Round 1 change on 2026-11-10 (gravity-ui-decomposition note). The theme finding stands on Kyle's own words, not as a regression of a Zach decision."
+   },
+   {
+    "claim": "'Ripples' brushes against Ripple/XRP in a crypto reader's mind (nit).",
+    "why_rejected": "Taste, not a defect, and the frame isn't on any page. It is covered by the rank 1 guardrail of leaving the frame out."
+   },
+   {
+    "claim": "'Gravity can resolve it' asks the studio to referee the bet before any relationship exists, and second-person 'your' won't read cold to a Defy partner (advisor nit).",
+    "why_rejected": "'Gravity resolves' is the deliberate conflict-of-interest fix on the page (the Air gap row), and it hands the scoring to his side, which another facet lists as resonating. The 'your post' ambiguity is handled by the rank 7 and rank 12 fixes, which name the post. It is not a separate defect."
+   },
+   {
+    "claim": "A 'gravity well' or 'better physics' claim exists on the pages and needs cutting.",
+    "why_rejected": "No facet asserted that, and the rendered text of all five pages has 0 such phrases. There is nothing to undo, only a frame not to add."
+   }
+  ],
+  "keep_dont_touch": [
+   "Receipts Calls row, word for word: 'Of 9 resolved calls since January, 2 hit, 1 partly hit and 6 missed ... My 85 to 90% crypto calls ran hot, so every call now ships with its falsifier and a lower number.' This matches his own 'I'm posting this because I said I would' (line 1335).",
+   "EIR 'A notable swing and miss': ARCS has no revenue, with a stop date of 2027-03-31. It is a dated kill on his own venture and answers 'is anyone using this?' straight.",
+   "Principal 'Where the AI got it wrong' (agents reported gates green while running a stale checker). It is concrete and self-incriminating, the strongest technical-proficiency signal, and fits his 'far from perfect' human-in-the-loop line (425).",
+   "Bear row on Allium's strictest filter (about $1.6M a month of real volume against 165M headline transactions) and the False positive row that discounts tests by half. This is his activity-over-size lens.",
+   "False negative 'Agent commerce on card rails' (on-chain undercounts Visa/Mastercard agent payments). It reads as practitioner-aware.",
+   "The 1-in-3 Call's resolution rule ('Announcements without an effective date do not count') and 'I will post the outcome either way'.",
+   "Inlier row admitting 'I have not tested this'.",
+   "EIR 'Your stealth agentic payments company may already own this; I would ask first.'",
+   "Open tab Hatch Desk 'It sits on top of your Idea Engine: the agents find and draft, the desk keeps the record. Nothing gets built twice.' This is the right position and a hero candidate.",
+   "Open tab How This Breaks: 'Your team already has tools for this ... Build on it and drop anything that repeats it' and 'close the desk' if nothing turns up.",
+   "Coda kill threshold mechanics ('under two weeks and $10k ... Opinions are cheap; signatures are not') and the 'you know more' caveat. Change only the compliance-vs-NII framing.",
+   "'Ideas are getting cheap. Trusting them is not.' This is the best line in Week One once the oak sentence is cut.",
+   "'23 public, 8 on request, and the 1 I cannot show yet, named'. It can be checked in one click.",
+   "Tile 'Regulated products 10' / Grayscale. It answers his domain-expertise test.",
+   "Gravity's own vocabulary on the role tabs (hatch, IC, Defy, one-pager, memo, kill), five tabs that pass his 'more than a single page' bar, and the 'Prepared for The Gravity Labs team' address, which holds up after his move to Advisor.",
+   "Plain Bull/Bear chips (already healed). Keep them plain."
+  ],
+  "verdict": "Kyle would find a real builder in this family, but it doesn't yet mirror his gravity well. The substance is in his register: scored misses (2 hit, 6 missed of 9), a dated kill on ARCS itself, the stale-checker confession, activity-over-size rows (Allium filter, card-rails undercount) and priced kill tests. Six fixes come before any send. (1) Do not add the 'ripples in space and time / better physics' frame. He calls his own gravity sim a 'fun little' 'web based fidget spinner' the studio might use for its brand, and one-upping it is the single most expensive move available. The real mirror is his sentence that AI is bad at judging significance, plus the scored-calls row. (2) Rewrite the wedge. 'The send is final' contradicts his on-record point that regulated stables beat wires because they can be seized and frozen. Reframe it as freeze without an intent record. (3) Cut the Salvo block (BAR, COURT, Loki, KKL, Funhouse, '30,000 runs', a 90% band on a judgment) to two plain lines. It is the eval theatre he calls 'just a test framework'. (4) Stop pinning dark. The boot script ignores the OS, and cyan on near-black is the blue-on-black tell he names. Default to light or follow the OS, and drop 'ARCS FIELD OS'. (5) Retire the 'fills the funnel / de-risks the bottom' hero. He disowns funnel framing, and the claim outruns what EIR admits. Lead with his footnote 4 (the filter is the hard part). (6) Give the cold forward a top line: role, ask and a one-line ARCS definition. The crack-tier fixes would turn echoes of his work into homage rather than one-upmanship: cite footnote 25 on the liability call, credit 'no right now' and Mogg, put Coda's blocker as compliance versus net interest income, label the L2 fee as partial since ramps are excluded, state the belief kill rate as a ratio, swap the buzzword labels for plain verbs, cut the oak sentence, and move a dated list of shipped work up. If time allows, run 3 to 5 wedge calls and report the result. That answers his 'why weren't they able to get 10 people on the phone' directly."
+ }
+}

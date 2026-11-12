@@ -44,6 +44,11 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
    State autosaves (debounced, localStorage per page path, sessionStorage if that is blocked), text edits included, and
    comes back on reload. "Drop breadcrumb" snapshots it as v1, v2... with a time, an optional note and an empty "why"
    (reserved for a later prompt); any version restores, and "Export versions" gives JSON that --apply-text also takes.
+   Plain view (2026-11-11): every control carries a plain name ("Body text width"), the raw token or query in its tooltip.
+   A page can name its own controls with a script element of type application/json carrying data-tune-labels, whose
+   body is a map such as {"--measure": "...", "640px": "...", "40rem": "..."}; otherwise a readable name is generated. "Saved" shows the autosave, "Back"
+   steps back through the last 5 changes, Reset asks first, and a Lock on any control keeps its value through Back,
+   Restore and Reset (locks save with the state). The copy tools sit under a collapsed "For developers".
    Inline it with scripts/token_tuner_inline.py; page_gate.py --counterpart fails any page that still carries it.
    Source of truth: src/ui-kit/token-tuner.js. Kit primitive: src/ui-kit/recoil-report/40-token-tuner.html. */
 (function () {
@@ -69,8 +74,18 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
     ['--lh', '', 1.1, 2.0, 0.05],
     ['--ls', 'em', -0.05, 0.1, 0.005]
   ];
+  // plain names for the tokens; a page's data-tune-labels map wins over these
+  var NAMES = {
+    '--measure': 'Text column width', '--sp-1': 'Tiny gap (inside a line or label)', '--sp-2': 'Small gap (between lines in a card)',
+    '--sp-3': 'Medium gap (between paragraphs)', '--sp-4': 'Large gap (between blocks)', '--sp-5': 'Section gap (between page sections)',
+    '--gap': 'Space between columns and cards', '--fs-step': 'Heading and callout size', '--fs-body': 'Body text size',
+    '--lh': 'Line spacing', '--ls': 'Letter spacing'
+  };
+  // what a reader sees for a value: px as is, rem as "× normal" (1rem is the normal text size), a bare ratio as "×"
+  function show(n, unit) { var v = Math.round(n * 1000) / 1000; return unit === 'rem' ? v + ' × normal' : unit === '' ? v + '×' : v + (unit === 'px' ? ' px' : unit); }
   // text-wrap groups: one select each, applied with one injected rule
-  var WRAPS = [['Headings', ':is(h1,h2,h3,h4)'], ['Body', ':is(p,li,dd)']];
+  var WRAPS = [['Headings', ':is(h1,h2,h3,h4)', 'How headings break across lines'], ['Body', ':is(p,li,dd)', 'How paragraphs break across lines']];
+  var WRAP_OPTS = [['', 'As the page sets it'], ['balance', 'Even line lengths'], ['pretty', 'Avoid one word alone on the last line'], ['wrap', 'Plain wrapping'], ['stable', 'Plain, steady while typing']];
   var root = document.documentElement;
   var KEY = 'arcsTokenTuner:' + location.pathname, VKEY = 'arcsTokenTuner:versions:' + location.pathname;
   function load(k) {
@@ -399,7 +414,11 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
       '.h b{letter-spacing:.12em;text-transform:uppercase;font-size:11px;color:var(--cyan,LinkText)}' +
       '.b{padding:8px 10px;display:grid;gap:10px}' +
       '.g{margin:4px 0 0;letter-spacing:.12em;text-transform:uppercase;font-size:11px;color:var(--text-secondary,GrayText)}' +
-      '.r{display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:center}' +
+      '.r{display:grid;grid-template-columns:1fr auto auto;gap:2px 8px;align-items:center}' +
+      '.r label{font:13px/1.3 system-ui,sans-serif}.r .lk{padding:1px 6px;font-size:11px}' +
+      '.r input:disabled,.r select:disabled{opacity:.5;cursor:not-allowed}' +
+      '.dev{border-top:1px solid var(--border,GrayText);padding:6px 10px 10px}.dev summary{cursor:pointer;color:var(--text-secondary,GrayText)}' +
+      '.p.min .dev{display:none}' +
       '.r label{color:var(--text,CanvasText)}.r output{color:var(--text-secondary,GrayText);font-variant-numeric:tabular-nums}' +
       '.r input,.r select{grid-column:1 / -1;width:100%;accent-color:var(--cyan,LinkText);margin:0}' +
       '.r select{font:inherit;color:var(--text,CanvasText);background:var(--bg,Canvas);border:1px solid var(--border,GrayText);border-radius:var(--ds-r-sm,6px);padding:3px}' +
@@ -424,18 +443,24 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
       '</style>' +
       (TUNE ? '<div class="st" hidden><iframe title="This page at the chosen viewport width"></iframe></div>' : '') +
       '<div class="p" role="region" aria-label="Token tuner">' +
-      '<div class="h"><b>' + (TUNE ? 'Token tuner' : 'Text editor') + '</b><span class="f"><button type="button" data-act="copy">Copy CSS</button>' +
-      (canPatch ? '<button type="button" data-act="copyjson">Copy JSON</button>' : '') +
-      (TUNE ? '<button type="button" data-act="copytext" title="Double-click text on the page to edit it">Copy edits</button>' : '') +
+      '<div class="h"><b>' + (TUNE ? 'Page tuner' : 'Text editor') + '</b><span class="f">' +
+      '<button type="button" data-act="back" disabled title="Undo the last change, up to 5 steps">Back</button>' +
       '<button type="button" data-act="reset">Reset</button><button type="button" data-act="min" aria-expanded="true">Hide</button></span></div>' +
       (TUNE ? '<div class="v" role="group" aria-label="Viewport">' + VPS.map(function (v) {
         return '<button type="button" data-vp="' + v[1] + '" aria-pressed="false"' + (v[1] ? ' title="' + v[1] + 'px wide"' : ' title="The window width, no frame"') + '>' + v[0] + (v[1] ? ' ' + v[1] : '') + '</button>';
       }).join('') + '<button type="button" data-act="print" aria-pressed="false" title="Apply the page\'s @media print rules">Print</button></div>' : '') +
-      '<div class="c"><input class="out" data-out="css" readonly aria-label="Changed tokens and rules as one CSS line" value="">' +
-      (canPatch ? '<input class="out" data-out="json" readonly aria-label="Changed data as one JSON patch" value="">' : '') +
-      (TUNE ? '<input class="out" data-out="text" readonly aria-label="Text edits as old and new pairs" placeholder="double-click text to edit it" value="">' : '') +
-      '<div class="msg" aria-live="polite"></div>' + (TUNE ? '<div class="sv" aria-live="off"></div>' : '') + '</div>' +
+      '<div class="c">' + (TUNE ? '<div class="sv" aria-live="off">Changes save on their own.</div><div class="sv">Double-click any text on the page to change it.</div>' : '') +
+      '<div class="msg" aria-live="polite"></div></div>' +
       '<div class="b"></div>' +
+      '<details class="dev"><summary>For developers</summary><div class="c">' +
+      '<span class="f"><button type="button" data-act="copy">Copy CSS</button>' +
+      (canPatch ? '<button type="button" data-act="copyjson">Copy JSON</button>' : '') +
+      (TUNE ? '<button type="button" data-act="copytext">Copy edits</button><button type="button" data-act="export">Export versions</button>' : '') + '</span>' +
+      '<input class="out" data-out="css" readonly aria-label="Changed tokens and rules as one CSS line" value="">' +
+      (canPatch ? '<input class="out" data-out="json" readonly aria-label="Changed data as one JSON patch" value="">' : '') +
+      (TUNE ? '<input class="out" data-out="text" readonly aria-label="Text edits as old and new pairs" placeholder="double-click text to edit it" value="">' +
+        '<input class="out" data-out="versions" readonly aria-label="All versions as JSON" value=""><div class="sv" data-v="off"></div>' : '') +
+      '</div></details>' +
       '</div>';
 
     var body = shadow.querySelector('.b');
@@ -443,10 +468,54 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
     var DBL = [], dbl = null;   // one list of text pairs, shared by this page and the viewport frame
     function textList() { return DBL; }
     var versions = load(VKEY) || [], saveT = null, pending = null, sv = shadow.querySelector('.sv');
+    var LOCK = saved.lock || {};      // control id -> true: kept through Back, Restore and Reset
+    var hist = [], backBtn = shadow.querySelector('[data-act=back]');   // the last 5 states before this one, then this one
+    function sig(st) { var c = JSON.parse(JSON.stringify(st)); delete c.vp; delete c.lock; return JSON.stringify(c); }
+    function showBack() { if (backBtn) { backBtn.disabled = hist.length < 2; backBtn.textContent = hist.length > 1 ? 'Back (' + (hist.length - 1) + ')' : 'Back'; } }
     function flush() {
       if (!pending) return;
+      if (!hist.length || sig(hist[hist.length - 1]) !== sig(pending)) { hist.push(JSON.parse(JSON.stringify(pending))); if (hist.length > 6) hist.shift(); }
+      showBack();
       var ok = store(KEY, pending); pending = null;
-      if (sv) sv.textContent = ok ? 'autosaved ' + new Date().toLocaleTimeString() : 'storage blocked: not saved';
+      if (sv) sv.textContent = ok ? 'Saved ' + new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : 'Not saved: this browser blocks storage';
+    }
+    var PAGE_LABELS = {};
+    try { var lj = document.querySelector('script[type="application/json"][data-tune-labels]'); if (lj) PAGE_LABELS = JSON.parse(lj.textContent) || {}; } catch (e) { /* a broken map falls back to generated names */ }
+    function plain(raw, fallback) { return PAGE_LABELS[raw] || fallback || raw; }
+    function bpName(k) { return 'Below ' + k + ' px, ' + (k <= 480 ? 'small phone' : k <= 800 ? 'phone and small tablet' : k <= 1100 ? 'tablet and small laptop' : 'laptop'); }
+    // the first few words of the element a rule styles, e.g. "If it fits the…"
+    function words(sel) {
+      var el = null;
+      try { el = sel && document.querySelector(sel.split(',')[0]); } catch (e) {}
+      var t = el ? (el.innerText || el.textContent).replace(/\s+/g, ' ').trim().split(' ') : [];   // innerText keeps the gaps between cells
+      return t.length ? '"' + t.slice(0, 5).join(' ') + (t.length > 5 ? '…' : '') + '"' : '';
+    }
+    // a container query is named after where it lives on the page: 'Where "If it fits the…" sits, below 40 × normal'
+    function contName(k) {
+      var w = '';
+      contRules.some(function (c) {
+        var r; CQ_RE.lastIndex = 0;
+        while ((r = CQ_RE.exec(c.orig))) if (ckey(+r[2], r[3]) === k) {
+          [].some.call(c.rule.cssRules || [], function (s) { w = words(s.selectorText); return !!w; });
+          if (w) return true;
+        }
+        return false;
+      });
+      return (w ? 'Where ' + w + ' sits, below ' : 'Card layout, below ') + show(ckeys[k].v, ckeys[k].u) + ' wide';
+    }
+    function lockBtn(r, id, name) {
+      r.id = id;
+      var b = document.createElement('button'); b.type = 'button'; b.classList.add('lk'); b.setAttribute('data-lock', id);
+      b.setAttribute('aria-label', 'Lock ' + name); r.lock = b;
+      r.row.insertBefore(b, r.input);
+      setLock(r, !!LOCK[id], true);
+    }
+    function setLock(r, on, quiet) {
+      if (on) LOCK[r.id] = true; else delete LOCK[r.id];
+      r.input.disabled = on;
+      r.lock.setAttribute('aria-pressed', String(on)); r.lock.textContent = on ? 'Locked' : 'Lock';
+      r.lock.title = on ? 'Locked: Back, Restore and Reset leave this as it is. Click to unlock.' : 'Lock this value so Back, Restore and Reset leave it alone';
+      if (!quiet) refresh();
     }
     addEventListener('pagehide', flush);
     var msg = shadow.querySelector('.msg');
@@ -488,29 +557,23 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
     function group(t) { var g = document.createElement('p'); g.classList.add('g'); g.textContent = t; body.appendChild(g); return g; }
 
     /* breadcrumbs */
-    var vlist = null, vnote = null, vout = null;
-    if (TUNE) {
-      group('Breadcrumbs');
-      var bc = document.createElement('div'); bc.classList.add('vl');
-      bc.innerHTML = '<input class="out" data-v="note" aria-label="Note for this breadcrumb" placeholder="note (optional)">' +
-        '<span class="f"><button type="button" data-act="crumb">Drop breadcrumb</button><button type="button" data-act="export">Export versions</button></span>' +
-        '<input class="out" data-out="versions" readonly aria-label="All versions as JSON" value=""><div class="vl" data-v="list"></div>';
-      body.appendChild(bc);
-      vnote = bc.querySelector('[data-v=note]'); vlist = bc.querySelector('[data-v=list]'); vout = bc.querySelector('[data-out=versions]');
-    }
+    var vlist = null, vnote = null, vout = shadow.querySelector('[data-out=versions]'), voff = shadow.querySelector('[data-v=off]');
     function renderVersions() {
       if (!vlist) return;
-      vlist.innerHTML = versions.slice().reverse().map(function (v) {
+      var older = Math.max(0, versions.length - 5);   // the newest 5 show here; every version stays in Export
+      if (voff) voff.textContent = older ? older + ' older version(s) are only in Export versions.' : '';
+      vlist.innerHTML = versions.slice(older).reverse().map(function (v) {
         var t = new Date(v.at), when = t.toLocaleDateString() + ' ' + t.toLocaleTimeString();
         return '<div class="vr"><span title="' + esc(v.note || '') + '">v' + v.v + ' ' + esc(when) + (v.note ? ' ' + esc(v.note) : '') + '</span>' +
           '<button type="button" data-restore="' + v.v + '">Restore</button></div>';
-      }).join('') || '<span class="sv">no breadcrumbs yet</span>';
+      }).join('') || '<span class="sv">No saved versions yet.</span>';
       vout.value = versions.length ? JSON.stringify({ page: location.pathname, versions: versions }) : '';
     }
 
     /* tokens */
     if (TUNE) {
-      group('Tokens');
+      group('Size and spacing');
+      var absent = [];
       SPEC.forEach(function (s) {
         var name = s[0], unit = s[1];
         var orig = declared(name);
@@ -518,15 +581,11 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
         var row = document.createElement('div');
         row.classList.add('r');
         var id = 'tt' + name.replace(/[^a-z0-9]/g, '');
-        if (n === null) {
-          row.classList.add('off');
-          row.innerHTML = '<label>' + name + '</label><output>' + (orig ? 'not a ' + (unit || 'number') + ' value' : 'not declared') + '</output>';
-          body.appendChild(row);
-          return;
-        }
+        if (n === null) { absent.push(name + (orig ? ' (not a ' + (unit || 'number') + ' value)' : '')); return; }   // listed under For developers
         // Anchor the step grid on the page value, so the browser never snaps it to a neighbour.
         var step = s[4], min = n - Math.floor(Math.max(0, n - s[2]) / step + 1e-9) * step, max = Math.max(s[3], n);
-        row.innerHTML = '<label for="' + id + '">' + name + '</label><output></output>' +
+        var nm = plain(name, NAMES[name]);
+        row.innerHTML = '<label for="' + id + '" title="' + esc(name) + '">' + esc(nm) + '</label><output></output>' +
           '<input type="range" id="' + id + '" min="' + min + '" max="' + max + '" step="' + step + '">';
         var input = row.querySelector('input'), o = row.querySelector('output');
         var r = { name: name, unit: unit, orig: n, input: input, out: o, row: row };
@@ -534,47 +593,52 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
         input.addEventListener('input', function () { applyTok(r); });
         rows.push(r);
         body.appendChild(row);
+        lockBtn(r, 'tok:' + name, nm);
         applyTok(r, true);
       });
+      if (absent.length && voff) { var ab = document.createElement('div'); ab.classList.add('sv'); ab.textContent = 'Not on this page: ' + absent.join(', '); voff.parentNode.appendChild(ab); }
 
       /* breakpoints */
-      var vw = group('Breakpoints');
-      showVW = function () { vw.textContent = 'Breakpoints (viewport ' + (VP || root.clientWidth) + 'px' + (PRINT ? ', print' : '') + ')'; };
+      var vw = group('Layout switches');
+      showVW = function () { vw.textContent = 'Layout switches (showing ' + (VP || root.clientWidth) + 'px wide' + (PRINT ? ', print' : '') + ')'; };
       showVW(); addEventListener('resize', showVW);
       bpKeys.forEach(function (k) {
         var row = document.createElement('div'); row.classList.add('r');
         var id = 'ttbp' + k, step = 4, min = k - Math.floor(Math.max(0, k - 360) / step) * step, max = Math.max(1440, k);
-        row.innerHTML = '<label for="' + id + '">' + k + 'px' + (bpData && bpData.key === k ? ' (' + bpData.path + ')' : '') + '</label><output></output>' +
+        var nm = plain(k + 'px', bpName(k));
+        row.innerHTML = '<label for="' + id + '" title="' + esc('@media width ' + k + 'px' + (bpData && bpData.key === k ? ', data ' + bpData.path : '')) + '">' + esc(nm) + '</label><output></output>' +
           '<input type="range" id="' + id + '" min="' + min + '" max="' + max + '" step="' + step + '">';
         var r = { key: k, input: row.querySelector('input'), out: row.querySelector('output'), row: row };
         r.input.value = BP[k] != null ? BP[k] : k;
         r.input.addEventListener('input', function () { applyBPRow(r); });
-        bpRows.push(r); body.appendChild(row); applyBPRow(r, true);
+        bpRows.push(r); body.appendChild(row); lockBtn(r, 'bp:' + k, nm); applyBPRow(r, true);
       });
       cKeys.forEach(function (k) {
         var c = ckeys[k], row = document.createElement('div'); row.classList.add('r');
         var rem = c.u === 'rem', step = rem ? 0.25 : 4, min = rem ? 10 : 160, max = Math.max(rem ? 100 : 1600, c.v);
-        row.innerHTML = '<label for="ttbp' + k.replace('.', '_') + '">' + c.v + c.u + ' (container)</label><output></output>' +
+        var nm = plain(c.v + c.u, contName(k));
+        row.innerHTML = '<label for="ttbp' + k.replace('.', '_') + '" title="' + esc('@container width ' + c.v + c.u) + '">' + esc(nm) + '</label><output></output>' +
           '<input type="range" id="ttbp' + k.replace('.', '_') + '" min="' + min + '" max="' + max + '" step="' + step + '">';
         var r = { key: k, orig: c.v, unit: c.u, input: row.querySelector('input'), out: row.querySelector('output'), row: row };
         r.input.value = BP[k] != null ? BP[k] : c.v;
         r.input.addEventListener('input', function () { applyBPRow(r); });
-        bpRows.push(r); body.appendChild(row); applyBPRow(r, true);
+        bpRows.push(r); body.appendChild(row); lockBtn(r, 'bp:' + k, nm); applyBPRow(r, true);
       });
-      if (!bpKeys.length && !cKeys.length) { var none = document.createElement('div'); none.classList.add('r', 'off'); none.innerHTML = '<label>no width queries</label>'; body.appendChild(none); }
+      if (!bpKeys.length && !cKeys.length) { var none = document.createElement('div'); none.classList.add('r', 'off'); none.innerHTML = '<label>This page has no layout switches.</label>'; body.appendChild(none); }
 
       /* wrapping */
-      group('Wrapping');
+      group('Line breaks');
       var wrapStyle = document.createElement('style'); wrapStyle.setAttribute('data-arcs-token-tuner', 'wrap');
       document.head.appendChild(wrapStyle);
       WRAPS.forEach(function (w, i) {
         var row = document.createElement('div'); row.classList.add('r');
-        row.innerHTML = '<label for="ttw' + i + '">' + w[0] + ' text-wrap</label><output></output><select id="ttw' + i + '">' +
-          ['', 'balance', 'pretty', 'wrap', 'stable'].map(function (v) { return '<option value="' + v + '">' + (v || 'as the page sets it') + '</option>'; }).join('') + '</select>';
+        var nm = plain(w[1], w[2]);
+        row.innerHTML = '<label for="ttw' + i + '" title="' + esc(w[1] + ' { text-wrap }') + '">' + esc(nm) + '</label><output></output><select id="ttw' + i + '">' +
+          WRAP_OPTS.map(function (o) { return '<option value="' + o[0] + '" title="' + (o[0] ? 'text-wrap: ' + o[0] : 'no override') + '">' + o[1] + '</option>'; }).join('') + '</select>';
         var r = { sel: w[1], input: row.querySelector('select'), out: row.querySelector('output'), row: row };
         r.input.value = (saved.wrap && saved.wrap[i]) || '';
         r.input.addEventListener('change', function () { applyWrap(); });
-        wrapRows.push(r); body.appendChild(row);
+        wrapRows.push(r); body.appendChild(row); lockBtn(r, 'wrap:' + i, nm);
       });
       var applyWrap = function (quiet) {
         wrapStyle.textContent = wrapRows.filter(function (r) { return r.input.value; }).map(function (r) { return r.sel + '{text-wrap:' + r.input.value + '!important}'; }).join('');
@@ -582,6 +646,14 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
         if (!quiet) refresh();
       };
       applyWrap(true);
+
+      /* saved versions, below the controls */
+      group('Saved versions');
+      var bc = document.createElement('div'); bc.classList.add('vl');
+      bc.innerHTML = '<input class="out" data-v="note" aria-label="Note for this version" placeholder="What changed? (optional)">' +
+        '<span class="f"><button type="button" data-act="crumb">Save this version</button></span><div class="vl" data-v="list"></div>';
+      body.appendChild(bc);
+      vnote = bc.querySelector('[data-v=note]'); vlist = bc.querySelector('[data-v=list]');
     }
 
     /* in-place text */
@@ -633,7 +705,7 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
       var changed = Math.abs(v - r.orig) > 1e-9;
       if (changed) root.style.setProperty(r.name, fmt(v, r.unit));
       else root.style.removeProperty(r.name);
-      r.out.textContent = fmt(v, r.unit) + (changed ? ' (was ' + fmt(r.orig, r.unit) + ')' : '');
+      r.out.textContent = show(v, r.unit) + (changed ? ' (was ' + show(r.orig, r.unit) + ')' : '');
       r.row.classList.toggle('changed', changed);
       if (!quiet) refresh();
     }
@@ -641,7 +713,7 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
       var o = r.orig != null ? r.orig : r.key, u = r.unit || 'px', v = parseFloat(r.input.value), changed = v !== o;
       if (changed) BP[r.key] = v; else delete BP[r.key];
       applyBP();
-      r.out.textContent = v + u + (changed ? ' (was ' + o + u + ')' : '');
+      r.out.textContent = show(v, u) + (changed ? ' (was ' + show(o, u) + ')' : '');
       r.row.classList.toggle('changed', changed);
       if (!quiet) refresh();
     }
@@ -666,7 +738,7 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
       if (outT) { var tl = textList(); outT.value = tl.length ? JSON.stringify(tl) : ''; }
       var o = ops();
       if (outJ) outJ.value = o.length ? JSON.stringify(o) : '';
-      var keep = { vp: VP, print: PRINT, tok: {}, bp: JSON.parse(JSON.stringify(BP)), wrap: wrapRows.map(function (r) { return r.input.value; }), text: {}, dbl: DBL };
+      var keep = { vp: VP, print: PRINT, tok: {}, bp: JSON.parse(JSON.stringify(BP)), wrap: wrapRows.map(function (r) { return r.input.value; }), text: {}, dbl: DBL, lock: JSON.parse(JSON.stringify(LOCK)) };
       rows.forEach(function (r) { if (r.row.classList.contains('changed')) keep.tok[r.name] = parseFloat(r.input.value); });
       base.forEach(function (b) { var now = toMd(b.el); if (now !== b.md) keep.text[b.path] = now; });
       lastKeep = keep;
@@ -674,13 +746,14 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
       frameSync();
     }
     function say(t) { msg.textContent = t; }
-    function restoreState(st) {
+    // a locked control keeps its current value; everything else takes the state's value (or the page's own)
+    function restoreState(st, keepView) {
       st = st || {};
-      rows.forEach(function (r) { r.input.value = (st.tok && st.tok[r.name] != null) ? st.tok[r.name] : r.orig; applyTok(r, true); });
-      bpRows.forEach(function (r) { var o = r.orig != null ? r.orig : r.key; r.input.value = (st.bp && st.bp[r.key] != null) ? st.bp[r.key] : o; applyBPRow(r, true); });
-      wrapRows.forEach(function (r, i) { r.input.value = (st.wrap && st.wrap[i]) || ''; });
+      rows.forEach(function (r) { if (LOCK[r.id]) return; r.input.value = (st.tok && st.tok[r.name] != null) ? st.tok[r.name] : r.orig; applyTok(r, true); });
+      bpRows.forEach(function (r) { if (LOCK[r.id]) return; var o = r.orig != null ? r.orig : r.key; r.input.value = (st.bp && st.bp[r.key] != null) ? st.bp[r.key] : o; applyBPRow(r, true); });
+      wrapRows.forEach(function (r, i) { if (!LOCK[r.id]) r.input.value = (st.wrap && st.wrap[i]) || ''; });
       if (wrapRows.length) applyWrap(true);
-      setPrint(!!st.print); setVP(+st.vp || 0);
+      if (!keepView) { setPrint(!!st.print); setVP(+st.vp || 0); }
       DBL = st.dbl || [];
       var miss = dbl ? dbl.apply(DBL) : [];
       if (miss.length) DBL = DBL.filter(function (pr) { return miss.indexOf(pr) < 0; });
@@ -703,6 +776,22 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
       var act = e.target && e.target.getAttribute && e.target.getAttribute('data-act');
       var vp = e.target && e.target.getAttribute && e.target.getAttribute('data-vp');
       var rv = e.target && e.target.getAttribute && e.target.getAttribute('data-restore');
+      var lk = e.target && e.target.getAttribute && e.target.getAttribute('data-lock');
+      if (lk != null) {
+        var lr = rows.concat(bpRows, wrapRows).filter(function (x) { return x.id === lk; })[0];
+        if (lr) { setLock(lr, !LOCK[lk]); say(LOCK[lk] ? 'Locked. Back, Restore and Reset will leave it alone.' : 'Unlocked.'); }
+        return;
+      }
+      if (act === 'back') {
+        flush();
+        if (hist.length < 2) { say('Nothing to go back to.'); return; }
+        hist.pop();
+        var miss1 = restoreState(hist[hist.length - 1], true);
+        hist[hist.length - 1] = JSON.parse(JSON.stringify(lastKeep));   // what the page shows now, locks included
+        showBack();
+        say('Went back one step' + (miss1.length ? '; ' + miss1.length + ' text edit(s) no longer match the page' : '') + '.');
+        return;
+      }
       if (rv != null) {
         var ver = versions.filter(function (x) { return String(x.v) === rv; })[0];
         if (ver) { var miss = restoreState(ver.state); say('Restored v' + ver.v + (miss.length ? '; ' + miss.length + ' text edit(s) no longer match the page' : '') + '.'); }
@@ -712,7 +801,7 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
         flush();
         var n = versions.length ? versions[versions.length - 1].v + 1 : 1;
         versions.push({ v: n, at: new Date().toISOString(), note: vnote.value.trim(), why: '', state: JSON.parse(JSON.stringify(lastKeep || {})) });
-        if (!store(VKEY, versions)) say('Storage blocked: breadcrumb kept for this page view only.'); else say('Dropped breadcrumb v' + n + '.');
+        if (!store(VKEY, versions)) say('This browser blocks storage: v' + n + ' lasts until you close the page.'); else say('Saved version v' + n + '.');
         vnote.value = ''; renderVersions();
         return;
       }
@@ -724,15 +813,17 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
         e.target.textContent = min ? 'Show' : 'Hide';
         e.target.setAttribute('aria-expanded', String(!min));
       } else if (act === 'reset') {
-        rows.forEach(function (r) { r.input.value = r.orig; applyTok(r, true); });
-        bpRows.forEach(function (r) { r.input.value = r.orig != null ? r.orig : r.key; applyBPRow(r, true); });
-        wrapRows.forEach(function (r) { r.input.value = ''; });
+        var nLock = Object.keys(LOCK).length;
+        if (!confirm('Reset to the original page?' + (nLock ? '\n' + nLock + ' locked control(s) stay as they are.' : '') + '\nBack can undo this.')) return;
+        rows.forEach(function (r) { if (LOCK[r.id]) return; r.input.value = r.orig; applyTok(r, true); });
+        bpRows.forEach(function (r) { if (LOCK[r.id]) return; r.input.value = r.orig != null ? r.orig : r.key; applyBPRow(r, true); });
+        wrapRows.forEach(function (r) { if (!LOCK[r.id]) r.input.value = ''; });
         if (wrapRows.length) applyWrap(true);
         base.forEach(function (b) { b.el.innerHTML = b.html; mark(b); });
         if (dbl) dbl.reset();
         DBL = [];
         refresh();
-        say('Reset to the page values.');
+        say('Reset to the original page' + (nLock ? ', locked controls kept' : '') + '.');
       } else if (act === 'copy') {
         copy(cssLine(), out, 'Copied. Paste it after the page\'s last :root block.');
       } else if (act === 'copytext') {
@@ -754,6 +845,7 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-label); }
     }
     if (frame) frame.addEventListener('load', frameSync);
     refresh();
+    hist = [JSON.parse(JSON.stringify(lastKeep))]; showBack();   // Back stops at the state the page opened in
     (document.body || root).appendChild(host);
   }
 })();

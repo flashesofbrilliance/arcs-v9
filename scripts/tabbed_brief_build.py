@@ -103,6 +103,13 @@ def validate(d):
 TABLE_N = [0]  # each scroll region gets its own name (axe landmark-unique)
 
 
+def nbh(x):
+    """No-wrap hyphens (U+2011) between letters in display text, never inside a markdown link target:
+    a U+2011 in an href breaks the link (it shipped once on the Gravity overview, 2026-11-11)."""
+    parts = re.split(r"(\]\([^)]*\))", x)
+    return "".join(q if q.startswith("](") else re.sub(r"(?<=[a-z])-(?=[a-z])", "\u2011", q) for q in parts)
+
+
 def r_table(b, p=""):
     TABLE_N[0] += 1
     head = "".join("<th>%s</th>" % md(h, "%s/head/%d" % (p, i)) for i, h in enumerate(b["head"]))
@@ -209,7 +216,7 @@ def r_fold(s, horizons, p=""):
 
 def r_overview(d):
     o = d["overview"]
-    h = "".join('<span class="hl">%s</span>' % md(re.sub(r"(?<=[a-z])-(?=[a-z])", "‑", x), "/overview/headline/%d" % i) for i, x in enumerate(o["headline"]))
+    h = "".join('<span class="hl">%s</span>' % md(nbh(x), "/overview/headline/%d" % i) for i, x in enumerate(o["headline"]))
     acts = []
     for a in o.get("actions", []):
         cls = "tb-btn primary" if a.get("primary") else "tb-btn"
@@ -235,9 +242,12 @@ def r_overview(d):
             '<div class="ftiles-c"><ul class="ftiles is-4" aria-label="At a glance">%s</ul></div>\n'
             '%s'
             '%s<div class="tb-expand%s"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>\n'
-            '<div class="tb-folds">%s</div>\n</div>') % (h, (('<p class="tb-byline">%s</p>\n' % md(o["byline"], "/overview/byline")) if o.get("byline") else "") + r_bites(o), ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"], "/overview/subhead")) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(re.sub(r"(?<=[a-z])-(?=[a-z])", "‑", x), "/overview/lede/%d" % i) for i, x in enumerate(o["lede"]))) if o.get("lede") else "",
+            '<div class="tb-folds">%s</div>\n</div>') % (h, (('<p class="tb-byline">%s</p>\n' % md(o["byline"], "/overview/byline")) if o.get("byline") else "") + ("" if o.get("bites_at") == "end" else r_bites(o)), ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"], "/overview/subhead")) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(nbh(x), "/overview/lede/%d" % i) for i, x in enumerate(o["lede"]))) if o.get("lede") else "",
          tiles, go, cr,
          " solo" if len(o["sections"]) < 2 else "", folds)
+    if o.get("bites_at") == "end" and o.get("bites"):  # evidence first, then what colleagues say
+        assert out.endswith("</div>\n</div>")
+        out = out[:-len("</div>")] + r_bites(o) + "</div>"
     if d.get("pages") and len(o["sections"]) < 2:
         out = re.sub(r'<div class="tb-expand[^"]*"><button[^<]*</button></div>\n', "", out)
     return out
@@ -374,8 +384,23 @@ def build(path, out=None, artifact=False):
     return write_pages(d, out, artifact)
 
 
+def bad_hrefs(html_):
+    """Link targets carrying a non-ASCII character (a U+2011 no-wrap hyphen, a smart quote): each one is a dead link."""
+    return [h for h in re.findall(r'href="([^"]*)"', html_) if any(ord(c) > 127 for c in h)]
+
+
 def outputs(d, out, artifact=False):
     """Every file one data file produces: {path: html}. Pages mode adds one file per role beside the overview."""
+    res = _outputs(d, out, artifact)
+    dead = [(p, h) for p, x in res.items() for h in bad_hrefs(x)]
+    if dead:
+        for p, h in dead:
+            print("✖ non-ASCII link target in %s: %s" % (os.path.basename(p) or "page", h))
+        raise SystemExit(1)
+    return res
+
+
+def _outputs(d, out, artifact=False):
     if not d.get("pages"):
         return {out: render(d, artifact)}
     folder, base = os.path.split(out)
@@ -446,6 +471,11 @@ def self_test():
         hit = any(want in er for er in errs)
         print(("PASS " if hit else "FAIL ") + name)
         ok = ok and hit
+    x = copy.deepcopy(base); x["overview"]["headline"][0] = "[a-b](https://x.example/how-to-x) read-me"
+    h = render(x, True, "ov") if x.get("pages") else render(x, True)
+    hit = not bad_hrefs(h) and "how-to-x" in h and bool(bad_hrefs('<a href="https://x.example/how\u2011to">'))
+    print(("PASS " if hit else "FAIL ") + "no-wrap hyphens stay out of link targets, and the guard catches one")
+    ok = ok and hit
     good = not validate(base)
     print(("PASS " if good else "FAIL ") + "the committed data is valid")
     return 0 if ok and good else 1

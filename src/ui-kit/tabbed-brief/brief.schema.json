@@ -236,6 +236,10 @@
         "bites_still": {
           "type": "boolean",
           "description": "Optional: show the sound bite whole, with no typing and no timer (one focal point in the hero)."
+        },
+        "bites_at": {
+          "enum": ["hero", "end"],
+          "description": "Optional: where the sound bite sits. hero (default) under the byline; end after the last section, so evidence comes before what colleagues say."
         }
       }
     },

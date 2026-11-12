@@ -31,7 +31,7 @@ export function MonoLabel({ children, accent }: { children: React.ReactNode; acc
 
 export function SectionHd({ idx, label, title, accent = T.cyan }: { idx: string; label: string; title: React.ReactNode; accent?: string }) {
   return (
-    <div style={{ paddingBottom: 24 }}>
+    <div style={{ paddingBottom: 24, breakAfter: 'avoid', breakInside: 'avoid' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
         <MonoLabel accent={accent}>{idx} · {label}</MonoLabel>
         <div style={{ flex: 1, height: 1, background: T.border }} />
