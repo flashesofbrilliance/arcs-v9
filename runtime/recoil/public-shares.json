@@ -1,20 +1,3 @@
 {
-  "_doc": "Recoil reports a signed-out reader may open at /recoil/<id>. One entry per report, added only on Zach's explicit go. Lines matching strip_markers are removed server-side before render (the smallest list item or table row that contains one); strip_block_types drops whole blocks; drop_kinematic_series empties the odds series. Read by src/app/recoil/[reportId]/page.tsx.",
-  "2026-10-29-gasmi": {
-    "approved": "Zach, 2026-11-12: original war room for Doug's emailed link, minus the comp-floor landmine, the Farah-gate read, the odds, and the jargon-relay belief (and their echoes)",
-    "strip_markers": [
-      "decide your floor",
-      "The real gate is Farah reading",
-      "Prior 0.55",
-      "<strong>BAR (ruin):</strong> the commute",
-      "Commute named as the ruin edge",
-      "resurfaces as commute doubt",
-      "Doug's relay to Farah",
-      "the jargon will not survive the relay",
-      "Doug's retelling flattens",
-      "Zach's jargon outran Doug"
-    ],
-    "strip_block_types": ["worked_example", "kinematics_table"],
-    "drop_kinematic_series": true
-  }
+  "_doc": "Recoil reports a signed-out reader may open at /recoil/<id>. One entry per report, added only on Zach's explicit go. Lines matching strip_markers are removed server-side before render (the smallest list item or table row that contains one); strip_block_types drops whole blocks; drop_kinematic_series empties the odds series. Read by src/app/recoil/[reportId]/page.tsx."
 }

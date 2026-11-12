@@ -71,7 +71,7 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // dioptra.arcs.care: candidate brief for the Dioptra Staff PM role (2026-10-29). Gated by DIOPTRA_PASSCODE; noindex. /work-sample.zip maps to a /dioptra-brief-* file, which the prefix gate locks on every host.
   'dioptra':   { '/work-sample.zip': '/dioptra-brief-sample.zip', default: '/dioptra-brief.html' },
   // gravity.arcs.care: candidate positioning for the four open Gravity Labs roles, via Crossbridge Executive (2026-11-09). Gated by GRAVITY_PASSCODE; noindex.
-  'gravity':   { '/principal': '/gravity-brief-principal.html', '/eir': '/gravity-brief-eir.html', '/founder': '/gravity-brief-founder.html', '/open': '/gravity-brief-open.html', default: '/gravity-brief.html' },
+  'gravity':   { '/principal': '/gravity-brief-principal.html', '/eir': '/gravity-brief-eir.html', '/founder': '/gravity-brief-founder.html', '/open': '/gravity-brief-eir.html', default: '/gravity-brief.html' },
   'monday':    { '/monday-guide-rc46.zip': '/monday-guide-rc46.zip', default: '/monday-guide.html' },
   'success-academy': { '/resume': '/success-academy-resume-viewer.html', '/success-academy-resume.pdf': '/success-academy-resume.pdf', '/success-academy-resume-ats.txt': '/success-academy-resume-ats.txt', default: '/success-academy.html' },
   // squad.arcs.care — Squad (gosquad.ai) Product Engineer bundle (2026-09-24): OPEN (ungated), noindex. root = positioning brief + fit score (the thesis mirror aimed at founder Ignacio García León), /resume = print-ready HTML resume (technical cut, leadership scope kept), + ATS txt. Asset paths mapped to themselves so the default-page rewrite does not swallow the resume/txt.

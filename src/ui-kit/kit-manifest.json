@@ -72,9 +72,10 @@
     "compass-anti-distillation-build"
    ],
    "pages": [
-    "_ARTIFACTS/postmortem-manufactured-role.html"
+    "_ARTIFACTS/postmortem-manufactured-role.html",
+    "public/downshift.html"
    ],
-   "reuse": 1,
+   "reuse": 2,
    "near_duplicates": [
     {
      "rule": ".nci-label",
@@ -493,9 +494,10 @@
     "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html",
     "_ARTIFACTS/postmortem-manufactured-role.html",
     "_ARTIFACTS/til-01-warmth-routes-you.html",
+    "public/downshift.html",
     "scripts/counterpart_onepager_build.py"
    ],
-   "reuse": 4,
+   "reuse": 5,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -1799,9 +1801,11 @@
    "jobs": [],
    "pages": [
     "_ARTIFACTS/phosphor.html",
-    "public/dj.html"
+    "_ARTIFACTS/recoil-hypercube-explorer.html",
+    "public/dj.html",
+    "scripts/recoil_hypercube_explorer.py"
    ],
-   "reuse": 2,
+   "reuse": 4,
    "near_duplicates": []
   },
   {
@@ -1879,9 +1883,10 @@
     "state-of-union-dashboard-ahmed-impeccable-pass"
    ],
    "pages": [
-    "scripts/counterpart_onepager_build.py"
+    "scripts/counterpart_onepager_build.py",
+    "scripts/recoil_hypercube_explorer.py"
    ],
-   "reuse": 1,
+   "reuse": 2,
    "near_duplicates": [
     {
      "rule": ".seg",
@@ -1997,9 +2002,11 @@
     "ui-kit-promote-molecules"
    ],
    "pages": [
+    "scripts/recoil_hypercube_explorer.py",
+    "scripts/recoil_page.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 1,
+   "reuse": 3,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2124,9 +2131,11 @@
    "jobs": [],
    "pages": [
     "scripts/counterpart_onepager_build.py",
+    "scripts/recoil_hypercube_explorer.py",
+    "scripts/recoil_page.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 2,
+   "reuse": 4,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2382,8 +2391,10 @@
     "recoil-player"
    ],
    "jobs": [],
-   "pages": [],
-   "reuse": 0,
+   "pages": [
+    "scripts/recoil_page.py"
+   ],
+   "reuse": 1,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2644,13 +2655,17 @@
     "_ARTIFACTS/atlas/concordance.html",
     "_ARTIFACTS/louisville-atlas.html",
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "_ARTIFACTS/recoil-hypercube-explorer.html",
     "_ARTIFACTS/terrain-atlas.html",
     "_ARTIFACTS/ticket-zach-north-star-resonance-gradient-field.html",
     "public/cia-brief.html",
+    "public/downshift.html",
     "public/proof.html",
-    "scripts/counterpart_onepager_build.py"
+    "scripts/counterpart_onepager_build.py",
+    "scripts/recoil_hypercube_explorer.py",
+    "scripts/recoil_page.py"
    ],
-   "reuse": 8,
+   "reuse": 12,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2778,9 +2793,10 @@
     "public/good-audit-sample.html",
     "scripts/audit_report_build.py",
     "scripts/counterpart_onepager_build.py",
-    "scripts/kit_pull.py"
+    "scripts/kit_pull.py",
+    "scripts/recoil_page.py"
    ],
-   "reuse": 7,
+   "reuse": 8,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -3101,7 +3117,9 @@
     "uikit-recoil-player",
     "fc-rows-compost-2026-11",
     "jtbd-orphanage-family-audit",
-    "ready-now-door-decision-split"
+    "ready-now-door-decision-split",
+    "backlog-graph-session-overlay",
+    "spec-cognition-vcs-decide"
    ],
    "pages": [
     "scripts/kit_pull.py"
@@ -3341,9 +3359,11 @@
     "kit-pull-boids"
    ],
    "pages": [
-    "scripts/audit_report_build.py"
+    "scripts/audit_report_build.py",
+    "scripts/recoil_hypercube_explorer.py",
+    "scripts/recoil_page.py"
    ],
-   "reuse": 1,
+   "reuse": 3,
    "near_duplicates": []
   },
   {
@@ -3372,9 +3392,10 @@
    "templates": [],
    "jobs": [],
    "pages": [
+    "scripts/recoil_brief.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 1,
+   "reuse": 2,
    "near_duplicates": [
     {
      "rule": ".wordmark",
@@ -3414,9 +3435,10 @@
    "pages": [
     "_ARTIFACTS/brooks-audit-onepager.html",
     "scripts/counterpart_onepager_build.py",
+    "scripts/recoil_brief.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 3,
+   "reuse": 4,
    "near_duplicates": []
   },
   {
@@ -3448,7 +3470,8 @@
     "token-tuner-wysiwyg",
     "token-tuner-viewports-breadcrumbs",
     "token-tuner-why-prompt",
-    "token-tuner-global"
+    "token-tuner-global",
+    "token-tuner-plain-view"
    ],
    "pages": [
     "_ARTIFACTS/docs-reconciliation.html",
@@ -3554,18 +3577,20 @@
     "no_raw_signal_hex": true
    },
    "templates": [
-    "tabbed-brief"
+    "tabbed-brief",
+    "recoil-twin"
    ],
    "jobs": [],
    "pages": [
     "public/gravity-brief-eir.html",
     "public/gravity-brief-founder.html",
-    "public/gravity-brief-open.html",
     "public/gravity-brief-principal.html",
     "public/gravity-brief.html",
+    "public/recoil-ext/2026-10-29-gasmi.html",
+    "scripts/recoil_brief.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 6,
+   "reuse": 7,
    "near_duplicates": [
     {
      "rule": ".wordmark",
@@ -3981,20 +4006,23 @@
     "pullable": true,
     "no_raw_signal_hex": true
    },
-   "templates": [],
+   "templates": [
+    "recoil-twin"
+   ],
    "jobs": [],
    "pages": [
     "_ARTIFACTS/louisville-proposal/source.html",
     "public/good-rfp-engine.html",
     "public/gravity-brief-eir.html",
     "public/gravity-brief-founder.html",
-    "public/gravity-brief-open.html",
     "public/gravity-brief-principal.html",
     "public/gravity-brief.html",
     "public/louisville-proposal.html",
+    "public/recoil-ext/2026-10-29-gasmi.html",
+    "scripts/recoil_brief.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 9,
+   "reuse": 10,
    "near_duplicates": []
   },
   {
@@ -4034,11 +4062,10 @@
    "pages": [
     "public/gravity-brief-eir.html",
     "public/gravity-brief-founder.html",
-    "public/gravity-brief-open.html",
     "public/gravity-brief-principal.html",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 5,
+   "reuse": 4,
    "near_duplicates": [
     {
      "rule": ".pm-khead",
@@ -4091,9 +4118,10 @@
     "readme-cold-read-to-video"
    ],
    "pages": [
+    "public/gravity-brief.html",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 1,
+   "reuse": 2,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -4334,9 +4362,13 @@
    ],
    "jobs": [],
    "pages": [
-    "_ARTIFACTS/recoil-brian-2026-11-11.html"
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "_ARTIFACTS/recoil-hypercube-explorer.html",
+    "public/downshift.html",
+    "scripts/recoil_hypercube_explorer.py",
+    "scripts/recoil_page.py"
    ],
-   "reuse": 1,
+   "reuse": 5,
    "near_duplicates": [
     {
      "rule": ".fold",
@@ -4406,9 +4438,12 @@
     "recoil-kit-reconcile"
    ],
    "pages": [
-    "_ARTIFACTS/recoil-brian-2026-11-11.html"
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "_ARTIFACTS/recoil-hypercube-explorer.html",
+    "scripts/recoil_hypercube_explorer.py",
+    "scripts/recoil_page.py"
    ],
-   "reuse": 1,
+   "reuse": 4,
    "near_duplicates": [
     {
      "rule": ".ledger",
@@ -4467,9 +4502,12 @@
    ],
    "jobs": [],
    "pages": [
-    "_ARTIFACTS/recoil-brian-2026-11-11.html"
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "_ARTIFACTS/recoil-hypercube-explorer.html",
+    "scripts/recoil_hypercube_explorer.py",
+    "scripts/recoil_page.py"
    ],
-   "reuse": 1,
+   "reuse": 4,
    "near_duplicates": [
     {
      "rule": ".toast-title",
@@ -4528,9 +4566,13 @@
    ],
    "pages": [
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
-    "public/proof.html"
+    "_ARTIFACTS/recoil-hypercube-explorer.html",
+    "public/downshift.html",
+    "public/proof.html",
+    "scripts/recoil_hypercube_explorer.py",
+    "scripts/recoil_page.py"
    ],
-   "reuse": 2,
+   "reuse": 6,
    "near_duplicates": [
     {
      "rule": ".claims",
@@ -4708,9 +4750,11 @@
     "recoil-kit-reconcile"
    ],
    "pages": [
-    "_ARTIFACTS/recoil-brian-2026-11-11.html"
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "public/downshift.html",
+    "scripts/recoil_page.py"
    ],
-   "reuse": 1,
+   "reuse": 3,
    "near_duplicates": [
     {
      "rule": ".note-head h3",
@@ -4766,9 +4810,11 @@
     "recoil-kit-reconcile"
    ],
    "pages": [
-    "_ARTIFACTS/recoil-brian-2026-11-11.html"
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "_ARTIFACTS/recoil-hypercube-explorer.html",
+    "scripts/recoil_hypercube_explorer.py"
    ],
-   "reuse": 1,
+   "reuse": 3,
    "near_duplicates": [
     {
      "rule": ".pass code",
@@ -4818,9 +4864,10 @@
     "recoil-kit-reconcile"
    ],
    "pages": [
-    "_ARTIFACTS/recoil-brian-2026-11-11.html"
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "public/downshift.html"
    ],
-   "reuse": 1,
+   "reuse": 2,
    "near_duplicates": [
     {
      "rule": ".seam-rows code",
@@ -4902,10 +4949,11 @@
    ],
    "pages": [
     "_ARTIFACTS/job-search/swipe-board.html",
+    "public/downshift.html",
     "public/good-rfp-engine.html",
     "public/honest.html"
    ],
-   "reuse": 3,
+   "reuse": 4,
    "near_duplicates": [
     {
      "rule": ".row",
