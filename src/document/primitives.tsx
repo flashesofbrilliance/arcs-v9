@@ -9,7 +9,7 @@ export function Pill({ children, accent, solid }: { children: React.ReactNode; a
   return (
     <span style={{
       display: 'inline-flex', alignItems: 'center', height: 22, padding: '0 10px',
-      borderRadius: 4, fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
+      borderRadius: 4, fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
       color: solid ? T.bg : accent,
       background: solid ? accent : DIM(accent),
       border: solid ? 'none' : `1px solid ${BDR(accent)}`,
@@ -23,7 +23,7 @@ export function HR({ accent }: { accent?: string }) {
 
 export function MonoLabel({ children, accent }: { children: React.ReactNode; accent?: string }) {
   return (
-    <span style={{ fontFamily: T.mono, fontSize: 11, fontWeight: 700, color: accent || T.fg4, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+    <span style={{ fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, color: accent || T.fg3, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
       {children}
     </span>
   )
@@ -31,12 +31,12 @@ export function MonoLabel({ children, accent }: { children: React.ReactNode; acc
 
 export function SectionHd({ idx, label, title, accent = T.cyan }: { idx: string; label: string; title: React.ReactNode; accent?: string }) {
   return (
-    <div style={{ paddingBottom: 24 }}>
+    <div style={{ paddingBottom: 24, breakAfter: 'avoid', breakInside: 'avoid' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
         <MonoLabel accent={accent}>{idx} · {label}</MonoLabel>
         <div style={{ flex: 1, height: 1, background: T.border }} />
       </div>
-      <h2 style={{ fontFamily: T.sans, fontSize: 20, fontWeight: 600, color: T.fg1, letterSpacing: '-0.015em', lineHeight: 1.25 }}>{title}</h2>
+      <h2 style={{ fontFamily: T.sans, fontSize: T.fsHeadline, fontWeight: 600, color: T.fg1, letterSpacing: '-0.015em', lineHeight: 1.25 }}>{title}</h2>
     </div>
   )
 }
@@ -56,10 +56,10 @@ export function CodeBlock({ code }: { code: string }) {
   return (
     <div style={{ background: '#040810', border: `1px solid ${T.border}`, borderRadius: 8, marginTop: 20 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: '7px 14px', borderBottom: `1px solid ${T.border}` }}>
-        <span style={{ fontFamily: T.mono, fontSize: 11, color: T.fg4, letterSpacing: '.12em' }}>JSX · ARCS DOCUMENT UIKIT</span>
-        <button onClick={copy} style={{ fontFamily: T.mono, fontSize: 11, color: cp ? T.green : T.fg4, background: 'transparent', border: 'none', cursor: 'pointer' }}>{cp ? 'COPIED ✓' : 'COPY'}</button>
+        <span style={{ fontFamily: T.mono, fontSize: T.fsLabel, color: T.fg3, letterSpacing: '.12em' }}>JSX · ARCS DOCUMENT UIKIT</span>
+        <button onClick={copy} style={{ fontFamily: T.mono, fontSize: T.fsLabel, color: cp ? T.green : T.fg3, background: 'transparent', border: 'none', cursor: 'pointer' }}>{cp ? 'COPIED ✓' : 'COPY'}</button>
       </div>
-      <pre style={{ fontFamily: T.mono, fontSize: 12, color: '#94a3b8', lineHeight: 1.75, padding: '14px 16px', margin: 0, overflowX: 'auto', whiteSpace: 'pre' }}>{code}</pre>
+      <pre style={{ fontFamily: T.mono, fontSize: T.fsLabel, color: T.fg2, lineHeight: 1.75, padding: '14px 16px', margin: 0, overflowX: 'auto', whiteSpace: 'pre' }}>{code}</pre>
     </div>
   )
 }

@@ -2643,13 +2643,14 @@
    "pages": [
     "_ARTIFACTS/atlas/concordance.html",
     "_ARTIFACTS/louisville-atlas.html",
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
     "_ARTIFACTS/terrain-atlas.html",
     "_ARTIFACTS/ticket-zach-north-star-resonance-gradient-field.html",
     "public/cia-brief.html",
     "public/proof.html",
     "scripts/counterpart_onepager_build.py"
    ],
-   "reuse": 7,
+   "reuse": 8,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -3202,6 +3203,18 @@
      "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".bg-facts li",
+     "twin": "63-operator-pass",
+     "twin_rule": ".pass code",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".bg-facts li",
+     "twin": "64-kintsugi-seam",
+     "twin_rule": ".seam-rows code",
+     "jaccard": 1.0
     }
    ]
   },
@@ -3432,7 +3445,10 @@
    "templates": [],
    "jobs": [
     "token-tuner-kit",
-    "token-tuner-wysiwyg"
+    "token-tuner-wysiwyg",
+    "token-tuner-viewports-breadcrumbs",
+    "token-tuner-why-prompt",
+    "token-tuner-global"
    ],
    "pages": [
     "_ARTIFACTS/docs-reconciliation.html",
@@ -4276,6 +4292,561 @@
    ],
    "reuse": 2,
    "near_duplicates": []
+  },
+  {
+   "id": "56-fold",
+   "number": "56",
+   "name": "Fold",
+   "group": "Specimens",
+   "subtitle": "Organism 56 · Hold one section closed by default, with a summary line that states its verdict and a grade chip, so the reader can skim every verdict and open only what they need.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/56-fold.html",
+   "data_shape": [
+    "state"
+   ],
+   "fidelity": [
+    "grain",
+    "moire"
+   ],
+   "classes": [
+    "chip",
+    "fold",
+    "fold-body",
+    "fold-group",
+    "fold-group-name",
+    "fold-group-note",
+    "fold-title",
+    "fold-verdict",
+    "folds"
+   ],
+   "prim_blocks": [
+    "56-fold"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-player",
+    "precall-brief",
+    "recoil-skim"
+   ],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/recoil-brian-2026-11-11.html"
+   ],
+   "reuse": 1,
+   "near_duplicates": [
+    {
+     "rule": ".fold",
+     "twin": "57-ledger-row",
+     "twin_rule": ".ledger",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".fold",
+     "twin": "59-claim-check",
+     "twin_rule": ".claims",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".fold-title",
+     "twin": "59-claim-check",
+     "twin_rule": ".claim-said, .claim-record",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".fold-group",
+     "twin": "61-option",
+     "twin_rule": ".option-head",
+     "jaccard": 0.8
+    }
+   ]
+  },
+  {
+   "id": "57-ledger-row",
+   "number": "57",
+   "name": "Ledger Row",
+   "group": "Specimens",
+   "subtitle": "Molecule 57 · List keyed facts as rows, each with its chips, one line of evidence and its source, and show by fidelity which rows are proven, which are a reading, and which disagree with another record.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/57-ledger-row.html",
+   "data_shape": [
+    "evidence",
+    "fidelity",
+    "state",
+    "table"
+   ],
+   "fidelity": [
+    "grain",
+    "moire"
+   ],
+   "classes": [
+    "ledger",
+    "ledger-row",
+    "lr-body",
+    "lr-chips",
+    "lr-key",
+    "moire"
+   ],
+   "prim_blocks": [
+    "57-ledger-row"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "scan-hud",
+    "recoil-skim"
+   ],
+   "jobs": [
+    "recoil-kit-reconcile"
+   ],
+   "pages": [
+    "_ARTIFACTS/recoil-brian-2026-11-11.html"
+   ],
+   "reuse": 1,
+   "near_duplicates": [
+    {
+     "rule": ".ledger",
+     "twin": "56-fold",
+     "twin_rule": ".fold",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".ledger",
+     "twin": "59-claim-check",
+     "twin_rule": ".claims",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".lr-key",
+     "twin": "59-claim-check",
+     "twin_rule": ".claim-k",
+     "jaccard": 0.83
+    }
+   ]
+  },
+  {
+   "id": "58-toast",
+   "number": "58",
+   "name": "Toast",
+   "group": "Specimens",
+   "subtitle": "Molecule 58 · Keep the one standing guard of a page in view (a stop-loss, a limit) without putting it in the reading order twice, and let the reader dismiss it for the session.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/58-toast.html",
+   "data_shape": [
+    "state"
+   ],
+   "fidelity": [
+    "grain",
+    "moire"
+   ],
+   "classes": [
+    "gold",
+    "red",
+    "toast",
+    "toast-close",
+    "toast-meta",
+    "toast-msg",
+    "toast-title"
+   ],
+   "prim_blocks": [
+    "58-toast"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-skim"
+   ],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/recoil-brian-2026-11-11.html"
+   ],
+   "reuse": 1,
+   "near_duplicates": [
+    {
+     "rule": ".toast-title",
+     "twin": "62-attributed-notes",
+     "twin_rule": ".note-head h3",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "59-claim-check",
+   "number": "59",
+   "name": "Claim Check",
+   "group": "Specimens",
+   "subtitle": "Molecule 59 · Set what someone said beside what the record shows, with a state chip, so a reader sees at once which claims hold, which drifted, which are unchecked and which slipped.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/59-claim-check.html",
+   "data_shape": [
+    "state"
+   ],
+   "fidelity": [
+    "sharp",
+    "degraded",
+    "grain",
+    "moire"
+   ],
+   "classes": [
+    "chip",
+    "claim",
+    "claim-k",
+    "claim-note",
+    "claim-record",
+    "claim-said",
+    "claim-v",
+    "claims",
+    "degraded",
+    "grain",
+    "sharp",
+    "slip"
+   ],
+   "prim_blocks": [
+    "59-claim-check"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-player",
+    "precall-brief",
+    "recoil-skim"
+   ],
+   "jobs": [
+    "recoil-kit-reconcile"
+   ],
+   "pages": [
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "public/proof.html"
+   ],
+   "reuse": 2,
+   "near_duplicates": [
+    {
+     "rule": ".claims",
+     "twin": "56-fold",
+     "twin_rule": ".fold",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".claim-said, .claim-record",
+     "twin": "56-fold",
+     "twin_rule": ".fold-title",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".claims",
+     "twin": "57-ledger-row",
+     "twin_rule": ".ledger",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".claim-k",
+     "twin": "57-ledger-row",
+     "twin_rule": ".lr-key",
+     "jaccard": 0.83
+    }
+   ]
+  },
+  {
+   "id": "60-heat-take",
+   "number": "60",
+   "name": "Heat Take",
+   "group": "Specimens",
+   "subtitle": "Molecule 60 · List the author&#x27;s opinions from mild to loco, with the heat shown as a five-pip meter and a word, so the reader can tell a safe take from a provocative one without a colour ladder.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/60-heat-take.html",
+   "data_shape": [
+    "sequence"
+   ],
+   "fidelity": [
+    "grain",
+    "moire"
+   ],
+   "classes": [
+    "heat",
+    "heat-pips",
+    "on",
+    "take",
+    "take-text",
+    "takes"
+   ],
+   "prim_blocks": [
+    "60-heat-take"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-skim"
+   ],
+   "jobs": [
+    "recoil-kit-reconcile"
+   ],
+   "pages": [
+    "_ARTIFACTS/recoil-brian-2026-11-11.html"
+   ],
+   "reuse": 1,
+   "near_duplicates": []
+  },
+  {
+   "id": "61-option",
+   "number": "61",
+   "name": "Option",
+   "group": "Specimens",
+   "subtitle": "Molecule 61 · Lay out the live options for a next move side by side, each with what to do, its cost in time, and what it does for head, heart and wallet, with the leading option marked.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/61-option.html",
+   "data_shape": [
+    "timeline"
+   ],
+   "fidelity": [
+    "grain",
+    "moire"
+   ],
+   "classes": [
+    "hhw",
+    "lead",
+    "option",
+    "option-cost",
+    "option-head",
+    "option-id",
+    "option-name",
+    "options"
+   ],
+   "prim_blocks": [
+    "61-option"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-skim"
+   ],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/recoil-brian-2026-11-11.html"
+   ],
+   "reuse": 1,
+   "near_duplicates": [
+    {
+     "rule": ".option-head",
+     "twin": "56-fold",
+     "twin_rule": ".fold-group",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".option-head",
+     "twin": "62-attributed-notes",
+     "twin_rule": ".note-head",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".option-id",
+     "twin": "64-kintsugi-seam",
+     "twin_rule": ".seam-rows dt",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".hhw dt",
+     "twin": "64-kintsugi-seam",
+     "twin_rule": ".seam-rows dt",
+     "jaccard": 0.86
+    }
+   ]
+  },
+  {
+   "id": "62-attributed-notes",
+   "number": "62",
+   "name": "Attributed Notes",
+   "group": "Specimens",
+   "subtitle": "Organism 62 · Record what a counterpart said about themselves in panels, each line timestamped and marked as their words, with unverified figures rendered in grain.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/62-attributed-notes.html",
+   "data_shape": [
+    "fidelity"
+   ],
+   "fidelity": [
+    "sharp",
+    "grain",
+    "moire"
+   ],
+   "classes": [
+    "note-head",
+    "note-list",
+    "note-panel",
+    "note-src",
+    "note-ts",
+    "notes-grid"
+   ],
+   "prim_blocks": [
+    "62-attributed-notes"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-skim"
+   ],
+   "jobs": [
+    "recoil-kit-reconcile"
+   ],
+   "pages": [
+    "_ARTIFACTS/recoil-brian-2026-11-11.html"
+   ],
+   "reuse": 1,
+   "near_duplicates": [
+    {
+     "rule": ".note-head h3",
+     "twin": "58-toast",
+     "twin_rule": ".toast-title",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".note-head",
+     "twin": "61-option",
+     "twin_rule": ".option-head",
+     "jaccard": 0.8
+    }
+   ]
+  },
+  {
+   "id": "63-operator-pass",
+   "number": "63",
+   "name": "Operator Pass",
+   "group": "Specimens",
+   "subtitle": "Molecule 63 · Record each review pass on a piece of work as a row: the lens and its question, what it found, and the ruling (held, changed or broke).",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/63-operator-pass.html",
+   "data_shape": [
+    "delta",
+    "table"
+   ],
+   "fidelity": [
+    "grain",
+    "moire"
+   ],
+   "classes": [
+    "broke",
+    "changed",
+    "held",
+    "pass",
+    "pass-k",
+    "pass-v",
+    "passes"
+   ],
+   "prim_blocks": [
+    "63-operator-pass"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-skim"
+   ],
+   "jobs": [
+    "recoil-kit-reconcile"
+   ],
+   "pages": [
+    "_ARTIFACTS/recoil-brian-2026-11-11.html"
+   ],
+   "reuse": 1,
+   "near_duplicates": [
+    {
+     "rule": ".pass code",
+     "twin": "35-backlog-graph",
+     "twin_rule": ".bg-facts li",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".pass code",
+     "twin": "64-kintsugi-seam",
+     "twin_rule": ".seam-rows code",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "64-kintsugi-seam",
+   "number": "64",
+   "name": "Kintsugi Seam",
+   "group": "Specimens",
+   "subtitle": "Molecule 64 · Show a break in the work visibly, with what broke, how it was found, the repair and the guard that stops it recurring, joined to the next seam by a gold line.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/64-kintsugi-seam.html",
+   "data_shape": [],
+   "fidelity": [
+    "grain",
+    "moire"
+   ],
+   "classes": [
+    "seam",
+    "seam-k",
+    "seam-rows",
+    "seams"
+   ],
+   "prim_blocks": [
+    "64-kintsugi-seam"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-skim"
+   ],
+   "jobs": [
+    "recoil-kit-reconcile"
+   ],
+   "pages": [
+    "_ARTIFACTS/recoil-brian-2026-11-11.html"
+   ],
+   "reuse": 1,
+   "near_duplicates": [
+    {
+     "rule": ".seam-rows code",
+     "twin": "35-backlog-graph",
+     "twin_rule": ".bg-facts li",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".seam-rows dt",
+     "twin": "61-option",
+     "twin_rule": ".option-id",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".seam-rows dt",
+     "twin": "61-option",
+     "twin_rule": ".hhw dt",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".seam-rows code",
+     "twin": "63-operator-pass",
+     "twin_rule": ".pass code",
+     "jaccard": 1.0
+    }
+   ]
   },
   {
    "id": "grammar-chips",
