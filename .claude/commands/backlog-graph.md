@@ -15,6 +15,7 @@ description: The induced backlog as a graph: what depends on what, in what order
    - `top N`: add `--top N`
    - `debt`: add `--debt` (open GitHub debt issues become `debt:<id>` nodes; read-only gh call)
    - `risk` or `tradeoff`: add `--lens risk` or `--lens tradeoff` (each lens stands alone; `--json` carries both)
+   - `sessions`: save the app's session list (`ccd_session_mgmt` list_sessions, `include_archived: true`) as JSON to the scratchpad, then add `--sessions <file>`. Prints the startedBy tree with each session's backlog rows (matched by claimed_by, PR number, or source), their wave, downstream count and upstream waits; unmatched sessions print as gaps. Depth is spawn lineage, not altitude.
 2. Run `python3 scripts/backlog_graph.py [flags]` from your own worktree, not by the main checkout
    path (AGENTS.md gotcha 14).
 3. Show the output as printed. Without `gh`, say that PR-gated triggers were not checked, because the
