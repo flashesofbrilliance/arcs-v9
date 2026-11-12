@@ -105,6 +105,8 @@ export function clip(text: string): string {
 /** A step its author marked finished. */
 const CLOSED = /^\s*(DONE|RESOLVED|CLOSED|SUPERSEDED|DROPPED)\b/
 export const isOpenStep = (st: Raw) => !CLOSED.test(plain(st.text))
+/** Owner and step, without the author's NEXT marker. */
+const stepText = (st: Raw) => `${plain(st.owner)}: ${plain(st.text).replace(/^NEXT\b:?\s*/, '')}`
 const sentence = (t: string) => (t && !/[.?!]$/.test(t) ? `${t}.` : t)
 const PLACEHOLDER = /\{\{[^}]*\}\}|^\s*(TBD|TODO|PENDING)\s*$/i
 const real = (v: unknown) => { const p = plain(v); return p && !PLACEHOLDER.test(p) ? p : '' }
@@ -236,7 +238,7 @@ export function anatomy(raw: Raw): Anatomy {
     const s0 = openSteps.find((x) => /^\s*NEXT\b/.test(plain(x.text))) ?? openSteps[0]
     decide.push({
       id: 'f-next', title: 'Where it stands',
-      verdict: firstSentence(s0 ? `${plain(s0.owner)}: ${plain(s0.text)}` : real(opp.note)),
+      verdict: firstSentence(s0 ? stepText(s0) : real(opp.note)),
       chip: { tone: 'cyan', label: steps.length ? `${openSteps.length} open of ${steps.length}` : 'Note' },
       kind: 'next',
     })
@@ -272,7 +274,7 @@ export function anatomy(raw: Raw): Anatomy {
   const href = (id: string) => (all.some((f) => f.id === id) ? `#${id}` : '')
   // The step its author marked NEXT leads; otherwise the first open one.
   const n0 = openSteps.find((x) => /^\s*NEXT\b/.test(plain(x.text))) ?? openSteps[0]
-  if (n0) glance.push({ key: 'Next move', text: clip(`${plain(n0.owner)}: ${plain(n0.text)}`), href: '#f-next', chip: { tone: 'cyan', label: plain(n0.owner) || 'Owner' } })
+  if (n0) glance.push({ key: 'Next move', text: clip(stepText(n0)), href: '#f-next', chip: { tone: 'cyan', label: plain(n0.owner) || 'Owner' } })
   else glance.push({ key: 'Next move', text: 'No open next step in this record.', href: '', chip: { tone: 'steel', label: 'None on record' } })
   const quote = real(rec(meta.provenance).load_bearing_quote)
   const firstEv = evidence[0]

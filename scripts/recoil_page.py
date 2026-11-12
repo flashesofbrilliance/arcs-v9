@@ -109,6 +109,11 @@ def clip(out):
 CLOSED = re.compile(r"^\s*(DONE|RESOLVED|CLOSED|SUPERSEDED|DROPPED)\b")  # a step its author marked finished
 
 
+def step_text(st):
+    """Owner and step, without the author's NEXT marker."""
+    return plain(st.get("owner")) + ": " + re.sub(r"^NEXT\b:?\s*", "", plain(st.get("text")))
+
+
 def next_step(open_steps):
     """The step its author marked NEXT leads; otherwise the first open one."""
     return next((x for x in open_steps if re.match(r"^\s*NEXT\b", plain(x.get("text")))), open_steps[0] if open_steps else None)
@@ -258,7 +263,7 @@ def plan(raw):
     if real(opp.get("note")) or steps:
         s0 = next_step(open_steps)
         decide.append({"id": "f-next", "title": "Where it stands",
-                       "verdict": first_sentence(f"{plain(s0.get('owner'))}: {plain(s0.get('text'))}" if s0 else real(opp.get("note"))),
+                       "verdict": first_sentence(step_text(s0) if s0 else real(opp.get("note"))),
                        "chip": {"tone": "cyan", "label": f"{len(open_steps)} open of {len(steps)}"} if steps else {"tone": "cyan", "label": "Note"},
                        "kind": "next"})
     if fc:
@@ -286,7 +291,7 @@ def plan(raw):
     allf = [f for g in groups for f in g["folds"]]
     n0 = next_step(open_steps)
     if n0:
-        glance.append({"key": "Next move", "text": clip(f"{plain(n0.get('owner'))}: {plain(n0.get('text'))}"), "href": "#f-next",
+        glance.append({"key": "Next move", "text": clip(step_text(n0)), "href": "#f-next",
                        "chip": {"tone": "cyan", "label": plain(n0.get("owner")) or "Owner"}})
     else:
         glance.append({"key": "Next move", "text": "No open next step in this record.", "href": "", "chip": {"tone": "steel", "label": "None on record"}})
@@ -666,7 +671,7 @@ def render(raw):
         groups += [fold_html(f, fold_body(f, raw, p)) for f in g["folds"]]
     ap = p["appendix"]
     appendix = fold_html({**ap, "chip": {"tone": "steel", "label": "Provenance"}}, strata(raw, p))
-    hero_chips = "".join(chip(c) for c in h["chips"])
+    hero_chips = "".join(chip(c).replace('class="chip', 'class="chip grain', 1) if c["label"].startswith("NCI") and h["nciGrain"] else chip(c) for c in h["chips"])
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
