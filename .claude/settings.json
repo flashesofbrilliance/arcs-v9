@@ -144,7 +144,11 @@
       "Bash(git worktree add *)",
       "Bash(git switch -q --detach *)",
       "Bash(python3 scripts/linkedin_cut.py check)",
-      "Bash(python3 scripts/token_kaizen.py)"
+      "Bash(python3 scripts/token_kaizen.py)",
+      "Bash(git fetch)",
+      "mcp__scheduled-tasks__list_task_runs",
+      "Bash(/Users/zharris/.claude/skills/impeccable/scripts/impeccable detect *)",
+      "Bash(/Users/zharris/.claude/skills/impeccable/scripts/impeccable context *)"
     ],
     "ask": [
       "Bash(git push:*)"
