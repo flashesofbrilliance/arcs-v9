@@ -612,7 +612,8 @@ def self_test() -> int:
              for p in watch if os.path.exists(p)}
     check(any("six-tab.v1" in ln and "valid" in ln for ln in out[:1]), "Gasmi v1 SSOT validates through the v2 adapter")
     check(before == after, "dry run writes nothing")
-    check(any(ln.startswith("J1 decompose: PASS") for ln in out), "J1 decomposes Gasmi")
+    check(any(ln.startswith(("J1 decompose: PASS", "J1 decompose: UNCHANGED")) for ln in out),
+          "J1 decomposes Gasmi (UNCHANGED when a local run already did)")
     check(all(any(ln.startswith(f"{n} ") and "NOT RUN (dry run" in ln for ln in out) for n in ("J2", "J3")),
           "J2 and J3 report NOT RUN on a dry run (no model call)")
     check(all(any(ln.startswith(f"{n} ") and "NOT BUILT" in ln for ln in out) for n in ORDER[3:8]),
