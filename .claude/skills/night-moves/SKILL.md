@@ -195,3 +195,21 @@ UNSOURCED finding goes under "What's next" as a fix to the atom that carried it 
 A `canon-adapter-receipt` DRIFT (canon source changed, or a canon file names a counterpart) is a question
 for Zach; never edit `_CANON/` or `_DECISIONS/` from the digest. Re-run `python3 scripts/universe_canon_adapter.py`
 first when canon changed.
+
+## Tool recall + Reading Room sweep (added 2026-11-11, receipt R-026)
+
+Why: Zach, 2026-11-11: "I'm reinventing the wheel because I don't remember the tools for the job that
+we've already created ... if you're not wiring or mechanizing or operationalizing them in situ ... I'll
+forget them." This digest is how a tool reaches him the next morning (the 7:12 AM preflight reads it),
+so the sweep runs here, once per digest. All three are read-only; none may edit a file.
+
+1. `python3 scripts/tests/test_prior_art_recall.py --json`: one line per recall fixture. Any `"ok": false`
+   goes under "The new shape of tools for JTBD" as "recall miss: <want> for '<query>' (top: ...)" and
+   under "What's next" as a fix to the ranker or to that tool's own description. Never delete a fixture.
+2. `python3 scripts/tool_orphan_audit.py`: report the count of tools nobody references and up to 3 of
+   them by name under "The new shape of tools for JTBD", each with its one-line fix.
+3. `python3 scripts/reading_room_sync.py --check`: one line under "What we learned": renders ok or stale
+   (which), cache slices dirty of total, intake records waiting. Stale renders go under "What's next" as
+   "run python3 scripts/reading_room_sync.py". If the script is absent, say "not run (absent)".
+Any new tool listed under "Net-new tools we built" that is missing from runtime/specs/tool-catalog.json
+gets "not yet catalogued" next to it.
