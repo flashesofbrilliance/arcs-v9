@@ -5,12 +5,14 @@ import { createPortal } from "react-dom"
 import { text, signal, font, border } from "@/ui/tokens"
 import type { ZigTier } from "@/organisms/Scope"
 import { parseAtlas, toZigTiers, type Atlas } from "./atlas"
+import { toFlight, type Flight } from "./flight"
+import { AtlasFlight } from "./AtlasFlight"
 
 // Admin-only ziggurat load. Same contract as jobs.arcs.care/atlas
 // (_ARTIFACTS/atlas-loader-hud.html): the viewer picks an arcs.atlas.v1 or v2 JSON object
 // from their own disk; it is read in this tab only, never uploaded, stored or fetched.
 // Loading reshapes the field itself (Scope `ziggurat`): one terrace per tier, base first.
-// A v2 file loads its tiers here; its edges, time and kairos belong to the HUD v2 flight view.
+// A v2 file loads its tiers here and also opens the HUD v2 flight (AtlasFlight): edges, time, kairos.
 // The server decides whether this component is rendered at all (src/app/hud/page.tsx).
 
 const GATE: Record<string, string> = { pass: signal.green, warn: signal.gold, fail: signal.red }
@@ -21,6 +23,8 @@ export function ZigguratLoader({ onLoad }: { onLoad: (tiers: ZigTier[] | null) =
   const [open, setOpen] = useState(false)
   const [atlas, setAtlas] = useState<Atlas | null>(null)
   const [err, setErr] = useState("")
+  const [flight, setFlight] = useState<Flight | null>(null)
+  const [flying, setFlying] = useState(false)
   const input = useRef<HTMLInputElement>(null)
 
   const load = (file: File | undefined) => {
@@ -32,6 +36,9 @@ export function ZigguratLoader({ onLoad }: { onLoad: (tiers: ZigTier[] | null) =
       const got = parseAtlas(String(r.result))
       if ("error" in got) { setErr(got.error); return }
       setAtlas(got.atlas)
+      const fl = toFlight(got.atlas)
+      setFlight(fl)
+      setFlying(!!fl)
       onLoad(toZigTiers(got.atlas))
     }
     r.onerror = () => setErr("Could not read the file.")
@@ -87,7 +94,12 @@ export function ZigguratLoader({ onLoad }: { onLoad: (tiers: ZigTier[] | null) =
               <div style={{ ...mono, marginTop: 8, color: YG[str(atlas.gate, 12)] ?? text.secondary }}>
                 {`schema ${str(atlas.schema, 40)} · built ${str(atlas.built, 40)} · gate ${str(atlas.gate, 12)}`}
               </div>
-              <button type="button" onClick={() => { setAtlas(null); onLoad(null); if (input.current) input.current.value = "" }} style={{ ...btn, marginTop: 12 }}>
+              {flight && (
+                <button type="button" onClick={() => setFlying(true)} style={{ ...btn, marginTop: 12, marginRight: 8 }}>
+                  Open flight view
+                </button>
+              )}
+              <button type="button" onClick={() => { setAtlas(null); setFlight(null); setFlying(false); onLoad(null); if (input.current) input.current.value = "" }} style={{ ...btn, marginTop: 12 }}>
                 Restore default field
               </button>
             </div>
@@ -95,6 +107,7 @@ export function ZigguratLoader({ onLoad }: { onLoad: (tiers: ZigTier[] | null) =
         </section>,
         document.body,
       )}
+      {flight && flying && createPortal(<AtlasFlight flight={flight} onClose={() => setFlying(false)} />, document.body)}
     </>
   )
 }
