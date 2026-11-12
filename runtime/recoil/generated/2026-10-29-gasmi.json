@@ -30,7 +30,7 @@
   },
   "external_sets": [
    "page.header.eyebrow=Zach Harris &#183; Under the hood",
-   "page.header.sub=The working file I kept for last week's call, with my notes about people removed.",
+   "page.header.sub=How I would own the Contract OS roadmap, and the working file behind it.",
    "meta.doc_title=Zach Harris - Under the hood",
    "page.layout=stack"
   ]
@@ -185,6 +185,18 @@
     "label": "Under the hood"
    },
    {
+    "id": "answer",
+    "label": "The answer"
+   },
+   {
+    "id": "first",
+    "label": "First 30 days"
+   },
+   {
+    "id": "evidence",
+    "label": "How it works"
+   },
+   {
     "id": "exante",
     "label": "1 Predict"
    },
@@ -199,18 +211,6 @@
    {
     "id": "defense",
     "label": "4 Translate"
-   },
-   {
-    "id": "answer",
-    "label": "The answer"
-   },
-   {
-    "id": "evidence",
-    "label": "How it works"
-   },
-   {
-    "id": "first",
-    "label": "First 30 days"
    },
    {
     "id": "pre",
@@ -228,9 +228,9 @@
     "type": "prose",
     "h2": "What this page is",
     "p": [
-     "Before and after every conversation that matters, I keep a working file. This is the one I kept for last week's call, with one change: my notes about people are removed. What is left is the method: what I predicted, how I checked my own reads against the transcript, and what I changed my mind about.",
+     "Before and after every conversation that matters, I keep a working file. This is the one I kept for last week's call, with one change: my notes about people are removed. What is left is the method: what I predicted, how I checked my own reads against what was actually said, and what I changed my mind about.",
      "It is the same discipline I would bring to Contract OS. Write the prediction down before the event, check it afterward against something outside my own head, and keep the corrections visible instead of smoothing them over.",
-     "Sections 2 to 5 are the method, one step each, in order. The last three sections are the brief I sent last week."
+     "Short version for Farah: sections 2 to 4 are what I would own, my first 30 days and how the work is checked, about a two-minute read. Sections 5 to 8 are the method behind it, one step each, if you want it."
     ]
    },
    {
@@ -241,23 +241,23 @@
     "fields": [
      {
       "label": "The question",
-      "value": "One sharpened question the conversation should help answer."
+      "value": "Is this a real product-ownership seat, and can I make the case for it without revenue proof?"
      },
      {
       "label": "What I expect to see",
-      "value": "A specific, dated outcome, written down before the call so it can be scored after."
+      "value": "I get asked for revenue proof early."
      },
      {
-      "label": "Planned move",
-      "value": "What I intend to lead with, decided in advance rather than in the moment."
+      "label": "What I wanted to understand",
+      "value": "Whether the forward-deployed work is already covered."
      },
      {
-      "label": "Belief most likely to change",
-      "value": "The one I hold least firmly, named so I notice when it moves."
+      "label": "Belief I held least firmly",
+      "value": "That my framing as part forward-deployed engineer fits."
      },
      {
       "label": "What would prove me wrong",
-      "value": "A falsifier with a date. If it happens, the prediction failed, and I record that."
+      "value": "No next conversation is set by Nov 9."
      }
     ]
    },
@@ -276,7 +276,7 @@
     "type": "prose",
     "h2": "Checking my own reads",
     "p": [
-     "After the call I wrote down my reads of how it went. Then an independent reviewer, an agent that pulled the transcript itself rather than my notes, ruled on each one. Grounded means the transcript forces it. Inference means it is my read and nothing forces it. Struck means I overreached, and the read is corrected."
+     "After the call I wrote down how I thought it went, then went back over the call and checked each read against what was actually said, not my memory of it. Grounded means what was said forces it. Inference means it is my read and nothing forces it. Struck means I overreached, and the read is corrected."
     ]
    },
    {
@@ -296,28 +296,28 @@
       "They came up from both sides: narrow context per agent, guardrails, and my own answer on trust and traceability."
      ],
      [
-      "I gave revenue numbers",
-      "INFERENCE, corrected",
-      "The 40% figure is a lift in product-qualified leads, and $7B is assets launched. Neither is revenue."
+      "Revenue never came up",
+      "INFERENCE",
+      "Nobody asked for revenue proof. The numbers I offered, a 40% lift in product-qualified leads and $7B in assets launched, are not revenue anyway."
      ],
      [
       "Part of my pitch overlaps a team that already exists",
       "GROUNDED",
-      "The legal engineers already are the forward-deployed engineers, as I heard on the call [35:32]."
+      "Doug told me your legal engineers already do the forward-deployed work, so that part of my pitch was aimed at a job that already has an owner."
      ]
     ],
-    "note": "In all, two of my reads were struck and one was downgraded to inference."
+    "note": "Of 14 reads, 8 held, 4 were my inference, and 2 were wrong."
    },
    {
     "tab": "recoil",
     "audience": "both",
     "type": "list",
     "h2": "What I changed my mind about",
-    "intro": "My own beliefs only. Each moved because of something said on the call.",
+    "intro": "What moved for me after <span data-voice=\"joint\">we spoke</span>.",
     "items": [
      {
       "dot": "c",
-      "html": "<strong>The seat.</strong> I came in framing the role as part product owner, part forward-deployed engineer. The legal engineers already do the second job, so I now read the seat as product ownership plus triage of the feature requests the enablement lawyers bring back."
+      "html": "<strong>The seat.</strong> I came in framing the role as part product owner, part forward-deployed engineer. I now read the seat as owning the product Farah has been carrying: sorting the feature requests the enablement lawyers bring back, and staying in front of customers with quick prototypes and demos. The forward-deployed engineering already sits with your legal engineers."
      },
      {
       "dot": "g",
@@ -325,7 +325,7 @@
      },
      {
       "dot": "",
-      "html": "<strong>My own read of the call.</strong> I was more confident in my post-call notes than the transcript allowed. I now treat my first read of any conversation as a draft."
+      "html": "<strong>My own read of the call.</strong> I was more confident in my post-call notes than what was actually said allowed. I now treat my first read of any conversation as a draft."
      }
     ]
    },
@@ -346,7 +346,7 @@
     "p": [
      "The AI product I have owned end to end is ARCS, a decision tool that labels every claim confirmed or unconfirmed. A user brings a consequential question. An LLM pipeline returns a recommendation with its reasoning, what is confirmed, what is not, and a confidence state.",
      "I built it with Claude Code agents as my engineering team. Agents do what the spec says, not what I meant, so I write the acceptance test first. What I have not had is a human engineer pushing back on a decision; I expect Dioptra's team to.",
-     "What ARCS does not prove yet is the revenue side. With Contract OS I would tie every roadmap bet to a deal it wins or an expansion it unlocks, and learn which bets travel through Icertis's customers and which through Dioptra's own deals."
+     "What ARCS does not prove yet is the revenue side. With Contract OS I would tie every roadmap bet to revenue: a request more than one customer shares, a shorter sale, or an expansion, and learn which bets travel through Icertis's customers and which through Dioptra's own deals."
     ]
    },
    {
@@ -358,7 +358,7 @@
     "items": [
      {
       "dot": "c",
-      "html": "<strong>Code, not the model, sets the confidence state.</strong> Code maps the model's reported signals plus the user's stated stakes to a state. The model still supplies most of those inputs; checking them against something outside the model is the next step."
+      "html": "<strong>Code, not the model, applies the confidence rule.</strong> Code maps the model's reported signals plus the user's stated stakes to a state. The model still supplies most of those inputs; checking them against something outside the model is the next step."
      },
      {
       "dot": "c",
@@ -381,20 +381,20 @@
     "h2": "How it is enforced, with real numbers",
     "rows": [
      {
+      "k": "In short",
+      "v": "I set the pass bar before testing, I report the misses, and two of my own bets failed and did not ship."
+     },
+     {
       "k": "Release gate",
-      "v": "One pre-registered benchmark, run once, thresholds frozen: 10 checks, 8 passed, 2 failed (an edited-text index at 85.0% against an 85% kill line, and a prefilter). Neither failure was adopted. The one new feature, a lineage index, shipped only after clearing its bar: a 69.9% wall-time cut."
+      "v": "One pre-registered benchmark, run once, pass bars set first: 10 checks, 8 passed, 2 failed. The text index needed more than 85% and scored exactly 85%, so it failed; a prefilter failed too. Neither was adopted. The one new feature, a lineage index, shipped only after clearing its bar: about 70% faster, one run."
      },
      {
       "k": "Safety",
-      "v": "0 confident-wrong answers in 800 test queries."
+      "v": "No confident wrong answers in 800 test questions I wrote, so the true rate is likely under about 0.4%."
      },
      {
-      "k": "Audit trail",
-      "v": "Merges, deploys and publishes are logged to a ledger that refuses edits and deletes. A correction is a new row pointing at the one it replaces."
-     },
-     {
-      "k": "Model routing",
-      "v": "Which model handles which job lives in one config file; a pre-commit check blocks hardcoded model IDs."
+      "k": "Change log",
+      "v": "Every change I ship is logged and cannot be quietly edited later."
      },
      {
       "k": "Latency and context",
@@ -415,7 +415,7 @@
     "items": [
      {
       "dot": "c",
-      "html": "<strong>Weeks 1 to 2:</strong> agree with Farah which decisions move to me first and which stay with her. Sit on customer calls with the legal engineers and trace one contract end to end through the systems that customer actually uses."
+      "html": "<strong>Weeks 1 to 2:</strong> In DUMBO five days a week from day one. agree with Farah which decisions move to me first and which stay with her. Sit on customer calls with the legal engineers and trace one contract end to end through the systems that customer actually uses. By the end of week 1, a first sort of the open feature requests into build, process and wait, for Farah to mark up."
      },
      {
       "dot": "c",
@@ -423,7 +423,27 @@
      },
      {
       "dot": "g",
-      "html": "<strong>Week 4:</strong> one written decision doc, argued with the founders before it is a decision: the next bet, the deal it serves, the metric it moves, and <span data-voice=\"joint\">what we will not build</span>."
+      "html": "<strong>Week 4:</strong> one written decision doc, argued with the founders before it is a decision: the next bet, which customers' requests it answers at once, the revenue it moves, and <span data-voice=\"joint\">what we will not build</span>."
+     }
+    ]
+   },
+   {
+    "type": "list",
+    "tab": "first",
+    "audience": "both",
+    "h2": "What I would like to learn from Farah",
+    "items": [
+     {
+      "dot": "c",
+      "html": "How long a typical deal takes today, from first demo to signed."
+     },
+     {
+      "dot": "c",
+      "html": "How the enablement lawyers' feature requests get sorted now, and who has the final say."
+     },
+     {
+      "dot": "c",
+      "html": "How requests from Icertis get weighed against requests from Dioptra's own customers."
      }
     ]
    },
@@ -809,32 +829,30 @@
    },
    {
     "tab": "defense",
-    "type": "rosetta",
     "audience": "both",
-    "_doc": "ROSETTA: translate your method into THEIR native register (their framework <-> yours). This is the trust move for a rigor-driven counterpart.",
-    "h2": "The same model, both directions",
-    "left": "Contract OS, as described to me",
-    "right": "How I work",
+    "type": "prose",
+    "h2": "In plain words",
+    "p": [
+     "Restated without my vocabulary: I sort the feature requests the enablement lawyers bring back, decide what gets built, what becomes process and what waits, stay in front of customers with quick prototypes and demos, and check each decision later against whether it carried to a second customer or helped close a deal."
+    ]
+   },
+   {
+    "type": "table",
+    "tab": "defense",
+    "audience": "both",
+    "h2": "Where Contract OS and my habits line up",
+    "columns": [
+     "What I took away about Contract OS (mine to check with Farah)",
+     "How I work"
+    ],
     "rows": [
      [
-      "Clause split into 5 to 50 narrow agents",
-      "Each claim labelled confirmed or unconfirmed"
+      "Each clause gets 5 to 50 narrow agents, and narrow context per agent cuts hallucination",
+      "Answer only from the cited clause, or say not covered"
      ],
      [
-      "Lawyer-written 10-20 page operating-procedure prompt",
-      "Spec and acceptance test written before the build"
-     ],
-     [
-      "Narrow context reduces hallucination",
-      "Answer only with the cited clause, or say \"not covered\""
-     ],
-     [
-      "Sandboxed workspace the lawyer controls",
-      "A hard line between what code computes and what the model writes"
-     ],
-     [
-      "Filtering enablement feature requests",
-      "Each roadmap bet filed with a prediction and a falsifier, scored later"
+      "The lawyer's own operating procedures shape the suggestion",
+      "The spec and acceptance test are written before the build"
      ]
     ]
    },
@@ -857,7 +875,7 @@
       "Transcript quoted with timestamps",
       "Read through Doug's hedges",
       "Skeptic agent re-read it independently",
-      "Two of my reads struck, two downgraded"
+      "Of 14 reads, 2 struck and 4 left as inference"
      ],
      [
       "Assess",
@@ -898,15 +916,6 @@
     "p": [
      "The corrections are the most useful output. Pitching myself as part forward-deployed engineer would have failed in front of Farah, because her legal engineers already do that work. My own post-call read was wrong twice (the onsite hedge, trust never discussed), and an independent re-read caught it. Both kinds of error are cheap to fix before the next call and expensive after it.",
      "Lossless test, in their words: I sort the feature requests your enablement lawyers bring back, decide what gets built, what becomes process and what waits, and I check each decision later against what customers actually used."
-    ]
-   },
-   {
-    "tab": "defense",
-    "audience": "both",
-    "type": "prose",
-    "h2": "In plain words",
-    "p": [
-     "Restated without my vocabulary: I sort the feature requests the enablement lawyers bring back, decide what gets built, what becomes process and what waits, and check each decision later against what customers actually used."
     ]
    }
   ]
