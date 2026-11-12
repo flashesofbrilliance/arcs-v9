@@ -79,7 +79,7 @@
 <p>Designed the outcome-capture method: each decision is scored for confidence when made and closed against what actually happened; no accuracy figure is published until enough outcomes close</p>
 <p>Platform guardrails as code: per-tenant Postgres roles with row-level security that fail closed, generated route and tool inventories with drift checks, and pre-commit gates that block whole classes of bugs. Live app at app.arcs.care; commit history and traces on request</p>
 <p>Human-in-the-loop dev harness: parallel agent sessions, merges pinned to the approved commit, an append-only decision ledger in Postgres. 1,790+ PRs merged, 99 in one day, a human approving every merge. Live counts: status.arcs.care; release notes: one day, 99 merges</p>
-<p>Compounding by design: every merge is receipted to a generated tool graph whose outcome weights steer the next build; graph retrieval beat the flat catalog 16/18 to 6/18 in a pre-registered blind test</p>
+<p>Compounding by design: merges are receipted to a generated tool graph whose outcome weights steer the next build; graph retrieval beat the flat catalog 16/18 to 6/18 in a pre-registered blind test</p>
 <p>Operating the full stack: go-to-market, growth motion, product development, commercial strategy. Breadth is the product</p>
 <p>COMPASS SIGNAL</p>
 <p>"What minimum viable intelligence system does a multi-BU platform need to compound learning across business units, and what's the right first wedge to prove the model?"</p>
@@ -664,7 +664,7 @@ const ROLES = [
       { t:'Designed the outcome-capture method: each decision is scored for confidence when made and closed against what actually happened; no accuracy figure is published until enough outcomes close', v:['all','ds'] },
       { t:'Platform guardrails as code: per-tenant Postgres roles with row-level security that fail closed, generated route and tool inventories with drift checks, and pre-commit gates that block whole classes of bugs. Live app at app.arcs.care; commit history and traces on request', v:['all','ds'] },
       { t:['Human-in-the-loop dev harness: parallel agent sessions, merges pinned to the approved commit, an append-only decision ledger in Postgres. 1,790+ PRs merged, 99 in one day, a human approving every merge. Live counts: ',<a key="s" href="https://status.arcs.care" style={{ color:T.cyan }}>status.arcs.care</a>,'; release notes: ',<a key="t" href="https://good.arcs.care/blog/til/one-day-99-merges" style={{ color:T.cyan }}>one day, 99 merges</a>], v:['all','ds'] },
-      { t:'Compounding by design: every merge is receipted to a generated tool graph whose outcome weights steer the next build; graph retrieval beat the flat catalog 16/18 to 6/18 in a pre-registered blind test', v:['all','ds'] },
+      { t:'Compounding by design: merges are receipted to a generated tool graph whose outcome weights steer the next build; graph retrieval beat the flat catalog 16/18 to 6/18 in a pre-registered blind test', v:['all','ds'] },
       { t:'Operating the full stack: go-to-market, growth motion, product development, commercial strategy. Breadth is the product', v:['all'] },
     ] },
   { id:'grayscale', glyph:'▣', label:'Grayscale Investments (DCG)', color:T.steel,
@@ -755,7 +755,7 @@ const TRUE_NORTH = {
   figma: { heading:'GROWTH DEPTH',
     text:'Operated at the growth and commercial layer across five industries: sports fan monetization (WTA), mission-driven fundraising (CTF), regulated investor products (Grayscale), behavioral health (Squat), and SaaS/consumer tech (GoPro, Verizon). Each required building the intelligence layer from scratch: no inherited playbook, no pre-existing measurement framework. The breadth is the product.' },
   ds:    { heading:'SYSTEMS DEPTH',
-    text:'Builds the decision instrument layer end-to-end: pre-decision framing architecture → behavioral event taxonomy → experiment design → post-decision capture → compounding feedback loop. WTA at <120ms real-time prediction. Grayscale GTM across 10 regulated products. ARCS: 1,790+ PRs merged, each one human-approved and receipted. AI-native on Claude in production, not experiments.' },
+    text:'Builds the decision instrument layer end-to-end: pre-decision framing architecture → behavioral event taxonomy → experiment design → post-decision capture → compounding feedback loop. WTA at <120ms real-time prediction. Grayscale GTM across 10 regulated products. ARCS: 1,790+ PRs merged, each one human-approved, nearly all receipted. AI-native on Claude in production, not experiments.' },
 };
 
 const SKILLS = [
@@ -804,7 +804,7 @@ function GrainResume() {
                'Running on Claude with MCP server: AI-native in production, not experiments',
                'Guardrails as code: per-tenant Postgres row-level security, drift-checked inventories, pre-commit gates for whole bug classes',
                ['Built a human-in-the-loop dev harness: parallel agent sessions, merges pinned to the approved commit, and an append-only decision ledger in Postgres. 1,790+ PRs merged, 99 in one day, a human approving every merge. Live counts: ',<a key="s" href="https://status.arcs.care" style={{ color:T.cyan }}>status.arcs.care</a>,'; release notes: ',<a key="t" href="https://good.arcs.care/blog/til/one-day-99-merges" style={{ color:T.cyan }}>one day, 99 merges</a>],
-               'Compounding by design: each merge is receipted to a generated tool graph whose outcome weights steer the next build; graph retrieval beat the flat catalog 16/18 to 6/18 in a pre-registered blind test'] },
+               'Compounding by design: merges are receipted to a generated tool graph whose outcome weights steer the next build; graph retrieval beat the flat catalog 16/18 to 6/18 in a pre-registered blind test'] },
     { co:'Grayscale Investments (Digital Currency Group)', role:'Product Lead, Go-To-Market', dates:'2024–2025',
       metrics:'$7B AUM  ·  10 regulated products  ·  SEC / FINRA',
       bullets:['Led go-to-market for 10 SEC/FINRA-regulated investment products ($7B AUM)',
