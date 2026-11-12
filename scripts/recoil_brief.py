@@ -226,35 +226,55 @@ a:hover{opacity:0.82;}
 .kv .k{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.06em;color:var(--dimmed);width:92px;flex-shrink:0;padding-top:2px;}
 .kv .v{font-size:13.5px;color:var(--text);line-height:1.5;}"""
 
-# layout "stack": the war-room look (src/document/screens/WarRoomReport.tsx as of 2026-11-11, the page
-# shared with Dioptra): one header card, then every tab as a numbered section in one scroll.
+# layout "stack": the war-room look the 2026-11-11 link showed (src/document/screens/WarRoomReport.tsx at 723834b8: a header
+# card, then every tab as a numbered section in one scroll) inside the kit frame every counterpart page uses: kit 38 wordmark,
+# kit 51 reading options with the theme switch, kit 39 light remap, kit 42 nav as section links that fold into a menu where
+# they stop fitting (src/ui-kit/README.md). The frame comes from src/ui-kit/tabbed-brief (tokens, @prim blocks, shell.css,
+# shell.js), reused through scripts/tabbed_brief_build.py, never copied. Sizes are rem so the reading options reach them.
+STACK_MENU_BELOW = 1024   # measured 2026-11-12 on Gasmi: the eight links need 808px (standard text) to 936px (largest); at 1024 the nav has 950px
 STACK_CSS = """
-body.stack{padding:40px 20px 96px;}
-.stack .page{max-width:720px;gap:0;}
-.hd-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:22px 22px 18px;margin-bottom:8px;}
-.hd-card .eyebrow{color:var(--cyan);letter-spacing:0.14em;margin-bottom:8px;}
-.hd-card h1{font-size:24px;font-weight:600;line-height:1.25;letter-spacing:0;margin:0 0 6px;}
-.hd-card .sub{font-size:13.5px;line-height:1.7;margin:0;}
-.sec{padding:40px 0 32px;border-bottom:1px solid var(--border);}
+:root{--mono:var(--ds-font-mono);--sans:var(--ds-font-sans);--surface2:var(--surface-2);}
+.stack .tb-body{padding:24px 20px 8px;}
+.stack .tb-body>*{max-width:720px;margin-inline:auto;}
+.stack .shnav-tab{white-space:nowrap;}
+.hd-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:22px 22px 18px;}
+.hd-card .eyebrow{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);margin:0 0 8px;}
+.hd-card h1{font-family:var(--sans);font-size:1.5rem;font-weight:600;line-height:1.25;margin:0 0 6px;color:var(--text);}
+.hd-card .sub{font-size:0.875rem;line-height:1.7;margin:0;color:var(--muted);}
+.sec{padding:40px 0 32px;border-bottom:1px solid var(--border);scroll-margin-top:72px;}
+.sec:last-child{border-bottom:none;}
 .sec-hd{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
 .sec-hd span{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);}
 .sec-hd i{flex:1;height:1px;background:var(--border);}
-.sec>h2{font-size:20px;font-weight:600;letter-spacing:-0.015em;line-height:1.25;margin-bottom:24px;}
+.sec>h2{font-family:var(--sans);font-size:1.25rem;font-weight:600;letter-spacing:-0.015em;line-height:1.25;margin:0 0 24px;color:var(--text);}
 .sec-body{display:flex;flex-direction:column;gap:12px;}
-.stack .card{border-radius:8px;padding:16px 18px;}
-.stack .card h2{font-family:var(--sans);font-size:15px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--text);margin-bottom:10px;}
-.stack .card p,.stack ul.plain li{font-size:13.5px;line-height:1.7;color:var(--muted);}
-.stack .card p{margin-bottom:10px;}
-.stack ul.plain{gap:8px;}
-.stack .dot{width:7px;height:7px;margin-top:9px;}
-.stack .card.pilot{border-color:rgba(0,255,157,0.33);background:var(--surface);}
-.stack .card.gold{border-color:rgba(255,215,0,0.33);}
+.stack .card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px 18px;}
+.stack .card h2{font-family:var(--sans);font-size:0.95rem;font-weight:600;letter-spacing:0;text-transform:none;line-height:1.4;color:var(--text);margin:0 0 10px;}
+.stack .card p,.stack ul.plain li{font-size:0.875rem;line-height:1.7;color:var(--muted);}
+.stack .card p{margin:0 0 10px;}
+.stack .card p:last-child{margin-bottom:0;}
+.stack .card strong{color:var(--text);}
+.stack ul.plain{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+.stack ul.plain li{display:flex;gap:10px;align-items:flex-start;}
+.stack .dot{width:0.45em;height:0.45em;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:0.65em;}
+.stack .dot.c{background:var(--cyan);}.stack .dot.g{background:var(--gold);}
+.stack .card.pilot{border-color:color-mix(in srgb,var(--green) 35%,transparent);}
+.stack .card.gold{border-color:color-mix(in srgb,var(--gold) 35%,transparent);}
 .stack .card.gold h2{color:var(--gold);}
-.stack .rv,.stack .kv .v{font-size:13.5px;line-height:1.7;}
-.stack .kv{display:block;padding:0 0 10px;border-bottom:none;}
-.stack .kv .k{width:auto;margin-bottom:3px;padding-top:0;text-transform:uppercase;letter-spacing:0.1em;}
-.stack .tbl td{font-size:12.5px;padding:9px 10px;border-bottom:1px solid var(--border);}
-.stack .tbl th{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:bottom;}"""
+.stack .rk,.stack .kv .k{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dimmed);margin:14px 0 3px;}
+.stack .rk:first-of-type,.stack .kv:first-of-type .k{margin-top:0;}
+.stack .rv,.stack .kv .v{font-size:0.875rem;line-height:1.7;color:var(--text);}
+.stack .kv{display:block;padding:0 0 10px;}
+.stack .chart-wrap{overflow-x:auto;}
+.stack .tbl{width:100%;border-collapse:collapse;}
+.stack .tbl td,.stack .tbl th{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.55;text-align:left;}
+.stack .tbl td{font-size:0.8125rem;color:var(--text);}
+.stack .tbl th{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dimmed);vertical-align:bottom;}
+.stack .tbl tr:last-child td{border-bottom:none;}
+.stack .tbl .yours{color:var(--muted);width:46%;}
+.stack .arrow{color:var(--cyan);font-family:var(--mono);}
+.stack .foot{font-size:0.8125rem;color:var(--muted);text-align:center;}
+.stack .stamp{text-align:center;font-family:var(--mono);font-size:var(--fs-label);color:var(--dimmed);}"""
 
 
 def _chart_svg(series):
@@ -363,6 +383,55 @@ def _render_block(b, data, audience, series, insights, prov):
     return ""
 
 
+# kit 42 in link mode does not follow the scroll: mark the section in view as current (link highlight + the menu's label)
+STACK_JS = ("<script>(function(){var links=[].slice.call(document.querySelectorAll('#shnav .shnav-tab')),cur=document.querySelector('#shnav .shnav-current'),"
+            "secs=links.map(function(a){return document.getElementById(a.getAttribute('data-target'))}),last=-1;if(!links.length)return;"
+            "function upd(){var k=0;for(var i=0;i<secs.length;i++){if(secs[i]&&secs[i].getBoundingClientRect().top<=96)k=i}if(innerHeight+scrollY>=document.documentElement.scrollHeight-4)k=secs.length-1;if(k===last)return;last=k;"
+            "links.forEach(function(a,i){a.setAttribute('aria-current',i===k?'true':'false')});if(cur)cur.textContent=links[k].textContent}"
+            "addEventListener('scroll',upd,{passive:true});addEventListener('hashchange',upd);upd()})();</script>\n")
+
+
+def render_stack(data, audience, series, insights, prov):
+    """layout "stack": numbered sections in one scroll inside the kit counterpart frame (see STACK_CSS)."""
+    import html as _h
+    import tabbed_brief_build as tbb   # kit_block, tokens, the kit 51 controls and the kit 42 script: one home each
+    page, meta = data["page"], data["meta"]
+    hdr = page["header"]
+    key = "recoil-" + meta["report_id"] + "-" + audience
+    vblocks = [b for b in page["blocks"] if visible(b, audience)]
+    tabs = [tb for tb in page["tabs"] if any(b.get("tab") == tb["id"] for b in vblocks)]
+    labels = [(tb["id"], re.sub(r"^\d+\s+", "", tb["label"])) for tb in tabs]   # "1 Predict" -> "Predict"; the section number carries the order
+    shell = open(os.path.join(tbb.TDIR, "shell.css"), encoding="utf-8").read().replace("(min-width: 1024px)", "(min-width: %dpx)" % STACK_MENU_BELOW)
+    base = CSS.split("\n", 2)[2]                           # recoil_brief's own token line drops out: the kit tokens lead
+    base = "\n".join(l for l in base.split("\n") if not l.startswith("body{"))
+    css = tbb.tokens() + "\n" + "".join(tbb.kit_block(p) for p in ("38-wordmark", "39-theme-toggle", "42-shell-nav", "51-display-preferences")) + shell + base + STACK_CSS
+    head_js = ("<script>(function(){var d=document.documentElement,s={};try{var r=localStorage.getItem('%s')||'';"
+               "s=r.charAt(0)==='{'?JSON.parse(r):(r?{theme:r}:{})}catch(e){}"
+               "d.setAttribute('data-theme',(s.theme||'dark')==='dark'?'dark':'light');"
+               "var A={font:'data-font',size:'data-size',space:'data-space'};for(var k in A){if(s[k]&&s[k]!=='std')d.setAttribute(A[k],s[k])}})();</script>") % key
+    links = "".join('<a class="shnav-tab" href="#s-%s" data-target="s-%s" aria-current="%s">%s</a>' % (i, i, "true" if n == 0 else "false", lab)
+                    for n, (i, lab) in enumerate(labels))
+    nav = ('<div class="tb-head"><div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Sections" data-menu-below="%d"><span class="shnav-current" aria-hidden="true"></span>'
+           '<div class="shnav-tabs" id="viewtabs">%s</div><button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Jump to a section"><span></span></button></nav></div></div>') % (STACK_MENU_BELOW, links)
+    secs = []
+    for k, (tb, (i, lab)) in enumerate(zip(tabs, labels), 1):
+        body = "".join(_render_block(b, data, audience, series, insights, prov) for b in vblocks if b.get("tab") == i)
+        secs.append(f'<section class="sec" id="s-{i}" aria-labelledby="h-{i}"><div class="sec-hd"><span>{k:02d} &#183; {lab}</span><i></i></div>'
+                    f'<h2 id="h-{i}">{lab}</h2><div class="sec-body">{body}</div></section>')
+    card = f'<div class="hd-card"><p class="eyebrow">{hdr["eyebrow"]}</p><h1>{hdr["title"]}</h1><p class="sub">{hdr["sub"]}</p></div>'
+    top = ('<header class="tb-top"><span class="wordmark tb-brand"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></span>%s</header>\n%s') % (tbb.DPREFS_ROW, tbb.dprefs_panel())
+    title = meta.get("doc_title", "Recoil Report")
+    main = ('<main class="tb stack" data-store="%s" data-default-theme="dark" data-pages="1">\n%s\n<section class="tb-frame" aria-label="%s">\n%s\n'
+            '<div class="tb-body">\n%s\n%s\n</div>\n</section>\n</main>\n') % (key, top, _h.escape(re.sub(r"<[^>]+>|&#183;", " ", hdr["title"])), nav, card, "\n".join(secs))
+    js = tbb.shnav_js() + "\n<script>" + open(os.path.join(tbb.TDIR, "shell.js"), encoding="utf-8").read() + "</script>\n" + STACK_JS
+    return ('<!DOCTYPE html>\n<!-- @arcs-template: recoil-twin -->\n<!-- @arcs-mode: persuade -->\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
+            '<meta name="color-scheme" content="light dark">\n<meta name="robots" content="noindex, nofollow">\n<title>%s</title>\n%s\n<style>\n%s\n</style>\n'
+            '<script defer src="/_vercel/insights/script.js"></script>\n</head>\n<body>\n%s%s%s\n</body>\n</html>\n') % (title, head_js, css, main, js, DWELL_JS)
+
+
+DWELL_JS = "<script>/* ARCS section-dwell -> Vercel custom events */(function(){var va=window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};var t0=Date.now(),secs={},vis={};function nm(h){return(h.textContent||'').trim().slice(0,60)}var hs=[].slice.call(document.querySelectorAll('h1,h2'));if('IntersectionObserver'in window&&hs.length){var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[nm(e.target)]=e.isIntersecting})},{threshold:0.5});hs.forEach(function(h){io.observe(h)});setInterval(function(){if(document.hidden)return;for(var k in vis)if(vis[k])secs[k]=(secs[k]||0)+1},1000)}addEventListener('pagehide',function(){va('event',{name:'page_dwell',data:{seconds:Math.round((Date.now()-t0)/1000)}});Object.keys(secs).map(function(k){return[k,secs[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5).forEach(function(p){if(p[1]>=3)va('event',{name:'section_dwell',data:{section:p[0],seconds:p[1]}})})})})();</script>"
+
+
 def render_html(data, audience):
     series = [s for s in data["kinematic_series"]["series"] if visible(s, audience)] if data.get("kinematic_series") else []
     insights = [i for i in data.get("insights", []) if visible(i, audience)]
@@ -371,38 +440,27 @@ def render_html(data, audience):
     hdr = page["header"]
     gate_pw = (data["meta"].get("gate") or {}).get(audience)
     gate_css = GATE_CSS if gate_pw else ""
+    if page.get("layout") == "stack":
+        return render_stack(data, audience, series, insights, prov)
     tabbed = page.get("layout") == "tabs"
-    stacked = page.get("layout") == "stack"
-    body_cls = ' class="stack"' if stacked else ""
     doc_title = data["meta"].get("doc_title", "Recoil Report")
     # Provenance comment is internal-only: external artifacts must not reveal
     # they are script-generated from a structured source (tooling = method IP).
     gen_note = '<!-- generated by recoil_brief.py from SSOT; do not hand-edit -->' if audience == "internal" else ''
     out = [f'<!DOCTYPE html>{gen_note}',
            f'<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">',
-           f'<meta name="robots" content="noindex, nofollow"><title>{doc_title}</title><style>{CSS}{STACK_CSS if stacked else ""}{gate_css}</style>'
+           f'<meta name="robots" content="noindex, nofollow"><title>{doc_title}</title><style>{CSS}{gate_css}</style>'
            # Vercel Web Analytics — every generated artifact ships instrumented
            # (page opens show per-subdomain in the dashboard, which identifies
            # the counterpart since each has their own host).
-           f'<script defer src="/_vercel/insights/script.js"></script></head><body{body_cls}>']
+           f'<script defer src="/_vercel/insights/script.js"></script></head><body>']
     if gate_pw:
         out.append('<div id="pw-gate"><div class="pw-label">ARCS &#183; Private Brief</div>'
                    '<input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div>')
-    wrap = "main" if stacked else "div"   # stack pages carry a main landmark (axe landmark-one-main)
-    out.append(f'<{wrap} class="page">')
+    out.append('<div class="page">')
+    out.append(f'<div><div class="eyebrow">{hdr["eyebrow"]}</div><h1>{hdr["title"]}</h1><div class="sub">{hdr["sub"]}</div></div><div class="rule"></div>')
     vblocks = [b for b in page["blocks"] if visible(b, audience)]
-    if stacked:
-        out.append(f'<div class="hd-card"><div class="eyebrow">{hdr["eyebrow"]}</div><h1>{hdr["title"]}</h1><p class="sub">{hdr["sub"]}</p></div>')
-    else:
-        out.append(f'<div><div class="eyebrow">{hdr["eyebrow"]}</div><h1>{hdr["title"]}</h1><div class="sub">{hdr["sub"]}</div></div><div class="rule"></div>')
-    if stacked:
-        tabs = [tb for tb in page["tabs"] if any(b.get("tab") == tb["id"] for b in vblocks)]
-        for k, tb in enumerate(tabs, 1):
-            label = re.sub(r"^\d+\s+", "", tb["label"])   # "1 Predict" -> "Predict"; the section number carries the order
-            body = "".join(_render_block(b, data, audience, series, insights, prov) for b in vblocks if b.get("tab") == tb["id"])
-            out.append(f'<section class="sec" id="s-{tb["id"]}"><div class="sec-hd"><span>{k:02d} &#183; {label}</span><i></i></div>'
-                       f'<h2>{label}</h2><div class="sec-body">{body}</div></section>')
-    elif tabbed:
+    if tabbed:
         # keep only tabs that have at least one visible block for this audience
         tabs = [tb for tb in page["tabs"] if any(b.get("tab") == tb["id"] for b in vblocks)]
         btns = "".join(f'<button class="tab-btn{" active" if k==0 else ""}" onclick="switchTab(\'{tb["id"]}\',this)">{tb["label"]}</button>' for k, tb in enumerate(tabs))
@@ -413,7 +471,7 @@ def render_html(data, audience):
     else:
         for b in vblocks:
             out.append(_render_block(b, data, audience, series, insights, prov))
-    out.append(f"</{wrap}>")
+    out.append("</div>")
     if tabbed:
         # No-JS fallback (sandboxed viewers, scripts off): stack every pane, hide the dead tab bar.
         out.append("<noscript><style>.tabs{display:none}.tab-pane{display:flex!important}"
@@ -431,7 +489,7 @@ def render_html(data, audience):
                    "if(i.value.toLowerCase()===P.toLowerCase()){S.s();document.getElementById('pw-gate').classList.add('hidden');}"
                    "else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();</script>")
     # Section-dwell tracker (inline; external JS can't load on wildcard-rewrite subdomains)
-    out.append("<script>/* ARCS section-dwell -> Vercel custom events */(function(){var va=window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};var t0=Date.now(),secs={},vis={};function nm(h){return(h.textContent||'').trim().slice(0,60)}var hs=[].slice.call(document.querySelectorAll('h1,h2'));if('IntersectionObserver'in window&&hs.length){var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[nm(e.target)]=e.isIntersecting})},{threshold:0.5});hs.forEach(function(h){io.observe(h)});setInterval(function(){if(document.hidden)return;for(var k in vis)if(vis[k])secs[k]=(secs[k]||0)+1},1000)}addEventListener('pagehide',function(){va('event',{name:'page_dwell',data:{seconds:Math.round((Date.now()-t0)/1000)}});Object.keys(secs).map(function(k){return[k,secs[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5).forEach(function(p){if(p[1]>=3)va('event',{name:'section_dwell',data:{section:p[0],seconds:p[1]}})})})})();</script>")
+    out.append(DWELL_JS)
     out.append("</body></html>")
     return "".join(out)
 
