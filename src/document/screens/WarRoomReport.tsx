@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { T } from '../tokens'
+import { T as K, TP } from '../tokens'
 import { derivatives, kinematicsNote } from '../kinematics'
 import { anatomy, type Anatomy, type Chip, type Fold, type Fidelity, type Tone } from '../recoil/anatomy'
 
@@ -54,6 +54,16 @@ function H({ html, style }: { html: unknown; style?: React.CSSProperties }) {
   return <span style={style} dangerouslySetInnerHTML={{ __html: clean(s(html)) }} />
 }
 
+// Print palette (R6, spec 8 Q2: light for print, Zach 2026-11-12). Every color below is a CSS variable whose
+// screen value is the dark kit (K) and whose @media print value is the light remap (TP); PRINT_CSS declares both.
+type ColorKey = keyof typeof TP
+const COLOR_KEYS = Object.keys(TP) as ColorKey[]
+const cssVar = (k: ColorKey) => `--wr-${k}`
+const T = { ...K, ...Object.fromEntries(COLOR_KEYS.map((k) => [k, `var(${cssVar(k)})`])) } as Record<keyof typeof K, string> & { fsLabel: number; fsBody: number; fsHeadline: number; fsDisplay: number }
+const decl = (pal: Record<ColorKey, string>) => COLOR_KEYS.map((k) => `${cssVar(k)}: ${pal[k]}`).join('; ')
+/** A tone at a small alpha, from a variable (hex-alpha suffixes cannot follow var()). */
+const tint = (c: string, pct: number) => `color-mix(in srgb, ${c} ${pct}%, transparent)`
+
 // ─── atoms ────────────────────────────────────────────────────────────────
 const TONE: Record<Tone, string> = { cyan: T.cyan, green: T.green, gold: T.gold, red: T.red, magenta: T.magenta, steel: T.steel }
 const MONO: React.CSSProperties = { fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }
@@ -67,7 +77,7 @@ function ChipEl({ c }: { c: Chip }) {
   const plain = c.tone === 'steel'
   return (
     <span style={{ ...MONO, display: 'inline-flex', alignItems: 'center', padding: '3px 10px', borderRadius: 999, whiteSpace: 'nowrap',
-      color: col, border: `1px solid ${plain ? T.border : col}`, background: plain ? 'transparent' : `${col}12` }}>{c.label}</span>
+      color: col, border: `1px solid ${plain ? T.border : col}`, background: plain ? 'transparent' : tint(col, 7) }}>{c.label}</span>
   )
 }
 
@@ -77,7 +87,7 @@ const FID: Record<Fidelity, React.CSSProperties> = {
   SHARP: { fontWeight: 500 },
   DEGRADED: { fontWeight: 400, letterSpacing: '0.01em' },
   GRAIN: { fontWeight: 300, letterSpacing: '0.02em', backgroundImage: GRAIN_BG },
-  MOIRE: { fontWeight: 300, letterSpacing: '0.03em', backgroundImage: GRAIN_BG, backgroundColor: `${T.magenta}12` },
+  MOIRE: { fontWeight: 300, letterSpacing: '0.03em', backgroundImage: GRAIN_BG, backgroundColor: tint(T.magenta, 7) },
 }
 const FID_VALUE: Record<Fidelity, string> = { SHARP: T.green, DEGRADED: T.gold, GRAIN: T.fg2, MOIRE: T.magenta }
 
@@ -127,13 +137,13 @@ function Table({ head, rows }: { head: unknown[]; rows: unknown[][] }) {
 interface Series { key: string; label: string; color: string; points: number[]; quote: string }
 // A series color snaps to the nearest palette signal color (SSOTs carry ad hoc hexes);
 // the same rule as palette_color in scripts/recoil_page.py.
-const PALETTE = [T.cyan, T.green, T.gold, T.red, T.purple, T.magenta, T.orange]
+const PALETTE: ColorKey[] = ['cyan', 'green', 'gold', 'red', 'purple', 'magenta', 'orange']
 function paletteColor(c: string): string {
   const m = /^#?([0-9a-f]{6})$/i.exec(c.trim())
   if (!m) return T.cyan
   const rgb = [0, 2, 4].map((i) => parseInt(m[1].slice(i, i + 2), 16))
   const d = (h: string) => [0, 2, 4].reduce((n, i, k) => n + (parseInt(h.slice(1 + i, 3 + i), 16) - rgb[k]) ** 2, 0)
-  return PALETTE.reduce((a, b) => (d(b) < d(a) ? b : a))
+  return T[PALETTE.reduce((a, b) => (d(K[b]) < d(K[a]) ? b : a))]
 }
 function readSeries(raw: Raw): { dt: number; series: Series[] } {
   const ks = isRec(raw.kinematic_series) ? raw.kinematic_series : {}
@@ -157,12 +167,12 @@ function Chart({ series }: { series: Series[] }) {
       <svg viewBox={`0 0 ${W} ${Hh}`} style={{ width: '100%', height: 'auto', display: 'block' }} role="img" aria-label="Belief trajectory">
         {[0, 0.5, 1].map((g) => (
           <g key={g}>
-            <line x1={pad} x2={W - pad} y1={yAt(g)} y2={yAt(g)} stroke={T.border} strokeWidth={1} />
-            <text x={4} y={yAt(g) + 3} fill={T.fg3} fontSize={T.fsLabel} fontFamily="monospace">{g}</text>
+            <line x1={pad} x2={W - pad} y1={yAt(g)} y2={yAt(g)} style={{ stroke: T.border }} strokeWidth={1} />
+            <text x={4} y={yAt(g) + 3} style={{ fill: T.fg3 }} fontSize={T.fsLabel} fontFamily="monospace">{g}</text>
           </g>
         ))}
         {series.map((x) => (
-          <polyline key={x.key} fill="none" stroke={x.color} strokeWidth={2} points={x.points.map((v, i) => `${xAt(i)},${yAt(v)}`).join(' ')} />
+          <polyline key={x.key} fill="none" style={{ stroke: x.color }} strokeWidth={2} points={x.points.map((v, i) => `${xAt(i)},${yAt(v)}`).join(' ')} />
         ))}
       </svg>
       <Ledger rows={series.map((x) => ({ k: <span><span aria-hidden="true" style={{ display: 'inline-block', width: 10, height: 10, borderRadius: 3, marginRight: 8, background: x.color }} />{x.label}</span>, body: x.quote ? <span>&ldquo;{x.quote}&rdquo;</span> : null }))} />
@@ -465,9 +475,18 @@ function Strata({ raw }: { raw: Raw }) {
   )
 }
 
-// Print (inline styles cannot reach ::details-content): every fold opens, rows stay whole
-// (breakInside on each row above), chrome carrying data-print="hide" is dropped.
-const PRINT_CSS = '@media print { details[data-fold]::details-content { content-visibility: visible; display: contents } [data-toast] { position: static !important; width: auto !important } }'
+// Print (inline styles cannot reach ::details-content, @page or the page behind this screen): every fold
+// opens, rows stay whole (breakInside on each row above), chrome carrying data-print="hide" is dropped, and the
+// palette turns light (TP). The :has() rule whitens the route's dark wrapper and overrides ReportActions' dark
+// print sheet, which still serves the legacy (non war-room) reports.
+const PRINT_CSS = `:root { ${decl(K)} }
+@media print {
+  :root { ${decl(TP)} }
+  @page { background: ${TP.surface} }
+  html, body, :is(div, main):has([data-wr-root]) { background: ${TP.surface} !important; color-scheme: light }
+  details[data-fold]::details-content { content-visibility: visible; display: contents }
+  [data-toast] { position: static !important; width: auto !important }
+}`
 
 export function WarRoomReport({ raw }: { raw: Raw }) {
   const a = React.useMemo(() => anatomy(raw), [raw])
@@ -484,7 +503,7 @@ export function WarRoomReport({ raw }: { raw: Raw }) {
   const nfold = a.groups.reduce((n, g) => n + g.folds.length, 0)
   const btn: React.CSSProperties = { ...MONO, color: T.fg1, background: T.elevated, border: `1px solid ${T.border}`, borderRadius: 6, padding: '8px 14px', cursor: 'pointer' }
   return (
-    <div ref={root} style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div ref={root} data-wr-root="" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       <style>{PRINT_CSS}</style>
       <Header h={a.header} />
       <Glance rows={a.glance} />

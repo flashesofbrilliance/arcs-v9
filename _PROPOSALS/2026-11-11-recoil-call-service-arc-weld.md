@@ -182,7 +182,7 @@ Child sessions: R1, R2 and R10 start now (independent, separate files). R4 start
 ## 8. Waiting on Zach
 
 1. **"720°":** proposed as a 360° orbit in space plus a full scrub in time, forward and back. Or did you mean two full rotations, or yaw plus pitch?
-2. PDF default palette: dark, as on screen, or light, to save ink and suit a printed read?
+2. PDF default palette: dark, as on screen, or light, to save ink and suit a printed read? **Answered, Zach 2026-11-12: light for print** (R6 builds to it; the screen stays dark).
 3. Counterpart twin: the same component set with an audience filter, or its own template?
 4. Approve the hard-stop list in §6.3 as the autopilot boundary.
 5. The light page holds a personal email address and a sensitive fact about the counterpart, behind only its artifact link. Keep it, or redact it now?

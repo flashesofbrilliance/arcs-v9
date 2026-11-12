@@ -31,6 +31,29 @@ export const T = {
   fsDisplay: 24,  // --doc-fs-display
 } as const
 
+// TP: the print palette (light, spec 8 Q2), from the @media print block of _tokens-light.css
+// (+ DOC_EXTRA_PRINT). Same color keys as T; a screen that prints swaps T for TP under @media print.
+export const TP = {
+  bg: "#f7f8fa",  // --bg
+  surface: "#ffffff",  // --surface
+  elevated: "#eef1f5",  // --elevated
+  shell: "#eef1f5",  // --shell
+  border: "#d5dbe3",  // --border
+  borderHi: "rgba(28,36,48,0.14)",  // --border-hi
+  fg1: "#1c2430",  // --text
+  fg2: "#475262",  // --text-secondary
+  fg3: "#475262",  // --dimmed
+  fg4: "#9aa4b1",  // --rule-dim
+  cyan: "#00606b",  // --cyan
+  green: "#047857",  // --green
+  gold: "#6b5400",  // --gold
+  orange: "#b45309",  // --orange
+  red: "#b42344",  // --red
+  steel: "#475262",  // --text-secondary
+  purple: "#6d28d9",  // --violet
+  magenta: "#a21caf",  // --magenta
+} as const
+
 export const DIM = (c: string) => `${c}16`
 export const BDR = (c: string) => `${c}35`
 export const GLOW = (c: string) => `${c}55`
