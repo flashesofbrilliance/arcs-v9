@@ -12,6 +12,8 @@
 #   2. waits until every check on that head is final, then refuses unless all are SUCCESS
 #      (PENDING past the timeout, FAILURE, CANCELLED, only-SKIPPED checks, or zero checks: refuse; SKIPPED beside a SUCCESS is neutral)
 #   3. CONFLICTING mergeable: stop and say so (never rebases)
+#   3b. a Hermes PR (branch hermes/*) also needs commit status claude-code-review = success on that
+#      exact head (scripts/claude_pr_review.py; Zach 2026-11-12: Claude Code reviews every Hermes PR)
 #   4. merges with `gh pr merge --merge --match-head-commit <sha>` (gotcha 17: never squash/rebase)
 #   5. prints the merge commit and a decision_receipt INSERT template (never writes to Supabase), with
 #      job_id and tool_id filled (Sprint 5 coverage, AGENTS.md "Receipts or it didn't happen"):
@@ -41,7 +43,8 @@ case "$1 $2" in
   "pr view")
     if [[ "$*" == *mergeCommit* ]]; then echo '{"state":"MERGED","mergeCommit":{"oid":"m3rg3c0mm1t"}}'; exit 0; fi
     if [[ "$*" == *files* ]]; then cat "$d/meta" 2>/dev/null || echo '{"body":"","headRefName":"b","files":[]}'; exit 0; fi
-    printf '{"headRefOid":"%s","mergeable":"%s","state":"OPEN","title":"t","url":"u"}\n' "$(cat "$d/head")" "$(cat "$d/mergeable")";;
+    printf '{"headRefOid":"%s","headRefName":"%s","mergeable":"%s","state":"OPEN","title":"t","url":"u"}\n' "$(cat "$d/head")" "$(cat "$d/branch" 2>/dev/null || echo claude/x)" "$(cat "$d/mergeable")";;
+  "api repos/{owner}/{repo}/commits/"*) cat "$d/review" 2>/dev/null || echo missing;;
   "pr checks")
     n=$(cat "$d/n" 2>/dev/null || echo 0); n=$((n+1)); echo $n > "$d/n"
     total=$(wc -l < "$d/checks"); [ $n -gt $total ] && n=$total
@@ -82,6 +85,18 @@ FAKE
   run_case only-skipped         1 no  abc1234def0000 MERGEABLE 60 "[$K]"
   run_case skipped-beside-failure 1 no abc1234def0000 MERGEABLE 60 "[$S,$K,$F]"
   run_case github-down          1 no  authdown       MERGEABLE 60 "[$S]"
+  # Hermes PRs need a head-bound claude-code-review success (claude_pr_review.py).
+  review_case() { # name review-state expect_rc expect_merged
+    local name="$1" d="$tmp/$1"; mkdir -p "$d"; echo abc1234def0000 > "$d/head"; echo MERGEABLE > "$d/mergeable"
+    echo hermes/x > "$d/branch"; echo "[$S]" > "$d/checks"; [ -n "$2" ] && echo "$2" > "$d/review"
+    local rc=0; FAKE_DIR="$d" PATH="$tmp/bin:$PATH" SAFE_MERGE_INTERVAL=0 SAFE_MERGE_NOCHECK_GRACE=0 bash "$here" 42 abc1234def > "$d/out" 2>&1 || rc=$?
+    local merged=no; [ -f "$d/merged" ] && merged=yes
+    if [ "$rc" = "$3" ] && [ "$merged" = "$4" ]; then echo "PASS $name (rc=$rc merged=$merged)"; pass=$((pass+1))
+    else echo "FAIL $name (rc=$rc want $3, merged=$merged want $4)"; sed 's/^/    /' "$d/out"; fail=$((fail+1)); fi
+  }
+  review_case hermes-review-success success 0 yes
+  review_case hermes-review-failure failure 1 no
+  review_case hermes-review-missing ""      1 no
   # Receipt job_id/tool_id derivation (Sprint 5): body ref, backlog-diff row, placeholders.
   derive_case() { # name meta-json diff-text want-job-grep want-tool-grep
     local name="$1" d="$tmp/$1"; mkdir -p "$d"; echo abc1234def0000 > "$d/head"; echo MERGEABLE > "$d/mergeable"
@@ -124,8 +139,9 @@ jget() { python3 -c 'import json,sys; d=json.load(sys.stdin); print(d.get(sys.ar
 # Re-read the head on every poll: a push mid-wait must refuse, not merge the new head.
 check_head() {
   local view head
-  view="$(gh pr view "$PR" --json headRefOid,mergeable,state,title,url)"
+  view="$(gh pr view "$PR" --json headRefOid,headRefName,mergeable,state,title,url)"
   [ "$(printf '%s' "$view" | jget state)" = OPEN ] || die "PR $PR is not OPEN"
+  BRANCH="$(printf '%s' "$view" | jget headRefName)"
   head="$(printf '%s' "$view" | jget headRefOid)"
   case "$head" in "$WANT"*) ;; *) die "PR $PR head is $head, expected $WANT (someone pushed; re-confirm the head)";; esac
   HEAD_SHA="$head"
@@ -168,6 +184,16 @@ while :; do
   echo "safe_merge: waiting (checks=$st mergeable=$MERGEABLE)"
   sleep "$INTERVAL"
 done
+
+# Cross-harness review (Zach, 2026-11-12): a PR Hermes opened (branch hermes/*) merges only with a
+# Claude Code APPROVE bound to this exact head: commit status `claude-code-review` = success, set by
+# scripts/claude_pr_review.py. A push makes a new head with no status, so an old approval never carries.
+case "$BRANCH" in
+  hermes/*)
+    rv="$(gh api "repos/{owner}/{repo}/commits/$HEAD_SHA/status" --jq '[.statuses[]|select(.context=="claude-code-review")][0].state // "missing"' 2>/dev/null || echo unreadable)"
+    [ "$rv" = success ] || die "PR $PR is a Hermes PR ($BRANCH) and claude-code-review on $HEAD_SHA is '$rv', not success. Run: scripts/claude_pr_review.py $PR"
+    echo "safe_merge: claude-code-review success on $HEAD_SHA (Hermes PR)" ;;
+esac
 
 echo "safe_merge: head $HEAD_SHA verified, all checks SUCCESS, MERGEABLE. Merging PR $PR."
 gh pr merge "$PR" --merge --match-head-commit "$HEAD_SHA"

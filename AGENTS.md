@@ -159,6 +159,8 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 
 23. **Coding discipline (Zach, 2026-11-03).** Grug first, then the Karpathy guidelines: think before coding, simplicity first, surgical changes, goal-driven execution with a check before the code. Full text in `.claude/rules/coding-discipline.md`, which loads when you touch code.
 
+24. **Claude Code reviews every Hermes PR (Zach, 2026-11-12).** Hermes opens PRs only from `hermes/*` branches, and `scripts/safe_merge.sh` refuses to merge one unless the commit status `claude-code-review` is `success` on that exact head. `scripts/claude_pr_review.py <pr>` sets it: it checks the head out into a throwaway worktree and runs `claude -p` read-only. It reviews three things: the code; the changed docs, which must be coherent, cohesive and clear, with each finding giving the exact fix; and every factual claim in the PR body or docs, each of which needs a sha, a command with its exit code, a path, a URL or a receipt id. A push resets the gate, because the new head has no status. The review fails closed: an auth error, a timeout or a bad verdict posts `error`, never an approval. Hermes fixes `CHANGES` findings on the branch, re-runs the review, and records the review comment URL in the merge's decision receipt `refs[]`. Pre-commit runs both `--self-test`s when either script changes.
+
 ## Receipts or it didn't happen
 
 Every merge, deploy, or publish action MUST end with exactly one Decision Receipt row in the

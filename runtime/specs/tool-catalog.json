@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 305,
+  "script": 306,
   "skill": 28,
   "workflow": 2
  },
- "total": 437,
+ "total": 438,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 595,
+   "WIRED": 596,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 3,
    "DUPLICATE": 6,
@@ -1144,6 +1144,14 @@
    "path": "scripts/classname_guard.py",
    "jtbd": "Fail when className / Tailwind / stray stylesheets creep back into src/ (LINT-006).",
    "invoke": "python3 scripts/classname_guard.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "claude_pr_review.py",
+   "path": "scripts/claude_pr_review.py",
+   "jtbd": "claude_pr_review.py: Claude Code reviews a PR and posts a head-bound verdict.",
+   "invoke": "python3 scripts/claude_pr_review.py",
    "state": "WIRED"
   },
   {
