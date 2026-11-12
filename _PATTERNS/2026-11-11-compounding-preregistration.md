@@ -22,6 +22,10 @@ learning-curve literature, not a measurement of this repo.
   result, not a missing value.
 
 ## Measures (fixed now)
+Sources: `public.decision_receipt` (job_id, tool_id, refs, event_at; AGENTS.md "Receipts or it didn't happen"),
+`_QUEUE/induced-backlog.jsonl`, session transcripts, `git log`. Shape follows
+`_PATTERNS/2026-10-20-throughput-preregistration.md`.
+
 1. **Cost per row, c.** Sum the token usage of every session transcript (`~/.claude/projects/*/*.jsonl`, replies
    deduplicated by message id) whose `gitBranch` equals the head branch of a PR cited by a receipt with
    `job_id = job:backlog:<row>`. Price it at Claude list rates per model (the rates in The Posted Rate; Opus 5.5 at
@@ -46,6 +50,9 @@ learning-curve literature, not a measurement of this repo.
 - **M3, recomposition:** M1 plus terms in r and ln k.
 
 ## Verdict rules (fixed now)
+The thresholds below are judgment, set now (memory `pre-register-rule-before-counting`); the 4-AIC margin is a
+conventional cut, not derived from this repo.
+
 - **Sample floor:** at least 30 rows with a cost. Below that the report says "too few to say", prints n, and renders at
   grain fidelity. No verdict.
 - **Compounding supported:** b > 0 with a 90% interval that excludes 0, and M1 beats M0 by at least 4 AIC.
