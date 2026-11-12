@@ -1,19 +1,21 @@
 'use client'
 import React from 'react'
 import { T } from '../tokens'
-import { Sec, Pill } from '../primitives'
-import { AsideBox } from '../patterns/AsideBox'
 import { derivatives, kinematicsNote } from '../kinematics'
+import { anatomy, type Anatomy, type Chip, type Fold, type Fidelity, type Tone } from '../recoil/anatomy'
 
-// ─── War-room render path ─────────────────────────────────────────────────
+// ─── War-room render path: the recoil component set (arc weld spec 4.1) ──────
+// The page plan (header, glance, fold groups, appendix) comes from ../recoil/anatomy, the same
+// plan scripts/recoil_page.py renders as single-file HTML (tests/unit/recoil-anatomy.test.ts
+// keeps the two equal). This file only draws it: kit look (56 fold, 57 ledger row, 59 claim
+// check, 28 chip, 37 fidelity grain) in inline styles from ../tokens.
 // The 6-tab war-room SSOTs (recoil-new / recoil-prep / recoil-close; e.g.
 // runtime/recoil/generated/2026-09-14-schriner.json) carry meta / opportunity
 // / beliefs / kinematic_series / insights / next_steps / page.blocks — not the
 // cover / callWalk / signalThreads shape the 6-section report expects. Forcing
 // them through an adapter would be lossy (beliefs are not a call walk), so
 // RecoilReportFromData branches here instead. Block renderers mirror
-// scripts/recoil_brief.py `_render_block` (the canonical HTML renderer behind
-// /warroom/[slug]); keep the two in step when a block type is added.
+// render_block in scripts/recoil_page.py; keep the two in step when a block type is added.
 //
 // Internal only: /recoil is admin-gated (src/lib/admin.ts), so every audience
 // renders. meta.gate (passcodes) is never rendered.
@@ -28,7 +30,7 @@ export function isWarRoomShape(raw: Raw): boolean {
 }
 
 /** Top-level keys this view renders; DeepStrata skips them. meta stays as substrate (gate stripped). */
-export const WARROOM_RENDERED_KEYS = ['page', 'beliefs', 'kinematic_series', 'insights', 'next_steps', 'opportunity']
+export const WARROOM_RENDERED_KEYS = ['page', 'beliefs', 'kinematic_series', 'insights', 'next_steps', 'opportunity', 'schema', 'call', 'verbs']
 
 // Block strings are authored HTML fragments (<strong>, <br>, &#183; entities)
 // from committed repo files. Allowlist the inline tags they use; drop every
@@ -52,18 +54,64 @@ function H({ html, style }: { html: unknown; style?: React.CSSProperties }) {
   return <span style={style} dangerouslySetInnerHTML={{ __html: clean(s(html)) }} />
 }
 
-const P: React.CSSProperties = { fontFamily: T.sans, fontSize: T.fsBody, color: T.fg2, lineHeight: 1.7, margin: '0 0 10px' }
-const H2: React.CSSProperties = { fontFamily: T.sans, fontSize: T.fsBody, fontWeight: 600, color: T.fg1, margin: '0 0 10px' }
-const card = (accent?: string): React.CSSProperties => ({
-  border: `1px solid ${accent ? `${accent}55` : T.border}`, borderRadius: 8, background: T.surface, padding: '16px 18px',
-  // Print: a tall card may split, but its border repeats on each page; the
-  // rows, list items and key/value pairs inside never split.
-  boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone',
-})
-const TH: React.CSSProperties = { fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.1em', color: T.fg3, textTransform: 'uppercase', textAlign: 'left', padding: '8px 10px', borderBottom: `1px solid ${T.border}`, verticalAlign: 'bottom' }
-const TD: React.CSSProperties = { fontFamily: T.sans, fontSize: T.fsBody, color: T.fg1, lineHeight: 1.55, padding: '9px 10px', borderBottom: `1px solid ${T.border}`, verticalAlign: 'top' }
-const DOT: Record<string, string> = { g: T.green, c: T.cyan, r: T.red, y: T.gold, o: T.orange }
+// ─── atoms ────────────────────────────────────────────────────────────────
+const TONE: Record<Tone, string> = { cyan: T.cyan, green: T.green, gold: T.gold, red: T.red, magenta: T.magenta, steel: T.steel }
+const MONO: React.CSSProperties = { fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }
+const P: React.CSSProperties = { fontFamily: T.sans, fontSize: T.fsBody, color: T.fg1, lineHeight: 1.6, margin: 0 }
+const REF: React.CSSProperties = { fontFamily: T.mono, fontSize: T.fsLabel, letterSpacing: '0.04em', color: T.fg3, lineHeight: 1.5, margin: 0 }
+const SUB: React.CSSProperties = { fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.02em', color: T.fg1, margin: 0, breakAfter: 'avoid' }
 
+/** Kit 28 chip. Steel (unknown) is the plain chip: no fill. */
+function ChipEl({ c }: { c: Chip }) {
+  const col = TONE[c.tone]
+  const plain = c.tone === 'steel'
+  return (
+    <span style={{ ...MONO, display: 'inline-flex', alignItems: 'center', padding: '3px 10px', borderRadius: 999, whiteSpace: 'nowrap',
+      color: col, border: `1px solid ${plain ? T.border : col}`, background: plain ? 'transparent' : `${col}12` }}>{c.label}</span>
+  )
+}
+
+// Kit 37: fidelity is weight, tracking and a grain overlay, never dimmed text (WORLD.md render scale).
+const GRAIN_BG = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E")`
+const FID: Record<Fidelity, React.CSSProperties> = {
+  SHARP: { fontWeight: 500 },
+  DEGRADED: { fontWeight: 400, letterSpacing: '0.01em' },
+  GRAIN: { fontWeight: 300, letterSpacing: '0.02em', backgroundImage: GRAIN_BG },
+  MOIRE: { fontWeight: 300, letterSpacing: '0.03em', backgroundImage: GRAIN_BG, backgroundColor: `${T.magenta}12` },
+}
+const FID_VALUE: Record<Fidelity, string> = { SHARP: T.green, DEGRADED: T.gold, GRAIN: T.fg2, MOIRE: T.magenta }
+
+// ─── molecules ────────────────────────────────────────────────────────────
+const BOX: React.CSSProperties = { background: T.surface, border: `1px solid ${T.border}`, borderRadius: 6, overflow: 'hidden', boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone' }
+
+/** Kit 57 ledger: key on the left, body on the right; rows never split in print. */
+function Ledger({ rows }: { rows: { k: React.ReactNode; body: React.ReactNode }[] }) {
+  if (!rows.length) return null
+  return (
+    <div style={BOX}>
+      {rows.map((r, i) => (
+        <div key={i} style={{ display: 'grid', gridTemplateColumns: 'minmax(8rem, 22%) minmax(0, 1fr)', gap: '4px 16px', padding: '12px 16px',
+          borderTop: i ? `1px solid ${T.border}` : 'none', breakInside: 'avoid' }}>
+          <div style={{ fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.02em', lineHeight: 1.5, color: T.fg2 }}>{r.k}</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minWidth: 0, fontFamily: T.sans, fontSize: T.fsBody, color: T.fg1, lineHeight: 1.6 }}>{r.body}</div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+/** Kit 33 LED, for list rows: green on, red alert, otherwise off. */
+function Led({ dot, children }: { dot: string; children: React.ReactNode }) {
+  const c = dot === 'g' ? T.green : dot === 'r' ? T.red : T.border
+  return (
+    <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: 8 }}>
+      <span aria-hidden="true" style={{ width: 8, height: 8, borderRadius: '50%', background: c, flexShrink: 0 }} />{children}
+    </span>
+  )
+}
+
+const TH: React.CSSProperties = { fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.02em', color: T.fg2, textAlign: 'left', padding: '8px 10px', borderBottom: `1px solid ${T.border}`, verticalAlign: 'bottom' }
+const TD: React.CSSProperties = { fontFamily: T.sans, fontSize: T.fsBody, color: T.fg1, lineHeight: 1.55, padding: 10, borderBottom: `1px solid ${T.border}`, verticalAlign: 'top' }
 function Table({ head, rows }: { head: unknown[]; rows: unknown[][] }) {
   return (
     <div style={{ overflowX: 'auto' }}>
@@ -75,24 +123,23 @@ function Table({ head, rows }: { head: unknown[]; rows: unknown[][] }) {
   )
 }
 
-function Card({ h2, accent, keep, children }: { h2?: unknown; accent?: string; keep?: boolean; children: React.ReactNode }) {
-  return (
-    <div style={keep ? { ...card(accent), breakInside: 'avoid' } : card(accent)}>
-      {s(h2) && <h3 style={{ ...H2, color: accent ?? T.fg1, breakAfter: 'avoid' }}><H html={h2} /></h3>}
-      {children}
-    </div>
-  )
-}
-const Intro = ({ v }: { v: unknown }) => (s(v) ? <p style={P}><H html={v} /></p> : null)
-
-// D1-D3 by central difference — same as recoil_brief.py `_grad` (np.gradient, edge_order=1).
-
+// D1-D3 by central difference, the same as _grad in scripts/recoil_brief.py.
 interface Series { key: string; label: string; color: string; points: number[]; quote: string }
+// A series color snaps to the nearest palette signal color (SSOTs carry ad hoc hexes);
+// the same rule as palette_color in scripts/recoil_page.py.
+const PALETTE = [T.cyan, T.green, T.gold, T.red, T.purple, T.magenta, T.orange]
+function paletteColor(c: string): string {
+  const m = /^#?([0-9a-f]{6})$/i.exec(c.trim())
+  if (!m) return T.cyan
+  const rgb = [0, 2, 4].map((i) => parseInt(m[1].slice(i, i + 2), 16))
+  const d = (h: string) => [0, 2, 4].reduce((n, i, k) => n + (parseInt(h.slice(1 + i, 3 + i), 16) - rgb[k]) ** 2, 0)
+  return PALETTE.reduce((a, b) => (d(b) < d(a) ? b : a))
+}
 function readSeries(raw: Raw): { dt: number; series: Series[] } {
   const ks = isRec(raw.kinematic_series) ? raw.kinematic_series : {}
   const dt = typeof ks.dt === 'number' && ks.dt > 0 ? ks.dt : 1
   const series = arr(ks.series).filter(isRec).map((x) => ({
-    key: s(x.key), label: s(x.label), color: s(x.color) || T.cyan,
+    key: s(x.key), label: s(x.label), color: paletteColor(s(x.color)),
     points: arr(x.points).map(Number).filter((n) => Number.isFinite(n)),
     quote: s(x.grounding_quote),
   })).filter((x) => x.points.length > 0)
@@ -106,7 +153,7 @@ function Chart({ series }: { series: Series[] }) {
   const xAt = (i: number) => pad + (n > 1 ? (i / (n - 1)) * (W - 2 * pad) : 0)
   const yAt = (v: number) => Hh - pad - Math.max(0, Math.min(1, v)) * (Hh - 2 * pad)
   return (
-    <div style={{ margin: '10px 0', breakInside: 'avoid' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, breakInside: 'avoid' }}>
       <svg viewBox={`0 0 ${W} ${Hh}`} style={{ width: '100%', height: 'auto', display: 'block' }} role="img" aria-label="Belief trajectory">
         {[0, 0.5, 1].map((g) => (
           <g key={g}>
@@ -118,238 +165,350 @@ function Chart({ series }: { series: Series[] }) {
           <polyline key={x.key} fill="none" stroke={x.color} strokeWidth={2} points={x.points.map((v, i) => `${xAt(i)},${yAt(v)}`).join(' ')} />
         ))}
       </svg>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 8 }}>
-        {series.map((x) => (
-          <div key={x.key} style={{ display: 'flex', gap: 8, alignItems: 'baseline' }}>
-            <span style={{ width: 10, height: 10, borderRadius: 2, background: x.color, flexShrink: 0 }} />
-            <span style={{ fontFamily: T.sans, fontSize: T.fsLabel, color: T.fg2, lineHeight: 1.5 }}>
-              {x.label}{x.quote && <em style={{ color: T.fg3 }}> · &ldquo;{x.quote}&rdquo;</em>}
-            </span>
-          </div>
-        ))}
-      </div>
+      <Ledger rows={series.map((x) => ({ k: <span><span aria-hidden="true" style={{ display: 'inline-block', width: 10, height: 10, borderRadius: 3, marginRight: 8, background: x.color }} />{x.label}</span>, body: x.quote ? <span>&ldquo;{x.quote}&rdquo;</span> : null }))} />
     </div>
   )
 }
 
-function Block({ b, raw }: { b: Raw; raw: Raw }) {
+// Kit 59 claim check for the Forge table: green grounded (proven), red struck (failed), plain inference.
+const RULING: Record<string, { tone: Tone; value: string }> = {
+  GROUNDED: { tone: 'green', value: T.green }, STRUCK: { tone: 'red', value: T.red }, INFERENCE: { tone: 'steel', value: T.fg2 },
+}
+function ForgeClaims({ rows, ri }: { rows: unknown[][]; ri: number }) {
+  return (
+    <div style={BOX}>
+      {rows.map((r, i) => {
+        const raw = s(r[ri]).replace(/<[^>]*>/g, '')
+        const word = Object.keys(RULING).find((k) => raw.toUpperCase().includes(k)) ?? ''
+        const rl = RULING[word] ?? RULING.INFERENCE
+        const label = word ? word[0] + word.slice(1).toLowerCase() : raw
+        return (
+          <div key={i} style={{ ...(word === 'INFERENCE' ? FID.GRAIN : {}), display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) auto minmax(0, 1.25fr)', gap: '8px 16px', alignItems: 'start',
+            padding: 16, borderTop: i ? `1px solid ${T.border}` : 'none', breakInside: 'avoid', fontFamily: T.sans, fontSize: T.fsBody, color: T.fg1, lineHeight: 1.55 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0 }}>
+              <H html={r[0]} />
+            </div>
+            <ChipEl c={{ tone: rl.tone, label }} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0 }}>
+              <span style={{ fontFamily: T.mono, fontSize: T.fsHeadline, fontWeight: 700, lineHeight: 1.2, color: rl.value }}>{label}</span>
+              {r.filter((_, j) => j !== 0 && j !== ri).map((c, j) => <span key={j} style={{ color: T.fg2 }}><H html={c} /></span>)}
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+/** Kit 58 toast, gold: the standing limit set before the call. Fixed on screen, in the flow in print. */
+function Guard({ g }: { g: NonNullable<Anatomy['guard']> }) {
+  const [shown, setShown] = React.useState(true)
+  React.useEffect(() => {
+    const esc = (e: KeyboardEvent) => { if (e.key === 'Escape') setShown(false) }
+    document.addEventListener('keydown', esc)
+    return () => document.removeEventListener('keydown', esc)
+  }, [])
+  if (!shown) return null
+  return (
+    <div role="status" data-toast="" style={{ position: 'fixed', right: 20, bottom: 20, zIndex: 50, width: 'min(380px, calc(100vw - 32px))', display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) auto',
+      alignItems: 'center', gap: '4px 12px', padding: '12px 12px 16px 16px', background: T.elevated, border: `1px solid ${T.gold}`, borderRadius: 6 }}>
+      <span style={{ ...MONO, color: T.gold }}>{g.title}</span>
+      <button type="button" aria-label="Dismiss" onClick={() => setShown(false)} data-print="hide"
+        style={{ width: 44, height: 44, margin: '-8px -4px -8px 0', border: 0, background: 'transparent', color: T.fg2, cursor: 'pointer', fontSize: T.fsBody }}>&#215;</button>
+      <p style={{ ...P, gridColumn: '1 / -1' }}>{g.text}</p>
+      <span style={{ ...REF, gridColumn: '1 / -1', color: T.fg2 }}>Set before the call, in the Ex-Ante receipt</span>
+    </div>
+  )
+}
+
+// ─── block bodies (an SSOT tab inside its fold) ────────────────────────────
+const norm = (t: unknown) => s(t).replace(/<[^>]*>/g, '').replace(/&#183;|&middot;/g, '·').replace(/^\s*\d+\s*[·.:-]\s*/, '').trim().toLowerCase()
+const LEAD = /^\s*<(strong|b)>([\s\S]*?)<\/\1>\s*:?\s*/
+
+function Block({ b, raw, foldTitle, next }: { b: Raw; raw: Raw; foldTitle: string; next?: Raw }) {
   const t = s(b.type)
+  const h2 = s(b.h2) ? <h3 style={SUB}><H html={b.h2} /></h3> : null
+  const intro = s(b.intro) ? <p style={P}><H html={b.intro} /></p> : null
   switch (t) {
     case 'sec_label':
-      return <div style={{ fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.14em', color: T.fg3, textTransform: 'uppercase' }}><H html={b.text} /></div>
+      // The fold title already names the section: never print a section label twice.
+      if ([foldTitle.toLowerCase(), norm(next?.h2)].includes(norm(b.text))) return null
+      return <h3 style={SUB}><H html={b.text} /></h3>
     case 'prose':
     case 'pilot':
-      return <Card h2={b.h2} accent={t === 'pilot' ? T.green : undefined}>{arr(b.p).map((p, i) => <p key={i} style={P}><H html={p} /></p>)}</Card>
+      return <>{h2}{arr(b.p).map((p, i) => <p key={i} style={P}><H html={p} /></p>)}</>
     case 'list':
+      if (s(b.tab) === 'pre' && /intel/i.test(s(b.h2))) {
+        // Kit 62 attributed notes: who the counterpart is, as gathered before the call.
+        return (
+          <div style={{ background: T.elevated, border: `1px solid ${T.border}`, borderRadius: 6, padding: 16, display: 'flex', flexDirection: 'column', gap: 12, boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', justifyContent: 'space-between', gap: '4px 12px' }}>
+              <h3 style={{ ...MONO, color: T.fg1, margin: 0 }}><H html={b.h2} /></h3>
+              <span style={{ ...REF, color: T.fg2 }}>Gathered before the call</span>
+            </div>
+            {intro}
+            <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {arr(b.items).filter(isRec).map((it, i) => {
+                const html = s(it.html ?? it.text)
+                const m = LEAD.exec(html)
+                return (
+                  <li key={i} style={{ ...P, color: T.fg2, breakInside: 'avoid' }}>
+                    {m ? <><strong style={{ color: T.fg1, fontWeight: 600 }}><H html={m[2]} /></strong> <H html={html.slice(m[0].length)} /></> : <H html={html} />}
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        )
+      }
       return (
-        <Card h2={b.h2}>
-          <Intro v={b.intro} />
-          <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {arr(b.items).filter(isRec).map((it, i) => (
-              <li key={i} style={{ display: 'flex', gap: 10, alignItems: 'baseline', breakInside: 'avoid' }}>
-                <span style={{ width: 7, height: 7, borderRadius: '50%', background: DOT[s(it.dot)] ?? T.fg4, flexShrink: 0, transform: 'translateY(-1px)' }} />
-                <H html={it.html ?? it.text} style={{ ...P, margin: 0 }} />
-              </li>
-            ))}
-          </ul>
-        </Card>
+        <>{h2}{intro}
+          <Ledger rows={arr(b.items).filter(isRec).map((it) => {
+            const html = s(it.html ?? it.text)
+            const m = LEAD.exec(html)
+            const key = m ? m[2].replace(/<[^>]*>/g, '').replace(/:$/, '') : ''
+            return { k: <Led dot={s(it.dot)}><H html={key || 'Note'} /></Led>, body: <H html={m ? html.slice(m[0].length) : html} /> }
+          })} />
+        </>
       )
     case 'receipt':
     case 'keyvalue': {
       const rows = t === 'receipt'
         ? arr(b.fields).filter(isRec).map((f) => [f.label, f.value])
         : arr(b.rows).filter(isRec).map((r) => [r.k, r.v])
-      return (
-        <Card h2={b.h2} accent={t === 'receipt' ? T.gold : undefined}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {rows.map(([k, v], i) => (
-              <div key={i} style={{ breakInside: 'avoid' }}>
-                <div style={{ fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.1em', color: T.fg3, textTransform: 'uppercase', marginBottom: 3, breakAfter: 'avoid' }}><H html={k} /></div>
-                <H html={v} style={{ ...P, margin: 0, color: T.fg1, display: 'block' }} />
-              </div>
-            ))}
-          </div>
-        </Card>
-      )
+      return <>{h2}<Ledger rows={rows.map(([k, v]) => ({ k: <H html={k} />, body: <H html={v} /> }))} /></>
     }
-    case 'table':
-      return (
-        <Card h2={b.h2}>
-          <Intro v={b.intro} />
-          <Table head={arr(b.columns)} rows={arr(b.rows).map(arr)} />
-          {s(b.note) && <p style={{ ...P, fontSize: T.fsLabel, color: T.fg3, marginTop: 10 }}><H html={b.note} /></p>}
-        </Card>
-      )
+    case 'table': {
+      const cols = arr(b.columns).map((c) => s(c).replace(/<[^>]*>/g, '').toLowerCase())
+      const ri = cols.findIndex((c) => c.includes('ruling'))
+      if (s(b.tab) === 'forge' && ri >= 0) return <>{h2}{intro}<ForgeClaims rows={arr(b.rows).map(arr)} ri={ri} /></>
+      return <>{h2}{intro}<Table head={arr(b.columns)} rows={arr(b.rows).map(arr)} />{s(b.note) && <p style={REF}><H html={b.note} /></p>}</>
+    }
     case 'rosetta':
-      return (
-        <Card h2={b.h2}>
-          <Table head={[s(b.left) || 'Your world', s(b.right) || 'This engine']} rows={arr(b.rows).map(arr)} />
-        </Card>
-      )
+      return <>{h2}<Table head={[s(b.left) || 'Your world', s(b.right) || 'This engine']} rows={arr(b.rows).map(arr)} /></>
     case 'provenance': {
-      const meta = isRec(raw.meta) ? raw.meta : {}
-      const prov = isRec(meta.provenance) ? meta.provenance : {}
+      const prov = isRec(raw.meta) && isRec(raw.meta.provenance) ? raw.meta.provenance : {}
       return (
-        <Card h2="Source & provenance" accent={T.gold}>
-          <p style={P}>Captured: <H html={prov.captured} /></p>
-          {s(prov.load_bearing_quote) && (
-            <div style={{ borderLeft: `2px solid ${T.gold}`, paddingLeft: 12, fontFamily: T.sans, fontSize: T.fsBody, fontStyle: 'italic', color: T.fg1, lineHeight: 1.5 }}>
-              &ldquo;<H html={prov.load_bearing_quote} />&rdquo;
-            </div>
-          )}
-        </Card>
+        <>
+          <h3 style={SUB}>Source and provenance</h3>
+          <Ledger rows={[
+            { k: 'Captured', body: <H html={prov.captured} /> },
+            ...(s(prov.load_bearing_quote) ? [{ k: 'Load-bearing quote', body: <span>&ldquo;<H html={prov.load_bearing_quote} />&rdquo;</span> }] : []),
+          ]} />
+        </>
       )
     }
     case 'worked_example':
-      return (
-        <Card h2={b.h2} keep>
-          <Intro v={b.intro} />
-          <Chart series={readSeries(raw).series} />
-          <Intro v={b.close} />
-        </Card>
-      )
+      return <>{h2}{intro}<Chart series={readSeries(raw).series} />{s(b.close) && <p style={P}><H html={b.close} /></p>}</>
     case 'insights':
       return (
-        <Card h2={b.h2}>
-          <Intro v={b.intro} />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {arr(raw.insights).filter(isRec).map((it, i) => (
-              <div key={i} style={{ borderLeft: `2px solid ${[T.cyan, T.gold, T.green, T.purple][i % 4]}`, paddingLeft: 12 }}>
-                <div style={{ fontFamily: T.mono, fontSize: T.fsLabel, color: T.fg3, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{s(it.plane)}</div>
-                <div style={{ ...H2, margin: '2px 0 4px' }}><H html={it.title} /></div>
-                <H html={it.text} style={{ ...P, margin: 0, display: 'block' }} />
-              </div>
-            ))}
-          </div>
-        </Card>
+        <>{h2}{intro}
+          <Ledger rows={arr(raw.insights).filter(isRec).map((it) => ({ k: s(it.plane), body: <span><strong><H html={it.title} /></strong> <H html={it.text} /></span> }))} />
+        </>
       )
-    case 'belief_log': {
-      const rows = arr(raw.beliefs).filter(isRec).map((be) => {
-        const c = arr(be.confidence)
-        return [be.id, be.claim, be.inference, `${c[0] ?? '--'} → ${c[1] ?? '--'}`, be.conviction, be.verdict]
-      })
-      return <Card h2={b.h2}><Table head={['id', 'claim', 'inf', 'conf', 'conviction', 'verdict']} rows={rows} /></Card>
-    }
+    case 'belief_log':
+      return <>{h2}<p style={REF}>The belief log is shown once, in the <a href="#f-forecasts" style={{ color: T.cyan }}>Forecasts</a> fold under Decide.</p></>
     case 'kinematics_table': {
       const { dt, series } = readSeries(raw)
       const rows = series.map((x) => {
         const k = derivatives(x.points, dt)
         return [x.label, `${k.d1Peak} / ${k.d1Term}`, String(k.d2Term), String(k.d3Term)]
       })
-      const n = series[0]?.points.length ?? 0
-      return (
-        <Card h2={b.h2}>
-          <Table head={['signal', 'D1 peak/term', 'D2 term', 'D3 term']} rows={rows} />
-          <p style={{ ...P, fontSize: T.fsLabel, color: T.fg3, marginTop: 10 }}>
-            {kinematicsNote(n)}
-          </p>
-        </Card>
-      )
+      return <>{h2}<Table head={['signal', 'D1 peak/term', 'D2 term', 'D3 term']} rows={rows} /><p style={REF}>{kinematicsNote(series[0]?.points.length ?? 0)}</p></>
     }
     case 'foot':
     case 'stamp':
-      return <p style={{ ...P, fontFamily: t === 'stamp' ? T.mono : T.sans, fontSize: t === 'stamp' ? T.fsLabel : T.fsBody, color: T.fg3 }}><H html={b.text} /></p>
+      return <p style={REF}><H html={b.text} /></p>
     default:
-      return (
-        <AsideBox variant="caution" label={`Unrendered block · ${t || 'untyped'}`}>
-          No renderer for this block type yet; it is kept in the SSOT. Add it here and in scripts/recoil_brief.py.
-        </AsideBox>
-      )
+      return <p style={REF}>Unrendered block · {t || 'untyped'}. Kept in the SSOT; add a renderer here and in scripts/recoil_page.py.</p>
   }
 }
 
-// Y chip takes its state's color (brand rule, spec 4.3): green proven, gold limit, red failed,
-// magenta paradox (MOIRE), violet DELTA; anything else (SCRATCH, DRIFT, unset) is steel, unknown.
-const Y_COLOR: Record<string, string> = { GREEN: T.green, YELLOW: T.gold, FORK: T.gold, RED: T.red, PARADOX: T.magenta, DELTA: T.purple }
-const yColor = (y: string) => Y_COLOR[y.trim().toUpperCase()] ?? T.steel
-
-function Cover({ raw }: { raw: Raw }) {
-  const meta = isRec(raw.meta) ? raw.meta : {}
-  const opp = isRec(raw.opportunity) ? raw.opportunity : {}
-  const page = isRec(raw.page) ? raw.page : {}
-  const hd = isRec(page.header) ? page.header : {}
-  const chips: [string, string][] = []
-  if (s(opp.y_state)) chips.push([`Y · ${s(opp.y_state)}`, yColor(s(opp.y_state))])
-  if (s(opp.topology)) chips.push([s(opp.topology), T.steel])
-  if (typeof opp.nci_prior === 'number' || typeof opp.nci_post === 'number') chips.push([`NCI ${opp.nci_prior ?? '--'} → ${opp.nci_post ?? '--'}`, T.cyan])
-  if (typeof opp.req_reality === 'number') chips.push([`req reality ${opp.req_reality}`, T.steel])
+// ─── organisms ────────────────────────────────────────────────────────────
+function Header({ h }: { h: Anatomy['header'] }) {
   return (
-    <div style={{ border: `1px solid ${T.border}`, borderRadius: 10, background: T.surface, padding: '22px 22px 18px', marginBottom: 8 }}>
-      <div style={{ fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, letterSpacing: '0.14em', color: T.cyan, textTransform: 'uppercase', marginBottom: 8 }}>
-        <H html={hd.eyebrow || 'War Room'} />
+    <header style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <p style={{ ...MONO, letterSpacing: '0.14em', color: T.fg3, margin: 0 }}>{h.eyebrow}</p>
+      <h1 style={{ fontFamily: T.sans, fontSize: T.fsDisplay, fontWeight: 600, color: T.fg1, lineHeight: 1.2, margin: 0 }}>{h.title}</h1>
+      <p style={REF}>{h.ref}</p>
+      <p style={{ fontFamily: T.sans, fontSize: T.fsHeadline, lineHeight: 1.5, color: T.fg2, margin: 0 }}>{h.lede}</p>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+        {h.chips.map((c, i) => <span key={c.label} style={i === 1 && h.nciGrain ? FID.GRAIN : undefined}><ChipEl c={c} /></span>)}
       </div>
-      <h1 style={{ fontFamily: T.sans, fontSize: T.fsDisplay, fontWeight: 600, color: T.fg1, lineHeight: 1.25, margin: '0 0 6px' }}>
-        <H html={hd.title || `${s(meta.counterpart)} · ${s(meta.date)}`} />
-      </h1>
-      {s(hd.sub) && <p style={{ ...P, margin: '0 0 12px' }}><H html={hd.sub} /></p>}
-      {chips.length > 0 && <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>{chips.map(([c, a]) => <Pill key={c} accent={a}>{c}</Pill>)}</div>}
-      <div style={{ fontFamily: T.mono, fontSize: T.fsLabel, color: T.fg3, letterSpacing: '0.06em' }}>
-        ARCS WAR ROOM · {s(meta.report_id)} · {s(meta.counterpart)}{typeof meta.segments === 'number' ? ` · ${meta.segments} segments` : ''}
-      </div>
-    </div>
+    </header>
   )
 }
 
-// Module order, one rule for every war-room report (2026-11-11). Read top-down:
-//   1. Where it stands: the opportunity note and next steps (the action, first).
-//   2. What the counterpart saw: tabs whose blocks are all audience 'both'
-//      (e.g. Gasmi's answer / how it works / first 30 days), in authored order.
-//   3. The method, in lifecycle order: Pre-Call, Ex-Ante (the prediction), Forge
-//      (the call's claims adjudicated), Recoil (prediction scored), War Game
-//      (forward risk), Defensibility.
-//   4. Any other tab, in authored order; then the Deeper Strata appendix.
-// The authored page.tabs order no longer decides the print order; scripts/
-// recoil_brief.py keeps its own tab bar.
-const METHOD_RANK: Record<string, number> = { pre: 1, exante: 2, forge: 3, recoil: 4, wargame: 5, defense: 6 }
-type Group = { id: string; label: string; blocks: Raw[] }
-function groupRank(g: Group): number {
-  if (g.id in METHOD_RANK) return 20 + METHOD_RANK[g.id]
-  if (g.blocks.length && g.blocks.every((b) => s(b.audience) === 'both')) return 10
-  return 30
+function Glance({ rows }: { rows: Anatomy['glance'] }) {
+  const [status, setStatus] = React.useState('Nothing is sent from this page.')
+  const copy = (text: string) => {
+    try { void navigator.clipboard.writeText(text).then(() => setStatus('Copied. Nothing is sent from this page.')) } catch { setStatus('Copy was blocked here; select the text and copy it.') }
+  }
+  return (
+    <section aria-labelledby="w-glance" style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <h2 id="w-glance" style={{ ...MONO, letterSpacing: '0.14em', color: T.fg3, margin: 0 }}>At a glance</h2>
+      <Ledger rows={rows.map((g, i) => ({
+        k: g.key,
+        body: (
+          <>
+            {g.chip && <div><ChipEl c={g.chip} /></div>}
+            <span>{g.text}{g.href && <> <a href={g.href} style={{ color: T.cyan }}>Open</a></>}</span>
+            {i === 0 && g.key === 'Next move' && g.href && (
+              <div data-print="hide" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
+                <button type="button" onClick={() => copy(g.text)} style={{ ...MONO, color: T.fg1, background: T.elevated, border: `1px solid ${T.border}`, borderRadius: 6, padding: '8px 14px', cursor: 'pointer' }}>Copy</button>
+                <span aria-live="polite" style={REF}>{status}</span>
+              </div>
+            )}
+          </>
+        ),
+      }))} />
+    </section>
+  )
 }
 
-export function WarRoomReport({ raw }: { raw: Raw }) {
-  const page = isRec(raw.page) ? raw.page : {}
-  const blocks = arr(page.blocks).filter(isRec)
-  const tabs = arr(page.tabs).filter(isRec).map((t) => ({ id: s(t.id), label: s(t.label) }))
-  // Blocks with no/unknown tab land in their own group, ranked like any other tab.
-  const known = new Set(tabs.map((t) => t.id))
-  const authored: Group[] = tabs.map((t) => ({ ...t, blocks: blocks.filter((b) => s(b.tab) === t.id) }))
-  const loose = blocks.filter((b) => !known.has(s(b.tab)))
-  if (loose.length) authored.push({ id: 'brief', label: tabs.length ? 'Unfiled' : 'Brief', blocks: loose })
-  // Stable sort: equal ranks keep authored order.
-  const groups = authored
-    .filter((g) => g.blocks.length)
-    .map((g, i) => ({ g, i }))
-    .sort((a, b) => groupRank(a.g) - groupRank(b.g) || a.i - b.i)
-    .map((x) => x.g)
-  const opp = isRec(raw.opportunity) ? raw.opportunity : {}
-  const nextSteps = arr(raw.next_steps).filter(isRec)
-  const hasNext = Boolean(s(opp.note) || nextSteps.length > 0)
-  const offset = hasNext ? 2 : 1
-
+/** Kit 56 fold: closed on screen, its summary states the verdict and carries a grade chip. */
+function FoldEl({ f, children }: { f: Pick<Fold, 'id' | 'title' | 'verdict' | 'chip'>; children: React.ReactNode }) {
   return (
-    <div>
-      <Cover raw={raw} />
-      {hasNext && (
-        <Sec id="w-next" idx="01" label="Where it stands" title="Opportunity & Next Steps" accent={T.cyan}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {s(opp.note) && <Card h2="Opportunity note"><p style={{ ...P, whiteSpace: 'pre-wrap' }}><H html={opp.note} /></p></Card>}
-            {nextSteps.length > 0 && (
-              <Card h2="Next steps">
-                <Table head={['owner', 'step']} rows={nextSteps.map((n) => [n.owner, n.text])} />
-              </Card>
-            )}
+    <details id={f.id} data-fold="" style={{ background: T.surface, border: `1px solid ${T.border}`, borderRadius: 6, boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone' }}>
+      <summary style={{ listStyle: 'none', cursor: 'pointer', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '8px 16px', padding: 16, breakAfter: 'avoid' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0, flex: '1 1 20rem' }}>
+          <h2 style={{ ...MONO, letterSpacing: '0.14em', color: T.fg2, margin: 0 }}>{f.title}</h2>
+          <span style={{ fontFamily: T.sans, fontSize: T.fsBody, color: T.fg1, lineHeight: 1.5 }}>{f.verdict}</span>
+        </div>
+        <ChipEl c={f.chip} />
+      </summary>
+      <div style={{ padding: '16px 16px 20px', borderTop: `1px solid ${T.border}`, display: 'flex', flexDirection: 'column', gap: 12 }}>{children}</div>
+    </details>
+  )
+}
+
+function Forecasts({ a }: { a: Anatomy }) {
+  return (
+    <>
+      <p style={REF}>Confidence before and after the call, 0 to 1. A forecast with no grade is not scored, so it renders grain with its sample size.</p>
+      <div style={BOX}>
+        {a.forecasts.map((f, i) => (
+          // Kit 59 claim check: what was held, the grade, the record.
+          <div key={f.id} style={{ ...FID[f.fidelity], display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) auto minmax(7rem, auto)', gap: '8px 16px', alignItems: 'start',
+            padding: 16, borderTop: i ? `1px solid ${T.border}` : 'none', breakInside: 'avoid', fontFamily: T.sans, fontSize: T.fsBody, color: T.fg1, lineHeight: 1.55 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0 }}>
+              <span style={{ fontFamily: T.mono, fontSize: T.fsLabel, fontWeight: 700, color: T.fg2 }}>{f.id}</span>
+              <span>{f.claim}</span>
+            </div>
+            <ChipEl c={f.chip} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <span style={{ fontFamily: T.mono, fontSize: T.fsHeadline, lineHeight: 1.2, fontVariantNumeric: 'tabular-nums', color: FID_VALUE[f.fidelity], fontWeight: f.fidelity === 'SHARP' ? 700 : 300 }}>{f.before} → {f.after}</span>
+              <span style={{ color: T.fg2 }}>{f.moved ? 'Moved on the call' : 'Held'}</span>
+            </div>
           </div>
-        </Sec>
-      )}
-      {groups.map((g, i) => (
-        <Sec key={g.id} id={`w-${g.id}`} idx={String(i + offset).padStart(2, '0')} label={g.label} title={g.label} accent={T.cyan}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {g.blocks.map((b, j) => <Block key={j} b={b} raw={raw} />)}
-          </div>
-        </Sec>
+        ))}
+      </div>
+    </>
+  )
+}
+
+function FoldBody({ f, a, raw }: { f: Fold; a: Anatomy; raw: Raw }) {
+  if (f.kind === 'blocks') {
+    const blocks = arr(isRec(raw.page) ? raw.page.blocks : []).map((b) => (isRec(b) ? b : {}))
+    const own = (f.blocks ?? []).map((i) => blocks[i])
+    return <>{own.map((b, j) => <Block key={j} b={b} raw={raw} foldTitle={f.title} next={own[j + 1]} />)}</>
+  }
+  if (f.kind === 'next') {
+    const opp = isRec(raw.opportunity) ? raw.opportunity : {}
+    const facts = ([['engagement_type', 'Engagement'], ['topology', 'Topology'], ['req_reality', 'Req reality (0 to 3)']] as const)
+      .filter(([k]) => s(opp[k]))
+      .map(([k, label]) => ({ k: label, body: <><H html={opp[k]} />{s(opp[`${k}_basis`]) && <span style={REF}><H html={opp[`${k}_basis`]} /></span>}</> }))
+    const steps = arr(raw.next_steps).filter(isRec)
+    return (
+      <>
+        {s(opp.note) && <p style={{ ...P, whiteSpace: 'pre-wrap' }}><H html={opp.note} /></p>}
+        <Ledger rows={facts} />
+        {steps.length > 0 && <><h3 style={SUB}>Next steps</h3><Ledger rows={steps.map((n) => ({ k: s(n.owner) || 'Unowned', body: <H html={n.text} /> }))} /></>}
+      </>
+    )
+  }
+  if (f.kind === 'forecasts') return <Forecasts a={a} />
+  if (f.kind === 'verb') {
+    const vp = isRec(raw.verbs) && isRec(raw.verbs[f.verb ?? '']) ? (raw.verbs[f.verb ?? ''] as Raw) : {}
+    const cites = arr(vp.cites).map(s).join(', ')
+    return <>{arr(vp.body).map((x, i) => <p key={i} style={P}><H html={x} /></p>)}{cites && <p style={REF}>Cites {cites}</p>}</>
+  }
+  // glass box
+  const meta = isRec(raw.meta) ? raw.meta : {}
+  const mig = isRec(raw.migration) ? raw.migration : {}
+  return (
+    <Ledger rows={[
+      { k: 'Source', body: `runtime/recoil/generated/${s(meta.report_id)}.json, shape ${s(mig.from) || (s(raw.schema) ? 'v2' : 'six-tab.v1')}` },
+      { k: 'Plan', body: 'src/document/recoil/anatomy.ts, the twin of plan() in scripts/recoil_page.py; a unit test fails if they differ' },
+      { k: 'Fidelity', body: 'A SHARP, B SHARP, C DEGRADED, D GRAIN, E GRAIN, NS GRAIN; Y PARADOX overrides to MOIRE' },
+      { k: 'Color', body: 'red a failed check, gold a limit, green proven, cyan an action, plain chip unknown, magenta paradox' },
+    ]} />
+  )
+}
+
+/** Appendix: every key the folds do not render, verbatim (meta without passcodes). */
+function Strata({ raw }: { raw: Raw }) {
+  const skip = new Set([...WARROOM_RENDERED_KEYS, 'meta'])
+  const meta = isRec(raw.meta) ? raw.meta : {}
+  const items: [string, unknown][] = [['meta', meta], ...Object.entries(raw).filter(([k, v]) => !skip.has(k) && v != null)]
+  const pre: React.CSSProperties = { ...REF, color: T.fg2, whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }
+  return (
+    <>
+      <p style={REF}>Verbatim, except that template text written with an em-dash shows a comma (house style, em-dashes 0).</p>
+      {items.map(([k, v]) => (
+        <div key={k} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <h3 style={SUB}>{k}</h3>
+          <pre style={pre}>{(typeof v === 'string' ? v : JSON.stringify(v, null, 1)).replace(/\s*\u2014\s*/g, ', ')}</pre>
+        </div>
       ))}
+    </>
+  )
+}
+
+// Print (inline styles cannot reach ::details-content): every fold opens, rows stay whole
+// (breakInside on each row above), chrome carrying data-print="hide" is dropped.
+const PRINT_CSS = '@media print { details[data-fold]::details-content { content-visibility: visible; display: contents } [data-toast] { position: static !important; width: auto !important } }'
+
+export function WarRoomReport({ raw }: { raw: Raw }) {
+  const a = React.useMemo(() => anatomy(raw), [raw])
+  const root = React.useRef<HTMLDivElement>(null)
+  const setAll = (open: boolean) => root.current?.querySelectorAll('details[data-fold]').forEach((d) => { (d as HTMLDetailsElement).open = open })
+  React.useEffect(() => {
+    const openHash = () => { const el = location.hash && document.getElementById(location.hash.slice(1)); if (el && el.tagName === 'DETAILS') (el as HTMLDetailsElement).open = true }
+    const all = () => setAll(true)
+    openHash()
+    window.addEventListener('hashchange', openHash)
+    window.addEventListener('beforeprint', all)
+    return () => { window.removeEventListener('hashchange', openHash); window.removeEventListener('beforeprint', all) }
+  }, [])
+  const nfold = a.groups.reduce((n, g) => n + g.folds.length, 0)
+  const btn: React.CSSProperties = { ...MONO, color: T.fg1, background: T.elevated, border: `1px solid ${T.border}`, borderRadius: 6, padding: '8px 14px', cursor: 'pointer' }
+  return (
+    <div ref={root} style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <style>{PRINT_CSS}</style>
+      <Header h={a.header} />
+      <Glance rows={a.glance} />
+      <div data-print="hide" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+        <p style={{ ...P, color: T.fg2 }}>{nfold} folds in {a.groups.length} groups, then the Deeper Strata. Each summary states its verdict.</p>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button type="button" style={btn} onClick={() => setAll(true)}>Open all</button>
+          <button type="button" style={btn} onClick={() => setAll(false)}>Close all</button>
+        </div>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {a.groups.map((g, gi) => (
+          <React.Fragment key={g.name}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '4px 12px', margin: gi ? '16px 0 4px' : '0 0 4px', breakAfter: 'avoid' }}>
+              <span style={{ ...MONO, letterSpacing: '0.14em', color: T.fg1 }}>{g.name}</span>
+              <span style={{ ...P, color: T.fg2 }}>{g.note}</span>
+            </div>
+            {g.folds.map((f) => <FoldEl key={f.id} f={f}><FoldBody f={f} a={a} raw={raw} /></FoldEl>)}
+          </React.Fragment>
+        ))}
+      </div>
+      <FoldEl f={{ ...a.appendix, chip: { tone: 'steel', label: 'Provenance' } }}><Strata raw={raw} /></FoldEl>
+      {a.guard && <Guard g={a.guard} />}
+      <div aria-hidden="true" style={{ height: a.guard ? 120 : 0 }} />
     </div>
   )
 }

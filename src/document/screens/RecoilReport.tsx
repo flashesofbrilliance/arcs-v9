@@ -9,7 +9,7 @@ import { SidelineList } from '../patterns/SidelineList'
 import { ScenarioStack } from '../patterns/ScenarioStack'
 import { AsideBox, type AsideVariant } from '../patterns/AsideBox'
 import { ProcessSteps } from '../patterns/ProcessSteps'
-import { WarRoomReport, isWarRoomShape, stripGate, WARROOM_RENDERED_KEYS } from './WarRoomReport'
+import { WarRoomReport, isWarRoomShape, stripGate } from './WarRoomReport'
 import { radius } from "@/ui/tokens"
 
 export interface RecoilReportProps { data?: Partial<typeof RECOIL_SAMPLE> }
@@ -541,8 +541,8 @@ export function RecoilReportFromData({ data }: { data: RecoilReportRaw }) {
   if (isWarRoomShape(raw)) {
     return (
       <div>
+        {/* The war-room screen carries its own Deeper Strata appendix fold (arc weld spec 4.1). */}
         <WarRoomReport raw={raw} />
-        <DeepStrata raw={raw} skip={WARROOM_RENDERED_KEYS} idx="S" />
       </div>
     )
   }

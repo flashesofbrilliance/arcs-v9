@@ -276,6 +276,7 @@ def render_gate(ctx: Ctx, doc: dict) -> Gate:
 
 register(Stage("Render", (), render_run, render_gate, version="1", print_name="render",
                builder="R5 for the component set"))
+__import__("recoil_stage_j5").install(sys.modules[__name__])  # R9: J5 atlas (scripts/recoil_stage_j5.py)
 
 
 # --------------------------------------------------------------------------- call resolution
