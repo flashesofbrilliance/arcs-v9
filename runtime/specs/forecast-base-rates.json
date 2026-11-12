@@ -1,0 +1,70 @@
+{
+ "generated": "2026-11-11",
+ "rule": "see scripts/forecast_base_rates.py header",
+ "lapse_days": 14,
+ "grain_below_n": 3,
+ "rates": {
+  "times": {
+   "label": "counterpart sends times within N days",
+   "n": 0,
+   "successes": 0,
+   "open_excluded": 0,
+   "distinct_engagements": 0,
+   "rate": null,
+   "fidelity": "grain",
+   "source_rows": []
+  },
+  "call": {
+   "label": "a follow-up call happens within N days",
+   "n": 3,
+   "successes": 1,
+   "open_excluded": 0,
+   "distinct_engagements": 2,
+   "rate": 0.333,
+   "fidelity": "counted",
+   "source_rows": [
+    {
+     "row": "2026-07-23-kleban-receipt.json#2",
+     "source": "ssot",
+     "outcome": "lapsed",
+     "excerpt": "Treat the pace as yours to set, warmly. You asked for the next step rather than waiting to be pushed. The most useful move is the part-two f"
+    },
+    {
+     "row": "2026-09-14-schriner.json#4",
+     "source": "ssot",
+     "outcome": "lapsed",
+     "excerpt": "Independent diligence on Aaron Langley before the 20-minute story call. Public sources list five Autopilot co-founders (Aaron Langley, Adity"
+    },
+    {
+     "row": "2026-09-14-schriner.json#5",
+     "source": "ssot",
+     "outcome": "success",
+     "excerpt": "DONE 2026-09-17: follow-up call held. Schedule the 20-minute follow-up (\"tell me your stories all the way from the beginning\") and treat it "
+    }
+   ]
+  },
+  "tool": {
+   "label": "counterpart tries the tool",
+   "n": 2,
+   "successes": 0,
+   "open_excluded": 0,
+   "distinct_engagements": 2,
+   "rate": null,
+   "fidelity": "grain",
+   "source_rows": [
+    {
+     "row": "2026-07-22-elsamadisi.json#0",
+     "source": "ssot",
+     "outcome": "lapsed",
+     "excerpt": "Send the demo (ext page) in 48h with one flat pilot price + one named customer."
+    },
+    {
+     "row": "2026-10-03--check-it-public-repo--ZH",
+     "source": "receipt",
+     "outcome": "lapsed",
+     "excerpt": "Publish a scrubbed public repo for the check-it-before-you-say-it tool and list it as a published good? Zach: publish (2026-09-30), conditio"
+    }
+   ]
+  }
+ }
+}
