@@ -4,11 +4,11 @@
  "generated": "2026-11-12",
  "source": {
   "file": "_QUEUE/induced-backlog.jsonl",
-  "read_at": "80e9827b",
-  "origin_main": "16c0cf69",
-  "identical_to_origin_main": false,
+  "read_at": "9ca2c377",
+  "origin_main": "9ca2c377",
+  "identical_to_origin_main": true,
   "rows_total": 523,
-  "rows_active": 306
+  "rows_active": 304
  },
  "method": {
   "clusters": "Folksonomist stand-in: a judgment read of row ids and jobs. Operator 20 has no backlog-row adapter (ADR-086 finding 3), so these are not Op 20 output.",
@@ -72,10 +72,11 @@
   },
   {
    "seat": "Sentry",
-   "bound": "scripts/sentries.py (assumed reading of 'sentury'; confirm with Zach)",
-   "binding": "scripts/sentries.py: five read-only watchers (seed-ledger, claims, main-drift, open-loops, discovery)",
-   "status": "BOUND, ASSUMED",
-   "how_used": "Ran at session start (3 findings) and owns the drift seat with backlog_status_check --gh and backlog_graph findings. None of its five watchers reads the backlog directly. Second candidate: the 'sentry' board role in the ADR-020 Tribune (src/lib/tribune.ts, wired at /receipt/[id]), a model-voted seat on one decision receipt, not on backlog rows."
+   "bound": "Tribune 'sentry' board role (ADR-020); Zach confirmed 2026-11-12 that 'sentury' means this seat",
+   "binding": "src/lib/tribune.ts BOARD_ROLES (detective, accountant, loki, sentry, alchemist, elder); route src/app/api/tribune/route.ts, shown at /receipt/[id]",
+   "status": "BOUND, NOT APPLICABLE TO ROWS",
+   "how_used": "The Tribune sentry is a model-voted seat on one decision receipt, so it cannot read backlog rows. This groom's drift findings came from stand-ins: backlog_status_check --check --gh, backlog_graph findings and scripts/sentries.py.",
+   "needs": "A backlog-row view for the Tribune (the board voting on a cluster or plan instead of a receipt), or keep the mechanical stand-ins."
   },
   {
    "seat": "Alchemist",
@@ -551,7 +552,7 @@
     "reuse": "Spec _PROPOSALS/2026-11-11-recoil-call-service-arc-weld.md; scripts/recoil stage runner.",
     "route_labels": {
      "HAVE": 8,
-     "NOT-RESOLVED": 3
+     "NOT-RESOLVED": 1
     },
     "tools_named": [
      "scripts/recoil_service.py",
@@ -567,26 +568,24 @@
     "basis": "The Brian call is the named demander (R12 acceptance)."
    },
    "critical_path": [
-    "recoil-brian-ssot",
     "recoil-real-model-run",
-    "recoil-skills-on-runner"
+    "recoil-brian-acceptance"
    ],
    "ready_now": [
     "backlog-merge-driver-by-id",
-    "recoil-print-target"
+    "recoil-kairos-7s-test",
+    "recoil-ship-twin"
    ],
    "ready_state": [
     "backlog-merge-driver-by-id",
-    "recoil-epic-tool-catalog",
-    "recoil-print-target"
+    "recoil-epic-tool-catalog"
    ],
    "states": {
-    "READY": 3,
+    "READY": 2,
     "OPEN": 2,
-    "RUNNING": 1,
     "HOLDING": 5
    },
-   "n": 11,
+   "n": 9,
    "fate_default": "Owned by the recoil orchestrator. Clustered here only; no state changes from this groom.",
    "owner": "recoil orchestrator (local_6d106b64)",
    "claim": {
@@ -599,12 +598,10 @@
    "rows": [
     "backlog-merge-driver-by-id",
     "backlog-session-cards-skill",
-    "hud-atlas-v2-flight",
     "recoil-brian-acceptance",
     "recoil-brian-ssot",
     "recoil-epic-tool-catalog",
     "recoil-kairos-7s-test",
-    "recoil-print-target",
     "recoil-real-model-run",
     "recoil-ship-twin",
     "recoil-skills-on-runner"
@@ -1168,7 +1165,7 @@
    "critical_path": [
     "verify-spoken-claims-harrison",
     "harrison-followup-2026-11-09",
-    "harrison-recoil-close-score"
+    "harrison-arcs-demo"
    ],
    "ready_now": [
     "cia-technical-screen-prep"
@@ -1371,7 +1368,7 @@
     "basis": "Naming rulings pull (gotcha 16 violations, op25-sage-naming-ruling is open). The builds (Op 21 posterior, Op 13 unblock) wait on data."
    },
    "critical_path": [
-    "operator-13-choreographer-unblock"
+    "op20-somatic-axiom-real-signal-source"
    ],
    "ready_now": [
     "librarian-apex-spine-tier-class"
@@ -1424,7 +1421,7 @@
     "basis": "All 5 HELD, none with a cost prior, none with a named demander. One depends on a composted row."
    },
    "critical_path": [
-    "onchain-receipt-anchor-registry"
+    "hypothesis-generator-plg-surface"
    ],
    "ready_now": [],
    "ready_state": [],
@@ -1506,7 +1503,7 @@
    "change": "No cost ranking appears in the index. Added a ruin watch list (15 active rows with high ruin or a one-way door). Recording actuals at close is the job of compounding-model-prereg (C07)."
   },
   {
-   "seat": "Sentry",
+   "seat": "Sentry (stand-in: sentries.py and the status check)",
    "objection": "None of the five sentries reads the backlog; the seven stale claims surfaced only because backlog_status_check runs at commit time, and its --gh PR-cite list did not reproduce on a second run.",
    "outcome": "Held open",
    "change": "Every stale claim now has a proposed fate or an owner routing (acceptance test). Adding a backlog watcher would be a new tool; not done in a groom."
@@ -1601,7 +1598,7 @@
    "result": "PASS"
   },
   {
-   "seat": "Sentry",
+   "seat": "Sentry (stand-in)",
    "test": "Every stale RUNNING claim the status check reports has a proposed fate or owner routing",
    "result": "PASS (7 stale, 0 unfated)"
   },
