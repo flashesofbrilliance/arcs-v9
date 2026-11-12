@@ -32,6 +32,14 @@ export GIT_HTTP_LOW_SPEED_TIME="${GIT_HTTP_LOW_SPEED_TIME:-15}"
 #     both the project dir and the session cwd, since a worktree session's cwd is the worktree.
 for _d in "$CLAUDE_PROJECT_DIR" "$PWD"; do
   [ -x "$_d/scripts/hookspath_arm.sh" ] && "$_d/scripts/hookspath_arm.sh" "$_d" 2>/dev/null || true
+  # (3a) Backlog merge driver (backlog-merge-driver-by-id, 2026-11-12): .gitattributes names
+  #      merge=backlog-by-id for _QUEUE/induced-backlog.jsonl; arm its command the same way, unset -> set,
+  #      a deliberate value left alone. Command lives in the script (DRIVER_CMD) so the self-test arms the same one.
+  if [ -f "$_d/scripts/backlog_merge_by_id.py" ] && [ -z "$(git -C "$_d" config --get merge.backlog-by-id.driver 2>/dev/null)" ]; then
+    _cmd=$(cd "$_d" && python3 -c 'import importlib.util as u;s=u.spec_from_file_location("m","scripts/backlog_merge_by_id.py");m=u.module_from_spec(s);s.loader.exec_module(m);print(m.DRIVER_CMD)' 2>/dev/null)
+    [ -n "$_cmd" ] && git -C "$_d" config merge.backlog-by-id.name "backlog rows by id" 2>/dev/null \
+      && git -C "$_d" config merge.backlog-by-id.driver "$_cmd" 2>/dev/null && echo "hooks: armed merge.backlog-by-id.driver"
+  fi
   # (3b) Project skills/commands load from the MAIN checkout; warn when it drifts from origin/main.
   [ -x "$_d/scripts/project_skills_drift.sh" ] && "$_d/scripts/project_skills_drift.sh" "$_d" 2>/dev/null || true
   [ -f "$_d/scripts/sentries.py" ] && python3 "$_d/scripts/sentries.py" 2>/dev/null | head -12 || true

@@ -31,9 +31,9 @@ def e(s):
 
 
 def md(s, src=None):
-    """Escape, then allow two inline marks only: [text](https://...) and **bold**. src: the JSON pointer of s (used by --tune only)."""
+    """Escape, then allow two inline marks only: [text](https://... or mailto:...) and **bold**. src: the JSON pointer of s (used by --tune only)."""
     t = e(s)
-    t = re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)", lambda m: '<a href="%s">%s</a>' % (m.group(2), m.group(1)), t)
+    t = re.sub(r"\[([^\]]+)\]\(((?:https?://|mailto:)[^)\s]+)\)", lambda m: '<a href="%s">%s</a>' % (m.group(2), m.group(1)), t)
     t = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", t)
     return pt.span(t, src)
 

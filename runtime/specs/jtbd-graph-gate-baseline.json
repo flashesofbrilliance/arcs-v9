@@ -73,7 +73,6 @@
       "tool:script:gen_recoil_artifact.py",
       "tool:script:gen_tao_alchemist.py",
       "tool:script:github_ingest.py",
-      "tool:script:hypercube_sampler.py",
       "tool:script:jobs_prose_gate.py",
       "tool:script:ledger_check.py",
       "tool:script:ledger_score.py",
