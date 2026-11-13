@@ -1043,6 +1043,19 @@ if [ -n "$orx" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/operator_
   fi
 fi
 
+# Seat binding map (2026-11-13): runtime/specs/operator-binding-map.json binds every operator, Python
+# operator and agent to the rows, tools and surfaces that name it, each edge citing file + needle. If a seat
+# file, the roster sources, the design-review stages or the map is staged, every edge's evidence must still
+# hold and every roster seat must be present (a hand-written or stale binding fails here).
+sbm=$(git diff --cached --name-only -- runtime/specs/operator-binding-map.json runtime/specs/design-review-seats.json scripts/operator_binding_emit.py operators/OPERATOR-REGISTRY.json runtime/specs/tool-catalog.json '.claude/agents/*.md' 2>/dev/null || true)
+if [ -n "$sbm" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/operator_binding_emit.py ]; then
+  if ! python3 scripts/operator_binding_emit.py --check >&2; then
+    echo "✖ pre-commit(seat-binding): the binding map is stale or cites evidence that no longer holds." >&2
+    echo "  fix: python3 scripts/operator_binding_emit.py && git add runtime/specs/operator-binding-map.json" >&2
+    exit 1
+  fi
+fi
+
 # LEGEND freshness guard — runtime/specs/LEGEND.md is GENERATED from legend.jsonl.
 # If either is staged, the render must be fresh and every row must pass schema
 # (unique term/aliases, operational_definition >= 25 chars, real expansion).
