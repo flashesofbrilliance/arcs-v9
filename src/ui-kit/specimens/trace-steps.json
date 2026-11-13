@@ -1,0 +1,91 @@
+{
+ "number": "67",
+ "name": "Trace Steps",
+ "slug": "trace-steps",
+ "layer": "Molecule",
+ "job": "Show a method as three to four linked steps, each a key and its mark, over the one stop line agreed before the work starts.",
+ "anatomy": [
+  {
+   "part": "Step",
+   "role": "Surface card with hairline border; a mono cyan key over its mark",
+   "token": "`surface`, `border`, `cyan`"
+  },
+  {
+   "part": "Link",
+   "role": "Arrow between steps: right on wide screens, down on a phone",
+   "token": "`muted`"
+  },
+  {
+   "part": "Stop line",
+   "role": "Dashed rule above, centred, secondary text with a bold lead",
+   "token": "`muted`, `text-secondary`, `text`"
+  }
+ ],
+ "states": [
+  {
+   "name": "Three steps",
+   "args": [
+    3,
+    "100%"
+   ],
+   "note": "Inputs, decision, outcome."
+  },
+  {
+   "name": "Phone width",
+   "args": [
+    3,
+    "20rem"
+   ],
+   "note": "Below 640px the steps stack and the arrows point down."
+  }
+ ],
+ "use_when": [
+  "A short method the reader should hold in one glance, with a kill line agreed in advance.",
+  "A bridge between the problem and the offer: how one item will be read."
+ ],
+ "avoid_when": [
+  "Do not use it for a timeline with dates; that is 46 Day List or 52 Plan Matrix.",
+  "Do not go past four steps; the arrows stop reading as one line. It replaces 06 Beat Stepper (legacy) for new pages."
+ ],
+ "data": [
+  {
+   "field": "steps[]",
+   "type": "{key, mark}",
+   "required": true,
+   "note": "Three or four."
+  },
+  {
+   "field": "stop",
+   "type": "{lead, text}",
+   "required": false,
+   "note": "The kill line, for example `Agreed first:` and the number that says stop."
+  }
+ ],
+ "access": [
+  "Steps are an ordered list, so a screen reader announces the count and order; the arrows are generated content and are not read.",
+  "Wrap it in a `figure` with an `aria-label` naming the method.",
+  "Print hides it by default (the PDF states the method in prose); remove the print rule if your PDF needs it."
+ ],
+ "built_from": [
+  {
+   "name": "Kit tokens (atoms)",
+   "href": "_tokens.css"
+  }
+ ],
+ "used_by": [
+  {
+   "name": "Louisville proposal (louisville.arcs.care/proposal), page-local today; swap in after the send"
+  }
+ ],
+ "gates": [
+  "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+  "`kit_primitive_sync.py --check`: every page that marks this block carries it line for line.",
+  "`artifact_wrap_lint.py` and `page_gate.py` on every page that carries it; sweep 360 to 1440, including 700 to 1000."
+ ],
+ "links": [
+  "_tokens-light.css",
+  "_kit-sr.css"
+ ],
+ "css": "/* @prim:begin 67-trace-steps */\n.trace { margin: 0; }\n.trace-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: var(--sp-3, 24px); }\n.trace-steps li { position: relative; display: flex; flex-direction: column; gap: 4px; padding: var(--sp-2, 16px); background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); }\n.trace-steps li + li::before { content: \"\\2192\"; position: absolute; left: calc(-1 * var(--sp-3, 24px)); width: var(--sp-3, 24px); top: 50%; transform: translateY(-50%); text-align: center; color: var(--muted); }\n.trace-k { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); }\n.trace-v { color: var(--text); }\n.trace-stop { margin: var(--sp-2, 16px) 0 0; padding-top: var(--sp-1, 8px); border-top: 1px dashed var(--muted); text-align: center; color: var(--text-secondary); }\n.trace-stop strong { color: var(--text); font-weight: 600; }\n@media (max-width: 640px) { .trace-steps { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: minmax(0, 1fr); } .trace-steps li + li::before { content: \"\\2193\"; left: 0; right: 0; width: auto; top: calc(-1 * var(--sp-3, 24px)); transform: none; height: var(--sp-3, 24px); line-height: var(--sp-3, 24px); } }\n@container (max-width: 40rem) { .trace-steps { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: minmax(0, 1fr); } .trace-steps li + li::before { content: \"\\2193\"; left: 0; right: 0; width: auto; top: calc(-1 * var(--sp-3, 24px)); transform: none; height: var(--sp-3, 24px); line-height: var(--sp-3, 24px); } }\n@media print { .trace { display: none; } }\n/* @prim:end 67-trace-steps */\n",
+ "demo": "function kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar TS=[['Inputs','What it relies on'],['Decision','What it can\\'t see'],['Outcome','The date you\\'ll know']];\nfunction kitTrace(host,n){var w=document.createElement('figure');w.className='trace';w.setAttribute('aria-label','How one decision is traced');w.innerHTML='<ol class=\"trace-steps\">'+TS.slice(0,n).map(function(s){return '<li><span class=\"trace-k\">'+kEsc(s[0])+'</span><span class=\"trace-v\">'+kEsc(s[1])+'</span></li>'}).join('')+'</ol><p class=\"trace-stop\"><strong>Agreed first:</strong> The number that would tell you to stop, set before the decision is made.</p>';host.appendChild(w);return w}\nkitTrace(kSlot(),3);\nSTATES.forEach(function(a,i){var b=document.createElement('div');b.style.maxWidth=a[1];if(a[1]!=='100%')b.style.containerType='inline-size';kSlot(i).appendChild(b);kitTrace(b,a[0])});"
+}
