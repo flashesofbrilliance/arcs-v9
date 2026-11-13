@@ -374,7 +374,7 @@
     var cKeys = Object.keys(ckeys).sort(function (a, b) { return (ckeys[a].u === 'rem' ? 16 : 1) * ckeys[a].v - (ckeys[b].u === 'rem' ? 16 : 1) * ckeys[b].v; });
 
     var editables = EDIT ? [].slice.call(document.querySelectorAll('[data-src]')) : [];
-    var canPatch = editables.length > 0 || !!bpData;
+    var canPatch = editables.length > 0 || !!bpData || (EDIT && !!document.querySelector('[data-blk]'));
 
     var host = document.createElement('div');
     host.setAttribute('data-arcs-token-tuner', '');
@@ -674,6 +674,33 @@
     }
     function mark(b) { if (toMd(b.el) !== b.md) b.el.setAttribute('data-edited', ''); else b.el.removeAttribute('data-edited'); }
 
+    /* ---------- block reorder (?edit, composer-dogfood prototype): data-blk="/slot/blocks/N" from a --tune build ----------
+       Up and down swap a block with its neighbour in the same slot and record an RFC 6902 move. Copy JSON lists the
+       moves after the text replaces, because the replaces name the pre-move pointers; page_tune.py applies them in that order. */
+    var MOVES = [];
+    if (EDIT) [].slice.call(document.querySelectorAll('[data-blk]')).forEach(function (el) {
+      var bar = document.createElement('span'); bar.setAttribute('data-arcs-token-tuner', 'blk');
+      bar.style.cssText = 'display:flex;gap:4px;justify-content:flex-end;font:12px/1 system-ui,sans-serif';
+      [['up', '\u2191', -1], ['down', '\u2193', 1]].forEach(function (d) {
+        var b = document.createElement('button'); b.type = 'button'; b.textContent = d[1];
+        b.setAttribute('aria-label', 'Move block ' + d[0]);
+        b.style.cssText = 'min-width:28px;min-height:28px;cursor:pointer';
+        b.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); moveBlk(el, d[2]); });
+        bar.appendChild(b);
+      });
+      el.insertBefore(bar, el.firstChild);
+    });
+    function moveBlk(el, dir) {
+      var sib = dir < 0 ? el.previousElementSibling : el.nextElementSibling;
+      while (sib && !sib.hasAttribute('data-blk')) sib = dir < 0 ? sib.previousElementSibling : sib.nextElementSibling;
+      if (!sib) return;
+      var from = el.getAttribute('data-blk'), to = sib.getAttribute('data-blk');
+      MOVES.push({ op: 'move', from: from, path: to });
+      if (dir < 0) el.parentNode.insertBefore(el, sib); else el.parentNode.insertBefore(sib, el);
+      el.setAttribute('data-blk', to); sib.setAttribute('data-blk', from);
+      refresh();
+    }
+
     function applyTok(r, quiet) {
       var v = parseFloat(r.input.value);
       var changed = Math.abs(v - r.orig) > 1e-9;
@@ -705,7 +732,7 @@
       base.forEach(function (b) { var now = toMd(b.el); if (now !== b.md) seen[b.path] = now; });
       for (var p in seen) o.push({ op: 'replace', path: p, value: seen[p] });
       if (bpData && BP[bpData.key] != null) o.push({ op: 'add', path: bpData.path, value: BP[bpData.key] });
-      return o;
+      return o.concat(MOVES);
     }
     function refresh() {
       out.value = cssLine();
