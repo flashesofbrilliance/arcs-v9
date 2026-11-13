@@ -167,15 +167,15 @@ footer a{color:inherit;text-underline-offset:2px;}
 .forline{margin-top:var(--sp-1);}
 /* Light mode (the myally.arcs.care pattern): follows the OS unless the reader picks; kit tokens remap, kit primitives stay verbatim. */
 :root{color-scheme:dark;}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}}
-:root[data-theme="light"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--secondary:#475262;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);color-scheme:light;}}
+:root[data-theme="light"]{--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--secondary:#475262;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);color-scheme:light;}
 header{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:var(--sp-2);align-items:start;}
 header > *{grid-column:1 / -1;}
 header > .tools{grid-row:1;justify-self:end;display:flex;align-items:center;gap:0;margin-right:-12px;margin-bottom:var(--sp-2);}
 .pdfbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:44px;width:44px;padding:0;color:var(--secondary);border:0;border-radius:var(--ds-r-sm);text-decoration:none;font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;}
 .pdfbtn:hover,.pdfbtn:focus-visible{color:var(--cyan);}
 .pdfbtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
-@media print{:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;} .themebtn,.tools{display:none!important;} body{background:#fff!important;padding:0!important;} .page{gap:var(--sp-3);max-width:none;} body{font-size:10.5pt;line-height:1.5;} h1{font-size:22pt;} .verdict{font-size:13pt;margin-top:var(--sp-2);} .slabel{font-size:13pt;} .hrow > div{padding:10px 0;} section{gap:var(--sp-1);} .lockup,.hrow > div{break-inside:avoid;} .lockup{break-after:avoid;}}
+@media print{:root{--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--secondary:#475262;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);color-scheme:light;} .themebtn,.tools{display:none!important;} body{background:#fff!important;padding:0!important;} .page{gap:var(--sp-3);max-width:none;} body{font-size:10.5pt;line-height:1.5;} h1{font-size:22pt;} .verdict{font-size:13pt;margin-top:var(--sp-2);} .slabel{font-size:13pt;} .hrow > div{padding:10px 0;} section{gap:var(--sp-1);} .lockup,.hrow > div{break-inside:avoid;} .lockup{break-after:avoid;}}
 @page{size:Letter;margin:0.5in 0.6in;}
 
 @media (max-width:640px){
@@ -299,11 +299,11 @@ footer p{text-align:left;}
 }
 /* print design pass 2026-11-08: the PDF as a document, built from the page's own parts (forline label, mono numerals, hairline grids, offer card). Print only; the screen page is unchanged. */
 @page{size:Letter;margin:0.8in 0.8in 0.75in;
-  @top-left{content:"ARCS";font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;font-size:7pt;font-weight:700;letter-spacing:0.32em;color:#00606b;vertical-align:bottom;padding-bottom:14pt;}
+  @top-left{content:"ARCS";font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;font-size:7pt;font-weight:700;letter-spacing:0.32em;color:#025f93;vertical-align:bottom;padding-bottom:14pt;}
   @top-right{content:"AI build checkup  \00B7  Louisville Brands";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#566170;vertical-align:bottom;padding-bottom:14pt;}
   @bottom-left{content:"Zach Harris  \00B7  zach.harris@gmail.com";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;color:#566170;vertical-align:top;padding-top:14pt;}
   @bottom-center{content:"Confidential";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#566170;vertical-align:top;padding-top:14pt;}
-  @bottom-right{content:counter(page) " / " counter(pages);font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;font-size:7pt;font-weight:700;color:#1c2430;vertical-align:top;padding-top:14pt;}
+  @bottom-right{content:counter(page) " / " counter(pages);font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;font-size:7pt;font-weight:700;color:#0f172a;vertical-align:top;padding-top:14pt;}
 }
 @page :first{margin:0.8in 0.8in 0.75in;@top-left{content:none;}@top-right{content:none;}}
 @media print{

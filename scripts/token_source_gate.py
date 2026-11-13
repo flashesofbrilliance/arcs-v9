@@ -66,7 +66,7 @@ DOC_TS = os.path.join(ROOT, "src/document/tokens.ts")
 # Print palette (R6 recoil-print-target, spec 8 Q2: Zach 2026-11-12, light for print). TP is read from the
 # @media print block of _tokens-light.css; DOC_EXTRA_PRINT holds the light twins of DOC_EXTRA's colors only.
 KIT_LIGHT = os.path.join(ROOT, "src/ui-kit/recoil-report/_tokens-light.css")
-DOC_EXTRA_PRINT = {"--shell": "#eef1f5", "--border-hi": "rgba(28,36,48,0.14)", "--rule-dim": "#9aa4b1"}
+DOC_EXTRA_PRINT = {"--shell": "#e9edf4", "--border-hi": "rgba(15,23,42,0.14)", "--rule-dim": "#9aa4b1"}
 # T key -> CSS custom property in _tokens.css. Order is the emitted order.
 DOC_MAP = [
     ("bg", "--bg"), ("surface", "--surface"), ("elevated", "--elevated"), ("shell", "--shell"),

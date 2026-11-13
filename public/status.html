@@ -104,12 +104,12 @@
 /* @prim:end 38-wordmark */
 /* @prim:begin 39-theme-toggle */
 :root{color-scheme:dark;}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}}
-:root[data-theme="light"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);color-scheme:light;}}
+:root[data-theme="light"]{--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);color-scheme:light;}
 .themebtn{display:inline-flex;align-items:center;min-height:44px;padding:0;margin:0 0 8px;font:inherit;font-size:var(--fs-body);color:var(--text-secondary);background:none;border:0;cursor:pointer;text-underline-offset:3px;}
 .themebtn:hover,.themebtn:focus-visible{color:var(--cyan);text-decoration:underline;}
 .themebtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
-@media print{:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;} .themebtn{display:none!important;} body{background:#fff!important;}}
+@media print{:root{--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);color-scheme:light;} .themebtn{display:none!important;} body{background:#fff!important;}}
 /* @prim:end 39-theme-toggle */
 /* @prim:begin 51-display-preferences */
 :root[data-font="easy"]{--ds-font-sans:Verdana,Tahoma,"Trebuchet MS",Arial,sans-serif;--ds-font-display:Verdana,Tahoma,"Trebuchet MS",Arial,sans-serif}
@@ -745,7 +745,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   :where(.page a):hover { text-decoration-thickness: 2px; }
 }
 
-/* focus-visible: one ring everywhere, same token in both themes (cyan remaps to #00606b in light) */
+/* focus-visible: one ring everywhere, same token in both themes (cyan remaps in light) */
 :where(.pulse-refresh, .alt-btn, .pres-btn, .pres-bot button, .focus-btn, .flow-expand, .flow-lightbox-close, .tele-tab, .unlock-chip, .ms-verify, .section-head, .ms.expandable .ms-top, .cad-col.design-win, .page a):focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: var(--r-sm); }
 :where(.section-head):focus-visible { outline-offset: 4px; }
 
@@ -776,14 +776,8 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 /* ===== Light theme for the tokens and colors this page owns (2026-11-12) =====
    Kit 39 remaps the shared tokens; the page's own tokens (--surface2, --faint, --steel) and the few hard-coded pale-on-dark
    colors are remapped here. Same two entry points as the kit: data-theme="light" and prefers-color-scheme with no explicit dark. */
-:root[data-theme="light"] {
-  /* Cool slate (Zach, 2026-11-12): overrides kit 39's light remap for this page. Each accent holds 4.5:1 or better on --bg, --surface, --surface-2 and its own 8 to 10 percent tint (computed, then crawled). */
-  --bg: #f3f5f9; --surface: #ffffff; --surface-2: #e9edf4; --surface2: #e9edf4; --elevated: #e9edf4; --border: #cfd7e3;
-  --text: #0f172a; --text-secondary: #334155; --muted: #46566b; --dimmed: #52627a; --faint: #52627a;
-  --cyan: #025f93; --green: #0b6b53; --gold: #8a5508; --red: #be123c; --steel: #0b5f82;
-  --cyan-bg: rgba(2,95,147,0.09); --green-bg: rgba(11,107,83,0.09); --gold-bg: rgba(138,85,8,0.10); --red-bg: rgba(190,18,60,0.08); --steel-bg: rgba(11,95,130,0.09);
-  --hair-soft: var(--border); --hair: var(--border);
-}
+/* Cool slate is the kit light palette now (src/ui-kit/recoil-report/_tokens-light.css, 2026-11-12); this block holds only what the page owns. */
+:root[data-theme="light"] { --surface2: var(--surface-2); --faint: var(--dimmed); --steel: #0b5f82; --steel-bg: rgba(11,95,130,0.09); --hair-soft: var(--border); --hair: var(--border); }
 :root[data-theme="light"] .tt-m { color: var(--muted); }
 :root[data-theme="light"] .su-core { background: linear-gradient(180deg, var(--surface), var(--surface-2)); }
 :root[data-theme="light"] .su-zli, :root[data-theme="light"] table.su-t td, :root[data-theme="light"] .su-str, :root[data-theme="light"] .su-sg { border-color: var(--border); }

@@ -18,7 +18,7 @@
   :where(.page a):hover { text-decoration-thickness: 2px; }
 }
 
-/* focus-visible: one ring everywhere, same token in both themes (cyan remaps to #00606b in light) */
+/* focus-visible: one ring everywhere, same token in both themes (cyan remaps in light) */
 :where(.pulse-refresh, .alt-btn, .pres-btn, .pres-bot button, .focus-btn, .flow-expand, .flow-lightbox-close, .tele-tab, .unlock-chip, .ms-verify, .section-head, .ms.expandable .ms-top, .cad-col.design-win, .page a):focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: var(--r-sm); }
 :where(.section-head):focus-visible { outline-offset: 4px; }
 
