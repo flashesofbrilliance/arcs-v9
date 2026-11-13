@@ -73,6 +73,16 @@
    "added": "unknown (rename)"
   },
   {
+   "kind": "recoil",
+   "path": "runtime/recoil/generated/2026-10-29-gasmi.atlas.json",
+   "added": "2026-11-12"
+  },
+  {
+   "kind": "pattern",
+   "path": "_PATTERNS/2026-11-11-compounding-preregistration.md",
+   "added": "2026-11-11"
+  },
+  {
    "kind": "adr",
    "path": "_DECISIONS/ADR-093-counterpart-citation-needs-consent-on-record.md",
    "added": "2026-11-04"

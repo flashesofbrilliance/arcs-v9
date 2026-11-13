@@ -1046,7 +1046,7 @@
    "unlisted": false,
    "purpose": "An open Next.js web app: paste a LinkedIn profile or upload a PDF to generate an adaptive ARCS-style scan. Runs a local mock scan in the browser. An MIT tool in the ARCS family.",
    "kind": "product page",
-   "last_commit": "2026-10-24"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "blacksmith.arcs.care",
@@ -1067,7 +1067,7 @@
    "unlisted": true,
    "purpose": "Staff Product Engineer for the code-validation era. Built for a developer I already am.",
    "kind": "product page",
-   "last_commit": "2026-10-17"
+   "last_commit": "2026-11-14"
   },
   {
    "host": "blacksmith.arcs.care",
@@ -1148,7 +1148,7 @@
    "unlisted": false,
    "purpose": "Building in public: the goods we've shipped, the lab in the kitchen, the playground you can try. One front door onto the ARCS flywheel.",
    "kind": "product page",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "chan.arcs.care",
@@ -1374,7 +1374,7 @@
    "unlisted": false,
    "purpose": "Open, MIT-licensed tools built for our own work and published. The tools are open; the ARCS intelligence that orchestrates them stays private.",
    "kind": "product page",
-   "last_commit": "2026-10-31"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "good.arcs.care",
@@ -3626,7 +3626,7 @@
    "unlisted": true,
    "purpose": "Zach Harris for Gravity Labs",
    "kind": "product page",
-   "last_commit": "2026-11-13"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "gravity.arcs.care",
@@ -3646,7 +3646,7 @@
    "unlisted": true,
    "purpose": "Beliefs · Zach Harris for Gravity Labs",
    "kind": "product page",
-   "last_commit": "2026-11-13"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "gravity.arcs.care",
@@ -3666,7 +3666,7 @@
    "unlisted": true,
    "purpose": "Entrepreneur in Residence · Zach Harris for Gravity Labs",
    "kind": "product page",
-   "last_commit": "2026-11-13"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "gravity.arcs.care",
@@ -3686,7 +3686,7 @@
    "unlisted": true,
    "purpose": "Hats · Zach Harris for Gravity Labs",
    "kind": "product page",
-   "last_commit": "2026-11-13"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "gravity.arcs.care",
@@ -3706,7 +3706,7 @@
    "unlisted": true,
    "purpose": "Hats · Zach Harris for Gravity Labs",
    "kind": "product page",
-   "last_commit": "2026-11-13"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "gravity.arcs.care",
@@ -3726,7 +3726,7 @@
    "unlisted": true,
    "purpose": "Entrepreneur in Residence · Zach Harris for Gravity Labs",
    "kind": "product page",
-   "last_commit": "2026-11-13"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "gravity.arcs.care",
@@ -3746,7 +3746,7 @@
    "unlisted": true,
    "purpose": "Hats · Zach Harris for Gravity Labs",
    "kind": "product page",
-   "last_commit": "2026-11-13"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "gravity.arcs.care",
@@ -3766,7 +3766,7 @@
    "unlisted": true,
    "purpose": "Proof · Zach Harris for Gravity Labs",
    "kind": "product page",
-   "last_commit": "2026-11-13"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "growth-ai.arcs.care",
@@ -3787,7 +3787,7 @@
    "unlisted": true,
    "purpose": "Senior AI product operations for a growth org that needs adoption, not another pilot. Built by someone already running this exact motion.",
    "kind": "product page",
-   "last_commit": "2026-10-17"
+   "last_commit": "2026-11-14"
   },
   {
    "host": "growth-ai.arcs.care",
@@ -4009,7 +4009,7 @@
    "unlisted": true,
    "purpose": "The operator-builder for Mercury's Open Call: ships AI products with AI on Command/CLI/MCP, with regulated-capital fluency so yield and treasury claims survive compliance.",
    "kind": "product page",
-   "last_commit": "2026-10-17"
+   "last_commit": "2026-11-14"
   },
   {
    "host": "monday.arcs.care",
@@ -4887,7 +4887,7 @@
    "unlisted": false,
    "purpose": "Write one script; run it byte-identical across bash 3.2, zsh, POSIX sh, and ksh. A conformance runner proves the shim is identical, not guesses. An MIT tool in the ARCS family.",
    "kind": "product page",
-   "last_commit": "2026-11-14"
+   "last_commit": "2026-11-15"
   },
   {
    "host": "rosetta-shell.arcs.care",
@@ -4907,7 +4907,7 @@
    "unlisted": false,
    "purpose": "Say a shell construct that breaks between bash 3.2, zsh and POSIX sh. Hear the portable rosetta-shell fix and see which shells break. Free, MIT, part of ARCS public goods.",
    "kind": "product page",
-   "last_commit": "2026-11-14"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "schriner.arcs.care",
@@ -5237,7 +5237,7 @@
    "unlisted": true,
    "purpose": "The 0 to 1 operator who stands up SentiLink's Government Program Integrity line: build, compliance, and go-to-market in one head.",
    "kind": "product page",
-   "last_commit": "2026-10-17"
+   "last_commit": "2026-11-14"
   },
   {
    "host": "serialized-teardown.arcs.care",
@@ -5339,7 +5339,7 @@
    "unlisted": true,
    "purpose": "ARCS, built in the open since day zero: a live product that grades itself. Proof over promises, one commit at a time.",
    "kind": "status",
-   "last_commit": "2026-11-13"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "status.arcs.care",
@@ -5359,7 +5359,7 @@
    "unlisted": false,
    "purpose": "A falsification ledger: every belief I held, the test that overturned it, and what replaced it. Corrections stay on the record.",
    "kind": "ledger",
-   "last_commit": "2026-11-15"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "status.arcs.care",
@@ -5379,7 +5379,7 @@
    "unlisted": false,
    "purpose": "The shape of the adversarial gauntlet record, every pre-ship pressure-test plotted in time, and the gates added week by week with the mistakes behind them. Cadence, scale and plain-word fixes; never what a run found.",
    "kind": "ledger",
-   "last_commit": "2026-11-11"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "status.arcs.care",
@@ -5460,7 +5460,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-11-14"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "todd-call.arcs.care",
@@ -5854,7 +5854,7 @@
    "unlisted": false,
    "purpose": "Every claim below links to the record behind it. Where the record is private it says so, and one claim is marked not yet shown.",
    "kind": "product page",
-   "last_commit": "2026-11-12"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "zach.md",
@@ -5874,7 +5874,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-11-12"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "zach.md",
@@ -5934,7 +5934,7 @@
    "unlisted": true,
    "purpose": "Ideal Protein Growth Case · Zach Harris",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "*",
@@ -5954,7 +5954,7 @@
    "unlisted": false,
    "purpose": "ARCS Compass · UI Kit",
    "kind": "product page",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-11-16"
   },
   {
    "host": "*",
