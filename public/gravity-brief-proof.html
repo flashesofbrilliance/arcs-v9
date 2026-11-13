@@ -295,7 +295,8 @@ html { font-size: 100%; }
   /* template scales (2026-11-12 polish): line height has three steps, spacing sits on a 4px grid, weight has three steps */
   --lh-display: 1.2; --lh-head: 1.35; --lh-text: 1.55;
   --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px;
-  --fw-text: 400; --fw-strong: 600; --fw-bold: 700; }
+  --fw-text: 400; --fw-strong: 600; --fw-bold: 700;
+  --key: 12rem; /* the keyline: one key-column width shared by every two-column molecule (ledger, cold read, tables) */ }
 body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: var(--lh); letter-spacing: var(--ls);
   padding-block: 32px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
   -webkit-font-smoothing: antialiased; }
@@ -504,6 +505,47 @@ a:active { color: var(--text); }
 .sl-row { padding: var(--s-3) 0; gap: var(--s-2) var(--s-5); }
 .sl-group.is-judgment .sl-rows { padding-left: var(--s-4); }
 @media (prefers-reduced-motion: reduce) { .tb-btn, .tb-fold-btn { transition: none; } }
+
+/* ---- lockup layer (2026-11-12): construction rules for molecules and organisms ----
+   R1 Lane: every organism spans the content lane edge to edge; nothing ends short of its siblings.
+   R2 Keyline: two-column molecules share one key column (--key) and one gutter (--s-5), so every evidence column
+      on a page starts on the same vertical line, and every key starts flush on the lane's left edge (no cell inset).
+   R3 Molecule lockup: a key is one unit (chip over its signal, tight --s-1); the evidence sits beside it, top-aligned.
+      On a phone the key runs inline (chip, then signal) above the evidence.
+   R4 Organism header: label and count share one baseline; no rule under it, because dividers sit between rows only.
+   R5 Rhythm: inside a molecule --s-1/--s-2, between molecules a hairline plus --s-3, between groups --s-6.
+   R6 Tiles: label, figure and caption sit inside one box. */
+/* R2 + R3: signal ledger, two columns at every width above a phone (the kit's third column split the key and left the chip column empty) */
+.sl { gap: var(--s-6); }
+.sl-key { gap: var(--s-1); }
+@container (min-width:38rem) { .sl-row { grid-template-columns: var(--key) minmax(0, 1fr); column-gap: var(--s-5); } }
+@container (min-width:58rem) { .sl-row { grid-template-columns: var(--key) minmax(0, 1fr); } .sl-key { display: flex; } }
+@container (max-width:37.99rem) { .sl-key { flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: var(--s-2); } }
+/* R4 */
+.sl-gh { padding: 0 0 var(--s-1); border-bottom: 0; }
+.sl-group.is-judgment .sl-rows { padding-left: var(--s-4); }
+/* R2: tables start keys on the lane edge and share the keyline */
+.tb-table th:first-child, .tb-table td:first-child { padding-left: 0; }
+.tb-table th:last-child, .tb-table td:last-child { padding-right: 0; }
+.tb-table td:first-child { width: var(--key); }
+.tb-table td:has(> .chip) { width: 1%; }
+.pm-table th:first-child, .pm-table td:first-child { padding-left: 0; }
+.pm-table th:last-child, .pm-table td:last-child { padding-right: 0; }
+/* R2: cold-read slots on the keyline */
+.cr-slots { grid-template-columns: calc(var(--key) + var(--s-5)) minmax(0, 1fr); column-gap: 0; } /* gutter as dt padding so the row rule runs unbroken */
+.cr-slots dt.section-label { padding-right: var(--s-5); }
+/* R1: the How steps fill the lane instead of leaving an empty third column */
+.cr-how { grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+/* R6: fact tile, one box for label, figure and caption */
+.ftile::before { grid-row: 1 / 4; }
+.ftile-lab { padding: var(--s-3) var(--s-4) 0; }
+.ftile-fig { padding: var(--s-1) var(--s-4) 0; }
+.ftile-cap { padding: var(--s-1) var(--s-4) var(--s-3); }
+.ftiles { gap: var(--s-2); }
+@media (max-width: 599px) {
+  .tb-table td:first-child { width: auto; }
+  .cr-slots { grid-template-columns: minmax(0, 1fr); }
+}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
