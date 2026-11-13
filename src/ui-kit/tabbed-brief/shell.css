@@ -167,12 +167,14 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 
 /* the "More recommendations" link clears the 24px touch-target floor (page_gate phone warning) */
 .sb-src a { display: inline-block; padding: var(--s-2) 0; }
-/* sound bite: display quotation marks in the signal colour, hidden from screen readers (the blockquote already says it is a quote); more air between the quote and the name */
+/* sound bite: heavy swash quotation marks drawn as SVG (filled in the signal colour, so they sit outside the type ramp and are silent to screen readers); the quote set larger and bolder; more air between the quote and the name */
 .sb { padding-bottom: var(--s-2); }
 .sb-item { gap: var(--s-3); }
-.sb-q { position: relative; padding-top: 1.4rem; }
-.sb-q::before { content: "\201C" / ""; position: absolute; top: -0.2rem; left: -0.1rem; font-family: var(--ds-font-display); font-size: var(--fs-display); line-height: 1; color: var(--cyan); }
-.sb-t::after { content: "\201D" / ""; margin-left: 0.08em; font-family: var(--ds-font-display); color: var(--cyan); }
+.sb-t { font-size: var(--fs-display); font-weight: var(--fw-strong); line-height: var(--lh-head); letter-spacing: -0.01em; }
+.sb-q { position: relative; padding-top: 3rem; }
+.sb-q::before, .sb-t::after { content: "" / ""; background: var(--cyan); -webkit-mask: var(--qm) no-repeat center / contain; mask: var(--qm) no-repeat center / contain; }
+.sb-q::before { --qm: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 81 58'%3E%3Cpath d='M19 58C8.5 58 0 49.5 0 38.5C0 20 12 5.5 31 0l3.5 6.5C23 11 16.5 18.5 15 27c1.5-.6 3.2-.9 5-.9C30 26.1 38 33 38 42.5C38 51 29.5 58 19 58Z'/%3E%3Cpath transform='translate%2843 0%29' d='M19 58C8.5 58 0 49.5 0 38.5C0 20 12 5.5 31 0l3.5 6.5C23 11 16.5 18.5 15 27c1.5-.6 3.2-.9 5-.9C30 26.1 38 33 38 42.5C38 51 29.5 58 19 58Z'/%3E%3C/svg%3E"); position: absolute; top: 0; left: 0; width: 3.4rem; height: 2.45rem; }
+.sb-t::after { --qm: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 81 58'%3E%3Cg transform='rotate%28180 40.5 29%29'%3E%3Cpath d='M19 58C8.5 58 0 49.5 0 38.5C0 20 12 5.5 31 0l3.5 6.5C23 11 16.5 18.5 15 27c1.5-.6 3.2-.9 5-.9C30 26.1 38 33 38 42.5C38 51 29.5 58 19 58Z'/%3E%3Cpath transform='translate%2843 0%29' d='M19 58C8.5 58 0 49.5 0 38.5C0 20 12 5.5 31 0l3.5 6.5C23 11 16.5 18.5 15 27c1.5-.6 3.2-.9 5-.9C30 26.1 38 33 38 42.5C38 51 29.5 58 19 58Z'/%3E%3C/g%3E%3C/svg%3E"); display: inline-block; width: 1.9rem; height: 1.35rem; margin-left: 0.3em; transform: translateY(-0.15em); }
 
 /* receipt card (2026-11-12): the page's proof object, one real dated call above the tiles.
    Judgment, so gold; a dashed rule reads as a perforated ticket, not decoration. */
