@@ -130,19 +130,16 @@
         "rows": [
          {
           "chip": "Trigger",
-          "tone": "gold",
           "signal": "Who pays when an agent exceeds its mandate",
           "text": "[Footnote 25 of Kyle's stablecoin post](https://kylelibra.substack.com/p/a-lot-of-what-people-think-about): crypto payments will have to address chargebacks and fraud liability \"to some extent to be viable.\" For agents, I think that starts with a record of what the user told the agent. It is [unsettled](https://worldpay.com/en/insights/articles/agentic-commerce-liability-is-still-being-written) today; the first network rule requiring an intent record decides it."
          },
          {
           "chip": "My call",
-          "tone": "gold",
           "signal": "Enter small, before the rule",
           "text": "Volume is the lagging bet; the liability rule is the leading one. My read: 1 in 3 that Visa, Mastercard or a top-10 US card issuer has a rule in effect by 2027-06-30 requiring a record of what the user told the agent. Announcements without an effective date do not count. I will post the outcome either way."
          },
          {
           "chip": "If I'm wrong",
-          "tone": "gold",
           "signal": "The other 2 in 3",
           "text": "No network rule by mid-2027, and about three weeks spent. ARCS records human decisions this way today; it does not yet do signed agent mandates."
          }
@@ -154,13 +151,11 @@
         "rows": [
          {
           "chip": "Wording",
-          "tone": "gold",
           "signal": "The odds moved with the wording",
           "text": "My estimate swung from about 1 in 4 to about 3 in 5 depending on the rule's wording, so I wrote the resolution rule above before picking a number. The inputs were my judgment, not data; the simulation is on request. The base rate of a network rule drives most of the remaining spread; I re-mark at each Visa and Mastercard rules release."
          },
          {
           "chip": "Conflict",
-          "tone": "gold",
           "signal": "I build the thing that would benefit",
           "text": "So I wrote the kill rule so the rulebooks settle it, not me; anyone can check, Gravity included."
          }
@@ -277,7 +272,6 @@
   "lede": [
    "Kyle wrote that “significance” is in the eye of the beholder, and AI “is not particularly good at assessing it.” I am, and I keep the receipts. At Grayscale I ran 10 SEC and FINRA regulated products, a $7B portfolio. I co-founded a company that went from $0 to $2M+, profitable in 24 months. Since June I have killed {beliefs_count} of my own beliefs with runnable tests. When I tell you no on a hatch, you get the test that would reopen it."
   ],
-  "bites_at": "end",
   "coldread": {
    "id": "week-one",
    "title": "Week One",

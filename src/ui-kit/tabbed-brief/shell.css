@@ -406,11 +406,7 @@ a:active { color: var(--text); }
   --deboss-fill: var(--bg);
   --deboss: inset 0 2px 4px color-mix(in srgb, black calc(60% * var(--k-glass)), transparent), inset 0 -1px 0 color-mix(in srgb, white calc(6% * var(--k-glass)), transparent); }
 
-/* Header C: the head carries a cyan rim glow inside its edge, drawn on an ::after over the solid bar (no outer glow over the content) */
-.tb-head::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cyan) calc(35% * var(--k-glass)), transparent),
-  inset 0 1px 0 color-mix(in srgb, var(--cyan) calc(45% * var(--k-glass)), transparent),
-  inset 0 0 12px color-mix(in srgb, var(--cyan) calc(14% * var(--k-glass)), transparent); }
+/* Header: no rim glow (Zach, 2026-11-13: "kill that for dark and light"); the head is solid, divider and stuck shadow only */
 
 /* Week One C: the whole cold-read sits pressed into one well (surface on a ::before, so it is one box, not a card in the frame) */
 .tb-coldread .cr { position: relative; isolation: isolate; padding: var(--s-4) var(--s-5); }
@@ -419,3 +415,8 @@ a:active { color: var(--text); }
 @media (max-width: 599px) { .tb-coldread .cr { padding: var(--s-3) var(--s-4); } }
 /* stuck at the top of the viewport the head goes square, so no page shows through its corner notches */
 .tb-head.is-stuck, .tb-head.is-stuck .tb-meta { border-radius: 0; }
+/* pull quote attribution sits right, the pull-quote convention (Zach, 2026-11-13) */
+.sb-by { justify-content: flex-end; text-align: right; }
+/* quote under the headline: no extra room below (the pane gap spaces it); on a phone it stays smaller than the headline */
+.sb { padding-bottom: 0; }
+@media (max-width: 599px) { .sb-t { font-size: var(--fs-headline); } }
