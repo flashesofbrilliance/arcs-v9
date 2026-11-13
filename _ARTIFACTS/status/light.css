@@ -1,0 +1,14 @@
+/* ===== Light theme for the tokens and colors this page owns (2026-11-12) =====
+   Kit 39 remaps the shared tokens; the page's own tokens (--surface2, --faint, --steel) and the few hard-coded pale-on-dark
+   colors are remapped here. Same two entry points as the kit: data-theme="light" and prefers-color-scheme with no explicit dark. */
+:root[data-theme="light"] { --surface2: var(--surface-2); --faint: #566170; --steel: #0b5d7a; }
+:root[data-theme="light"] .tt-m { color: #475262; }
+:root[data-theme="light"] .su-core { background: linear-gradient(180deg, var(--surface), var(--surface-2)); }
+:root[data-theme="light"] .su-zli, :root[data-theme="light"] table.su-t td, :root[data-theme="light"] .su-str, :root[data-theme="light"] .su-sg { border-color: var(--border); }
+:root[data-theme="light"] .alt-btn:hover, :root[data-theme="light"] .terrain-cell { background: rgba(28,36,48,0.05); }
+:root[data-theme="light"] .terrain-cell { border-color: var(--border); }
+:root[data-theme="light"] .ms-commits { border-top-color: var(--border); }
+:root[data-theme="light"] .section-label[style] { filter: none; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) { --surface2: var(--surface-2); --faint: #566170; --steel: #0b5d7a; }
+}

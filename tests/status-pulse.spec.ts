@@ -51,6 +51,7 @@ test("full payload paints counts, risks, gates", async ({ page }) => {
     deploy: { state: "success", date: new Date().toISOString() },
     debt: { total: 60, open: 40, done: 20, byStatus: { open: 6, "in-progress": 10, decision: 24, done: 20 }, bySev: { P1: 1, P2: 10, P3: 29 } },
     risks: { "spend-cap": { sev: "P1", status: "done" } },
+    items: { decision: ["Live decision item"], open: [], "in-progress": ["Live building item"], done: ["Live shipped item"] },
     tempo: [{ week: "2026-09-28", merges: 3 }, { week: "2026-10-05", merges: 9 }],
     gates: { receipts: 300, calibration: { n: 4, gate: 30, cohort: "external" }, goalMap: { n: 22, gate: 100 } },
     evals: null, degraded: [],
@@ -64,4 +65,25 @@ test("full payload paints counts, risks, gates", async ({ page }) => {
   for (const id of ["dg-su", "dg-risk", "dg-tempo", "dg-gates"]) {
     await expect(page.locator(`#${id}`)).not.toHaveClass(/\bon\b/)
   }
+  // card items come from the curated public labels, grouped by status; an empty group says so
+  await expect(page.locator("#su-items-block li")).toHaveText(["Live decision item"])
+  await expect(page.locator("#su-items-prog li")).toHaveText(["Live building item"])
+  await expect(page.locator("#su-items-next li")).toHaveText(["Nothing in this state."])
+})
+
+test("cards: floor order is Awaiting, Next, In progress, Shipped, and a payload without items keeps the floor labels", async ({ page }) => {
+  await open(page, { ok: true, updated: new Date().toISOString(), debt: { total: 60, open: 6, done: 20, byStatus: { open: 6, "in-progress": 10, decision: 24, done: 20 }, bySev: { P1: 1, P2: 10, P3: 29 } }, items: null, degraded: ["items"] })
+  await expect(page.locator(".su-zone-name")).toHaveText(["Awaiting a decision", "Next", "In progress", "Shipped"])
+  await expect(page.locator("#su-items-block li").first()).not.toHaveText("Nothing in this state.")
+  await expect(page.locator("#dg-su")).toHaveClass(/\bon\b/) // items missing is degraded, floor labels stay
+})
+
+test("disabled state: the refresh control is disabled while a read is in flight", async ({ page }) => {
+  let release: () => void = () => {}
+  const gate = new Promise<void>((r) => { release = r })
+  await page.route("https://app.arcs.care/api/pulse", async (route) => { await gate; await route.fulfill({ status: 500, body: "{}" }) })
+  await page.goto("/status.html")
+  await expect(page.locator("#pulse-refresh")).toBeDisabled()
+  release()
+  await expect(page.locator("#pulse-refresh")).toBeEnabled()
 })
