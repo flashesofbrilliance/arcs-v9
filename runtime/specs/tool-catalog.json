@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 308,
+  "script": 310,
   "skill": 28,
   "workflow": 2
  },
- "total": 440,
+ "total": 442,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 599,
+   "WIRED": 601,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
@@ -2336,6 +2336,14 @@
    "path": "scripts/proposal_build.py",
    "jtbd": "proposal_build.py: one source page -> the hosted page, a send copy and the PDF.",
    "invoke": "python3 scripts/proposal_build.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "proposal_construction.py",
+   "path": "scripts/proposal_construction.py",
+   "jtbd": "proposal_construction.py: render a proposal page as its own construction sheet, atom to page.",
+   "invoke": "python3 scripts/proposal_construction.py",
    "state": "WIRED"
   },
   {
