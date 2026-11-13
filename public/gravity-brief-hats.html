@@ -677,6 +677,78 @@ a:active { color: var(--text); }
 /* quotes back in the kit serif (Zach, 2026-11-13: it stood out more) */
 .sb-t { font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif; }
 .sb-t::before, .sb-t::after { font-family: inherit; }
+
+/* ---- glass picks (Zach, 2026-11-13, strength 1x): Header C, Stats B, Week One C, Folds A, Evidence rows B ----
+   Design-system names, defined once from the template's glass tokens (no new literals beyond the signal tints). */
+:root { --glass-surface: var(--glass); --emboss: var(--bevel), var(--lift); --deboss: var(--well); --border-active: color-mix(in srgb, var(--cyan) 55%, var(--border));
+  --deboss-fill: color-mix(in srgb, var(--surface) 91%, var(--text)); }
+:root[data-theme="dark"] { --deboss-fill: color-mix(in srgb, var(--surface) 78%, black); }
+
+/* Header C: the tabs float in a glass capsule; the active tab is a cyan wash with an active ring. Head stays solid when stuck. */
+.shnav:not([data-mode="menu"]) .shnav-tabs { position: relative; isolation: isolate; flex: none; gap: 2px; padding: 4px; margin: 8px 0; }
+.shnav:not([data-mode="menu"]) .shnav-tabs::before { content: ""; position: absolute; inset: 0; z-index: -1; border: 1px solid var(--border); border-radius: var(--ds-r-pill);
+  background: var(--glass-surface); box-shadow: var(--emboss); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.shnav:not([data-mode="menu"]) .shnav-tab { min-height: 36px; padding: 6px 16px; border: 0; border-radius: var(--ds-r-pill); }
+.shnav:not([data-mode="menu"]) .shnav-tab[aria-selected="true"], .shnav:not([data-mode="menu"]) .shnav-tab[aria-current="page"] {
+  background: color-mix(in srgb, var(--cyan) 12%, transparent); box-shadow: inset 0 0 0 1px var(--border-active); }
+:root:not([data-theme="dark"]) .shnav-tab[aria-selected="true"], :root:not([data-theme="dark"]) .shnav-tab[aria-current="page"] { color: var(--text); }
+.shnav[data-mode="menu"] .shnav-menu { width: 44px; height: 44px; border: 1px solid var(--border); border-radius: 50%; background: var(--glass-surface); box-shadow: var(--emboss); margin-right: 0; }
+
+/* Stats B: one instrument panel; each stat a debossed well */
+.ftiles.is-4 { position: relative; isolation: isolate; gap: 6px; padding: 6px; }
+.ftiles.is-4::before { content: ""; position: absolute; inset: 0; z-index: -1; border: 1px solid var(--border); border-radius: var(--ds-r-md); background: var(--glass-surface); box-shadow: var(--emboss); }
+.ftiles.is-4 .ftile::before { background: var(--deboss-fill); box-shadow: var(--deboss); border-radius: var(--ds-r-sm); }
+
+/* Week One C: three cards colour-blocked by role; the label carries the word, so colour is never the only signal */
+@media (min-width: 600px) {
+  .tb-coldread .cr-slots { column-gap: var(--s-3); }
+  .tb-coldread .cr-slots dt, .tb-coldread .cr-slots dd,
+  .tb-coldread .cr-slots dt:first-of-type, .tb-coldread .cr-slots dt:first-of-type + dd,
+  .tb-coldread .cr-slots dt:last-of-type, .tb-coldread .cr-slots dt:last-of-type + dd { border-left: 0; padding-left: var(--s-4); padding-right: var(--s-4); }
+  .tb-coldread .cr-slots dt.section-label { padding-top: var(--s-4); border-start-start-radius: var(--ds-r-sm); border-start-end-radius: var(--ds-r-sm); }
+  .tb-coldread .cr-slots dd { padding-bottom: var(--s-4); border-end-start-radius: var(--ds-r-sm); border-end-end-radius: var(--ds-r-sm); }
+  .tb-coldread .cr-slots dt { border: 1px solid var(--wk-line); border-bottom: 0; }
+  .tb-coldread .cr-slots dd { border: 1px solid var(--wk-line); border-top: 0; }
+  .tb-coldread .cr-slots dt:not(:first-of-type), .tb-coldread .cr-slots dt:not(:first-of-type) + dd { border-left: 1px solid var(--wk-line); }
+}
+@media (max-width: 599px) {
+  .tb-coldread .cr-slots { row-gap: 0; }
+  .tb-coldread .cr-slots dt, .tb-coldread .cr-slots dd, .tb-coldread .cr-slots dt.section-label { padding-left: var(--s-4); padding-right: var(--s-4); }
+  .tb-coldread .cr-slots dt.section-label, .tb-coldread .cr-slots dt:not(:first-of-type) { margin-top: var(--s-2); padding-top: var(--s-3); border: 1px solid var(--wk-line); border-bottom: 0; border-start-start-radius: var(--ds-r-sm); border-start-end-radius: var(--ds-r-sm); }
+  .tb-coldread .cr-slots dt:first-of-type { margin-top: 0; }
+  .tb-coldread .cr-slots dd { padding-bottom: var(--s-3); border: 1px solid var(--wk-line); border-top: 0; border-end-start-radius: var(--ds-r-sm); border-end-end-radius: var(--ds-r-sm); }
+}
+.tb-coldread .cr-slots dt, .tb-coldread .cr-slots dd { --wk: var(--red); --wk-line: color-mix(in srgb, var(--wk) 30%, var(--border)); background: color-mix(in srgb, var(--wk) 6%, var(--surface)); }
+.tb-coldread .cr-slots dt:nth-of-type(2), .tb-coldread .cr-slots dt:nth-of-type(2) + dd { --wk: var(--cyan); }
+.tb-coldread .cr-slots dt:nth-of-type(3), .tb-coldread .cr-slots dt:nth-of-type(3) + dd { --wk: var(--text-secondary); } /* a promise, not proven: neutral, never green */
+:root[data-theme="dark"] .tb-coldread .cr-slots dt.section-label { color: var(--wk); }
+:root:not([data-theme="dark"]) .tb-coldread .cr-slots dt.section-label { color: color-mix(in srgb, var(--wk) 45%, var(--text)); }
+.tb-coldread .cr-step .section-label { justify-self: start; align-self: flex-start; width: fit-content; display: inline-block; padding: 2px 10px; border-radius: var(--ds-r-pill); background: var(--deboss-fill); box-shadow: var(--deboss); }
+
+/* Folds A: glass header row over a sunk body; cyan chevron when open, muted when closed */
+.tb-fold, .tb-fold:last-child { padding: 0; }
+.tb-fold::before { display: none; }
+.tb-fold > .tb-h2 { margin: 0; }
+.tb-fold-btn { padding: var(--s-4) var(--s-5); border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--glass-surface); box-shadow: var(--emboss); }
+.tb-fold-btn::before { border-color: var(--text-secondary); }
+.tb-fold-btn[aria-expanded="true"]::before { border-color: var(--cyan); }
+.tb-fold-body, .tb-fold:has(.tb-fold-btn[aria-expanded="false"]) .tb-fold-body { position: relative; isolation: isolate; margin: 6px 0 0; padding: var(--s-4) var(--s-5); border: 0; }
+/* the sunk surface sits on a ::before (as the fact tile does), so the body is one box, not a card in the frame */
+.tb-fold-body::before { content: ""; position: absolute; inset: 0; z-index: -1; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--deboss-fill); box-shadow: var(--deboss); }
+@media (max-width: 599px) { .tb-fold-btn { padding: var(--s-3) var(--s-4); } .tb-fold-body, .tb-fold:has(.tb-fold-btn[aria-expanded="false"]) .tb-fold-body { padding: var(--s-3) var(--s-2); } }
+
+/* Evidence rows B: Bull and Bear as split glass panels, a 2px signal keyline on top; one column on a phone */
+#bull-bear .sl-rows { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-2); border: 0; }
+@container (min-width: 38rem) { #bull-bear .sl-rows { grid-template-columns: repeat(2, minmax(0, 1fr)); } #bull-bear .sl-rows > .sl-row:last-child:nth-child(odd) { grid-column: 1 / -1; } }
+/* evidence panels sit on a sunk ground, not in a card: this fold body keeps only the deboss shadow */
+@media (max-width: 599px) { #bull-bear .tb-fold-body::before { border-color: transparent; background: none; } }
+#bull-bear .sl-row { --sig: var(--text-secondary); display: flex; flex-direction: column; gap: var(--s-2); padding: var(--s-3) var(--s-4); border: 1px solid var(--border); border-radius: var(--ds-r-sm);
+  background: var(--glass-surface); box-shadow: inset 0 2px 0 var(--sig), var(--emboss); }
+#bull-bear .sl-row + .sl-row { border-top: 1px solid var(--border); }
+#bull-bear .sl-row.is-bull { --sig: var(--green); } #bull-bear .sl-row.is-bear { --sig: var(--red); } #bull-bear .sl-row.is-rules, #bull-bear .sl-row.is-gold { --sig: var(--gold); }
+#bull-bear .sl-key { display: flex; flex-direction: column; gap: 2px; }
+#bull-bear .sl-key .chip { align-self: flex-start; padding: 0; border: 0; background: none; box-shadow: none; font-family: var(--ds-font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sig); }
+:root:not([data-theme="dark"]) #bull-bear .sl-key .chip { color: color-mix(in srgb, var(--sig) 45%, var(--text)); }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>

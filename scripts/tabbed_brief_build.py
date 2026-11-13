@@ -63,7 +63,7 @@ def claim_row(c):
     ev = c["evidence"].rstrip(": ")
     ev += "" if ev.endswith(".") else "."
     rec = (" Record: [%s](%s)." % (c.get("label") or "link", c["url"])) if c.get("url") else ""
-    return {"chip": pe.STATUS_LABEL[c["status"]], "tone": STATUS_TONE[c["status"]], "signal": "checked " + c["date"], "text": "**%s** %s%s" % (c["claim"], ev, rec)}
+    return {"chip": pe.STATUS_LABEL[c["status"]], "tone": STATUS_TONE[c["status"]], "signal": c["date"], "text": "**%s** %s%s" % (c["claim"], ev, rec)}
 
 
 def claim_ref(c):
@@ -230,8 +230,8 @@ def r_ledger(b, p, hlevel):
     gs = []
     for gi, g in enumerate(b["groups"]):
         gp = "%s/groups/%d" % (p, gi)
-        rows = "".join('<li class="sl-row"><div class="sl-key"><span class="chip%s">%s</span><span class="sl-sig">%s</span></div><p class="sl-ev">%s</p></li>' % (
-            "" if r.get("tone", "plain") == "plain" else " " + r["tone"], md(r["chip"], "%s/rows/%d/chip" % (gp, ri)),
+        rows = "".join('<li class="sl-row is-%s"><div class="sl-key"><span class="chip%s">%s</span><span class="sl-sig">%s</span></div><p class="sl-ev">%s</p></li>' % (
+            re.sub(r"[^a-z0-9]+", "-", r["chip"].lower()).strip("-"), "" if r.get("tone", "plain") == "plain" else " " + r["tone"], md(r["chip"], "%s/rows/%d/chip" % (gp, ri)),
             md(r["signal"], "%s/rows/%d/signal" % (gp, ri)), md(r["text"], "%s/rows/%d/text" % (gp, ri))) for ri, r in enumerate(g["rows"]))
         gid = "sl-%s-%d" % (re.sub(r"[^a-z0-9]+", "-", p.lower()).strip("-"), gi)
         n = len(g["rows"])
