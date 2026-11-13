@@ -38,6 +38,8 @@ Usage: python3 scripts/component_source_gate.py <file.html> [...]        (exit 1
        python3 scripts/component_source_gate.py --self-test
 """
 import json, os, re, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import design_candidates
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
@@ -66,7 +68,7 @@ def analyze(text, templates):
     if not m:
         return ("PASS", "not enrolled (no @arcs-template marker)")
     name = m.group(1).lower()
-    tpl = templates.get(name)
+    tpl = templates.get(name) or design_candidates.templates_for(text).get(name)  # a trial template the page declares
     if tpl is None:
         known = ", ".join(sorted(templates)) or "(manifest empty/missing)"
         return ("FAIL", f"declares unknown template '{name}'. Registered: {known}")
