@@ -241,6 +241,9 @@ def render(index):
 
 
 def self_test():
+    import os as _os  # a pre-commit hook exports GIT_DIR / GIT_INDEX_FILE; left set, the scratch git below writes to the REAL repo
+    for _k in [k for k in _os.environ if k.startswith("GIT_")]:
+        del _os.environ[_k]
     with tempfile.TemporaryDirectory() as d:
         os.makedirs(os.path.join(d, "public"))
         with open(os.path.join(d, "public", "a.txt"), "w") as f:

@@ -94,6 +94,9 @@ def render(res, today):
 
 
 def self_test():
+    import os as _os  # a pre-commit hook exports GIT_DIR / GIT_INDEX_FILE; left set, the scratch git below writes to the REAL repo
+    for _k in [k for k in _os.environ if k.startswith("GIT_")]:
+        del _os.environ[_k]
     with tempfile.TemporaryDirectory() as d:
         subprocess.run(["git", "-C", d, "init", "-q"], check=True)
         open(os.path.join(d, "a.txt"), "w").write("the ARCS Law uses S_min\n")

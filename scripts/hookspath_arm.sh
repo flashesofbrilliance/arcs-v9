@@ -73,6 +73,9 @@ self_test() {
   return $fail
 }
 
-if [ "${1:-}" = "--self-test" ]; then self_test; exit $?; fi
+if [ "${1:-}" = "--self-test" ]; then
+  unset $(env | sed -n 's/^\(GIT_[A-Z_]*\)=.*/\1/p')  # a pre-commit hook's GIT_DIR would aim the scratch git at the real repo
+  self_test; exit $?
+fi
 arm "${1:-$PWD}"
 exit 0

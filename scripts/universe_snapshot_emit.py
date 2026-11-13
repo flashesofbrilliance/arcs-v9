@@ -389,6 +389,9 @@ def refresh(remote: str = "origin", branch: str = "main", tries: int = 3) -> int
 
 def self_test() -> int:
     """Falsifiable eval in a throwaway repo: each assertion passes on good AND fails on its bad variant."""
+    import os as _os  # a pre-commit hook exports GIT_DIR / GIT_INDEX_FILE; left set, the scratch git below writes to the REAL repo
+    for _k in [k for k in _os.environ if k.startswith("GIT_")]:
+        del _os.environ[_k]
     me = Path(__file__).resolve()
     oracle = me.parent / "oracle.py"
     results = []

@@ -198,6 +198,9 @@ def ledger_for(f):
     return pl.load_ledger(led) if led else []
 
 def self_test():
+    import os as _os  # a pre-commit hook exports GIT_DIR / GIT_INDEX_FILE; left set, the scratch git below writes to the REAL repo
+    for _k in [k for k in _os.environ if k.startswith("GIT_")]:
+        del _os.environ[_k]
     ok = True
     def check(name, cond):
         nonlocal ok; print(("PASS " if cond else "FAIL ") + name); ok &= bool(cond)

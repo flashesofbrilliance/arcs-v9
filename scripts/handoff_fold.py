@@ -325,6 +325,9 @@ FULL = ("## Goal\nOne cold-moltable arc per molt.\n\n## Changed\n- #950 merged; 
 
 
 def self_test():
+    import os as _os  # a pre-commit hook exports GIT_DIR / GIT_INDEX_FILE; left set, the scratch git below writes to the REAL repo
+    for _k in [k for k in _os.environ if k.startswith("GIT_")]:
+        del _os.environ[_k]
     import tempfile, time
     me = os.path.abspath(__file__)
     fails = []

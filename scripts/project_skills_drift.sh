@@ -27,6 +27,7 @@ check() {
 }
 
 if [ "${1:-}" = "--self-test" ]; then
+  unset $(env | sed -n 's/^\(GIT_[A-Z_]*\)=.*/\1/p')  # a pre-commit hook's GIT_DIR would aim the scratch git at the real repo
   t=$(mktemp -d); trap 'rm -rf "$t"' EXIT
   git init -q -b main "$t/o"; mkdir -p "$t/o/.claude/skills/x"; echo a > "$t/o/.claude/skills/x/SKILL.md"
   git -C "$t/o" add -A; git -C "$t/o" -c user.name=t -c user.email=t@t commit -qm i
