@@ -773,6 +773,23 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) { --surface2: var(--surface-2); --faint: #566170; --steel: #0b5d7a; }
 }
+
+/* The architecture diagram (section 02) draws with presentation attributes in dark hex values, so tokens cannot reach it.
+   In light these selectors remap each one to a token. The lightbox clone drops the .flow-svg class and keeps the dark art on its dark overlay. */
+:root[data-theme="light"] .flow-wrap { background: var(--surface-2); box-shadow: none; }
+:root[data-theme="light"] .flow-wrap::after { background: linear-gradient(90deg, transparent, var(--surface-2) 65%); }
+:root[data-theme="light"] .flow-svg [fill="#0d1117"] { fill: var(--surface); }
+:root[data-theme="light"] .flow-svg [fill="#7a8699"] { fill: var(--muted); }
+:root[data-theme="light"] .flow-svg [fill="#00FF9D"] { fill: var(--green); }
+:root[data-theme="light"] .flow-svg [fill="#00F0FF"] { fill: var(--cyan); }
+:root[data-theme="light"] .flow-svg [fill="#FFD700"] { fill: var(--gold); }
+:root[data-theme="light"] .flow-svg [stroke="#475569"] { stroke: var(--muted); }
+:root[data-theme="light"] .flow-svg [stroke="#1e293b"] { stroke: var(--border); }
+:root[data-theme="light"] .flow-svg [stroke="#00FF9D"] { stroke: var(--green); }
+:root[data-theme="light"] .flow-svg [stroke="rgba(0,240,255,0.35)"] { stroke: var(--cyan); }
+:root[data-theme="light"] .flow-svg [stroke="rgba(255,215,0,0.35)"] { stroke: var(--gold); }
+:root[data-theme="light"] .flow-svg [stroke="rgba(0,255,157,0.35)"] { stroke: var(--green); }
+:root[data-theme="light"] .alt-bar { background: rgba(255,255,255,0.92); }
 </style>
 <link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/jetbrains-mono-normal-100-800-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
