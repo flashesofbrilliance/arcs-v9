@@ -718,6 +718,17 @@ if [ -f scripts/kit_primitive_sync.py ] && command -v python3 >/dev/null 2>&1; t
   fi
 fi
 
+# Kit-internal sync + design-system parity (2026-11-13): when any kit part changes, every "composed with"
+# copy must match its source part and every part in ds-parity.json must keep its design-system values.
+if [ -f scripts/kit_primitive_sync.py ] && command -v python3 >/dev/null 2>&1; then
+  if git diff --cached --name-only | grep -qE '^src/ui-kit/recoil-report/([0-9][0-9]-.*\.html|ds-parity\.json)$'; then
+    if ! python3 scripts/kit_primitive_sync.py --kit; then
+      echo "✖ commit blocked: a kit part's copy is stale or a part drifted from the design system (scripts/kit_primitive_sync.py --kit)." >&2
+      exit 1
+    fi
+  fi
+fi
+
 # ---------------------------------------------------------------------------
 # component-source gate (visual twin of token-source, 2026-09-26): an ENROLLED single-file
 # page (one carrying  <!-- @arcs-template: <name> --> ) must assemble from the registered
@@ -1039,6 +1050,19 @@ if [ -n "$orx" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/operator_
     python3 scripts/operator_registry_emit.py --check >&2 || true
     echo "✖ pre-commit(operator-registry): operators/OPERATOR-REGISTRY.json is stale or a binding no longer exists." >&2
     echo "  fix: python3 scripts/operator_registry_emit.py && git add operators/OPERATOR-REGISTRY.json" >&2
+    exit 1
+  fi
+fi
+
+# Seat binding map (2026-11-13): runtime/specs/operator-binding-map.json binds every operator, Python
+# operator and agent to the rows, tools and surfaces that name it, each edge citing file + needle. If a seat
+# file, the roster sources, the design-review stages or the map is staged, every edge's evidence must still
+# hold and every roster seat must be present (a hand-written or stale binding fails here).
+sbm=$(git diff --cached --name-only -- runtime/specs/operator-binding-map.json runtime/specs/design-review-seats.json scripts/operator_binding_emit.py operators/OPERATOR-REGISTRY.json runtime/specs/tool-catalog.json '.claude/agents/*.md' 2>/dev/null || true)
+if [ -n "$sbm" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/operator_binding_emit.py ]; then
+  if ! python3 scripts/operator_binding_emit.py --check >&2; then
+    echo "✖ pre-commit(seat-binding): the binding map is stale or cites evidence that no longer holds." >&2
+    echo "  fix: python3 scripts/operator_binding_emit.py && git add runtime/specs/operator-binding-map.json" >&2
     exit 1
   fi
 fi
