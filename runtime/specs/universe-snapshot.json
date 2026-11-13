@@ -30,13 +30,13 @@
   ]
  },
  "dimensions": {
-  "corpus": 2450,
+  "corpus": 2529,
   "canon": {
-   "files": 125,
+   "files": 126,
    "tao_proverbs": 287,
-   "adrs": 87
+   "adrs": 88
   },
-  "codebase": 822,
+  "codebase": 926,
   "conviction": {
    "signal": null,
    "why": "Y-gate spread lives in the prod Receipt table; not read by this script"
@@ -45,8 +45,8 @@
    "nodes_clear": 53,
    "nodes": 81,
    "shore_open": 37,
-   "files_mapped": 288,
-   "files_fog": 3109
+   "files_mapped": 338,
+   "files_fog": 3243
   },
   "coherence": {
    "diamonds": 3,
@@ -1406,10 +1406,10 @@
    },
    "galaxy": "runtime/specs/universe/recoil.json",
    "population": {
-    "corpus": 31,
+    "corpus": 35,
     "canon": 4,
-    "codebase": 64,
-    "files": 281
+    "codebase": 105,
+    "files": 332
    }
   },
   {
@@ -1474,10 +1474,10 @@
    },
    "galaxy": "runtime/specs/universe/gaunt.json",
    "population": {
-    "corpus": 7,
+    "corpus": 10,
     "canon": 1,
-    "codebase": 3,
-    "files": 22
+    "codebase": 4,
+    "files": 26
    }
   },
   {
@@ -2307,9 +2307,9 @@
    "galaxy": "runtime/specs/universe/adrs.json",
    "population": {
     "corpus": 0,
-    "canon": 87,
+    "canon": 88,
     "codebase": 0,
-    "files": 87
+    "files": 88
    }
   },
   {
@@ -3281,6 +3281,12 @@
    "private": false
   },
   {
+   "path": "_ARTIFACTS/forge-gravity/prediction-ledger.json",
+   "kind": "ledger",
+   "rows": 20,
+   "private": false
+  },
+  {
    "path": "_ARTIFACTS/forge-monday-fde/takehome/MANIFEST.json",
    "kind": "manifest",
    "rows": 1,
@@ -3301,13 +3307,13 @@
   {
    "path": "_DECISIONS/index.json",
    "kind": "index",
-   "rows": 79,
+   "rows": 80,
    "private": false
   },
   {
    "path": "_PATTERNS/ledger.json",
    "kind": "ledger",
-   "rows": 22,
+   "rows": 23,
    "private": false
   },
   {
@@ -3355,7 +3361,7 @@
   {
    "path": "_STATE/falsification-ledger.jsonl",
    "kind": "ledger",
-   "rows": 42,
+   "rows": 48,
    "private": false
   },
   {
@@ -3379,7 +3385,7 @@
   {
    "path": "_STATE/job-search/hypothesis-ledger.jsonl",
    "kind": "ledger",
-   "rows": 9,
+   "rows": 11,
    "private": true
   },
   {
@@ -3387,6 +3393,12 @@
    "kind": "registry",
    "rows": 12,
    "private": true
+  },
+  {
+   "path": "_STATE/scrum/ledger.jsonl",
+   "kind": "ledger",
+   "rows": 1,
+   "private": false
   },
   {
    "path": "_STATE/token-kaizen/ledger.jsonl",
@@ -3415,13 +3427,19 @@
   {
    "path": "runtime/specs/agent-seed-ledger.jsonl",
    "kind": "ledger",
-   "rows": 8,
+   "rows": 9,
    "private": false
   },
   {
    "path": "runtime/specs/artifact-reuse-catalog.json",
    "kind": "catalog",
    "rows": 211,
+   "private": false
+  },
+  {
+   "path": "runtime/specs/backlog-index.json",
+   "kind": "index",
+   "rows": 18,
    "private": false
   },
   {
@@ -3475,13 +3493,13 @@
   {
    "path": "runtime/specs/surface-catalog.json",
    "kind": "catalog",
-   "rows": 321,
+   "rows": 288,
    "private": false
   },
   {
    "path": "runtime/specs/tool-catalog.json",
    "kind": "catalog",
-   "rows": 378,
+   "rows": 434,
    "private": false
   },
   {
@@ -3493,13 +3511,25 @@
   {
    "path": "scripts/nftt_index_layout.json",
    "kind": "index",
-   "rows": 35,
+   "rows": 36,
    "private": false
   },
   {
    "path": "src/ui-kit/kit-manifest.json",
    "kind": "manifest",
-   "rows": 61,
+   "rows": 88,
+   "private": false
+  },
+  {
+   "path": "src/ui-kit/specimens/ledger-row.json",
+   "kind": "ledger",
+   "rows": 6,
+   "private": false
+  },
+  {
+   "path": "src/ui-kit/specimens/signal-ledger.json",
+   "kind": "ledger",
+   "rows": 6,
    "private": false
   },
   {

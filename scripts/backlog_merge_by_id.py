@@ -109,6 +109,9 @@ def manual():
 
 
 def self_test():
+    import os as _os  # a pre-commit hook exports GIT_DIR / GIT_INDEX_FILE; left set, the scratch git below writes to the REAL repo
+    for _k in [k for k in _os.environ if k.startswith("GIT_")]:
+        del _os.environ[_k]
     here = os.path.dirname(os.path.abspath(__file__))
     fails = []
 

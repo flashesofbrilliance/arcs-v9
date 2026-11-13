@@ -229,6 +229,9 @@ def main(argv=None):
 
 def self_test() -> int:
     """Run a copy of the CLI in a throwaway git repo (ROOT = git toplevel of cwd). Never touches the real repo."""
+    import os as _os  # a pre-commit hook exports GIT_DIR / GIT_INDEX_FILE; left set, the scratch git below writes to the REAL repo
+    for _k in [k for k in _os.environ if k.startswith("GIT_")]:
+        del _os.environ[_k]
     import hashlib, shutil, tempfile
     me = os.path.abspath(__file__)
     fails = total = 0

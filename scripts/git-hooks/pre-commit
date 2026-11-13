@@ -15,6 +15,27 @@
 # (_SEEDS/_oracle.json) — the signal that it was minted off-oracle.
 set -euo pipefail
 
+# Shared-config tripwire (2026-11-12, gotcha 15): git exports GIT_DIR / GIT_INDEX_FILE to this hook, and a
+# self-test below that builds a scratch repo without dropping them writes to THIS repo's shared .git/config
+# (seen: core.bare=true, user.name=t, user.email=t@t, core.hooksPath=/dev/null, commit.gpgsign=false; commits authored `t <t@t>` then failed Vercel's author
+# check, and hooksPath=/dev/null silently turned every hook off). Snapshot those keys now; if any differ when the hook exits, block the commit and say so.
+_cfg_file="$(git rev-parse --git-common-dir 2>/dev/null)/config"
+_cfg_snap() { git config --file "$_cfg_file" --get-regexp '^(user\.(name|email)|core\.(bare|hookspath)|commit\.gpgsign)$' 2>/dev/null || true; }
+_cfg_before=$(_cfg_snap)
+_cfg_guard() {
+  rc=$?
+  _cfg_after=$(_cfg_snap)
+  if [ "$_cfg_after" != "$_cfg_before" ]; then
+    echo "✖ pre-commit(config-tripwire): a check in this hook changed $_cfg_file" >&2
+    echo "  before: $(echo "$_cfg_before" | tr '\n' ' ')" >&2
+    echo "  after:  $(echo "$_cfg_after" | tr '\n' ' ')" >&2
+    echo "  find it: python3 scripts/scratch_git_leak_gate.py ; restore by hand (back the file up first)." >&2
+    exit 1
+  fi
+  exit $rc
+}
+trap _cfg_guard EXIT
+
 added=$(git diff --cached --name-only --diff-filter=A -- '_DECISIONS/ADR-*.md' 2>/dev/null || true)
 # NB: do NOT `exit 0` here when $added is empty — later guards (wrap-class) must still run.
 if [ -n "$added" ]; then
@@ -210,6 +231,23 @@ if [ -n "$gen_bl" ] && [ -f scripts/backlog_status_check.py ] && command -v pyth
     echo "  set \`state\` from runtime/specs/backlog-status.json; keep prose in \`status_note\`." >&2
     echo "  new rows: route at induction (the FAIL line proposes one; --propose lists them), execute at pickup." >&2
     exit 1
+  fi
+fi
+# Scratch-git leak gate (2026-11-12, gotcha 15): a staged script whose --self-test builds a scratch git repo
+# is run under a worktree hook's env against a throwaway host repo; any write to the host's config or refs
+# blocks. The tripwire at the top catches what reaches the real config; this names the script before it does.
+if [ -f scripts/scratch_git_leak_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  sg_staged=$(git diff --cached --name-only --diff-filter=AM -- 'scripts/*.py' 'scripts/*.sh' 2>/dev/null || true)
+  if [ -n "$sg_staged" ]; then
+    sg_list=$(python3 scripts/scratch_git_leak_gate.py --list)
+    sg_run=$(printf '%s\n' $sg_staged | grep -Fxf <(printf '%s\n' $sg_list) || true)
+    if printf '%s\n' $sg_staged | grep -qx scripts/scratch_git_leak_gate.py; then
+      python3 scripts/scratch_git_leak_gate.py --self-test >/dev/null 2>&1 || { python3 scripts/scratch_git_leak_gate.py --self-test >&2 || true; echo "✖ commit blocked: scratch_git_leak_gate.py --self-test failed." >&2; exit 1; }
+    fi
+    if [ -n "$sg_run" ] && ! python3 scripts/scratch_git_leak_gate.py $sg_run; then
+      echo "✖ commit blocked: a staged self-test writes to the repo that runs it (see above)." >&2
+      exit 1
+    fi
   fi
 fi
 # Backlog merge driver (2026-11-12, gotcha 15): two throwaway branches in a temp repo prove the backlog

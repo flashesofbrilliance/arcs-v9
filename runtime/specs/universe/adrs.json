@@ -25,12 +25,12 @@
  },
  "dimensions": {
   "corpus": 0,
-  "canon": 87,
+  "canon": 88,
   "codebase": 0,
-  "files": 87
+  "files": 88
  },
  "systems": {
-  "_DECISIONS": 87
+  "_DECISIONS": 88
  },
  "files": [
   "_DECISIONS/ADR-001-auth-gate-strategy.md",
@@ -119,6 +119,7 @@
   "_DECISIONS/ADR-089-jtbd-graph-schema-and-stable-ids.md",
   "_DECISIONS/ADR-090-public-rfp-engine-repo-main-is-the-clean-work-sample.md",
   "_DECISIONS/ADR-091-mac-only-commits-backed-up-as-backup-refs.md",
-  "_DECISIONS/ADR-092-backlog-rows-only-through-the-append-script.md"
+  "_DECISIONS/ADR-092-backlog-rows-only-through-the-append-script.md",
+  "_DECISIONS/ADR-093-counterpart-citation-needs-consent-on-record.md"
  ]
 }

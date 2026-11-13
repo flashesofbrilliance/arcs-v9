@@ -155,7 +155,7 @@ EOF
 # ---------------------------------------------------------------- args
 for a in "$@"; do
   case "$a" in
-    --self-test) self_test ;;
+    --self-test) unset $(env | sed -n 's/^\(GIT_[A-Z_]*\)=.*/\1/p'); self_test ;;  # a pre-commit hook's GIT_DIR would aim the scratch git at the real repo
     --dry-run) DRY=1 ;;
     --yes) YES=1 ;;
     --skip-build) SKIP_BUILD=1 ;;
