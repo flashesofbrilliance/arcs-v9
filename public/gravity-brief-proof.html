@@ -355,17 +355,18 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 @media (min-width: 1024px) { .tb-expand.solo { display: none; } } /* one fold and no stacked seats: nothing to expand */
 
 /* fold sections: a heading that holds a button (the ARIA accordion pattern), a one-line tagline, a body */
-.tb-folds { display: flex; flex-direction: column; }
+/* fold body insets to the heading text (chevron + gap) on the left, and the same on the right */
+.tb-folds { --fold-mark: 8px; --fold-gap: 12px; display: flex; flex-direction: column; }
 .tb-fold { border-top: 1px solid var(--border); padding: var(--s-4) 0; }
 .tb-fold:last-child { border-bottom: 1px solid var(--border); }
 .tb-coldread { display: flex; flex-direction: column; gap: 16px; }
 .tb-coldread > * { margin: 0; }
 .tb-h2 { margin: 0; font-size: var(--fs-headline); font-weight: var(--fw-strong); line-height: var(--lh-head); }
-.tb-fold-btn { width: 100%; display: flex; align-items: flex-start; justify-content: flex-start; gap: 12px; padding: 0; border: 0; background: none;
+.tb-fold-btn { width: 100%; display: flex; align-items: flex-start; justify-content: flex-start; gap: var(--fold-gap); padding: 0; border: 0; background: none;
   color: var(--text); font: inherit; text-align: left; cursor: pointer; }
 .tb-fold-btn:hover { color: var(--cyan); }
 /* chevron as on MyAlly: left of the title, points right when closed, down when open */
-.tb-fold-btn::before { content: ""; flex: none; width: 8px; height: 8px; margin-top: 9px; border-right: 1.5px solid var(--cyan); border-bottom: 1.5px solid var(--cyan);
+.tb-fold-btn::before { content: ""; flex: none; width: var(--fold-mark); height: 8px; margin-top: 9px; border-right: 1.5px solid var(--cyan); border-bottom: 1.5px solid var(--cyan);
   transform: rotate(-45deg); transition: transform var(--dur-base) var(--ease-out); }
 .tb-fold-btn[aria-expanded="true"]::before { transform: rotate(45deg); }
 .tb-fold-btn > span { display: flex; flex-direction: column; }
@@ -373,7 +374,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-tag { display: block; margin: 2px 0 0; font-size: var(--fs-body); font-weight: 400; color: var(--text-secondary); }
 .tb-scroll { overflow-x: auto; }
 .tb-scroll:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
-.tb-fold-body { padding-top: 16px; display: flex; flex-direction: column; gap: 16px; }
+.tb-fold-body { padding: 16px calc(var(--fold-mark) + var(--fold-gap)) 0; display: flex; flex-direction: column; gap: 16px; }
 .tb-fold-body > * { margin: 0; }
 
 /* role tab: one head, then units separated by hairline spacers */
