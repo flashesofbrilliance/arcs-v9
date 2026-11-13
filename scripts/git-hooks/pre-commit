@@ -831,6 +831,15 @@ if [ -f scripts/kit_pull.py ] && git diff --cached --name-only -- 'src/ui-kit/*'
   fi
 fi
 
+# Kit periodic table (2026-11-13): _ARTIFACTS/kit-periodic-table.html is generated from the manifest, templates,
+# specimens and the append-only catalyst ledger src/ui-kit/kit-catalysts.jsonl. sentries.py flags an unsynced ledger.
+if [ -f scripts/kit_periodic_table.py ] && git diff --cached --name-only -- 'src/ui-kit/*' 'scripts/kit_periodic_table.py' '_ARTIFACTS/kit-periodic-table.html' | grep -q .; then
+  if ! python3 scripts/kit_periodic_table.py --check; then
+    echo "✖ commit blocked: the kit periodic table or its ledger is off. Run python3 scripts/kit_periodic_table.py (after kit_pull.py manifest); never edit a committed ledger line." >&2
+    exit 1
+  fi
+fi
+
 # ---------------------------------------------------------------------------
 # kintsugi immune system (ROM #6, visual grammar): run the Impeccable design detector over
 # staged single-file pages when the launcher is installed on this machine. NEW pages block on

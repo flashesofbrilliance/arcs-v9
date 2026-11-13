@@ -2283,6 +2283,7 @@
     "_ARTIFACTS/brooks-audit-onepager.html",
     "_ARTIFACTS/brooks-pitch-storyboard.html",
     "_ARTIFACTS/docs-reconciliation.html",
+    "_ARTIFACTS/kit-periodic-table.html",
     "public/cia-brief.html",
     "public/good-audit-check.html",
     "public/good-audit-sample.html",
@@ -2291,7 +2292,7 @@
     "scripts/counterpart_onepager_build.py",
     "scripts/kit_pull.py"
    ],
-   "reuse": 12,
+   "reuse": 13,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -3379,11 +3380,12 @@
    ],
    "pages": [
     "scripts/audit_report_build.py",
+    "scripts/kit_periodic_table.py",
     "scripts/kit_primitive_sync.py",
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py"
    ],
-   "reuse": 4,
+   "reuse": 5,
    "near_duplicates": []
   },
   {
