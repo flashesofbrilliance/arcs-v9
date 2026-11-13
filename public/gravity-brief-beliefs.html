@@ -461,12 +461,12 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .rcpt-meta span:first-child { color: var(--gold); }
 .rcpt-claim { margin: 0; font-size: var(--fs-headline); line-height: var(--lh-head); font-weight: 500; color: var(--text); }
 .rcpt-odds { display: block; margin-bottom: 4px; font-size: var(--fs-display); line-height: var(--lh-display); font-weight: var(--fw-strong); color: var(--text); }
-.rcpt-rows { display: grid; grid-template-columns: max-content 1fr; gap: 8px 16px; margin: var(--s-4) 0 0; padding-top: var(--s-3); border-top: 1px dashed var(--gold); font-size: var(--fs-body); }
+.rcpt-rows { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 8px; margin: var(--s-4) 0 0; padding-top: var(--s-3); border-top: 1px dashed var(--gold); font-size: var(--fs-body); }
 .rcpt-rows dt { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; color: var(--gold); padding-top: 3px; }
 .rcpt-rows dd { margin: 0; color: var(--text); }
 .rcpt-ask { margin: 0 0 12px; font-size: var(--fs-headline); line-height: var(--lh-text); color: var(--text); }
 .rcpt-mail { display: inline-block; padding: 4px 0; font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--cyan); }
-@media (max-width: 520px) { .rcpt { padding: 16px; } .rcpt-rows { grid-template-columns: 1fr; gap: 2px; } .rcpt-rows dd { margin-bottom: 8px; } }
+@media (max-width: 520px) { .rcpt { padding: 16px; } .rcpt-rows dd { margin-bottom: 8px; } }
 
 /* ---- polish layer (2026-11-12): one state set for every control, light and dark, from kit tokens ----
    Fact-tile type steps: kit 45 ships .75rem and .9rem; the template pins them to the ramp (label, body). */
@@ -518,21 +518,18 @@ a:active { color: var(--text); }
 /* R2 + R3: signal ledger, two columns at every width above a phone (the kit's third column split the key and left the chip column empty) */
 .sl { gap: var(--s-6); }
 .sl-key { gap: var(--s-1); }
-@container (min-width:38rem) { .sl-row { grid-template-columns: var(--key) minmax(0, 1fr); column-gap: var(--s-5); } }
-@container (min-width:58rem) { .sl-row { grid-template-columns: var(--key) minmax(0, 1fr); } .sl-key { display: flex; } }
+@container (min-width:58rem) { .sl-key { display: flex; } }
 @container (max-width:37.99rem) { .sl-key { flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: var(--s-2); } }
 /* R4 */
 .sl-gh { padding: 0 0 var(--s-1); border-bottom: 0; }
 /* R2: tables start keys on the lane edge and share the keyline */
 .tb-table th:first-child, .tb-table td:first-child { padding-left: 0; }
 .tb-table th:last-child, .tb-table td:last-child { padding-right: 0; }
-.tb-table td:first-child { width: var(--key); }
+.tb-table td:first-child { width: var(--key); padding-right: var(--s-5); } /* content box is the key; the gutter is its right padding */
 .tb-table td:has(> .chip) { width: 1%; }
 .pm-table th:first-child, .pm-table td:first-child { padding-left: 0; }
 .pm-table th:last-child, .pm-table td:last-child { padding-right: 0; }
 /* R2: cold-read slots on the keyline */
-.cr-slots { grid-template-columns: calc(var(--key) + var(--s-5)) minmax(0, 1fr); column-gap: 0; } /* gutter as dt padding so the row rule runs unbroken */
-.cr-slots dt.section-label { padding-right: var(--s-5); }
 /* R1: the How steps fill the lane instead of leaving an empty third column */
 .cr-how { grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
 /* R6: fact tile, one box for label, figure and caption */
@@ -543,7 +540,6 @@ a:active { color: var(--text); }
 .ftiles { gap: var(--s-2); }
 @media (max-width: 599px) {
   .tb-table td:first-child { width: auto; }
-  .cr-slots { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* ---- Week One as one organism (2026-11-12): one hairline section like every fold (no nested card), three bands ----
@@ -661,11 +657,11 @@ a:active { color: var(--text); }
 /* timeline molecule: date label over the release, cyan nodes on one rule (the Week One stepper, vertical) */
 .tb-tl { position: relative; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--s-4); }
 .tb-tl::before { content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; border-left: 1px solid var(--border); }
-.tb-tl-i { position: relative; padding-left: var(--s-5); display: flex; flex-direction: column; gap: var(--s-1); }
+.tb-tl-i { position: relative; display: flex; flex-direction: column; gap: var(--s-1); }
 .tb-tl-i::before { content: ""; position: absolute; left: 0; top: 2px; width: 11px; height: 11px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 0 3px var(--surface); }
 .tb-tl-d { margin: 0; font-variant-numeric: tabular-nums; }
 .tb-tl-t { margin: 0; line-height: var(--lh-text); text-wrap: pretty; }
-@container (min-width: 38rem) { .tb-tl-i { display: grid; grid-template-columns: calc(var(--key) - var(--s-5)) minmax(0, 1fr); column-gap: var(--s-5); align-items: baseline; } }
+
 .tb-fold-body { container-type: inline-size; }
 /* masthead name in the San Francisco system face (Zach, 2026-11-12); size, weight, caps and tracking unchanged; non-Apple falls back to system-ui */
 .tb-name-main { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif; }
@@ -710,6 +706,21 @@ a:active { color: var(--text); }
 /* quote under the headline: no extra room below (the pane gap spaces it); on a phone it stays smaller than the headline */
 .sb { padding-bottom: 0; }
 @media (max-width: 599px) { .sb-t { font-size: var(--fs-headline); } }
+
+/* ---- R2 lockup primitive (2026-11-13, root cause of drifting content edges) ----
+   ONE rule lays out every two-column molecule: a key column (--key) and one gutter (--s-5), stacked below a 38rem container.
+   Molecules never write their own column template. A molecule that needs a full-width rule draws it on the row,
+   never by changing the column math. Gate: scripts/keyline_check.mjs (npm test). */
+.tb-body { container-type: inline-size; }
+.tb-tl-d { padding-left: var(--s-5); } /* the dot track lives inside the key column */
+@container (min-width: 38rem) {
+  .sl-row, .cr-slots, .rcpt-rows, .tb-tl-i { display: grid; grid-template-columns: var(--key) minmax(0, 1fr); column-gap: var(--s-5); }
+  .tb-tl-i { align-items: baseline; }
+  .cr-slots dt { position: relative; }
+  .cr-slots dt:not(:first-of-type)::after { content: ""; position: absolute; top: -1px; left: 100%; width: var(--s-5); border-top: 1px solid var(--border); } /* the row rule runs through the gutter */
+}
+@container (max-width: 37.99rem) { .cr-slots { display: grid; grid-template-columns: minmax(0, 1fr); } .tb-tl-i { padding-left: var(--s-5); } .tb-tl-d { padding-left: 0; } }
+.tb-coldread .cr-slots dt::after { content: none; } /* Week One is three bands, not a lockup: no gutter bridge */
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
