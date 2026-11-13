@@ -77,6 +77,24 @@ def parity_check(kb):
                 if have.get(k) != v: bad += 1; print(f"✖ {n} {sel}: {k} is {have.get(k)!r}, design system says {v!r} ({sp['component']})")
     return bad
 
+def boxsize_check(kb):
+    """A rule with a fixed px height and a border must be border-box, or the border adds 2px to the
+    height on every page that inlines it (no page, _tokens.css or part sets a global box-sizing).
+    2026-11-13: the 22px design-system chip measured 24px on the Gravity pages for exactly this reason."""
+    # Known debt (2026-11-13), allowed so the gate fails only on new cases: these render 2px over their stated
+    # size today on every page that inlines them. Fixing them changes live pages (incl. counterpart-facing), so it
+    # waits on Zach. Remove a selector here in the same change that makes it border-box.
+    KNOWN = {("42-shell-nav", ".shnav-menu"), ("51-display-preferences", ".dprefs-aa"), ("51-display-preferences", ".dprefs-theme"),
+             ("58-toast", ".toast-close"), ("60-heat-take", ".heat-pips b")}
+    bad = 0
+    for n, (f, body, _) in kb.items():
+        for l in body.split("\n"):
+            if "{" not in l or (n, l.split("{")[0].strip()) in KNOWN: continue
+            d = l.split("{", 1)[1]
+            if re.search(r'(^|[;{\s])height:\s*\d+px', d) and re.search(r'(^|[;{\s])border(-width)?:\s*(?!none|0)', d) and "box-sizing: border-box" not in d:
+                bad += 1; print(f"✖ {n} ({f}): fixed height with a border but no box-sizing: border-box, so it renders 2px taller: {l.strip()[:80]}")
+    return bad
+
 def main(a):
     page = open(PAGE, encoding="utf-8").read(); bad = 0; kb = kit_blocks()
     for rp, src in marked_pages():
@@ -102,6 +120,6 @@ def main(a):
 
 if __name__ == "__main__":
     if "--kit" in sys.argv:  # kit-internal only (composed copies + design-system parity); pre-commit runs it on any kit part change
-        kb = kit_blocks(); n = composed_check(kb) + parity_check(kb)
-        print("✓ composed copies match their source parts; listed parts match the design system" if not n else f"✖ {n} kit finding(s)"); sys.exit(1 if n else 0)
+        kb = kit_blocks(); n = composed_check(kb) + parity_check(kb) + boxsize_check(kb)
+        print("✓ composed copies match their source parts; listed parts match the design system; fixed heights are border-box" if not n else f"✖ {n} kit finding(s)"); sys.exit(1 if n else 0)
     sys.exit(main(sys.argv[1:]) if "--check" in sys.argv or len(sys.argv) == 1 else 2)

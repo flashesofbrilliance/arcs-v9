@@ -8,7 +8,7 @@ A builder wires the live editor (src/ui-kit/token-tuner.js) with two flags:
   --apply FILE [...]  take what the tuner exported and write it back to the page's SOURCE, then rebuild.
 
 What --apply accepts (any mix, one file each):
-  Copy JSON        RFC 6902 ops [{op: replace|add, path, value}] for the data file (data-src text, a data breakpoint)
+  Copy JSON        RFC 6902 ops [{op: replace|add, path, value}, {op: move, from, path} (block reorder in one slot)] for the data file (data-src text, a data breakpoint)
   Copy edits       [{old, new}] text pairs from double-click editing
   Export versions  {versions: [...]}: the latest version's whole state (or --version N): tokens, wrapping, breakpoints, text
   Copy CSS         the one-line :root{...} plus text-wrap rules, as a .css or .txt file
@@ -213,15 +213,33 @@ def set_ptr(d, ptr, value, op):
         cur[last] = value
 
 
+def move_ptr(d, frm, to):
+    """RFC 6902 move, limited to a reorder inside one array: /a/blocks/2 to /a/blocks/0."""
+    fa, fi = frm.rsplit("/", 1) if "/" in frm else ("", "")
+    ta, ti = to.rsplit("/", 1)
+    if fa != ta or not fi.isdigit() or not ti.isdigit():
+        raise SystemExit("move must reorder inside one array: %s to %s" % (frm, to))
+    arr = get(d, fa) if fa else d
+    if not isinstance(arr, list) or int(fi) >= len(arr) or int(ti) >= len(arr):
+        raise SystemExit("move out of range: %s to %s" % (frm, to))
+    arr.insert(int(ti), arr.pop(int(fi)))
+
+
 def json_write_ops(path, ops):
     """Apply replace/add ops to a JSON file. Scalars are spliced in place; anything else re-dumps in the file's indent."""
     raw = open(path, encoding="utf-8").read()
     d = json.loads(raw)
     sp = spans(raw)
     edits = []
+    # moves (block reorder within one slot) run after every replace/add: text pointers name the pre-move order
+    ops = [o for o in ops if o.get("op") != "move"] + [o for o in ops if o.get("op") == "move"]
     for op in ops:
+        if op.get("op") == "move":
+            move_ptr(d, op.get("from", ""), op["path"])
+            edits = None
+            continue
         if op.get("op") not in ("replace", "add"):
-            raise SystemExit("unsupported op %r (the tuner writes replace and add)" % op.get("op"))
+            raise SystemExit("unsupported op %r (the tuner writes replace, add and move)" % op.get("op"))
         set_ptr(d, op["path"], op["value"], op["op"])
         if op["path"] in sp and not isinstance(op["value"], (dict, list)):
             a, b = sp[op["path"]]
@@ -444,6 +462,14 @@ def self_test():
     assert set(sp) == {"/a", "/b/0", "/b/1", "/n", "/t/--sp-2"}, sp
     out, _ = json_write_ops(j, [{"op": "replace", "path": "/b/1", "value": "Café shut"}])
     assert out == raw.replace("Caf\\u00e9 open", "Caf\\u00e9 shut"), "span splice keeps the file's escapes and layout"
+    mv = os.path.join(d, "mv.json")
+    json.dump({"s": {"blocks": [{"t": "a"}, {"t": "b"}, {"t": "c"}]}}, open(mv, "w"), indent=1)
+    _, d2 = json_write_ops(mv, [{"op": "move", "from": "/s/blocks/2", "path": "/s/blocks/0"}, {"op": "replace", "path": "/s/blocks/0/t", "value": "A"}])
+    assert [b["t"] for b in d2["s"]["blocks"]] == ["c", "A", "b"], "replace lands on the pre-move pointer, then the move runs"
+    try:
+        json_write_ops(mv, [{"op": "move", "from": "/s/blocks/0", "path": "/x/0"}]); assert False, "cross-array move must refuse"
+    except SystemExit:
+        pass
     plan, err = place_pairs([{"old": "welcome", "new": "hi"}], [("json", j)])
     assert not err and plan[j][0][1] == "/a"
     assert '"Hello & hi"' in apply_pairs_to(j, plan[j]), "json pairs are plain text (no escaping)"
