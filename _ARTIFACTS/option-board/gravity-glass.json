@@ -1,0 +1,164 @@
+{
+ "id": "gravity-glass",
+ "subject": "Gravity Labs candidate brief",
+ "title": "Glass treatment, block by block",
+ "lede": "Five blocks of the Gravity brief, each in three depth treatments built from the ARCS tokens and the page's own copy: A flat (today), B glass (sheen plus emboss), C glow (glass plus a cyan rim). The glass-strength dial scales B and C together.",
+ "dials": [
+  {
+   "id": "glass",
+   "label": "Glass strength",
+   "min": 0,
+   "max": 2,
+   "step": 0.25,
+   "value": 1,
+   "unit": "x"
+  }
+ ],
+ "blocks": [
+  {
+   "id": "header",
+   "label": "Header",
+   "layer": "organism",
+   "note": "Masthead and headline, the first thing read.",
+   "variants": [
+    {
+     "key": "A",
+     "name": "Flat",
+     "why": "Today's look: a plain surface card.",
+     "html": "<span class=\"s\"><span class=\"lb\">Zach Harris for Gravity Labs</span><span class=\"h\">Gravity's agents made ideas cheap. Judgment is still expensive. I want that job.</span></span>",
+     "css": ":scope { display:block } :scope .s { padding: 14px 16px; display:block } :scope .lb { display:block; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing:.02em; color: var(--dimmed); margin-bottom:6px } :scope .s { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); } :scope .h { display:block; font-family: var(--ds-font-display); font-size: var(--fs-headline); line-height:1.3; font-weight:600 }"
+    },
+    {
+     "key": "B",
+     "name": "Glass",
+     "why": "Sheen and a lit top edge; reads as raised.",
+     "html": "<span class=\"s\"><span class=\"lb\">Zach Harris for Gravity Labs</span><span class=\"h\">Gravity's agents made ideas cheap. Judgment is still expensive. I want that job.</span></span>",
+     "css": ":scope { display:block } :scope .s { padding: 14px 16px; display:block } :scope .lb { display:block; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing:.02em; color: var(--dimmed); margin-bottom:6px } :scope .s { background: var(--glass-surface), var(--surface); border: 1px solid rgba(255,255,255,calc(0.08 * var(--k-glass))); border-radius: var(--ds-r-md); box-shadow: inset 0 1px 0 rgba(255,255,255,calc(0.1 * var(--k-glass))), inset 0 -1px 1px rgba(0,0,0,calc(0.55 * var(--k-glass))), 0 2px 6px rgba(0,0,0,calc(0.45 * var(--k-glass))); } :scope .h { display:block; font-family: var(--ds-font-display); font-size: var(--fs-headline); line-height:1.3; font-weight:600 }"
+    },
+    {
+     "key": "C",
+     "name": "Glow",
+     "why": "Glass with a cyan rim; the loudest option.",
+     "html": "<span class=\"s\"><span class=\"lb\">Zach Harris for Gravity Labs</span><span class=\"h\">Gravity's agents made ideas cheap. Judgment is still expensive. I want that job.</span></span>",
+     "css": ":scope { display:block } :scope .s { padding: 14px 16px; display:block } :scope .lb { display:block; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing:.02em; color: var(--dimmed); margin-bottom:6px } :scope .s { background: var(--glass-surface), var(--surface); border: 0; border-radius: var(--ds-r-md); box-shadow: inset 0 0 0 1px rgba(0,240,255,calc(0.35 * var(--k-glass))), inset 0 1px 0 rgba(120,245,255,calc(0.45 * var(--k-glass))), inset 0 0 12px rgba(0,240,255,calc(0.14 * var(--k-glass))), 0 0 16px rgba(0,240,255,calc(0.28 * var(--k-glass))); } :scope .h { display:block; font-family: var(--ds-font-display); font-size: var(--fs-headline); line-height:1.3; font-weight:600 }"
+    }
+   ]
+  },
+  {
+   "id": "stats",
+   "label": "Stats",
+   "layer": "molecule",
+   "note": "The four fact tiles under the headline.",
+   "variants": [
+    {
+     "key": "A",
+     "name": "Flat",
+     "why": "Four quiet tiles.",
+     "html": "<span class=\"row\"><span class=\"s\"><span class=\"v\">10</span><span class=\"lb\">Regulated products</span></span><span class=\"s\"><span class=\"v\">$0 → $2M+</span><span class=\"lb\">Zero to one</span></span><span class=\"s\"><span class=\"v\">Live count</span><span class=\"lb\">Claims, public record</span></span><span class=\"s\"><span class=\"v\">Live count</span><span class=\"lb\">Beliefs killed</span></span></span>",
+     "css": ":scope { display:block } :scope .s { padding: 14px 16px; display:block } :scope .lb { display:block; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing:.02em; color: var(--dimmed); margin-bottom:6px } :scope .s { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); } :scope .row { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:8px } :scope .v { display:block; font-size: var(--fs-headline); font-weight:700; color: var(--text) } :scope .s .lb { margin:4px 0 0 }"
+    },
+    {
+     "key": "B",
+     "name": "Glass",
+     "why": "Each tile raised; the row reads as instruments.",
+     "html": "<span class=\"row\"><span class=\"s\"><span class=\"v\">10</span><span class=\"lb\">Regulated products</span></span><span class=\"s\"><span class=\"v\">$0 → $2M+</span><span class=\"lb\">Zero to one</span></span><span class=\"s\"><span class=\"v\">Live count</span><span class=\"lb\">Claims, public record</span></span><span class=\"s\"><span class=\"v\">Live count</span><span class=\"lb\">Beliefs killed</span></span></span>",
+     "css": ":scope { display:block } :scope .s { padding: 14px 16px; display:block } :scope .lb { display:block; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing:.02em; color: var(--dimmed); margin-bottom:6px } :scope .s { background: var(--glass-surface), var(--surface); border: 1px solid rgba(255,255,255,calc(0.08 * var(--k-glass))); border-radius: var(--ds-r-md); box-shadow: inset 0 1px 0 rgba(255,255,255,calc(0.1 * var(--k-glass))), inset 0 -1px 1px rgba(0,0,0,calc(0.55 * var(--k-glass))), 0 2px 6px rgba(0,0,0,calc(0.45 * var(--k-glass))); } :scope .row { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:8px } :scope .v { display:block; font-size: var(--fs-headline); font-weight:700; color: var(--text) } :scope .s .lb { margin:4px 0 0 }"
+    },
+    {
+     "key": "C",
+     "name": "Glow",
+     "why": "Every tile glows; may compete with the header.",
+     "html": "<span class=\"row\"><span class=\"s\"><span class=\"v\">10</span><span class=\"lb\">Regulated products</span></span><span class=\"s\"><span class=\"v\">$0 → $2M+</span><span class=\"lb\">Zero to one</span></span><span class=\"s\"><span class=\"v\">Live count</span><span class=\"lb\">Claims, public record</span></span><span class=\"s\"><span class=\"v\">Live count</span><span class=\"lb\">Beliefs killed</span></span></span>",
+     "css": ":scope { display:block } :scope .s { padding: 14px 16px; display:block } :scope .lb { display:block; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing:.02em; color: var(--dimmed); margin-bottom:6px } :scope .s { background: var(--glass-surface), var(--surface); border: 0; border-radius: var(--ds-r-md); box-shadow: inset 0 0 0 1px rgba(0,240,255,calc(0.35 * var(--k-glass))), inset 0 1px 0 rgba(120,245,255,calc(0.45 * var(--k-glass))), inset 0 0 12px rgba(0,240,255,calc(0.14 * var(--k-glass))), 0 0 16px rgba(0,240,255,calc(0.28 * var(--k-glass))); } :scope .row { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:8px } :scope .v { display:block; font-size: var(--fs-headline); font-weight:700; color: var(--text) } :scope .s .lb { margin:4px 0 0 }"
+    }
+   ]
+  },
+  {
+   "id": "week-one",
+   "label": "Week One",
+   "layer": "organism",
+   "note": "The cold-read box: gap, then dated steps.",
+   "variants": [
+    {
+     "key": "A",
+     "name": "Flat",
+     "why": "Today's look.",
+     "html": "<span class=\"s\"><span class=\"lb\">Week One</span><span class=\"r\"><b>The gap</b> Good memos 6x faster. I work one step later: did each call hold up?</span><span class=\"r\"><b>Day 1</b> Your pass list: each “no right now” gets the signal that would reopen it.</span><span class=\"r\"><b>Day 5</b> A one-page wedge memo on agent payments.</span></span>",
+     "css": ":scope { display:block } :scope .s { padding: 14px 16px; display:block } :scope .lb { display:block; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing:.02em; color: var(--dimmed); margin-bottom:6px } :scope .s { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); } :scope .r { display:block; padding:6px 0; border-top:1px solid var(--border) } :scope .r b { color: var(--cyan); margin-right:6px }"
+    },
+    {
+     "key": "B",
+     "name": "Glass",
+     "why": "Raised like the stats.",
+     "html": "<span class=\"s\"><span class=\"lb\">Week One</span><span class=\"r\"><b>The gap</b> Good memos 6x faster. I work one step later: did each call hold up?</span><span class=\"r\"><b>Day 1</b> Your pass list: each “no right now” gets the signal that would reopen it.</span><span class=\"r\"><b>Day 5</b> A one-page wedge memo on agent payments.</span></span>",
+     "css": ":scope { display:block } :scope .s { padding: 14px 16px; display:block } :scope .lb { display:block; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing:.02em; color: var(--dimmed); margin-bottom:6px } :scope .s { background: var(--glass-surface), var(--surface); border: 1px solid rgba(255,255,255,calc(0.08 * var(--k-glass))); border-radius: var(--ds-r-md); box-shadow: inset 0 1px 0 rgba(255,255,255,calc(0.1 * var(--k-glass))), inset 0 -1px 1px rgba(0,0,0,calc(0.55 * var(--k-glass))), 0 2px 6px rgba(0,0,0,calc(0.45 * var(--k-glass))); } :scope .r { display:block; padding:6px 0; border-top:1px solid var(--border) } :scope .r b { color: var(--cyan); margin-right:6px }"
+    },
+    {
+     "key": "C",
+     "name": "Deboss",
+     "why": "Pressed in, so the dated plan reads as a well, not a card.",
+     "html": "<span class=\"s\"><span class=\"lb\">Week One</span><span class=\"r\"><b>The gap</b> Good memos 6x faster. I work one step later: did each call hold up?</span><span class=\"r\"><b>Day 1</b> Your pass list: each “no right now” gets the signal that would reopen it.</span><span class=\"r\"><b>Day 5</b> A one-page wedge memo on agent payments.</span></span>",
+     "css": ":scope { display:block } :scope .s { padding: 14px 16px; display:block } :scope .lb { display:block; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing:.02em; color: var(--dimmed); margin-bottom:6px } :scope .s { background: var(--bg); border: 1px solid var(--border); border-radius: var(--ds-r-md); box-shadow: inset 0 2px 4px rgba(0,0,0,calc(0.6 * var(--k-glass))), inset 0 -1px 0 rgba(255,255,255,calc(0.06 * var(--k-glass))); } :scope .r { display:block; padding:6px 0; border-top:1px solid var(--border) } :scope .r b { color: var(--cyan); margin-right:6px }"
+    }
+   ]
+  },
+  {
+   "id": "folds",
+   "label": "Folds",
+   "layer": "molecule",
+   "note": "Collapsed section headers on the Overview.",
+   "variants": [
+    {
+     "key": "A",
+     "name": "Flat",
+     "why": "Plain rows.",
+     "html": "<span class=\"s f\"><span class=\"ft\">Shipped this year</span><span class=\"tg\">Dated, with links.</span></span><span class=\"s f\"><span class=\"ft\">Bull vs Bear</span><span class=\"tg\">Counts say yes, filtered volume says not yet.</span></span>",
+     "css": ":scope { display:block } :scope .s { padding: 14px 16px; display:block } :scope .lb { display:block; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing:.02em; color: var(--dimmed); margin-bottom:6px } :scope .s { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); } :scope .f { margin-bottom:8px } :scope .ft { display:block; font-weight:600 } :scope .tg { display:block; color: var(--text-secondary); font-size: var(--fs-body) }"
+    },
+    {
+     "key": "B",
+     "name": "Glass",
+     "why": "Each fold a raised strip.",
+     "html": "<span class=\"s f\"><span class=\"ft\">Shipped this year</span><span class=\"tg\">Dated, with links.</span></span><span class=\"s f\"><span class=\"ft\">Bull vs Bear</span><span class=\"tg\">Counts say yes, filtered volume says not yet.</span></span>",
+     "css": ":scope { display:block } :scope .s { padding: 14px 16px; display:block } :scope .lb { display:block; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing:.02em; color: var(--dimmed); margin-bottom:6px } :scope .s { background: var(--glass-surface), var(--surface); border: 1px solid rgba(255,255,255,calc(0.08 * var(--k-glass))); border-radius: var(--ds-r-md); box-shadow: inset 0 1px 0 rgba(255,255,255,calc(0.1 * var(--k-glass))), inset 0 -1px 1px rgba(0,0,0,calc(0.55 * var(--k-glass))), 0 2px 6px rgba(0,0,0,calc(0.45 * var(--k-glass))); } :scope .f { margin-bottom:8px } :scope .ft { display:block; font-weight:600 } :scope .tg { display:block; color: var(--text-secondary); font-size: var(--fs-body) }"
+    },
+    {
+     "key": "C",
+     "name": "Glow",
+     "why": "Each fold rimmed in cyan.",
+     "html": "<span class=\"s f\"><span class=\"ft\">Shipped this year</span><span class=\"tg\">Dated, with links.</span></span><span class=\"s f\"><span class=\"ft\">Bull vs Bear</span><span class=\"tg\">Counts say yes, filtered volume says not yet.</span></span>",
+     "css": ":scope { display:block } :scope .s { padding: 14px 16px; display:block } :scope .lb { display:block; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing:.02em; color: var(--dimmed); margin-bottom:6px } :scope .s { background: var(--glass-surface), var(--surface); border: 0; border-radius: var(--ds-r-md); box-shadow: inset 0 0 0 1px rgba(0,240,255,calc(0.35 * var(--k-glass))), inset 0 1px 0 rgba(120,245,255,calc(0.45 * var(--k-glass))), inset 0 0 12px rgba(0,240,255,calc(0.14 * var(--k-glass))), 0 0 16px rgba(0,240,255,calc(0.28 * var(--k-glass))); } :scope .f { margin-bottom:8px } :scope .ft { display:block; font-weight:600 } :scope .tg { display:block; color: var(--text-secondary); font-size: var(--fs-body) }"
+    }
+   ]
+  },
+  {
+   "id": "evidence-rows",
+   "label": "Evidence rows",
+   "layer": "molecule",
+   "note": "Ledger rows in Bull vs Bear.",
+   "variants": [
+    {
+     "key": "A",
+     "name": "Flat",
+     "why": "Rows as plain cards.",
+     "html": "<span class=\"s e\"><span class=\"chip\">Bull</span><span class=\"sig\">Transaction counts (leading, noisy)</span><span class=\"tx\">x402 reported over 165M agent transactions by April 2026, about half tests.</span></span><span class=\"s e\"><span class=\"chip\">Bear</span><span class=\"sig\">Volume with tests and wash trades removed</span><span class=\"tx\">About $1.6M a month of agent volume on the strictest filter.</span></span>",
+     "css": ":scope { display:block } :scope .s { padding: 14px 16px; display:block } :scope .lb { display:block; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing:.02em; color: var(--dimmed); margin-bottom:6px } :scope .s { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); } :scope .e { margin-bottom:8px } :scope .chip { display:inline-block; font-family: var(--ds-font-mono); font-size: var(--fs-label); border:1px solid var(--border); border-radius: var(--ds-r-pill); padding:1px 8px; margin-right:8px } :scope .sig { font-weight:600 } :scope .tx { display:block; color: var(--text-secondary); font-size: var(--fs-body); margin-top:4px }"
+    },
+    {
+     "key": "B",
+     "name": "Glass",
+     "why": "Rows raised; dense lists may feel heavy.",
+     "html": "<span class=\"s e\"><span class=\"chip\">Bull</span><span class=\"sig\">Transaction counts (leading, noisy)</span><span class=\"tx\">x402 reported over 165M agent transactions by April 2026, about half tests.</span></span><span class=\"s e\"><span class=\"chip\">Bear</span><span class=\"sig\">Volume with tests and wash trades removed</span><span class=\"tx\">About $1.6M a month of agent volume on the strictest filter.</span></span>",
+     "css": ":scope { display:block } :scope .s { padding: 14px 16px; display:block } :scope .lb { display:block; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing:.02em; color: var(--dimmed); margin-bottom:6px } :scope .s { background: var(--glass-surface), var(--surface); border: 1px solid rgba(255,255,255,calc(0.08 * var(--k-glass))); border-radius: var(--ds-r-md); box-shadow: inset 0 1px 0 rgba(255,255,255,calc(0.1 * var(--k-glass))), inset 0 -1px 1px rgba(0,0,0,calc(0.55 * var(--k-glass))), 0 2px 6px rgba(0,0,0,calc(0.45 * var(--k-glass))); } :scope .e { margin-bottom:8px } :scope .chip { display:inline-block; font-family: var(--ds-font-mono); font-size: var(--fs-label); border:1px solid var(--border); border-radius: var(--ds-r-pill); padding:1px 8px; margin-right:8px } :scope .sig { font-weight:600 } :scope .tx { display:block; color: var(--text-secondary); font-size: var(--fs-body); margin-top:4px }"
+    },
+    {
+     "key": "C",
+     "name": "Glow",
+     "why": "Rows glow; reserve for the one row that matters.",
+     "html": "<span class=\"s e\"><span class=\"chip\">Bull</span><span class=\"sig\">Transaction counts (leading, noisy)</span><span class=\"tx\">x402 reported over 165M agent transactions by April 2026, about half tests.</span></span><span class=\"s e\"><span class=\"chip\">Bear</span><span class=\"sig\">Volume with tests and wash trades removed</span><span class=\"tx\">About $1.6M a month of agent volume on the strictest filter.</span></span>",
+     "css": ":scope { display:block } :scope .s { padding: 14px 16px; display:block } :scope .lb { display:block; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing:.02em; color: var(--dimmed); margin-bottom:6px } :scope .s { background: var(--glass-surface), var(--surface); border: 0; border-radius: var(--ds-r-md); box-shadow: inset 0 0 0 1px rgba(0,240,255,calc(0.35 * var(--k-glass))), inset 0 1px 0 rgba(120,245,255,calc(0.45 * var(--k-glass))), inset 0 0 12px rgba(0,240,255,calc(0.14 * var(--k-glass))), 0 0 16px rgba(0,240,255,calc(0.28 * var(--k-glass))); } :scope .e { margin-bottom:8px } :scope .chip { display:inline-block; font-family: var(--ds-font-mono); font-size: var(--fs-label); border:1px solid var(--border); border-radius: var(--ds-r-pill); padding:1px 8px; margin-right:8px } :scope .sig { font-weight:600 } :scope .tx { display:block; color: var(--text-secondary); font-size: var(--fs-body); margin-top:4px }"
+    }
+   ]
+  }
+ ]
+}
