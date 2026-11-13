@@ -28,6 +28,8 @@ RENDER checks (headless Chromium via Playwright; skipped with --static):
                  The one sanctioned exception, text INDEX pages that put the lede on the 680px
                  measure (2026-09-29), opts out explicitly: <p class="lede" data-measure="index">.
 
+  W camera       DESIGN.md "The One-Camera Rule": a rotateX other than 0 or 38 degrees, any rotateY, rotateZ or rotate3d,
+                 or a camera tilt with no prefers-reduced-motion rule. A vh-based perspective floor plane is allowed.
   E flex-text    a display:flex/inline-flex box with two or more loose text runs interleaved with element
                  children (full matrix: error; quick: warning). Each text run and each element becomes
                  its own flex item, so a mono label such as "BUILD TELEMETRY / DAY 0 / AS OF" breaks into
@@ -147,6 +149,24 @@ def pdf_checks(path):
     return errs, warns
 
 
+def camera_warnings(text):
+    """The One-Camera Rule (DESIGN.md): X tilt only, 38 degrees, flat under reduced motion. Advisory: older pages predate it."""
+    import re as _re
+    out = []
+    for m in _re.finditer(r'transform\s*:\s*([^;}]*)', text):
+        v = m.group(1)
+        if _re.search(r'perspective\(\s*[\d.]+vh', v):
+            continue  # receding floor plane, a ground and not a camera
+        for r in _re.finditer(r'rotateX\(\s*(-?[\d.]+)deg', v):
+            if abs(float(r.group(1))) not in (0.0, 38.0):
+                out.append(f"camera: rotateX({r.group(1)}deg) is not the 38 degree camera (DESIGN.md One-Camera Rule)")
+        if _re.search(r'rotate(Y|Z|3d)\(', v) and 'perspective(' in v:
+            out.append("camera: yaw, roll or rotate3d in a camera transform (DESIGN.md One-Camera Rule)")
+        if _re.search(r'rotateX\(\s*38deg', v) and 'prefers-reduced-motion' not in text:
+            out.append("camera: a 38 degree tilt with no prefers-reduced-motion rule that flattens it")
+    return sorted(set(out))
+
+
 def static_checks(path, raw, run_wrap):
     errs, warns = [], []
     src = raw.decode("utf-8", errors="replace")
@@ -160,6 +180,7 @@ def static_checks(path, raw, run_wrap):
                     "the browser guesses the encoding")
     if not re.search(r"<meta[^>]+name\s*=\s*[\"']viewport", src, re.I):
         errs.append("viewport: no <meta name=\"viewport\">; phones render a zoomed-out desktop page")
+    warns.extend(camera_warnings(src))
     bad = [m for m in MOJIBAKE if m in src]
     if bad:
         errs.append(f"mojibake: {', '.join(repr(m) for m in bad)} already in the file "

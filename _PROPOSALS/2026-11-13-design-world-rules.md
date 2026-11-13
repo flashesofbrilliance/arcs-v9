@@ -48,3 +48,10 @@ Why: Zach asked (2026-11-13) whether motion, camera and lighting rules exist, an
 1. Approve the Camera and Light paragraphs for DESIGN.md as written, or edit them.
 2. Which two renderings should set the geometry numbers.
 3. Re-sync the Ziggurat dashboard `look` to cool slate (its data, your artifact), or leave it.
+
+## Ruled 2026-11-13 (Zach: approve, edit DESIGN.md)
+
+Camera and Light went into `DESIGN.md` under "Camera and light". Two changes from the draft, both because `DESIGN.md` already said something the draft contradicted:
+- **Light:** the draft leaned on the emboss bevel (a bottom shade). `DESIGN.md` already holds the Glow-Not-Shadow Rule (depth is light, never cast darkness), so the key light is now a lighter tone plus a top-edge highlight, with shade only inside a recessed well. The "blur at or under 16px" limit was dropped: the Shadow Vocabulary in `DESIGN.md` itself uses 34px and 54px blooms.
+- **Camera:** added the one sanctioned second use, a `vh`-perspective floor plane (the status page presentation stage at 64 degrees), so the rule matches what ships.
+First gate: `page_gate.py` check `camera` (warning), fixtures in `scripts/tests/test_page_gate_camera.py`. No light gate: nothing mechanical to check beyond the existing vocabulary. Geometry depth and Stacks stay proposals.

@@ -162,6 +162,12 @@ Centered single-column documents on the obsidian ground: `max-width: 960px` for 
 
 Depth is **luminance, not cast shadow.** Surfaces are flat panels on the obsidian ground; separation comes from a one-step tonal lift (bg → panel → elevated) and a hairline border, not from drop shadows. The one exception is the **glow**: an active or locked instrument emits a restrained bloom of its own signal color.
 
+### Camera and light (2026-11-12, Zach approved the draft in _PROPOSALS/2026-11-13-design-world-rules.md)
+
+**The One-Camera Rule.** A surface drawn in 2.5D uses one fixed isometric camera: a tilt about the X axis only, 38 degrees with `perspective(1500px)`, tiles stay clickable. No yaw, no roll, no dolly. Under `prefers-reduced-motion` the camera is flat (0 degrees). One sanctioned second use: a receding floor plane drawn with a `vh`-based perspective (the status page presentation stage); it is a ground, not a camera, and carries its own comment. Gate: `scripts/page_gate.py` check `camera` (warning).
+
+**The Key-Light Rule.** There is one key light, from above, and it is expressed as light, not as cast darkness (it sits inside the Glow-Not-Shadow Rule below): a raised or active surface gains a lighter tone and a top-edge highlight; a recessed well is darker with its shade at the top edge. Signal colour lives in the rim, the glyph, the label and the glow, never as a saturated fill. Blur radii and alphas stay inside the Shadow Vocabulary below; this rule adds a direction, not a new size.
+
 ### Shadow Vocabulary
 - **Signal glow** (`box-shadow: 0 0 34px rgba(0,240,255,.07)` and kin): a present-but-restrained bloom under an active bearing or a locked panel. Alphas ~.07–.28, deliberately dialed down from hotter earlier values.
 - **Locked bloom** (`box-shadow: 0 0 54px rgba(0,240,255,.16); border-color: rgba(0,240,255,.6)`): the crystalline "superionic" state, light through fixed form.
