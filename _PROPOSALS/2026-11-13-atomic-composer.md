@@ -64,6 +64,30 @@ new build proposed.
 - **A look the kit does not have yet:** Claude Design, then promote the winner to a kit part.
 - **Is it ready to ship?** Plain HTML preview and `page_gate.py`.
 
+## Next pass: one-shot prompt and three ways to build it (added 2026-11-13, from your comment)
+
+Run this after PR 2225, 2226 and 2227 merge and the composer-dogfood session logs its first round. Seed 19 found the "any design system" pitch broken and held a narrower claim; seed 20 hardened the option board. The prompt aims at the narrow claim.
+
+```text
+Run the hyperstition pass (ethereal, Loki test, receipt evaluation, ROM) on the tabbed-brief block-sequence composer. Do not start until PR 2225, PR 2226 and PR 2227 are merged and the composer-dogfood session has logged its first round of edits on the Louisville draft; if any is missing, stop and say which.
+
+Read first, nothing else to orient: _PROPOSALS/2026-11-13-seed-atomic-composer-idea-loop.md (seed 19, BROKEN as pitched, narrow claim HELD), _PROPOSALS/2026-11-13-seed-induced-render-engine.md (seed 20, HARDENED), _PROPOSALS/2026-11-13-atomic-composer.md, src/ui-kit/option-board/README.md, src/ui-kit/tabbed-brief/README.md and brief.schema.json, src/ui-kit/kit-manifest.json, and the composer-dogfood round-1 log. The design system is the repo kit (src/ui-kit/recoil-report/_tokens.css) plus the glass layer in src/ui-kit/option-board/board.css, taken from the ARCS OS Design System artifact.
+
+The claim under test is seed 19's HELD claim only: a block-sequence editor for the tabbed brief takes half the option-board time per page, with 3 of 3 clean exports the builder accepts unchanged. Do not reopen the "any design system" claim.
+
+Produce one document, _PROPOSALS/<date>-composer-spec.md, with these sections:
+1. Product spec: the cold-read header (why, what, why now, how before/during/after with dates, how to read), users and the one job, scope and non-goals, and the kill rule, with its baseline measured from the dogfood log.
+2. Design requirements: the regions and the block types each region accepts, taken from the schema; layer tags; keyboard reorder plus drag; empty, error and refused-drop states; the light and dark themes and reading options from kit 51; how the export appears.
+3. Implementation plan: step -> verify: check for each step; files touched; reuse first (option_board.py, tabbed_brief_build.py --apply, page_tune.py); no new dependencies; gates (self-test, artifact_wrap_lint.py, page_gate.py --matrix full, the design detector at 0 new findings).
+Then render the three construction options below as one option board (scripts/option_board.py), each a real mockup on the Gravity brief's copy, and stop for my pick. Build only the option I pick. Each section ends with a Loki line: the cheapest attack and whether it held. Close with a receipt-evaluation line (graduate, hold or compost) and a backlog row.
+```
+
+**Three construction options** (the prompt renders these as one option board for your pick):
+
+- **A. Dashboard widget.** The composer runs inline in chat. One row per page region lists its blocks, with up, down and a part picker that shows three rendered treatments. Send posts one block-sequence line, and the session writes the brief's JSON. Cost: About half a day. Cheapest, but it lives in the chat, and you see lists and thumbnails, not the whole page.
+- **B. Component explorer (recommended).** A page or Artifact: a palette of kit parts grouped by layer, each with three rendered treatments to pick from, and the page's regions as ordered slots you fill by drag or keyboard. The page checks the schema as you drop, and Copy JSON exports what the builder reads. Cost: About 2 days. It tests seed 19's held claim directly and reuses the option board.
+- **C. WYSIWYG styling.** Extends the live editor on the built brief: insert, move and restyle blocks in place, with a treatment dial per block. It writes back through the builder's apply step. Cost: About 3 days. Highest fidelity, but it changes the shared token-tuner script (825 lines), so it carries the most risk of breaking pages that already use it.
+
 ## Open questions
 1. Should the composer run as an Artifact (shareable, no local server) or as a `tune_serve.py` page (writes
    straight to the repo)? The default proposed is a local page, since export has to reach the builder.
