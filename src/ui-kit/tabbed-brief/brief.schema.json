@@ -684,6 +684,111 @@
               }
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "groups"
+          ],
+          "description": "Claims quoted from runtime/specs/proof-claims.json by id, rendered as a kit 54 ledger (status chip, claim, evidence, date, record link). Never retype a claim.",
+          "properties": {
+            "type": {
+              "const": "proof"
+            },
+            "groups": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "label",
+                  "ids"
+                ],
+                "properties": {
+                  "label": {
+                    "type": "string"
+                  },
+                  "ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "label",
+            "ids"
+          ],
+          "description": "Falsification ledger entries by id (only ids a proof claim cites are public), rendered as Believed / Test / Found.",
+          "properties": {
+            "type": {
+              "const": "beliefs"
+            },
+            "label": {
+              "type": "string"
+            },
+            "ids": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "rows"
+          ],
+          "description": "Roles I can take, each backed by proof claim ids; renders a three-column table whose last column links each claim's record.",
+          "properties": {
+            "type": {
+              "const": "hats"
+            },
+            "rows": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "hat",
+                  "text",
+                  "ids"
+                ],
+                "properties": {
+                  "hat": {
+                    "type": "string"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       ]
     }

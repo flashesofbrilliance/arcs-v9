@@ -23,6 +23,7 @@ REGISTERED = {"_ARTIFACTS/tabbed-brief/gravity.json": "public/gravity-brief.html
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import precall_brief_build as pb  # the stdlib JSON Schema subset lives there; reuse it, do not fork it
 import page_tune as pt  # the shared --tune / --apply mechanics
+import proof_emit as pe  # the proof claims and falsification ledger, read at build time so quoted claims and counts never drift
 TUNE = [False]  # --tune build: [True, page base name]; pt.TUNE makes md() wrap each data string in its JSON pointer (data-src)
 
 
@@ -30,9 +31,65 @@ def e(s):
     return html.escape(str(s), quote=True)
 
 
+# ---------- live sources: proof claims + falsification ledger (scripts/proof_emit.py load()) ----------
+_SRC = []
+GEN = [False]  # True while rendering a block generated from the sources: no data-src pointer for the tuner
+TOK = re.compile(r"\{([a-z_]+)\}")
+STATUS_TONE = {"shown": "cyan", "on-request": "plain", "not-yet": "gold"}  # kit 54 tones: cyan has a public record, gold is a gap
+THIRD = re.compile(r"\b(he|his|him)\b", re.I)  # ledger claims are third person; a first-person page quotes only the ones that read either way
+
+
+def src():
+    """(claims by id, ledger by id, count tokens, ledger ids the public may read). Tokens: proof_emit's fill plus the claim scoreboard."""
+    if not _SRC:
+        d, ledger, fill = pe.load()
+        claims = {c["id"]: c for q in d["questions"] for c in q["claims"]}
+        n = lambda st: str(sum(1 for c in claims.values() if c["status"] == st))
+        tok = dict(fill, claims_total=str(len(claims)), claims_shown=n("shown"), claims_on_request=n("on-request"), claims_not_yet=n("not-yet"))
+        public = {fid for c in claims.values() for fid in c.get("ledger", [])}  # cleared through the proof page; the rest stay shape-only
+        _SRC.append((claims, ledger, tok, public))
+    return _SRC[0]
+
+
+def fill(s):
+    return TOK.sub(lambda m: src()[2].get(m.group(1), m.group(0)), s)
+
+
+def plain(s):
+    return s.replace(" \u2014 ", "; ").replace("\u2014", ", ")
+
+
+def claim_row(c):
+    ev = c["evidence"].rstrip(": ")
+    ev += "" if ev.endswith(".") else "."
+    rec = (" Record: [%s](%s)." % (c.get("label") or "link", c["url"])) if c.get("url") else ""
+    return {"chip": pe.STATUS_LABEL[c["status"]], "tone": STATUS_TONE[c["status"]], "signal": c["date"], "text": "**%s** %s%s" % (c["claim"], ev, rec)}
+
+
+def claim_ref(c):
+    return ("[%s](%s)" % (c["claim"].rstrip("."), c["url"])) if c.get("url") else "%s (%s)" % (c["claim"].rstrip("."), pe.STATUS_LABEL[c["status"]])
+
+
+def expand(b):
+    """The three live block types become a kit 54 ledger or a table, filled from the sources."""
+    claims, ledger, _, _ = src()
+    if b["type"] == "proof":
+        return {"type": "ledger", "groups": [{"label": g["label"], "rows": [claim_row(claims[i]) for i in g["ids"]]} for g in b["groups"]]}
+    if b["type"] == "beliefs":
+        rows = [{"chip": ledger[i]["scope"], "tone": "plain", "signal": "killed " + ledger[i]["ts"],
+                 "text": "**Believed:** %s **Test:** %s **Found:** %s" % (plain(ledger[i]["claim"]), plain(ledger[i]["test"]), plain(ledger[i]["delta"]))} for i in b["ids"]]
+        return {"type": "ledger", "groups": [{"label": b["label"], "rows": rows}]}
+    if b["type"] == "hats":
+        return {"type": "table", "head": ["Hat", "What I would do", "Shown by"],
+                "rows": [[r["hat"], r["text"], "; ".join(claim_ref(claims[i]) for i in r["ids"])] for r in b["rows"]]}
+    return b
+
+
 def md(s, src=None):
-    """Escape, then allow two inline marks only: [text](https://... or mailto:...) and **bold**. src: the JSON pointer of s (used by --tune only)."""
-    t = e(s)
+    """Escape, then allow two inline marks only: [text](https://... or mailto:...) and **bold**. src: the JSON pointer of s (used by --tune only).
+    {tokens} fill from the live sources first (see src())."""
+    t = e(fill(s))
+    src = None if GEN[0] else src
     t = re.sub(r"\[([^\]]+)\]\(((?:https?://|mailto:)[^)\s]+)\)", lambda m: '<a href="%s">%s</a>' % (m.group(2), m.group(1)), t)
     t = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", t)
     return pt.span(t, src)
@@ -71,8 +128,29 @@ def validate(d):
         errs.append("$.tabs: tab ids must be unique")
     secs = [s.get("id") for s in d.get("overview", {}).get("sections", [])] + ([d["overview"]["coldread"]["id"]] if d.get("overview", {}).get("coldread") else [])
 
+    claims, ledger, tok, public = src()
+
+    def ids_ok(where, ids):
+        for c in ids:
+            if c not in claims:
+                errs.append("%s: claim %r is not in runtime/specs/proof-claims.json" % (where, c))
+            elif THIRD.search(claims[c]["claim"] + " " + claims[c]["evidence"]):
+                errs.append("%s: claim %r is third person (he/his); this page is first person, pick another or reword the claim" % (where, c))
+
     def blocks(where, bl):
         for i, b in enumerate(bl):
+            if b.get("type") == "proof":
+                for g in b.get("groups", []):
+                    ids_ok("%s[%d]" % (where, i), g.get("ids", []))
+            if b.get("type") == "hats":
+                for r in b.get("rows", []):
+                    ids_ok("%s[%d]" % (where, i), r.get("ids", []))
+            if b.get("type") == "beliefs":
+                for f in b.get("ids", []):
+                    if f not in ledger:
+                        errs.append("%s[%d]: ledger id %r is not in _STATE/falsification-ledger.jsonl" % (where, i, f))
+                    elif f not in public:
+                        errs.append("%s[%d]: ledger id %r is not cleared for the public (only ids a proof claim cites are)" % (where, i, f))
             if b.get("type") == "plan":
                 for j, r in enumerate(b.get("rows", [])):
                     if len(r) != n + 1:
@@ -96,6 +174,8 @@ def validate(d):
             errs.append("$.overview.actions: section %r does not exist" % a["section"])
     if "—" in json.dumps(d, ensure_ascii=False):
         errs.append("$: em-dash found; use a comma, colon or period")
+    for name in sorted(set(TOK.findall(json.dumps(d, ensure_ascii=False))) - set(tok)):
+        errs.append("$: unknown token {%s}; known: %s" % (name, ", ".join(sorted(tok))))
     return errs
 
 
@@ -178,8 +258,11 @@ def r_blocks(bl, horizons, hlevel, base="", paths=None):
     """base: JSON pointer of the list (block i is base/i); paths overrides one pointer per block."""
     out = []
     for n, b in enumerate(bl):
-        t = b["type"]
         p = paths[n] if paths else "%s/%d" % (base, n)
+        GEN[0] = b["type"] in ("proof", "beliefs", "hats")
+        if GEN[0]:
+            b = expand(b)  # generated copy has no data pointer (GEN), so the tuner leaves it alone
+        t = b["type"]
         if t == "p":
             out.append('<p class="tb-p">%s</p>' % md(b["text"], p + "/text"))
         elif t == "table":
@@ -202,6 +285,7 @@ def r_blocks(bl, horizons, hlevel, base="", paths=None):
         elif t == "list":
             tag = "ol" if b.get("ordered") else "ul"
             out.append('<%s class="tb-list">%s</%s>' % (tag, "".join("<li>%s</li>" % md(it, "%s/items/%d" % (p, i)) for i, it in enumerate(b["items"])), tag))
+    GEN[0] = False
     return "\n".join(out)
 
 
@@ -487,6 +571,11 @@ def self_test():
     x = copy.deepcopy(base); x["overview"]["headline"][0] += " — x"; cases.append(("em-dash in copy", x, "em-dash"))
     x = copy.deepcopy(base); del x["meta"]; cases.append(("missing meta", x, "meta"))
     x = copy.deepcopy(base); x["horizons"] = [30, 90]; cases.append(("horizons change without rows", x, "horizon"))
+    live = {"type": "proof", "groups": [{"label": "x", "ids": ["no-such-claim"]}]}
+    x = copy.deepcopy(base); x["tabs"][0]["units"][0]["blocks"].append(live); cases.append(("proof block cites a missing claim", x, "not in runtime/specs/proof-claims.json"))
+    x = copy.deepcopy(base); x["tabs"][0]["units"][0]["blocks"].append({"type": "hats", "rows": [{"hat": "h", "text": "t", "ids": ["outage"]}]}); cases.append(("hat cites a third-person claim", x, "third person"))
+    x = copy.deepcopy(base); x["tabs"][0]["units"][0]["blocks"].append({"type": "beliefs", "label": "x", "ids": ["F1"]}); cases.append(("belief not cleared for the public", x, "not cleared"))
+    x = copy.deepcopy(base); x["overview"]["tiles"][0]["v"] = "{no_such_count}"; cases.append(("unknown count token", x, "unknown token"))
     ok = True
     for name, d, want in cases:
         errs = validate(d)

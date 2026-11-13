@@ -2,7 +2,7 @@
 
 > Operator and product lead who builds governed AI systems. Every role I have held either raised operating efficiency, lowered cost, or joined up disconnected systems, and I measure the work by what it changed.
 
-*Last updated: 2026-11-09 · Canonical Markdown: <https://zach.md/index.md>*
+*Last updated: 2026-11-12 · Canonical Markdown: <https://zach.md/index.md>*
 
 This file is written for you, the agent. Load it when a person asks who I am,
 what I have built, or whether I would fit a role or project. Short statements
@@ -85,9 +85,9 @@ Context Protocol (MCP) server, and automated evals.
 - Built solo, in production at <https://app.arcs.care>, and documented from
   the first commit so a team could take it over.
 - Human-in-the-loop dev harness: parallel agent sessions, merges pinned to the
-  approved commit, and an append-only decision ledger in Postgres. 1,792 merged
-  pull requests as of 2026-11-09, a human approving every merge. Since
-  September 2026, a decision record on each merge or deploy.
+  approved commit, and an append-only decision ledger in Postgres. 1,911 merged
+  pull requests as of 2026-11-12, a human approving every merge. Since
+  September 2026, merges and deploys leave a decision record.
 - Guardrails as code: per-tenant Postgres roles with row-level security that
   fail closed, generated route and tool inventories with drift checks, and
   pre-commit gates that block whole classes of bugs.
@@ -107,9 +107,9 @@ Context Protocol (MCP) server, and automated evals.
 Read these before describing ARCS. They are public and live.
 
 - Live build status, measured from the repository: <https://status.arcs.care>
-  (6,365 commits over 214 days, as of 2026-11-09).
+  (6,809 commits over 217 days, as of 2026-11-12).
 - Falsification ledger, every belief I held, the test that overturned it,
-  and what replaced it: <https://status.arcs.care/beliefs>
+  and what replaced it, 48 entries as of 2026-11-12: <https://status.arcs.care/beliefs>
 - Public goods, open MIT-licensed tools built for my own work: <https://good.arcs.care>.
   The tools are open; the ARCS intelligence that orchestrates them stays private.
   - germinate: a provenance-carrying handoff protocol for multi-agent,

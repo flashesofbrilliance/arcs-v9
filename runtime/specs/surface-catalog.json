@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 288,
+  "rows": 291,
   "hosts": 63,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 232,
+   "product page": 235,
    "gated": 28
   },
   "next_config_hosts": 85,
   "proxy_hosts": 27,
   "app_routes": 47,
   "missing_purpose": 21,
-  "unlisted": 89
+  "unlisted": 92
  },
  "retired_hosts": [
   "ahmed-ext.arcs.care",
@@ -1352,7 +1352,7 @@
    "unlisted": false,
    "purpose": "A serializable, provenance-carrying handoff protocol for multi-agent, multi-worktree work. Compact a session into a dense seed; let many workers reconcile through git without lost updates. An MIT tool in the ARCS family.",
    "kind": "product page",
-   "last_commit": "2026-11-03"
+   "last_commit": "2026-11-12"
   },
   {
    "host": "good.arcs.care",
@@ -3630,6 +3630,26 @@
   },
   {
    "host": "gravity.arcs.care",
+   "path": "/beliefs",
+   "catch_all": false,
+   "destination": "/gravity-brief-beliefs.html",
+   "pattern": false,
+   "file": "public/gravity-brief-beliefs.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Beliefs · Zach Harris for Gravity Labs",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Beliefs · Zach Harris for Gravity Labs",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "gravity.arcs.care",
    "path": "/eir",
    "catch_all": false,
    "destination": "/gravity-brief-eir.html",
@@ -3652,21 +3672,41 @@
    "host": "gravity.arcs.care",
    "path": "/founder",
    "catch_all": false,
-   "destination": "/gravity-brief-founder.html",
+   "destination": "/gravity-brief-hats.html",
    "pattern": false,
-   "file": "public/gravity-brief-founder.html",
+   "file": "public/gravity-brief-hats.html",
    "gate": null,
    "gate_file": null,
    "declared_in": [
     "src/proxy.ts"
    ],
-   "title": "Founder, Portfolio Company · Zach Harris for Gravity Labs",
+   "title": "Hats · Zach Harris for Gravity Labs",
    "description": null,
    "index": "noindex, nofollow",
    "unlisted": true,
-   "purpose": "Founder, Portfolio Company · Zach Harris for Gravity Labs",
+   "purpose": "Hats · Zach Harris for Gravity Labs",
    "kind": "product page",
-   "last_commit": "2026-11-12"
+   "last_commit": null
+  },
+  {
+   "host": "gravity.arcs.care",
+   "path": "/hats",
+   "catch_all": false,
+   "destination": "/gravity-brief-hats.html",
+   "pattern": false,
+   "file": "public/gravity-brief-hats.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Hats · Zach Harris for Gravity Labs",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Hats · Zach Harris for Gravity Labs",
+   "kind": "product page",
+   "last_commit": null
   },
   {
    "host": "gravity.arcs.care",
@@ -3692,21 +3732,41 @@
    "host": "gravity.arcs.care",
    "path": "/principal",
    "catch_all": false,
-   "destination": "/gravity-brief-principal.html",
+   "destination": "/gravity-brief-hats.html",
    "pattern": false,
-   "file": "public/gravity-brief-principal.html",
+   "file": "public/gravity-brief-hats.html",
    "gate": null,
    "gate_file": null,
    "declared_in": [
     "src/proxy.ts"
    ],
-   "title": "Principal, New Ventures · Zach Harris for Gravity Labs",
+   "title": "Hats · Zach Harris for Gravity Labs",
    "description": null,
    "index": "noindex, nofollow",
    "unlisted": true,
-   "purpose": "Principal, New Ventures · Zach Harris for Gravity Labs",
+   "purpose": "Hats · Zach Harris for Gravity Labs",
    "kind": "product page",
-   "last_commit": "2026-11-12"
+   "last_commit": null
+  },
+  {
+   "host": "gravity.arcs.care",
+   "path": "/proof",
+   "catch_all": false,
+   "destination": "/gravity-brief-proof.html",
+   "pattern": false,
+   "file": "public/gravity-brief-proof.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Proof · Zach Harris for Gravity Labs",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Proof · Zach Harris for Gravity Labs",
+   "kind": "product page",
+   "last_commit": null
   },
   {
    "host": "growth-ai.arcs.care",
@@ -4827,7 +4887,7 @@
    "unlisted": false,
    "purpose": "Write one script; run it byte-identical across bash 3.2, zsh, POSIX sh, and ksh. A conformance runner proves the shim is identical, not guesses. An MIT tool in the ARCS family.",
    "kind": "product page",
-   "last_commit": "2026-11-03"
+   "last_commit": "2026-11-12"
   },
   {
    "host": "schriner.arcs.care",
@@ -5714,7 +5774,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-30"
+   "last_commit": "2026-11-09"
   },
   {
    "host": "zach.md",
@@ -5734,7 +5794,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-30"
+   "last_commit": "2026-11-09"
   },
   {
    "host": "zach.md",
@@ -5754,7 +5814,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-30"
+   "last_commit": "2026-11-09"
   },
   {
    "host": "zach.md",
@@ -5774,7 +5834,7 @@
    "unlisted": false,
    "purpose": "Every claim below links to the record behind it. Where the record is private it says so, and one claim is marked not yet shown.",
    "kind": "product page",
-   "last_commit": "2026-11-11"
+   "last_commit": "2026-11-12"
   },
   {
    "host": "zach.md",
@@ -5794,7 +5854,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-11-11"
+   "last_commit": "2026-11-12"
   },
   {
    "host": "zach.md",

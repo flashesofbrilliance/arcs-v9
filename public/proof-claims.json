@@ -1,7 +1,7 @@
 {
   "_about": "Source of truth for resume.arcs.care/proof and /proof/claims.json. Rendered by scripts/proof_emit.py; never edit public/proof.html or public/proof-claims.json by hand. Every claim carries a status: shown (a public record anyone can open), on-request (a real record that is private: employer data or the private repo; references available), not-yet (no record yet). A claim with status shown must carry a url. Falsification entries are read by id from _STATE/falsification-ledger.jsonl.",
   "subject": "Zach Harris",
-  "as_of": "2026-11-09",
+  "as_of": "2026-11-12",
   "profile": "https://zach.md",
   "same_as": [
     "https://www.linkedin.com/in/zharris",
@@ -31,10 +31,10 @@
         },
         {
           "id": "commits",
-          "claim": "6,300+ commits on main since April 2026, counted live.",
+          "claim": "6,800+ commits on main since April 2026, counted live.",
           "status": "shown",
-          "evidence": "Live pulse JSON from the production app: commitsTotal 6,365 at 19:43 UTC on 2026-11-09.",
-          "date": "2026-11-09",
+          "evidence": "Live pulse JSON from the production app: commitsTotal 6,809 at 23:28 UTC on 2026-11-12.",
+          "date": "2026-11-12",
           "url": "https://app.arcs.care/api/pulse",
           "label": "app.arcs.care/api/pulse"
         },
@@ -49,10 +49,10 @@
         },
         {
           "id": "prs",
-          "claim": "1,790+ pull requests merged, each approved by a human and receipted.",
+          "claim": "1,900+ pull requests merged, each approved by a human; merges leave receipts in an append-only ledger.",
           "status": "on-request",
-          "evidence": "GitHub merged-PR count, 1,792 on 2026-11-09. The repository is private.",
-          "date": "2026-11-09"
+          "evidence": "GitHub merged-PR count, 1,911 on 2026-11-12. The repository is private.",
+          "date": "2026-11-12"
         },
         {
           "id": "open-tools",
@@ -147,10 +147,10 @@
       "claims": [
         {
           "id": "beliefs",
-          "claim": "42 beliefs logged as overturned, each with the test that overturned it.",
+          "claim": "48 beliefs logged as overturned, each with the test that overturned it; 20 became standing rules.",
           "status": "shown",
           "evidence": "A public falsification ledger. Three of the entries:",
-          "date": "2026-09-29",
+          "date": "2026-11-05",
           "url": "https://status.arcs.care/beliefs",
           "label": "status.arcs.care/beliefs",
           "ledger": [
@@ -245,7 +245,7 @@
       "claims": [
         {
           "id": "nftt",
-          "claim": "36 Notes from the Trenches posts since 2026-08-18: what building ARCS taught him, with the receipts.",
+          "claim": "36 Notes from the Trenches posts since 2026-08-18: lessons from building ARCS, with the receipts.",
           "status": "shown",
           "evidence": "Every post carries a frozen publish timestamp taken from the commit that routed it.",
           "date": "2026-11-11",
