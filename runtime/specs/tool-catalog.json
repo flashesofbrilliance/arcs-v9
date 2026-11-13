@@ -7,18 +7,18 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 305,
+  "script": 308,
   "skill": 28,
   "workflow": 2
  },
- "total": 437,
+ "total": 440,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 595,
+   "WIRED": 599,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 3,
+   "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
@@ -28,14 +28,6 @@
     "surface": "repo",
     "kind": "script",
     "name": "jobs_posting_liveness.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "recoil_page.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -1812,6 +1804,14 @@
   },
   {
    "kind": "script",
+   "name": "kit_job_ratchet.py",
+   "path": "scripts/kit_job_ratchet.py",
+   "jtbd": "kit_job_ratchet.py: the count of kit parts that name a backlog job may rise, never fall.",
+   "invoke": "python3 scripts/kit_job_ratchet.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "kit_primitive_sync.py",
    "path": "scripts/kit_primitive_sync.py",
    "jtbd": "kit_primitive_sync: the Instrument Lab primitives promoted from Phosphor stay identical to the page.",
@@ -2536,7 +2536,7 @@
    "path": "scripts/recoil_page.py",
    "jtbd": "recoil_page: one recoil SSOT (v2, or six-tab v1 through the adapter) to a single-file HTML page.",
    "invoke": "python3 scripts/recoil_page.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -2680,6 +2680,14 @@
    "path": "scripts/scout_dossier_ingest.py",
    "jtbd": "Perplexity scout intake: validate a role dossier in _INBOX/evidence/ and map it onto the jobs board.",
    "invoke": "python3 scripts/scout_dossier_ingest.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "scratch_git_leak_gate.py",
+   "path": "scripts/scratch_git_leak_gate.py",
+   "jtbd": "scratch_git_leak_gate.py: no self-test may write to the repo that runs it.",
+   "invoke": "python3 scripts/scratch_git_leak_gate.py",
    "state": "WIRED"
   },
   {
@@ -2840,6 +2848,14 @@
    "path": "scripts/status_floor_emit.py",
    "jtbd": "status_floor_emit: stamp the no-JS static floor on public/status.html from the repo.",
    "invoke": "python3 scripts/status_floor_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "status_page_build.py",
+   "path": "scripts/status_page_build.py",
+   "jtbd": "status_page_build: generate public/status.html (status.arcs.care) from a data file plus kit parts. Never hand-edit the page.",
+   "invoke": "python3 scripts/status_page_build.py",
    "state": "WIRED"
   },
   {
