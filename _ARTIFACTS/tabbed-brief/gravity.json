@@ -24,7 +24,7 @@
    {
     "v": "10",
     "k": "Regulated products",
-    "note": "Digital-asset investment products at Grayscale, ~$7B"
+    "note": "SEC and FINRA regulated, at Grayscale: a $7B portfolio"
    },
    {
     "v": "$0 → $2M+",
@@ -100,7 +100,7 @@
           "chip": "Bull",
           "tone": "plain",
           "signal": "Transaction counts (leading, noisy)",
-          "text": "[x402 reported](https://www.rzlt.io/blog/agentic-payments-2026-x402-explainer) over 165M agent transactions by April 2026, about half tests. Re-read due."
+          "text": "[x402 reported](https://www.rzlt.io/blog/agentic-payments-2026-x402-explainer) over 165M agent transactions by April 2026, about half tests."
          },
          {
           "chip": "Bull",
@@ -112,7 +112,7 @@
           "chip": "Bear",
           "tone": "plain",
           "signal": "Volume with tests and wash trades removed",
-          "text": "[Allium, via Nevermined](https://nevermined.ai/blog/stablecoin-payments-ai-agents-statistics): about $1.6M a month of agent volume on the strictest filter. Re-read due."
+          "text": "[Allium, via Nevermined](https://nevermined.ai/blog/stablecoin-payments-ai-agents-statistics): about $1.6M a month of agent volume on the strictest filter."
          },
          {
           "chip": "Rules",
@@ -220,7 +220,7 @@
           "chip": "Running",
           "tone": "cyan",
           "signal": "Commit history",
-          "text": "[Day 0 to day 210](https://status.arcs.care): 6,195 commits by Nov 5, built solo and run in production. Every number is read from the repository."
+          "text": "Built solo since April and run in production. [The status page](https://status.arcs.care) counts every commit live, straight from the repository."
          },
          {
           "chip": "Running",
@@ -261,7 +261,7 @@
           "chip": "Calls",
           "tone": "cyan",
           "signal": "Falsifiable predictions, scored",
-          "text": "From 20 calls in my LinkedIn articles since January (ledger on request): 9 resolved (2 hit, one weak; 1 partly; 6 missed), 9 open, 2 unverified. The falsifiers held; my 85 to 90% confidence did not, so new calls ship with lower numbers, like the 1 in 3 above. Method: [seven calls, seven falsifiers](https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers). Same shape as Mogg, a dated YES or NO resolved by the world, but 20 calls in ten months, not 10 a day."
+          "text": "20 dated calls in my LinkedIn articles since January (ledger on request). 9 resolved: 2 hit (1 weakly), 1 partly, 6 missed. 9 open, 2 unverified. The falsifiers held; my 85 to 90% confidence did not, so new calls carry lower numbers, like the 1 in 3 above. Method: [seven calls, seven falsifiers](https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers)."
          }
         ]
        }
@@ -277,9 +277,9 @@
     "role": "Vice President, Brand · Coinbase"
    }
   ],
-   "bites_still": true,
+  "bites_still": true,
   "lede": [
-   "Kyle wrote that “significance” is in the eye of the beholder, and AI “is not particularly good at assessing it.” I am, and I keep the receipts. At Grayscale I owned the investor platform 10 regulated digital-asset products ran on, about $7B. I co-founded a company that went from $0 to $2M+, profitable in 24 months. Since June I have killed {beliefs_count} of my own beliefs with runnable tests. When I tell you no on a hatch, you get the test that would reopen it.",
+   "Kyle wrote that “significance” is in the eye of the beholder, and AI “is not particularly good at assessing it.” I am, and I keep the receipts. At Grayscale I ran 10 SEC and FINRA regulated products, a $7B portfolio. I co-founded a company that went from $0 to $2M+, profitable in 24 months. Since June I have killed {beliefs_count} of my own beliefs with runnable tests. When I tell you no on a hatch, you get the test that would reopen it.",
    "Harrison can set up 20 minutes, or write to me: [zach.harris@gmail.com](mailto:zach.harris@gmail.com)"
   ],
   "bites_at": "end",
@@ -325,7 +325,7 @@
    "name": "Entrepreneur in Residence",
    "tagline": "The role I'm here for",
    "headline": "One wedge, not a category.",
-   "lede": "Your page: six months to source hatches in DeFi, stablecoins, infrastructure and prediction markets, and find one to found.",
+   "lede": "The seat, per your posting: six months to source hatches in DeFi, stablecoins, infrastructure and prediction markets, and find one worth founding.",
    "units": [
     {
      "title": "30 / 90 / 180",
@@ -380,7 +380,7 @@
        "rows": [
         [
          "A senior operator from a strong crypto company",
-         "Grayscale, 2024 to 2025: owned the investor platform for 10 regulated digital-asset products."
+         "Grayscale, 2024 to 2025: ran 10 SEC and FINRA regulated products, a $7B portfolio."
         ],
         [
          "A notable swing and miss",
@@ -532,9 +532,8 @@
        ]
       },
       {
-       "type": "callout",
-       "lead": "Gravity's open roles.",
-       "text": "Your site lists [Founder, Portfolio Company](https://gravity-labs.xyz/jobs-founder-portfolio-company.html) and [Principal, New Ventures](https://gravity-labs.xyz/jobs-principal-new-ventures.html) beside the EIR seat. The first two rows answer them."
+       "type": "p",
+       "text": "**Gravity's open roles.** Your site lists [Founder, Portfolio Company](https://gravity-labs.xyz/jobs-founder-portfolio-company.html) and [Principal, New Ventures](https://gravity-labs.xyz/jobs-principal-new-ventures.html) beside the EIR seat. The first two rows answer them."
       }
      ]
     }

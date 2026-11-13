@@ -63,7 +63,7 @@ def claim_row(c):
     ev = c["evidence"].rstrip(": ")
     ev += "" if ev.endswith(".") else "."
     rec = (" Record: [%s](%s)." % (c.get("label") or "link", c["url"])) if c.get("url") else ""
-    return {"chip": pe.STATUS_LABEL[c["status"]], "tone": STATUS_TONE[c["status"]], "signal": c["date"], "text": "**%s** %s%s" % (c["claim"], ev, rec)}
+    return {"chip": pe.STATUS_LABEL[c["status"]], "tone": STATUS_TONE[c["status"]], "signal": "checked " + c["date"], "text": "**%s** %s%s" % (c["claim"], ev, rec)}
 
 
 def claim_ref(c):
