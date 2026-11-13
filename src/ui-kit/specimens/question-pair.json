@@ -1,0 +1,100 @@
+{
+ "number": "65",
+ "name": "Question Pair",
+ "slug": "question-pair",
+ "layer": "Molecule",
+ "job": "Set what the reader said beside the question worth asking about it, one row a point, so every question visibly comes from their own words.",
+ "anatomy": [
+  {
+   "part": "Frame",
+   "role": "Surface card, hairline border, rows split by hairlines; two equal columns split by a hairline",
+   "token": "`surface`, `border`, `ds-r-md`"
+  },
+  {
+   "part": "Column heads",
+   "role": "Mono, uppercase, label step, on a tinted bar; the answer column head in cyan",
+   "token": "`surface-2`, `muted`, `cyan`"
+  },
+  {
+   "part": "Said",
+   "role": "Their point, in their words, secondary text",
+   "token": "`text-secondary`"
+  },
+  {
+   "part": "Ask",
+   "role": "The question, primary text",
+   "token": "`text`"
+  }
+ ],
+ "states": [
+  {
+   "name": "Two rows",
+   "args": [
+    2,
+    "100%"
+   ],
+   "note": "The usual shape: two to five rows."
+  },
+  {
+   "name": "Phone width",
+   "args": [
+    1,
+    "20rem"
+   ],
+   "note": "Below 640px the columns stack; the answer column head hides and each ask gets an inline cyan lead."
+  }
+ ],
+ "use_when": [
+  "Every question or recommendation traces to something the counterpart said, and showing that trace is the point.",
+  "A proposal or brief where the reader should recognise their own words before they read yours."
+ ],
+ "avoid_when": [
+  "Do not paraphrase the left column into your vocabulary; it is their words or it is not this part.",
+  "Do not use it for a two-column comparison of options; that is a table, not a question pair."
+ ],
+ "data": [
+  {
+   "field": "heads",
+   "type": "[said, ask]",
+   "required": true,
+   "note": "Column heads, for example `What you raised` and `Worth asking`."
+  },
+  {
+   "field": "rows[]",
+   "type": "{said, ask}",
+   "required": true,
+   "note": "One row a point. Plain text."
+  }
+ ],
+ "access": [
+  "Column heads are `h3` elements; each row reads said, then ask, in source order.",
+  "On a phone the ask carries a visible text lead, so the pairing never depends on colour or column position.",
+  "The grid uses `minmax(0, 1fr)`, so large text wraps inside the cell."
+ ],
+ "built_from": [
+  {
+   "name": "Kit tokens (atoms)",
+   "href": "_tokens.css"
+  },
+  {
+   "name": "27 Section label",
+   "href": "27-section-label.html"
+  }
+ ],
+ "used_by": [
+  {
+   "name": "Louisville proposal (louisville.arcs.care/proposal), page-local today; swap in after the send"
+  }
+ ],
+ "gates": [
+  "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+  "`kit_primitive_sync.py --check`: every page that marks this block carries it line for line.",
+  "`artifact_wrap_lint.py` and `page_gate.py` on every page that carries it; sweep 360 to 1440, including 700 to 1000."
+ ],
+ "links": [
+  "_tokens-light.css",
+  "_kit-sr.css"
+ ],
+ "css": "/* @prim:begin 65-question-pair */\n.qpair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); overflow: hidden; }\n.qpair-head { margin: 0; padding: var(--sp-1, 8px) var(--sp-3, 24px); background: var(--surface-2); border-bottom: 1px solid var(--border); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.6; color: var(--muted); }\n.qpair-head.ask { color: var(--cyan); border-left: 1px solid var(--border); }\n.qpair-row { display: contents; }\n.qpair-row > div { padding: var(--sp-2, 16px) var(--sp-3, 24px); border-top: 1px solid var(--border); text-wrap: pretty; }\n.qpair-head.ask + .qpair-row > div { border-top: 0; }\n.qpair-said { color: var(--text-secondary); }\n.qpair-ask { color: var(--text); border-left: 1px solid var(--border); }\n@media (max-width: 640px) { .qpair { grid-template-columns: minmax(0, 1fr); } .qpair-head.ask { display: none; } .qpair-row > .qpair-ask { border-top: 0; border-left: 0; padding-top: 0; } .qpair-row > .qpair-ask::before { content: attr(data-lead) \" \"; font-weight: 600; color: var(--cyan); } }\n@container (max-width: 40rem) { .qpair { grid-template-columns: minmax(0, 1fr); } .qpair-head.ask { display: none; } .qpair-row > .qpair-ask { border-top: 0; border-left: 0; padding-top: 0; } .qpair-row > .qpair-ask::before { content: attr(data-lead) \" \"; font-weight: 600; color: var(--cyan); } }\n@media print { .qpair { background: none; border: 0; border-radius: 0; break-inside: avoid; } .qpair-head { background: none; padding: 0 0 6px; border-bottom: 1.5px solid var(--text); } .qpair-head.ask { border-left: 0; border-bottom-color: var(--cyan); } .qpair-row > div { padding: 5px 0; break-inside: avoid; } .qpair-ask { border-left: 0; } }\n/* @prim:end 65-question-pair */\n",
+ "demo": "function kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar QP=[['Volume indicators can miss a rising signal; every day without a call costs time to market.','How often was your peaked-or-rising read right, and what would have flagged it wrong before the order?'],['A missed simulation means bad data or a wrong hypothesis.','For the last miss, which was it, and can your setup tell next time?']];\nfunction kitQPair(host,n){var w=document.createElement('div');w.className='qpair';w.innerHTML='<h3 class=\"qpair-head\">What you raised</h3><h3 class=\"qpair-head ask\">Worth asking</h3>'+QP.slice(0,n).map(function(r){return '<div class=\"qpair-row\"><div class=\"qpair-said\">'+kEsc(r[0])+'</div><div class=\"qpair-ask\" data-lead=\"Worth asking:\">'+kEsc(r[1])+'</div></div>'}).join('');host.appendChild(w);return w}\nkitQPair(kSlot(),2);\nSTATES.forEach(function(a,i){var b=document.createElement('div');b.style.maxWidth=a[1];if(a[1]!=='100%')b.style.containerType='inline-size';kSlot(i).appendChild(b);kitQPair(b,a[0])});"
+}
