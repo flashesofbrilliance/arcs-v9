@@ -5106,13 +5106,13 @@
    "near_duplicates": []
   },
   {
-   "id": "69-proof-lockup",
-   "number": "69",
+   "id": "71-proof-lockup",
+   "number": "71",
    "name": "Proof Lockup",
    "group": "Specimens",
-   "subtitle": "Organism 69 · Greet a cold reader with the two to four proofs behind a claim, each a figure they can check, between one short framing line and the promise it buys them.",
+   "subtitle": "Organism 71 · Greet a cold reader with the two to four proofs behind a claim, each a figure they can check, between one short framing line and the promise it buys them.",
    "family": "kit",
-   "path": "src/ui-kit/recoil-report/69-proof-lockup.html",
+   "path": "src/ui-kit/recoil-report/71-proof-lockup.html",
    "data_shape": [
     "state"
    ],
@@ -5128,7 +5128,7 @@
     "plk-lab"
    ],
    "prim_blocks": [
-    "69-proof-lockup"
+    "71-proof-lockup"
    ],
    "alignment": {
     "tokens": true,

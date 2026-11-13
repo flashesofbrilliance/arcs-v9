@@ -892,9 +892,9 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - **Repair:** Zach asked for the standard nav, hamburger and reading options on this page (2026-11-12), so the page carries the kit's light palette and frame. The file joins the two existing kit waivers rather than getting new ones.
 - **Guard:** the ratchet (the file scores 0 with the waivers; any new finding blocks) and `component_source_gate`, which now checks the page as template `recoil-twin` (5 of 5 kit signatures). The earlier open debt for this file stands: the generator-origin waivers (tiny-text, all-caps-body, radius, font-size) can be dropped once `scripts/recoil_brief.py`'s base CSS is off the page; the stack layout already sizes in rem on the kit ramp.
 
-## 2026-11-13 · kit 69 proof lockup (one size repaired at the source, specimen joins the kit colour waiver)
+## 2026-11-13 · kit 71 proof lockup (filed as 69, renumbered: three PRs claimed 69) (one size repaired at the source, specimen joins the kit colour waiver)
 
-- **Break:** the ratchet counted 8 findings against 0 at HEAD on the new `src/ui-kit/recoil-report/69-proof-lockup.html`: 6 `design-system-color` from the specimen's light chrome and 2 `design-system-font-size` (the figure at a literal 1.6rem, the print figure at 1.25rem).
+- **Break:** the ratchet counted 8 findings against 0 at HEAD on the new `src/ui-kit/recoil-report/71-proof-lockup.html`: 6 `design-system-color` from the specimen's light chrome and 2 `design-system-font-size` (the figure at a literal 1.6rem, the print figure at 1.25rem).
 - **Root cause:** the figure size was copied from the rendered option Zach picked (A, 2026-11-13) as a literal, not as a ramp step. The colours come from the kit 39 light remap that every specimen carries.
 - **Repair:** the figure now reads `var(--fs-display)` stacked and `min(var(--fs-display), 2.9cqi)` side by side, about 1.6rem in the Gravity lane, so the picked look holds on a ramp token; print uses `--fs-headline`. The specimen joins the existing kit-specimen `design-system-color` waiver (39, 43 to 68), no new waiver.
-- **Guard:** the ratchet (the file scores 0; any new finding blocks) and `kit_primitive_sync --check` for every page that later marks block 69.
+- **Guard:** the ratchet (the file scores 0; any new finding blocks) and `kit_primitive_sync --check` for every page that later marks block 71.
