@@ -246,6 +246,10 @@ Phosphor (dj.arcs.care) is an Operate and Experience surface: a family audio ins
 
 **The hidden attribute always wins** (`[hidden] { display: none !important; }`): a display rule once showed the pad picker and the Sing box to everyone. The hidden check reads what a person sees, not the attribute.
 
+## Zach's rulings
+
+Zach's per-surface stylistic rulings and the standing method (three rendered options per block before building, RCA first) live in `_PATTERNS/zach-style-ledger.md`. Read it before any design work; it is his newer word where it differs from this file, and a difference is logged as a seam, never silently resolved.
+
 ## Do's and Don'ts
 
 ### Do:
