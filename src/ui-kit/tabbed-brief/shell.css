@@ -391,7 +391,7 @@ a:active { color: var(--text); }
 /* ---- glass picks (Zach, 2026-11-13, strength 1x): Header C, Stats B, Week One C, Folds A, Evidence rows B ----
    Design-system names, defined once from the template's glass tokens (no new literals beyond the signal tints). */
 :root { --glass-surface: var(--glass); --emboss: var(--bevel), var(--lift); --deboss: var(--well); --border-active: color-mix(in srgb, var(--cyan) 55%, var(--border));
-  --deboss-fill: color-mix(in srgb, var(--surface) 91%, var(--text)); }
+  --deboss-fill: color-mix(in srgb, var(--surface) 40%, white); } /* light: wells sit lighter than their ground (DESIGN.md; Zach 2026-11-13), the inset shadow carries the sink */
 :root[data-theme="dark"] { --deboss-fill: color-mix(in srgb, var(--surface) 78%, black); }
 
 /* Header C: the tabs float in a glass capsule; the active tab is a cyan wash with an active ring. Head stays solid when stuck. */
