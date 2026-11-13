@@ -293,9 +293,10 @@ def r_fold(s, horizons, p=""):
     sid = s["id"]
     op = "true" if s.get("open") else "false"
     hid = "" if s.get("open") else " hidden"
+    tag = '<span class="tb-tag">%s</span>' % md(s["tagline"], p + "/tagline") if s.get("tagline") else ""
     return ('<section class="tb-fold" id="%s"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="%s" aria-controls="%s-body">'
-            '<span><span class="tb-fold-t">%s</span><span class="tb-tag">%s</span></span></button></h2>'
-            '<div class="tb-fold-body" id="%s-body"%s>%s</div></section>') % (sid, op, sid, md(s["title"], p + "/title"), md(s["tagline"], p + "/tagline"), sid, hid, r_blocks(s["blocks"], horizons, 3, p + "/blocks"))
+            '<span><span class="tb-fold-t">%s</span>%s</span></button></h2>'
+            '<div class="tb-fold-body" id="%s-body"%s>%s</div></section>') % (sid, op, sid, md(s["title"], p + "/title"), tag, sid, hid, r_blocks(s["blocks"], horizons, 3, p + "/blocks"))
 
 
 def r_overview(d):
@@ -359,7 +360,13 @@ def r_tab(t, horizons, i, page=False, p=""):
     op = "true" if i == 0 else "false"
     if page:
         # a role on its own page: no fold, the seat name shows as the eyebrow; headings step h1, h2, h3
-        units = "\n".join('<section class="unit"><h2 class="tb-h3">%s</h2>%s</section>' % (md(u["title"], "%s/units/%d/title" % (p, k)), r_blocks(u["blocks"], horizons, 3, "%s/units/%d/blocks" % (p, k))) for k, u in enumerate(t["units"]))
+        # each unit is a fold, the overview's pattern: first open unless the data says otherwise; Expand all once there are two or more
+        def unit_fold(k, u):
+            sid = "%s-%s" % (tid, re.sub(r"[^a-z0-9]+", "-", u["title"].lower()).strip("-"))
+            return r_fold(dict(u, id=sid, open=u.get("open", k == 0)), horizons, "%s/units/%d" % (p, k))
+        units = "\n".join(unit_fold(k, u) for k, u in enumerate(t["units"]))
+        exp = '<div class="tb-expand"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>\n' if len(t["units"]) > 1 else ""
+        units = '%s<div class="tb-folds">%s</div>' % (exp, units)
         return ('<div id="pane-%s" class="tb-pane seat">\n<div class="seat-head"><p class="section-label seat-name">%s</p><h1 class="seat-h">%s</h1></div>\n'
                 '<div class="seat-body" id="seat-%s-body"><p class="seat-lede">%s</p>\n%s\n%s</div>\n</div>') % (
             tid, md(t["name"], p + "/name"), md(t["headline"], p + "/headline"), tid, md(t["lede"], p + "/lede"), units, calls)
