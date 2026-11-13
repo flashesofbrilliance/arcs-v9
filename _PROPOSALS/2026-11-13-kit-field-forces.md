@@ -57,6 +57,12 @@ What it exposed:
 3. **Judgment corrected each bundle** for the rendered etudes (ledger queue, dependency field, decide cards). Each
    correction is a labelled data point for the verb-fit force.
 
+**Pick (Zach, 2026-11-13):** "both but maybe cards first". C stacked over A: the decide cards (61 option, 59 claim
+check) above, the ledger queue (31 callout, 29 tile, 57 ledger row, 28 chip) below. B (dependency field) was not
+picked. Read as a force: for a decide goal, the option organism sits above the fold and evidence molecules settle
+under it, the same order as memory `clean-above-fold-organized-below-fold`. First labelled example for verb fit:
+goal `decide` pulls 61 to the top slot.
+
 ## A second finding: the medium leaks (MyAlly)
 
 `public/myally-hub.html:108` switches easy-read by overriding `--font-body`, a token name only that page uses. Kit 51
