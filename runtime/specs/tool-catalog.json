@@ -7,18 +7,18 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 305,
+  "script": 307,
   "skill": 28,
   "workflow": 2
  },
- "total": 437,
+ "total": 439,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 595,
+   "WIRED": 598,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 3,
+   "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
@@ -28,14 +28,6 @@
     "surface": "repo",
     "kind": "script",
     "name": "jobs_posting_liveness.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "recoil_page.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -2148,6 +2140,14 @@
   },
   {
    "kind": "script",
+   "name": "operator_binding_emit.py",
+   "path": "scripts/operator_binding_emit.py",
+   "jtbd": "operator_binding_emit.py: the seat binding map. Every operator, Python operator file and agent (\"seat\"),",
+   "invoke": "python3 scripts/operator_binding_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "operator_registry_emit.py",
    "path": "scripts/operator_registry_emit.py",
    "jtbd": "operator_registry_emit.py — generate operators/OPERATOR-REGISTRY.json from the",
@@ -2536,7 +2536,7 @@
    "path": "scripts/recoil_page.py",
    "jtbd": "recoil_page: one recoil SSOT (v2, or six-tab v1 through the adapter) to a single-file HTML page.",
    "invoke": "python3 scripts/recoil_page.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -2680,6 +2680,14 @@
    "path": "scripts/scout_dossier_ingest.py",
    "jtbd": "Perplexity scout intake: validate a role dossier in _INBOX/evidence/ and map it onto the jobs board.",
    "invoke": "python3 scripts/scout_dossier_ingest.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "scratch_git_leak_gate.py",
+   "path": "scripts/scratch_git_leak_gate.py",
+   "jtbd": "scratch_git_leak_gate.py: no self-test may write to the repo that runs it.",
+   "invoke": "python3 scripts/scratch_git_leak_gate.py",
    "state": "WIRED"
   },
   {
