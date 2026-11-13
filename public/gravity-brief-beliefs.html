@@ -291,7 +291,7 @@
 /* tabbed-brief template layer (2026-11-09). Composes kit parts; owns only the frame and the page organisms.
    Tokens: src/ui-kit/recoil-report/_tokens.css (inlined first) and the kit 39 light remap. No literal colours here.
    Type ramp, five steps: label 0.6875rem (labels only, never prose) · small 0.875rem · body 1rem · section 1.25rem · display (serif).
-   Breakpoints, two: 600px (phone) and 1024px (tabs). The builder replaces every (min-width: 1024px) here and kit 42 data-menu-below with the data's stack_below. */
+   Breakpoints, two: 600px (phone) and 1024px (tabs). The builder replaces every (min-width: 901px) here and kit 42 data-menu-below with the data's stack_below. */
 html { font-size: 100%; }
 /* hand-tuning tokens (the ?tune sliders move these): body line-height, section rhythm, card gap, letter-spacing */
 :root { --lh: 1.6; --sp-4: 24px; --gap: 12px; --ls: 0em;
@@ -356,7 +356,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-btn.primary { background: var(--cyan); border-color: var(--cyan); color: var(--surface); }
 .tb-note { margin: 0; flex-basis: 100%; font-size: var(--fs-body); color: var(--text-secondary); }
 .tb-expand { display: flex; justify-content: flex-end; }
-@media (min-width: 1024px) { .tb-expand.solo { display: none; } } /* one fold and no stacked seats: nothing to expand */
+@media (min-width: 901px) { .tb-expand.solo { display: none; } } /* one fold and no stacked seats: nothing to expand */
 
 /* fold sections: a heading that holds a button (the ARIA accordion pattern), a one-line tagline, a body */
 .tb-folds { display: flex; flex-direction: column; }
@@ -415,7 +415,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 
 /* cards */
 .tb-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap); } /* one column until tabs show; no orphaned third card */
-@media (min-width: 1024px) { .tb-cards { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); } }
+@media (min-width: 901px) { .tb-cards { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); } }
 .tb-card { border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); padding: var(--s-4); display: flex; flex-direction: column; gap: var(--s-2); }
 .tb-card > * { margin: 0; }
 .tb-card-t { font-size: var(--fs-body); font-weight: var(--fw-strong); line-height: var(--lh-head); color: var(--text); }
@@ -619,11 +619,11 @@ a:active { color: var(--text); }
    3. Glass with a little dimensionality in both themes: a soft top-lit gradient, a hairline rim, an inset top highlight
       and a short offset shadow on raised pieces (frame, tiles, cards, controls); chips sit as shallow wells. Tokens only. */
 :root { --ds-font-sans: 'Inter', -apple-system, 'SF Pro Text', system-ui, sans-serif; --ds-font-display: var(--ds-font-sans);
-  --glass: linear-gradient(180deg, var(--surface), color-mix(in srgb, var(--surface) 94%, var(--text)));
+  --glass: linear-gradient(180deg, var(--surface), color-mix(in srgb, var(--surface) 94%, var(--text)) 56px);
   --bevel: inset 0 1px 0 color-mix(in srgb, white 70%, transparent), inset 0 -1px 0 color-mix(in srgb, var(--text) 5%, transparent);
   --lift: 0 1px 2px color-mix(in srgb, var(--text) 7%, transparent), 0 3px 6px -3px color-mix(in srgb, var(--text) 12%, transparent);
   --well: inset 0 1px 2px color-mix(in srgb, var(--text) 10%, transparent); }
-:root[data-theme="dark"] { --glass: linear-gradient(180deg, color-mix(in srgb, var(--surface) 88%, white), var(--surface));
+:root[data-theme="dark"] { --glass: linear-gradient(180deg, color-mix(in srgb, var(--surface) 88%, white), var(--surface) 56px); /* sheen pinned to 56px so tall and short panels match */
   --bevel: inset 0 1px 0 color-mix(in srgb, white 6%, transparent), inset 0 -1px 0 color-mix(in srgb, black 40%, transparent);
   --lift: 0 1px 2px color-mix(in srgb, black 40%, transparent), 0 3px 6px -3px color-mix(in srgb, black 55%, transparent);
   --well: inset 0 1px 3px color-mix(in srgb, black 50%, transparent); }
@@ -632,7 +632,10 @@ a:active { color: var(--text); }
 .sb-t::before, .sb-t::after { font-family: var(--ds-font-sans); font-style: normal; font-weight: var(--fw-bold); }
 /* raised */
 .tb-frame { background: var(--glass); box-shadow: var(--bevel), var(--lift); }
-.tb-frame .tb-body, .tb-frame .tb-navwrap { background: transparent; }
+.tb-frame .tb-body { background: transparent; }
+/* sticky head (myAlly pattern): solid, never see-through; a shadow only once it is stuck */
+.tb-frame .tb-navwrap { background: var(--surface); }
+.tb-head.is-stuck { box-shadow: 0 1px 0 var(--border), 0 6px 12px -8px color-mix(in srgb, black 35%, transparent); }
 .ftile::before { background: var(--glass); box-shadow: var(--bevel), var(--lift); }
 .tb-card { background: var(--glass); } /* inside the raised frame: tinted, not lifted (no card inside a card) */
 .tb-btn, .dprefs-theme, .dprefs-aa, .sb-btn { background: var(--glass); box-shadow: var(--bevel), var(--lift); }
@@ -670,6 +673,10 @@ a:active { color: var(--text); }
    Hover tints only the chevron, on fine pointers; focus-visible keeps its outline. */
 .tb-fold-btn::before { transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur-base) var(--ease-out); }
 @media (hover: hover) and (pointer: fine) { .tb-fold-btn:hover::before { border-color: var(--text); } }
+
+/* quotes back in the kit serif (Zach, 2026-11-13: it stood out more) */
+.sb-t { font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif; }
+.sb-t::before, .sb-t::after { font-family: inherit; }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -679,7 +686,7 @@ a:active { color: var(--text); }
 <section id="dprefs" class="dprefs-panel" role="dialog" aria-modal="false" aria-labelledby="dprefs-h" hidden><p id="dprefs-h" class="dprefs-title">Reading options</p><div class="dprefs-group" role="group" aria-labelledby="dprefs-font"><span id="dprefs-font" class="dprefs-label">Font</span><span class="dprefs-btns"><button type="button" data-k="font" data-v="std" aria-pressed="true">Standard</button><button type="button" data-k="font" data-v="easy" aria-pressed="false">Easy-read</button></span></div><div class="dprefs-group" role="group" aria-labelledby="dprefs-size"><span id="dprefs-size" class="dprefs-label">Text size</span><span class="dprefs-btns"><button type="button" data-k="size" data-v="std" aria-pressed="true">Standard</button><button type="button" data-k="size" data-v="l" aria-pressed="false">Larger</button><button type="button" data-k="size" data-v="xl" aria-pressed="false">Largest</button></span></div><div class="dprefs-group" role="group" aria-labelledby="dprefs-space"><span id="dprefs-space" class="dprefs-label">Spacing</span><span class="dprefs-btns"><button type="button" data-k="space" data-v="std" aria-pressed="true">Standard</button><button type="button" data-k="space" data-v="roomy" aria-pressed="false">Roomy</button></span></div><div class="dprefs-actions"><button type="button" data-reset>Reset</button><button type="button" data-close>Close</button></div></section>
 <section class="tb-frame" aria-label="Zach Harris for Gravity Labs">
 <div class="tb-head"><dl class="tb-meta"><div class="opt"><dt>Prepared for</dt><dd>The Gravity Labs team</dd></div></dl>
-<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Pages" data-menu-below="1024"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs"><a class="shnav-tab" href="/" data-target="pane-ov" aria-current="false">Overview</a><a class="shnav-tab" href="/eir" data-target="pane-eir" aria-current="false">EIR</a><a class="shnav-tab" href="/hats" data-target="pane-hats" aria-current="false">Hats</a><a class="shnav-tab" href="/proof" data-target="pane-proof" aria-current="false">Proof</a><a class="shnav-tab" href="/beliefs" data-target="pane-beliefs" aria-current="page">Beliefs</a></div><p class="tb-name"><span class="tb-name-main">Zach Harris</span><span class="tb-name-sub"><a href="https://app.ens.domains/zachharris.eth">zachharris.eth</a> · <a href="https://zach.md">zach.md</a> · <a href="mailto:zach.harris@gmail.com">zach.harris@gmail.com</a></span></p><button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Go to a page"><span></span></button></nav></div></div>
+<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Pages" data-menu-below="901"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs"><a class="shnav-tab" href="/" data-target="pane-ov" aria-current="false">Overview</a><a class="shnav-tab" href="/eir" data-target="pane-eir" aria-current="false">EIR</a><a class="shnav-tab" href="/hats" data-target="pane-hats" aria-current="false">Hats</a><a class="shnav-tab" href="/proof" data-target="pane-proof" aria-current="false">Proof</a><a class="shnav-tab" href="/beliefs" data-target="pane-beliefs" aria-current="page">Beliefs</a></div><p class="tb-name"><span class="tb-name-main">Zach Harris</span><span class="tb-name-sub"><a href="https://app.ens.domains/zachharris.eth">zachharris.eth</a> · <a href="https://zach.md">zach.md</a> · <a href="mailto:zach.harris@gmail.com">zach.harris@gmail.com</a></span></p><button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Go to a page"><span></span></button></nav></div></div>
 <div class="tb-body">
 <div id="pane-beliefs" class="tb-pane seat">
 <div class="seat-head"><p class="section-label seat-name">Beliefs</p><h1 class="seat-h">48 beliefs killed since June.</h1></div>
@@ -749,6 +756,8 @@ a:active { color: var(--text); }
 
   /* jumps: clear the sticky head (meta strip and nav) by 12px; respect reduced motion */
   var nav = document.querySelector('.tb-head') || document.querySelector('.tb-navwrap');
+  if (nav && window.IntersectionObserver) { var sent = document.createElement('div'); sent.setAttribute('aria-hidden', 'true'); nav.parentNode.insertBefore(sent, nav);
+    new IntersectionObserver(function (es) { nav.classList.toggle('is-stuck', !es[0].isIntersecting); }).observe(sent); }
   function cover() { return nav ? nav.getBoundingClientRect().height : 0; }
   function jumpTo(el, how) { if (!el) return; var y = el.getBoundingClientRect().top + scrollY - cover() - 12; scrollTo({ top: Math.max(0, y), behavior: how || (reduce() ? 'auto' : 'smooth') }); }
   var booting = true; addEventListener('load', function () { setTimeout(function () { booting = false; }, 0); });

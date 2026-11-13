@@ -329,11 +329,11 @@ a:active { color: var(--text); }
    3. Glass with a little dimensionality in both themes: a soft top-lit gradient, a hairline rim, an inset top highlight
       and a short offset shadow on raised pieces (frame, tiles, cards, controls); chips sit as shallow wells. Tokens only. */
 :root { --ds-font-sans: 'Inter', -apple-system, 'SF Pro Text', system-ui, sans-serif; --ds-font-display: var(--ds-font-sans);
-  --glass: linear-gradient(180deg, var(--surface), color-mix(in srgb, var(--surface) 94%, var(--text)));
+  --glass: linear-gradient(180deg, var(--surface), color-mix(in srgb, var(--surface) 94%, var(--text)) 56px);
   --bevel: inset 0 1px 0 color-mix(in srgb, white 70%, transparent), inset 0 -1px 0 color-mix(in srgb, var(--text) 5%, transparent);
   --lift: 0 1px 2px color-mix(in srgb, var(--text) 7%, transparent), 0 3px 6px -3px color-mix(in srgb, var(--text) 12%, transparent);
   --well: inset 0 1px 2px color-mix(in srgb, var(--text) 10%, transparent); }
-:root[data-theme="dark"] { --glass: linear-gradient(180deg, color-mix(in srgb, var(--surface) 88%, white), var(--surface));
+:root[data-theme="dark"] { --glass: linear-gradient(180deg, color-mix(in srgb, var(--surface) 88%, white), var(--surface) 56px); /* sheen pinned to 56px so tall and short panels match */
   --bevel: inset 0 1px 0 color-mix(in srgb, white 6%, transparent), inset 0 -1px 0 color-mix(in srgb, black 40%, transparent);
   --lift: 0 1px 2px color-mix(in srgb, black 40%, transparent), 0 3px 6px -3px color-mix(in srgb, black 55%, transparent);
   --well: inset 0 1px 3px color-mix(in srgb, black 50%, transparent); }
@@ -342,7 +342,10 @@ a:active { color: var(--text); }
 .sb-t::before, .sb-t::after { font-family: var(--ds-font-sans); font-style: normal; font-weight: var(--fw-bold); }
 /* raised */
 .tb-frame { background: var(--glass); box-shadow: var(--bevel), var(--lift); }
-.tb-frame .tb-body, .tb-frame .tb-navwrap { background: transparent; }
+.tb-frame .tb-body { background: transparent; }
+/* sticky head (myAlly pattern): solid, never see-through; a shadow only once it is stuck */
+.tb-frame .tb-navwrap { background: var(--surface); }
+.tb-head.is-stuck { box-shadow: 0 1px 0 var(--border), 0 6px 12px -8px color-mix(in srgb, black 35%, transparent); }
 .ftile::before { background: var(--glass); box-shadow: var(--bevel), var(--lift); }
 .tb-card { background: var(--glass); } /* inside the raised frame: tinted, not lifted (no card inside a card) */
 .tb-btn, .dprefs-theme, .dprefs-aa, .sb-btn { background: var(--glass); box-shadow: var(--bevel), var(--lift); }
@@ -380,3 +383,7 @@ a:active { color: var(--text); }
    Hover tints only the chevron, on fine pointers; focus-visible keeps its outline. */
 .tb-fold-btn::before { transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur-base) var(--ease-out); }
 @media (hover: hover) and (pointer: fine) { .tb-fold-btn:hover::before { border-color: var(--text); } }
+
+/* quotes back in the kit serif (Zach, 2026-11-13: it stood out more) */
+.sb-t { font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif; }
+.sb-t::before, .sb-t::after { font-family: inherit; }

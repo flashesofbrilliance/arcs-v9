@@ -433,8 +433,8 @@ def r_name(d):
 
 
 def stack_below(d):
-    """Width below which the tabs fold into the menu and the roles stack (shell.css writes 1024; data may move it)."""
-    return int(d.get("stack_below", 1024))
+    """Width below which the tabs fold into the menu and the roles stack (burger at 900px and down, the myAlly breakpoint; data may move it)."""
+    return int(d.get("stack_below", 901))
 
 
 def date_long(iso):
@@ -557,7 +557,7 @@ def tune_build(path, out):
 def apply_patch(data_path, patch_paths, version=None):
     """The tuner's exports back to source: text and the breakpoint to the data file, tokens and wrapping to shell.css."""
     return pt.apply(patch_paths if isinstance(patch_paths, list) else [patch_paths], [("json", data_path)],
-                    style=("block", os.path.join(TDIR, "shell.css")), bp_ptr="/stack_below", bp_default=1024, version=version, validate=validate)
+                    style=("block", os.path.join(TDIR, "shell.css")), bp_ptr="/stack_below", bp_default=901, version=version, validate=validate)
 
 
 def check():
