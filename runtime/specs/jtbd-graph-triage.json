@@ -292,10 +292,10 @@
   {
    "rule": "ORPHAN-JOB",
    "id": "job:backlog:prl-phase-1-2",
-   "reason": "row minted 2026-11-05 from receipts; its work ran in Zapier and Tidio, which have no tool atom; re-triaged 2026-11-13 when Zach extended the row resolve_by to 2026-11-20",
+   "reason": "row minted 2026-11-05 from receipts; its work ran in Zapier and Tidio, which have no tool atom",
    "row": "prl-phase-1-2",
-   "added": "2026-11-13",
-   "resolve_by": "2026-11-20"
+   "added": "2026-11-05",
+   "resolve_by": "2026-11-19"
   },
   {
    "rule": "ORPHAN-JOB",
