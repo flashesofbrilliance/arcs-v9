@@ -13,6 +13,8 @@ or runs a repeating animation:
 Usage: python3 scripts/motion_policy_gate.py <file.html> [...]   (exit 1 on any FAIL)
 """
 import re, sys, os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import design_candidates
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KIT = os.path.join(ROOT, "src/ui-kit/recoil-report/_tokens.css")
@@ -30,9 +32,10 @@ def check(path, kit):
     if not uses and not anim:
         return "PASS", ["no motion tokens read and no repeating animation (not a motion surface)"]
     if uses:
+        trial = design_candidates.tokens_for(t)  # a declared, unexpired candidate may trial a motion value
         for n, v in kit.items():
             if n not in have: fails.append(f"M1 {n} missing from the inlined token block")
-            elif have[n] != v: fails.append(f"M1 {n} is {have[n]} here but {v} in the kit")
+            elif have[n] != v and trial.get(n) != have[n]: fails.append(f"M1 {n} is {have[n]} here but {v} in the kit")
     cap = float(kit.get("--mo-flash-max", "3"))
     for a in anim:
         m = re.search(r'(\d*\.?\d+)(ms|s)\b', a)
