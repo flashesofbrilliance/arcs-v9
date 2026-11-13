@@ -3582,15 +3582,16 @@
    ],
    "jobs": [],
    "pages": [
+    "public/gravity-brief-beliefs.html",
     "public/gravity-brief-eir.html",
-    "public/gravity-brief-founder.html",
-    "public/gravity-brief-principal.html",
+    "public/gravity-brief-hats.html",
+    "public/gravity-brief-proof.html",
     "public/gravity-brief.html",
     "public/recoil-ext/2026-10-29-gasmi.html",
     "scripts/recoil_brief.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 7,
+   "reuse": 8,
    "near_duplicates": [
     {
      "rule": ".wordmark",
@@ -3632,8 +3633,11 @@
    },
    "templates": [],
    "jobs": [],
-   "pages": [],
-   "reuse": 0,
+   "pages": [
+    "public/recoil-ext/2026-10-29-gasmi.html",
+    "scripts/recoil_brief.py"
+   ],
+   "reuse": 2,
    "near_duplicates": []
   },
   {
@@ -4013,16 +4017,17 @@
    "pages": [
     "_ARTIFACTS/louisville-proposal/source.html",
     "public/good-rfp-engine.html",
+    "public/gravity-brief-beliefs.html",
     "public/gravity-brief-eir.html",
-    "public/gravity-brief-founder.html",
-    "public/gravity-brief-principal.html",
+    "public/gravity-brief-hats.html",
+    "public/gravity-brief-proof.html",
     "public/gravity-brief.html",
     "public/louisville-proposal.html",
     "public/recoil-ext/2026-10-29-gasmi.html",
     "scripts/recoil_brief.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 10,
+   "reuse": 11,
    "near_duplicates": []
   },
   {
@@ -4061,11 +4066,9 @@
    "jobs": [],
    "pages": [
     "public/gravity-brief-eir.html",
-    "public/gravity-brief-founder.html",
-    "public/gravity-brief-principal.html",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 4,
+   "reuse": 2,
    "near_duplicates": [
     {
      "rule": ".pm-khead",
@@ -4270,10 +4273,12 @@
    ],
    "jobs": [],
    "pages": [
+    "public/gravity-brief-beliefs.html",
+    "public/gravity-brief-proof.html",
     "public/gravity-brief.html",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 2,
+   "reuse": 4,
    "near_duplicates": []
   },
   {
@@ -4861,7 +4866,9 @@
     "recoil-skim"
    ],
    "jobs": [
-    "recoil-kit-reconcile"
+    "recoil-kit-reconcile",
+    "recoil-public-share-gate",
+    "recoil-runner-spend-figure"
    ],
    "pages": [
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
@@ -4950,10 +4957,12 @@
    "pages": [
     "_ARTIFACTS/job-search/swipe-board.html",
     "public/downshift.html",
+    "public/germinate.html",
     "public/good-rfp-engine.html",
-    "public/honest.html"
+    "public/honest.html",
+    "public/rosetta-shell.html"
    ],
-   "reuse": 4,
+   "reuse": 6,
    "near_duplicates": [
     {
      "rule": ".row",
