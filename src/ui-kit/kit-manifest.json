@@ -3613,10 +3613,11 @@
     "public/gravity-brief-proof.html",
     "public/gravity-brief.html",
     "public/recoil-ext/2026-10-29-gasmi.html",
+    "scripts/kit_primitive_sync.py",
     "scripts/recoil_brief.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 8,
+   "reuse": 9,
    "near_duplicates": [
     {
      "rule": ".wordmark",
@@ -4050,10 +4051,11 @@
     "public/gravity-brief.html",
     "public/louisville-proposal.html",
     "public/recoil-ext/2026-10-29-gasmi.html",
+    "scripts/kit_primitive_sync.py",
     "scripts/recoil_brief.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 11,
+   "reuse": 12,
    "near_duplicates": []
   },
   {
@@ -4535,10 +4537,11 @@
    "pages": [
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
     "_ARTIFACTS/recoil-hypercube-explorer.html",
+    "scripts/kit_primitive_sync.py",
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py"
    ],
-   "reuse": 4,
+   "reuse": 5,
    "near_duplicates": [
     {
      "rule": ".toast-title",
@@ -4669,9 +4672,10 @@
     "recoil-kit-reconcile"
    ],
    "pages": [
-    "_ARTIFACTS/recoil-brian-2026-11-11.html"
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "scripts/kit_primitive_sync.py"
    ],
-   "reuse": 1,
+   "reuse": 2,
    "near_duplicates": []
   },
   {
