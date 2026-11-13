@@ -50,11 +50,7 @@
     "open": true,
     "blocks": [
      {
-      "type": "table",
-      "head": [
-       "When",
-       "What"
-      ],
+      "type": "timeline",
       "rows": [
        [
         "2026-04-09",
@@ -116,7 +112,7 @@
          },
          {
           "chip": "Rules",
-          "tone": "cyan",
+          "tone": "plain",
           "signal": "Regulatory calendar",
           "text": "The [OCC stablecoin rule](https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-92.html) takes effect 2027-01-18. A [procedural vote](https://www.americanbanker.com/news/crypto-market-structure-bill-fails-in-senate-vote-49-50) on the market-structure bill failed 49 to 50 on 2026-09-15."
          },

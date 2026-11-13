@@ -235,8 +235,8 @@ def r_ledger(b, p, hlevel):
             md(r["signal"], "%s/rows/%d/signal" % (gp, ri)), md(r["text"], "%s/rows/%d/text" % (gp, ri))) for ri, r in enumerate(g["rows"]))
         gid = "sl-%s-%d" % (re.sub(r"[^a-z0-9]+", "-", p.lower()).strip("-"), gi)
         n = len(g["rows"])
-        gs.append('<section class="sl-group%s" aria-labelledby="%s"><div class="sl-gh"><h%d class="section-label" id="%s">%s</h%d><span class="sl-gn">%d %s</span></div><ul class="sl-rows">%s</ul></section>' % (
-            " is-judgment" if g.get("judgment") else "", gid, hlevel, gid, md(g["label"], gp + "/label"), hlevel, n, "row" if n == 1 else "rows", rows))
+        gs.append('<section class="sl-group%s" aria-labelledby="%s"><div class="sl-gh"><h%d class="section-label" id="%s">%s</h%d></div><ul class="sl-rows">%s</ul></section>' % (
+            " is-judgment" if g.get("judgment") else "", gid, hlevel, gid, md(g["label"], gp + "/label"), hlevel, rows))
     return '<div class="sl">%s</div>' % "".join(gs)
 
 
@@ -280,6 +280,9 @@ def r_blocks(bl, horizons, hlevel, base="", paths=None):
             out.append('<div class="cr"><dl class="cr-slots">%s</dl>%s%s</div>' % (slots, how, read))
         elif t == "ledger":
             out.append(r_ledger(b, p, hlevel))
+        elif t == "timeline":  # dated releases on one track: the Week One stepper molecule, vertical
+            out.append('<ol class="tb-tl">%s</ol>' % "".join('<li class="tb-tl-i"><p class="section-label tb-tl-d">%s</p><p class="tb-tl-t">%s</p></li>' % (
+                md(d, "%s/rows/%d/0" % (p, i)), md(x, "%s/rows/%d/1" % (p, i))) for i, (d, x) in enumerate(b["rows"])))
         elif t == "callout":
             out.append('<p class="callout"><b>%s</b>%s</p>' % (md(b["lead"], p + "/lead"), md(b["text"], p + "/text")))
         elif t == "list":

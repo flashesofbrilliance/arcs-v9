@@ -643,6 +643,30 @@ a:active { color: var(--text); }
 /* wells */
 .chip { box-shadow: var(--well); }
 @media (prefers-reduced-motion: reduce) { .tb-btn:active, .dprefs-theme:active, .dprefs-aa:active, .sb-btn:active { transform: none; } }
+
+/* ---- folds as organisms (2026-11-12, Zach: the folds were weaker than the top half) ----
+   Each fold is a raised glass panel built like the fact tile (surface on a ::before, so it is one box, not a card in a card):
+   hairline rim, radius sm, bevel and lift, chevron header inside. Folds stack with one gap. Inside: ledger groups read as
+   sub-sections, no row counters; dated releases sit on the stepper track; cards inside a fold are flat sections. */
+.tb-folds { gap: var(--s-3); }
+.tb-fold, .tb-fold:last-child { position: relative; isolation: isolate; border: 0; padding: var(--s-4) var(--s-5); }
+.tb-fold::before { content: ""; position: absolute; inset: 0; z-index: -1; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--glass); box-shadow: var(--bevel), var(--lift); }
+.tb-fold-btn, .stacked .seat-btn { margin-inline-start: 0; width: 100%; }
+@media (max-width: 599px) { .tb-fold-btn, .stacked .seat-btn { margin-inline-start: 0; width: 100%; } .tb-fold, .tb-fold:last-child { padding: var(--s-3) var(--s-4); } }
+.tb-fold-body { padding-top: var(--s-4); margin-top: var(--s-4); border-top: 1px solid var(--border); }
+.tb-fold:has(.tb-fold-btn[aria-expanded="false"]) .tb-fold-body { margin-top: 0; }
+.tb-fold-btn:hover::before { border-color: var(--text); }
+.tb-fold .tb-card { background: none; border: 0; border-top: 1px solid var(--border); border-radius: 0; padding: var(--s-3) 0 0; }
+.tb-fold .sl-group + .sl-group { padding-top: var(--s-4); border-top: 1px solid var(--border); }
+/* timeline molecule: date label over the release, cyan nodes on one rule (the Week One stepper, vertical) */
+.tb-tl { position: relative; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--s-4); }
+.tb-tl::before { content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; border-left: 1px solid var(--border); }
+.tb-tl-i { position: relative; padding-left: var(--s-5); display: flex; flex-direction: column; gap: var(--s-1); }
+.tb-tl-i::before { content: ""; position: absolute; left: 0; top: 2px; width: 11px; height: 11px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 0 3px var(--surface); }
+.tb-tl-d { margin: 0; font-variant-numeric: tabular-nums; }
+.tb-tl-t { margin: 0; line-height: var(--lh-text); text-wrap: pretty; }
+@container (min-width: 38rem) { .tb-tl-i { display: grid; grid-template-columns: calc(var(--key) - var(--s-5)) minmax(0, 1fr); column-gap: var(--s-5); align-items: baseline; } }
+.tb-fold-body { container-type: inline-size; }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
