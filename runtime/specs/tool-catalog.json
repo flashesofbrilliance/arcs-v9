@@ -2140,6 +2140,14 @@
   },
   {
    "kind": "script",
+   "name": "operator_binding_emit.py",
+   "path": "scripts/operator_binding_emit.py",
+   "jtbd": "operator_binding_emit.py: the seat binding map. Every operator, Python operator file and agent (\"seat\"),",
+   "invoke": "python3 scripts/operator_binding_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "operator_registry_emit.py",
    "path": "scripts/operator_registry_emit.py",
    "jtbd": "operator_registry_emit.py — generate operators/OPERATOR-REGISTRY.json from the",

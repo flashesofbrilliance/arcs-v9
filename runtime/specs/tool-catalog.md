@@ -554,6 +554,8 @@ Install state: WIRED 598 · AVAILABLE-NOT-INSTALLED 0 · INSTALLED-UNUSED 2 · D
   `python3 scripts/null_userid_gate.py`
 - **open_loops.py** — open_loops.py: one front door over the stores ARCS already keeps. Read-only, no new store.  
   `python3 scripts/open_loops.py`
+- **operator_binding_emit.py** — operator_binding_emit.py: the seat binding map. Every operator, Python operator file and agent ("seat"),  
+  `python3 scripts/operator_binding_emit.py`
 - **operator_registry_emit.py** — operator_registry_emit.py — generate operators/OPERATOR-REGISTRY.json from the  
   `python3 scripts/operator_registry_emit.py`
 - **option_board.py** — option_board.py: render a design review as about three rendered options per block.  
