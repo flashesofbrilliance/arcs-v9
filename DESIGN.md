@@ -148,6 +148,10 @@ An obsidian ground carrying a small set of high-chroma signal colors, each of wh
 ### Named Rules
 **The Graded-Legend Rule.** Mono labels use six graded tiers (t1 to t6): as a tier rises, size increases and tracking decreases while weight holds, so a section heading never reads like a field label. Color stays caller-controlled because it is semantic. The lowest tier is 11px; nothing functional renders smaller.
 
+**The One-Run Label Rule (2026-11-12).** A mono label is one run of text in one box. Never a `display:flex` row with loose words interleaved with spans: each text run and each element becomes its own flex item, so "BUILD TELEMETRY · DAY 0 → DAY 217 · AS OF Nov 12" breaks into ragged columns at narrow widths. Make the row a block with inline pieces (a tick is `inline-block`), or wrap the words in one `<span>`; keep dates and day counts `white-space:nowrap`. A label never sets itself below 11px or tracks wider than +0.14em. Gate: `scripts/page_gate.py` check `flex-text` (error on `--matrix full`, warning on quick), fixtures in `scripts/tests/test_page_gate_flex_text.py`.
+
+**The Four-States Rule (2026-11-12).** Every interactive component has hover, focus-visible, pressed and disabled, in dark and light, with 44px targets on coarse pointers. Disabled keeps full-opacity text (see rule 3 below): it is carried by a dashed border and `not-allowed`, not by dimming. A click-to-open surface that is not a button gets `role`, `tabindex` and Enter/Space. The status page builder's self-test (`scripts/status_page_build.py --self-test`) fails when a component loses a state; there is no repo-wide gate for this yet.
+
 **The Three-Voice Rule.** Mono = instrument, Sans = reading, Serif = canon. Never cross them: a proverb never renders in mono, a gauge label never in serif.
 
 ## Layout

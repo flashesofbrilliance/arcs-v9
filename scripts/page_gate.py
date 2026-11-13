@@ -28,6 +28,12 @@ RENDER checks (headless Chromium via Playwright; skipped with --static):
                  The one sanctioned exception, text INDEX pages that put the lede on the 680px
                  measure (2026-09-29), opts out explicitly: <p class="lede" data-measure="index">.
 
+  E flex-text    a display:flex/inline-flex box with two or more loose text runs interleaved with element
+                 children (full matrix: error; quick: warning). Each text run and each element becomes
+                 its own flex item, so a mono label such as "BUILD TELEMETRY / DAY 0 / AS OF" breaks into
+                 ragged columns at narrow widths (status page era line, 2026-11-12). Wrap the words in one
+                 <span>, or make the row a block with inline pieces. data-flex-text="ok" opts one box out.
+
 PDF checks (poppler: pdfinfo, pdffonts, pdftotext; a .pdf argument gets these instead of the above):
   E pdf-pages    at least one page
   E pdf-title    a real document title (not empty, about:blank, or a file name)
@@ -269,6 +275,26 @@ async function axeScan(p) {
   }
 }
 
+async function flexText(p) {
+  return await p.evaluate(() => {
+    const out = [];
+    for (const e of document.body.querySelectorAll('*')) {
+      if (e.closest('svg') || e.getAttribute('data-flex-text') === 'ok') continue;
+      const d = getComputedStyle(e).display;
+      if (d !== 'flex' && d !== 'inline-flex') continue;
+      if (!e.children.length) continue;
+      // One loose text run beside an icon or dot is one flex item and wraps as a paragraph. The break needs text
+      // INTERLEAVED with elements: two or more loose runs, each its own item (the era line: text, span, text, span, text).
+      const runs = [...e.childNodes].filter(n => n.nodeType === 3 && /[A-Za-z]/.test(n.textContent));
+      if (runs.length >= 2) {
+        const words = runs.map(n => n.textContent.trim()).join(' ').split(/\s+/).slice(0, 5).join(' ');
+        out.push(e.tagName.toLowerCase() + (e.className && typeof e.className === 'string' ? '.' + e.className.trim().split(/\s+/)[0] : '') + ': "' + words + '"');
+      }
+    }
+    return [...new Set(out)].slice(0, 6);
+  });
+}
+
 async function small(p) {
   return await p.evaluate(() => {
     const out = [];
@@ -293,7 +319,7 @@ async function small(p) {
   const servers = {};
   const out = {};
   for (const f of files) {
-    const res = { overflow: {}, lede: null, snap: [], errors: [], small: {}, custom: [], axe: [], axeMissing: false };
+    const res = { overflow: {}, lede: null, snap: [], errors: [], small: {}, custom: [], axe: [], axeMissing: false, flexText: [] };
     let url = 'file://' + f;
     for (const r of Object.keys(roots)) {
       if (f.startsWith(r + path.sep)) {
@@ -352,6 +378,7 @@ async function small(p) {
         } catch (e) { res.errors.push(key + ' axe threw ' + String(e.message || e).slice(0, 100)); }
         if (scheme === 'light') {
           if (d.touch) res.small[d.name] = await small(p);
+          for (const x of await flexText(p)) if (!res.flexText.includes(x)) res.flexText.push(x);
           const sn = await snapCheck(p);
           for (const x of sn) res.snap.push(Object.assign({ device: d.name }, x));
           if (smoke) {
@@ -506,6 +533,8 @@ def main():
                     (errs if strict else warns).append("console: " + e_)
                 for m_ in d.get("custom", [])[:12]:
                     errs.append("smoke: " + m_)
+                for x in d.get("flexText", []):
+                    (errs if strict else warns).append(f"flex-text: {x}: loose words in a flex box become ragged columns; wrap them in one <span> or use a block with inline pieces")
                 for dev, items in d.get("small", {}).items():
                     if items:
                         warns.append(f"touch-targets on {dev}: " + "; ".join(items))
