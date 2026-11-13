@@ -26,6 +26,7 @@ CSS_ALLOW = {
     "src/ui-kit/recoil-report/_tokens-light.css",  # kit light remap linked after _tokens.css (parts 43 to 51)
     "src/ui-kit/recoil-report/_kit-sr.css",  # one screen-reader-only class shared by kit parts 43 to 51
     "src/ui-kit/tabbed-brief/shell.css",  # tabbed-brief template layer (scripts/tabbed_brief_build.py), artifact-only
+    "src/ui-kit/option-board/board.css",  # option-board template layer (scripts/option_board.py), artifact-only
 }
 TAILWIND = re.compile(r"@tailwind|@apply\b|from ['\"]tailwind|require\(['\"]tailwind")
 
