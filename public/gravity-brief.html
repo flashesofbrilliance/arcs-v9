@@ -291,7 +291,11 @@
    Breakpoints, two: 600px (phone) and 1024px (tabs). The builder replaces every (min-width: 1024px) here and kit 42 data-menu-below with the data's stack_below. */
 html { font-size: 100%; }
 /* hand-tuning tokens (the ?tune sliders move these): body line-height, section rhythm, card gap, letter-spacing */
-:root { --lh: 1.6; --sp-4: 28px; --gap: 12px; --ls: 0em; }
+:root { --lh: 1.6; --sp-4: 24px; --gap: 12px; --ls: 0em;
+  /* template scales (2026-11-12 polish): line height has three steps, spacing sits on a 4px grid, weight has three steps */
+  --lh-display: 1.2; --lh-head: 1.35; --lh-text: 1.55;
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px;
+  --fw-text: 400; --fw-strong: 600; --fw-bold: 700; }
 body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: var(--lh); letter-spacing: var(--ls);
   padding-block: 32px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
   -webkit-font-smoothing: antialiased; }
@@ -308,7 +312,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-top p { margin: 0; flex: 1 1 320px; font-size: var(--fs-body); color: var(--text-secondary); }
 /* masthead: the author's name, large, at the right end of the tab row */
 .shnav .tb-name { margin: 0 0 0 auto; flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-family: var(--ds-font-mono); white-space: nowrap; color: var(--text); }
-.tb-name-main { font-size: var(--fs-headline); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.2; }
+.tb-name-main { font-size: var(--fs-headline); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; line-height: var(--lh-display); }
 .tb-name-sub { font-size: var(--fs-label); font-weight: 600; letter-spacing: 0.04em; color: var(--text-secondary); }
 .tb-name-sub a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 .tb-name-sub a:hover { color: var(--cyan); }
@@ -322,25 +326,25 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-meta dt { font-size: var(--fs-label); color: var(--text-secondary); }
 .tb-meta dd { margin: 0; font-size: var(--fs-label); font-weight: 600; color: var(--text); }
 .tb-navwrap { background: var(--surface); box-shadow: 0 1px 0 var(--border); }
-.tb-body { padding: 24px 20px 32px; }
+.tb-body { padding: var(--s-5) 20px var(--s-6); }
 .tb-pane { display: flex; flex-direction: column; gap: var(--sp-4); }
 .tb-pane > * { margin: 0; }
 
 /* hero */
-.tb-h1 { margin: 0; font-family: var(--ds-font-display); font-weight: 500; font-size: var(--fs-display); line-height: 1.3; letter-spacing: -0.01em; color: var(--text); }
+.tb-h1 { margin: 0; font-family: var(--ds-font-display); font-weight: 500; font-size: var(--fs-display); line-height: var(--lh-display); letter-spacing: -0.01em; color: var(--text); }
 .tb-h1 .hl { display: block; text-wrap: balance; }
-.tb-sub { margin: 0; font-size: var(--fs-headline); font-weight: 700; line-height: 1.4; color: var(--text); text-wrap: balance; }
+.tb-sub { margin: 0; font-size: var(--fs-headline); font-weight: var(--fw-bold); line-height: var(--lh-head); color: var(--text); text-wrap: balance; }
 .cr-howwrap > .section-label { margin: 0 0 12px; }
 .tb-lede .ln { display: block; }
-.tb-lede .ln + .ln { margin-top: 6px; }
+.tb-lede .ln + .ln { margin-top: var(--s-2); }
 .tb-lede { margin: 0; font-size: var(--fs-headline); line-height: var(--lh); color: var(--text); text-wrap: pretty; }
 .tb-next { margin: 0; font-size: var(--fs-body); color: var(--text); }
 .tb-next strong { font-weight: 600; }
 /* the call to action: one loud block, mono at display size, inside a heavy ink border */
-.tb-go { display: flex; flex-direction: column; gap: 16px; padding: 8px 0 20px; }
+.tb-go { display: flex; flex-direction: column; gap: 16px; padding: var(--s-2) 0 var(--s-5); }
 .tb-go > * { margin: 0; }
-.tb-go-h { font-family: var(--ds-font-mono); font-weight: 800; font-size: var(--fs-display); line-height: 1.1; letter-spacing: -0.02em; color: var(--text); }
-.tb-go-t { font-size: var(--fs-body); line-height: 1.5; color: var(--text-secondary); text-wrap: pretty; } /* caption under the actions */
+.tb-go-h { font-family: var(--ds-font-mono); font-weight: var(--fw-bold); font-size: var(--fs-display); line-height: var(--lh-display); letter-spacing: -0.02em; color: var(--text); }
+.tb-go-t { font-size: var(--fs-body); line-height: var(--lh-text); color: var(--text-secondary); text-wrap: pretty; } /* caption under the actions */
 .tb-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .tb-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 14px; border-radius: var(--ds-r-sm);
   border: 1px solid var(--border); background: var(--surface); color: var(--cyan); font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; }
@@ -352,11 +356,11 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 
 /* fold sections: a heading that holds a button (the ARIA accordion pattern), a one-line tagline, a body */
 .tb-folds { display: flex; flex-direction: column; }
-.tb-fold { border-top: 1px solid var(--border); padding: 18px 0; }
+.tb-fold { border-top: 1px solid var(--border); padding: var(--s-4) 0; }
 .tb-fold:last-child { border-bottom: 1px solid var(--border); }
 .tb-coldread { display: flex; flex-direction: column; gap: 16px; }
 .tb-coldread > * { margin: 0; }
-.tb-h2 { margin: 0; font-size: var(--fs-headline); font-weight: 600; line-height: 1.3; }
+.tb-h2 { margin: 0; font-size: var(--fs-headline); font-weight: var(--fw-strong); line-height: var(--lh-head); }
 .tb-fold-btn { width: 100%; display: flex; align-items: flex-start; justify-content: flex-start; gap: 12px; padding: 0; border: 0; background: none;
   color: var(--text); font: inherit; text-align: left; cursor: pointer; }
 .tb-fold-btn:hover { color: var(--cyan); }
@@ -374,7 +378,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 
 /* role tab: one head, then units separated by hairline spacers */
 .seat-head { display: flex; flex-direction: column; gap: 12px; padding-bottom: 12px; }
-.seat-h { margin: 0; font-family: var(--ds-font-display); font-weight: 500; font-size: var(--fs-display); line-height: 1.3; }
+.seat-h { margin: 0; font-family: var(--ds-font-display); font-weight: 500; font-size: var(--fs-display); line-height: var(--lh-display); }
 .seat-btn { display: flex; align-items: flex-start; justify-content: flex-start; gap: 12px; width: 100%; padding: 0; border: 0; background: none; color: var(--text);
   font: inherit; text-align: left; cursor: default; }
 .seat-eyebrow { display: none; }
@@ -383,17 +387,17 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .seat-lede { margin: 0 0 var(--sp-4); font-size: var(--fs-headline); line-height: var(--lh); color: var(--text); text-wrap: pretty; }
 .unit { display: flex; flex-direction: column; gap: 12px; padding: var(--sp-4) 0; border-top: 1px solid var(--border); }
 .unit > * { margin: 0; }
-.tb-h3 { margin: 0; font-size: var(--fs-headline); font-weight: 600; line-height: 1.35; color: var(--text); }
+.tb-h3 { margin: 0; font-size: var(--fs-headline); font-weight: var(--fw-strong); line-height: var(--lh-head); color: var(--text); }
 .seat-callouts { display: flex; flex-direction: column; gap: 12px; padding-top: 4px; }
 .seat-callouts .callout { max-width: none; margin: 0; }
 /* below 1024px the tabs fold into the kit 42 menu, every pane shows, and each role becomes a collapsible section */
 .stacked .tb-pane + .tb-pane { margin-top: 0; }
-.stacked .tb-pane.seat { border-top: 1px solid var(--border); padding-top: 20px; margin-top: 28px; }
+.stacked .tb-pane.seat { border-top: 1px solid var(--border); padding-top: var(--s-5); margin-top: var(--s-5); }
 .stacked .seat-btn { cursor: pointer; }
 .stacked .seat-btn::before { content: ""; flex: none; width: 8px; height: 8px; margin-top: 11px; border-right: 1.5px solid var(--text-secondary); border-bottom: 1.5px solid var(--text-secondary);
   transform: rotate(-45deg); transition: transform var(--dur-base) var(--ease-out); }
 .stacked .seat-btn[aria-expanded="true"]::before { transform: rotate(45deg); }
-.stacked .seat-eyebrow { display: flex; align-items: center; gap: 8px; font-size: var(--fs-headline); font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.stacked .seat-eyebrow { display: flex; align-items: center; gap: 8px; font-size: var(--fs-headline); font-weight: 600; color: var(--text); margin-bottom: var(--s-2); }
 .stacked .seat-h { font-family: var(--ds-font-sans); font-size: var(--fs-headline); font-weight: 600; }
 .stacked .seat-title { display: block; font-size: var(--fs-body); font-weight: 400; color: var(--text-secondary); }
 .stacked .seat-btn > span:first-child { display: flex; flex-direction: column; }
@@ -401,7 +405,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 /* tables (prose facts) */
 .tb-table { width: 100%; border-collapse: collapse; font-size: var(--fs-body); }
 .tb-table th { text-align: left; font-size: var(--fs-body); font-weight: 600; color: var(--text-secondary); padding: 0 12px 8px; border-bottom: 1px solid var(--border); }
-.tb-table td { text-align: left; vertical-align: top; padding: 12px; line-height: 1.55; color: var(--text); border-bottom: 1px solid var(--border); }
+.tb-table td { text-align: left; vertical-align: top; padding: 12px; line-height: var(--lh-text); color: var(--text); border-bottom: 1px solid var(--border); }
 .tb-table td:first-child { font-weight: 600; width: 32%; }
 .tb-table tr:last-child td { border-bottom: 0; }
 .tb-table td:has(> .chip) { width: 1%; white-space: nowrap; } /* ledger rows: the chip names the side, the column fits it */
@@ -409,19 +413,18 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 /* cards */
 .tb-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap); } /* one column until tabs show; no orphaned third card */
 @media (min-width: 1024px) { .tb-cards { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); } }
-.tb-card { border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+.tb-card { border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); padding: var(--s-4); display: flex; flex-direction: column; gap: var(--s-2); }
 .tb-card > * { margin: 0; }
-.tb-card-t { font-size: var(--fs-body); font-weight: 600; line-height: 1.35; color: var(--text); }
-.tb-card-ref { font-size: var(--fs-body); line-height: 1.5; color: var(--text-secondary); }
-.tb-card p:last-child { font-size: var(--fs-body); line-height: 1.55; color: var(--text); }
+.tb-card-t { font-size: var(--fs-body); font-weight: var(--fw-strong); line-height: var(--lh-head); color: var(--text); }
+.tb-card-ref { font-size: var(--fs-body); line-height: var(--lh-text); color: var(--text-secondary); }
+.tb-card p:last-child { font-size: var(--fs-body); line-height: var(--lh-text); color: var(--text); }
 .tb-list { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 8px; }
 .tb-p { margin: 0; font-size: var(--fs-body); line-height: var(--lh); color: var(--text); }
 
 @media (max-width: 599px) {
   body { padding-block: 16px 48px; }
-  .tb-meta { padding: 10px 16px; }
-  .tb-meta { gap: 2px 16px; }
-  .tb-body { padding: 20px 14px 28px; }
+  .tb-meta { padding: var(--s-2) var(--s-4); gap: 2px var(--s-4); }
+  .tb-body { padding: var(--s-4) var(--s-4) var(--s-6); }
   .tb-table thead { display: none; }
   .tb-table tr { display: block; padding: 12px 0; border-bottom: 1px solid var(--border); }
   .tb-table tr:last-child { border-bottom: 0; }
@@ -434,7 +437,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .ftile-fig { font-family: var(--ds-font-mono); color: var(--cyan); letter-spacing: -0.01em; }
 .ftile-lab { font-family: var(--ds-font-mono); letter-spacing: 0.1em; color: var(--text-secondary); }
 /* byline: the author's name under the claim, so the page reads as a person, not a vendor */
-.tb-byline { margin: 4px 0 24px; font-family: var(--ds-font-mono); font-size: var(--fs-body); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); }
+.tb-byline { margin: var(--s-1) 0 var(--s-5); font-family: var(--ds-font-mono); font-size: var(--fs-body); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); }
 /* four fact tiles sit 2x2 on a phone so the first screen reaches the ledger */
 @container (min-width: 18rem) { .ftiles.is-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container (min-width: 54rem) { .ftiles.is-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
@@ -446,21 +449,61 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 @media (prefers-reduced-motion: reduce) { .tb-fold-btn::before, .stacked .seat-btn::before { transition: none; } }
 
 /* the "More recommendations" link clears the 24px touch-target floor (page_gate phone warning) */
-.sb-src a { display: inline-block; padding: 6px 0; }
+.sb-src a { display: inline-block; padding: var(--s-2) 0; }
 
 /* receipt card (2026-11-12): the page's proof object, one real dated call above the tiles.
    Judgment, so gold; a dashed rule reads as a perforated ticket, not decoration. */
-.rcpt { margin: 8px 0 12px; padding: 20px 24px; border: 1px solid var(--gold); border-radius: var(--ds-r-sm); background: var(--gold-bg); }
-.rcpt-meta { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0 0 12px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; color: var(--text-secondary); }
+.rcpt { margin: var(--s-2) 0 var(--s-3); padding: var(--s-5); border: 1px solid var(--gold); border-radius: var(--ds-r-sm); background: var(--gold-bg); }
+.rcpt-meta { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-4); margin: 0 0 var(--s-3); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; color: var(--text-secondary); }
 .rcpt-meta span:first-child { color: var(--gold); }
-.rcpt-claim { margin: 0; font-size: var(--fs-headline); line-height: 1.4; font-weight: 500; color: var(--text); }
-.rcpt-odds { display: block; margin-bottom: 4px; font-size: var(--fs-display); line-height: 1.1; font-weight: 600; color: var(--text); }
-.rcpt-rows { display: grid; grid-template-columns: max-content 1fr; gap: 8px 16px; margin: 16px 0 0; padding-top: 14px; border-top: 1px dashed var(--gold); font-size: var(--fs-body); }
+.rcpt-claim { margin: 0; font-size: var(--fs-headline); line-height: var(--lh-head); font-weight: 500; color: var(--text); }
+.rcpt-odds { display: block; margin-bottom: 4px; font-size: var(--fs-display); line-height: var(--lh-display); font-weight: var(--fw-strong); color: var(--text); }
+.rcpt-rows { display: grid; grid-template-columns: max-content 1fr; gap: 8px 16px; margin: var(--s-4) 0 0; padding-top: var(--s-3); border-top: 1px dashed var(--gold); font-size: var(--fs-body); }
 .rcpt-rows dt { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; color: var(--gold); padding-top: 3px; }
 .rcpt-rows dd { margin: 0; color: var(--text); }
-.rcpt-ask { margin: 0 0 12px; font-size: var(--fs-headline); line-height: 1.45; color: var(--text); }
+.rcpt-ask { margin: 0 0 12px; font-size: var(--fs-headline); line-height: var(--lh-text); color: var(--text); }
 .rcpt-mail { display: inline-block; padding: 4px 0; font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--cyan); }
 @media (max-width: 520px) { .rcpt { padding: 16px; } .rcpt-rows { grid-template-columns: 1fr; gap: 2px; } .rcpt-rows dd { margin-bottom: 8px; } }
+
+/* ---- polish layer (2026-11-12): one state set for every control, light and dark, from kit tokens ----
+   Fact-tile type steps: kit 45 ships .75rem and .9rem; the template pins them to the ramp (label, body). */
+.ftile-lab { font-size: var(--fs-label); line-height: var(--lh-display); }
+.ftile-cap { font-size: var(--fs-body); line-height: var(--lh-text); }
+.ftile-fig { line-height: var(--lh-display); }
+/* links: hover and pressed */
+a:hover { text-decoration-thickness: 2px; }
+a:active { color: var(--text); }
+/* buttons: hover, pressed, disabled */
+.tb-btn { transition: border-color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+.tb-btn:hover { background: var(--cyan-bg); }
+.tb-btn.primary:hover { background: var(--cyan); filter: brightness(1.08); }
+.tb-btn:active, .tb-btn[aria-pressed="true"] { background: var(--surface-2); border-color: var(--cyan); }
+.tb-btn.primary:active { background: var(--cyan); filter: brightness(0.92); }
+.tb-btn:disabled, .tb-btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+/* folds and seat heads */
+.tb-fold-btn { border-radius: var(--ds-r-xs); transition: color var(--dur-fast) var(--ease-out); }
+.tb-fold-btn:active { color: var(--text-secondary); }
+.tb-fold-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.stacked .seat-btn:hover { color: var(--cyan); }
+.stacked .seat-btn:active { color: var(--text-secondary); }
+.seat-btn[aria-disabled="true"] { cursor: default; }
+/* tab bar, menu button, sound-bite and reading-option controls: add the pressed and disabled states kit 42, 55 and 51 do not carry */
+.shnav-tab:active { background: var(--surface-2); }
+.shnav-tab[aria-disabled="true"], .shnav-tab:disabled { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+.shnav-menu:hover { background: var(--surface-2); }
+.shnav-menu:active { background: var(--border); }
+.sb-btn:active { background: var(--surface-2); border-color: var(--cyan); }
+.sb-btn:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.sb-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.dprefs-aa:active, .dprefs-theme:active { background: var(--surface-2); box-shadow: none; }
+.dprefs-aa:disabled, .dprefs-theme:disabled { opacity: 0.45; cursor: not-allowed; }
+.dprefs-btns button:hover, .dprefs-actions button:hover { border-color: var(--cyan); color: var(--cyan); }
+.dprefs-btns button:active, .dprefs-actions button:active { background: var(--surface-2); }
+.dprefs-btns button:disabled, .dprefs-actions button:disabled { opacity: 0.45; cursor: not-allowed; }
+/* ledger rows and tables are read-only: no hover tint, so nothing implies a click. Kit 54 spacing (14px, 6px, 20px) pinned to the 4px grid. */
+.sl-row { padding: var(--s-3) 0; gap: var(--s-2) var(--s-5); }
+.sl-group.is-judgment .sl-rows { padding-left: var(--s-4); }
+@media (prefers-reduced-motion: reduce) { .tb-btn, .tb-fold-btn { transition: none; } }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -478,10 +521,10 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 <div class="ftiles-c"><ul class="ftiles is-4" aria-label="At a glance"><li class="ftile"><span class="ftile-lab">Regulated products</span><span class="ftile-fig">10</span><span class="ftile-cap">Digital-asset investment products at Grayscale, ~$7B</span></li><li class="ftile"><span class="ftile-lab">Zero to one</span><span class="ftile-fig">$0 → $2M+</span><span class="ftile-cap">Co-founded; profitable in 24 months. Earlier, GM of a video ad network</span></li><li class="ftile"><span class="ftile-lab">Claims, public record</span><span class="ftile-fig">28 of 37</span><span class="ftile-cap">37 claims, each linked to its record: 8 on request, 1 not yet shown</span></li><li class="ftile"><span class="ftile-lab">Beliefs killed</span><span class="ftile-fig">48</span><span class="ftile-cap">By a runnable test since June; 20 became rules I now work by</span></li></ul></div>
 <section class="tb-coldread" id="week-one" aria-labelledby="week-one-h"><h2 class="tb-h2" id="week-one-h">Week One</h2><div class="cr"><dl class="cr-slots"><dt class="section-label">The gap</dt><dd><a href="https://kylelibra.substack.com/p/how-to-find-startup-ideas">Kyle&#x27;s Idea Engine post</a>: good memos 6x faster. I work one step later: did each call hold up?</dd><dt class="section-label">What I do</dt><dd>Give every pass a dated note of what would reopen it, so a recheck is a test, not a reread.</dd><dt class="section-label">What you get</dt><dd>Two things you can check by Friday, each dated, each with what would reopen it.</dd></dl><div class="cr-howwrap"><p class="section-label" id="cr-how-l">How</p><ol class="cr-how" aria-labelledby="cr-how-l"><li class="cr-step"><p class="section-label">Day 1</p><p class="cr-when">Your pass list</p><p class="cr-what">Each &quot;no right now&quot; gets the signal that would reopen it.</p></li><li class="cr-step"><p class="section-label">Day 5</p><p class="cr-when">Agent payments</p><p class="cr-what">A one-page wedge memo: no chargeback, freeze on legal process, nothing records what the agent expected.</p></li></ol></div><p class="callout cr-read"><b>How to read</b>Each day ends in something dated you can check. The seat tabs carry 30, 90 and 180 days. Send me one idea you passed on; one line is enough, no names. In two weeks you get it back: keep, kill or not yet, what has to become true, and the dated test that settles it.</p></div></section>
 <div class="tb-expand"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>
-<div class="tb-folds"><section class="tb-fold" id="shipped"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="true" aria-controls="shipped-body"><span><span class="tb-fold-t">Shipped this year</span><span class="tb-tag">Dated, with links.</span></span></button></h2><div class="tb-fold-body" id="shipped-body"><div class="tb-scroll" tabindex="0" role="region" aria-label="Table 1: When, What"><table class="tb-table"><thead><tr><th>When</th><th>What</th></tr></thead><tbody><tr><td>2026-04-09</td><td data-label="What"><a href="https://app.arcs.care">ARCS</a>, with its <a href="https://status.arcs.care">build history</a> and <a href="https://status.arcs.care/beliefs">beliefs ledger</a>: question in, dated record out. The one I am most excited about.</td></tr><tr><td>2026-08-18</td><td data-label="What"><a href="https://good.arcs.care/blog/nftt">Notes from the Trenches</a>: 35 field notes since the first one.</td></tr><tr><td>2026-10-17</td><td data-label="What"><a href="https://dj.arcs.care">Phosphor</a>: music drawn as light, in the browser; your song stays on your computer.</td></tr><tr><td>2026-10-31</td><td data-label="What"><a href="https://good.arcs.care/audit/check">A free repo check</a> for agent-built codebases.</td></tr><tr><td>2026-11-02</td><td data-label="What"><a href="https://good.arcs.care/rfp-engine">RFP-O-Matic</a>: cites the clause or says the document is silent. <a href="https://github.com/flashesofbrilliance/rfp-engine">Source</a>.</td></tr></tbody></table></div></div></section>
+<div class="tb-folds"><section class="tb-fold" id="shipped"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="true" aria-controls="shipped-body"><span><span class="tb-fold-t">Shipped this year</span><span class="tb-tag">Dated, with links.</span></span></button></h2><div class="tb-fold-body" id="shipped-body"><div class="tb-scroll" tabindex="0" role="region" aria-label="Table 1: When, What"><table class="tb-table"><thead><tr><th>When</th><th>What</th></tr></thead><tbody><tr><td>2026-04-09</td><td data-label="What"><a href="https://app.arcs.care">ARCS</a>, with its <a href="https://status.arcs.care">build history</a> and <a href="https://status.arcs.care/beliefs">beliefs ledger</a>: question in, dated record out. The one I am most excited about.</td></tr><tr><td>2026-08-18</td><td data-label="What"><a href="https://good.arcs.care/blog/nftt">Notes from the Trenches</a>: 36 field notes since the first one.</td></tr><tr><td>2026-10-17</td><td data-label="What"><a href="https://dj.arcs.care">Phosphor</a>: music drawn as light, in the browser; your song stays on your computer.</td></tr><tr><td>2026-10-31</td><td data-label="What"><a href="https://good.arcs.care/audit/check">A free repo check</a> for agent-built codebases.</td></tr><tr><td>2026-11-02</td><td data-label="What"><a href="https://good.arcs.care/rfp-engine">RFP-O-Matic</a>: cites the clause or says the document is silent. <a href="https://github.com/flashesofbrilliance/rfp-engine">Source</a>.</td></tr></tbody></table></div></div></section>
 <section class="tb-fold" id="bull-bear"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="false" aria-controls="bull-bear-body"><span><span class="tb-fold-t">Bull vs Bear</span><span class="tb-tag">Activity over size, applied to agent payments: counts say yes, filtered volume says not yet.</span></span></button></h2><div class="tb-fold-body" id="bull-bear-body" hidden><p class="tb-p">Crypto theses pick a side. I name which signal each side rests on, and what would settle it.</p>
 <div class="sl"><section class="sl-group" aria-labelledby="sl-overview-sections-1-blocks-1-0"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-1-blocks-1-0">Observed</h3><span class="sl-gn">5 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip">Bull</span><span class="sl-sig">Transaction counts (leading, noisy)</span></div><p class="sl-ev"><a href="https://www.rzlt.io/blog/agentic-payments-2026-x402-explainer">x402 reported</a> over 165M agent transactions by April 2026, about half tests. Re-read due.</p></li><li class="sl-row"><div class="sl-key"><span class="chip">Bull</span><span class="sl-sig">Chain fee per payment (leading, partial)</span></div><p class="sl-ev">The <a href="https://www.growthepie.com/answers/are-ethereum-l2-fees-getting-cheaper">median L2 fee</a> fell from 20¢ in February 2024 to 0.06¢ in April 2026, cheap enough for machine-sized payments. Ramps are not counted; an agent&#x27;s float must get on-chain first.</p></li><li class="sl-row"><div class="sl-key"><span class="chip">Bear</span><span class="sl-sig">Volume with tests and wash trades removed</span></div><p class="sl-ev"><a href="https://nevermined.ai/blog/stablecoin-payments-ai-agents-statistics">Allium, via Nevermined</a>: about $1.6M a month of agent volume on the strictest filter. Re-read due.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">Rules</span><span class="sl-sig">Regulatory calendar</span></div><p class="sl-ev">The <a href="https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-92.html">OCC stablecoin rule</a> takes effect 2027-01-18. A <a href="https://www.americanbanker.com/news/crypto-market-structure-bill-fails-in-senate-vote-49-50">procedural vote</a> on the market-structure bill failed 49 to 50 on 2026-09-15.</p></li><li class="sl-row"><div class="sl-key"><span class="chip">Rules</span><span class="sl-sig">Who owns distribution</span></div><p class="sl-ev">My read: the liability rule gets written where the loss lands. On cards that is Visa and Mastercard&#x27;s rulebook, pushed by issuers who eat the fraud. On-chain there is no rulebook yet. The call below counts only cards, because I can check them.</p></li></ul></section><section class="sl-group is-judgment" aria-labelledby="sl-overview-sections-1-blocks-1-1"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-1-blocks-1-1">My judgment</h3><span class="sl-gn">3 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip gold">Trigger</span><span class="sl-sig">Who pays when an agent exceeds its mandate</span></div><p class="sl-ev"><a href="https://kylelibra.substack.com/p/a-lot-of-what-people-think-about">Footnote 25 of Kyle&#x27;s stablecoin post</a>: crypto payments will have to address chargebacks and fraud liability &quot;to some extent to be viable.&quot; For agents, I think that starts with a record of what the user told the agent. It is <a href="https://worldpay.com/en/insights/articles/agentic-commerce-liability-is-still-being-written">unsettled</a> today; the first network rule requiring an intent record decides it.</p></li><li class="sl-row"><div class="sl-key"><span class="chip gold">My call</span><span class="sl-sig">Enter small, before the rule</span></div><p class="sl-ev">Volume is the lagging bet; the liability rule is the leading one. My read: 1 in 3 that Visa, Mastercard or a top-10 US card issuer has a rule in effect by 2027-06-30 requiring a record of what the user told the agent. Announcements without an effective date do not count. I will post the outcome either way.</p></li><li class="sl-row"><div class="sl-key"><span class="chip gold">If I&#x27;m wrong</span><span class="sl-sig">The other 2 in 3</span></div><p class="sl-ev">No network rule by mid-2027, and about three weeks spent. ARCS records human decisions this way today; it does not yet do signed agent mandates.</p></li></ul></section><section class="sl-group is-judgment" aria-labelledby="sl-overview-sections-1-blocks-1-2"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-1-blocks-1-2">How I tested the call, 2026-11-10</h3><span class="sl-gn">2 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip gold">Wording</span><span class="sl-sig">The odds moved with the wording</span></div><p class="sl-ev">My estimate swung from about 1 in 4 to about 3 in 5 depending on the rule&#x27;s wording, so I wrote the resolution rule above before picking a number. The inputs were my judgment, not data; the simulation is on request. The base rate of a network rule drives most of the remaining spread; I re-mark at each Visa and Mastercard rules release.</p></li><li class="sl-row"><div class="sl-key"><span class="chip gold">Conflict</span><span class="sl-sig">I build the thing that would benefit</span></div><p class="sl-ev">So I wrote the kill rule so the rulebooks settle it, not me; anyone can check, Gravity included.</p></li></ul></section><section class="sl-group is-judgment" aria-labelledby="sl-overview-sections-1-blocks-1-3"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-1-blocks-1-3">How I could read it wrong</h3><span class="sl-gn">4 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip gold">False positive</span><span class="sl-sig">Counts read as adoption</span></div><p class="sl-ev">Tests and self-dealing loops inflate the count; I discount the half that is tests.</p></li><li class="sl-row"><div class="sl-key"><span class="chip gold">False negative</span><span class="sl-sig">Agent commerce on card rails</span></div><p class="sl-ev">Visa and Mastercard run agent payments on tokenized cards (<a href="https://www.pymnts.com/credit-cards/2026/cards-make-their-case-in-an-agentic-world/">PYMNTS</a>). None of it shows on-chain, so on-chain volume undercounts agent demand.</p></li><li class="sl-row"><div class="sl-key"><span class="chip gold">Undercount</span><span class="sl-sig">Untested</span></div><p class="sl-ev">An operator&#x27;s agents paying its own services look like wash trades, so the strict filter may drop real use. Not tested.</p></li><li class="sl-row"><div class="sl-key"><span class="chip gold">Overtaken</span><span class="sl-sig">Someone else closes the gap</span></div><p class="sl-ev">If spend-rule vendors start logging what the agent expected next to what happened, the gap closes without me.</p></li></ul></section></div></div></section>
-<section class="tb-fold" id="receipts"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="true" aria-controls="receipts-body"><span><span class="tb-fold-t">Receipts</span><span class="tb-tag">Running work, open to check.</span></span></button></h2><div class="tb-fold-body" id="receipts-body"><div class="sl"><section class="sl-group" aria-labelledby="sl-overview-sections-2-blocks-0-0"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-2-blocks-0-0">In the trenches</h3><span class="sl-gn">3 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip cyan">Running</span><span class="sl-sig">Commit history</span></div><p class="sl-ev"><a href="https://status.arcs.care">Day 0 to day 210</a>: 6,195 commits by Nov 5, built solo and run in production. Every number is read from the repository.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">Running</span><span class="sl-sig">RFP-O-Matic</span></div><p class="sl-ev">Cites the clause or says the document is silent. <a href="https://good.arcs.care/rfp-engine">Four short videos</a> and <a href="https://github.com/flashesofbrilliance/rfp-engine">source</a>.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">Running</span><span class="sl-sig">ARCS</span></div><p class="sl-ev"><a href="https://app.arcs.care">The tool these records come from</a>: you ask a question; it writes a dated record. <a href="https://status.arcs.care">11 saved decisions from outside users, 0 outcomes closed</a>; 5 people behind them, from a production read on request.</p></li></ul></section><section class="sl-group" aria-labelledby="sl-overview-sections-2-blocks-0-1"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-2-blocks-0-1">In public</h3><span class="sl-gn">4 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip cyan">Kills</span><span class="sl-sig">My own kill rate</span></div><p class="sl-ev"><a href="https://status.arcs.care/beliefs">48 beliefs overturned since June</a>, about 10 a month, dated on a public timeline; the belief and test behind each on request. For example, &quot;a green production build means the database works&quot;, killed 2026-06-03 by the first real query against prod. 20 changed the rulebook.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">Proof</span><span class="sl-sig">Don&#x27;t trust, verify</span></div><p class="sl-ev"><a href="https://zach.md/proof">37 claims about my work</a>, each linked to its record: 28 public, 8 on request, and the 1 I cannot show yet, named.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">Essays</span><span class="sl-sig">Notes from the Trenches</span></div><p class="sl-ev"><a href="https://good.arcs.care/blog/nftt">35 field notes</a>, each written from a dated record, failures included.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">Calls</span><span class="sl-sig">Falsifiable predictions, scored</span></div><p class="sl-ev">From 20 calls in my LinkedIn articles since January (ledger on request): 9 resolved (2 hit, one weak; 1 partly; 6 missed), 9 open, 2 unverified. The falsifiers held; my 85 to 90% confidence did not, so new calls ship with lower numbers, like the 1 in 3 above. Method: <a href="https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers">seven calls, seven falsifiers</a>. Same shape as Mogg, a dated YES or NO resolved by the world, but 20 calls in ten months, not 10 a day.</p></li></ul></section></div></div></section></div>
+<section class="tb-fold" id="receipts"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="true" aria-controls="receipts-body"><span><span class="tb-fold-t">Receipts</span><span class="tb-tag">Running work, open to check.</span></span></button></h2><div class="tb-fold-body" id="receipts-body"><div class="sl"><section class="sl-group" aria-labelledby="sl-overview-sections-2-blocks-0-0"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-2-blocks-0-0">In the trenches</h3><span class="sl-gn">3 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip cyan">Running</span><span class="sl-sig">Commit history</span></div><p class="sl-ev"><a href="https://status.arcs.care">Day 0 to day 210</a>: 6,195 commits by Nov 5, built solo and run in production. Every number is read from the repository.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">Running</span><span class="sl-sig">RFP-O-Matic</span></div><p class="sl-ev">Cites the clause or says the document is silent. <a href="https://good.arcs.care/rfp-engine">Four short videos</a> and <a href="https://github.com/flashesofbrilliance/rfp-engine">source</a>.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">Running</span><span class="sl-sig">ARCS</span></div><p class="sl-ev"><a href="https://app.arcs.care">The tool these records come from</a>: you ask a question; it writes a dated record. <a href="https://status.arcs.care">11 saved decisions from outside users, 0 outcomes closed</a>; 5 people behind them, from a production read on request.</p></li></ul></section><section class="sl-group" aria-labelledby="sl-overview-sections-2-blocks-0-1"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-2-blocks-0-1">In public</h3><span class="sl-gn">4 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip cyan">Kills</span><span class="sl-sig">My own kill rate</span></div><p class="sl-ev"><a href="https://status.arcs.care/beliefs">48 beliefs overturned since June</a>, about 10 a month, dated on a public timeline; the belief and test behind each on request. For example, &quot;a green production build means the database works&quot;, killed 2026-06-03 by the first real query against prod. 20 changed the rulebook.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">Proof</span><span class="sl-sig">Don&#x27;t trust, verify</span></div><p class="sl-ev"><a href="https://zach.md/proof">37 claims about my work</a>, each linked to its record: 28 public, 8 on request, and the 1 I cannot show yet, named.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">Essays</span><span class="sl-sig">Notes from the Trenches</span></div><p class="sl-ev"><a href="https://good.arcs.care/blog/nftt">36 field notes</a>, each written from a dated record, failures included.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">Calls</span><span class="sl-sig">Falsifiable predictions, scored</span></div><p class="sl-ev">From 20 calls in my LinkedIn articles since January (ledger on request): 9 resolved (2 hit, one weak; 1 partly; 6 missed), 9 open, 2 unverified. The falsifiers held; my 85 to 90% confidence did not, so new calls ship with lower numbers, like the 1 in 3 above. Method: <a href="https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers">seven calls, seven falsifiers</a>. Same shape as Mogg, a dated YES or NO resolved by the world, but 20 calls in ten months, not 10 a day.</p></li></ul></section></div></div></section></div>
 <figure class="sb" aria-label="What colleagues say"><ul class="sb-list"><li class="sb-item"><blockquote class="sb-q" style="margin:0"><p class="sb-t">Zach is a ball of livewire energy who gets projects done with great velocity, humor and craft. He&#x27;s a great Swiss army knife to have in the team.</p></blockquote><p class="sb-by"><b>Gareth Kay</b><span>Vice President, Brand · Coinbase</span></p></li></ul><div class="sb-ctl"><button type="button" class="sb-btn" data-sb-prev aria-label="Previous quote">Prev</button><span class="sb-n" aria-live="polite"></span><button type="button" class="sb-btn" data-sb-next aria-label="Next quote">Next</button><button type="button" class="sb-btn" data-sb-pause aria-pressed="false">Pause</button><span class="sb-src"><a href="https://zachharris.xyz">More recommendations</a></span></div></figure>
 </div>
 </div>

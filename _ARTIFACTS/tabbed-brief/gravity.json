@@ -62,7 +62,7 @@
        ],
        [
         "2026-08-18",
-        "[Notes from the Trenches](https://good.arcs.care/blog/nftt): 35 field notes since the first one."
+        "[Notes from the Trenches](https://good.arcs.care/blog/nftt): {nftt_count} field notes since the first one."
        ],
        [
         "2026-10-17",
@@ -255,7 +255,7 @@
           "chip": "Essays",
           "tone": "cyan",
           "signal": "Notes from the Trenches",
-          "text": "[35 field notes](https://good.arcs.care/blog/nftt), each written from a dated record, failures included."
+          "text": "[{nftt_count} field notes](https://good.arcs.care/blog/nftt), each written from a dated record, failures included."
          },
          {
           "chip": "Calls",
