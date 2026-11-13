@@ -717,6 +717,10 @@
               "gold"
              ]
             },
+            "status": {
+             "type": "boolean",
+             "description": "true renders the chip as kit .chip.status (a state: pill with a dot); omit for a category chip"
+            },
             "signal": {
              "type": "string"
             },

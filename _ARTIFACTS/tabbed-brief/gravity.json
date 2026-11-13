@@ -210,18 +210,21 @@
          {
           "chip": "Running",
           "tone": "cyan",
+          "status": true,
           "signal": "Commit history",
           "text": "Built solo since April and run in production. [The status page](https://status.arcs.care) counts every commit live, straight from the repository."
          },
          {
           "chip": "Running",
           "tone": "cyan",
+          "status": true,
           "signal": "RFP-O-Matic",
           "text": "Cites the clause or says the document is silent. [Four short videos](https://good.arcs.care/rfp-engine) and [source](https://github.com/flashesofbrilliance/rfp-engine)."
          },
          {
           "chip": "Running",
           "tone": "cyan",
+          "status": true,
           "signal": "ARCS",
           "text": "[The tool these records come from](https://app.arcs.care): you ask a question; it writes a dated record. [11 saved decisions from outside users, 0 outcomes closed](https://status.arcs.care); 5 people behind them, from a production read on request."
          }
