@@ -154,6 +154,12 @@ def dx(day, x0=X0, x1=X1):
 SIGN_CLS = {"positive": "pos", "negative": "neg", "flat": "flat", "unset": "flat"}
 
 
+def roi_cls(b):
+    """Green or red only once an ROI value is set; until then the lane stays steel (Zach, 2026-11-13: steel until set)."""
+    roi = b.get("roi") or {}
+    return SIGN_CLS[roi.get("sign", "unset")] if roi.get("value") is not None else "flat"
+
+
 def tab_spark(w):
     if w.get("draft"):
         return '<svg class="wp-tspark" viewBox="0 0 64 20" aria-hidden="true"><line class="wp-none" x1="2" y1="10" x2="62" y2="10"/></svg>'
@@ -162,7 +168,7 @@ def tab_spark(w):
     for c in CASES:
         b = w["scenarios"][c]; sl = (b.get("stop_loss") or {}).get("day", 1)
         sx = round(2 + (sl - 1) * 60 / 6, 1)
-        cls = SIGN_CLS[(b.get("roi") or {}).get("sign", "unset")]
+        cls = roi_cls(b)
         parts.append(f'<line class="wp-cost" x1="2" y1="{ys[c]}" x2="{sx}" y2="{ys[c]}"/><line class="wp-{cls}" x1="{sx}" y1="{ys[c]}" x2="62" y2="{ys[c]}"/>')
     hy = " wp-hyp" if any(w["scenarios"][c]["status"] == "hypothesis" for c in CASES) else ""
     say = ", ".join(f'{c} {(w["scenarios"][c].get("roi") or {}).get("sign", "unset")}' for c in CASES)
@@ -189,13 +195,13 @@ def strip(w):
                 g.append(f'<circle class="{cls}" cx="{dx(k[r]["day"])}" cy="22" r="4"/>')
     for c in CASES:
         b = sc[c]; y = ys[c]; sl = b.get("stop_loss") or {}; sd = sl.get("day", 1)
-        sign = SIGN_CLS[(b.get("roi") or {}).get("sign", "unset")]
+        sign = SIGN_CLS[(b.get("roi") or {}).get("sign", "unset")]; rc = roi_cls(b)
         g.append(f'<text class="wp-lane wp-{c}" x="0" y="{y + 4}">{c.upper()}</text>')
         g.append(f'<line class="wp-cost" x1="{X0}" y1="{y}" x2="{dx(sd)}" y2="{y}"/>')
-        g.append(f'<line class="wp-{sign}" x1="{dx(sd)}" y1="{y}" x2="{X1}" y2="{y}"/>')
+        g.append(f'<line class="wp-{rc}" x1="{dx(sd)}" y1="{y}" x2="{X1}" y2="{y}"/>')
         if sl:
             g.append(f'<rect class="wp-stop" x="{dx(sd) - 4}" y="{y - 7}" width="8" height="14"/>')
-        g.append(f'<text class="wp-sign wp-{sign}t" x="{X1 + 10}" y="{y + 4}">{ {"pos": "+", "neg": "−", "flat": "0"}[sign] }</text>')
+        g.append(f'<text class="wp-sign wp-{rc}t" x="{X1 + 10}" y="{y + 4}">{ {"pos": "+", "neg": "−", "flat": "0"}[sign] }</text>')
     desc = "; ".join(f"{c}: cost until day {(sc[c].get('stop_loss') or {}).get('day', 1)}, then ROI {(sc[c].get('roi') or {}).get('sign', 'unset')}" for c in CASES)
     svg = (f'<svg class="wp-strip" viewBox="0 0 700 {H}" role="img" aria-labelledby="wp-st-{w["n"]}">'
            f'<title id="wp-st-{w["n"]}">Week {w["n"]} branches, day 1 to day 7. {e(desc)}</title>' + "".join(g) + "</svg>")
@@ -206,7 +212,7 @@ def strip(w):
         notes.append(f'<div class="wp-note wp-n-{c}{hyp(b["status"])}"><div class="wp-note-h"><span class="wp-k wp-{c}">{c}</span>'
                      f'<span class="chip">{e(p)}</span>{chip(b["status"])}</div>'
                      f'<p>{e(b["path"])}</p><dl class="wp-dl">'
-                     + (f'<dt class="wp-k wp-{SIGN_CLS[roi.get("sign", "unset")]}t">ROI {e(roi.get("sign", "unset"))}</dt><dd>{e(roi.get("text", ""))}</dd>' if roi else "")
+                     + (f'<dt class="wp-k wp-{roi_cls(b)}t">ROI {e(roi.get("sign", "unset"))}{"" if roi.get("value") is not None else ", no value yet"}</dt><dd>{e(roi.get("text", ""))}</dd>' if roi else "")
                      + (f'<dt class="wp-k wp-costt">Opportunity cost</dt><dd>{e(b["opportunity_cost"])}</dd>' if b.get("opportunity_cost") else "")
                      + (f'<dt class="wp-k wp-stopt">Stop-loss, day {e(sl["day"])}</dt><dd>{e(sl["trigger"])}' + (f' Keeps: {e(sl["keeps"])}' if sl.get("keeps") else "") + "</dd>" if sl else "")
                      + '</dl><details class="wp-pm"><summary>Pre-mortem and post-mortem</summary><ul>'
@@ -216,7 +222,7 @@ def strip(w):
     fid = '<p class="wp-fid">Shape only: no ROI value or probability is set yet (n = 0), so the lines have no scale.</p>' if unset else ""
     return ('<div class="wp-block"><h3 class="section-label">Best, base, worst</h3>'
             '<ul class="wp-legend" aria-label="Line colors"><li><i class="wp-cost"></i>opportunity cost</li><li><i class="wp-stop"></i>stop-loss</li>'
-            '<li><i class="wp-pos"></i>keep, ROI +</li><li><i class="wp-neg"></i>kill, ROI −</li><li><i class="wp-on"></i>on-ramp</li><li><i class="wp-off"></i>off-ramp</li><li><i class="wp-forki"></i>kairos fork</li></ul>'
+            '<li><i class="wp-flat"></i>ROI not set yet</li><li><i class="wp-pos"></i>keep, ROI + (set)</li><li><i class="wp-neg"></i>kill, ROI − (set)</li><li><i class="wp-on"></i>on-ramp</li><li><i class="wp-off"></i>off-ramp</li><li><i class="wp-forki"></i>kairos fork</li></ul>'
             f'<div class="wp-stripwrap{" wp-hyp" if any(sc[c]["status"] == "hypothesis" for c in CASES) else ""}" tabindex="0" role="region" aria-label="Week {w["n"]} branch strip, scrolls sideways on a narrow screen">{svg}</div>{fid}<div class="wp-notes">{"".join(notes)}</div></div>')
 
 
@@ -452,6 +458,8 @@ def self_test():
     out = render(doc)
     assert out.count('role="tab"') == 7 and "wp-none" in out, "seven tabs, undrafted weeks flat"
     assert "Shape only" in out, "unset values must say shape only"
+    strips = re.findall(r'<svg class="wp-strip".*?</svg>', out, re.S) + re.findall(r'<svg class="wp-tspark.*?</svg>', out, re.S)
+    assert strips and not any('class="wp-pos"' in s or 'class="wp-neg"' in s for s in strips), "ROI color drawn before a value is set"
     assert "\u2014" not in out, "em-dash in output"
     css = json.load(open(SPEC, encoding="utf-8"))["css"]
     assert ".wp-panel[hidden] { display: none; }" in css, "a display rule on .wp-panel must not override [hidden]"
