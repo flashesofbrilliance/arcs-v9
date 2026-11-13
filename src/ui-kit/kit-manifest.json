@@ -2099,7 +2099,7 @@
    "number": "28",
    "name": "Chip",
    "group": "Molecules",
-   "subtitle": "Pill, badge and state chip in the four signal colors",
+   "subtitle": "Badge and status badge in the four signal colors, per the design system",
    "family": "kit",
    "path": "src/ui-kit/recoil-report/28-chip.html",
    "data_shape": [
@@ -2113,7 +2113,8 @@
     "green",
     "red",
     "row",
-    "section-label"
+    "section-label",
+    "status"
    ],
    "prim_blocks": [
     "28-chip"
@@ -2130,12 +2131,22 @@
    ],
    "jobs": [],
    "pages": [
+    "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html",
+    "_ARTIFACTS/2026-09-26-loop-closing-wager/settle-card.html",
+    "_ARTIFACTS/ds-backlog-inducer.html",
+    "_ARTIFACTS/era-dial/bits-per-frame.html",
+    "_ARTIFACTS/era-dial/era-dial.html",
+    "_ARTIFACTS/job-search/swipe-board.html",
+    "_ARTIFACTS/tao-print-studio.html",
+    "public/good-audit-check.html",
+    "public/good-copypasta.html",
     "scripts/counterpart_onepager_build.py",
+    "scripts/kit_primitive_sync.py",
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 4,
+   "reuse": 14,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2662,10 +2673,11 @@
     "public/downshift.html",
     "public/proof.html",
     "scripts/counterpart_onepager_build.py",
+    "scripts/kit_primitive_sync.py",
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py"
    ],
-   "reuse": 12,
+   "reuse": 13,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -3360,10 +3372,11 @@
    ],
    "pages": [
     "scripts/audit_report_build.py",
+    "scripts/kit_primitive_sync.py",
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py"
    ],
-   "reuse": 3,
+   "reuse": 4,
    "near_duplicates": []
   },
   {

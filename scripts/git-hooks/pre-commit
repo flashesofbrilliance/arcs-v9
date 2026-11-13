@@ -670,6 +670,18 @@ if [ -f scripts/token_source_gate.py ] && command -v python3 >/dev/null 2>&1; th
   fi
 fi
 
+# Design candidates (2026-11-13): a trial lane for design-system changes not yet canon. Pages opt in with
+# <!-- @arcs-candidate: id -->; the token, motion and component gates accept a live candidate's values on
+# pages that declare it. Fails on an expired candidate, an unknown id, or a page outside its pages list.
+# See scripts/design_candidates.py and runtime/specs/design-candidates.json.
+if [ -f scripts/design_candidates.py ] && command -v python3 >/dev/null 2>&1; then
+  dc=$(git diff --cached --name-only --diff-filter=ACM -- runtime/specs/design-candidates.json scripts/design_candidates.py '*.html' 2>/dev/null || true)
+  if [ -n "$dc" ] && ! python3 scripts/design_candidates.py --check; then
+    echo "✖ commit blocked: design candidates (see above). Graduate an expired candidate into the kit or drop it; fix unknown ids and pages lists." >&2
+    exit 1
+  fi
+fi
+
 # Motion policy gate (2026-10-16): pages that move read the --mo-* motion and safety tokens from
 # src/ui-kit/recoil-report/_tokens.css (flash cap, pose rate, holds) and obey them. Stdlib-only.
 # See scripts/motion_policy_gate.py and DESIGN.md "Motion and safety".
@@ -713,6 +725,17 @@ if [ -f scripts/kit_primitive_sync.py ] && command -v python3 >/dev/null 2>&1; t
   if git diff --cached --name-only | grep -qE '^(_ARTIFACTS/phosphor\.html|src/ui-kit/recoil-report/2[1-6]-)'; then
     if ! python3 scripts/kit_primitive_sync.py --check || ! python3 scripts/inline_token_sync.py --check _ARTIFACTS/phosphor.html; then
       echo "✖ commit blocked: a kit primitive and _ARTIFACTS/phosphor.html disagree. The kit is the source: copy the kit @prim block into the page." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# Kit-internal sync + design-system parity (2026-11-13): when any kit part changes, every "composed with"
+# copy must match its source part and every part in ds-parity.json must keep its design-system values.
+if [ -f scripts/kit_primitive_sync.py ] && command -v python3 >/dev/null 2>&1; then
+  if git diff --cached --name-only | grep -qE '^src/ui-kit/recoil-report/([0-9][0-9]-.*\.html|ds-parity\.json)$'; then
+    if ! python3 scripts/kit_primitive_sync.py --kit; then
+      echo "✖ commit blocked: a kit part's copy is stale or a part drifted from the design system (scripts/kit_primitive_sync.py --kit)." >&2
       exit 1
     fi
   fi
