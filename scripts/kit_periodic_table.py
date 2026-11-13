@@ -32,7 +32,7 @@ only), attraction (a part pulled its second page, so it earned promotion). Each 
   python3 scripts/kit_periodic_table.py            build the page from the ledger and manifest
   python3 scripts/kit_periodic_table.py --check    exit 1 if the page differs, or the ledger is malformed or rewritten
   python3 scripts/kit_periodic_table.py --sync     append derived events from git history, then build
-  python3 scripts/kit_periodic_table.py --behind   print how many manifest commits the ledger has not synced (0 = fresh)
+  python3 scripts/kit_periodic_table.py --behind   print how many derived events the ledger is missing (0 = synced)
   python3 scripts/kit_periodic_table.py --self-test
 Stdlib only.
 """
@@ -291,13 +291,9 @@ def sync():
 
 
 def behind():
-    shas = [l[:8] for l in git("log", "--format=%H", "--", MANIFEST).splitlines()]
-    cited = set()
-    for ev in ledger():
-        for ref in ev["evidence"]:
-            cited.add(ref.get("ref", "")[:8])
-    synced = next((i for i, s in enumerate(shas) if s in cited), len(shas))
-    return synced
+    """How many events git history implies that the ledger does not hold yet (0 = synced)."""
+    have = {ev["id"] for ev in ledger()}
+    return sum(1 for ev in derive() if ev["id"] not in have)
 
 
 # ---------- render ----------
