@@ -121,7 +121,10 @@ def self_test():
         return json.dumps({"id": "r%d" % i, "state": "OPEN", "status_note": note + " →"}, ensure_ascii=False)
 
     with tempfile.TemporaryDirectory() as d:
-        env = dict(os.environ, GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM="1", GIT_TERMINAL_PROMPT="0")
+        # a pre-commit hook exports GIT_DIR and GIT_INDEX_FILE; drop them so the temp repo is its own repo
+        env = {k: v for k, v in os.environ.items() if k not in (
+            "GIT_DIR", "GIT_INDEX_FILE", "GIT_WORK_TREE", "GIT_PREFIX", "GIT_COMMON_DIR", "GIT_OBJECT_DIRECTORY")}
+        env.update(GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM="1", GIT_TERMINAL_PROMPT="0")
 
         def git(*a):
             return subprocess.run(["git", "-C", d] + list(a), capture_output=True, text=True, env=env)

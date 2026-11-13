@@ -26,7 +26,7 @@
 - Designed the outcome-capture method: each decision is scored for confidence when made and closed against what actually happened; no accuracy figure is published until enough outcomes close
 - Platform guardrails as code: per-tenant Postgres roles with row-level security that fail closed, generated route and tool inventories with drift checks, and pre-commit gates that block whole classes of bugs. Live app at app.arcs.care; commit history and traces on request
 - Human-in-the-loop dev harness: parallel agent sessions, merges pinned to the approved commit, an append-only decision ledger in Postgres. 1,790+ PRs merged, 99 in one day, a human approving every merge. Live counts: status.arcs.care; release notes: one day, 99 merges
-- Compounding by design: every merge is receipted to a generated tool graph whose outcome weights steer the next build; graph retrieval beat the flat catalog 16/18 to 6/18 in a pre-registered blind test
+- Compounding by design: merges are receipted to a generated tool graph whose outcome weights steer the next build; graph retrieval beat the flat catalog 16/18 to 6/18 in a pre-registered blind test
 - Operating the full stack: go-to-market, growth motion, product development, commercial strategy. Breadth is the product
 - COMPASS SIGNAL
 - "What minimum viable intelligence system does a multi-BU platform need to compound learning across business units, and what's the right first wedge to prove the model?"
