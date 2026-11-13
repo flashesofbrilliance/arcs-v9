@@ -1570,7 +1570,7 @@
     },
     {
      "rule": ".gates",
-     "twin": "69-week-plan",
+     "twin": "70-week-plan",
      "twin_rule": ".wp-pm ul",
      "jaccard": 0.8
     }
@@ -3260,7 +3260,7 @@
     },
     {
      "rule": ".bg-facts ul",
-     "twin": "69-week-plan",
+     "twin": "70-week-plan",
      "twin_rule": ".wp-tree, .wp-tree ol",
      "jaccard": 1.0
     }
@@ -3353,13 +3353,13 @@
     },
     {
      "rule": ".sp-list",
-     "twin": "69-week-plan",
+     "twin": "70-week-plan",
      "twin_rule": ".wp-pm ul",
      "jaccard": 1.0
     },
     {
      "rule": ".sp-yes h3, .sp-no h3",
-     "twin": "69-week-plan",
+     "twin": "70-week-plan",
      "twin_rule": ".wp-tab-n",
      "jaccard": 0.83
     }
@@ -4082,7 +4082,7 @@
    "near_duplicates": [
     {
      "rule": ".dprefs-btns button[aria-pressed=\"true\"]",
-     "twin": "69-week-plan",
+     "twin": "70-week-plan",
      "twin_rule": ".wp-mx td.wp-lit",
      "jaccard": 1.0
     }
@@ -4136,7 +4136,7 @@
     },
     {
      "rule": ".pm-k .pm-kl",
-     "twin": "69-week-plan",
+     "twin": "70-week-plan",
      "twin_rule": ".wp-k",
      "jaccard": 0.86
     }
@@ -4467,7 +4467,7 @@
     },
     {
      "rule": ".fold-title h2",
-     "twin": "69-week-plan",
+     "twin": "70-week-plan",
      "twin_rule": ".wp-wh",
      "jaccard": 1.0
     }
@@ -4595,7 +4595,7 @@
     },
     {
      "rule": ".toast-title",
-     "twin": "69-week-plan",
+     "twin": "70-week-plan",
      "twin_rule": ".wp-tab-n",
      "jaccard": 0.83
     }
@@ -4855,7 +4855,7 @@
     },
     {
      "rule": ".note-head h3",
-     "twin": "69-week-plan",
+     "twin": "70-week-plan",
      "twin_rule": ".wp-tab-n",
      "jaccard": 0.83
     }
@@ -4921,7 +4921,7 @@
     },
     {
      "rule": ".pass-v",
-     "twin": "69-week-plan",
+     "twin": "70-week-plan",
      "twin_rule": ".wp-tab-n",
      "jaccard": 0.83
     }
@@ -5168,13 +5168,13 @@
    "near_duplicates": []
   },
   {
-   "id": "69-week-plan",
-   "number": "69",
+   "id": "70-week-plan",
+   "number": "70",
    "name": "Week Plan",
    "group": "Specimens",
-   "subtitle": "Organism 69 · Lay out a plan week by week: what will be true by the end of each week, how it cascades from executive to surgical, where the kairos forks sit and what must be true at each, and how best, base and worst play out, with keep and kill switches, on-ramps, off-ramps, opportunity cost and stop-losses on one color-coded sparkline.",
+   "subtitle": "Organism 70 · Lay out a plan week by week: what will be true by the end of each week, how it cascades from executive to surgical, where the kairos forks sit and what must be true at each, and how best, base and worst play out, with keep and kill switches, on-ramps, off-ramps, opportunity cost and stop-losses on one color-coded sparkline.",
    "family": "kit",
-   "path": "src/ui-kit/recoil-report/69-week-plan.html",
+   "path": "src/ui-kit/recoil-report/70-week-plan.html",
    "data_shape": [
     "sequence",
     "state"
@@ -5272,7 +5272,7 @@
     "wp-worst"
    ],
    "prim_blocks": [
-    "69-week-plan"
+    "70-week-plan"
    ],
    "alignment": {
     "tokens": true,
@@ -5431,13 +5431,13 @@
     },
     {
      "rule": ".g-sr",
-     "twin": "69-week-plan",
+     "twin": "70-week-plan",
      "twin_rule": ".wp-sr",
      "jaccard": 1.0
     },
     {
      "rule": ".g-sr",
-     "twin": "69-week-plan",
+     "twin": "70-week-plan",
      "twin_rule": ".wp-tab-s",
      "jaccard": 0.83
     }

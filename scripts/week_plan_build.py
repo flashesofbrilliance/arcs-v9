@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""week_plan_build: render a week plan (runtime/specs/week-plan.schema.json) as kit organism 69 Week Plan.
+"""week_plan_build: render a week plan (runtime/specs/week-plan.schema.json) as kit organism 70 Week Plan.
 
 One tab per week, and inside each tab, stacked top to bottom:
   tab sparkline   each week's tab carries its own small line (three branch ends, the stop-loss); a week nobody has
@@ -17,14 +17,14 @@ One tab per week, and inside each tab, stacked top to bottom:
 Every item that is a hypothesis carries fog grain (strength --wp-fog, default 0.5) and a Hypothesis chip; text is
 never dimmed. Values not set (ROI, probability) draw shape only, and the page says so.
 
-The CSS is the kit's: the @prim block in src/ui-kit/recoil-report/69-week-plan.html (generated from
+The CSS is the kit's: the @prim block in src/ui-kit/recoil-report/70-week-plan.html (generated from
 src/ui-kit/specimens/week-plan.json by kit_specimen.py), pulled at build time. The JS lives here (WP_JS) and is
 written into the specimen demo by --specimen.
 
   python3 scripts/week_plan_build.py DATA.json -o OUT.html      standalone page (kit tokens linked from the kit folder,
                                                                  or --inline-tokens to inline them)
   python3 scripts/week_plan_build.py DATA.json --fragment        print the organism only (section + script), for a host page
-  python3 scripts/week_plan_build.py --specimen                  rewrite the specimen demo from the Gravity example, rebuild 69
+  python3 scripts/week_plan_build.py --specimen                  rewrite the specimen demo from the Gravity example, rebuild 70
   python3 scripts/week_plan_build.py --check                     exit 1 if the specimen demo is stale or the example data fails validation
   python3 scripts/week_plan_build.py --validate DATA.json        schema rules, stdlib only
   python3 scripts/week_plan_build.py --self-test
@@ -34,11 +34,11 @@ import html, json, os, re, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KIT = os.path.join(ROOT, "src/ui-kit/recoil-report")
-KIT_PAGE = os.path.join(KIT, "69-week-plan.html")
+KIT_PAGE = os.path.join(KIT, "70-week-plan.html")
 SPEC = os.path.join(ROOT, "src/ui-kit/specimens/week-plan.json")
 EXAMPLE = os.path.join(ROOT, "_ARTIFACTS/week-plan/gravity.json")
 EXAMPLE_OUT = os.path.join(ROOT, "_ARTIFACTS/week-plan/gravity.html")  # preview only, not committed: light-palette advisories trip the kintsugi hook
-PRIMS = ["28-chip", "56-fold", "69-week-plan"]
+PRIMS = ["28-chip", "56-fold", "70-week-plan"]
 
 ALT = ["executive", "strategic", "operational", "tactical", "surgical"]
 ALT_L = {"executive": "L5", "strategic": "L4", "operational": "L3", "tactical": "L2", "surgical": "L1"}
