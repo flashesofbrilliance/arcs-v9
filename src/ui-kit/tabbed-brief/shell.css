@@ -216,7 +216,6 @@ a:active { color: var(--text); }
 .dprefs-btns button:disabled, .dprefs-actions button:disabled { opacity: 0.45; cursor: not-allowed; }
 /* ledger rows and tables are read-only: no hover tint, so nothing implies a click. Kit 54 spacing (14px, 6px, 20px) pinned to the 4px grid. */
 .sl-row { padding: var(--s-3) 0; gap: var(--s-2) var(--s-5); }
-.sl-group.is-judgment .sl-rows { padding-left: var(--s-4); }
 @media (prefers-reduced-motion: reduce) { .tb-btn, .tb-fold-btn { transition: none; } }
 
 /* ---- lockup layer (2026-11-12): construction rules for molecules and organisms ----
@@ -236,7 +235,6 @@ a:active { color: var(--text); }
 @container (max-width:37.99rem) { .sl-key { flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: var(--s-2); } }
 /* R4 */
 .sl-gh { padding: 0 0 var(--s-1); border-bottom: 0; }
-.sl-group.is-judgment .sl-rows { padding-left: var(--s-4); }
 /* R2: tables start keys on the lane edge and share the keyline */
 .tb-table th:first-child, .tb-table td:first-child { padding-left: 0; }
 .tb-table th:last-child, .tb-table td:last-child { padding-right: 0; }
@@ -260,18 +258,18 @@ a:active { color: var(--text); }
   .cr-slots { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* ---- Week One as one organism (2026-11-12): one instrument panel, three bands, no nested cards ----
+/* ---- Week One as one organism (2026-11-12): one hairline section like every fold (no nested card), three bands ----
    Band 1 the strip: gap, do, get read left to right as three columns split by hairlines (one row of evidence).
    Band 2 the track: the How steps sit on one timeline rule with cyan nodes, not in boxes.
    Band 3 the footer: how-to-read closes the panel on a hairline, not as a separate grey callout.
    On a phone the strip stacks and the track turns vertical with the rule on the left. */
-.tb-coldread { gap: 0; padding: var(--s-5); border: 1px solid var(--border); border-radius: var(--ds-r-md); background: var(--surface); }
+.tb-coldread { gap: 0; padding: var(--s-5) 0 0; border-top: 1px solid var(--border); }
 .tb-coldread > .tb-h2 { margin: 0 0 var(--s-4); }
 .tb-coldread .cr { gap: 0; }
 /* band 1 */
 .tb-coldread .cr-slots { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto; grid-auto-flow: column; column-gap: 0; }
 .tb-coldread .cr-slots dt, .tb-coldread .cr-slots dd { border-top: 0; padding: 0 var(--s-5); }
-.tb-coldread .cr-slots dt.section-label { padding: 0 var(--s-5) var(--s-2); line-height: var(--lh-display); color: var(--cyan); }
+.tb-coldread .cr-slots dt.section-label { padding: 0 var(--s-5) var(--s-2); line-height: var(--lh-display); }
 .tb-coldread .cr-slots dd { padding-bottom: 0; line-height: var(--lh-text); text-wrap: pretty; }
 .tb-coldread .cr-slots dt:first-of-type, .tb-coldread .cr-slots dt:first-of-type + dd { padding-left: 0; }
 .tb-coldread .cr-slots dt:not(:first-of-type), .tb-coldread .cr-slots dt:not(:first-of-type) + dd { border-left: 1px solid var(--border); }
@@ -282,16 +280,47 @@ a:active { color: var(--text); }
 .tb-coldread .cr-how { position: relative; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: var(--s-5); }
 .tb-coldread .cr-how::before { content: ""; position: absolute; left: 0; right: 0; top: 5px; border-top: 1px solid var(--border); }
 .tb-coldread .cr-step { padding: var(--s-5) 0 0; border: 0; border-radius: 0; background: none; gap: var(--s-1); }
-.tb-coldread .cr-step::before { content: ""; position: absolute; left: 0; top: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 0 3px var(--surface); }
-.tb-coldread .cr-step .section-label { color: var(--cyan); }
+.tb-coldread .cr-step::before { content: ""; position: absolute; left: 0; top: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 0 3px var(--bg); }
 /* band 3 */
 .tb-coldread .cr > .callout.cr-read { margin-top: var(--s-5); padding: var(--s-4) 0 0; border: 0; border-top: 1px solid var(--border); border-radius: 0; background: none; color: var(--text-secondary); line-height: var(--lh-text); }
 .tb-coldread .cr > .callout.cr-read b { display: block; margin: 0 0 var(--s-1); color: var(--text-secondary); }
 @media (max-width: 599px) {
-  .tb-coldread { padding: var(--s-4); }
+  .tb-coldread { padding: var(--s-4) 0 0; }
   .tb-coldread .cr-slots { grid-template-columns: minmax(0, 1fr); grid-auto-flow: row; }
   .tb-coldread .cr-slots dt, .tb-coldread .cr-slots dd, .tb-coldread .cr-slots dt.section-label { padding-left: 0; padding-right: 0; border-left: 0; }
   .tb-coldread .cr-slots dt:not(:first-of-type) { padding-top: var(--s-3); margin-top: var(--s-3); border-top: 1px solid var(--border); }
   .tb-coldread .cr-how::before { left: 5px; right: auto; top: 0; bottom: 0; border-top: 0; border-left: 1px solid var(--border); }
   .tb-coldread .cr-step { padding: 0 0 0 var(--s-5); }
 }
+
+/* ---- cohesion pass (2026-11-12, brand-line-producer + impeccable finish review + Zach's fold and quote asks) ----
+   Atoms: ONE label style (mono, label size, uppercase, tracked, secondary); cyan only on links, figures, nodes and active state.
+   Molecules: keys in sans strong, tabular figures; no side stripes; tiles step up in scale.
+   Organisms: folds hang their chevron in the gutter so title, table and ledger edges lock on both sides of the lane.
+   Template: one rhythm, --s-6 body gutter on tablet and up, headline to lede the same on every page. */
+/* atom: label */
+.tb-table th, .pm-table th { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: var(--fw-bold); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); }
+.sl-gn { text-transform: uppercase; letter-spacing: 0.1em; }
+/* molecule: keys */
+.sl-sig { font-family: var(--ds-font-sans); font-size: var(--fs-body); font-weight: var(--fw-strong); letter-spacing: 0; line-height: var(--lh-head); color: var(--text); font-variant-numeric: tabular-nums; }
+.tb-table td:first-child { font-variant-numeric: tabular-nums; }
+/* molecule: no side stripes (the gold chip still marks judgment) */
+.sl-group.is-judgment .sl-rows { border-left: 0; padding-left: 0; }
+/* molecule: fact tile figure steps up a size where the grid has room */
+@media (min-width: 600px) { .ftile-fig { font-size: calc(var(--fs-headline) * 1.5); } }
+/* organism: folds. Chevron hangs in the gutter; title, body, tables share the lane edges left and right */
+@media (min-width: 600px) { .tb-body, .tb-meta { padding-inline: var(--s-6); } }
+.tb-fold-btn, .stacked .seat-btn { margin-inline-start: calc(-8px - var(--s-3)); width: calc(100% + 8px + var(--s-3)); }
+@media (max-width: 599px) { .tb-body { padding-inline: var(--s-5); } .tb-fold-btn, .stacked .seat-btn { gap: var(--s-2); margin-inline-start: calc(-8px - var(--s-2)); width: calc(100% + 8px + var(--s-2)); } }
+.tb-fold { padding: var(--s-5) 0 var(--s-4); }
+.tb-expand .tb-btn { border-color: transparent; background: none; padding-inline: 0; }
+.tb-expand .tb-btn:hover { background: none; text-decoration: underline; text-underline-offset: 3px; }
+/* template: rhythm */
+.seat-head { padding-bottom: 0; }
+/* organism: sound bite. No stripe; display-serif italic quote marks (typographic glyphs in a DESIGN.md face, not drawn icons); quote bigger and bolder; room below */
+.sb { border-left: 0; padding: 0 0 var(--s-5); }
+.sb-t { position: relative; font-size: calc(var(--fs-headline) * 1.3); font-weight: var(--fw-strong); line-height: var(--lh-head); }
+.sb-t::before, .sb-t::after { font-family: var(--ds-font-display); font-style: italic; font-weight: 700; font-size: 2.4em; line-height: 0; color: var(--cyan); vertical-align: -0.42em; }
+.sb-t::before { content: "\201C"; margin-right: 0.08em; }
+.sb-t::after { content: "\201D"; margin-left: 0.04em; }
+.sb-item { gap: var(--s-3); }
