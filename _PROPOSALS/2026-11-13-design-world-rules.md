@@ -55,3 +55,21 @@ Camera and Light went into `DESIGN.md` under "Camera and light". Two changes fro
 - **Light:** the draft leaned on the emboss bevel (a bottom shade). `DESIGN.md` already holds the Glow-Not-Shadow Rule (depth is light, never cast darkness), so the key light is now a lighter tone plus a top-edge highlight, with shade only inside a recessed well. The "blur at or under 16px" limit was dropped: the Shadow Vocabulary in `DESIGN.md` itself uses 34px and 54px blooms.
 - **Camera:** added the one sanctioned second use, a `vh`-perspective floor plane (the status page presentation stage at 64 degrees), so the rule matches what ships.
 First gate: `page_gate.py` check `camera` (warning), fixtures in `scripts/tests/test_page_gate_camera.py`. No light gate: nothing mechanical to check beyond the existing vocabulary. Geometry depth and Stacks stay proposals.
+
+
+## Correction 2026-11-13 (Zach, two messages): what the Ziggurat and the atlas are
+
+My first reading ("a stacked build atlas, width = job count") described the dashboard, not the model. The model:
+
+- **A ziggurat is a mountain of ground truth.** Its height is how much of the terrain has been surveyed. The HUD shows the mountain range and the links between peaks at every altitude, from 30,000 feet down to ground truth. As you descend, depth, resolution and fidelity rise. Earned fidelity is both the metaphor and the polish: ARCS excavates insight, updated priors move the viewpoint, and edges and blind spots come into focus as you navigate the decision geometry (the 720-degree hypercube).
+- **A mountain range is many ziggurats joined** by terrain: slopes, peaks, ridges. Each ziggurat is one atlas.
+- **An atlas is a self-contained bundle**, a nested Russian doll of thesis, hypothesis, subject, object and predicate. Each exports its own self-contained node branches, so bundles load in and out and stay interoperable with user judgment graphs, belief updates over time, and risk maps that let others avoid the same mistake on a similar problem shape.
+
+What the repo already has for this: `runtime/specs/arcs-atlas-v2.schema.json` (a call's knowledge graph terraformed into tiers, base to apex: atoms, people, claims, beliefs, decisions; every tier always present, an empty tier draws FLAT; plus nodes, edges, kairos, fidelity and unanchored), the stage J5 exporter `scripts/recoil_stage_j5.py`, and `runtime/specs/atlas-bundle-observatory-spec.md` (private viewer, altimeter, camera fly-over).
+
+Effects on the draft rules:
+1. **Stacks paragraph is superseded.** Width as job count belongs to the Ziggurat dashboard, not to the model. A stack's tier is a level of ground truth, and its width is not defined yet.
+2. **Camera:** descent is a sanctioned move, so `DESIGN.md` now says "no yaw and no roll", with descent as the one allowed dolly (already corrected there). The 720-degree hypercube is data geometry, not a UI camera rotation.
+3. **Geometry ladder now has its axis:** altitude. High altitude draws coarse (GRAIN), descent sharpens toward SHARP and LOCKED. Facet counts stay unmeasured.
+4. **Open, needs Zach:** which ladder is canonical for altitude. The schema has five tiers (atoms to decisions); the Observatory spec has an altimeter F1 to F7; the kit has the five-altitude Executive to Surgical ladder (block 17). One naming, one mapping to the render scale.
+5. **Open:** the atlas bundle contract for a range (how bundles link at ridges and how a belief update or a risk map attaches) is not in v2; v2 covers one call's graph.
