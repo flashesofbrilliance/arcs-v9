@@ -5,7 +5,7 @@
   /* Radii - canonical scale (ARCS OS colors_and_type.css) */
   --r-xs: 3px; --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-pill: 999px;
   /* Fonts - canonical families; the adherence linter permits only these two */
-  --mono: 'JetBrains Mono','JetBrains Mono Fallback','IBM Plex Mono',ui-monospace,'SF Mono',monospace;
+  --mono: 'JetBrains Mono','IBM Plex Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace; /* no Courier-metric fallback face: a miss lands on a sans mono, never a serif one */
   --sans: 'Inter','Inter Fallback',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
   /* Type scale - canonical, 8 steps */
   --text-xs: 11px; --text-sm: 12px; --text-md: 14px; --text-base: 16px;

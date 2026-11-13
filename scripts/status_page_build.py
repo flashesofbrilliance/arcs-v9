@@ -132,7 +132,7 @@ def render(data, floor):
     return ('<!DOCTYPE html>\n'
             '<html lang="en" data-theme="%s">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<meta name="color-scheme" content="dark light">\n'
             '<meta name="robots" content="noindex, nofollow">\n<title>%s</title>\n<meta name="description" content="%s">\n%s\n<style>\n%s</style>\n'
-            '<link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>\n%s</head>\n<body>\n\n<main class="page">\n\n%s\n%s\n</main>\n\n%s'
+            '<link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>\n<link rel="preload" href="/fonts/jetbrains-mono-normal-100-800-latin-v1.woff2" as="font" type="font/woff2" crossorigin>\n%s</head>\n<body>\n\n<main class="page">\n\n%s\n%s\n</main>\n\n%s'
             '<script defer src="/_vercel/insights/script.js"></script>\n</body>\n</html>\n') % (e(data.get("default_theme", "dark")), e(data["doc_title"]), e(data["description"]), pre, css, read(SDIR, "fonts.frag"), top, body, scripts)
 
 
