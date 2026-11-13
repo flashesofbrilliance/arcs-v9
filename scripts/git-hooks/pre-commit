@@ -718,6 +718,17 @@ if [ -f scripts/kit_primitive_sync.py ] && command -v python3 >/dev/null 2>&1; t
   fi
 fi
 
+# Kit-internal sync + design-system parity (2026-11-13): when any kit part changes, every "composed with"
+# copy must match its source part and every part in ds-parity.json must keep its design-system values.
+if [ -f scripts/kit_primitive_sync.py ] && command -v python3 >/dev/null 2>&1; then
+  if git diff --cached --name-only | grep -qE '^src/ui-kit/recoil-report/([0-9][0-9]-.*\.html|ds-parity\.json)$'; then
+    if ! python3 scripts/kit_primitive_sync.py --kit; then
+      echo "✖ commit blocked: a kit part's copy is stale or a part drifted from the design system (scripts/kit_primitive_sync.py --kit)." >&2
+      exit 1
+    fi
+  fi
+fi
+
 # ---------------------------------------------------------------------------
 # component-source gate (visual twin of token-source, 2026-09-26): an ENROLLED single-file
 # page (one carrying  <!-- @arcs-template: <name> --> ) must assemble from the registered
