@@ -670,6 +670,18 @@ if [ -f scripts/token_source_gate.py ] && command -v python3 >/dev/null 2>&1; th
   fi
 fi
 
+# Design candidates (2026-11-13): a trial lane for design-system changes not yet canon. Pages opt in with
+# <!-- @arcs-candidate: id -->; the token, motion and component gates accept a live candidate's values on
+# pages that declare it. Fails on an expired candidate, an unknown id, or a page outside its pages list.
+# See scripts/design_candidates.py and runtime/specs/design-candidates.json.
+if [ -f scripts/design_candidates.py ] && command -v python3 >/dev/null 2>&1; then
+  dc=$(git diff --cached --name-only --diff-filter=ACM -- runtime/specs/design-candidates.json scripts/design_candidates.py '*.html' 2>/dev/null || true)
+  if [ -n "$dc" ] && ! python3 scripts/design_candidates.py --check; then
+    echo "✖ commit blocked: design candidates (see above). Graduate an expired candidate into the kit or drop it; fix unknown ids and pages lists." >&2
+    exit 1
+  fi
+fi
+
 # Motion policy gate (2026-10-16): pages that move read the --mo-* motion and safety tokens from
 # src/ui-kit/recoil-report/_tokens.css (flash cap, pose rate, holds) and obey them. Stdlib-only.
 # See scripts/motion_policy_gate.py and DESIGN.md "Motion and safety".

@@ -972,7 +972,14 @@
     "scripts/case_world_sync.py"
    ],
    "reuse": 17,
-   "near_duplicates": []
+   "near_duplicates": [
+    {
+     "rule": ".sr",
+     "twin": "66-give-get-table",
+     "twin_rule": ".gg .vh",
+     "jaccard": 1.0
+    }
+   ]
   },
   {
    "id": "16-instrument-panel",
@@ -3402,7 +3409,9 @@
     "pullable": true,
     "no_raw_signal_hex": true
    },
-   "templates": [],
+   "templates": [
+    "proposal"
+   ],
    "jobs": [],
    "pages": [
     "scripts/recoil_brief.py",
@@ -3537,7 +3546,9 @@
     "pullable": true,
     "no_raw_signal_hex": true
    },
-   "templates": [],
+   "templates": [
+    "proposal"
+   ],
    "jobs": [],
    "pages": [
     "_ARTIFACTS/louisville-proposal/source.html",
@@ -3590,6 +3601,7 @@
     "no_raw_signal_hex": true
    },
    "templates": [
+    "proposal",
     "tabbed-brief",
     "recoil-twin"
    ],
@@ -3601,10 +3613,11 @@
     "public/gravity-brief-proof.html",
     "public/gravity-brief.html",
     "public/recoil-ext/2026-10-29-gasmi.html",
+    "scripts/kit_primitive_sync.py",
     "scripts/recoil_brief.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 8,
+   "reuse": 9,
    "near_duplicates": [
     {
      "rule": ".wordmark",
@@ -4024,6 +4037,7 @@
     "no_raw_signal_hex": true
    },
    "templates": [
+    "proposal",
     "recoil-twin"
    ],
    "jobs": [],
@@ -4037,10 +4051,11 @@
     "public/gravity-brief.html",
     "public/louisville-proposal.html",
     "public/recoil-ext/2026-10-29-gasmi.html",
+    "scripts/kit_primitive_sync.py",
     "scripts/recoil_brief.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 11,
+   "reuse": 12,
    "near_duplicates": []
   },
   {
@@ -4522,10 +4537,11 @@
    "pages": [
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
     "_ARTIFACTS/recoil-hypercube-explorer.html",
+    "scripts/kit_primitive_sync.py",
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py"
    ],
-   "reuse": 4,
+   "reuse": 5,
    "near_duplicates": [
     {
      "rule": ".toast-title",
@@ -4656,9 +4672,10 @@
     "recoil-kit-reconcile"
    ],
    "pages": [
-    "_ARTIFACTS/recoil-brian-2026-11-11.html"
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "scripts/kit_primitive_sync.py"
    ],
-   "reuse": 1,
+   "reuse": 2,
    "near_duplicates": []
   },
   {
@@ -4914,6 +4931,179 @@
      "jaccard": 1.0
     }
    ]
+  },
+  {
+   "id": "65-question-pair",
+   "number": "65",
+   "name": "Question Pair",
+   "group": "Specimens",
+   "subtitle": "Molecule 65 · Set what the reader said beside the question worth asking about it, one row a point, so every question visibly comes from their own words.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/65-question-pair.html",
+   "data_shape": [
+    "table"
+   ],
+   "fidelity": [],
+   "classes": [
+    "ask",
+    "qpair",
+    "qpair-ask",
+    "qpair-head",
+    "qpair-row",
+    "qpair-said"
+   ],
+   "prim_blocks": [
+    "65-question-pair"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "proposal"
+   ],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": [
+    {
+     "rule": ".qpair",
+     "twin": "66-give-get-table",
+     "twin_rule": ".gg",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "66-give-get-table",
+   "number": "66",
+   "name": "Give Get Table",
+   "group": "Specimens",
+   "subtitle": "Molecule 66 · Show a time trade step by step: when, what the reader gives, what they get back, so the cost of their time sits beside its return.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/66-give-get-table.html",
+   "data_shape": [
+    "table",
+    "timeline"
+   ],
+   "fidelity": [],
+   "classes": [
+    "get",
+    "gg",
+    "gg-get",
+    "gg-give",
+    "gg-head",
+    "gg-row",
+    "gg-when",
+    "vh"
+   ],
+   "prim_blocks": [
+    "66-give-get-table"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "proposal"
+   ],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/louisville-proposal/source.html",
+    "public/louisville-proposal.html"
+   ],
+   "reuse": 2,
+   "near_duplicates": [
+    {
+     "rule": ".gg .vh",
+     "twin": "15-case-world",
+     "twin_rule": ".sr",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".gg",
+     "twin": "65-question-pair",
+     "twin_rule": ".qpair",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "67-trace-steps",
+   "number": "67",
+   "name": "Trace Steps",
+   "group": "Specimens",
+   "subtitle": "Molecule 67 · Show a method as three to four linked steps, each a key and its mark, over the one stop line agreed before the work starts.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/67-trace-steps.html",
+   "data_shape": [
+    "sequence"
+   ],
+   "fidelity": [],
+   "classes": [
+    "trace",
+    "trace-k",
+    "trace-steps",
+    "trace-stop",
+    "trace-v"
+   ],
+   "prim_blocks": [
+    "67-trace-steps"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "proposal"
+   ],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/louisville-proposal/source.html",
+    "public/louisville-proposal.html"
+   ],
+   "reuse": 2,
+   "near_duplicates": []
+  },
+  {
+   "id": "68-spec-rows",
+   "number": "68",
+   "name": "Spec Rows",
+   "group": "Specimens",
+   "subtitle": "Molecule 68 · Name a few labelled choices and what each one covers, as hairline rows in running text or as side-by-side cards when the reader is meant to pick.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/68-spec-rows.html",
+   "data_shape": [
+    "table"
+   ],
+   "fidelity": [],
+   "classes": [
+    "cards",
+    "spec",
+    "specrow"
+   ],
+   "prim_blocks": [
+    "68-spec-rows"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "proposal",
+    "tool-index"
+   ],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/louisville-proposal/source.html",
+    "public/louisville-proposal.html"
+   ],
+   "reuse": 2,
+   "near_duplicates": []
   },
   {
    "id": "grammar-chips",

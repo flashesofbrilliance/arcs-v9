@@ -1,0 +1,4 @@
+{
+  "_about": "Design-system changes in trial, not canon yet. Read by scripts/design_candidates.py and the render gates (token_source_gate, motion_policy_gate, component_source_gate). A page opts in with <!-- @arcs-candidate: <id> -->. Past expires the gates fail again: graduate the values into the kit (one PR, DESIGN.md amendment, remove the row and markers) or drop it.",
+  "candidates": []
+}
