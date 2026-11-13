@@ -181,6 +181,26 @@
       ],
       "min_signatures": 5
     },
+    "proposal": {
+      "mode": "persuade",
+      "kind": "persuasion-surface",
+      "description": "Paid-scope proposal for one counterpart, built by scripts/proposal_build.py from one source page (hosted page, send copy, PDF, review copy). Global header (38 wordmark + 51 display preferences), a two-sentence lede, collapsible sections, then the close: 65 question pair (their words beside the question), 67 trace steps (the method and its stop line), 68 spec rows (the choices, cards variant), 66 give/get table (the time trade), 41 offer close (price, proof, one ask). Promoted 2026-11-13 from the Louisville proposal, the second page to need the heard/check grid (rule of two, see counterpart-onepager). Render the parts with scripts/proposal_construction.py.",
+      "canonical_examples": [
+        "src/ui-kit/recoil-report/65-question-pair.html",
+        "src/ui-kit/recoil-report/68-spec-rows.html"
+      ],
+      "generator": "scripts/proposal_build.py",
+      "signature_selectors": [
+        ".qpair",
+        ".trace-steps",
+        ".specrow",
+        ".gg-row",
+        ".offer",
+        ".wordmark",
+        ".dprefs"
+      ],
+      "min_signatures": 4
+    },
     "tool-index": {
       "mode": "read",
       "kind": "catalog",
