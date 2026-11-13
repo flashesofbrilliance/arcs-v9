@@ -1,0 +1,6999 @@
+{
+ "$schema": "operator-binding-map v1",
+ "generator": "scripts/operator_binding_emit.py",
+ "rule": "grep-verified edges only; every edge cites file, line and needle; UNBOUND when none",
+ "roster_sources": [
+  "operators/OPERATOR-REGISTRY.json",
+  "runtime/specs/tool-catalog.json"
+ ],
+ "counts": {
+  "seats": 105,
+  "BOUND": 77,
+  "UNBOUND": 28,
+  "reads_backlog": 1,
+  "edges": 525
+ },
+ "seats": [
+  {
+   "id": "tool:agent:best-practices-clerk",
+   "kind": "agent",
+   "name": "best-practices-clerk",
+   "path": ".claude/agents/best-practices-clerk.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 2,
+    "cited_by_tool": 2,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "tool:agent:paralegal",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/agents/paralegal.md",
+      "line": 3,
+      "needle": "(?<![\\w/-])best\\-practices\\-clerk(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:script:contract_format.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/contract_format.py",
+      "line": 17,
+      "needle": "(?<![\\w/-])best\\-practices\\-clerk(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:contract-agreement-formatter",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 511,
+      "row_id": "contract-agreement-formatter",
+      "needle": "agents/best\\-practices\\-clerk\\.md"
+     }
+    },
+    {
+     "target": "job:backlog:myally-step1-audit",
+     "kind": "mentioned_by_row",
+     "row_state": "BLOCKED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 471,
+      "row_id": "myally-step1-audit",
+      "needle": "agents/best\\-practices\\-clerk\\.md"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:brand-line-producer",
+   "kind": "agent",
+   "name": "brand-line-producer",
+   "path": ".claude/agents/brand-line-producer.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 5,
+    "cited_by_tool": 3,
+    "cites_tool": 4,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "tool:agent:sanity-check",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/agents/sanity-check.md",
+      "line": 3,
+      "needle": "(?<![\\w/-])brand\\-line\\-producer(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:script:recoil_service.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/recoil_service.py",
+      "line": 226,
+      "needle": "(?<![\\w/-])brand\\-line\\-producer(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:skill:readme-to-video",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/skills/readme-to-video/SKILL.md",
+      "line": 39,
+      "needle": "agents/brand\\-line\\-producer\\.md"
+     }
+    },
+    {
+     "target": "tool:command:arcs-brand-manager",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/brand-line-producer.md",
+      "line": 9,
+      "needle": "\\.claude/commands/arcs\\-brand\\-manager\\.md"
+     }
+    },
+    {
+     "target": "tool:script:artifact_wrap_lint.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/brand-line-producer.md",
+      "line": 19,
+      "needle": "scripts/artifact_wrap_lint\\.py"
+     }
+    },
+    {
+     "target": "tool:script:motion_policy_gate.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/brand-line-producer.md",
+      "line": 21,
+      "needle": "scripts/motion_policy_gate\\.py"
+     }
+    },
+    {
+     "target": "tool:script:token_source_gate.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/brand-line-producer.md",
+      "line": 20,
+      "needle": "scripts/token_source_gate\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:page-editor-walkthrough-video",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 496,
+      "row_id": "page-editor-walkthrough-video",
+      "needle": "(?<![\\w/-])brand\\-line\\-producer(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:readme-cold-read-to-video",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 436,
+      "row_id": "readme-cold-read-to-video",
+      "needle": "(?<![\\w/-])brand\\-line\\-producer(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:recoil-brian-acceptance",
+     "kind": "mentioned_by_row",
+     "row_state": "HOLDING",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 509,
+      "row_id": "recoil-brian-acceptance",
+      "needle": "agents/brand\\-line\\-producer\\.md"
+     }
+    },
+    {
+     "target": "job:backlog:recoil-component-set",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 502,
+      "row_id": "recoil-component-set",
+      "needle": "(?<![\\w/-])brand\\-line\\-producer(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:rfp-ship-landing-merge",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 415,
+      "row_id": "rfp-ship-landing-merge",
+      "needle": "(?<![\\w/-])brand\\-line\\-producer(?![\\w-])"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:chief-bayesian",
+   "kind": "agent",
+   "name": "chief-bayesian",
+   "path": ".claude/agents/chief-bayesian.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 1,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:script:agent_seed_gate.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/chief-bayesian.md",
+      "line": 11,
+      "needle": "scripts/agent_seed_gate\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:chief-conductor",
+   "kind": "agent",
+   "name": "chief-conductor",
+   "path": ".claude/agents/chief-conductor.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 1,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:script:agent_seed_gate.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/chief-conductor.md",
+      "line": 11,
+      "needle": "scripts/agent_seed_gate\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:chief-loki",
+   "kind": "agent",
+   "name": "chief-loki",
+   "path": ".claude/agents/chief-loki.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 7,
+    "cited_by_tool": 3,
+    "cites_tool": 1,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "tool:agent:grug",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/agents/grug.md",
+      "line": 3,
+      "needle": "(?<![\\w/-])chief\\-loki(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:command:arcs-mode",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/commands/arcs-mode.md",
+      "line": 20,
+      "needle": "(?<![\\w/-])chief\\-loki(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:script:operator_binding_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_binding_emit.py",
+      "line": 224,
+      "needle": "(?<![\\w/-])chief\\-loki(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:script:agent_seed_gate.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/chief-loki.md",
+      "line": 11,
+      "needle": "scripts/agent_seed_gate\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:fc-derisk-gate-falsifier-set",
+     "kind": "mentioned_by_row",
+     "row_state": "COMPOSTED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 389,
+      "row_id": "fc-derisk-gate-falsifier-set",
+      "needle": "(?<![\\w/-])chief\\-loki(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:jtbd-graph-conductor",
+     "kind": "mentioned_by_row",
+     "row_state": "SUPERSEDED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 296,
+      "row_id": "jtbd-graph-conductor",
+      "needle": "(?<![\\w/-])chief\\-loki(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:jtbd-graph-s1-nodes",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 298,
+      "row_id": "jtbd-graph-s1-nodes",
+      "needle": "(?<![\\w/-])chief\\-loki(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:jtbd-graph-s2-edges",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 299,
+      "row_id": "jtbd-graph-s2-edges",
+      "needle": "(?<![\\w/-])chief\\-loki(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:jtbd-graph-s3-gates",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 300,
+      "row_id": "jtbd-graph-s3-gates",
+      "needle": "(?<![\\w/-])chief\\-loki(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:jtbd-graph-s4-retrieval",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 301,
+      "row_id": "jtbd-graph-s4-retrieval",
+      "needle": "(?<![\\w/-])chief\\-loki(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:jtbd-graph-s5-feedback",
+     "kind": "mentioned_by_row",
+     "row_state": "HOLDING",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 302,
+      "row_id": "jtbd-graph-s5-feedback",
+      "needle": "(?<![\\w/-])chief\\-loki(?![\\w-])"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:ciso-review",
+   "kind": "agent",
+   "name": "ciso-review",
+   "path": ".claude/agents/ciso-review.md",
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [],
+   "unbound_reason": "no backlog row, tool or surface names it"
+  },
+  {
+   "id": "tool:agent:claim-index-sme",
+   "kind": "agent",
+   "name": "claim-index-sme",
+   "path": ".claude/agents/claim-index-sme.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 5,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:script:canon_claims_report.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/claim-index-sme.md",
+      "line": 14,
+      "needle": "scripts/canon_claims_report\\.py"
+     }
+    },
+    {
+     "target": "tool:script:claim_check.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/claim-index-sme.md",
+      "line": 14,
+      "needle": "scripts/claim_check\\.py"
+     }
+    },
+    {
+     "target": "tool:script:claim_index.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/claim-index-sme.md",
+      "line": 10,
+      "needle": "scripts/claim_index\\.py"
+     }
+    },
+    {
+     "target": "tool:script:public_claim_gate.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/claim-index-sme.md",
+      "line": 14,
+      "needle": "scripts/public_claim_gate\\.py"
+     }
+    },
+    {
+     "target": "tool:script:status_floor_emit.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/claim-index-sme.md",
+      "line": 14,
+      "needle": "scripts/status_floor_emit\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:claims-skeptic",
+   "kind": "agent",
+   "name": "claims-skeptic",
+   "path": ".claude/agents/claims-skeptic.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 17,
+    "cited_by_tool": 4,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 4,
+   "edges": [
+    {
+     "target": "tool:agent:sanity-check",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/agents/sanity-check.md",
+      "line": 3,
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:command:catalog",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/commands/catalog.md",
+      "line": 38,
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:script:reel_in_scan.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/reel_in_scan.py",
+      "line": 19,
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:skill:forge",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/skills/forge/SKILL.md",
+      "line": 116,
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:canon-papers-fact-check",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 456,
+      "row_id": "canon-papers-fact-check",
+      "needle": "agents/claims\\-skeptic\\.md"
+     }
+    },
+    {
+     "target": "job:backlog:fc-derisk-claims-skeptic",
+     "kind": "mentioned_by_row",
+     "row_state": "COMPOSTED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 377,
+      "row_id": "fc-derisk-claims-skeptic",
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:fc-eos-own-claims",
+     "kind": "mentioned_by_row",
+     "row_state": "COMPOSTED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 360,
+      "row_id": "fc-eos-own-claims",
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:fc-tutorial-draft",
+     "kind": "mentioned_by_row",
+     "row_state": "COMPOSTED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 387,
+      "row_id": "fc-tutorial-draft",
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:fc-x-outcome",
+     "kind": "mentioned_by_row",
+     "row_state": "COMPOSTED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 358,
+      "row_id": "fc-x-outcome",
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:jtbd-graph-conductor",
+     "kind": "mentioned_by_row",
+     "row_state": "SUPERSEDED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 296,
+      "row_id": "jtbd-graph-conductor",
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:jtbd-graph-s1-nodes",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 298,
+      "row_id": "jtbd-graph-s1-nodes",
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:jtbd-graph-s2-edges",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 299,
+      "row_id": "jtbd-graph-s2-edges",
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:jtbd-graph-s3-gates",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 300,
+      "row_id": "jtbd-graph-s3-gates",
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:jtbd-graph-s4-retrieval",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 301,
+      "row_id": "jtbd-graph-s4-retrieval",
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:jtbd-graph-s5-feedback",
+     "kind": "mentioned_by_row",
+     "row_state": "HOLDING",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 302,
+      "row_id": "jtbd-graph-s5-feedback",
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:readme-cold-read-to-video",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 436,
+      "row_id": "readme-cold-read-to-video",
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:recoil-decompose-verbs",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 504,
+      "row_id": "recoil-decompose-verbs",
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:spec-frustum-frontier-decide",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 528,
+      "row_id": "spec-frustum-frontier-decide",
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:spec-rigor-protocol-decide",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 532,
+      "row_id": "spec-rigor-protocol-decide",
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:trust-page-public-claims-fix",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 255,
+      "row_id": "trust-page-public-claims-fix",
+      "needle": "(?<![\\w/-])claims\\-skeptic(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:verify-spoken-claims-harrison",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 489,
+      "row_id": "verify-spoken-claims-harrison",
+      "needle": "agents/claims\\-skeptic\\.md"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:claude-code-config-auditor",
+   "kind": "agent",
+   "name": "claude-code-config-auditor",
+   "path": ".claude/agents/claude-code-config-auditor.md",
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [],
+   "unbound_reason": "no backlog row, tool or surface names it"
+  },
+  {
+   "id": "tool:agent:cruise-control",
+   "kind": "agent",
+   "name": "cruise-control",
+   "path": ".claude/agents/cruise-control.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 1,
+    "cites_tool": 11,
+    "serves_surface": 0,
+    "invokes_primitive": 2
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:hook:pre-commit",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/git-hooks/pre-commit",
+      "line": 264,
+      "needle": "agents/cruise\\-control\\.md"
+     }
+    },
+    {
+     "target": "tool:script:approvals_ledger.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/cruise-control.md",
+      "line": 24,
+      "needle": "scripts/approvals_ledger\\.py"
+     }
+    },
+    {
+     "target": "tool:script:backlog_graph.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/cruise-control.md",
+      "line": 23,
+      "needle": "scripts/backlog_graph\\.py"
+     }
+    },
+    {
+     "target": "tool:script:backlog_status_check.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/cruise-control.md",
+      "line": 22,
+      "needle": "scripts/backlog_status_check\\.py"
+     }
+    },
+    {
+     "target": "tool:script:lattice_drift_check.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/cruise-control.md",
+      "line": 25,
+      "needle": "scripts/lattice_drift_check\\.py"
+     }
+    },
+    {
+     "target": "tool:script:merge_train.sh",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/cruise-control.md",
+      "line": 34,
+      "needle": "scripts/merge_train\\.sh"
+     }
+    },
+    {
+     "target": "tool:script:open_loops.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/cruise-control.md",
+      "line": 21,
+      "needle": "scripts/open_loops\\.py"
+     }
+    },
+    {
+     "target": "tool:script:project_skills_drift.sh",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/cruise-control.md",
+      "line": 20,
+      "needle": "scripts/project_skills_drift\\.sh"
+     }
+    },
+    {
+     "target": "tool:script:pulse.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/cruise-control.md",
+      "line": 25,
+      "needle": "scripts/pulse\\.py"
+     }
+    },
+    {
+     "target": "tool:script:readiness_packet.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/cruise-control.md",
+      "line": 23,
+      "needle": "scripts/readiness_packet\\.py"
+     }
+    },
+    {
+     "target": "tool:script:safe_merge.sh",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/cruise-control.md",
+      "line": 30,
+      "needle": "scripts/safe_merge\\.sh"
+     }
+    },
+    {
+     "target": "tool:script:ship_docs.sh",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/cruise-control.md",
+      "line": 34,
+      "needle": "scripts/ship_docs\\.sh"
+     }
+    },
+    {
+     "target": "rom:notomation",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": ".claude/agents/cruise-control.md",
+      "line": 14,
+      "needle": "(?i)\\bnotomation\\b"
+     }
+    },
+    {
+     "target": "rom:write-lock",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": ".claude/agents/cruise-control.md",
+      "line": 14,
+      "needle": "(?i)\\bwrite[ _-]lock\\b"
+     }
+    },
+    {
+     "target": "job:backlog:harness-flight-manual-cruise-control",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 435,
+      "row_id": "harness-flight-manual-cruise-control",
+      "needle": "(?<![\\w/-])cruise\\-control(?![\\w-])"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:dream-scout",
+   "kind": "agent",
+   "name": "dream-scout",
+   "path": ".claude/agents/dream-scout.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 1,
+    "cites_tool": 1,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:skill:dream",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/skills/dream/SKILL.md",
+      "line": 3,
+      "needle": "(?<![\\w/-])dream\\-scout(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:script:dream_mine.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/dream-scout.md",
+      "line": 3,
+      "needle": "scripts/dream_mine\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:grug",
+   "kind": "agent",
+   "name": "grug",
+   "path": ".claude/agents/grug.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 3,
+    "cited_by_tool": 2,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "tool:command:arcs-mode",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/commands/arcs-mode.md",
+      "line": 2,
+      "needle": "(?<![\\w/-])grug(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:script:audit_report_build.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/audit_report_build.py",
+      "line": 252,
+      "needle": "(?<![\\w/-])grug(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:catalog-verb-table-drift-check",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 483,
+      "row_id": "catalog-verb-table-drift-check",
+      "needle": "(?<![\\w/-])grug(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:decompose-page-atomic-params",
+     "kind": "mentioned_by_row",
+     "row_state": "COMPOSTED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 482,
+      "row_id": "decompose-page-atomic-params",
+      "needle": "(?<![\\w/-])grug(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:readme-cold-read-to-video",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 436,
+      "row_id": "readme-cold-read-to-video",
+      "needle": "(?<![\\w/-])grug(?![\\w-])"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:idea-alchemist",
+   "kind": "agent",
+   "name": "idea-alchemist",
+   "path": ".claude/agents/idea-alchemist.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 1,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:script:agent_seed_gate.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/idea-alchemist.md",
+      "line": 11,
+      "needle": "scripts/agent_seed_gate\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:idea-curator",
+   "kind": "agent",
+   "name": "idea-curator",
+   "path": ".claude/agents/idea-curator.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 2,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_operators_curator.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/idea-curator.md",
+      "line": 9,
+      "needle": "operators/arcs_operators_curator\\.py"
+     }
+    },
+    {
+     "target": "tool:script:agent_seed_gate.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/idea-curator.md",
+      "line": 11,
+      "needle": "scripts/agent_seed_gate\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:idea-detective",
+   "kind": "agent",
+   "name": "idea-detective",
+   "path": ".claude/agents/idea-detective.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 1,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:script:agent_seed_gate.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/idea-detective.md",
+      "line": 11,
+      "needle": "scripts/agent_seed_gate\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:idea-librarian",
+   "kind": "agent",
+   "name": "idea-librarian",
+   "path": ".claude/agents/idea-librarian.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 2,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:script:agent_seed_gate.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/idea-librarian.md",
+      "line": 11,
+      "needle": "scripts/agent_seed_gate\\.py"
+     }
+    },
+    {
+     "target": "tool:script:prior_art.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/idea-librarian.md",
+      "line": 7,
+      "needle": "scripts/prior_art\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:impeccable-asset-producer",
+   "kind": "agent",
+   "name": "impeccable-asset-producer",
+   "path": ".claude/agents/impeccable-asset-producer.md",
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [],
+   "unbound_reason": "no backlog row, tool or surface names it"
+  },
+  {
+   "id": "tool:agent:impeccable-documenter",
+   "kind": "agent",
+   "name": "impeccable-documenter",
+   "path": ".claude/agents/impeccable-documenter.md",
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [],
+   "unbound_reason": "no backlog row, tool or surface names it"
+  },
+  {
+   "id": "tool:agent:impeccable-finish-reviewer",
+   "kind": "agent",
+   "name": "impeccable-finish-reviewer",
+   "path": ".claude/agents/impeccable-finish-reviewer.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "job:backlog:state-of-union-dashboard-ahmed-impeccable-pass",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 34,
+      "row_id": "state-of-union-dashboard-ahmed-impeccable-pass",
+      "needle": "(?<![\\w/-])impeccable\\-finish\\-reviewer(?![\\w-])"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:impeccable-manual-edit-applier",
+   "kind": "agent",
+   "name": "impeccable-manual-edit-applier",
+   "path": ".claude/agents/impeccable-manual-edit-applier.md",
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [],
+   "unbound_reason": "no backlog row, tool or surface names it"
+  },
+  {
+   "id": "tool:agent:paralegal",
+   "kind": "agent",
+   "name": "paralegal",
+   "path": ".claude/agents/paralegal.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 2,
+    "cited_by_tool": 3,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "tool:agent:best-practices-clerk",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/agents/best-practices-clerk.md",
+      "line": 3,
+      "needle": "(?<![\\w/-])paralegal(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:script:bridge_index_scan.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/bridge_index_scan.py",
+      "line": 271,
+      "needle": "(?<![\\w/-])paralegal(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:script:contract_format.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/contract_format.py",
+      "line": 17,
+      "needle": "(?<![\\w/-])paralegal(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:contract-agreement-formatter",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 511,
+      "row_id": "contract-agreement-formatter",
+      "needle": "agents/paralegal\\.md"
+     }
+    },
+    {
+     "target": "job:backlog:myally-step1-audit",
+     "kind": "mentioned_by_row",
+     "row_state": "BLOCKED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 471,
+      "row_id": "myally-step1-audit",
+      "needle": "agents/paralegal\\.md"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:platform-standards-auditor",
+   "kind": "agent",
+   "name": "platform-standards-auditor",
+   "path": ".claude/agents/platform-standards-auditor.md",
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [],
+   "unbound_reason": "no backlog row, tool or surface names it"
+  },
+  {
+   "id": "tool:agent:privacy-review",
+   "kind": "agent",
+   "name": "privacy-review",
+   "path": ".claude/agents/privacy-review.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 1,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "job:backlog:fc-derisk-publish-hygiene",
+     "kind": "mentioned_by_row",
+     "row_state": "COMPOSTED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 383,
+      "row_id": "fc-derisk-publish-hygiene",
+      "needle": "(?<![\\w/-])privacy\\-review(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:surface:app.arcs.care/internal",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "src/app/internal/page.tsx",
+      "line": 66,
+      "needle": "(?<![\\w/-])privacy\\-review(?![\\w-])"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:prospect-scout",
+   "kind": "agent",
+   "name": "prospect-scout",
+   "path": ".claude/agents/prospect-scout.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "job:backlog:jtbd-standing-tools",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 451,
+      "row_id": "jtbd-standing-tools",
+      "needle": "(?<![\\w/-])prospect\\-scout(?![\\w-])"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:recoil-gather-git",
+   "kind": "agent",
+   "name": "recoil-gather-git",
+   "path": ".claude/agents/recoil-gather-git.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 1,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:workflow:recoil-report",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/workflows/recoil-report.mjs",
+      "line": 105,
+      "needle": "(?<![\\w/-])recoil\\-gather\\-git(?![\\w-])"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:recoil-gather-web",
+   "kind": "agent",
+   "name": "recoil-gather-web",
+   "path": ".claude/agents/recoil-gather-web.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 1,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:workflow:recoil-report",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/workflows/recoil-report.mjs",
+      "line": 102,
+      "needle": "(?<![\\w/-])recoil\\-gather\\-web(?![\\w-])"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:recoil-reason",
+   "kind": "agent",
+   "name": "recoil-reason",
+   "path": ".claude/agents/recoil-reason.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 1,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:workflow:recoil-report",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/workflows/recoil-report.mjs",
+      "line": 157,
+      "needle": "(?<![\\w/-])recoil\\-reason(?![\\w-])"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:sanity-check",
+   "kind": "agent",
+   "name": "sanity-check",
+   "path": ".claude/agents/sanity-check.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 2,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "tool:script:proposal_build.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/proposal_build.py",
+      "line": 32,
+      "needle": "agents/sanity\\-check\\.md"
+     }
+    },
+    {
+     "target": "tool:skill:honest-proposals-zach",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/skills/honest-proposals-zach/SKILL.md",
+      "line": 23,
+      "needle": "(?<![\\w/-])sanity\\-check(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:sanity-check-plan-time",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 485,
+      "row_id": "sanity-check-plan-time",
+      "needle": "agents/sanity\\-check\\.md"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:scenario-runner",
+   "kind": "agent",
+   "name": "scenario-runner",
+   "path": ".claude/agents/scenario-runner.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 0,
+    "cites_tool": 1,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "tool:script:agent_seed_gate.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/scenario-runner.md",
+      "line": 11,
+      "needle": "scripts/agent_seed_gate\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:jtbd-standing-tools",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 451,
+      "row_id": "jtbd-standing-tools",
+      "needle": "(?<![\\w/-])scenario\\-runner(?![\\w-])"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:scrum-master",
+   "kind": "agent",
+   "name": "scrum-master",
+   "path": ".claude/agents/scrum-master.md",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 0,
+    "cites_tool": 2,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:script:scrum.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/scrum-master.md",
+      "line": 3,
+      "needle": "scripts/scrum\\.py"
+     }
+    },
+    {
+     "target": "tool:skill:scrum",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": ".claude/agents/scrum-master.md",
+      "line": 14,
+      "needle": "\\.claude/skills/scrum/SKILL\\.md"
+     }
+    },
+    {
+     "target": "job:backlog:scrum-master-ritual",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 476,
+      "row_id": "scrum-master-ritual",
+      "needle": "agents/scrum\\-master\\.md"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:agent:sre-review",
+   "kind": "agent",
+   "name": "sre-review",
+   "path": ".claude/agents/sre-review.md",
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [],
+   "unbound_reason": "no backlog row, tool or surface names it"
+  },
+  {
+   "id": "tool:op:1",
+   "kind": "registry-operator",
+   "name": "FirstDerivative",
+   "path": "operators/core/atoms.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 3,
+    "cites_tool": 0,
+    "serves_surface": 2,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_mcp_bridge.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 307,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?1\\b"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 52,
+      "needle": "\\bFirstDerivative\\b"
+     }
+    },
+    {
+     "target": "tool:script:tool_orphan_audit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/tool_orphan_audit.py",
+      "line": 601,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?1\\b"
+     }
+    },
+    {
+     "target": "tool:surface:cia.arcs.care/resume.pdf",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/cia-brief-resume.pdf",
+      "line": 1103,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?1\\b"
+     }
+    },
+    {
+     "target": "tool:surface:good.arcs.care/blog/til/apple-openai.pdf",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/blog-til-apple-openai.pdf",
+      "line": 520,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?1\\b"
+     }
+    }
+   ],
+   "registry_status": "READY"
+  },
+  {
+   "id": "tool:op:10",
+   "kind": "registry-operator",
+   "name": "NoiseFilter",
+   "path": null,
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [],
+   "registry_status": "UNBUILT",
+   "unbound_reason": "registry status UNBUILT: no module to bind"
+  },
+  {
+   "id": "tool:op:11",
+   "kind": "registry-operator",
+   "name": "ConfidenceIndex",
+   "path": null,
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 1,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 112,
+      "needle": "\\bConfidenceIndex\\b"
+     }
+    }
+   ],
+   "registry_status": "UNBUILT",
+   "unbound_reason": "registry status UNBUILT: no module to bind"
+  },
+  {
+   "id": "tool:op:12",
+   "kind": "registry-operator",
+   "name": "BayesianUpdater",
+   "path": "operators/arcs_operators_lab.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 2,
+    "cited_by_tool": 3,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 1
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_pipeline_v1.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_pipeline_v1.py",
+      "line": 418,
+      "needle": "arcs_operators_lab\\.py"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 66,
+      "needle": "arcs_operators_lab\\.py"
+     }
+    },
+    {
+     "target": "tool:script:source_trust_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/source_trust_emit.py",
+      "line": 3,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?12\\b"
+     }
+    },
+    {
+     "target": "rom:notomation",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_operators_lab.py",
+      "line": 21,
+      "needle": "(?i)\\bnotomation\\b"
+     }
+    },
+    {
+     "target": "job:backlog:card-catalog-sweep-quorum",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 323,
+      "row_id": "card-catalog-sweep-quorum",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?12\\b"
+     }
+    },
+    {
+     "target": "job:backlog:hypothesis-generator-plg-surface",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 53,
+      "row_id": "hypothesis-generator-plg-surface",
+      "needle": "arcs_operators_lab\\.py"
+     }
+    }
+   ],
+   "registry_status": "PARTIAL"
+  },
+  {
+   "id": "tool:op:13",
+   "kind": "registry-operator",
+   "name": "TemporalSequencer",
+   "path": "operators/core/operators.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 2,
+    "cited_by_tool": 2,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 2,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_mcp_bridge.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 313,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?13\\b"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 69,
+      "needle": "operators\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:choreographed-pickup",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 81,
+      "row_id": "choreographed-pickup",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?13\\b"
+     }
+    },
+    {
+     "target": "job:backlog:operator-13-choreographer-unblock",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 80,
+      "row_id": "operator-13-choreographer-unblock",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?13\\b"
+     }
+    }
+   ],
+   "registry_status": "BLOCKED"
+  },
+  {
+   "id": "tool:op:14",
+   "kind": "registry-operator",
+   "name": "CoherenceScorer",
+   "path": "operators/arcs_primitives.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 4,
+    "cited_by_tool": 6,
+    "cites_tool": 0,
+    "serves_surface": 3,
+    "invokes_primitive": 0
+   },
+   "active_rows": 3,
+   "edges": [
+    {
+     "target": "tool:hook:pre-commit",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/git-hooks/pre-commit",
+      "line": 974,
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_operators_sage.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_operators_sage.py",
+      "line": 23,
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_primitives_bridge.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_primitives_bridge.py",
+      "line": 5,
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "tool:script:canon_claims_report.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/canon_claims_report.py",
+      "line": 3,
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "tool:script:librarian_hook.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/librarian_hook.py",
+      "line": 4,
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 72,
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:canon-unvalidated-figures-decision",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 291,
+      "row_id": "canon-unvalidated-figures-decision",
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:canon-vocabulary-reconcile-for-share",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 290,
+      "row_id": "canon-vocabulary-reconcile-for-share",
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:card-catalog-sweep-quorum",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 323,
+      "row_id": "card-catalog-sweep-quorum",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?14\\b"
+     }
+    },
+    {
+     "target": "job:backlog:svc-sage-should-it-exist-decision",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 44,
+      "row_id": "svc-sage-should-it-exist-decision",
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "tool:surface:monolith.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/monolith.html",
+      "line": 437,
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "tool:surface:playground.arcs.care/12d-orbital",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/pf-12d-orbital.html",
+      "line": 189,
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "tool:surface:playground.arcs.care/knowledge-lattice",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/pf-knowledge-lattice.html",
+      "line": 174,
+      "needle": "arcs_primitives\\.py"
+     }
+    }
+   ],
+   "registry_status": "PARTIAL"
+  },
+  {
+   "id": "tool:op:15",
+   "kind": "registry-operator",
+   "name": "EnergyCatalyst",
+   "path": null,
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [],
+   "registry_status": "UNBUILT",
+   "unbound_reason": "registry status UNBUILT: no module to bind"
+  },
+  {
+   "id": "tool:op:16",
+   "kind": "registry-operator",
+   "name": "Orchestrator",
+   "path": "operators/arcs_pipeline_v1.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 6,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_constitutional_court.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_constitutional_court.py",
+      "line": 30,
+      "needle": "\\bOrchestrator\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_kintsugi.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_kintsugi.py",
+      "line": 33,
+      "needle": "\\bOrchestrator\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_mcp_bridge.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 241,
+      "needle": "\\bOrchestrator\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_rom.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_rom.py",
+      "line": 22,
+      "needle": "\\bOrchestrator\\b"
+     }
+    },
+    {
+     "target": "tool:operator:pipeline_runner.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/pipeline_runner.py",
+      "line": 5,
+      "needle": "arcs_pipeline_v1\\.py"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 75,
+      "needle": "arcs_pipeline_v1\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:card-catalog-sweep-quorum",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 323,
+      "row_id": "card-catalog-sweep-quorum",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?16\\b"
+     }
+    }
+   ],
+   "registry_status": "READY"
+  },
+  {
+   "id": "tool:op:17",
+   "kind": "registry-operator",
+   "name": "Detective",
+   "path": "operators/arcs_operators_lab.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 3,
+    "cited_by_tool": 9,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 1
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_mcp_bridge.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 241,
+      "needle": "\\bDetective\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_operators_bar.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_operators_bar.py",
+      "line": 13,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?17\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_pipeline_v1.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_pipeline_v1.py",
+      "line": 418,
+      "needle": "arcs_operators_lab\\.py"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_trace_loki.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_trace_loki.py",
+      "line": 9,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?17\\b"
+     }
+    },
+    {
+     "target": "tool:script:forensic_scan.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/forensic_scan.py",
+      "line": 353,
+      "needle": "\\bDetective\\b"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 81,
+      "needle": "\\bDetective\\b"
+     }
+    },
+    {
+     "target": "tool:script:receipt_lookup.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/receipt_lookup.py",
+      "line": 3,
+      "needle": "\\bDetective\\b"
+     }
+    },
+    {
+     "target": "tool:script:recoil_stage_j4.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/recoil_stage_j4.py",
+      "line": 58,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?17\\b"
+     }
+    },
+    {
+     "target": "tool:script:score_me.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/score_me.py",
+      "line": 129,
+      "needle": "\\bDetective\\b"
+     }
+    },
+    {
+     "target": "rom:notomation",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_operators_lab.py",
+      "line": 21,
+      "needle": "(?i)\\bnotomation\\b"
+     }
+    },
+    {
+     "target": "job:backlog:arcs-olympics-first-games",
+     "kind": "mentioned_by_row",
+     "row_state": "COMPOSTED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 72,
+      "row_id": "arcs-olympics-first-games",
+      "needle": "\\bDetective\\b"
+     }
+    },
+    {
+     "target": "job:backlog:card-catalog-sweep-quorum",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 323,
+      "row_id": "card-catalog-sweep-quorum",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?17\\b"
+     }
+    },
+    {
+     "target": "job:backlog:hypothesis-generator-plg-surface",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 53,
+      "row_id": "hypothesis-generator-plg-surface",
+      "needle": "arcs_operators_lab\\.py"
+     }
+    }
+   ],
+   "registry_status": "READY"
+  },
+  {
+   "id": "tool:op:18",
+   "kind": "registry-operator",
+   "name": "Immune",
+   "path": "operators/arcs_constitutional_court.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 3,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 3
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_mcp_bridge.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 315,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?18\\b"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 9,
+      "needle": "\\bImmune\\b"
+     }
+    },
+    {
+     "target": "tool:script:recoil_stage_j4.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/recoil_stage_j4.py",
+      "line": 61,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?18\\b"
+     }
+    },
+    {
+     "target": "rom:kintsugi-immune-system",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_constitutional_court.py",
+      "line": 18,
+      "needle": "(?i)\\bkintsugi\\b"
+     }
+    },
+    {
+     "target": "rom:notomation",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_constitutional_court.py",
+      "line": 27,
+      "needle": "(?i)\\bnotomation\\b"
+     }
+    },
+    {
+     "target": "rom:write-lock",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_constitutional_court.py",
+      "line": 4,
+      "needle": "(?i)\\bwrite[ _-]lock\\b"
+     }
+    },
+    {
+     "target": "job:backlog:card-catalog-sweep-quorum",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 323,
+      "row_id": "card-catalog-sweep-quorum",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?18\\b"
+     }
+    }
+   ],
+   "registry_status": "PARTIAL"
+  },
+  {
+   "id": "tool:op:19",
+   "kind": "registry-operator",
+   "name": "Accountant",
+   "path": "operators/arcs_accountant.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 15,
+    "cited_by_tool": 13,
+    "cites_tool": 2,
+    "serves_surface": 4,
+    "invokes_primitive": 0
+   },
+   "active_rows": 8,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_mcp_bridge.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 325,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?19\\b"
+     }
+    },
+    {
+     "target": "tool:operator:prod_receipt_to_accountant.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/prod_receipt_to_accountant.py",
+      "line": 3,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?19\\b"
+     }
+    },
+    {
+     "target": "tool:script:accountant_weekly.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/accountant_weekly.py",
+      "line": 2,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?19\\b"
+     }
+    },
+    {
+     "target": "tool:script:artifact_reuse_catalog.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/artifact_reuse_catalog.py",
+      "line": 11,
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "tool:script:decision_receipt_to_accountant.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/decision_receipt_to_accountant.py",
+      "line": 2,
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "tool:script:forensic_scan.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/forensic_scan.py",
+      "line": 357,
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "tool:script:hud_widget_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/hud_widget_registry_emit.py",
+      "line": 75,
+      "needle": "arcs_accountant\\.py"
+     }
+    },
+    {
+     "target": "tool:script:linkedin_cut.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/linkedin_cut.py",
+      "line": 15,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?19\\b"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 8,
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "tool:script:outcome_funnel.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/outcome_funnel.py",
+      "line": 2,
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "tool:script:provenance_candidates.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/provenance_candidates.py",
+      "line": 5,
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "tool:script:recoil_induce.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/recoil_induce.py",
+      "line": 12,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?19\\b"
+     }
+    },
+    {
+     "target": "tool:script:score_me.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/score_me.py",
+      "line": 235,
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "tool:operator:prod_receipt_to_accountant.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": "operators/arcs_accountant.py",
+      "line": 28,
+      "needle": "operators/prod_receipt_to_accountant\\.py"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": "operators/arcs_accountant.py",
+      "line": 6,
+      "needle": "scripts/operator_registry_emit\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:accountant-calibration-curve",
+     "kind": "mentioned_by_row",
+     "row_state": "HOLDING",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 77,
+      "row_id": "accountant-calibration-curve",
+      "needle": "arcs_accountant\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:accountant-external-cohort-nonzero",
+     "kind": "mentioned_by_row",
+     "row_state": "HOLDING",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 76,
+      "row_id": "accountant-external-cohort-nonzero",
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "job:backlog:accountant-real-cohort-calibration",
+     "kind": "mentioned_by_row",
+     "row_state": "HOLDING",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 104,
+      "row_id": "accountant-real-cohort-calibration",
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "job:backlog:card-catalog-sweep-quorum",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 323,
+      "row_id": "card-catalog-sweep-quorum",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?19\\b"
+     }
+    },
+    {
+     "target": "job:backlog:debrief-vox-capture",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 273,
+      "row_id": "debrief-vox-capture",
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "job:backlog:echo-scheduled-receipts",
+     "kind": "mentioned_by_row",
+     "row_state": "COMPOSTED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 87,
+      "row_id": "echo-scheduled-receipts",
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "job:backlog:fc-x-outcome",
+     "kind": "mentioned_by_row",
+     "row_state": "COMPOSTED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 358,
+      "row_id": "fc-x-outcome",
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "job:backlog:five-person-outcome-test",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 455,
+      "row_id": "five-person-outcome-test",
+      "needle": "arcs_accountant\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:hud-conviction-consonance-readings",
+     "kind": "mentioned_by_row",
+     "row_state": "HOLDING",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 310,
+      "row_id": "hud-conviction-consonance-readings",
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "job:backlog:outcome-capture-rate-keel-gap",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 45,
+      "row_id": "outcome-capture-rate-keel-gap",
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "job:backlog:receipt-randomized-plumbing-closes",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 102,
+      "row_id": "receipt-randomized-plumbing-closes",
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "job:backlog:receipt-test-real-tag",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 101,
+      "row_id": "receipt-test-real-tag",
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "job:backlog:recoil-backlog-induction-tool-snap",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 392,
+      "row_id": "recoil-backlog-induction-tool-snap",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?19\\b"
+     }
+    },
+    {
+     "target": "job:backlog:seat-backlog-row-adapter",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 551,
+      "row_id": "seat-backlog-row-adapter",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?19\\b"
+     }
+    },
+    {
+     "target": "job:backlog:taxonomy-conflict-ledger-and-atlas-edges",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 272,
+      "row_id": "taxonomy-conflict-ledger-and-atlas-edges",
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "tool:surface:*/decision-geometry",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/pf-decision-geometry.html",
+      "line": 136,
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "tool:surface:playground.arcs.care/decision-geometry",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/pf-decision-geometry.html",
+      "line": 136,
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "tool:surface:robin.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/robin.html",
+      "line": 181,
+      "needle": "\\bAccountant\\b"
+     }
+    },
+    {
+     "target": "tool:surface:status.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/status.html",
+      "line": 1502,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?19\\b"
+     }
+    }
+   ],
+   "registry_status": "READY"
+  },
+  {
+   "id": "tool:op:2",
+   "kind": "registry-operator",
+   "name": "SecondDerivative",
+   "path": "operators/core/atoms.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 2,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 54,
+      "needle": "\\bSecondDerivative\\b"
+     }
+    },
+    {
+     "target": "tool:script:tool_orphan_audit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/tool_orphan_audit.py",
+      "line": 602,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?2\\b"
+     }
+    }
+   ],
+   "registry_status": "READY"
+  },
+  {
+   "id": "tool:op:20",
+   "kind": "registry-operator",
+   "name": "Folksonomy",
+   "path": "operators/arcs_operator20.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 10,
+    "cited_by_tool": 13,
+    "cites_tool": 0,
+    "serves_surface": 7,
+    "invokes_primitive": 0
+   },
+   "active_rows": 6,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_api.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_api.py",
+      "line": 32,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_mcp_bridge.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 177,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_operator21.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_operator21.py",
+      "line": 20,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_pipeline_v1.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_pipeline_v1.py",
+      "line": 71,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_store.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_store.py",
+      "line": 9,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "tool:operator:pipeline_runner.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/pipeline_runner.py",
+      "line": 356,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "tool:operator:prod_receipt_to_accountant.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/prod_receipt_to_accountant.py",
+      "line": 127,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "tool:operator:prod_receipt_to_op20_seed.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/prod_receipt_to_op20_seed.py",
+      "line": 2,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "tool:script:essay_atlas.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/essay_atlas.py",
+      "line": 2,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "tool:script:handoff_cluster.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/handoff_cluster.py",
+      "line": 4,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "tool:script:jtbd_graph_edges.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/jtbd_graph_edges.py",
+      "line": 70,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 89,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "tool:script:recoil_induce.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/recoil_induce.py",
+      "line": 11,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "job:backlog:card-catalog-sweep-quorum",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 323,
+      "row_id": "card-catalog-sweep-quorum",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "job:backlog:fold-2026-08-28-forensic-recall-session",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 18,
+      "row_id": "fold-2026-08-28-forensic-recall-session",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "job:backlog:moral-to-gate-alchemy-pipeline",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 51,
+      "row_id": "moral-to-gate-alchemy-pipeline",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "job:backlog:op20-somatic-axiom-real-signal-source",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 19,
+      "row_id": "op20-somatic-axiom-real-signal-source",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "job:backlog:pond-etch-protocol-serialize-molt-test",
+     "kind": "mentioned_by_row",
+     "row_state": "COMPOSTED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 52,
+      "row_id": "pond-etch-protocol-serialize-molt-test",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "job:backlog:recoil-backlog-induction-tool-snap",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 392,
+      "row_id": "recoil-backlog-induction-tool-snap",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "job:backlog:seat-backlog-row-adapter",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 551,
+      "row_id": "seat-backlog-row-adapter",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "job:backlog:svc-sage-should-it-exist-decision",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 44,
+      "row_id": "svc-sage-should-it-exist-decision",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "job:backlog:taxonomy-conflict-ledger-and-atlas-edges",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 272,
+      "row_id": "taxonomy-conflict-ledger-and-atlas-edges",
+      "needle": "\\bFolksonomy\\b"
+     }
+    },
+    {
+     "target": "job:backlog:universe-scenario-anonymizer",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 246,
+      "row_id": "universe-scenario-anonymizer",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "tool:surface:app.arcs.care/internal",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "src/app/internal/page.tsx",
+      "line": 74,
+      "needle": "\\bFolksonomy\\b"
+     }
+    },
+    {
+     "target": "tool:surface:forge.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/forge-pattern.html",
+      "line": 458,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "tool:surface:good.arcs.care/blog/nftt/the-control-and-the-experiment/report/warm-matched",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/blog-nftt-recon-report-warm-matched.html",
+      "line": 65,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "tool:surface:good.arcs.care/blog/nftt/the-loop-closes/hud",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/blog-nftt-loop-hud.html",
+      "line": 113,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?20\\b"
+     }
+    },
+    {
+     "target": "tool:surface:monolith.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/monolith.html",
+      "line": 437,
+      "needle": "\\bFolksonomy\\b"
+     }
+    },
+    {
+     "target": "tool:surface:playground.arcs.care/12d-orbital",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/pf-12d-orbital.html",
+      "line": 189,
+      "needle": "\\bFolksonomy\\b"
+     }
+    },
+    {
+     "target": "tool:surface:playground.arcs.care/knowledge-lattice",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/pf-knowledge-lattice.html",
+      "line": 174,
+      "needle": "\\bFolksonomy\\b"
+     }
+    }
+   ],
+   "registry_status": "READY"
+  },
+  {
+   "id": "tool:op:21",
+   "kind": "registry-operator",
+   "name": "Librarian",
+   "path": "operators/arcs_store.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 16,
+    "cited_by_tool": 20,
+    "cites_tool": 1,
+    "serves_surface": 3,
+    "invokes_primitive": 0
+   },
+   "active_rows": 9,
+   "edges": [
+    {
+     "target": "tool:hook:pre-commit",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/git-hooks/pre-commit",
+      "line": 973,
+      "needle": "\\bLibrarian\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_librarian.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_librarian.py",
+      "line": 3,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_mcp_bridge.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 316,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_operator21.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_operator21.py",
+      "line": 20,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_pipeline_v1.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_pipeline_v1.py",
+      "line": 415,
+      "needle": "arcs_store\\.py"
+     }
+    },
+    {
+     "target": "tool:operator:jtbd_query.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/jtbd_query.py",
+      "line": 8,
+      "needle": "\\bLibrarian\\b"
+     }
+    },
+    {
+     "target": "tool:operator:operator_client.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/operator_client.py",
+      "line": 450,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "tool:script:artifact_reuse_catalog.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/artifact_reuse_catalog.py",
+      "line": 9,
+      "needle": "\\bLibrarian\\b"
+     }
+    },
+    {
+     "target": "tool:script:essay_atlas.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/essay_atlas.py",
+      "line": 21,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "tool:script:forensic_scan.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/forensic_scan.py",
+      "line": 355,
+      "needle": "\\bLibrarian\\b"
+     }
+    },
+    {
+     "target": "tool:script:handoff_cluster.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/handoff_cluster.py",
+      "line": 4,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "tool:script:jtbd_graph_edges.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/jtbd_graph_edges.py",
+      "line": 70,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "tool:script:librarian_hook.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/librarian_hook.py",
+      "line": 80,
+      "needle": "\\bLibrarian\\b"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 109,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "tool:script:provenance_bench_run.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/provenance_bench_run.py",
+      "line": 14,
+      "needle": "\\bLibrarian\\b"
+     }
+    },
+    {
+     "target": "tool:script:recoil_brief.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/recoil_brief.py",
+      "line": 616,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "tool:script:recoil_induce.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/recoil_induce.py",
+      "line": 13,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "tool:script:score_me.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/score_me.py",
+      "line": 183,
+      "needle": "\\bLibrarian\\b"
+     }
+    },
+    {
+     "target": "tool:script:unfold.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/unfold.py",
+      "line": 25,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "tool:script:universe_receipts_adapter.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/universe_receipts_adapter.py",
+      "line": 20,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_librarian.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": "operators/arcs_store.py",
+      "line": 146,
+      "needle": "operators/arcs_librarian\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:card-catalog-sweep-quorum",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 323,
+      "row_id": "card-catalog-sweep-quorum",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "job:backlog:jtbd-graph-s4-retrieval",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 301,
+      "row_id": "jtbd-graph-s4-retrieval",
+      "needle": "\\bLibrarian\\b"
+     }
+    },
+    {
+     "target": "job:backlog:librarian-apex-spine-tier-class",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 442,
+      "row_id": "librarian-apex-spine-tier-class",
+      "needle": "\\bLibrarian\\b"
+     }
+    },
+    {
+     "target": "job:backlog:librarian-recommend-needle",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 69,
+      "row_id": "librarian-recommend-needle",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "job:backlog:memory-seven-axis-scorecard",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 88,
+      "row_id": "memory-seven-axis-scorecard",
+      "needle": "\\bLibrarian\\b"
+     }
+    },
+    {
+     "target": "job:backlog:moral-to-gate-alchemy-pipeline",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 51,
+      "row_id": "moral-to-gate-alchemy-pipeline",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "job:backlog:op25-sage-naming-ruling",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 444,
+      "row_id": "op25-sage-naming-ruling",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "job:backlog:operator21-gaussian-process-posterior-then-rt-core",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 39,
+      "row_id": "operator21-gaussian-process-posterior-then-rt-core",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "job:backlog:recoil-backlog-induction-tool-snap",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 392,
+      "row_id": "recoil-backlog-induction-tool-snap",
+      "needle": "\\bLibrarian\\b"
+     }
+    },
+    {
+     "target": "job:backlog:seat-backlog-row-adapter",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 551,
+      "row_id": "seat-backlog-row-adapter",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "job:backlog:spec-zoetrope-superseded-check",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 540,
+      "row_id": "spec-zoetrope-superseded-check",
+      "needle": "\\bLibrarian\\b"
+     }
+    },
+    {
+     "target": "job:backlog:taxonomy-conflict-ledger-and-atlas-edges",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 272,
+      "row_id": "taxonomy-conflict-ledger-and-atlas-edges",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "job:backlog:unfold-uses-librarian",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 78,
+      "row_id": "unfold-uses-librarian",
+      "needle": "\\bLibrarian\\b"
+     }
+    },
+    {
+     "target": "job:backlog:universe-librarian-loader",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 249,
+      "row_id": "universe-librarian-loader",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "job:backlog:universe-outcome-capture",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 245,
+      "row_id": "universe-outcome-capture",
+      "needle": "\\bLibrarian\\b"
+     }
+    },
+    {
+     "target": "job:backlog:universe-receipts-as-atoms",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 244,
+      "row_id": "universe-receipts-as-atoms",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    },
+    {
+     "target": "tool:surface:app.arcs.care/internal",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "src/app/internal/page.tsx",
+      "line": 74,
+      "needle": "\\bLibrarian\\b"
+     }
+    },
+    {
+     "target": "tool:surface:good.arcs.care/blog/nftt/light-at-thirty-eight-miles-an-hour/research",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/blog-nftt-light-at-thirty-eight-miles-an-hour-research.html",
+      "line": 288,
+      "needle": "\\bLibrarian\\b"
+     }
+    },
+    {
+     "target": "tool:surface:status.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/status.html",
+      "line": 1516,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
+     }
+    }
+   ],
+   "registry_status": "READY"
+  },
+  {
+   "id": "tool:op:22",
+   "kind": "registry-operator",
+   "name": "Conductor",
+   "path": "operators/receipt_evaluator.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 5,
+    "cited_by_tool": 5,
+    "cites_tool": 0,
+    "serves_surface": 7,
+    "invokes_primitive": 1
+   },
+   "active_rows": 4,
+   "edges": [
+    {
+     "target": "tool:agent:chief-conductor",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/agents/chief-conductor.md",
+      "line": 3,
+      "needle": "\\bConductor\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_mcp_bridge.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 321,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?22\\b"
+     }
+    },
+    {
+     "target": "tool:script:build_observatory.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/build_observatory.py",
+      "line": 283,
+      "needle": "\\bConductor\\b"
+     }
+    },
+    {
+     "target": "tool:script:lattice_sim.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/lattice_sim.py",
+      "line": 3,
+      "needle": "\\bConductor\\b"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 69,
+      "needle": "\\bConductor\\b"
+     }
+    },
+    {
+     "target": "rom:kintsugi-immune-system",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/receipt_evaluator.py",
+      "line": 3,
+      "needle": "(?i)\\bkintsugi\\b"
+     }
+    },
+    {
+     "target": "job:backlog:moral-to-gate-alchemy-pipeline",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 51,
+      "row_id": "moral-to-gate-alchemy-pipeline",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?22\\b"
+     }
+    },
+    {
+     "target": "job:backlog:operator-13-choreographer-unblock",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 80,
+      "row_id": "operator-13-choreographer-unblock",
+      "needle": "\\bConductor\\b"
+     }
+    },
+    {
+     "target": "job:backlog:pond-etch-protocol-serialize-molt-test",
+     "kind": "mentioned_by_row",
+     "row_state": "COMPOSTED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 52,
+      "row_id": "pond-etch-protocol-serialize-molt-test",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?22\\b"
+     }
+    },
+    {
+     "target": "job:backlog:spec-zoetrope-superseded-check",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 540,
+      "row_id": "spec-zoetrope-superseded-check",
+      "needle": "\\bConductor\\b"
+     }
+    },
+    {
+     "target": "job:backlog:universe-breakoff-conductor-gate",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 247,
+      "row_id": "universe-breakoff-conductor-gate",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?22\\b"
+     }
+    },
+    {
+     "target": "tool:surface:chan.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/chan.html",
+      "line": 1159,
+      "needle": "\\bConductor\\b"
+     }
+    },
+    {
+     "target": "tool:surface:forge-cut.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/forge-cut.html",
+      "line": 307,
+      "needle": "\\bConductor\\b"
+     }
+    },
+    {
+     "target": "tool:surface:good.arcs.care/blog/nftt/the-control-and-the-experiment/report/warm-matched",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/blog-nftt-recon-report-warm-matched.html",
+      "line": 65,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?22\\b"
+     }
+    },
+    {
+     "target": "tool:surface:monolith.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/monolith.html",
+      "line": 426,
+      "needle": "\\bConductor\\b"
+     }
+    },
+    {
+     "target": "tool:surface:playground.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/playground.html",
+      "line": 327,
+      "needle": "\\bConductor\\b"
+     }
+    },
+    {
+     "target": "tool:surface:playground.arcs.care/12d-orbital",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/pf-12d-orbital.html",
+      "line": 178,
+      "needle": "\\bConductor\\b"
+     }
+    },
+    {
+     "target": "tool:surface:status.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/status.html",
+      "line": 1596,
+      "needle": "\\bConductor\\b"
+     }
+    }
+   ],
+   "registry_status": "READY"
+  },
+  {
+   "id": "tool:op:23",
+   "kind": "registry-operator",
+   "name": "Loki",
+   "path": "operators/arcs_trace_loki.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 6,
+    "cited_by_tool": 23,
+    "cites_tool": 0,
+    "serves_surface": 13,
+    "invokes_primitive": 0
+   },
+   "active_rows": 3,
+   "edges": [
+    {
+     "target": "tool:agent:chief-loki",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/agents/chief-loki.md",
+      "line": 3,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:command:teardown",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/commands/teardown.md",
+      "line": 150,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:operator:adr_audit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/adr_audit.py",
+      "line": 268,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_constitutional_court.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_constitutional_court.py",
+      "line": 12,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_operator_contract.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_operator_contract.py",
+      "line": 250,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_operators_bar.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_operators_bar.py",
+      "line": 104,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_operators_curator.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_operators_curator.py",
+      "line": 145,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_operators_lab.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_operators_lab.py",
+      "line": 7,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_runtime_service.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_runtime_service.py",
+      "line": 720,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_yoav_store.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_yoav_store.py",
+      "line": 7,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:operator:operator_client.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/operator_client.py",
+      "line": 125,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:script:arcs_cli.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/arcs_cli.py",
+      "line": 415,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:script:arcs_core.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/arcs_core.py",
+      "line": 134,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:script:calendar_scan.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/calendar_scan.py",
+      "line": 521,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:script:listening_scan.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/listening_scan.py",
+      "line": 508,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:script:network_scan_full.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/network_scan_full.py",
+      "line": 9,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 81,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:script:reel_in_scan.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/reel_in_scan.py",
+      "line": 5,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:skill:meta-audit",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/skills/meta-audit/SKILL.md",
+      "line": 57,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:skill:omakase-pipeline",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/skills/omakase-pipeline/SKILL.md",
+      "line": 90,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:skill:recoil-close",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/skills/recoil-close/SKILL.md",
+      "line": 38,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:skill:recoil-ship",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/skills/recoil-ship/SKILL.md",
+      "line": 32,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:workflow:recoil-report",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/workflows/recoil-report.mjs",
+      "line": 112,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "job:backlog:arcs-olympics-first-games",
+     "kind": "mentioned_by_row",
+     "row_state": "COMPOSTED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 72,
+      "row_id": "arcs-olympics-first-games",
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "job:backlog:backlog-merge-driver-by-id",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 465,
+      "row_id": "backlog-merge-driver-by-id",
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "job:backlog:compass-model-agnostic-provider-abstraction",
+     "kind": "mentioned_by_row",
+     "row_state": "SUPERSEDED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 38,
+      "row_id": "compass-model-agnostic-provider-abstraction",
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "job:backlog:hyperstition-pipeline-first-graduate",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 71,
+      "row_id": "hyperstition-pipeline-first-graduate",
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "job:backlog:recoil-brian-acceptance",
+     "kind": "mentioned_by_row",
+     "row_state": "HOLDING",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 509,
+      "row_id": "recoil-brian-acceptance",
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "job:backlog:spec-zoetrope-superseded-check",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 540,
+      "row_id": "spec-zoetrope-superseded-check",
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:surface:*/decision-geometry",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/pf-decision-geometry.html",
+      "line": 150,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:surface:*/omakase/atom",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/omakase/atom.html",
+      "line": 283,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:surface:app.arcs.care/prep",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "src/app/prep/page.tsx",
+      "line": 140,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:surface:downshift.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/downshift.html",
+      "line": 997,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:surface:forge.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/forge-pattern.html",
+      "line": 458,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:surface:honest.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/honest.html",
+      "line": 852,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:surface:lyndon-war.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "runtime/warroom/lyndon-war.html",
+      "line": 47,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:surface:monolith.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/monolith.html",
+      "line": 437,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:surface:omakase.arcs.care/atom",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/omakase/atom.html",
+      "line": 283,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:surface:playground.arcs.care/12d-orbital",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/pf-12d-orbital.html",
+      "line": 189,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:surface:playground.arcs.care/decision-geometry",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/pf-decision-geometry.html",
+      "line": 150,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:surface:playground.arcs.care/knowledge-lattice",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/pf-knowledge-lattice.html",
+      "line": 154,
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
+     "target": "tool:surface:robin.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/robin.html",
+      "line": 181,
+      "needle": "\\bLoki\\b"
+     }
+    }
+   ],
+   "registry_status": "PARTIAL"
+  },
+  {
+   "id": "tool:op:24",
+   "kind": "registry-operator",
+   "name": "DevilsAdvocate",
+   "path": null,
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [],
+   "registry_status": "UNBUILT",
+   "unbound_reason": "registry status UNBUILT: no module to bind"
+  },
+  {
+   "id": "tool:op:25",
+   "kind": "registry-operator",
+   "name": "ShavasanaSpace",
+   "path": null,
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 8,
+    "cited_by_tool": 6,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 6,
+   "edges": [
+    {
+     "target": "tool:command:handoff",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/commands/handoff.md",
+      "line": 26,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?25\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_librarian.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_librarian.py",
+      "line": 514,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?25\\b"
+     }
+    },
+    {
+     "target": "tool:package:arcs-verb-eval",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "tools/arcs-verb-eval/README.md",
+      "line": 117,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?25\\b"
+     }
+    },
+    {
+     "target": "tool:script:chronicle_render.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/chronicle_render.py",
+      "line": 7,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?25\\b"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 115,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?25\\b"
+     }
+    },
+    {
+     "target": "tool:script:shavasana_handoff.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/shavasana_handoff.py",
+      "line": 3,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?25\\b"
+     }
+    },
+    {
+     "target": "job:backlog:asm-009-net-direction-decided",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 82,
+      "row_id": "asm-009-net-direction-decided",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?25\\b"
+     }
+    },
+    {
+     "target": "job:backlog:card-catalog-sweep-quorum",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 323,
+      "row_id": "card-catalog-sweep-quorum",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?25\\b"
+     }
+    },
+    {
+     "target": "job:backlog:drift-classifier-productive-destructive",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 321,
+      "row_id": "drift-classifier-productive-destructive",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?25\\b"
+     }
+    },
+    {
+     "target": "job:backlog:flow-state-om-metric",
+     "kind": "mentioned_by_row",
+     "row_state": "COMPOSTED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 67,
+      "row_id": "flow-state-om-metric",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?25\\b"
+     }
+    },
+    {
+     "target": "job:backlog:op25-sage-naming-ruling",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 444,
+      "row_id": "op25-sage-naming-ruling",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?25\\b"
+     }
+    },
+    {
+     "target": "job:backlog:operator-25-first-catch",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 83,
+      "row_id": "operator-25-first-catch",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?25\\b"
+     }
+    },
+    {
+     "target": "job:backlog:spec-frustum-frontier-decide",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 528,
+      "row_id": "spec-frustum-frontier-decide",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?25\\b"
+     }
+    },
+    {
+     "target": "job:backlog:spec-sage-prd-reconcile",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 535,
+      "row_id": "spec-sage-prd-reconcile",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?25\\b"
+     }
+    }
+   ],
+   "registry_status": "UNBUILT",
+   "unbound_reason": "registry status UNBUILT: no module to bind"
+  },
+  {
+   "id": "tool:op:26",
+   "kind": "registry-operator",
+   "name": "SuperAdmin",
+   "path": "operators/arcs_runtime_service.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 5,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 1
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_constitutional_court.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_constitutional_court.py",
+      "line": 30,
+      "needle": "\\bSuperAdmin\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_kintsugi.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_kintsugi.py",
+      "line": 33,
+      "needle": "\\bSuperAdmin\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_pipeline_v1.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_pipeline_v1.py",
+      "line": 13,
+      "needle": "\\bSuperAdmin\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_rom.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_rom.py",
+      "line": 22,
+      "needle": "\\bSuperAdmin\\b"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 102,
+      "needle": "arcs_runtime_service\\.py"
+     }
+    },
+    {
+     "target": "rom:kintsugi-immune-system",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_runtime_service.py",
+      "line": 4,
+      "needle": "(?i)\\bkintsugi\\b"
+     }
+    }
+   ],
+   "registry_status": "PARTIAL"
+  },
+  {
+   "id": "tool:op:27",
+   "kind": "registry-operator",
+   "name": "Taxonomist",
+   "path": null,
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 2,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:agent:idea-curator",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/agents/idea-curator.md",
+      "line": 3,
+      "needle": "\\bTaxonomist\\b"
+     }
+    },
+    {
+     "target": "tool:script:artifact_reuse_catalog.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/artifact_reuse_catalog.py",
+      "line": 8,
+      "needle": "\\bTaxonomist\\b"
+     }
+    }
+   ],
+   "registry_status": "UNBUILT",
+   "unbound_reason": "registry status UNBUILT: no module to bind"
+  },
+  {
+   "id": "tool:op:28",
+   "kind": "registry-operator",
+   "name": "Auditor",
+   "path": null,
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 3,
+    "cited_by_tool": 2,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 3,
+   "edges": [
+    {
+     "target": "tool:agent:platform-standards-auditor",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/agents/platform-standards-auditor.md",
+      "line": 7,
+      "needle": "\\bAuditor\\b"
+     }
+    },
+    {
+     "target": "tool:script:artifact_reuse_catalog.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/artifact_reuse_catalog.py",
+      "line": 13,
+      "needle": "\\bAuditor\\b"
+     }
+    },
+    {
+     "target": "job:backlog:memory-seven-axis-scorecard",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 88,
+      "row_id": "memory-seven-axis-scorecard",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?28\\b"
+     }
+    },
+    {
+     "target": "job:backlog:op25-sage-naming-ruling",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 444,
+      "row_id": "op25-sage-naming-ruling",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?28\\b"
+     }
+    },
+    {
+     "target": "job:backlog:seat-auditor-op28-build",
+     "kind": "mentioned_by_row",
+     "row_state": "HOLDING",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 556,
+      "row_id": "seat-auditor-op28-build",
+      "needle": "\\b[Oo]p(?:erator)?[ -]?28\\b"
+     }
+    }
+   ],
+   "registry_status": "UNBUILT",
+   "unbound_reason": "registry status UNBUILT: no module to bind"
+  },
+  {
+   "id": "tool:op:3",
+   "kind": "registry-operator",
+   "name": "ThirdDerivative",
+   "path": "operators/arcs_kinematics.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 4,
+    "cites_tool": 0,
+    "serves_surface": 1,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_mcp_bridge.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 309,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?3\\b"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_operators_sage.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_operators_sage.py",
+      "line": 22,
+      "needle": "arcs_kinematics\\.py"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 56,
+      "needle": "arcs_kinematics\\.py"
+     }
+    },
+    {
+     "target": "tool:script:recoil_brief.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/recoil_brief.py",
+      "line": 11,
+      "needle": "arcs_kinematics\\.py"
+     }
+    },
+    {
+     "target": "tool:surface:lyndon-war.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "runtime/warroom/lyndon-war.html",
+      "line": 47,
+      "needle": "arcs_kinematics\\.py"
+     }
+    }
+   ],
+   "registry_status": "READY"
+  },
+  {
+   "id": "tool:op:4",
+   "kind": "registry-operator",
+   "name": "WaveDiffusion",
+   "path": "operators/core/atoms.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 3,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_mcp_bridge.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 305,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?4\\b"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 59,
+      "needle": "\\bWaveDiffusion\\b"
+     }
+    },
+    {
+     "target": "tool:script:tool_orphan_audit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/tool_orphan_audit.py",
+      "line": 560,
+      "needle": "atoms\\.py"
+     }
+    }
+   ],
+   "registry_status": "READY"
+  },
+  {
+   "id": "tool:op:5",
+   "kind": "registry-operator",
+   "name": "PhaseCancel",
+   "path": "operators/core/atoms.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 3,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_primitives.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_primitives.py",
+      "line": 405,
+      "needle": "\\bPhaseCancel\\b"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 61,
+      "needle": "\\bPhaseCancel\\b"
+     }
+    },
+    {
+     "target": "tool:script:tool_orphan_audit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/tool_orphan_audit.py",
+      "line": 560,
+      "needle": "atoms\\.py"
+     }
+    }
+   ],
+   "registry_status": "READY"
+  },
+  {
+   "id": "tool:op:6",
+   "kind": "registry-operator",
+   "name": "PhaseLock",
+   "path": null,
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [],
+   "registry_status": "UNBUILT",
+   "unbound_reason": "registry status UNBUILT: no module to bind"
+  },
+  {
+   "id": "tool:op:7",
+   "kind": "registry-operator",
+   "name": "Decelerator",
+   "path": "operators/core/atoms.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 2,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 64,
+      "needle": "\\bDecelerator\\b"
+     }
+    },
+    {
+     "target": "tool:script:tool_orphan_audit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/tool_orphan_audit.py",
+      "line": 560,
+      "needle": "atoms\\.py"
+     }
+    }
+   ],
+   "registry_status": "READY"
+  },
+  {
+   "id": "tool:op:8",
+   "kind": "registry-operator",
+   "name": "ResonanceAtom",
+   "path": null,
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [],
+   "registry_status": "UNBUILT",
+   "unbound_reason": "registry status UNBUILT: no module to bind"
+  },
+  {
+   "id": "tool:op:9",
+   "kind": "registry-operator",
+   "name": "HarmonyIndex",
+   "path": null,
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 2,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_mcp_bridge.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 311,
+      "needle": "\\b[Oo]p(?:erator)?[ -]?9\\b"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 110,
+      "needle": "\\bHarmonyIndex\\b"
+     }
+    }
+   ],
+   "registry_status": "UNBUILT",
+   "unbound_reason": "registry status UNBUILT: no module to bind"
+  },
+  {
+   "id": "tool:operator:adr_audit.py",
+   "kind": "python-operator",
+   "name": "adr_audit.py",
+   "path": "operators/adr_audit.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 1,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 1
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:cli_arcs_run.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/cli_arcs_run.py",
+      "line": 173,
+      "needle": "adr_audit\\.py"
+     }
+    },
+    {
+     "target": "rom:kintsugi-immune-system",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/adr_audit.py",
+      "line": 6,
+      "needle": "(?i)\\bkintsugi\\b"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_accountant.py",
+   "kind": "python-operator",
+   "name": "arcs_accountant.py",
+   "path": "operators/arcs_accountant.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 4,
+    "cited_by_tool": 4,
+    "cites_tool": 2,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 4,
+   "edges": [
+    {
+     "target": "tool:script:accountant_weekly.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/accountant_weekly.py",
+      "line": 6,
+      "needle": "arcs_accountant\\.py"
+     }
+    },
+    {
+     "target": "tool:script:hud_widget_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/hud_widget_registry_emit.py",
+      "line": 75,
+      "needle": "arcs_accountant\\.py"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 85,
+      "needle": "arcs_accountant\\.py"
+     }
+    },
+    {
+     "target": "tool:script:provenance_candidates.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/provenance_candidates.py",
+      "line": 5,
+      "needle": "arcs_accountant\\.py"
+     }
+    },
+    {
+     "target": "tool:operator:prod_receipt_to_accountant.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": "operators/arcs_accountant.py",
+      "line": 28,
+      "needle": "operators/prod_receipt_to_accountant\\.py"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": "operators/arcs_accountant.py",
+      "line": 6,
+      "needle": "scripts/operator_registry_emit\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:accountant-calibration-curve",
+     "kind": "mentioned_by_row",
+     "row_state": "HOLDING",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 77,
+      "row_id": "accountant-calibration-curve",
+      "needle": "arcs_accountant\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:accountant-external-cohort-nonzero",
+     "kind": "mentioned_by_row",
+     "row_state": "HOLDING",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 76,
+      "row_id": "accountant-external-cohort-nonzero",
+      "needle": "arcs_accountant\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:accountant-real-cohort-calibration",
+     "kind": "mentioned_by_row",
+     "row_state": "HOLDING",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 104,
+      "row_id": "accountant-real-cohort-calibration",
+      "needle": "arcs_accountant\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:five-person-outcome-test",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 455,
+      "row_id": "five-person-outcome-test",
+      "needle": "arcs_accountant\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_api.py",
+   "kind": "python-operator",
+   "name": "arcs_api.py",
+   "path": "operators/arcs_api.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 6,
+    "cited_by_tool": 2,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 2
+   },
+   "active_rows": 4,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_echo_embedding.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_echo_embedding.py",
+      "line": 17,
+      "needle": "arcs_api\\.py"
+     }
+    },
+    {
+     "target": "tool:script:echo_ridgeline_feed.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/echo_ridgeline_feed.py",
+      "line": 16,
+      "needle": "arcs_api\\.py"
+     }
+    },
+    {
+     "target": "rom:kintsugi-immune-system",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_api.py",
+      "line": 6,
+      "needle": "(?i)\\bkintsugi\\b"
+     }
+    },
+    {
+     "target": "rom:notomation",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_api.py",
+      "line": 399,
+      "needle": "(?i)\\bnotomation\\b"
+     }
+    },
+    {
+     "target": "job:backlog:compass-model-agnostic-provider-abstraction",
+     "kind": "mentioned_by_row",
+     "row_state": "SUPERSEDED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 38,
+      "row_id": "compass-model-agnostic-provider-abstraction",
+      "needle": "arcs_api\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:echo-detector-embedding-signature",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 65,
+      "row_id": "echo-detector-embedding-signature",
+      "needle": "arcs_api\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:embedding-storage-target-pgvector-vs-duckdb",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 37,
+      "row_id": "embedding-storage-target-pgvector-vs-duckdb",
+      "needle": "arcs_api\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:gauntlet-wargame-embedding-dedup",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 40,
+      "row_id": "gauntlet-wargame-embedding-dedup",
+      "needle": "arcs_api\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:spec-tauri-desktop-decide",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 529,
+      "row_id": "spec-tauri-desktop-decide",
+      "needle": "arcs_api\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:svc-sage-should-it-exist-decision",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 44,
+      "row_id": "svc-sage-should-it-exist-decision",
+      "needle": "arcs_api\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_backup.py",
+   "kind": "python-operator",
+   "name": "arcs_backup.py",
+   "path": "operators/arcs_backup.py",
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [],
+   "unbound_reason": "no backlog row, tool or surface names it"
+  },
+  {
+   "id": "tool:operator:arcs_battery.py",
+   "kind": "python-operator",
+   "name": "arcs_battery.py",
+   "path": "operators/arcs_battery.py",
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [],
+   "unbound_reason": "no backlog row, tool or surface names it"
+  },
+  {
+   "id": "tool:operator:arcs_cis.py",
+   "kind": "python-operator",
+   "name": "arcs_cis.py",
+   "path": "operators/arcs_cis.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "job:backlog:spec-babelfish-reconcile",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 537,
+      "row_id": "spec-babelfish-reconcile",
+      "needle": "arcs_cis\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_constitutional_court.py",
+   "kind": "python-operator",
+   "name": "arcs_constitutional_court.py",
+   "path": "operators/arcs_constitutional_court.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 1,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 3
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 82,
+      "needle": "arcs_constitutional_court\\.py"
+     }
+    },
+    {
+     "target": "rom:kintsugi-immune-system",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_constitutional_court.py",
+      "line": 18,
+      "needle": "(?i)\\bkintsugi\\b"
+     }
+    },
+    {
+     "target": "rom:notomation",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_constitutional_court.py",
+      "line": 27,
+      "needle": "(?i)\\bnotomation\\b"
+     }
+    },
+    {
+     "target": "rom:write-lock",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_constitutional_court.py",
+      "line": 4,
+      "needle": "(?i)\\bwrite[ _-]lock\\b"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_dewy_log.py",
+   "kind": "python-operator",
+   "name": "arcs_dewy_log.py",
+   "path": "operators/arcs_dewy_log.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 1,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_primitives_bridge.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_primitives_bridge.py",
+      "line": 36,
+      "needle": "arcs_dewy_log\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_echo_embedding.py",
+   "kind": "python-operator",
+   "name": "arcs_echo_embedding.py",
+   "path": "operators/arcs_echo_embedding.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 1,
+    "cites_tool": 1,
+    "serves_surface": 0,
+    "invokes_primitive": 1
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "tool:script:echo_ridgeline_feed.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/echo_ridgeline_feed.py",
+      "line": 15,
+      "needle": "arcs_echo_embedding\\.py"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_api.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": "operators/arcs_echo_embedding.py",
+      "line": 17,
+      "needle": "operators/arcs_api\\.py"
+     }
+    },
+    {
+     "target": "rom:orthogonal-echo-detector",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_echo_embedding.py",
+      "line": 3,
+      "needle": "(?i)\\borthogonal[ _-]echo\\b"
+     }
+    },
+    {
+     "target": "job:backlog:hud-echo-overlap-strip-admin",
+     "kind": "mentioned_by_row",
+     "row_state": "HOLDING",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 312,
+      "row_id": "hud-echo-overlap-strip-admin",
+      "needle": "arcs_echo_embedding\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_hc.py",
+   "kind": "python-operator",
+   "name": "arcs_hc.py",
+   "path": "operators/arcs_hc.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 2,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_cis.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_cis.py",
+      "line": 19,
+      "needle": "arcs_hc\\.py"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_lte.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_lte.py",
+      "line": 8,
+      "needle": "arcs_hc\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:svc-sage-should-it-exist-decision",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 44,
+      "row_id": "svc-sage-should-it-exist-decision",
+      "needle": "arcs_hc\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_inchworm_echo.py",
+   "kind": "python-operator",
+   "name": "arcs_inchworm_echo.py",
+   "path": "operators/arcs_inchworm_echo.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 2,
+    "cites_tool": 1,
+    "serves_surface": 0,
+    "invokes_primitive": 2
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_echo_embedding.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_echo_embedding.py",
+      "line": 5,
+      "needle": "arcs_inchworm_echo\\.py"
+     }
+    },
+    {
+     "target": "tool:script:echo_detector_dogfood.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/echo_detector_dogfood.py",
+      "line": 4,
+      "needle": "arcs_inchworm_echo\\.py"
+     }
+    },
+    {
+     "target": "tool:script:echo_detector_dogfood.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": "operators/arcs_inchworm_echo.py",
+      "line": 40,
+      "needle": "scripts/echo_detector_dogfood\\.py"
+     }
+    },
+    {
+     "target": "rom:golden-inchworm",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_inchworm_echo.py",
+      "line": 3,
+      "needle": "(?i)\\binchworm\\b"
+     }
+    },
+    {
+     "target": "rom:orthogonal-echo-detector",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_inchworm_echo.py",
+      "line": 3,
+      "needle": "(?i)\\borthogonal[ _-]echo\\b"
+     }
+    },
+    {
+     "target": "job:backlog:echo-detector-embedding-signature",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 65,
+      "row_id": "echo-detector-embedding-signature",
+      "needle": "arcs_inchworm_echo\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_init_bundles.py",
+   "kind": "python-operator",
+   "name": "arcs_init_bundles.py",
+   "path": "operators/arcs_init_bundles.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 1,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_seed_bar.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_seed_bar.py",
+      "line": 9,
+      "needle": "arcs_init_bundles\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_kinematics.py",
+   "kind": "python-operator",
+   "name": "arcs_kinematics.py",
+   "path": "operators/arcs_kinematics.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 3,
+    "cites_tool": 0,
+    "serves_surface": 1,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_operators_sage.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_operators_sage.py",
+      "line": 22,
+      "needle": "arcs_kinematics\\.py"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 56,
+      "needle": "arcs_kinematics\\.py"
+     }
+    },
+    {
+     "target": "tool:script:recoil_brief.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/recoil_brief.py",
+      "line": 11,
+      "needle": "arcs_kinematics\\.py"
+     }
+    },
+    {
+     "target": "tool:surface:lyndon-war.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "runtime/warroom/lyndon-war.html",
+      "line": 47,
+      "needle": "arcs_kinematics\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_kintsugi.py",
+   "kind": "python-operator",
+   "name": "arcs_kintsugi.py",
+   "path": "operators/arcs_kintsugi.py",
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 3
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "rom:kintsugi-immune-system",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_kintsugi.py",
+      "line": 3,
+      "needle": "(?i)\\bkintsugi\\b"
+     }
+    },
+    {
+     "target": "rom:notomation",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_kintsugi.py",
+      "line": 28,
+      "needle": "(?i)\\bnotomation\\b"
+     }
+    },
+    {
+     "target": "rom:write-lock",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_kintsugi.py",
+      "line": 4,
+      "needle": "(?i)\\bwrite[ _-]lock\\b"
+     }
+    }
+   ],
+   "unbound_reason": "no backlog row, tool or surface names it"
+  },
+  {
+   "id": "tool:operator:arcs_librarian.py",
+   "kind": "python-operator",
+   "name": "arcs_librarian.py",
+   "path": "operators/arcs_librarian.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 8,
+    "cited_by_tool": 5,
+    "cites_tool": 2,
+    "serves_surface": 0,
+    "invokes_primitive": 1
+   },
+   "active_rows": 3,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_store.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_store.py",
+      "line": 146,
+      "needle": "arcs_librarian\\.py"
+     }
+    },
+    {
+     "target": "tool:script:essay_atlas.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/essay_atlas.py",
+      "line": 180,
+      "needle": "arcs_librarian\\.py"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 96,
+      "needle": "arcs_librarian\\.py"
+     }
+    },
+    {
+     "target": "tool:script:provenance_bench_run.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/provenance_bench_run.py",
+      "line": 170,
+      "needle": "arcs_librarian\\.py"
+     }
+    },
+    {
+     "target": "tool:script:recoil_induce.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/recoil_induce.py",
+      "line": 13,
+      "needle": "arcs_librarian\\.py"
+     }
+    },
+    {
+     "target": "tool:script:universe_ask.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": "operators/arcs_librarian.py",
+      "line": 322,
+      "needle": "scripts/universe_ask\\.py"
+     }
+    },
+    {
+     "target": "tool:script:universe_receipts_adapter.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": "operators/arcs_librarian.py",
+      "line": 321,
+      "needle": "scripts/universe_receipts_adapter\\.py"
+     }
+    },
+    {
+     "target": "rom:notomation",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_librarian.py",
+      "line": 27,
+      "needle": "(?i)\\bnotomation\\b"
+     }
+    },
+    {
+     "target": "job:backlog:card-catalog-q4-rerun-with-receipts",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 443,
+      "row_id": "card-catalog-q4-rerun-with-receipts",
+      "needle": "arcs_librarian\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:card-catalog-sweep-quorum",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 323,
+      "row_id": "card-catalog-sweep-quorum",
+      "needle": "arcs_librarian\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:catalog-regen-five-findings-2026-10-20",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 335,
+      "row_id": "catalog-regen-five-findings-2026-10-20",
+      "needle": "arcs_librarian\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:jtbd-graph-s4-retrieval",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 301,
+      "row_id": "jtbd-graph-s4-retrieval",
+      "needle": "arcs_librarian\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:librarian-apex-spine-tier-class",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 442,
+      "row_id": "librarian-apex-spine-tier-class",
+      "needle": "arcs_librarian\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:librarian-recommend-needle",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 69,
+      "row_id": "librarian-recommend-needle",
+      "needle": "arcs_librarian\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:op25-sage-naming-ruling",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 444,
+      "row_id": "op25-sage-naming-ruling",
+      "needle": "arcs_librarian\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:universe-librarian-loader",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 249,
+      "row_id": "universe-librarian-loader",
+      "needle": "arcs_librarian\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_lte.py",
+   "kind": "python-operator",
+   "name": "arcs_lte.py",
+   "path": "operators/arcs_lte.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 1,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 1
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_cis.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_cis.py",
+      "line": 19,
+      "needle": "arcs_lte\\.py"
+     }
+    },
+    {
+     "target": "rom:kintsugi-immune-system",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_lte.py",
+      "line": 732,
+      "needle": "(?i)\\bkintsugi\\b"
+     }
+    },
+    {
+     "target": "job:backlog:spec-lte-reconcile",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 536,
+      "row_id": "spec-lte-reconcile",
+      "needle": "arcs_lte\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_mcp_bridge.py",
+   "kind": "python-operator",
+   "name": "arcs_mcp_bridge.py",
+   "path": "operators/arcs_mcp_bridge.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 0,
+    "cites_tool": 2,
+    "serves_surface": 0,
+    "invokes_primitive": 4
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:operator_client.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 10,
+      "needle": "operators/operator_client\\.py"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 50,
+      "needle": "scripts/operator_registry_emit\\.py"
+     }
+    },
+    {
+     "target": "rom:golden-inchworm",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 264,
+      "needle": "(?i)\\binchworm\\b"
+     }
+    },
+    {
+     "target": "rom:kintsugi-immune-system",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 14,
+      "needle": "(?i)\\bkintsugi\\b"
+     }
+    },
+    {
+     "target": "rom:orthogonal-echo-detector",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 264,
+      "needle": "(?i)\\borthogonal[ _-]echo\\b"
+     }
+    },
+    {
+     "target": "rom:write-lock",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 17,
+      "needle": "(?i)\\bwrite[ _-]lock\\b"
+     }
+    },
+    {
+     "target": "job:backlog:librarian-recommend-needle",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 69,
+      "row_id": "librarian-recommend-needle",
+      "needle": "arcs_mcp_bridge\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_no_go_inventory.py",
+   "kind": "python-operator",
+   "name": "arcs_no_go_inventory.py",
+   "path": "operators/arcs_no_go_inventory.py",
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 1
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "rom:kintsugi-immune-system",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_no_go_inventory.py",
+      "line": 3,
+      "needle": "(?i)\\bkintsugi\\b"
+     }
+    }
+   ],
+   "unbound_reason": "no backlog row, tool or surface names it"
+  },
+  {
+   "id": "tool:operator:arcs_operator20.py",
+   "kind": "python-operator",
+   "name": "arcs_operator20.py",
+   "path": "operators/arcs_operator20.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 3,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "tool:script:essay_atlas.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/essay_atlas.py",
+      "line": 180,
+      "needle": "arcs_operator20\\.py"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 89,
+      "needle": "arcs_operator20\\.py"
+     }
+    },
+    {
+     "target": "tool:script:recoil_induce.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/recoil_induce.py",
+      "line": 11,
+      "needle": "arcs_operator20\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:moral-to-gate-alchemy-pipeline",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 51,
+      "row_id": "moral-to-gate-alchemy-pipeline",
+      "needle": "arcs_operator20\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_operator21.py",
+   "kind": "python-operator",
+   "name": "arcs_operator21.py",
+   "path": "operators/arcs_operator21.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 2,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 2,
+   "edges": [
+    {
+     "target": "job:backlog:moral-to-gate-alchemy-pipeline",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 51,
+      "row_id": "moral-to-gate-alchemy-pipeline",
+      "needle": "arcs_operator21\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:operator21-gaussian-process-posterior-then-rt-core",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 39,
+      "row_id": "operator21-gaussian-process-posterior-then-rt-core",
+      "needle": "arcs_operator21\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_operator_contract.py",
+   "kind": "python-operator",
+   "name": "arcs_operator_contract.py",
+   "path": "operators/arcs_operator_contract.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "job:backlog:seat-backlog-row-adapter",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 551,
+      "row_id": "seat-backlog-row-adapter",
+      "needle": "arcs_operator_contract\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_operator_kairos.py",
+   "kind": "python-operator",
+   "name": "arcs_operator_kairos.py",
+   "path": "operators/arcs_operator_kairos.py",
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 2
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "rom:notomation",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_operator_kairos.py",
+      "line": 28,
+      "needle": "(?i)\\bnotomation\\b"
+     }
+    },
+    {
+     "target": "rom:write-lock",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_operator_kairos.py",
+      "line": 15,
+      "needle": "(?i)\\bwrite[ _-]lock\\b"
+     }
+    }
+   ],
+   "unbound_reason": "no backlog row, tool or surface names it"
+  },
+  {
+   "id": "tool:operator:arcs_operators_bar.py",
+   "kind": "python-operator",
+   "name": "arcs_operators_bar.py",
+   "path": "operators/arcs_operators_bar.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 1,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 2
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_pipeline_v1.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_pipeline_v1.py",
+      "line": 419,
+      "needle": "arcs_operators_bar\\.py"
+     }
+    },
+    {
+     "target": "rom:kintsugi-immune-system",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_operators_bar.py",
+      "line": 326,
+      "needle": "(?i)\\bkintsugi\\b"
+     }
+    },
+    {
+     "target": "rom:notomation",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_operators_bar.py",
+      "line": 23,
+      "needle": "(?i)\\bnotomation\\b"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_operators_curator.py",
+   "kind": "python-operator",
+   "name": "arcs_operators_curator.py",
+   "path": "operators/arcs_operators_curator.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 2,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 1
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:agent:idea-curator",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/agents/idea-curator.md",
+      "line": 9,
+      "needle": "arcs_operators_curator\\.py"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_pipeline_v1.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_pipeline_v1.py",
+      "line": 420,
+      "needle": "arcs_operators_curator\\.py"
+     }
+    },
+    {
+     "target": "rom:notomation",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_operators_curator.py",
+      "line": 20,
+      "needle": "(?i)\\bnotomation\\b"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_operators_lab.py",
+   "kind": "python-operator",
+   "name": "arcs_operators_lab.py",
+   "path": "operators/arcs_operators_lab.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 2,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 1
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_pipeline_v1.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_pipeline_v1.py",
+      "line": 418,
+      "needle": "arcs_operators_lab\\.py"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 66,
+      "needle": "arcs_operators_lab\\.py"
+     }
+    },
+    {
+     "target": "rom:notomation",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_operators_lab.py",
+      "line": 21,
+      "needle": "(?i)\\bnotomation\\b"
+     }
+    },
+    {
+     "target": "job:backlog:hypothesis-generator-plg-surface",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 53,
+      "row_id": "hypothesis-generator-plg-surface",
+      "needle": "arcs_operators_lab\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_operators_sage.py",
+   "kind": "python-operator",
+   "name": "arcs_operators_sage.py",
+   "path": "operators/arcs_operators_sage.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 2,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 1
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_primitives.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_primitives.py",
+      "line": 640,
+      "needle": "arcs_operators_sage\\.py"
+     }
+    },
+    {
+     "target": "tool:script:tf_sage_distillation.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/tf_sage_distillation.py",
+      "line": 6,
+      "needle": "arcs_operators_sage\\.py"
+     }
+    },
+    {
+     "target": "rom:notomation",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_operators_sage.py",
+      "line": 19,
+      "needle": "(?i)\\bnotomation\\b"
+     }
+    },
+    {
+     "target": "job:backlog:spec-sage-prd-reconcile",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 535,
+      "row_id": "spec-sage-prd-reconcile",
+      "needle": "arcs_operators_sage\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_pipeline_v1.py",
+   "kind": "python-operator",
+   "name": "arcs_pipeline_v1.py",
+   "path": "operators/arcs_pipeline_v1.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 2,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:pipeline_runner.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/pipeline_runner.py",
+      "line": 5,
+      "needle": "arcs_pipeline_v1\\.py"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 75,
+      "needle": "arcs_pipeline_v1\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_primitives.py",
+   "kind": "python-operator",
+   "name": "arcs_primitives.py",
+   "path": "operators/arcs_primitives.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 3,
+    "cited_by_tool": 6,
+    "cites_tool": 0,
+    "serves_surface": 3,
+    "invokes_primitive": 0
+   },
+   "active_rows": 3,
+   "edges": [
+    {
+     "target": "tool:hook:pre-commit",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/git-hooks/pre-commit",
+      "line": 974,
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_operators_sage.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_operators_sage.py",
+      "line": 23,
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_primitives_bridge.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_primitives_bridge.py",
+      "line": 5,
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "tool:script:canon_claims_report.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/canon_claims_report.py",
+      "line": 3,
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "tool:script:librarian_hook.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/librarian_hook.py",
+      "line": 4,
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 72,
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:canon-unvalidated-figures-decision",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 291,
+      "row_id": "canon-unvalidated-figures-decision",
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:canon-vocabulary-reconcile-for-share",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 290,
+      "row_id": "canon-vocabulary-reconcile-for-share",
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:svc-sage-should-it-exist-decision",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 44,
+      "row_id": "svc-sage-should-it-exist-decision",
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "tool:surface:monolith.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/monolith.html",
+      "line": 437,
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "tool:surface:playground.arcs.care/12d-orbital",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/pf-12d-orbital.html",
+      "line": 189,
+      "needle": "arcs_primitives\\.py"
+     }
+    },
+    {
+     "target": "tool:surface:playground.arcs.care/knowledge-lattice",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/pf-knowledge-lattice.html",
+      "line": 174,
+      "needle": "arcs_primitives\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_primitives_bridge.py",
+   "kind": "python-operator",
+   "name": "arcs_primitives_bridge.py",
+   "path": "operators/arcs_primitives_bridge.py",
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [],
+   "unbound_reason": "no backlog row, tool or surface names it"
+  },
+  {
+   "id": "tool:operator:arcs_receipt_core.py",
+   "kind": "python-operator",
+   "name": "arcs_receipt_core.py",
+   "path": "operators/arcs_receipt_core.py",
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [],
+   "unbound_reason": "no backlog row, tool or surface names it"
+  },
+  {
+   "id": "tool:operator:arcs_rom.py",
+   "kind": "python-operator",
+   "name": "arcs_rom.py",
+   "path": "operators/arcs_rom.py",
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 3
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "rom:kintsugi-immune-system",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_rom.py",
+      "line": 116,
+      "needle": "(?i)\\bkintsugi\\b"
+     }
+    },
+    {
+     "target": "rom:notomation",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_rom.py",
+      "line": 50,
+      "needle": "(?i)\\bnotomation\\b"
+     }
+    },
+    {
+     "target": "rom:write-lock",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_rom.py",
+      "line": 4,
+      "needle": "(?i)\\bwrite[ _-]lock\\b"
+     }
+    }
+   ],
+   "unbound_reason": "no backlog row, tool or surface names it"
+  },
+  {
+   "id": "tool:operator:arcs_runtime_service.py",
+   "kind": "python-operator",
+   "name": "arcs_runtime_service.py",
+   "path": "operators/arcs_runtime_service.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 1,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 1
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 102,
+      "needle": "arcs_runtime_service\\.py"
+     }
+    },
+    {
+     "target": "rom:kintsugi-immune-system",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_runtime_service.py",
+      "line": 4,
+      "needle": "(?i)\\bkintsugi\\b"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_seed_bar.py",
+   "kind": "python-operator",
+   "name": "arcs_seed_bar.py",
+   "path": "operators/arcs_seed_bar.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 1,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_init_bundles.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_init_bundles.py",
+      "line": 85,
+      "needle": "arcs_seed_bar\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_store.py",
+   "kind": "python-operator",
+   "name": "arcs_store.py",
+   "path": "operators/arcs_store.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 3,
+    "cited_by_tool": 2,
+    "cites_tool": 1,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_pipeline_v1.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_pipeline_v1.py",
+      "line": 415,
+      "needle": "arcs_store\\.py"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 93,
+      "needle": "arcs_store\\.py"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_librarian.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": "operators/arcs_store.py",
+      "line": 146,
+      "needle": "operators/arcs_librarian\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:librarian-recommend-needle",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 69,
+      "row_id": "librarian-recommend-needle",
+      "needle": "arcs_store\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:op25-sage-naming-ruling",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 444,
+      "row_id": "op25-sage-naming-ruling",
+      "needle": "arcs_store\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:unfold-uses-librarian",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 78,
+      "row_id": "unfold-uses-librarian",
+      "needle": "arcs_store\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_substrate.py",
+   "kind": "python-operator",
+   "name": "arcs_substrate.py",
+   "path": "operators/arcs_substrate.py",
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [],
+   "unbound_reason": "no backlog row, tool or surface names it"
+  },
+  {
+   "id": "tool:operator:arcs_trace.py",
+   "kind": "python-operator",
+   "name": "arcs_trace.py",
+   "path": "operators/arcs_trace.py",
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 1
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "rom:kintsugi-immune-system",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_trace.py",
+      "line": 125,
+      "needle": "(?i)\\bkintsugi\\b"
+     }
+    }
+   ],
+   "unbound_reason": "no backlog row, tool or surface names it"
+  },
+  {
+   "id": "tool:operator:arcs_trace_loki.py",
+   "kind": "python-operator",
+   "name": "arcs_trace_loki.py",
+   "path": "operators/arcs_trace_loki.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 1,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 100,
+      "needle": "arcs_trace_loki\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:arcs_yoav_store.py",
+   "kind": "python-operator",
+   "name": "arcs_yoav_store.py",
+   "path": "operators/arcs_yoav_store.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 1
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "rom:write-lock",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/arcs_yoav_store.py",
+      "line": 8,
+      "needle": "(?i)\\bwrite[ _-]lock\\b"
+     }
+    },
+    {
+     "target": "job:backlog:pond-etch-protocol-serialize-molt-test",
+     "kind": "mentioned_by_row",
+     "row_state": "COMPOSTED",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 52,
+      "row_id": "pond-etch-protocol-serialize-molt-test",
+      "needle": "arcs_yoav_store\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:cli_arcs_run.py",
+   "kind": "python-operator",
+   "name": "cli_arcs_run.py",
+   "path": "operators/cli_arcs_run.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 3,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 1
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:adr_audit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/adr_audit.py",
+      "line": 93,
+      "needle": "cli_arcs_run\\.py"
+     }
+    },
+    {
+     "target": "tool:operator:arcs_dewy_log.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_dewy_log.py",
+      "line": 87,
+      "needle": "cli_arcs_run\\.py"
+     }
+    },
+    {
+     "target": "tool:operator:operator_client.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/operator_client.py",
+      "line": 14,
+      "needle": "cli_arcs_run\\.py"
+     }
+    },
+    {
+     "target": "rom:kintsugi-immune-system",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/cli_arcs_run.py",
+      "line": 462,
+      "needle": "(?i)\\bkintsugi\\b"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:jtbd_query.py",
+   "kind": "python-operator",
+   "name": "jtbd_query.py",
+   "path": "operators/jtbd_query.py",
+   "status": "BOUND",
+   "reads_backlog": true,
+   "counts": {
+    "mentioned_by_row": 5,
+    "cited_by_tool": 3,
+    "cites_tool": 2,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 3,
+   "edges": [
+    {
+     "target": "tool:command:catalog",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/commands/catalog.md",
+      "line": 52,
+      "needle": "jtbd_query\\.py"
+     }
+    },
+    {
+     "target": "tool:script:jtbd_edge_weights.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/jtbd_edge_weights.py",
+      "line": 15,
+      "needle": "jtbd_query\\.py"
+     }
+    },
+    {
+     "target": "tool:script:prior_art.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/prior_art.py",
+      "line": 14,
+      "needle": "jtbd_query\\.py"
+     }
+    },
+    {
+     "target": "tool:script:jtbd_edge_weights.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": "operators/jtbd_query.py",
+      "line": 257,
+      "needle": "scripts/jtbd_edge_weights\\.py"
+     }
+    },
+    {
+     "target": "tool:script:universe_jtbd_adapter.py",
+     "kind": "cites_tool",
+     "evidence": {
+      "file": "operators/jtbd_query.py",
+      "line": 26,
+      "needle": "scripts/universe_jtbd_adapter\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:catalog-regen-five-findings-2026-10-20",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 335,
+      "row_id": "catalog-regen-five-findings-2026-10-20",
+      "needle": "jtbd_query\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:jtbd-graph-s5-wider-sample",
+     "kind": "mentioned_by_row",
+     "row_state": "HOLDING",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 434,
+      "row_id": "jtbd-graph-s5-wider-sample",
+      "needle": "jtbd_query\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:jtbd-graph-s6-mcp-tools",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 348,
+      "row_id": "jtbd-graph-s6-mcp-tools",
+      "needle": "jtbd_query\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:jtbd-magnetize-stage",
+     "kind": "mentioned_by_row",
+     "row_state": "HOLDING",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 343,
+      "row_id": "jtbd-magnetize-stage",
+      "needle": "jtbd_query\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:seat-backlog-row-adapter",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 551,
+      "row_id": "seat-backlog-row-adapter",
+      "needle": "jtbd_query\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:kryptonite_scorer.py",
+   "kind": "python-operator",
+   "name": "kryptonite_scorer.py",
+   "path": "operators/kryptonite_scorer.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 1,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 8,
+      "needle": "kryptonite_scorer\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:operator_client.py",
+   "kind": "python-operator",
+   "name": "operator_client.py",
+   "path": "operators/operator_client.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 3,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 1
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_mcp_bridge.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_mcp_bridge.py",
+      "line": 10,
+      "needle": "operator_client\\.py"
+     }
+    },
+    {
+     "target": "tool:script:attribution_provenance_lint.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/attribution_provenance_lint.py",
+      "line": 43,
+      "needle": "operator_client\\.py"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 48,
+      "needle": "operator_client\\.py"
+     }
+    },
+    {
+     "target": "rom:kintsugi-immune-system",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/operator_client.py",
+      "line": 115,
+      "needle": "(?i)\\bkintsugi\\b"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:pipeline_runner.py",
+   "kind": "python-operator",
+   "name": "pipeline_runner.py",
+   "path": "operators/pipeline_runner.py",
+   "status": "UNBOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 0,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 0,
+   "edges": [],
+   "unbound_reason": "no backlog row, tool or surface names it"
+  },
+  {
+   "id": "tool:operator:prod_receipt_to_accountant.py",
+   "kind": "python-operator",
+   "name": "prod_receipt_to_accountant.py",
+   "path": "operators/prod_receipt_to_accountant.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 2,
+    "cited_by_tool": 4,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 2,
+   "edges": [
+    {
+     "target": "tool:operator:arcs_accountant.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/arcs_accountant.py",
+      "line": 28,
+      "needle": "prod_receipt_to_accountant\\.py"
+     }
+    },
+    {
+     "target": "tool:script:accountant_weekly.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/accountant_weekly.py",
+      "line": 5,
+      "needle": "prod_receipt_to_accountant\\.py"
+     }
+    },
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 88,
+      "needle": "prod_receipt_to_accountant\\.py"
+     }
+    },
+    {
+     "target": "tool:script:provenance_candidates.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/provenance_candidates.py",
+      "line": 6,
+      "needle": "prod_receipt_to_accountant\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:five-person-outcome-test",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 455,
+      "row_id": "five-person-outcome-test",
+      "needle": "prod_receipt_to_accountant\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:hud-conviction-consonance-readings",
+     "kind": "mentioned_by_row",
+     "row_state": "HOLDING",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 310,
+      "row_id": "hud-conviction-consonance-readings",
+      "needle": "prod_receipt_to_accountant\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:prod_receipt_to_op20_seed.py",
+   "kind": "python-operator",
+   "name": "prod_receipt_to_op20_seed.py",
+   "path": "operators/prod_receipt_to_op20_seed.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 1,
+    "cited_by_tool": 1,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 0
+   },
+   "active_rows": 1,
+   "edges": [
+    {
+     "target": "tool:operator:prod_receipt_to_accountant.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "operators/prod_receipt_to_accountant.py",
+      "line": 3,
+      "needle": "prod_receipt_to_op20_seed\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:op20-somatic-axiom-real-signal-source",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 19,
+      "row_id": "op20-somatic-axiom-real-signal-source",
+      "needle": "prod_receipt_to_op20_seed\\.py"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tool:operator:receipt_evaluator.py",
+   "kind": "python-operator",
+   "name": "receipt_evaluator.py",
+   "path": "operators/receipt_evaluator.py",
+   "status": "BOUND",
+   "reads_backlog": false,
+   "counts": {
+    "mentioned_by_row": 0,
+    "cited_by_tool": 1,
+    "cites_tool": 0,
+    "serves_surface": 0,
+    "invokes_primitive": 1
+   },
+   "active_rows": 0,
+   "edges": [
+    {
+     "target": "tool:script:operator_registry_emit.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/operator_registry_emit.py",
+      "line": 97,
+      "needle": "receipt_evaluator\\.py"
+     }
+    },
+    {
+     "target": "rom:kintsugi-immune-system",
+     "kind": "invokes_primitive",
+     "evidence": {
+      "file": "operators/receipt_evaluator.py",
+      "line": 3,
+      "needle": "(?i)\\bkintsugi\\b"
+     }
+    }
+   ]
+  }
+ ]
+}

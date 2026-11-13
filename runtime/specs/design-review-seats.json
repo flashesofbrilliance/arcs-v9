@@ -1,0 +1,14 @@
+{
+ "$schema": "design-review-seats v1",
+ "why": "Zach 2026-11-13: every seat takes part in design review, one seat set per stage (not all seats every pick), to keep the token cap. Seats are named by binding-map id; scripts/operator_binding_emit.py --check fails if one is not on the roster.",
+ "loop": "seed 20, the induced render engine (_PROPOSALS/2026-11-13-seed-induced-render-engine.md on claude/seed-induced-render-engine-8ec25e). The generator belongs to session distracted-grothendieck; these seats sit beside it, they do not edit it.",
+ "log": "runtime/specs/design-decision-log.md (each seat verdict lands in the seed-20 pick log)",
+ "stages": [
+  {"stage": "brief", "job": "does the change answer what was asked, as one falsifiable claim", "seats": ["tool:agent:sanity-check", "tool:agent:idea-alchemist"], "model": "haiku"},
+  {"stage": "induce", "job": "pick the axis of variation (held objection: the reviewer only sees the builder's frame) and ground each variant in an existing token or rule", "seats": ["tool:agent:idea-curator", "tool:agent:idea-librarian"], "model": "sonnet"},
+  {"stage": "gate", "job": "no option shown at SHARP unless artifact_wrap_lint and page_gate pass; judge voice and earned fidelity", "seats": ["tool:agent:brand-line-producer"], "tools": ["tool:script:artifact_wrap_lint.py", "tool:script:page_gate.py"], "model": "sonnet"},
+  {"stage": "pick", "job": "Zach picks; one cheap attack on whether picks that are each good make a coherent page together", "seats": ["tool:agent:chief-loki", "tool:agent:grug"], "decider": "Zach", "model": "haiku"},
+  {"stage": "apply", "job": "the build matches the pick string and manifest; one apply path, scripts/page_tune.py --apply", "seats": ["tool:agent:impeccable-finish-reviewer"], "tools": ["tool:script:page_tune.py"], "model": "sonnet"},
+  {"stage": "promote", "job": "read the log: tally votes per (layer, change id), cluster change ids, say when a default is ready to promote; promotion is a backlog row Zach fates", "seats": ["tool:op:19", "tool:op:20", "tool:agent:chief-bayesian"], "model": "haiku"}
+ ]
+}
