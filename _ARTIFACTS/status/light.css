@@ -1,8 +1,15 @@
 /* ===== Light theme for the tokens and colors this page owns (2026-11-12) =====
    Kit 39 remaps the shared tokens; the page's own tokens (--surface2, --faint, --steel) and the few hard-coded pale-on-dark
    colors are remapped here. Same two entry points as the kit: data-theme="light" and prefers-color-scheme with no explicit dark. */
-:root[data-theme="light"] { --surface2: var(--surface-2); --faint: #566170; --steel: #0b5d7a; --steel-bg: rgba(11,93,122,0.08); --hair-soft: var(--border); --hair: var(--border); }
-:root[data-theme="light"] .tt-m { color: #475262; }
+:root[data-theme="light"] {
+  /* Cool slate (Zach, 2026-11-12): overrides kit 39's light remap for this page. Each accent holds 4.5:1 or better on --bg, --surface, --surface-2 and its own 8 to 10 percent tint (computed, then crawled). */
+  --bg: #f3f5f9; --surface: #ffffff; --surface-2: #e9edf4; --surface2: #e9edf4; --elevated: #e9edf4; --border: #cfd7e3;
+  --text: #0f172a; --text-secondary: #334155; --muted: #46566b; --dimmed: #52627a; --faint: #52627a;
+  --cyan: #025f93; --green: #0b6b53; --gold: #8a5508; --red: #be123c; --steel: #0b5f82;
+  --cyan-bg: rgba(2,95,147,0.09); --green-bg: rgba(11,107,83,0.09); --gold-bg: rgba(138,85,8,0.10); --red-bg: rgba(190,18,60,0.08); --steel-bg: rgba(11,95,130,0.09);
+  --hair-soft: var(--border); --hair: var(--border);
+}
+:root[data-theme="light"] .tt-m { color: var(--muted); }
 :root[data-theme="light"] .su-core { background: linear-gradient(180deg, var(--surface), var(--surface-2)); }
 :root[data-theme="light"] .su-zli, :root[data-theme="light"] table.su-t td, :root[data-theme="light"] .su-str, :root[data-theme="light"] .su-sg { border-color: var(--border); }
 :root[data-theme="light"] .alt-btn:not(.active):hover, :root[data-theme="light"] .terrain-cell { background: rgba(28,36,48,0.05); }
