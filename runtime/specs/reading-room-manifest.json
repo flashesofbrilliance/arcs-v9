@@ -44,6 +44,15 @@
       "work": "Codex",
       "built": false,
       "domains": ["product"]
+    },
+    {
+      "tenant": "roadmap",
+      "question": "what's next and what's blocked?",
+      "work": "Roadmap",
+      "built": true,
+      "frame": "/api/reading-room/roadmap",
+      "render": "_ARTIFACTS/atlas/roadmap.html",
+      "domains": ["product", "handoffs"]
     }
   ]
 }

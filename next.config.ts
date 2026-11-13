@@ -41,6 +41,7 @@ const nextConfig: NextConfig = {
     "/reading-room/[tenant]": ["./runtime/specs/reading-room-manifest.json", "./_ARTIFACTS/atlas/cache-manifest.json"],
     "/api/reading-room/almanac": ["./_ARTIFACTS/atlas/atlas-almanac.html"],
     "/api/reading-room/chronicle": ["./_ARTIFACTS/atlas/chronicle.html"],
+    "/api/reading-room/roadmap": ["./_ARTIFACTS/atlas/roadmap.html"],
   },
   async headers() {
     return [
