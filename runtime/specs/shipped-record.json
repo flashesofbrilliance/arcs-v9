@@ -1,6 +1,6 @@
 {
  "schema": "shipped-record/v1",
- "as_of_commit": "65f2ace6",
+ "as_of_commit": "7bee0584",
  "lanes": [
   "service",
   "milestone",
@@ -3180,7 +3180,7 @@
    },
    {
     "week": "2026-11-09",
-    "n": 551
+    "n": 558
    }
   ],
   "commits_cite": "git log origin/main --since=2026-01-01, by ISO week",
