@@ -5106,6 +5106,42 @@
    "near_duplicates": []
   },
   {
+   "id": "69-proof-lockup",
+   "number": "69",
+   "name": "Proof Lockup",
+   "group": "Specimens",
+   "subtitle": "Organism 69 · Greet a cold reader with the two to four proofs behind a claim, each a figure they can check, between one short framing line and the promise it buys them.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/69-proof-lockup.html",
+   "data_shape": [
+    "state"
+   ],
+   "fidelity": [],
+   "classes": [
+    "plk",
+    "plk-cap",
+    "plk-cell",
+    "plk-cells",
+    "plk-close",
+    "plk-fig",
+    "plk-kick",
+    "plk-lab"
+   ],
+   "prim_blocks": [
+    "69-proof-lockup"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": []
+  },
+  {
    "id": "grammar-chips",
    "number": "",
    "name": "Grammar Chips",
