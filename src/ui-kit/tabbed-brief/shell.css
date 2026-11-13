@@ -123,6 +123,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-table td:first-child { font-weight: 600; width: 32%; }
 .tb-table tr:last-child td { border-bottom: 0; }
 .tb-table td:has(> .chip) { width: 1%; white-space: nowrap; } /* ledger rows: the chip names the side, the column fits it */
+/* outer cells drop their side padding so a table's text edges lock up with the heading and prose around it */
+:is(.tb-table, .pm-table) :is(th, td):first-child { padding-left: 0; }
+:is(.tb-table, .pm-table) :is(th, td):last-child { padding-right: 0; }
 
 /* cards */
 .tb-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap); } /* one column until tabs show; no orphaned third card */
@@ -164,6 +167,12 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 
 /* the "More recommendations" link clears the 24px touch-target floor (page_gate phone warning) */
 .sb-src a { display: inline-block; padding: var(--s-2) 0; }
+/* sound bite: display quotation marks in the signal colour, hidden from screen readers (the blockquote already says it is a quote); more air between the quote and the name */
+.sb { padding-bottom: var(--s-2); }
+.sb-item { gap: var(--s-3); }
+.sb-q { position: relative; padding-top: 1.4rem; }
+.sb-q::before { content: "\201C" / ""; position: absolute; top: -0.2rem; left: -0.1rem; font-family: var(--ds-font-display); font-size: var(--fs-display); line-height: 1; color: var(--cyan); }
+.sb-t::after { content: "\201D" / ""; margin-left: 0.08em; font-family: var(--ds-font-display); color: var(--cyan); }
 
 /* receipt card (2026-11-12): the page's proof object, one real dated call above the tiles.
    Judgment, so gold; a dashed rule reads as a perforated ticket, not decoration. */
