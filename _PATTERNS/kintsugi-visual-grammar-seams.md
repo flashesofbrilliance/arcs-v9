@@ -891,3 +891,10 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - **Root cause:** none in this page's own CSS. Both are the frame's by design and are already waived for `public/gravity-brief*.html` and the kit specimens: DESIGN.md defines the dark palette only, and the shell nav bar runs flush to the frame (the MyAlly seam of 2026-10-26).
 - **Repair:** Zach asked for the standard nav, hamburger and reading options on this page (2026-11-12), so the page carries the kit's light palette and frame. The file joins the two existing kit waivers rather than getting new ones.
 - **Guard:** the ratchet (the file scores 0 with the waivers; any new finding blocks) and `component_source_gate`, which now checks the page as template `recoil-twin` (5 of 5 kit signatures). The earlier open debt for this file stands: the generator-origin waivers (tiny-text, all-caps-body, radius, font-size) can be dropped once `scripts/recoil_brief.py`'s base CSS is off the page; the stack layout already sizes in rem on the kit ramp.
+
+## 2026-11-12 · tabbed brief moves to Inter, the design-system reference face (one waiver)
+
+- **Break:** the ratchet counted 4 findings against 0 at HEAD on `public/gravity-brief-beliefs.html`: 3 hairline border with a wide (16px) shadow blur on the new glass pieces, and 1 `overused-font` (primary font Inter).
+- **Root cause:** Zach ruled Inter semibold headlines, Inter loaded first from Google Fonts with SF Pro as fallback, and light glass with some depth (2026-11-12). The kit token stack leads with system-ui only to dodge this detector rule; DESIGN.md and the claude.ai/design reference both name Inter.
+- **Repair:** the lift shadow is cut to a 6px blur at source (`--lift` in `src/ui-kit/tabbed-brief/shell.css`). Inter stays per the ruling; `overused-font` is waived for `public/gravity-brief*.html` only.
+- **Guard:** the ratchet (the pages score 0 with the waiver; any new finding blocks). Open debt: decide whether the kit `_tokens.css` stack should lead with Inter for every page, and drop the per-page waiver then.

@@ -6,6 +6,13 @@
     "ignoreFiles": [],
     "ignoreValues": [
       {
+        "rule": "overused-font",
+        "value": "*",
+        "files": ["public/gravity-brief*.html"],
+        "createdAt": "2026-11-13T03:00:00.000Z",
+        "reason": "Zach's ruling 2026-11-12: tabbed-brief headlines and body in Inter (the claude.ai/design ARCS OS reference and DESIGN.md both name Inter), loaded from Google Fonts with SF Pro as fallback. Scoped to the Gravity pages. Seam booked 2026-11-12 in _PATTERNS/kintsugi-visual-grammar-seams.md"
+      },
+      {
         "rule": "dark-glow",
         "value": "*",
         "files": ["public/myally-hub.html"],

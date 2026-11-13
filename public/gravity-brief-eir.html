@@ -8,6 +8,9 @@
 <meta name="color-scheme" content="light dark">
 <title>Entrepreneur in Residence · Zach Harris for Gravity Labs</title>
 <meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap">
 <script>(function(){var d=document.documentElement,s={};try{var r=localStorage.getItem('gravityTheme')||'';s=r.charAt(0)==='{'?JSON.parse(r):(r?{theme:r}:{})}catch(e){}d.setAttribute('data-theme',(s.theme||'light')==='dark'?'dark':'light');var A={font:'data-font',size:'data-size',space:'data-space'};for(var k in A){if(s[k]&&s[k]!=='std')d.setAttribute(A[k],s[k])}})();</script>
 <style>
 /* ARCS Recoil Report — Design Tokens */
@@ -611,6 +614,35 @@ a:active { color: var(--text); }
 .sb-t::before { content: "\201C"; margin-right: 0.08em; }
 .sb-t::after { content: "\201D"; margin-left: 0.04em; }
 .sb-item { gap: var(--s-3); }
+
+/* ---- design-system rulings (Zach, 2026-11-12) ----
+   1. Headlines in Inter semibold, the reference's voice (was the display serif). The quote follows.
+   2. Inter loads from Google Fonts first; SF Pro / system-ui is the fallback.
+   3. Glass with a little dimensionality in both themes: a soft top-lit gradient, a hairline rim, an inset top highlight
+      and a short offset shadow on raised pieces (frame, tiles, cards, controls); chips sit as shallow wells. Tokens only. */
+:root { --ds-font-sans: 'Inter', -apple-system, 'SF Pro Text', system-ui, sans-serif; --ds-font-display: var(--ds-font-sans);
+  --glass: linear-gradient(180deg, var(--surface), color-mix(in srgb, var(--surface) 94%, var(--text)));
+  --bevel: inset 0 1px 0 color-mix(in srgb, white 70%, transparent), inset 0 -1px 0 color-mix(in srgb, var(--text) 5%, transparent);
+  --lift: 0 1px 2px color-mix(in srgb, var(--text) 7%, transparent), 0 3px 6px -3px color-mix(in srgb, var(--text) 12%, transparent);
+  --well: inset 0 1px 2px color-mix(in srgb, var(--text) 10%, transparent); }
+:root[data-theme="dark"] { --glass: linear-gradient(180deg, color-mix(in srgb, var(--surface) 88%, white), var(--surface));
+  --bevel: inset 0 1px 0 color-mix(in srgb, white 6%, transparent), inset 0 -1px 0 color-mix(in srgb, black 40%, transparent);
+  --lift: 0 1px 2px color-mix(in srgb, black 40%, transparent), 0 3px 6px -3px color-mix(in srgb, black 55%, transparent);
+  --well: inset 0 1px 3px color-mix(in srgb, black 50%, transparent); }
+.tb-h1, .seat-h { font-family: var(--ds-font-sans); font-weight: var(--fw-strong); letter-spacing: -0.02em; }
+.sb-t { font-family: var(--ds-font-sans); letter-spacing: -0.01em; }
+.sb-t::before, .sb-t::after { font-family: var(--ds-font-sans); font-style: normal; font-weight: var(--fw-bold); }
+/* raised */
+.tb-frame { background: var(--glass); box-shadow: var(--bevel), var(--lift); }
+.tb-frame .tb-body, .tb-frame .tb-navwrap { background: transparent; }
+.ftile::before { background: var(--glass); box-shadow: var(--bevel), var(--lift); }
+.tb-card { background: var(--glass); } /* inside the raised frame: tinted, not lifted (no card inside a card) */
+.tb-btn, .dprefs-theme, .dprefs-aa, .sb-btn { background: var(--glass); box-shadow: var(--bevel), var(--lift); }
+.tb-btn:active, .dprefs-theme:active, .dprefs-aa:active, .sb-btn:active { box-shadow: var(--well); transform: translateY(1px); }
+.tb-expand .tb-btn { background: none; box-shadow: none; }
+/* wells */
+.chip { box-shadow: var(--well); }
+@media (prefers-reduced-motion: reduce) { .tb-btn:active, .dprefs-theme:active, .dprefs-aa:active, .sb-btn:active { transform: none; } }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>

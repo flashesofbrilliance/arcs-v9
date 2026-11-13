@@ -477,7 +477,10 @@ def render(d, artifact=False, page=None):
                                                            open(os.path.join(TDIR, "shell.js"), encoding="utf-8").read(),
                                                            ("\n" + bite_js()[:-len("</script>")] + ";[].forEach.call(document.querySelectorAll('.sb'),function(f){sbInit(f,%s)});</script>" % ("{still:true}" if d["overview"].get("bites_still") else "{}")) if 'class="sb"' in body else "")
     marks = "<!-- @arcs-template: tabbed-brief -->\n<!-- @arcs-mode: persuade -->\n"
-    head = ('<title>%s</title>\n<meta name="robots" content="noindex, nofollow">\n%s\n<style>\n%s</style>\n') % (e(title), head_js, css)
+    # Inter and JetBrains Mono from Google Fonts, the design-system reference faces (Zach, 2026-11-12); SF Pro / system-ui is the fallback
+    fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
+             '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap">\n')
+    head = ('<title>%s</title>\n<meta name="robots" content="noindex, nofollow">\n%s%s\n<style>\n%s</style>\n') % (e(title), fonts, head_js, css)
     if artifact and page in (None, "ov"):
         return marks + '<meta name="claude:viewport-fit-sides" content="cover">\n' + head + main + "\n"
     # a full document: the site page, or an Artifact subpage (served without the host's wrapper, so it brings its own head)
