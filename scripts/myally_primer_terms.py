@@ -122,6 +122,17 @@ TERMS = {
     "g-remix": ["remix"], "g-stub": ["stubbed", "stub"], "g-data-governance-plan": ["data governance plan", "governance plan"],
     "g-working-day": ["working days", "working day"], "g-spec": ["integration spec", "spec"], "g-review-call": ["review call", "review calls"],
     "g-deliverables": ["deliverables"], "g-design-system": ["design system"], "g-go-or-stop-memo": ["go or stop memo"],
+    # The rest of the Primer (2026-11-12): every entry gets hover text, so no Primer term is left without one.
+    "g-vendor-provider": ["vendor", "vendors", "provider", "providers"], "g-usage-cap": ["usage cap", "usage caps"],
+    "g-model-version-freezing-it": ["model version", "freezing"], "g-backup-and-restore-test": ["restore test", "backup"],
+    "g-re-platforming": ["re-platforming", "re-platform"], "g-second-check-at-login": ["second check at login"],
+    "g-accessibility-standard": ["accessibility standard", "accessibility"], "g-scope": ["scope"],
+    "g-roadmap": ["roadmap"], "g-first-release-thin-path": ["thin path", "first release"],
+    "g-trial-run-spike": ["trial run", "spike"], "g-fixed-grows-with-use-hidden-costs": ["hidden costs", "grows with use"],
+    "g-best-likely-worst-case": ["worst case", "best case", "likely case"], "g-decision-record": ["decision record", "decision records"],
+    "g-imagine-it-failed-exercise": ["imagine it failed"], "g-looking-back": ["looking back"],
+    "g-predict-first-check-later": ["predict first"], "g-fact-check": ["fact-check", "fact check"],
+    "g-shared-documents-versus-shared-understanding": ["shared understanding"],
 }
 
 GEN = re.compile(r'<span class="termwrap" data-gen="terms"><a [^>]*>(.*?)</a><span class="tip".*?<span class="tiphint">[^<]*</span></span></span>', re.S)
@@ -236,6 +247,10 @@ def main():
     h_old = open(HUB, encoding="utf-8").read()
     p_new = primer_text(p_old)
     h_new = hub_text(h_old, p_new)
+    untipped = [gid for gid in meanings(p_new) if gid not in TERMS]
+    if untipped:
+        print("myally_primer_terms: Primer entries with no hover phrases in TERMS: " + ", ".join(untipped), file=sys.stderr)
+        return 1
     if "--check" in sys.argv:
         stale = [n for n, a, b in (("public/myally-primer.html", p_old, p_new), ("public/myally-hub.html", h_old, h_new)) if a != b]
         if stale:
