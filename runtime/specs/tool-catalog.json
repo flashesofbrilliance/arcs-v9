@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 307,
+  "script": 308,
   "skill": 28,
   "workflow": 2
  },
- "total": 439,
+ "total": 440,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 598,
+   "WIRED": 599,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
@@ -1272,6 +1272,14 @@
    "path": "scripts/deploy-prod.sh",
    "jtbd": "deploy-prod.sh — always run this instead of `vercel --prod`",
    "invoke": "scripts/deploy-prod.sh",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "design_candidates.py",
+   "path": "scripts/design_candidates.py",
+   "jtbd": "design_candidates: a trial lane for design-system changes that are not canon yet.",
+   "invoke": "python3 scripts/design_candidates.py",
    "state": "WIRED"
   },
   {
