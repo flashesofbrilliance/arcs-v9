@@ -77,7 +77,6 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-h2 { margin: 0; font-size: var(--fs-headline); font-weight: var(--fw-strong); line-height: var(--lh-head); }
 .tb-fold-btn { width: 100%; display: flex; align-items: flex-start; justify-content: flex-start; gap: 12px; padding: 0; border: 0; background: none;
   color: var(--text); font: inherit; text-align: left; cursor: pointer; }
-.tb-fold-btn:hover { color: var(--cyan); }
 /* chevron as on MyAlly: left of the title, points right when closed, down when open */
 .tb-fold-btn::before { content: ""; flex: none; width: 8px; height: 8px; margin-top: 9px; border-right: 1.5px solid var(--cyan); border-bottom: 1.5px solid var(--cyan);
   transform: rotate(-45deg); transition: transform var(--dur-base) var(--ease-out); }
@@ -195,8 +194,7 @@ a:active { color: var(--text); }
 .tb-btn.primary:active { background: var(--cyan); filter: brightness(0.92); }
 .tb-btn:disabled, .tb-btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
 /* folds and seat heads */
-.tb-fold-btn { border-radius: var(--ds-r-xs); transition: color var(--dur-fast) var(--ease-out); }
-.tb-fold-btn:active { color: var(--text-secondary); }
+.tb-fold-btn { border-radius: var(--ds-r-xs); }
 .tb-fold-btn:disabled { opacity: 0.45; cursor: not-allowed; }
 .stacked .seat-btn:hover { color: var(--cyan); }
 .stacked .seat-btn:active { color: var(--text-secondary); }
@@ -365,7 +363,6 @@ a:active { color: var(--text); }
 @media (max-width: 599px) { .tb-fold-btn, .stacked .seat-btn { margin-inline-start: 0; width: 100%; } .tb-fold, .tb-fold:last-child { padding: var(--s-3) var(--s-4); } }
 .tb-fold-body { padding-top: var(--s-4); margin-top: var(--s-4); border-top: 1px solid var(--border); }
 .tb-fold:has(.tb-fold-btn[aria-expanded="false"]) .tb-fold-body { margin-top: 0; }
-.tb-fold-btn:hover::before { border-color: var(--text); }
 .tb-fold .tb-card { background: none; border: 0; border-top: 1px solid var(--border); border-radius: 0; padding: var(--s-3) 0 0; }
 .tb-fold .sl-group + .sl-group { padding-top: var(--s-4); border-top: 1px solid var(--border); }
 /* timeline molecule: date label over the release, cyan nodes on one rule (the Week One stepper, vertical) */
@@ -377,3 +374,9 @@ a:active { color: var(--text); }
 .tb-tl-t { margin: 0; line-height: var(--lh-text); text-wrap: pretty; }
 @container (min-width: 38rem) { .tb-tl-i { display: grid; grid-template-columns: calc(var(--key) - var(--s-5)) minmax(0, 1fr); column-gap: var(--s-5); align-items: baseline; } }
 .tb-fold-body { container-type: inline-size; }
+/* masthead name in the San Francisco system face (Zach, 2026-11-12); size, weight, caps and tracking unchanged; non-Apple falls back to system-ui */
+.tb-name-main { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif; }
+/* fold header states (2026-11-12): the title keeps --text in every state, so nothing changes colour on toggle or sticks after a tap.
+   Hover tints only the chevron, on fine pointers; focus-visible keeps its outline. */
+.tb-fold-btn::before { transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur-base) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .tb-fold-btn:hover::before { border-color: var(--text); } }

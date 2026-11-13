@@ -898,3 +898,10 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - **Root cause:** Zach ruled Inter semibold headlines, Inter loaded first from Google Fonts with SF Pro as fallback, and light glass with some depth (2026-11-12). The kit token stack leads with system-ui only to dodge this detector rule; DESIGN.md and the claude.ai/design reference both name Inter.
 - **Repair:** the lift shadow is cut to a 6px blur at source (`--lift` in `src/ui-kit/tabbed-brief/shell.css`). Inter stays per the ruling; `overused-font` is waived for `public/gravity-brief*.html` only.
 - **Guard:** the ratchet (the pages score 0 with the waiver; any new finding blocks). Open debt: decide whether the kit `_tokens.css` stack should lead with Inter for every page, and drop the per-page waiver then.
+
+## 2026-11-12 · tabbed brief masthead name in SF (one value waiver)
+
+- **Break:** the ratchet counted 1 `design-system-font` finding against 0 at HEAD: the masthead name uses SF Pro Display, which DESIGN.md does not declare.
+- **Root cause:** Zach ruled the masthead name (`.tb-name-main`) be set in the San Francisco system face rather than Inter (2026-11-12). SF is already the fallback in the Inter stack, so this names it first for one element.
+- **Repair:** none needed at source; the value `sf pro display` is waived for `public/gravity-brief*.html` only.
+- **Guard:** the ratchet (pages score 0 with the waiver; any new font finding blocks). Open debt: add SF as a named fallback face in DESIGN.md typography, then drop the waiver.
