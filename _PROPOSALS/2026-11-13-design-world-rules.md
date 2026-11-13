@@ -92,3 +92,19 @@ Proposed, in order of cost (nothing built yet):
 5. **Atlas link.** A part that draws an atlas v2 tier names which tier (atoms, people, claims, beliefs, decisions); a range view composes several atlas bundles.
 
 Open decision: build 1 and 2 first (both read-only and cheap), or 4 first because it needs the canonical altitude ladder.
+
+## HUD purpose, stated 2026-11-13 (Zach; not yet QA'd by him)
+
+The HUD loads one ziggurat to explore its knowledge space from a zero-point null drop, or loads several into one problem space. Loaded together, their decision geometries interact and cut new edges. An orthogonal echo in one can be load-bearing for another, through a known isomorphism or a risk that was mapped because of its counterpart.
+
+How this lines up with what the repo already holds (names checked, not yet verified against the HUD code):
+- **Null drop:** `WORLD.md` Field Geometry: "one field, sovereign zeros, lawful transforms, preserved invariants"; every artifact declares its frame, and returning to zero returns you to your own null point.
+- **Orthogonal echo:** ROM primitive 5, the Orthogonal Echo Detector (cross-domain kinematic isomorphisms), and the atlas v2 `edges` and `unanchored` fields.
+- **Mapped risk carried across:** the kintsugi seam and the believability ledger (a repair or a falsified belief is shown, never erased).
+
+Design consequences, all proposed:
+1. **Every atlas declares its zero.** A loaded atlas with no declared frame cannot be joined to another; the HUD refuses the join and says why.
+2. **A cross-atlas edge names its basis.** Either an isomorphism (what maps to what) or an inherited risk (which atlas mapped it). An edge with neither draws as unanchored, never as a link.
+3. **An echo is never inferred from shared boilerplate.** Two atlases that share template text are not echoes (the 2026-11 template-aliasing lesson); the detector checks provenance before it draws an edge.
+4. **Visual states to specify and gate:** null (a zero-point drop, drawn flat), loaded-single, loaded-joined, echo (load-bearing cross edge), inherited-risk. Each has its fidelity states and a flat empty form (rule O3).
+5. **QA hook:** because the HUD is not yet QA'd, no rule here is enforced against it until Zach validates; the first gate is a read-only check that every loaded atlas has a frame and every cross edge has a basis.
