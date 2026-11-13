@@ -1,5 +1,5 @@
   <!-- 06 DEPENDENCY MAP -->
-  <div class="section">
+  <div class="section" data-tone="cyan" data-tldr="The whole roadmap hangs on one dependency, scored outcomes, and it shipped on Day 98.">
     <div class="section-head">
       <div class="section-n">07</div>
       <div class="section-label" style="color:var(--cyan);border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.06);">DEPENDENCY MAP</div>

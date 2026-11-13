@@ -147,7 +147,7 @@
 :root {
   --bg: #020408; --surface: #0d1117; --surface2: #111820;
   --border: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --dimmed: #8391a7; --faint: #7a8699;
-  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D; --steel: #7dd3fc;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D; --steel: #7dd3fc; --steel-bg: rgba(125,211,252,0.07); --hair-soft: rgba(30,41,59,0.55); --hair: rgba(30,41,59,0.85);
   /* Radii - canonical scale (ARCS OS colors_and_type.css) */
   --r-xs: 3px; --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-pill: 999px;
   /* Fonts - canonical families; the adherence linter permits only these two */
@@ -196,7 +196,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .era-head { display: block; line-height: 1.6; font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; margin-top: 2px; }
 .era-tick { width: 14px; height: 2px; border-radius: 1px; display: inline-block; margin-right: 8px; vertical-align: middle; }
 .terrain-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; opacity: 0.82; }
-.terrain-cell { background: rgba(13,17,23,0.6); border: 1px solid rgba(30,41,59,0.7); border-left: 2px solid rgba(125,211,252,0.4); border-radius: var(--r-md); padding: 10px 13px; }
+.terrain-cell { background: rgba(13,17,23,0.6); border: 1px solid var(--hair-soft); border-left: 2px solid rgba(125,211,252,0.4); border-radius: var(--r-md); padding: 10px 13px; }
 .terrain-val { font-family: var(--mono); font-size: var(--text-base); font-weight: 800; color: var(--steel); letter-spacing: -0.01em; }
 .terrain-label { font-size: var(--text-xs); color: var(--dimmed); line-height: 1.45; margin-top: 4px; }
 @media (max-width: 640px) { .terrain-row { grid-template-columns: repeat(2, 1fr); } }
@@ -209,8 +209,8 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .stat-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dimmed); margin-top: 4px; line-height: 1.4; }
 
 /* SECTION */
-.section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 24px 26px; }
-.section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 0; overflow: hidden; }
+.section-head { display: flex; align-items: center; gap: 10px; margin: 0; padding: 12px 26px; background: var(--surface2); border-bottom: 2px solid var(--cap, var(--border)); flex-wrap: wrap; }
 .section-n { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.12em; color: var(--dimmed); }
 .section-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; border: 1px solid; }
 .section-title { font-size: var(--text-lg); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 6px; }
@@ -238,7 +238,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .su-zone-name { font-size: var(--text-md); font-weight: 700; color: var(--zc, var(--text)); }
 .su-zone-count { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; color: var(--zc); }
 .su-zone-sub { font-family: var(--mono); font-size: 11px; color: var(--dimmed); text-transform: uppercase; letter-spacing: 0.08em; margin: 3px 0 8px; }
-.su-zli { font-size: var(--text-sm); color: var(--muted); line-height: 1.4; padding: 5px 0; border-top: 1px solid rgba(30,41,59,0.5); }
+.su-zli { font-size: var(--text-sm); color: var(--muted); line-height: 1.4; padding: 5px 0; border-top: 1px solid var(--hair-soft); }
 .su-zli:first-of-type { border-top: none; }
 .su-zli b { color: var(--text); font-weight: 600; }
 @media (max-width: 640px){ .su-zones { grid-template-columns: 1fr; } }
@@ -254,7 +254,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 table.su-t { border-collapse: collapse; width: 100%; min-width: 560px; font-size: var(--text-sm); }
 table.su-t th { text-align: left; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmed); font-weight: 700; padding: 9px 10px; border-bottom: 1px solid var(--border); background: var(--surface); }
 table.su-t th.n, table.su-t td.sc { text-align: center; }
-table.su-t td { padding: 9px 10px; border-bottom: 1px solid rgba(30,41,59,0.5); vertical-align: top; color: var(--muted); line-height: 1.4; }
+table.su-t td { padding: 9px 10px; border-bottom: 1px solid var(--hair-soft); vertical-align: top; color: var(--muted); line-height: 1.4; }
 table.su-t tr:last-child td { border-bottom: none; }
 table.su-t td.c { color: var(--text); font-weight: 600; }
 table.su-t td.c small { display: block; font-family: var(--mono); font-size: 11px; color: var(--dimmed); font-weight: 400; margin-top: 2px; }
@@ -299,9 +299,9 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 @media (max-width: 640px){ .su-icards { grid-template-columns: 1fr; } }
 
 .su-core { border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; margin-top: 8px; background: linear-gradient(180deg,#060b12,#020408); }
-.su-str { display: grid; grid-template-columns: 96px 1fr; border-bottom: 1px solid rgba(30,41,59,0.6); }
+.su-str { display: grid; grid-template-columns: 96px 1fr; border-bottom: 1px solid var(--hair-soft); }
 .su-str:last-child { border-bottom: none; }
-.su-sg { padding: 12px 10px 12px 14px; border-right: 1px solid rgba(30,41,59,0.5); position: relative; }
+.su-sg { padding: 12px 10px 12px 14px; border-right: 1px solid var(--hair-soft); position: relative; }
 .su-sg::before { content:""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--acc,#64748b); }
 .su-sl { font-family: var(--mono); font-weight: 700; font-size: var(--text-md); color: var(--acc,#cbd5e1); }
 .su-snm { font-size: 11px; color: var(--text); font-weight: 600; margin-top: 2px; line-height: 1.2; }
@@ -355,7 +355,8 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 .alt-btn { flex: 1; min-width: 92px; padding: 9px 8px; background: none; border: 1px solid transparent; border-radius: 7px; cursor: pointer; font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmed); transition: all 0.15s; text-align: center; }
 .alt-btn:hover { color: var(--text); background: rgba(255,255,255,0.04); }
 .alt-btn.active { color: var(--bg); background: var(--cyan); border-color: var(--cyan); }
-.alt-btn .k { display: block; font-size: var(--text-xs); opacity: 0.55; margin-top: 2px; letter-spacing: 0.06em; }
+.alt-btn.active .k { color: var(--bg); }
+.alt-btn .k { display: block; font-size: var(--text-xs); color: var(--dimmed); margin-top: 2px; letter-spacing: 0.06em; }
 .alt-readout { width: 100%; font-family: var(--mono); font-size: var(--text-xs); color: var(--dimmed); letter-spacing: 0.06em; padding: 4px 6px 0; }
 .alt-readout strong { color: var(--cyan); }
 
@@ -369,7 +370,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 .cadence { display: flex; align-items: flex-end; gap: 4px; height: 88px; margin-top: 14px; padding: 0 2px; }
 .cad-col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 5px; height: 100%; }
 .cad-bar { width: 100%; border-radius: 3px 3px 0 0; background: linear-gradient(180deg, var(--cyan), rgba(0,240,255,0.15)); min-height: 2px; position: relative; }
-.cad-bar.zero { background: rgba(30,41,59,0.8); }
+.cad-bar.zero { background: var(--hair); }
 .cad-bar.peak { background: linear-gradient(180deg, var(--green), rgba(0,255,157,0.15)); }
 .cad-n { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; color: var(--muted); }
 .cad-w { font-family: var(--mono); font-size: var(--text-xs); color: var(--faint); letter-spacing: 0.03em; }
@@ -457,7 +458,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 .pres-stage::before { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: -1;
   background: radial-gradient(ellipse 62% 68% at 50% 46%, rgba(2,4,8,0.92) 0%, rgba(2,4,8,0.72) 45%, transparent 78%); }
 .pres-top, .pres-stage, .pres-bot, .pres-hairline { position: relative; z-index: 2; }
-.pres-bezel { position: absolute; inset: 14px; border: 1px solid rgba(30,41,59,0.55); border-radius: 10px; pointer-events: none; z-index: 1; }
+.pres-bezel { position: absolute; inset: 14px; border: 1px solid var(--hair-soft); border-radius: 10px; pointer-events: none; z-index: 1; }
 .pres-bezel::before { content: ""; position: absolute; top: -1px; left: -1px; width: 20px; height: 20px; border-top: 2px solid var(--hl, var(--cyan)); border-left: 2px solid var(--hl, var(--cyan)); border-top-left-radius: 10px; }
 .pres-bezel::after { content: ""; position: absolute; bottom: -1px; right: -1px; width: 20px; height: 20px; border-bottom: 2px solid var(--hl, var(--cyan)); border-right: 2px solid var(--hl, var(--cyan)); border-bottom-right-radius: 10px; }
 .pres-status { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.12em; color: var(--dimmed); text-align: center; flex: 1; }
@@ -616,7 +617,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 .ms-rank.r3 { color: var(--steel); background: rgba(125,211,252,0.08); border: 1px solid rgba(125,211,252,0.25); }
 .ms-body { font-size: var(--text-sm); color: var(--muted); line-height: 1.6; margin-top: 7px; }
 .ms-body strong { color: var(--text); font-weight: 600; }
-.ms-commits { margin-top: 10px; border-top: 1px dashed rgba(30,41,59,0.9); padding-top: 9px; display: flex; flex-direction: column; gap: 5px; }
+.ms-commits { margin-top: 10px; border-top: 1px dashed var(--hair); padding-top: 9px; display: flex; flex-direction: column; gap: 5px; }
 .ms-commit { font-family: var(--mono); font-size: var(--text-xs); color: var(--dimmed); line-height: 1.5; display: flex; gap: 10px; align-items: baseline; }
 .ms-commit a { color: var(--gold); text-decoration: none; flex-shrink: 0; }
 .ms-commit a:hover { text-decoration: underline; }
@@ -639,7 +640,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 /* RISK REGISTER */
 .risk-table { width: 100%; border-collapse: collapse; margin-top: 14px; }
 .risk-table th { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmed); text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.risk-table td { font-size: var(--text-sm); color: var(--muted); line-height: 1.55; padding: 11px 10px; border-bottom: 1px solid rgba(30,41,59,0.5); vertical-align: top; }
+.risk-table td { font-size: var(--text-sm); color: var(--muted); line-height: 1.55; padding: 11px 10px; border-bottom: 1px solid var(--hair-soft); vertical-align: top; }
 .risk-table td strong { color: var(--text); font-weight: 600; }
 .chip { display: inline-block; font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; }
 .chip.high { color: var(--red); background: rgba(255,77,109,0.09); border: 1px solid rgba(255,77,109,0.3); }
@@ -687,7 +688,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 .dep-arrow span { display: block; font-size: var(--text-xs); color: var(--dimmed); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
 .dep-fan { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .dep-fan .dep-node { max-width: none; margin: 0; }
-.dep-solo { margin-top: 4px; padding-top: 12px; border-top: 1px dashed rgba(30,41,59,0.9); }
+.dep-solo { margin-top: 4px; padding-top: 12px; border-top: 1px dashed var(--hair); }
 
 .footer { margin-top: 8px; padding-top: 20px; border-top: 1px solid var(--border); font-family: var(--mono); font-size: var(--text-xs); color: var(--dimmed); line-height: 1.9; }
 .footer strong { color: var(--muted); }
@@ -710,6 +711,19 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   .cad-w { display: none; }
 }
 .era-head #et-now, .era-head #era-day { white-space: nowrap; }
+
+/* Section cap (2026-11-12): a collapsed section is a card with a tinted cap, like the live pulse head. The cap carries the index, the label and the fold control; the headline and tldr sit under it. */
+.section[data-tone="green"] { --cap: var(--green); --cap-bg: var(--green-bg); }
+.section[data-tone="gold"] { --cap: var(--gold); --cap-bg: var(--gold-bg); }
+.section[data-tone="red"] { --cap: var(--red); --cap-bg: var(--red-bg); }
+.section[data-tone="cyan"] { --cap: var(--cyan); --cap-bg: var(--cyan-bg); }
+.section[data-tone="steel"] { --cap: var(--steel); --cap-bg: var(--steel-bg); }
+.section > :not(.section-head) { margin-inline: 26px; }
+.section > .section-title { margin-top: 18px; }
+.section > .sec-tldr { margin-bottom: 20px; }
+.section > .sec-body { margin-top: 12px; margin-bottom: 24px; }
+.section.collapsed > .sec-body { margin: 0; }
+.section:not(.collapsed) > .section-title { margin-bottom: 0; }
 
 /* ===== Component states (2026-11-12) =====
    Every interactive component has hover, focus-visible, pressed and disabled, in dark and light (tokens remap) and on touch.
@@ -762,16 +776,16 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 /* ===== Light theme for the tokens and colors this page owns (2026-11-12) =====
    Kit 39 remaps the shared tokens; the page's own tokens (--surface2, --faint, --steel) and the few hard-coded pale-on-dark
    colors are remapped here. Same two entry points as the kit: data-theme="light" and prefers-color-scheme with no explicit dark. */
-:root[data-theme="light"] { --surface2: var(--surface-2); --faint: #566170; --steel: #0b5d7a; }
+:root[data-theme="light"] { --surface2: var(--surface-2); --faint: #566170; --steel: #0b5d7a; --steel-bg: rgba(11,93,122,0.08); --hair-soft: var(--border); --hair: var(--border); }
 :root[data-theme="light"] .tt-m { color: #475262; }
 :root[data-theme="light"] .su-core { background: linear-gradient(180deg, var(--surface), var(--surface-2)); }
 :root[data-theme="light"] .su-zli, :root[data-theme="light"] table.su-t td, :root[data-theme="light"] .su-str, :root[data-theme="light"] .su-sg { border-color: var(--border); }
-:root[data-theme="light"] .alt-btn:hover, :root[data-theme="light"] .terrain-cell { background: rgba(28,36,48,0.05); }
+:root[data-theme="light"] .alt-btn:not(.active):hover, :root[data-theme="light"] .terrain-cell { background: rgba(28,36,48,0.05); }
 :root[data-theme="light"] .terrain-cell { border-color: var(--border); }
 :root[data-theme="light"] .ms-commits { border-top-color: var(--border); }
 :root[data-theme="light"] .section-label[style] { filter: none; }
 @media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) { --surface2: var(--surface-2); --faint: #566170; --steel: #0b5d7a; }
+  :root:not([data-theme="dark"]) { --surface2: var(--surface-2); --faint: #566170; --steel: #0b5d7a; --steel-bg: rgba(11,93,122,0.08); --hair-soft: var(--border); --hair: var(--border); }
 }
 
 /* The architecture diagram (section 02) draws with presentation attributes in dark hex values, so tokens cannot reach it.
@@ -790,6 +804,19 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 :root[data-theme="light"] .flow-svg [stroke="rgba(255,215,0,0.35)"] { stroke: var(--gold); }
 :root[data-theme="light"] .flow-svg [stroke="rgba(0,255,157,0.35)"] { stroke: var(--green); }
 :root[data-theme="light"] .alt-bar { background: rgba(255,255,255,0.92); }
+
+/* Dark islands (2026-11-12): surfaces that are dark in BOTH themes by design. Their text reads the page tokens, which the light theme remaps to dark ink,
+   so each island re-declares the dark token set and the descendants inherit it. Without this the tooltips and the presentation overlay were dark ink on dark. */
+#pres, #charttip, #termtip, .flow-lightbox {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820; --surface-2: #121820; --elevated: #111827; --border: #1e293b;
+  --text: #e2e8f0; --text-secondary: #94a3b8; --muted: #94a3b8; --dimmed: #8391a7; --faint: #7a8699;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D; --steel: #7dd3fc;
+  --cyan-bg: rgba(0,240,255,0.07); --green-bg: rgba(0,255,157,0.07); --gold-bg: rgba(255,215,0,0.07); --red-bg: rgba(255,77,109,0.07);
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] table.su-t td.kill { color: var(--red); }
+:root[data-theme="light"] .su-sl { color: var(--text); }
 </style>
 <link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/jetbrains-mono-normal-100-800-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
@@ -854,7 +881,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   </div>
 
   <!-- 01 STATE OF THE UNION -->
-  <div class="section">
+  <div class="section" data-tone="green" data-tldr="Every item on the debt tracker by status: awaiting a decision, next, in progress, shipped.">
     <div class="section-head">
       <div class="section-n">01</div>
       <div class="section-label" style="color:var(--green);border-color:rgba(0,255,157,0.35);background:rgba(0,255,157,0.06);">STATE OF THE UNION</div>
@@ -875,7 +902,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   </div>
 
   <!-- 02 INSTRUMENT PANEL -->
-  <div class="section">
+  <div class="section" data-tone="gold" data-tldr="Twelve design principles set before the first feature, each enforced in code, plus the loop that keeps learning that they run.">
     <div class="section-head">
       <div class="section-n">02</div>
       <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">THE INSTRUMENT PANEL</div>
@@ -929,7 +956,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   </div>
 
   <!-- 03 BUILD EXPLORER -->
-  <div class="section">
+  <div class="section" data-tone="green" data-tldr="Day 0 to today at whatever depth you want, from one plain sentence per milestone down to the actual commits.">
     <div class="section-head">
       <div class="section-n">03</div>
       <div class="section-label" style="color:var(--green);border-color:rgba(0,255,157,0.35);background:rgba(0,255,157,0.06);">THE BUILD, DAY 0 TO TODAY</div>
@@ -987,7 +1014,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   </div>
 
   <!-- 03 LESSONS -->
-  <div class="section">
+  <div class="section" data-tone="gold" data-tldr="Where I was wrong and what changed: delete before you rebuild, enforce don&#x27;t decorate, honesty over polish.">
     <div class="section-head">
       <div class="section-n">04</div>
       <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">SIX LESSONS THE BUILD PAID FOR</div>
@@ -1022,7 +1049,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   </div>
 
   <!-- 04 RISK REGISTER -->
-  <div class="section">
+  <div class="section" data-tone="red" data-tldr="What I&#x27;d tell a board today: single-operator context, gated features, vendor concentration, each with its mitigation.">
     <div class="section-head">
       <div class="section-n">05</div>
       <div class="section-label" style="color:var(--red);border-color:rgba(255,77,109,0.35);background:rgba(255,77,109,0.06);">RISK REGISTER, CURRENT AND HONEST</div>
@@ -1090,7 +1117,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   </div>
 
   <!-- 05 ROADMAP -->
-  <div class="section">
+  <div class="section" data-tone="gold" data-tldr="One backlog, three horizons. Nothing moves up on enthusiasm; every later item has a named condition that promotes it.">
     <div class="section-head">
       <div class="section-n">06</div>
       <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">ROADMAP: NOW, NEXT, LATER</div>
@@ -1119,7 +1146,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   </div>
 
   <!-- 06 DEPENDENCY MAP -->
-  <div class="section">
+  <div class="section" data-tone="cyan" data-tldr="The whole roadmap hangs on one dependency, scored outcomes, and it shipped on Day 98.">
     <div class="section-head">
       <div class="section-n">07</div>
       <div class="section-label" style="color:var(--cyan);border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.06);">DEPENDENCY MAP</div>
@@ -1170,7 +1197,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   </div>
 
   <!-- 07 LEGEND -->
-  <div class="section">
+  <div class="section" data-tone="steel" data-tldr="Every piece of product vocabulary on this page, translated into plain words.">
     <div class="section-head">
       <div class="section-n">08</div>
       <div class="section-label" style="color:var(--steel);border-color:rgba(125,211,252,0.35);background:rgba(125,211,252,0.06);">LEGEND: THE TERMS, IN PLAIN WORDS</div>
@@ -1193,7 +1220,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   </div>
 
   <!-- 10 EVALS & FALSIFIABILITY -->
-  <div class="section">
+  <div class="section" data-tone="gold" data-tldr="Every headline claim, with the result that would kill it.">
     <div class="section-head">
       <div class="section-n">09</div>
       <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">EVALS &amp; FALSIFIABILITY</div>
@@ -1242,7 +1269,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   </div>
 
   <!-- 11 THE ARCHAEOLOGY -->
-  <div class="section">
+  <div class="section" data-tone="steel" data-tldr="Every pattern placed in the L0 to L7 stack, tagged map, patent or eval.">
     <div class="section-head">
       <div class="section-n">10</div>
       <div class="section-label" style="color:var(--steel);border-color:rgba(125,211,252,0.35);background:rgba(125,211,252,0.06);">THE ARCHAEOLOGY</div>
@@ -1908,15 +1935,6 @@ render();
 (function () {
   var sections = Array.prototype.slice.call(document.querySelectorAll(".section"));
   var expandBtn = document.getElementById("fb-expand"), focusBtn = document.getElementById("fb-focus");
-  var TLDRS = [
-    "Twelve design principles set before the first feature, each enforced in code, plus the loop that keeps learning that they run.",
-    "Day 0 to today at whatever depth you want, from one plain sentence per milestone down to the actual commits.",
-    "Where I was wrong and what changed: delete before you rebuild, enforce don't decorate, honesty over polish.",
-    "What I'd tell a board today: single-operator context, gated features, vendor concentration, each with its mitigation.",
-    "One backlog, three horizons. Nothing moves up on enthusiasm; every later item has a named condition that promotes it.",
-    "The whole roadmap hangs on one dependency, scored outcomes, and it shipped on Day 98.",
-    "Every piece of product vocabulary on this page, translated into plain words."
-  ];
   var focusOn = true;
   function open(sec) { sec.classList.remove("collapsed"); sec._body.style.maxHeight = "none"; }
   function collapse(sec, instant) {
@@ -1941,7 +1959,7 @@ render();
     var title = body.querySelector(".section-title");
     if (title) sec.insertBefore(title, body);
     // TL;DR line - shown only when collapsed
-    var tldr = document.createElement("div"); tldr.className = "sec-tldr"; tldr.textContent = TLDRS[idx] || "";
+    var tldr = document.createElement("div"); tldr.className = "sec-tldr"; tldr.textContent = sec.getAttribute("data-tldr") || "";
     sec.insertBefore(tldr, body);
     var tog = document.createElement("span"); tog.className = "sec-toggle"; tog.textContent = "▾";
     head.appendChild(tog);

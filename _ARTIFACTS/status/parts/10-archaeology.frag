@@ -1,5 +1,5 @@
   <!-- 11 THE ARCHAEOLOGY -->
-  <div class="section">
+  <div class="section" data-tone="steel" data-tldr="Every pattern placed in the L0 to L7 stack, tagged map, patent or eval.">
     <div class="section-head">
       <div class="section-n">10</div>
       <div class="section-label" style="color:var(--steel);border-color:rgba(125,211,252,0.35);background:rgba(125,211,252,0.06);">THE ARCHAEOLOGY</div>

@@ -1,5 +1,5 @@
   <!-- 03 BUILD EXPLORER -->
-  <div class="section">
+  <div class="section" data-tone="green" data-tldr="Day 0 to today at whatever depth you want, from one plain sentence per milestone down to the actual commits.">
     <div class="section-head">
       <div class="section-n">03</div>
       <div class="section-label" style="color:var(--green);border-color:rgba(0,255,157,0.35);background:rgba(0,255,157,0.06);">THE BUILD, DAY 0 TO TODAY</div>

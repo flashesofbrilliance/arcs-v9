@@ -88,7 +88,7 @@ def su_section(data, floor):
                   '<span class="su-zone-count" id="su-z-%s">%d</span></div><div class="su-zone-sub">%s</div><ul class="su-zl" id="su-items-%s">%s</ul></section>\n' % (col, suf, suf, title, suf, cnt[suf], sub, suf, lis))
     asof = __import__("datetime").date.fromisoformat(floor["as_of"])
     return ('  <!-- 01 STATE OF THE UNION -->\n'
-            '  <div class="section">\n    <div class="section-head">\n      <div class="section-n">01</div>\n'
+            '  <div class="section" data-tone="green" data-tldr="%s">\n    <div class="section-head">\n      <div class="section-n">01</div>\n'
             '      <div class="section-label" style="color:var(--green);border-color:rgba(0,255,157,0.35);background:rgba(0,255,157,0.06);">STATE OF THE UNION</div>\n    </div>\n'
             '    <div class="section-title">%s</div>\n    <div class="section-body">\n'
             '      <p class="su-lead">%s <strong>%s</strong> (<span id="su-lead-total">%d</span> tracked).</p>\n'
@@ -96,7 +96,7 @@ def su_section(data, floor):
             '      <div class="su-barlabel">%s</div>\n'
             '      <span class="dg" id="dg-su">degraded · floor shown</span><div id="su-stamp" class="su-stamp">Counted from the issue tracker by status label · shipped is cumulative · as of %s</div>\n'
             '      <div class="su-zones">\n%s      </div>\n    </div>\n  </div>\n') % (
-        e(data["su"]["title"]), e(data["su"]["lead"]), lead_parts, total, bar, lab, asof.strftime("%b ") + str(asof.day) + asof.strftime(", %Y"), zones)
+        e(data["su"]["tldr"]), e(data["su"]["title"]), e(data["su"]["lead"]), lead_parts, total, bar, lab, asof.strftime("%b ") + str(asof.day) + asof.strftime(", %Y"), zones)
 
 
 def prefs_js():

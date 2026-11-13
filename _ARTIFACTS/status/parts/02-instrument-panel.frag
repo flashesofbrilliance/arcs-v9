@@ -1,5 +1,5 @@
   <!-- 02 INSTRUMENT PANEL -->
-  <div class="section">
+  <div class="section" data-tone="gold" data-tldr="Twelve design principles set before the first feature, each enforced in code, plus the loop that keeps learning that they run.">
     <div class="section-head">
       <div class="section-n">02</div>
       <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">THE INSTRUMENT PANEL</div>

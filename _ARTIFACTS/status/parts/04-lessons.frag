@@ -1,5 +1,5 @@
   <!-- 03 LESSONS -->
-  <div class="section">
+  <div class="section" data-tone="gold" data-tldr="Where I was wrong and what changed: delete before you rebuild, enforce don&#x27;t decorate, honesty over polish.">
     <div class="section-head">
       <div class="section-n">04</div>
       <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">SIX LESSONS THE BUILD PAID FOR</div>

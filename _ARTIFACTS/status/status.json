@@ -6,7 +6,8 @@
  "top_line": "Live build status, measured from the repository",
  "su": {
   "title": "The whole terrain at one glance… awaiting a decision, next, in progress, shipped.",
-  "lead": "Section 05 is the short Now/Next/Later. This is the depth: every item on the debt tracker, counted live by status label, with a curated list of public items on each card."
+  "lead": "Section 05 is the short Now/Next/Later. This is the depth: every item on the debt tracker, counted live by status label, with a curated list of public items on each card.",
+  "tldr": "Every item on the debt tracker by status: awaiting a decision, next, in progress, shipped."
  },
  "figures": {
   "live": {

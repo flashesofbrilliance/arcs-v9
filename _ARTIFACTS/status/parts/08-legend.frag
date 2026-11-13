@@ -1,5 +1,5 @@
   <!-- 07 LEGEND -->
-  <div class="section">
+  <div class="section" data-tone="steel" data-tldr="Every piece of product vocabulary on this page, translated into plain words.">
     <div class="section-head">
       <div class="section-n">08</div>
       <div class="section-label" style="color:var(--steel);border-color:rgba(125,211,252,0.35);background:rgba(125,211,252,0.06);">LEGEND: THE TERMS, IN PLAIN WORDS</div>

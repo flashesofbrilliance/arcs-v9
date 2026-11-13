@@ -1,5 +1,5 @@
   <!-- 04 RISK REGISTER -->
-  <div class="section">
+  <div class="section" data-tone="red" data-tldr="What I&#x27;d tell a board today: single-operator context, gated features, vendor concentration, each with its mitigation.">
     <div class="section-head">
       <div class="section-n">05</div>
       <div class="section-label" style="color:var(--red);border-color:rgba(255,77,109,0.35);background:rgba(255,77,109,0.06);">RISK REGISTER, CURRENT AND HONEST</div>

@@ -522,15 +522,6 @@ render();
 (function () {
   var sections = Array.prototype.slice.call(document.querySelectorAll(".section"));
   var expandBtn = document.getElementById("fb-expand"), focusBtn = document.getElementById("fb-focus");
-  var TLDRS = [
-    "Twelve design principles set before the first feature, each enforced in code, plus the loop that keeps learning that they run.",
-    "Day 0 to today at whatever depth you want, from one plain sentence per milestone down to the actual commits.",
-    "Where I was wrong and what changed: delete before you rebuild, enforce don't decorate, honesty over polish.",
-    "What I'd tell a board today: single-operator context, gated features, vendor concentration, each with its mitigation.",
-    "One backlog, three horizons. Nothing moves up on enthusiasm; every later item has a named condition that promotes it.",
-    "The whole roadmap hangs on one dependency, scored outcomes, and it shipped on Day 98.",
-    "Every piece of product vocabulary on this page, translated into plain words."
-  ];
   var focusOn = true;
   function open(sec) { sec.classList.remove("collapsed"); sec._body.style.maxHeight = "none"; }
   function collapse(sec, instant) {
@@ -555,7 +546,7 @@ render();
     var title = body.querySelector(".section-title");
     if (title) sec.insertBefore(title, body);
     // TL;DR line - shown only when collapsed
-    var tldr = document.createElement("div"); tldr.className = "sec-tldr"; tldr.textContent = TLDRS[idx] || "";
+    var tldr = document.createElement("div"); tldr.className = "sec-tldr"; tldr.textContent = sec.getAttribute("data-tldr") || "";
     sec.insertBefore(tldr, body);
     var tog = document.createElement("span"); tog.className = "sec-toggle"; tog.textContent = "▾";
     head.appendChild(tog);
