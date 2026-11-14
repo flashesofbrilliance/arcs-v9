@@ -1,0 +1,36 @@
+{
+ "doc_title": "ARCS: Day 0 to Today",
+ "description": "ARCS, built in the open since day zero: a live product that grades itself. Proof over promises, one commit at a time.",
+ "storage_key": "arcsStatusPrefs",
+ "default_theme": "dark",
+ "top_line": "Live build status, measured from the repository",
+ "su": {
+  "title": "The whole terrain at one glance… awaiting a decision, next, in progress, shipped.",
+  "lead": "Section 05 is the short Now/Next/Later. This is the depth: every item on the debt tracker, counted live by status label, with a curated list of public items on each card.",
+  "tldr": "Every item on the debt tracker by status: awaiting a decision, next, in progress, shipped."
+ },
+ "figures": {
+  "live": {
+   "hero-day, era-day, stat-days": "calendar-day math from T0 2026-04-09 in the browser (ET); floor stamped at build",
+   "sv-commits, pl-count": "/api/pulse commitsTotal; floor = git rev-list --count",
+   "pl-commit, pl-deploy, pl-prs": "/api/pulse commit, deploy, prsOpen (GitHub, server-side); no floor beyond 'loading'",
+   "su counts and items": "/api/pulse debt.byStatus and items; floor = tracker counts at build",
+   "tempo-live": "/api/pulse tempo; floor = git merges per week at build",
+   "risk chips": "/api/pulse risks (RISK_BINDINGS)",
+   "gate counts (data-g)": "/api/pulse gates (database, server-side); floor = last value seen, hand-set"
+  },
+  "unsourced": {
+   "14+ client surfaces (hero stat; explorer.js prose)": "hand-written; no catalog count matches the claim (surface-catalog.json lists ~95 aliases, not client surfaces)",
+   "13 milestones (build explorer)": "hand-written; count of the MILESTONES array in explorer.js, not stamped",
+   "milestone commit hashes (explorer.js)": "each names a real commit; verifiable with git, not checked at build",
+   "CADENCE weekly commits (explorer.js, 'measured 2026-08-16')": "hand-pasted from git log and stale; derivable from git, not wired",
+   "128 commits with no AI co-author, the hands chart (explorer.js)": "derivable from commit trailers; not wired, definition of 'fully by hand' not written down",
+   "43-operator library (instrument panel)": "operators/OPERATOR-REGISTRY.json could back it; not wired",
+   "gate floors data-g (0 and 10, sections 06 and 07)": "hand-set; the live value is database-only (/api/pulse gates), so no build-time source exists",
+   "struck-claim figures: 78%@24h, 68 to 87%, lambda about 1.2e-5, STRUCK OCT 17 (section 09)": "quoted from the white and yellow papers; not measured; the falsification ledger could back the STRUCK status",
+   "day numbers in prose (Day 39, Day 98, Day 173 and the like)": "hand-computed from T0; derivable by date math, not stamped",
+   "risk-register rows other than spend-cap, write-lock, ci-spend (section 04)": "static severity and status; only three rows are bound to the tracker (RISK_BINDINGS)",
+   "lessons and archaeology counts (sections 03 and 10)": "hand-written prose figures; no source recorded"
+  }
+ }
+}
