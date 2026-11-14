@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 317,
+  "script": 318,
   "skill": 28,
   "workflow": 2
  },
- "total": 449,
+ "total": 450,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 608,
+   "WIRED": 609,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
@@ -1832,6 +1832,14 @@
    "path": "scripts/kit_job_ratchet.py",
    "jtbd": "kit_job_ratchet.py: the count of kit parts that name a backlog job may rise, never fall.",
    "invoke": "python3 scripts/kit_job_ratchet.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "kit_optionboard.py",
+   "path": "scripts/kit_optionboard.py",
+   "jtbd": "kit_optionboard.py: build the internal kit option board from kit_rank.py output. Advisory page; edits nothing else.",
+   "invoke": "python3 scripts/kit_optionboard.py",
    "state": "WIRED"
   },
   {
