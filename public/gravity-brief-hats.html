@@ -69,7 +69,7 @@
   --magenta-bg:     rgba(232, 121, 249, 0.07);
 
   /* DESIGN.md rounded scale */
-  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+  --ds-r-xs: 3px; --ds-r-badge: 4px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
 
   /* DESIGN.md type ramp: four steps */
   --fs-label:    0.6875rem;
@@ -103,7 +103,7 @@
 /* @prim:end 27-section-label */
 /* @prim:begin 28-chip */
 .section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-.chip { display: inline-flex; align-items: center; gap: 6px; box-sizing: border-box; height: 22px; padding: 0 10px; border-radius: var(--ds-r-xs); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; line-height: 1; border: 1px solid var(--border); color: var(--text-secondary); background: transparent; }
+.chip { display: inline-flex; align-items: center; gap: 6px; box-sizing: border-box; height: 22px; padding: 0 10px; border-radius: var(--ds-r-badge, 4px); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; line-height: 1; border: 1px solid var(--border); color: var(--text-secondary); background: transparent; }
 .chip.cyan { color: var(--cyan); border-color: color-mix(in srgb, var(--cyan) 35%, transparent); background: color-mix(in srgb, var(--cyan) 13%, transparent); }
 .chip.green { color: var(--green); border-color: color-mix(in srgb, var(--green) 35%, transparent); background: color-mix(in srgb, var(--green) 13%, transparent); }
 .chip.gold { color: var(--gold); border-color: color-mix(in srgb, var(--gold) 35%, transparent); background: color-mix(in srgb, var(--gold) 13%, transparent); }

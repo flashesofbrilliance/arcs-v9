@@ -44,6 +44,7 @@ typography:
     letterSpacing: "0.14em"
 rounded:
   xs: "3px"
+  badge: "4px"
   sm: "6px"
   md: "10px"
   lg: "16px"
@@ -70,8 +71,8 @@ components:
   chip:
     backgroundColor: "{colors.panel}"
     textColor: "{colors.text-secondary}"
-    rounded: "{rounded.xs}"
-    padding: "3px 8px"
+    rounded: "{rounded.badge}"
+    padding: "0 10px"
   input:
     backgroundColor: "{colors.elevated}"
     textColor: "{colors.text-primary}"
@@ -183,6 +184,7 @@ Soft-tech corners: `xs 3px` (chips, ghost buttons), `sm 6px` (cards, inputs, mos
 - **Focus:** `outline: 1px solid #00F0FF; outline-offset: -1px`, always visible, never removed.
 
 ### Chips
+- **Shape (Zach, 2026-11-13):** the design-system Badge. 22px outer height, border-box, `0 10px`, the `badge 4px` radius (`--ds-r-badge`), and 11px mono 700 text (`--fs-label`). The design system's Badge text is 10px; chips keep the 11px functional floor (Zach, 2026-11-13).
 - **Style:** panel background, hairline border, mono micro-label (t1/t2). Status chips tint border + text to the signal color (`c-ok` green, `c-part` gold, `c-stale` red) with a ~7% tinted fill.
 
 ### Cards / Panels
