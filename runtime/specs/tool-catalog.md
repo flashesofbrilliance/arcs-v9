@@ -474,6 +474,8 @@ Install state: WIRED 607 · AVAILABLE-NOT-INSTALLED 0 · INSTALLED-UNUSED 2 · D
   `python3 scripts/jtbd_s5_quality_pool.py`
 - **kit_attract.py** — kit_attract.py: advisory lookup, which kit parts a job attracts. Read-only; never edits a page.  
   `python3 scripts/kit_attract.py`
+- **kit_gate_results.py** — kit_gate_results.py: store, per kit part and per page, whether the pages that use the part pass page_gate.  
+  `python3 scripts/kit_gate_results.py`
 - **kit_job_ratchet.py** — kit_job_ratchet.py: the count of kit parts that name a backlog job may rise, never fall.  
   `python3 scripts/kit_job_ratchet.py`
 - **kit_periodic_table.py** — kit_periodic_table: the visual periodic table of the ARCS ui-kit parts, plus its catalyst ledger.  
