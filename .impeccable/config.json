@@ -6,6 +6,13 @@
     "ignoreFiles": [],
     "ignoreValues": [
       {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": ["src/ui-kit/recoil-report/69-strata-explorer.html"],
+        "createdAt": "2026-11-13T21:00:00.000Z",
+        "reason": "Kit 69 specimen: the six hits are the shared kit_specimen.py shell (body, crumb, h1, section rule, the use/avoid headings) under _tokens-light.css, the kit's own light palette, which DESIGN.md (dark only) does not define. Same light-world scope as the precall-brief example waiver. Kit 64 and 68 carry the same shell and score 0; cause not found, logged as a seam in the PR, not silently passed."
+      },
+      {
         "rule": "dark-glow",
         "value": "*",
         "files": ["public/myally-hub.html"],
@@ -899,6 +906,7 @@
         "src/ui-kit/recoil-report/66-give-get-table.html",
         "src/ui-kit/recoil-report/67-trace-steps.html",
         "src/ui-kit/recoil-report/68-spec-rows.html",
+        "src/ui-kit/recoil-report/70-week-plan.html",
         "src/ui-kit/recoil-report/71-proof-lockup.html",
           "public/gravity-brief*.html",
           "public/recoil-ext/2026-10-29-gasmi.html"
