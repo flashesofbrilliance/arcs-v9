@@ -1,0 +1,49 @@
+{
+  "about": "Kit parts that carry a component from the ARCS OS Design System (claude.ai/artifact/1DnaMvAFvSspGFTvh1f2wi, components/bundle.js). Each listed declaration must appear in the part's @prim block, so the kit cannot drift from the design system again. Checked by scripts/kit_primitive_sync.py --kit. Seam: the Badge component code uses a literal 4px radius, off the design system's own scale (3, 6, 10, 16); the kit uses radius-xs (3px) so DESIGN.md holds. Second seam: Badge text is 10px, under the repo's 11px functional-text floor; the kit keeps --fs-label (11px) so the floor holds. The 22px height is the outer height (border-box), as the design system renders it.",
+  "parts": {
+    "28-chip": {
+      "component": "Badge (signal tags) and StatusBadge (.chip.status)",
+      "rules": {
+        ".chip": {
+          "box-sizing": "border-box",
+          "height": "22px",
+          "padding": "0 10px",
+          "border-radius": "var(--ds-r-xs)",
+          "font-size": "var(--fs-label)",
+          "font-weight": "700",
+          "letter-spacing": "0.1em",
+          "text-transform": "uppercase",
+          "white-space": "nowrap"
+        },
+        ".chip.cyan": {
+          "border-color": "color-mix(in srgb, var(--cyan) 35%, transparent)",
+          "background": "color-mix(in srgb, var(--cyan) 13%, transparent)"
+        },
+        ".chip.green": {
+          "border-color": "color-mix(in srgb, var(--green) 35%, transparent)",
+          "background": "color-mix(in srgb, var(--green) 13%, transparent)"
+        },
+        ".chip.gold": {
+          "border-color": "color-mix(in srgb, var(--gold) 35%, transparent)",
+          "background": "color-mix(in srgb, var(--gold) 13%, transparent)"
+        },
+        ".chip.red": {
+          "border-color": "color-mix(in srgb, var(--red) 35%, transparent)",
+          "background": "color-mix(in srgb, var(--red) 13%, transparent)"
+        },
+        ".chip.status": {
+          "gap": "5px",
+          "padding": "2px 8px",
+          "border-radius": "var(--ds-r-pill)",
+          "font-weight": "500",
+          "letter-spacing": "0"
+        },
+        ".chip.status::before": {
+          "width": "5px",
+          "height": "5px",
+          "border-radius": "50%"
+        }
+      }
+    }
+  }
+}

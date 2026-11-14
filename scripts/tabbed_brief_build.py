@@ -286,6 +286,8 @@ def r_blocks(bl, horizons, hlevel, base="", paths=None):
             tag = "ol" if b.get("ordered") else "ul"
             out.append('<%s class="tb-list">%s</%s>' % (tag, "".join("<li>%s</li>" % md(it, "%s/items/%d" % (p, i)) for i, it in enumerate(b["items"])), tag))
     GEN[0] = False
+    if TUNE[0] and base and len(out) > 1:  # tune copy only: each block carries its pointer so the tuner can reorder it
+        out = ['<div data-blk="%s/%d">%s</div>' % (base, n, h) for n, h in enumerate(out)]
     return "\n".join(out)
 
 

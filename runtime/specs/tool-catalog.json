@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 309,
+  "script": 315,
   "skill": 28,
   "workflow": 2
  },
- "total": 441,
+ "total": 447,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 600,
+   "WIRED": 606,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
@@ -1276,6 +1276,14 @@
   },
   {
    "kind": "script",
+   "name": "design_candidates.py",
+   "path": "scripts/design_candidates.py",
+   "jtbd": "design_candidates: a trial lane for design-system changes that are not canon yet.",
+   "invoke": "python3 scripts/design_candidates.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "design_debt_sweep.py",
    "path": "scripts/design_debt_sweep.py",
    "jtbd": "design_debt_sweep.py: the design-debt burn-down for every page surfaces.arcs.care serves.",
@@ -1820,6 +1828,14 @@
   },
   {
    "kind": "script",
+   "name": "kit_periodic_table.py",
+   "path": "scripts/kit_periodic_table.py",
+   "jtbd": "kit_periodic_table: the visual periodic table of the ARCS ui-kit parts, plus its catalyst ledger.",
+   "invoke": "python3 scripts/kit_periodic_table.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "kit_primitive_sync.py",
    "path": "scripts/kit_primitive_sync.py",
    "jtbd": "kit_primitive_sync: the Instrument Lab primitives promoted from Phosphor stay identical to the page.",
@@ -2156,10 +2172,26 @@
   },
   {
    "kind": "script",
+   "name": "operator_binding_emit.py",
+   "path": "scripts/operator_binding_emit.py",
+   "jtbd": "operator_binding_emit.py: the seat binding map. Every operator, Python operator file and agent (\"seat\"),",
+   "invoke": "python3 scripts/operator_binding_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "operator_registry_emit.py",
    "path": "scripts/operator_registry_emit.py",
    "jtbd": "operator_registry_emit.py — generate operators/OPERATOR-REGISTRY.json from the",
    "invoke": "python3 scripts/operator_registry_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "option_board.py",
+   "path": "scripts/option_board.py",
+   "jtbd": "option_board.py: render a design review as about three rendered options per block.",
+   "invoke": "python3 scripts/option_board.py",
    "state": "WIRED"
   },
   {
@@ -2328,6 +2360,14 @@
    "path": "scripts/proposal_build.py",
    "jtbd": "proposal_build.py: one source page -> the hosted page, a send copy and the PDF.",
    "invoke": "python3 scripts/proposal_build.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "proposal_construction.py",
+   "path": "scripts/proposal_construction.py",
+   "jtbd": "proposal_construction.py: render a proposal page as its own construction sheet, atom to page.",
+   "invoke": "python3 scripts/proposal_construction.py",
    "state": "WIRED"
   },
   {
@@ -3200,6 +3240,14 @@
    "path": "scripts/watchdog.sh",
    "jtbd": "scripts/watchdog.sh — Default stop-rule for any long-running task (J21).",
    "invoke": "scripts/watchdog.sh",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "week_plan_build.py",
+   "path": "scripts/week_plan_build.py",
+   "jtbd": "week_plan_build: render a week plan (runtime/specs/week-plan.schema.json) as kit organism 70 Week Plan.",
+   "invoke": "python3 scripts/week_plan_build.py",
    "state": "WIRED"
   },
   {

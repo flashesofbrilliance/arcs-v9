@@ -1,0 +1,517 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "arcs:week-plan:v1",
+  "title": "Week plan: a future perfect cascaded down five altitudes, week by week",
+  "description": "Weeks 1 to N (default 7). Each week: a future-perfect statement, the altitude cascade (executive to surgical), kairos forks with the premises that must be true, a first-to-fifth order tree, best/base/worst branches, and de-risk methods tagged by the five verbs and the hypercube lens axis. Every leaf carries `status`: `sourced` (and a `source`) or `hypothesis` (Zach to confirm). Probabilities are null until set, and a set probability names its basis.",
+  "type": "object",
+  "required": [
+    "version",
+    "subject",
+    "future_perfect",
+    "weeks"
+  ],
+  "$defs": {
+    "status": {
+      "enum": [
+        "sourced",
+        "hypothesis",
+        "confirmed"
+      ]
+    },
+    "claim": {
+      "type": "object",
+      "required": [
+        "text",
+        "status"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        },
+        "source": {
+          "type": "string",
+          "description": "Required when status is sourced: where on the page or the web it comes from."
+        }
+      },
+      "if": {
+        "properties": {
+          "status": {
+            "const": "sourced"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "source"
+        ]
+      }
+    },
+    "altitude": {
+      "enum": [
+        "executive",
+        "strategic",
+        "operational",
+        "tactical",
+        "surgical"
+      ]
+    },
+    "verb": {
+      "enum": [
+        "analyze",
+        "assess",
+        "evaluate",
+        "synthesize",
+        "recapitulate"
+      ]
+    },
+    "lens": {
+      "enum": [
+        "D",
+        "W",
+        "H",
+        "C",
+        "R"
+      ],
+      "description": "Hypercube lens axis, same keys as scripts/recoil_hypercube_explorer.py (5D, 5W, 5H, 5C, 5R)."
+    },
+    "premise": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/claim"
+        }
+      ],
+      "type": "object",
+      "required": [
+        "id",
+        "text",
+        "status",
+        "falsifier"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "text": {},
+        "status": {},
+        "source": {},
+        "falsifier": {
+          "type": "string",
+          "description": "The observation that would show the premise false."
+        }
+      }
+    },
+    "order_node": {
+      "type": "object",
+      "required": [
+        "order",
+        "text",
+        "status"
+      ],
+      "properties": {
+        "order": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "text": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        },
+        "source": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/order_node"
+          }
+        }
+      }
+    },
+    "branch": {
+      "type": "object",
+      "required": [
+        "path",
+        "status",
+        "premortem",
+        "postmortem",
+        "p",
+        "p_basis"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "What happens on this branch, in one or two sentences."
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        },
+        "premortem": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "cause",
+              "falsifier"
+            ],
+            "properties": {
+              "cause": {
+                "type": "string"
+              },
+              "falsifier": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "postmortem": {
+          "type": "string"
+        },
+        "p": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "p_basis": {
+          "enum": [
+            "unset",
+            "stated",
+            "measured",
+            "judgment"
+          ]
+        },
+        "roi": {
+          "type": "object",
+          "required": [
+            "sign",
+            "text",
+            "basis"
+          ],
+          "properties": {
+            "sign": {
+              "enum": [
+                "positive",
+                "negative",
+                "flat",
+                "unset"
+              ]
+            },
+            "text": {
+              "type": "string"
+            },
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "basis": {
+              "enum": [
+                "unset",
+                "stated",
+                "measured",
+                "judgment"
+              ]
+            }
+          }
+        },
+        "opportunity_cost": {
+          "type": "string",
+          "description": "What this branch spends that another path would have used."
+        },
+        "stop_loss": {
+          "type": "object",
+          "required": [
+            "day",
+            "trigger"
+          ],
+          "properties": {
+            "day": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 7
+            },
+            "trigger": {
+              "type": "string"
+            },
+            "keeps": {
+              "type": "string",
+              "description": "What survives the stop."
+            }
+          }
+        }
+      }
+    },
+    "ramp": {
+      "type": "object",
+      "required": [
+        "day",
+        "text",
+        "status"
+      ],
+      "properties": {
+        "day": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 7
+        },
+        "text": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "subject": {
+      "type": "string"
+    },
+    "future_perfect": {
+      "$ref": "#/$defs/claim",
+      "description": "The end state, written as already done: 'By week 7, ... will have ...'."
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "weeks": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "required": [
+          "n",
+          "title",
+          "future_perfect",
+          "cascade",
+          "kairos",
+          "orders",
+          "scenarios",
+          "derisk"
+        ],
+        "properties": {
+          "n": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "title": {
+            "type": "string"
+          },
+          "draft": {
+            "type": "boolean",
+            "description": "true while the week is a stub nobody has filled."
+          },
+          "future_perfect": {
+            "$ref": "#/$defs/claim"
+          },
+          "cascade": {
+            "type": "object",
+            "description": "One line per altitude, read top to bottom as a filter: each narrows the one above.",
+            "required": [
+              "executive",
+              "strategic",
+              "operational",
+              "tactical",
+              "surgical"
+            ],
+            "properties": {
+              "executive": {
+                "$ref": "#/$defs/claim"
+              },
+              "strategic": {
+                "$ref": "#/$defs/claim"
+              },
+              "operational": {
+                "$ref": "#/$defs/claim"
+              },
+              "tactical": {
+                "$ref": "#/$defs/claim"
+              },
+              "surgical": {
+                "$ref": "#/$defs/claim"
+              }
+            },
+            "additionalProperties": false
+          },
+          "kairos": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "day",
+                "fork",
+                "status",
+                "premises",
+                "if_true",
+                "if_false"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "day": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 7
+                },
+                "fork": {
+                  "type": "string"
+                },
+                "status": {
+                  "$ref": "#/$defs/status"
+                },
+                "source": {
+                  "type": "string"
+                },
+                "altitude": {
+                  "$ref": "#/$defs/altitude"
+                },
+                "premises": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "$ref": "#/$defs/premise"
+                  }
+                },
+                "if_true": {
+                  "type": "string"
+                },
+                "if_false": {
+                  "type": "string"
+                },
+                "keep_if": {
+                  "type": "string",
+                  "description": "Keep switch: the observation that keeps this path on."
+                },
+                "kill_if": {
+                  "type": "string",
+                  "description": "Kill switch: the observation that turns it off."
+                },
+                "onramp": {
+                  "$ref": "#/$defs/ramp",
+                  "description": "The graceful way onto this path."
+                },
+                "offramp": {
+                  "$ref": "#/$defs/ramp",
+                  "description": "The graceful way off it, with what is kept."
+                },
+                "decision": {
+                  "enum": [
+                    "keep",
+                    "kill",
+                    null
+                  ],
+                  "description": "Set only once the fork is decided; the switch renders undecided until then."
+                }
+              }
+            }
+          },
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/order_node"
+            },
+            "description": "Roots are first-order effects; children go one order deeper, to the fifth."
+          },
+          "scenarios": {
+            "type": "object",
+            "required": [
+              "best",
+              "base",
+              "worst"
+            ],
+            "properties": {
+              "best": {
+                "$ref": "#/$defs/branch"
+              },
+              "base": {
+                "$ref": "#/$defs/branch"
+              },
+              "worst": {
+                "$ref": "#/$defs/branch"
+              }
+            },
+            "additionalProperties": false
+          },
+          "derisk": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "method",
+                "verb",
+                "lens",
+                "altitude",
+                "status"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "method": {
+                  "type": "string"
+                },
+                "verb": {
+                  "$ref": "#/$defs/verb"
+                },
+                "lens": {
+                  "$ref": "#/$defs/lens"
+                },
+                "altitude": {
+                  "$ref": "#/$defs/altitude"
+                },
+                "status": {
+                  "$ref": "#/$defs/status"
+                },
+                "source": {
+                  "type": "string"
+                },
+                "kills": {
+                  "type": "string",
+                  "description": "Which premise or kairos id this method tests."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

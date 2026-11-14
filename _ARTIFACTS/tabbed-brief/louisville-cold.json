@@ -1,0 +1,64 @@
+{
+  "id": "louisville-cold",
+  "doc_title": "An outside read on your AI build, for Louisville Brands",
+  "storage_key": "louisvilleColdTheme",
+  "horizons": [1, 7, 14],
+  "default_theme": "light",
+  "masthead": "Zach Harris",
+  "masthead_sub": "A draft for Brooks Thomas",
+  "meta": {"prepared_for": "Brooks Thomas, Louisville Brands", "from": "Zach Harris", "updated": "2026-11-13", "status": "Private draft"},
+  "overview": {
+    "label": "Overview",
+    "headline": ["You asked where you are on the arc of your AI build.", "This is a two-week outside read that answers it."],
+    "lede": ["You named the risk yourself: confirmation bias, recency bias, the fox watching the henhouse.", "An audit from outside the build checks your own hypotheses against your own scorecard, in your order.", "It sits on top of what you run. It changes no system."],
+    "tiles": [
+      {"v": "2 weeks", "k": "Length", "note": "Fixed scope, one written page at the end"},
+      {"v": "$5,000", "k": "Fixed fee", "note": "No retainer, no second phase unless you ask"},
+      {"v": "3", "k": "Bets", "note": "Each with a kill line and a score-back date"}
+    ],
+    "sections": [
+      {"id": "scorecard", "title": "Your Scorecard", "tagline": "In the order you gave it", "open": true, "blocks": [
+        {"type": "table", "head": ["You asked for", "What the audit checks"], "rows": [
+          ["Accuracy", "Where the build's answers are wrong, and how you would know"],
+          ["Efficiency", "Where you are most inefficient: steps people redo by hand"],
+          ["Speed", "Time from a question to a decision you trust"],
+          ["Cost savings", "Spend on tools and time that buys nothing back"],
+          ["On-prem", "What has to stay inside, and whether it does"],
+          ["No bloat", "One source of truth, without data bloat or new tech debt"]
+        ]},
+        {"type": "callout", "lead": "Limit", "text": "An outside read, not another tool. Nothing in your stack changes."}
+      ]}
+    ]
+  },
+  "tabs": [
+    {"id": "audit", "label": "Audit", "name": "The Audit", "tagline": "What happens and when", "headline": "Two weeks, one page.", "lede": "About three hours of your team's time across the two weeks.", "units": [
+      {"title": "Day 1 / 7 / 14", "blocks": [
+        {"type": "plan", "source": "Scope from your Sep 15 ask: where you are on the arc, where hypotheses are failing.", "rows": [
+          ["Find where you are on the arc", "A 60 to 90 minute working session with you and whoever owns the data", "A draft map of the build, checked with you", "The final page: where you are"],
+          ["Find where hypotheses are failing", "Your current bets, written down as you hold them", "Each bet checked against what the build shows", "The failing ones named, with the evidence"],
+          ["Leave you three bets", "None yet", "Candidates shared for your view", "Three bets, each with a kill line and a score-back date"]
+        ]},
+        {"type": "list", "items": ["One written page: where you are on the arc", "Where your hypotheses are failing, with evidence", "Three bets, each with a kill line and a date to score it"]}
+      ]}
+    ]},
+    {"id": "value", "label": "Value", "name": "Where It Pays", "tagline": "Why it is cheaper than the toe-stubbing", "headline": "Cheaper than the mistake it catches.", "lede": "Each line is a cost you named on our calls.", "units": [
+      {"title": "Where it pays", "blocks": [
+        {"type": "table", "head": ["Saves", "How"], "rows": [
+          ["Capital", "A kill line agreed before the money moves"],
+          ["Time", "Bet small, score it, then commit; stop sunk-cost cycles early"],
+          ["Frustration", "The room argues to a written record, not to each other"],
+          ["Fiduciary cover", "The rationale for each material decision, written and dated"]
+        ]}
+      ]}
+    ]},
+    {"id": "risks", "label": "Risks", "name": "How This Breaks", "tagline": "What could make it a waste", "headline": "Where this could fail.", "lede": "Named up front, so you can judge it.", "units": [
+      {"title": "How this breaks", "blocks": [
+        {"type": "table", "head": ["Risk", "What we do about it"], "rows": [
+          ["You build your own tools", "The audit reads your build; it does not compete with it"],
+          ["No one owns the result", "We name an owner for each bet on day 14"],
+          ["It adds cost", "Fixed fee, two weeks, no follow-on unless you ask"]
+        ]}
+      ]}
+    ]}
+  ]
+}
