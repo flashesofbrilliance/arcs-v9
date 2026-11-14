@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import {
   assertPublicSafe,
+  publicItems,
   riskStates,
   shapeGates,
   shapeTempo,
@@ -177,13 +178,14 @@ export async function GET() {
     deploy,
     debt,
     risks: riskStates(debtIssues),
+    items: publicItems(debtIssues),
     tempo,
     gates,
     // No efficacy-loop results exist yet; every claim in section 09 reads "not run".
     evals: null,
     degraded: [] as string[],
   };
-  for (const k of ["commit", "deploy", "prsOpen", "debt", "risks", "tempo", "gates"] as const) {
+  for (const k of ["commit", "deploy", "prsOpen", "debt", "risks", "items", "tempo", "gates"] as const) {
     if (payload[k] == null) payload.degraded.push(k);
   }
 

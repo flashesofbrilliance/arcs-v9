@@ -1,0 +1,47 @@
+/* ===== Component states (2026-11-12) =====
+   Every interactive component has hover, focus-visible, pressed and disabled, in dark and light (tokens remap) and on touch.
+   Low-specificity :where() so a component's own rule (.focus-btn.active, .ms.expanded) still wins where it defines one.
+   BUTTONS: the page's button-like controls. ROWS: click-to-open surfaces that are not buttons; explorer.js gives them role, tabindex and Enter/Space. */
+
+/* header (kit 38 wordmark + kit 51 display preferences) */
+.st-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.st-brand { font-size: var(--text-md); margin-right: auto; }
+.st-live { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: var(--text-sm); font-weight: 700; color: var(--cyan); }
+@media (max-width: 640px) { .st-top { gap: 8px 10px; } .st-live { order: 3; flex-basis: 100%; } }
+
+/* hover (pointer devices only) */
+@media (hover: hover) {
+  :where(.pulse-refresh, .alt-btn, .pres-btn, .pres-bot button, .focus-btn, .flow-expand, .flow-lightbox-close, .tele-tab, .unlock-chip, .ms-verify):where(:not(:disabled, [aria-disabled="true"])):hover { border-color: var(--cyan); color: var(--cyan); }
+  :where(.pres-btn):where(:not(:disabled)):hover { color: var(--bg); opacity: 0.85; }
+  :where(.section-head):hover .section-n, :where(.section-head):hover .section-label { text-decoration: underline; text-underline-offset: 3px; }
+  :where(.cad-col.design-win):hover .cad-bar { outline: 1px solid var(--gold); outline-offset: 1px; }
+  :where(.page a):hover { text-decoration-thickness: 2px; }
+}
+
+/* focus-visible: one ring everywhere, same token in both themes (cyan remaps in light) */
+:where(.pulse-refresh, .alt-btn, .pres-btn, .pres-bot button, .focus-btn, .flow-expand, .flow-lightbox-close, .tele-tab, .unlock-chip, .ms-verify, .section-head, .ms.expandable .ms-top, .cad-col.design-win, .page a):focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: var(--r-sm); }
+:where(.section-head):focus-visible { outline-offset: 4px; }
+
+/* pressed */
+:where(.pulse-refresh, .alt-btn, .pres-btn, .pres-bot button, .focus-btn, .flow-expand, .flow-lightbox-close, .tele-tab, .unlock-chip, .ms-verify, .section-head, .ms.expandable .ms-top, .cad-col.design-win):where(:not(:disabled, [aria-disabled="true"])):active { transform: translateY(1px); filter: brightness(0.9); }
+:where(.pulse-refresh, .alt-btn, .pres-btn, .focus-btn, .tele-tab, .flow-expand, .unlock-chip)[aria-pressed="true"] { border-color: var(--cyan); color: var(--cyan); }
+
+/* disabled: no hover, no press; the words stay at full opacity (render scale), the state is carried by a dashed border and the not-allowed cursor */
+:where(.pulse-refresh, .alt-btn, .pres-btn, .pres-bot button, .focus-btn, .flow-expand, .flow-lightbox-close, .tele-tab, .unlock-chip, .ms-verify):is(:disabled, [aria-disabled="true"]) { cursor: not-allowed; background: none; color: var(--dimmed); border: 1px dashed var(--dimmed); box-shadow: none; transform: none; filter: none; }
+.pulse-refresh:disabled { animation: none; }
+
+/* touch: 44px targets for the small controls */
+@media (pointer: coarse) {
+  :where(.pulse-refresh, .alt-btn, .focus-btn, .flow-expand, .flow-lightbox-close, .tele-tab, .unlock-chip, .pres-bot button) { min-height: 44px; min-width: 44px; }
+  :where(.pulse-refresh) { width: 44px; }
+}
+@media (prefers-reduced-motion: reduce) { :where(.pulse-refresh, .alt-btn, .pres-btn, .focus-btn, .tele-tab, .ms.expandable, .flow-expand) { transition: none; } :where(*):active { transform: none !important; } }
+
+/* State of the Union cards (generated) */
+.su-zones { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 8px; }
+.su-zone-name { font-size: var(--text-md); font-weight: 700; color: var(--zc, var(--text)); margin: 0; }
+.su-zl { list-style: none; margin: 0; padding: 0; }
+.su-none { color: var(--dimmed); font-style: italic; }
+.su-stamp { font-family: var(--mono); font-size: 11px; color: var(--dimmed); letter-spacing: 0.04em; margin: -8px 0 16px; }
+@media (max-width: 640px) { .su-zones { grid-template-columns: 1fr; } }
+.st-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex: none; }
