@@ -17,4 +17,8 @@ Written 2026-11-13 by the session that relays Zach's picks. This is the one plac
 - Chips: the design-system Badge (22px outer height, border-box, 0 10px, radius-xs, mono 700 at 0.1em, 13% fill, 35% border); StatusBadge is .chip.status. Gold chips only on limit rows ("How I could read it wrong").
 - Grid: the R2 keyline lockup primitive; every two-column molecule starts its content column on the same keyline (the keyline check that PR 2219 adds).
 - Measure: one shared px --measure for body text; ledes span full lane width matching their heading. Em-dashes 0.
-- Pending (asked 2026-11-13, needs a pick): header order becomes quote first, lighter and possibly italic, then a divider with vertical padding, then the bold headline; attribution about 15% smaller. The oversized text block in the overview is too big and overpowering.
+- Header (picked option B, 2026-11-13): the quote comes first, in italic Newsreader serif in --text-secondary (a token, never opacity). The attribution is right-aligned at 0.85x body size. A hairline rule follows, with the pane gap (24px) above and below it. Then the headline at weight 700.
+  - Seam: weight 700 overrides the 2026-11-12 "Inter semibold" headline ruling, for this header only.
+  - Seam: 0.85x sits off the four-step type ramp. Zach asked for "about 15% smaller", so it stays an exception unless he snaps it to --fs-label.
+  - Quote marks (Zach, 2026-11-13, "Let's go with your suggestion"): the header keeps lighter font-glyph quote marks, not SVG swashes. This overrides the Quotes ruling for the header only.
+- Overview: the oversized text block was too big and overpowering. It becomes the four-up proof lockup (kit 71, PR 2240).
