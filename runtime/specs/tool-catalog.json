@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 316,
+  "script": 318,
   "skill": 28,
   "workflow": 2
  },
- "total": 448,
+ "total": 450,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 607,
+   "WIRED": 609,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
@@ -1820,6 +1820,14 @@
   },
   {
    "kind": "script",
+   "name": "kit_gate_results.py",
+   "path": "scripts/kit_gate_results.py",
+   "jtbd": "kit_gate_results.py: store, per kit part and per page, whether the pages that use the part pass page_gate.",
+   "invoke": "python3 scripts/kit_gate_results.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "kit_job_ratchet.py",
    "path": "scripts/kit_job_ratchet.py",
    "jtbd": "kit_job_ratchet.py: the count of kit parts that name a backlog job may rise, never fall.",
@@ -2904,6 +2912,14 @@
    "path": "scripts/status_floor_emit.py",
    "jtbd": "status_floor_emit: stamp the no-JS static floor on public/status.html from the repo.",
    "invoke": "python3 scripts/status_floor_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "status_page_build.py",
+   "path": "scripts/status_page_build.py",
+   "jtbd": "status_page_build: generate public/status.html (status.arcs.care) from a data file plus kit parts. Never hand-edit the page.",
+   "invoke": "python3 scripts/status_page_build.py",
    "state": "WIRED"
   },
   {
