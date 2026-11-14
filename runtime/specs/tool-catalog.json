@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 308,
+  "script": 309,
   "skill": 28,
   "workflow": 2
  },
- "total": 440,
+ "total": 441,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 599,
+   "WIRED": 600,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
@@ -1800,6 +1800,14 @@
    "path": "scripts/jtbd_s5_quality_pool.py",
    "jtbd": "Prepare the JTBD s5 quality rerun pool and score it (EARLY/INTERIM run, started 2026-11-01).",
    "invoke": "python3 scripts/jtbd_s5_quality_pool.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "kit_attract.py",
+   "path": "scripts/kit_attract.py",
+   "jtbd": "kit_attract.py: advisory lookup, which kit parts a job attracts. Read-only; never edits a page.",
+   "invoke": "python3 scripts/kit_attract.py",
    "state": "WIRED"
   },
   {
