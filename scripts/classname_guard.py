@@ -22,6 +22,8 @@ CLASSNAME_ALLOW = {
     # Kit organism 69 strata explorer: vanilla DOM renderer inlined into artifacts by
     # scripts/strata_explorer_build.py; one helper sets className on nodes it builds (PR 2238).
     "src/ui-kit/strata-explorer/strata.js": 1,
+    # Kit organism 72 braided lanes: same shape, inlined by scripts/braided_lanes_build.py.
+    "src/ui-kit/braided-lanes/braid.js": 1,
 }
 CSS_ALLOW = {
     "src/app/globals.css",  # reset + keyframes + font tokens
@@ -30,6 +32,7 @@ CSS_ALLOW = {
     "src/ui-kit/recoil-report/_kit-sr.css",  # one screen-reader-only class shared by kit parts 43 to 51
     "src/ui-kit/tabbed-brief/shell.css",  # tabbed-brief template layer (scripts/tabbed_brief_build.py), artifact-only
     "src/ui-kit/strata-explorer/strata.css",  # kit organism 69 source, inlined by scripts/strata_explorer_build.py, artifact-only
+    "src/ui-kit/braided-lanes/braid.css",  # kit organism 72 source, inlined by scripts/braided_lanes_build.py, artifact-only
     "src/ui-kit/option-board/board.css",  # option-board template layer (scripts/option_board.py), artifact-only
 }
 TAILWIND = re.compile(r"@tailwind|@apply\b|from ['\"]tailwind|require\(['\"]tailwind")

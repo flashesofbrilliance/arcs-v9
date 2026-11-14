@@ -1327,10 +1327,9 @@
    ],
    "jobs": [],
    "pages": [
-    "_ARTIFACTS/raw-capture.html",
-    "public/belief-log.html"
+    "_ARTIFACTS/raw-capture.html"
    ],
-   "reuse": 2,
+   "reuse": 1,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -3409,13 +3408,14 @@
    ],
    "pages": [
     "scripts/audit_report_build.py",
+    "scripts/braided_lanes_build.py",
     "scripts/kit_periodic_table.py",
     "scripts/kit_primitive_sync.py",
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py",
     "scripts/strata_explorer_build.py"
    ],
-   "reuse": 6,
+   "reuse": 7,
    "near_duplicates": []
   },
   {
@@ -4826,6 +4826,18 @@
      "twin": "69-strata-explorer",
      "twin_rule": ".st-rhead",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".option-id",
+     "twin": "72-braided-lanes",
+     "twin_rule": ".bl-flabel",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".hhw dt",
+     "twin": "72-braided-lanes",
+     "twin_rule": ".bl-flabel",
+     "jaccard": 1.0
     }
    ]
   },
@@ -4998,9 +5010,10 @@
    "pages": [
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
     "public/downshift.html",
+    "scripts/braided_lanes_build.py",
     "scripts/strata_explorer_build.py"
    ],
-   "reuse": 3,
+   "reuse": 4,
    "near_duplicates": [
     {
      "rule": ".seam-rows code",
@@ -5030,6 +5043,12 @@
      "rule": ".seam-rows dt",
      "twin": "69-strata-explorer",
      "twin_rule": ".st-flabel",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".seam-rows dt",
+     "twin": "72-braided-lanes",
+     "twin_rule": ".bl-flabel",
      "jaccard": 0.86
     }
    ]
@@ -5280,9 +5299,10 @@
     "strata-explorer-shipped"
    ],
    "pages": [
+    "scripts/braided_lanes_build.py",
     "scripts/strata_explorer_build.py"
    ],
-   "reuse": 1,
+   "reuse": 2,
    "near_duplicates": [
     {
      "rule": ".st-rlist, .st-key, .st-floor",
@@ -5331,6 +5351,24 @@
      "twin": "70-week-plan",
      "twin_rule": ".wp-tree, .wp-tree ol",
      "jaccard": 1.0
+    },
+    {
+     "rule": ".st-flabel",
+     "twin": "72-braided-lanes",
+     "twin_rule": ".bl-flabel",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".st-svg",
+     "twin": "72-braided-lanes",
+     "twin_rule": ".bl-svg",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".st-rhead",
+     "twin": "72-braided-lanes",
+     "twin_rule": ".bl-flabel",
+     "jaccard": 0.86
     }
    ]
   },
@@ -5536,6 +5574,116 @@
      "twin": "grammar-chips",
      "twin_rule": ".g-sr",
      "jaccard": 0.83
+    }
+   ]
+  },
+  {
+   "id": "72-braided-lanes",
+   "number": "72",
+   "name": "Braided Lanes",
+   "group": "Specimens",
+   "subtitle": "Organism 72 · Read every reversed belief as one flat lane per domain over time, see which reversals repaired others and which hardened into rules, against the weekly pace of work.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/72-braided-lanes.html",
+   "data_shape": [
+    "timeline"
+   ],
+   "fidelity": [
+    "grain"
+   ],
+   "classes": [
+    "bl-arc",
+    "bl-brush",
+    "bl-c-canon",
+    "bl-c-deploy",
+    "bl-c-gauntlet",
+    "bl-c-infra",
+    "bl-c-process",
+    "bl-c-recoil",
+    "bl-c-security",
+    "bl-c-surface",
+    "bl-commits",
+    "bl-commits-l",
+    "bl-div",
+    "bl-dot",
+    "bl-ev",
+    "bl-flabel",
+    "bl-floor",
+    "bl-fmeta",
+    "bl-grain",
+    "bl-grainband",
+    "bl-grainfill",
+    "bl-hatch",
+    "bl-meta",
+    "bl-n",
+    "bl-name",
+    "bl-on",
+    "bl-out",
+    "bl-read",
+    "bl-receipts",
+    "bl-receipts-l",
+    "bl-ring",
+    "bl-rule",
+    "bl-spark",
+    "bl-src",
+    "bl-svg",
+    "bl-thin",
+    "bl-tick",
+    "braid"
+   ],
+   "prim_blocks": [
+    "72-braided-lanes"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [
+    "braided-lanes-beliefs"
+   ],
+   "pages": [
+    "public/belief-log.html",
+    "scripts/braided_lanes_build.py"
+   ],
+   "reuse": 2,
+   "near_duplicates": [
+    {
+     "rule": ".bl-flabel",
+     "twin": "61-option",
+     "twin_rule": ".option-id",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".bl-flabel",
+     "twin": "61-option",
+     "twin_rule": ".hhw dt",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".bl-flabel",
+     "twin": "64-kintsugi-seam",
+     "twin_rule": ".seam-rows dt",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".bl-flabel",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-flabel",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".bl-svg",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-svg",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".bl-flabel",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-rhead",
+     "jaccard": 0.86
     }
    ]
   },

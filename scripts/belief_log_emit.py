@@ -28,6 +28,8 @@ import argparse
 import datetime as dt
 import json
 import pathlib
+import re
+import sys
 
 import projection_factory as pf  # the reusable public-projection base (load + inject)
 
@@ -88,8 +90,20 @@ def render_html(rows: list[dict]) -> str:
     return _inject(TEMPLATE, rows, EMBED_KEYS)
 
 
+KIT_TOKENS = ROOT / "src" / "ui-kit" / "recoil-report" / "_tokens.css"
+# Kit organism 72 (braided lanes), written by scripts/braided_lanes_build.py from runtime/specs/shipped-record.json.
+BRAID_FRAGMENT = ROOT / "src" / "ui-kit" / "braided-lanes" / "belief-fragment.html"
+
+
 def render_public(rows: list[dict]) -> str:
-    return _inject(PUBLIC_TEMPLATE, rows, PUBLIC_EMBED_KEYS)
+    page = _inject(PUBLIC_TEMPLATE, rows, PUBLIC_EMBED_KEYS)
+    frag = BRAID_FRAGMENT.read_text(encoding="utf-8")
+    m = re.search(r"<script type=\"application/json\" data-braid-data>(.*?)</script>", frag, re.S)
+    n = len(json.loads(m.group(1))["events"]) if m else -1
+    if n != len(rows):  # the chart and the stats above it must count the same ledger
+        sys.exit(f"AUDIT FAIL: braided lanes show {n} reversals, the ledger has {len(rows)}. "
+                 "fix: python3 scripts/shipped_record_emit.py && python3 scripts/braided_lanes_build.py")
+    return page.replace("/*KIT_TOKENS*/", KIT_TOKENS.read_text(encoding="utf-8"), 1).replace("<!--BRAID_FRAGMENT-->", frag, 1)
 
 
 def render_audit_stamp(rows: list[dict]) -> str:

@@ -1,0 +1,161 @@
+{
+ "number": "72",
+ "name": "Braided Lanes",
+ "slug": "braided-lanes",
+ "layer": "Organism",
+ "job": "Read every reversed belief as one flat lane per domain over time, see which reversals repaired others and which hardened into rules, against the weekly pace of work.",
+ "anatomy": [
+  {
+   "part": "Activity ribbon",
+   "role": "Two sparkline rows, commits and decision receipts per week, each scaled to its own peak in the window; weeks with no count are hatched, never drawn as zero",
+   "token": "`cyan`, `green`, `border`"
+  },
+  {
+   "part": "Lanes",
+   "role": "One flat lane per domain, sorted by count, n printed at the right",
+   "token": "`border`, `text-secondary`"
+  },
+  {
+   "part": "Events",
+   "role": "A dot per reversal in its domain colour; a gold ring when the fix became a standing rule",
+   "token": "`cyan`, `green`, `red`, `violet`, `magenta`, `orange`, `text-secondary`, `gold`"
+  },
+  {
+   "part": "Braids",
+   "role": "A curve from a reversal to the later one that repaired it, cited in the ledger",
+   "token": "`text`"
+  },
+  {
+   "part": "Thin evidence",
+   "role": "Lanes with under 3 events in all sit below a divider; any lane under 3 in the window renders as grain and prints n",
+   "token": "`surface`, `text-secondary`"
+  },
+  {
+   "part": "Window",
+   "role": "Two native range inputs set the first and last week; the dates print beside them",
+   "token": "`text-secondary`, `cyan`"
+  },
+  {
+   "part": "Readout",
+   "role": "A live region that reads the focused or pointed dot in words",
+   "token": "`text`, `surface`"
+  }
+ ],
+ "states": [
+  {
+   "name": "Default window",
+   "args": [
+    8,
+    31,
+    "100%"
+   ],
+   "note": "From the first reversal to the record's date."
+  },
+  {
+   "name": "The repair chain",
+   "args": [
+    18,
+    26,
+    "100%"
+   ],
+   "note": "Mid-August to early October: two braids in the window, and most lanes fall to grain."
+  },
+  {
+   "name": "Phone",
+   "args": [
+    8,
+    31,
+    "20rem"
+   ],
+   "note": "Under 520px the names move above each lane and the plot takes the full width."
+  }
+ ],
+ "use_when": [
+  "A reader should see how often and where a record changed its mind, which reversals repaired others, and how that sits against the pace of work.",
+  "Every event and link has a source a reader could check."
+ ],
+ "avoid_when": [
+  "Do not put the belief itself on the page: the public shape is id, domain, date and the gold flag.",
+  "Not for a single domain or a handful of events: with one lane it is a timeline, use one."
+ ],
+ "data": [
+  {
+   "field": "start, weeks, as_of",
+   "type": "ISO date, int, ISO date",
+   "required": true,
+   "note": "Week 0 is the Monday of `start`."
+  },
+  {
+   "field": "commits[], receipts[]",
+   "type": "int per week; receipts may be null",
+   "required": true,
+   "note": "`null` means not recorded, rendered hatched."
+  },
+  {
+   "field": "lanes[]",
+   "type": "{key, label, def, n}",
+   "required": true,
+   "note": "Top to bottom; `key` picks the colour class."
+  },
+  {
+   "field": "events[]",
+   "type": "[id, lane, day, gold]",
+   "required": true,
+   "note": "`day` counts from `start`."
+  },
+  {
+   "field": "links[]",
+   "type": "[from, to]",
+   "required": true,
+   "note": "Repaired-by only; drawn when both ends are in the window."
+  },
+  {
+   "field": "source",
+   "type": "string",
+   "required": true,
+   "note": "Printed under the readout."
+  }
+ ],
+ "access": [
+  "The window is two native range inputs with labels; arrow keys, Home and End move a week at a time, and the dates print in an output.",
+  "Every dot is focusable with a label that states the domain, the belief number, the date and whether it changed the rulebook; focus also fills the readout.",
+  "Colour is never the only signal: lanes are named, gold rings are also said in words, grain prints n.",
+  "Nothing animates, so reduced motion needs no branch. Without script the host keeps a list of domains with their counts."
+ ],
+ "built_from": [
+  {
+   "name": "Kit tokens (atoms)",
+   "href": "_tokens.css"
+  },
+  {
+   "name": "37 Fidelity Grain",
+   "href": "37-fidelity-grain.html"
+  },
+  {
+   "name": "64 Kintsugi Seam",
+   "href": "64-kintsugi-seam.html"
+  },
+  {
+   "name": "69 Strata Explorer",
+   "href": "69-strata-explorer.html"
+  }
+ ],
+ "used_by": [
+  {
+   "name": "status.arcs.care/beliefs, the belief-change log (public/belief-log.html via scripts/belief_log_emit.py)"
+  }
+ ],
+ "gates": [
+  "`braided_lanes_build.py --check` (in scripts): the spec and fragment match the record.",
+  "`shipped_record_emit.py --self-test`: no uncited event or link, no belief text leaked, tempo carries its as-of dates.",
+  "`belief_log_emit.py --check`: the page carries the current fragment, and its reversal count matches the ledger.",
+  "`kit_specimen.py --check` and `kit_primitive_sync.py --check`.",
+  "`artifact_wrap_lint.py` and `page_gate.py` on every page that carries it; sweep 360 to 1440, including 700 to 1000."
+ ],
+ "links": [
+  "_tokens-light.css",
+  "_kit-sr.css"
+ ],
+ "css": "/* @prim:begin 72-braided-lanes */\n/* label step scoped to the organism: 12px, the recoil-skim step (arc weld spec 4.3), same as 69 */\n.braid { --fs-label: 0.75rem; --bl-blue: #5b8def; display: flex; flex-direction: column; gap: 12px; color: var(--text); }\n:root[data-theme=\"light\"] .braid { --bl-blue: #2b56b0; }\n@media (prefers-color-scheme: light) { :root:not([data-theme=\"dark\"]) .braid { --bl-blue: #2b56b0; } }\n.bl-svg { display: block; width: 100%; height: auto; overflow: visible; }\n.bl-name { font-family: var(--ds-font-sans); font-size: var(--fs-label); font-weight: 600; }\n.bl-name.bl-commits-l { fill: var(--cyan); }\n.bl-name.bl-receipts-l { fill: var(--green); }\n.bl-meta { font-family: var(--ds-font-mono); font-size: var(--fs-label); fill: var(--text-secondary); font-variant-numeric: tabular-nums; }\n.bl-n { font-family: var(--ds-font-mono); font-size: var(--fs-label); fill: var(--text); font-variant-numeric: tabular-nums; }\n.bl-rule { stroke: var(--border); stroke-dasharray: 2 3; }\n.bl-div { stroke: var(--border); }\n.bl-tick { stroke: var(--border); }\n.bl-spark { fill: none; stroke-width: 1.5; stroke-linejoin: round; }\n.bl-spark.bl-commits { stroke: var(--cyan); }\n.bl-spark.bl-receipts { stroke: var(--green); }\n.bl-hatch { stroke: var(--border); stroke-width: 2; }\n.bl-grain { fill: var(--text-secondary); }\n.bl-grainband { fill: var(--surface); stroke: var(--border); }\n.bl-grainfill { stroke: none; }\n.bl-arc { fill: none; stroke: var(--text); stroke-width: 1.4; }\n.bl-ring { fill: none; stroke: var(--gold); stroke-width: 1.4; }\n.bl-dot { stroke-width: 0; }\n.bl-thin .bl-dot { fill: var(--surface); stroke-width: 1.6; }\n.bl-ev { cursor: default; outline: none; }\n.bl-ev:focus-visible .bl-dot, .bl-ev.bl-on .bl-dot { stroke: var(--text); stroke-width: 2; }\n.bl-c-canon { fill: var(--cyan); stroke: var(--cyan); color: var(--cyan); }\n.bl-c-process { fill: var(--green); stroke: var(--green); color: var(--green); }\n.bl-c-security { fill: var(--red); stroke: var(--red); color: var(--red); }\n.bl-c-recoil { fill: var(--violet); stroke: var(--violet); color: var(--violet); }\n.bl-c-deploy { fill: var(--magenta); stroke: var(--magenta); color: var(--magenta); }\n.bl-c-surface { fill: var(--text-secondary); stroke: var(--text-secondary); color: var(--text-secondary); }\n.bl-c-infra { fill: var(--bl-blue); stroke: var(--bl-blue); color: var(--bl-blue); }\n.bl-c-gauntlet { fill: var(--orange); stroke: var(--orange); color: var(--orange); }\n.bl-brush { display: grid; grid-template-columns: 3rem minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 4px 12px; }\n.bl-flabel { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); }\n.bl-brush input[type=\"range\"] { width: 100%; min-height: 44px; accent-color: var(--cyan); }\n.bl-brush input[type=\"range\"]:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }\n.bl-out { grid-column: 2 / 4; font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text-secondary); font-variant-numeric: tabular-nums; }\n.bl-read { min-height: 3em; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); font-size: var(--fs-body); line-height: 1.5; }\n.bl-read b { font-weight: 600; }\n.bl-src { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text-secondary); line-height: 1.5; }\n.bl-floor { list-style: none; display: flex; flex-direction: column; gap: 4px; font-size: var(--fs-body); }\n.bl-floor .bl-fmeta { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text-secondary); }\n/* @prim:end 72-braided-lanes */\n",
+ "demo": "var BRAID={\"start\":\"2026-04-06\",\"weeks\":32,\"as_of\":\"2026-11-13\",\"first_receipt_week\":20,\"default\":[8,31],\"commits\":[1,0,0,0,0,0,2,84,67,48,90,70,277,123,265,170,114,114,106,175,84,204,341,77,281,404,1045,840,455,505,364,596],\"receipts\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,1,0,36,20,49,176,440,320,199,114,128,170],\"lanes\":[{\"key\":\"infra\",\"label\":\"Infrastructure\",\"def\":\"The machinery underneath: servers, databases, and builds.\",\"n\":12},{\"key\":\"canon\",\"label\":\"Rulebook\",\"def\":\"Our written principles: the ideas we build by and decide with.\",\"n\":11},{\"key\":\"process\",\"label\":\"How we work\",\"def\":\"Our habits: reviews, checks, and when something counts as done.\",\"n\":10},{\"key\":\"gauntlet\",\"label\":\"Stress tests\",\"def\":\"The review panels we put work through, and what they cost to run.\",\"n\":5},{\"key\":\"deploy\",\"label\":\"Shipping\",\"def\":\"How a change gets from our desk to the live site.\",\"n\":4},{\"key\":\"surface\",\"label\":\"Public pages\",\"def\":\"The pages anyone can see, including this one.\",\"n\":3},{\"key\":\"security\",\"label\":\"Security\",\"def\":\"Keeping private things private, and automated access in check.\",\"n\":2},{\"key\":\"recoil\",\"label\":\"Client reads\",\"def\":\"Our judgment calls about real outside engagements.\",\"n\":1}],\"events\":[[\"F14\",0,58,0],[\"F15\",0,58,0],[\"F16\",0,58,0],[\"F13\",0,74,0],[\"F11\",1,75,1],[\"F23\",4,77,1],[\"F10\",1,78,1],[\"F28\",2,79,0],[\"F31\",7,98,0],[\"F22\",4,102,0],[\"F17\",0,104,0],[\"F27\",2,104,0],[\"F29\",6,104,0],[\"F30\",6,104,0],[\"F24\",2,107,0],[\"F19\",0,109,0],[\"F26\",2,109,0],[\"F20\",4,110,1],[\"F18\",0,117,0],[\"F21\",4,117,1],[\"F25\",2,117,0],[\"F1\",3,129,0],[\"F12\",1,129,1],[\"F2\",3,129,1],[\"F3\",3,129,1],[\"F5\",3,129,1],[\"F6\",1,129,1],[\"F7\",1,129,1],[\"F8\",1,129,1],[\"F9\",1,129,1],[\"F32\",2,130,1],[\"F4\",3,131,1],[\"F33\",2,132,0],[\"F35\",1,143,1],[\"F36\",0,144,0],[\"F37\",2,144,1],[\"F34\",1,145,1],[\"F41\",1,173,1],[\"F38\",2,174,0],[\"F39\",0,174,0],[\"F40\",1,174,1],[\"F42\",5,176,0],[\"F43\",5,212,0],[\"F44\",0,212,0],[\"F45\",2,212,0],[\"F46\",5,212,0],[\"F47\",0,212,0],[\"F48\",0,213,0]],\"links\":[[\"F33\",\"F34\"],[\"F34\",\"F41\"],[\"F47\",\"F48\"]],\"source\":\"Source: the falsification ledger, 48 reversals from 3 Jun 2026 to 5 Nov 2026; 3 repaired-by links, each cited in the ledger. Commits: git log on main to 13 Nov 2026. Receipts: the decision-receipt ledger, snapshot of 13 Nov 2026; it begins the week of 24 Aug 2026.\"};\n/* ARCS kit organism 72 braided-lanes: reversals as one flat lane per scope, time on x, braided by repaired-by arcs.\n   Data: the payload scripts/braided_lanes_build.py writes from runtime/specs/shipped-record.json.\n     start   ISO Monday of week 0; weeks = number of weeks; as_of = the record's date\n     commits[w]  commits on main in week w; receipts[w]  decision receipts in week w, null where none were recorded\n     lanes[]  {key, label, def, n}; events[] [id, lane index, day since start, gold 0|1]; links[] [from, to]\n   arcsBraid(host, data, {w0, w1}) replaces host's static floor with the live chart. Stdlib DOM, no deps.\n   The window is two native range inputs (arrow keys, Home, End). Each event is focusable and fills a live readout.\n   A lane with fewer than 3 events in the window renders as grain and prints n. Nothing animates. */\n(function () {\n  var NS = \"http://www.w3.org/2000/svg\", DAY = 864e5, GRAIN_N = 3;\n  var MON = [\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\"];\n  function el(tag, attrs, parent) {\n    var n = document.createElementNS(NS, tag);\n    for (var k in attrs) n.setAttribute(k, attrs[k]);\n    if (parent) parent.appendChild(n);\n    return n;\n  }\n  function h(tag, cls, text) {\n    var n = document.createElement(tag);\n    if (cls) n.className = cls;\n    if (text != null) n.textContent = text;\n    return n;\n  }\n  function txt(p, x, y, s, cls, anchor) {\n    var t = el(\"text\", { x: x, y: y, class: cls }, p);\n    if (anchor) t.setAttribute(\"text-anchor\", anchor);\n    t.textContent = s;\n    return t;\n  }\n  function fmtDate(t) { var d = new Date(t); return d.getUTCDate() + \" \" + MON[d.getUTCMonth()] + \" \" + d.getUTCFullYear(); }\n  function num(n) { return String(n).replace(/\\B(?=(\\d{3})+(?!\\d))/g, \",\"); }\n\n  window.arcsBraid = function (host, data, opts) {\n    opts = opts || {};\n    var t0 = Date.parse(data.start + \"T00:00:00Z\"), end = Date.parse(data.as_of + \"T00:00:00Z\") + DAY;\n    var last = data.weeks - 1, uid = \"bl\" + Math.random().toString(36).slice(2, 7);\n    var byId = {};\n    data.events.forEach(function (e) { byId[e[0]] = e; });\n    var repairs = {};\n    data.links.forEach(function (l) { (repairs[l[0]] = repairs[l[0]] || []).push([\"repaired by\", l[1]]); (repairs[l[1]] = repairs[l[1]] || []).push([\"repairs\", l[0]]); });\n\n    host.textContent = \"\";\n    host.classList.add(\"braid\");\n    var svg = el(\"svg\", { role: \"group\", \"aria-labelledby\": uid + \"t\", class: \"bl-svg\" });\n    var title = el(\"title\", { id: uid + \"t\" }, svg);\n    var defs = el(\"defs\", {}, svg);\n    var pat = el(\"pattern\", { id: uid + \"h\", width: 6, height: 6, patternUnits: \"userSpaceOnUse\", patternTransform: \"rotate(45)\" }, defs);\n    el(\"line\", { x1: 0, y1: 0, x2: 0, y2: 6, class: \"bl-hatch\" }, pat);\n    var gp = el(\"pattern\", { id: uid + \"g\", width: 4, height: 4, patternUnits: \"userSpaceOnUse\" }, defs);\n    el(\"circle\", { cx: 1, cy: 1, r: 0.7, class: \"bl-grain\" }, gp);\n    el(\"circle\", { cx: 3, cy: 3, r: 0.6, class: \"bl-grain\" }, gp);\n    var g = el(\"g\", {}, svg);\n    host.appendChild(svg);\n\n    var brush = h(\"div\", \"bl-brush\");\n    var lab = h(\"span\", \"bl-flabel\", \"Window\");\n    lab.id = uid + \"wl\";\n    brush.appendChild(lab);\n    function range(val, name) {\n      var i = document.createElement(\"input\");\n      i.type = \"range\"; i.min = 0; i.max = last; i.step = 1; i.value = val;\n      i.setAttribute(\"aria-label\", name);\n      i.setAttribute(\"aria-describedby\", uid + \"wo\");\n      brush.appendChild(i);\n      return i;\n    }\n    var A = range(opts.w0 == null ? 0 : opts.w0, \"Window start, by week\");\n    var B = range(opts.w1 == null ? last : opts.w1, \"Window end, by week\");\n    var out = h(\"output\", \"bl-out\");\n    out.id = uid + \"wo\";\n    brush.appendChild(out);\n    host.appendChild(brush);\n\n    var read = h(\"p\", \"bl-read\");\n    read.setAttribute(\"aria-live\", \"polite\");\n    host.appendChild(read);\n    var src = h(\"p\", \"bl-src\", data.source);\n    host.appendChild(src);\n    var idle = \"Focus or point at a dot to read it. A gold ring means the fix became a standing rule; a line between two dots means the later reversal repaired the earlier one.\";\n\n    function say(e) {\n      var ln = data.lanes[e[1]], when = fmtDate(t0 + e[2] * DAY);\n      read.textContent = \"\";\n      var b = h(\"b\", null, ln.label + \", belief \" + e[0].replace(/^F/, \"#\"));\n      read.appendChild(b);\n      var s = \", \" + when + \". \" + ln.def + \" We believed something here, ran a test, and the test proved us wrong. \" +\n        (e[3] ? \"It changed the rulebook: the fix is now a standing rule.\" : \"Fixed where it happened; no standing rule changed.\");\n      (repairs[e[0]] || []).forEach(function (r) { s += \" \" + (r[0] === \"repairs\" ? \"It repairs belief \" : \"Later repaired by belief \") + r[1].replace(/^F/, \"#\") + \".\"; });\n      read.appendChild(document.createTextNode(s));\n    }\n\n    function draw() {\n      var a = +A.value, z = +B.value;\n      if (z - a < 2) { if (document.activeElement === A) a = Math.max(0, z - 2); else z = Math.min(last, a + 2); if (z - a < 2) a = z - 2; A.value = a; B.value = z; }\n      var w0 = t0 + a * 7 * DAY, w1 = Math.min(end, t0 + (z + 1) * 7 * DAY);\n      out.textContent = fmtDate(w0) + \" to \" + fmtDate(w1 - DAY);\n      while (g.firstChild) g.removeChild(g.firstChild);\n      read.textContent = idle;\n\n      var W = Math.max(280, Math.round(host.clientWidth || 640)), narrow = W < 520;\n      var L = narrow ? 0 : 116, NC = narrow ? 8 : 92, X0 = L + 8, X1 = W - NC;\n      var lh = narrow ? 40 : 28, rh = narrow ? 40 : 30;\n      function xs(t) { return X0 + (t - w0) / (w1 - w0) * (X1 - X0); }\n\n      // Activity ribbon: two sparkline rows, each with its own peak for the window.\n      var y = 0;\n      [[\"Commits / week\", data.commits, \"bl-commits\"], [\"Receipts / week\", data.receipts, \"bl-receipts\"]].forEach(function (row) {\n        var vals = row[1], top = y + (narrow ? 16 : 4), hgt = rh - (narrow ? 20 : 8), peak = 0, pts = [], gaps = [];\n        for (var w = a; w <= z; w++) { if (vals[w] != null && vals[w] > peak) peak = vals[w]; }\n        for (w = a; w <= z; w++) {\n          var cx = xs(Math.min(w1, Math.max(w0, t0 + (w + 0.5) * 7 * DAY)));\n          if (vals[w] == null) { gaps.push(w); continue; }\n          pts.push(cx.toFixed(1) + \",\" + (top + hgt - (peak ? vals[w] / peak * hgt : 0)).toFixed(1));\n        }\n        txt(g, narrow ? X0 : 0, narrow ? y + 11 : y + rh / 2 + 4, row[0], \"bl-name \" + row[2] + \"-l\");\n        txt(g, W, narrow ? y + 11 : y + rh / 2 + 4, pts.length ? \"peak \" + num(peak) : \"none\", \"bl-meta\", \"end\");\n        // Weeks with no recorded count are hatched, never drawn as zero.\n        var run = null;\n        gaps.concat([null]).forEach(function (w2) {\n          if (run && (w2 == null || w2 !== run[1] + 1)) {\n            var gx0 = xs(Math.max(w0, t0 + run[0] * 7 * DAY)), gx1 = xs(Math.min(w1, t0 + (run[1] + 1) * 7 * DAY));\n            el(\"rect\", { x: gx0, y: top, width: Math.max(1, gx1 - gx0), height: hgt, fill: \"url(#\" + uid + \"h)\" }, g);\n            if (gx1 - gx0 > 140) txt(g, gx0 + 4, top + hgt - 2, run[1] < data.first_receipt_week ? \"no receipt ledger yet\" : \"not recorded\", \"bl-meta\");\n            run = null;\n          }\n          if (w2 != null) run = run ? [run[0], w2] : [w2, w2];\n        });\n        if (pts.length > 1) el(\"polyline\", { points: pts.join(\" \"), class: \"bl-spark \" + row[2] }, g);\n        y += rh;\n      });\n      y += 8;\n\n      // Lanes. Solid lanes (3 or more events in all) first, then a divider and the thin ones.\n      var inWin = data.events.filter(function (e) { var t = t0 + e[2] * DAY; return t >= w0 && t < w1; });\n      var count = data.lanes.map(function () { return 0; });\n      inWin.forEach(function (e) { count[e[1]]++; });\n      var order = data.lanes.map(function (l, i) { return i; });\n      var solid = order.filter(function (i) { return data.lanes[i].n >= GRAIN_N; }), thin = order.filter(function (i) { return data.lanes[i].n < GRAIN_N; });\n      var pos = {}, gridTop = y, ticks = el(\"g\", {}, g), arcs = el(\"g\", {}, g);\n      function lanes(list) {\n        list.forEach(function (i) {\n          var ln = data.lanes[i], cy = y + lh / 2 + (narrow ? 6 : 0), grain = count[i] < GRAIN_N;\n          var lg = el(\"g\", { class: \"bl-c-\" + ln.key + (grain ? \" bl-thin\" : \"\") }, g);\n          if (grain) {\n            el(\"rect\", { x: X0, y: cy - 10, width: X1 - X0, height: 20, rx: 3, class: \"bl-grainband\" }, lg);\n            el(\"rect\", { x: X0, y: cy - 10, width: X1 - X0, height: 20, rx: 3, class: \"bl-grainfill\", fill: \"url(#\" + uid + \"g)\" }, lg);\n          }\n          el(\"line\", { x1: X0, x2: X1, y1: cy, y2: cy, class: \"bl-rule\" }, lg);\n          var nm = txt(lg, narrow ? X0 : 0, narrow ? y + 11 : cy + 4, ln.label, \"bl-name\");\n          nm.setAttribute(\"fill\", \"currentColor\"); nm.setAttribute(\"stroke\", \"none\");\n          txt(g, W, narrow ? y + 11 : cy + 4, \"n=\" + count[i] + (count[i] !== ln.n ? \" of \" + ln.n : \"\") + (grain ? \" · grain\" : \"\"), grain ? \"bl-n\" : \"bl-meta\", \"end\");\n          var seen = {};\n          inWin.filter(function (e) { return e[1] === i; }).forEach(function (e) {\n            var k = seen[e[2]] = (seen[e[2]] || 0) + 1, off = (k % 2 ? 1 : -1) * Math.floor(k / 2) * 7;\n            var x = xs(t0 + (e[2] + 0.5) * DAY) + off;\n            pos[e[0]] = [x, cy];\n            var eg = el(\"g\", { class: \"bl-ev\", tabindex: 0, role: \"img\",\n              \"aria-label\": ln.label + \", belief \" + e[0] + \", \" + fmtDate(t0 + e[2] * DAY) + (e[3] ? \", changed the rulebook\" : \"\") }, lg);\n            if (e[3]) el(\"circle\", { cx: x, cy: cy, r: 7.5, class: \"bl-ring\" }, eg);\n            el(\"circle\", { cx: x, cy: cy, r: 4.5, class: \"bl-dot\" }, eg);\n            function on() { eg.classList.add(\"bl-on\"); say(e); }\n            function off2() { eg.classList.remove(\"bl-on\"); }\n            eg.addEventListener(\"focus\", on); eg.addEventListener(\"mouseenter\", on);\n            eg.addEventListener(\"blur\", off2); eg.addEventListener(\"mouseleave\", off2);\n          });\n          y += lh;\n        });\n      }\n      lanes(solid);\n      if (thin.length) {\n        y += 6;\n        el(\"line\", { x1: 0, x2: W, y1: y, y2: y, class: \"bl-div\" }, g);\n        txt(g, 0, y + 16, \"Thin evidence, under \" + GRAIN_N + \" events in all\", \"bl-meta\");\n        y += 22;\n        lanes(thin);\n      }\n\n      // Repaired-by arcs, drawn over the lanes, only when both ends are in the window.\n      data.links.forEach(function (l) {\n        var p = pos[l[0]], q = pos[l[1]];\n        if (!p || !q) return;\n        var lift = Math.min(p[1], q[1]) - Math.max(14, Math.abs(q[0] - p[0]) * 0.25);\n        var arc = el(\"path\", { d: \"M\" + p[0] + \" \" + p[1] + \" C\" + p[0] + \" \" + lift + \" \" + q[0] + \" \" + lift + \" \" + q[0] + \" \" + q[1], class: \"bl-arc\" }, arcs);\n        el(\"title\", {}, arc).textContent = \"Belief \" + l[0] + \" repaired by belief \" + l[1];\n      });\n\n      // Month ticks: lines sit behind the lanes, labels under the last one.\n      y += 6;\n      var c = new Date(w0), m = Date.UTC(c.getUTCFullYear(), c.getUTCMonth() + 1, 1), step = narrow ? 2 : 1, k = 0;\n      for (; m < w1; m = Date.UTC(new Date(m).getUTCFullYear(), new Date(m).getUTCMonth() + 1, 1), k++) {\n        var x = xs(m);\n        el(\"line\", { x1: x, x2: x, y1: gridTop, y2: y, class: \"bl-tick\" }, ticks);\n        if (k % step === 0) txt(g, x, y + 14, MON[new Date(m).getUTCMonth()], \"bl-meta\", \"middle\");\n      }\n      y += 20;\n      svg.setAttribute(\"viewBox\", \"0 0 \" + W + \" \" + y);\n      svg.setAttribute(\"width\", W);\n      svg.setAttribute(\"height\", y);\n      title.textContent = inWin.length + \" reversals across \" + data.lanes.length + \" domains, \" + out.textContent +\n        \", with weekly commits and decision receipts above. \" + inWin.filter(function (e) { return e[3]; }).length + \" changed the rulebook.\";\n    }\n    A.addEventListener(\"input\", draw);\n    B.addEventListener(\"input\", draw);\n    draw();\n    if (window.ResizeObserver) {\n      var lw = host.clientWidth;\n      new ResizeObserver(function () { if (Math.abs(host.clientWidth - lw) > 4) { lw = host.clientWidth; draw(); } }).observe(host);\n    }\n  };\n})();\n\nfunction bSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\narcsBraid(bSlot(),BRAID,{w0:BRAID.default[0],w1:BRAID.default[1]});\nSTATES.forEach(function(a,i){var b=document.createElement('div');b.style.maxWidth=a[2];bSlot(i).appendChild(b);arcsBraid(b,BRAID,{w0:a[0],w1:a[1]});});"
+}
