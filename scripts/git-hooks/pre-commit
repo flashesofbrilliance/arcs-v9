@@ -730,6 +730,14 @@ if [ -f scripts/kit_primitive_sync.py ] && command -v python3 >/dev/null 2>&1; t
   fi
 fi
 
+# Kit job-coverage ratchet (2026-11-13): parts naming a backlog job may rise, never fall.
+if [ -f scripts/kit_job_ratchet.py ] && git diff --cached --name-only -- 'src/ui-kit/kit-manifest.json' 'runtime/specs/kit-job-coverage-floor.json' 'scripts/kit_job_ratchet.py' | grep -q .; then
+  if ! python3 scripts/kit_job_ratchet.py; then
+    echo "✖ commit blocked: kit job coverage fell below its floor (see above)." >&2
+    exit 1
+  fi
+fi
+
 # Kit-internal sync + design-system parity (2026-11-13): when any kit part changes, every "composed with"
 # copy must match its source part and every part in ds-parity.json must keep its design-system values.
 if [ -f scripts/kit_primitive_sync.py ] && command -v python3 >/dev/null 2>&1; then
