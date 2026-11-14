@@ -183,9 +183,11 @@ const nextConfig: NextConfig = {
         // these exclusions every /api/* call (and the NFTT robots/sitemap) on this host was rewritten to
         // good.html (GET 200 HTML, POST 405). Found 2026-09-13 when /api/probe went live.
         { source: "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-audit-check|good-audit-sample|good-agents|good-fears|good-copypasta|good-rfp-engine|rfp-engine/|api|_next|_vercel|fonts/|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
-        // Rosetta Voice (scripts/rosetta_voice_build.py). Listed before the catch-all, which also excludes it.
+        // Rosetta Voice (scripts/rosetta_voice_build.py). Rewrites chain: /voice becomes /rosetta-voice.html and the
+        // catch-all below then sees that path, so it must exclude the destination file too (same reason good.arcs.care's
+        // catch-all excludes its good-* pages). Without it, /voice served the landing page (live, 2026-11-14).
         { source: "/voice", destination: "/rosetta-voice.html", has: [{ type: "host", value: "rosetta-shell.arcs.care" }] },
-        { source: "/:path((?!fonts/|voice$).*)", destination: "/rosetta-shell.html", has: [{ type: "host", value: "rosetta-shell.arcs.care" }] },
+        { source: "/:path((?!fonts/|voice$|rosetta-voice\\.html$).*)", destination: "/rosetta-shell.html", has: [{ type: "host", value: "rosetta-shell.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/germinate.html", has: [{ type: "host", value: "germinate.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/arcs-field-scan.html", has: [{ type: "host", value: "arcs-field-scan.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/build.html", has: [{ type: "host", value: "build.arcs.care" }] },
