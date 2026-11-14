@@ -1,0 +1,45 @@
+/* ===== Light theme for the tokens and colors this page owns (2026-11-12) =====
+   Kit 39 remaps the shared tokens; the page's own tokens (--surface2, --faint, --steel) and the few hard-coded pale-on-dark
+   colors are remapped here. Same two entry points as the kit: data-theme="light" and prefers-color-scheme with no explicit dark. */
+/* Cool slate is the kit light palette now (src/ui-kit/recoil-report/_tokens-light.css, 2026-11-12); this block holds only what the page owns. */
+:root[data-theme="light"] { --surface2: var(--surface-2); --faint: var(--dimmed); --steel: #0b5f82; --steel-bg: rgba(11,95,130,0.09); --hair-soft: var(--border); --hair: var(--border); }
+:root[data-theme="light"] .tt-m { color: var(--muted); }
+:root[data-theme="light"] .su-core { background: linear-gradient(180deg, var(--surface), var(--surface-2)); }
+:root[data-theme="light"] .su-zli, :root[data-theme="light"] table.su-t td, :root[data-theme="light"] .su-str, :root[data-theme="light"] .su-sg { border-color: var(--border); }
+:root[data-theme="light"] .alt-btn:not(.active):hover, :root[data-theme="light"] .terrain-cell { background: rgba(28,36,48,0.05); }
+:root[data-theme="light"] .terrain-cell { border-color: var(--border); }
+:root[data-theme="light"] .ms-commits { border-top-color: var(--border); }
+:root[data-theme="light"] .section-label[style] { filter: none; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) { --surface2: var(--surface-2); --faint: #566170; --steel: #0b5d7a; --steel-bg: rgba(11,93,122,0.08); --hair-soft: var(--border); --hair: var(--border); }
+}
+
+/* The architecture diagram (section 02) draws with presentation attributes in dark hex values, so tokens cannot reach it.
+   In light these selectors remap each one to a token. The lightbox clone drops the .flow-svg class and keeps the dark art on its dark overlay. */
+:root[data-theme="light"] .flow-wrap { background: var(--surface-2); box-shadow: none; }
+:root[data-theme="light"] .flow-wrap::after { background: linear-gradient(90deg, transparent, var(--surface-2) 65%); }
+:root[data-theme="light"] .flow-svg [fill="#0d1117"] { fill: var(--surface); }
+:root[data-theme="light"] .flow-svg [fill="#7a8699"] { fill: var(--muted); }
+:root[data-theme="light"] .flow-svg [fill="#00FF9D"] { fill: var(--green); }
+:root[data-theme="light"] .flow-svg [fill="#00F0FF"] { fill: var(--cyan); }
+:root[data-theme="light"] .flow-svg [fill="#FFD700"] { fill: var(--gold); }
+:root[data-theme="light"] .flow-svg [stroke="#475569"] { stroke: var(--muted); }
+:root[data-theme="light"] .flow-svg [stroke="#1e293b"] { stroke: var(--border); }
+:root[data-theme="light"] .flow-svg [stroke="#00FF9D"] { stroke: var(--green); }
+:root[data-theme="light"] .flow-svg [stroke="rgba(0,240,255,0.35)"] { stroke: var(--cyan); }
+:root[data-theme="light"] .flow-svg [stroke="rgba(255,215,0,0.35)"] { stroke: var(--gold); }
+:root[data-theme="light"] .flow-svg [stroke="rgba(0,255,157,0.35)"] { stroke: var(--green); }
+:root[data-theme="light"] .alt-bar { background: rgba(255,255,255,0.92); }
+
+/* Dark islands (2026-11-12): surfaces that are dark in BOTH themes by design. Their text reads the page tokens, which the light theme remaps to dark ink,
+   so each island re-declares the dark token set and the descendants inherit it. Without this the tooltips and the presentation overlay were dark ink on dark. */
+#pres, #charttip, #termtip, .flow-lightbox {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820; --surface-2: #121820; --elevated: #111827; --border: #1e293b;
+  --text: #e2e8f0; --text-secondary: #94a3b8; --muted: #94a3b8; --dimmed: #8391a7; --faint: #7a8699;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D; --steel: #7dd3fc;
+  --cyan-bg: rgba(0,240,255,0.07); --green-bg: rgba(0,255,157,0.07); --gold-bg: rgba(255,215,0,0.07); --red-bg: rgba(255,77,109,0.07);
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] table.su-t td.kill { color: var(--red); }
+:root[data-theme="light"] .su-sl { color: var(--text); }
