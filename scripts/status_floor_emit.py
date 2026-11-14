@@ -11,8 +11,13 @@ stamp date), sv-commits (git rev-list --count HEAD), et-now (the as-of date), an
 tempo-live data-floor (merges to main per week, last 12 Monday-start weeks, from git; the
 same metric /api/pulse reads live, 2026-10-06).
 
-  python3 scripts/status_floor_emit.py            # restamp as of today (ET date from the system clock)
-  python3 scripts/status_floor_emit.py --check    # exit 1 if the floor is inconsistent or older than MAX_AGE_DAYS
+  python3 scripts/status_floor_emit.py            # restamp as of today: write _ARTIFACTS/status/floor.json, then rebuild the page
+  python3 scripts/status_floor_emit.py --check    # exit 1 if the floor is inconsistent or older than MAX_AGE_DAYS, or the page drifted from its sources
+
+Since 2026-11-12 the page is generated (scripts/status_page_build.py from _ARTIFACTS/status/). This script owns the figures that have a
+machine source: floor.json carries commits and tempo (git), the debt counts and State of the Union card items (the issue tracker via gh,
+public labels from PUBLIC_ITEMS in src/lib/pulse.ts), each with its source string. If gh is unavailable the previous tracker values are kept
+and named stale, never zeroed.
   python3 scripts/status_floor_emit.py --self-test
 
 --check never recounts commits (CI checkouts are shallow). It checks that the three day fields
@@ -22,6 +27,8 @@ import argparse, datetime as dt, hashlib, json, os, re, subprocess, sys, tempfil
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 PAGE = os.path.join(ROOT, "public", "status.html")
+FLOOR = os.path.join(ROOT, "_ARTIFACTS", "status", "floor.json")
+REPO = "flashesofbrilliance/arcs-v9"
 T0 = dt.date(2026, 4, 9)
 MAX_AGE_DAYS = 21
 DAY_IDS = ("hero-day", "era-day", "stat-days")
@@ -67,6 +74,70 @@ def tempo_floor(today):
         if w in counts:
             counts[w] += 1
     return [[w.isoformat(), counts[w]] for w in weeks]
+
+
+def public_items():
+    """{issue number: public label} parsed from PUBLIC_ITEMS in src/lib/pulse.ts (the one curated map; issue titles never cross)."""
+    s = open(os.path.join(ROOT, "src", "lib", "pulse.ts"), encoding="utf-8").read()
+    body = re.search(r"PUBLIC_ITEMS: Record<number, string> = \{(.*?)\n\};", s, re.S).group(1)
+    return {int(n): lbl for n, lbl in re.findall(r'(\d+):\s*"([^"]+)"', body)}
+
+
+def status_of(i):
+    """Mirror of statusOf() in src/lib/pulse.ts: closed wins, else the status: label, else open."""
+    if i["state"] == "CLOSED":
+        return "done"
+    for l in i["labels"]:
+        if l.startswith("status:") and l[7:] in ("open", "in-progress", "decision", "done"):
+            return l[7:]
+    return "open"
+
+
+def tracker_floor():
+    """(debt counts, items by status) from `gh issue list`, or None when gh is unavailable or the read is implausibly empty."""
+    try:
+        out = subprocess.check_output(["gh", "issue", "list", "--repo", REPO, "--label", "debt", "--state", "all", "--limit", "500",
+                                       "--json", "number,state,labels"], cwd=ROOT, text=True, timeout=60)
+        issues = [{"number": i["number"], "state": i["state"], "labels": [l["name"] for l in i["labels"]]} for i in json.loads(out)]
+    except (OSError, subprocess.SubprocessError, ValueError):
+        return None
+    if not issues:
+        return None
+    debt = {"open": 0, "in-progress": 0, "decision": 0, "done": 0}
+    for i in issues:
+        debt[status_of(i)] += 1
+    by = {i["number"]: i for i in issues}
+    items = {k: [] for k in debt}
+    for n, label in public_items().items():
+        if n in by:
+            items[status_of(by[n])].append(label)
+    return debt, items
+
+
+def build_floor(today, commits, prev):
+    tr = tracker_floor()
+    stale = tr is None
+    if stale:
+        if not prev:
+            raise SystemExit("status_floor_emit: gh unavailable and no previous floor.json to keep")
+        debt, items, debt_asof = prev["debt_counts"], prev["items"], prev["tracker_as_of"]
+    else:
+        debt, items = tr
+        debt_asof = today.isoformat()
+    return {
+        "as_of": today.isoformat(), "day": (today - T0).days, "commits": commits, "tempo": tempo_floor(today),
+        "debt": dict(debt), "debt_counts": dict(debt), "items": items, "tracker_as_of": debt_asof,
+        "sources": {
+            "day": "days since T0 2026-04-09, as of the stamp date (scripts/status_floor_emit.py)",
+            "commits": "git rev-list --count HEAD",
+            "as_of": "system clock date at stamp time",
+            "tempo": "git log --first-parent --merges on HEAD, last 12 Monday-start weeks (same metric as /api/pulse tempo)",
+            "debt": "gh issue list --label debt --state all, counted by status label (closed wins); same rule as summarizeDebt in src/lib/pulse.ts"
+                    + (" [STALE: gh unavailable, kept from %s]" % debt_asof if stale else ""),
+            "items": "PUBLIC_ITEMS in src/lib/pulse.ts (issue number to public label), grouped by the issue's live status",
+            "gate_cal, gate_goal": "GATES in src/lib/pulse.ts, read by scripts/status_page_build.py",
+        },
+    }
 
 
 def stamp_tempo(s, rows):
@@ -172,14 +243,25 @@ def main(a):
     today = dt.date.today()
     if args.check:
         errs = check(s, today)
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import status_page_build as spb
+        if not os.path.exists(FLOOR):
+            errs.append("_ARTIFACTS/status/floor.json is missing (run scripts/status_floor_emit.py)")
+        elif spb.check():
+            errs.append("the page differs from its sources (run scripts/status_page_build.py)")
         for e in errs: print(f"✖ status floor: {e}")
         if not errs: print("✓ status floor current")
         return 1 if errs else 0
     commits = int(subprocess.check_output(["git", "rev-list", "--count", "HEAD"], cwd=ROOT, text=True).strip())
-    rows = tempo_floor(today)
-    open(PAGE, "w", encoding="utf-8").write(stamp_tempo(stamp(s, today, commits), rows))
-    print(f"status_floor_emit: stamped day {(today - T0).days}, {commits:,} commits, "
-          f"{sum(r[1] for r in rows)} merges over {TEMPO_WEEKS} weeks, as of {today}")
+    prev = json.load(open(FLOOR, encoding="utf-8")) if os.path.exists(FLOOR) else None
+    floor = build_floor(today, commits, prev)
+    open(FLOOR, "w", encoding="utf-8").write(json.dumps(floor, indent=1, ensure_ascii=False) + "\n")
+    sys.path.insert(0, os.path.join(ROOT, "scripts"))
+    import status_page_build as spb
+    spb.build()
+    rows = floor["tempo"]
+    print(f"status_floor_emit: stamped day {floor['day']}, {commits:,} commits, "
+          f"{sum(r[1] for r in rows)} merges over {TEMPO_WEEKS} weeks, tracker {floor['debt']} as of {floor['tracker_as_of']}; page rebuilt")
     return 0
 
 
