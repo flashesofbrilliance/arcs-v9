@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 318,
+  "script": 319,
   "skill": 28,
   "workflow": 2
  },
- "total": 450,
+ "total": 451,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 609,
+   "WIRED": 610,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
@@ -1856,6 +1856,14 @@
    "path": "scripts/kit_pull.py",
    "jtbd": "kit_pull.py: give the Field OS kit a measurable pull, so parts flock to the pages and jobs they fit.",
    "invoke": "python3 scripts/kit_pull.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "kit_rank.py",
+   "path": "scripts/kit_rank.py",
+   "jtbd": "kit_rank.py: three kit-assembly options for a job, as JSON. Advisory; never edits a page.",
+   "invoke": "python3 scripts/kit_rank.py",
    "state": "WIRED"
   },
   {
