@@ -622,6 +622,8 @@ is deliberately kept out of the family glob to stay honest.
 
 Audited the three residual classes flagged after the low-contrast audit. Each judged on merits:
 
+Ground: commit 99df8d1f; the scoped ignores below live in `.impeccable/config.json` (detector.ignoreFiles and ignoreValues).
+
 - **cramped-padding** (7x on take-home-trap-dossier `.twrap`): FALSE POSITIVE. `.twrap` is a
   horizontal-scroll wrapper around a bordered table; table cells carry `td{padding:11px 14px}`, so
   content is not cramped. The detector reads the table flush to the rounded scroll-wrapper border as
@@ -896,5 +898,12 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 
 - **Break:** the ratchet counted 8 findings against 0 at HEAD on the new `src/ui-kit/recoil-report/71-proof-lockup.html`: 6 `design-system-color` from the specimen's light chrome and 2 `design-system-font-size` (the figure at a literal 1.6rem, the print figure at 1.25rem).
 - **Root cause:** the figure size was copied from the rendered option Zach picked (A, 2026-11-13) as a literal, not as a ramp step. The colours come from the kit 39 light remap that every specimen carries.
-- **Repair:** the figure now reads `var(--fs-display)` stacked and `min(var(--fs-display), 2.9cqi)` side by side, about 1.6rem in the Gravity lane, so the picked look holds on a ramp token; print uses `--fs-headline`. The specimen joins the existing kit-specimen `design-system-color` waiver (39, 43 to 68), no new waiver.
+- **Repair:** the figure now reads `max(1.5rem, min(var(--fs-display), Ncqi))` (7cqi stacked, 4cqi 2 by 2, 3cqi four-up), so it never leaves the display step and lands near 1.6rem in the Gravity lane, so the picked look holds on a ramp token; print uses `--fs-headline`. The specimen joins the existing kit-specimen `design-system-color` waiver (39, 43 to 68, now 71), no new waiver.
 - **Guard:** the ratchet (the file scores 0; any new finding blocks) and `kit_primitive_sync --check` for every page that later marks block 71.
+
+## 2026-11-13 · option board for the Gravity glass review (repaired at the source, one value waived)
+
+- **Break:** the ratchet counted 17 findings against 0 at HEAD on the new `_ARTIFACTS/option-board/gravity-glass.html`: 9 `gpt-thin-border-wide-shadow` (the glow options drew a 1px cyan border under a 16px bloom), 3 `tight-leading` (headline variants at 1.25), 1 `all-caps-body` (mono caps labels), 2 `design-system-font-size` (0.85rem and 1.3rem) and 2 `design-system-color` (a literal 50% black shadow and the glass sheen).
+- **Root cause:** the first spec hand-wrote variant CSS without the kit ramp, and drew the glow rim as a border.
+- **Repair:** in the spec and `src/ui-kit/option-board/board.css`: the rim became an inset 1px ring inside the shadow stack, leading 1.3, labels in sentence case at 0.02em, sizes on `--fs-body` and `--fs-headline`, the black drop removed. One value stays: `rgba(255, 255, 255, 0.06)`, the sheen in `--glass-surface` from the ARCS OS Design System artifact, which DESIGN.md does not list yet. It is waived for this one file, since showing that layer is the board's purpose.
+- **Guard:** the ratchet (the file scores 0 with the waiver; any new finding blocks) and the option-board generator self-test (this PR), which fails when the committed board drifts from its spec. Open: DESIGN.md should adopt or reject the glass layer; then drop the waiver.

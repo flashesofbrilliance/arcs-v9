@@ -3,6 +3,14 @@
  "holds": [
   {
    "rule": "ORPHAN-TOOL",
+   "id": "tool:script:proposal_construction.py",
+   "reason": "Landed on main (bf8c0627, kit proposal molecules) without a backlog row; surfaced when the option-board PR 2227 regenerated the stale tool catalog to register scripts/option_board.py. Owner: the session that added it.",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-11-13",
+   "resolve_by": "2026-11-20"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
    "id": "tool:agent:grug",
    "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
    "row": "jtbd-graph-triage-2026-10-20",
