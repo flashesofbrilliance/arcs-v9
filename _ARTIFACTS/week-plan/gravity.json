@@ -1,0 +1,380 @@
+{
+ "version": 1,
+ "subject": "Gravity Labs, Entrepreneur in Residence: the first seven weeks",
+ "future_perfect": {
+  "text": "By the end of week 7, Gravity will have a pass record where every no carries a dated reopen signal, and one wedge memo that went to committee on a test written before it.",
+  "status": "hypothesis"
+ },
+ "sources": [
+  {
+   "id": "week-one",
+   "label": "Week One block on gravity.arcs.care"
+  },
+  {
+   "id": "eir",
+   "label": "EIR posting",
+   "href": "https://gravity-labs.xyz/jobs-entrepreneur-in-residence.html"
+  },
+  {
+   "id": "kyle",
+   "label": "Kyle's Idea Engine post",
+   "href": "https://kylelibra.substack.com/p/how-to-find-startup-ideas"
+  }
+ ],
+ "weeks": [
+  {
+   "n": 1,
+   "title": "Week One",
+   "future_perfect": {
+    "text": "By Friday, Gravity will have two things it can check, each dated, each with what would reopen it.",
+    "status": "sourced",
+    "source": "Week One: What you get"
+   },
+   "cascade": {
+    "executive": {
+     "text": "One wedge, not a category.",
+     "status": "sourced",
+     "source": "EIR tab headline"
+    },
+    "strategic": {
+     "text": "Work one step after the memo: did each call hold up?",
+     "status": "sourced",
+     "source": "Week One: The gap"
+    },
+    "operational": {
+     "text": "Give every pass a dated note of what would reopen it, so a recheck is a test, not a reread.",
+     "status": "sourced",
+     "source": "Week One: What I do"
+    },
+    "tactical": {
+     "text": "Day 1: each \"no right now\" on the pass list gets the signal that would reopen it.",
+     "status": "sourced",
+     "source": "Week One: Day 1"
+    },
+    "surgical": {
+     "text": "Day 5: a one-page agent-payments wedge memo: no chargeback, freeze on legal process, nothing records what the agent expected.",
+     "status": "sourced",
+     "source": "Week One: Day 5"
+    }
+   },
+   "kairos": [
+    {
+     "id": "K1",
+     "day": 1,
+     "altitude": "tactical",
+     "fork": "Does the pass list reach me on day 1?",
+     "status": "hypothesis",
+     "premises": [
+      {
+       "id": "P1",
+       "text": "Gravity keeps a pass list I can read on day 1.",
+       "status": "hypothesis",
+       "falsifier": "No list exists, or it lives only in people's heads."
+      },
+      {
+       "id": "P2",
+       "text": "Each pass was written with a reason, not only a no.",
+       "status": "hypothesis",
+       "falsifier": "Most rows carry no reason, so there is nothing to attach a reopen signal to."
+      }
+     ],
+     "if_true": "Reopen signals go on every pass by day 2.",
+     "if_false": "Rebuild the list from one conversation; day 1 work slides to day 3 and the memo keeps its day.",
+     "keep_if": "The list arrives with a reason on most rows.",
+     "kill_if": "No list by day 3: stop waiting and rebuild it from one conversation.",
+     "onramp": {
+      "day": 1,
+      "text": "Ask for the list in the first meeting, framed as onboarding, not audit.",
+      "status": "hypothesis"
+     },
+     "offramp": {
+      "day": 3,
+      "text": "Switch to the rebuilt list; the memo keeps its day 5 date.",
+      "status": "hypothesis"
+     }
+    },
+    {
+     "id": "K2",
+     "day": 5,
+     "altitude": "surgical",
+     "fork": "Does the agent-payments wedge survive its own memo?",
+     "status": "hypothesis",
+     "premises": [
+      {
+       "id": "P3",
+       "text": "The three gaps (no chargeback, freeze on legal process, no record of what the agent expected) are still open on day 5.",
+       "status": "hypothesis",
+       "falsifier": "A card network or issuer publishes agent dispute rights before day 5."
+      },
+      {
+       "id": "P4",
+       "text": "Someone at Gravity reads a one-pager in week one.",
+       "status": "hypothesis",
+       "falsifier": "No reply or comment on the memo by the end of the week."
+      }
+     ],
+     "if_true": "The memo goes forward as the first one-pager in the EIR tab's 30-day plan.",
+     "if_false": "The kill is written down with its reason, and it becomes the first entry in the pass record.",
+     "keep_if": "The three gaps are still open and someone reads the memo.",
+     "kill_if": "A network publishes agent dispute rights, or the memo cannot name one buyer.",
+     "onramp": {
+      "day": 2,
+      "text": "Write the kill criteria on day 2, before drafting.",
+      "status": "hypothesis"
+     },
+     "offramp": {
+      "day": 5,
+      "text": "Kill it in writing; the reasons become the first pass-record entry.",
+      "status": "hypothesis"
+     }
+    },
+    {
+     "id": "K3",
+     "day": 5,
+     "altitude": "operational",
+     "fork": "Does Gravity send me one idea it passed on?",
+     "status": "sourced",
+     "source": "Week One: how to read",
+     "premises": [
+      {
+       "id": "P5",
+       "text": "One line, with no names, is enough to rebuild the call.",
+       "status": "hypothesis",
+       "falsifier": "The line names a sector but no reason, and I cannot write a test for it."
+      }
+     ],
+     "if_true": "In two weeks it comes back as keep, kill or not yet, with the dated test that settles it.",
+     "if_false": "Nothing to return in week 3; the pass list from K1 is the only test bed.",
+     "keep_if": "One passed idea arrives by Friday.",
+     "kill_if": "Nothing by Friday: drop the ask from week 2 and use the K1 list.",
+     "onramp": {
+      "day": 5,
+      "text": "Ask at the end of the Friday update, one line, no names.",
+      "status": "hypothesis"
+     },
+     "offramp": {
+      "day": 5,
+      "text": "No follow-up chase; the offer stands on the page.",
+      "status": "hypothesis"
+     }
+    }
+   ],
+   "orders": [
+    {
+     "order": 1,
+     "text": "Every pass carries a dated reopen signal.",
+     "status": "sourced",
+     "source": "Week One: What I do",
+     "children": [
+      {
+       "order": 2,
+       "text": "A recheck becomes a test: the signal fired or it did not.",
+       "status": "sourced",
+       "source": "Week One: What I do",
+       "children": [
+        {
+         "order": 3,
+         "text": "The team rereads fewer old memos.",
+         "status": "hypothesis",
+         "children": [
+          {
+           "order": 4,
+           "text": "A passed idea comes back when its signal fires, not when someone remembers it.",
+           "status": "hypothesis",
+           "children": [
+            {
+             "order": 5,
+             "text": "The pass record becomes a source of hatches, rechecked as the market moves.",
+             "status": "hypothesis"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "order": 1,
+     "text": "A wedge memo on agent payments exists by day 5.",
+     "status": "sourced",
+     "source": "Week One: Day 5",
+     "children": [
+      {
+       "order": 2,
+       "text": "The committee can keep or kill it on a named test.",
+       "status": "hypothesis",
+       "children": [
+        {
+         "order": 3,
+         "text": "A kill is cheap because the kill criteria were written first.",
+         "status": "hypothesis",
+         "children": [
+          {
+           "order": 4,
+           "text": "The next memo starts from the kill record, not a blank page.",
+           "status": "hypothesis",
+           "children": [
+            {
+             "order": 5,
+             "text": "The found-or-walk decision in the 180-day plan rests on dated tests, not taste.",
+             "status": "hypothesis"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "scenarios": {
+    "best": {
+     "path": "The pass list arrives on day 1, both deliverables land by Friday, and Gravity sends one passed idea.",
+     "status": "hypothesis",
+     "premortem": [
+      {
+       "cause": "Gravity reads the list as an audit of its judgment and holds it back.",
+       "falsifier": "The list arrives on day 1."
+      },
+      {
+       "cause": "The memo's gaps are already closed.",
+       "falsifier": "A day-5 search finds no agent dispute rule."
+      }
+     ],
+     "postmortem": "It worked because the reopen signals were dated, so nobody had to argue about taste.",
+     "p": null,
+     "p_basis": "unset",
+     "roi": {
+      "sign": "positive",
+      "text": "Two checkable things plus a live test bed for week 3.",
+      "value": null,
+      "basis": "unset"
+     },
+     "opportunity_cost": "Little: the week goes where the plan said.",
+     "stop_loss": {
+      "day": 5,
+      "trigger": "The memo cannot name one buyer.",
+      "keeps": "The pass list with reopen signals."
+     }
+    },
+    "base": {
+     "path": "A partial pass list arrives by day 3, the memo lands on day 5, and no passed idea comes back yet.",
+     "status": "hypothesis",
+     "premortem": [
+      {
+       "cause": "The list lives in several places.",
+       "falsifier": "One owner can name where it is on day 1."
+      },
+      {
+       "cause": "Week one goes to onboarding.",
+       "falsifier": "Two blocks of four hours stay clear on the calendar."
+      }
+     ],
+     "postmortem": "It held because the memo kept its date when the list slipped.",
+     "p": null,
+     "p_basis": "unset",
+     "roi": {
+      "sign": "positive",
+      "text": "The memo lands; the pass list is partial.",
+      "value": null,
+      "basis": "unset"
+     },
+     "opportunity_cost": "Two days spent finding the list instead of working it.",
+     "stop_loss": {
+      "day": 3,
+      "trigger": "No list owner named.",
+      "keeps": "The memo date."
+     }
+    },
+    "worst": {
+     "path": "No pass list in week one; only the memo lands, and it reads as a category survey, not a wedge.",
+     "status": "hypothesis",
+     "premortem": [
+      {
+       "cause": "Access to the list needs approvals that take longer than a week.",
+       "falsifier": "Access is granted by day 2."
+      },
+      {
+       "cause": "The memo widens to cover the whole sector.",
+       "falsifier": "The memo still names one buyer and one missing record."
+      }
+     ],
+     "postmortem": "It failed because the memo had no kill rule written first, so it could not lose.",
+     "p": null,
+     "p_basis": "unset",
+     "roi": {
+      "sign": "negative",
+      "text": "A week spent on access and a memo that reads as a survey.",
+      "value": null,
+      "basis": "unset"
+     },
+     "opportunity_cost": "Week 2 starts without a test bed.",
+     "stop_loss": {
+      "day": 3,
+      "trigger": "Access still pending.",
+      "keeps": "The kill criteria, written on day 2."
+     }
+    }
+   },
+   "derisk": [
+    {
+     "id": "M1",
+     "method": "List every \"no right now\" with its stated reason.",
+     "verb": "analyze",
+     "lens": "D",
+     "altitude": "tactical",
+     "status": "hypothesis",
+     "kills": "K1"
+    },
+    {
+     "id": "M2",
+     "method": "Date each reopen signal; drop any signal that has no date.",
+     "verb": "assess",
+     "lens": "W",
+     "altitude": "operational",
+     "status": "hypothesis",
+     "kills": "P2"
+    },
+    {
+     "id": "M3",
+     "method": "Write the memo's kill criteria before the memo.",
+     "verb": "evaluate",
+     "lens": "R",
+     "altitude": "surgical",
+     "status": "sourced",
+     "source": "EIR tab, 30/90/180 plan: 30 days, kill criteria written first",
+     "kills": "K2"
+    },
+    {
+     "id": "M4",
+     "method": "Check the memo's three gaps against the pass list: does a passed idea already cover one?",
+     "verb": "synthesize",
+     "lens": "C",
+     "altitude": "strategic",
+     "status": "hypothesis",
+     "kills": "P3"
+    },
+    {
+     "id": "M5",
+     "method": "Run a pre-mortem on each branch, each cause with its falsifier.",
+     "verb": "evaluate",
+     "lens": "R",
+     "altitude": "tactical",
+     "status": "hypothesis"
+    },
+    {
+     "id": "M6",
+     "method": "Friday written update: what held, what moved, what reopens.",
+     "verb": "recapitulate",
+     "lens": "H",
+     "altitude": "executive",
+     "status": "sourced",
+     "source": "EIR tab, 30/90/180 plan: 30 days, a short weekly written update"
+    }
+   ]
+  }
+ ]
+}
