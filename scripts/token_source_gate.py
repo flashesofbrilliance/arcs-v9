@@ -33,6 +33,8 @@ Fold DOC_EXTRA into _tokens.css at the next kit release. Without --write it exit
 or a CSS change that was not regenerated); with --write it rewrites tokens.ts.
 """
 import re, sys, os, json
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import design_candidates
 
 SENTINEL = "/* ARCS Recoil Report — Design Tokens */"
 LINK_RE = re.compile(r'<link[^>]+href="(?:\.\./)*_tokens\.css"', re.I)
@@ -45,7 +47,10 @@ def analyze(text):
     if not hits:
         return ("PASS", "no ARCS signal hex in a custom property (not a palette surface)")
     inherits = (SENTINEL in text) or bool(LINK_RE.search(text))
-    foreign = sorted({n for n, _ in hits if n not in CANON})
+    trial = design_candidates.tokens_for(text)  # names a declared, unexpired candidate trials at this value
+    foreign = sorted({n for n, v in hits if n not in CANON and trial.get(n, "").lower() != v.lower()})
+    if inherits and not foreign and any(n not in CANON for n, _ in hits):
+        return ("PASS", "inherits _tokens.css; non-canonical names are a declared design candidate (runtime/specs/design-candidates.json)")
     if inherits and not foreign:
         return ("PASS", "inherits _tokens.css" + (" (inlined verbatim)" if SENTINEL in text else " (linked)"))
     if inherits and foreign:

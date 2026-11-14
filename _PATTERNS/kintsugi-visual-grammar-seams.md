@@ -622,6 +622,8 @@ is deliberately kept out of the family glob to stay honest.
 
 Audited the three residual classes flagged after the low-contrast audit. Each judged on merits:
 
+Ground: commit 99df8d1f; the scoped ignores below live in `.impeccable/config.json` (detector.ignoreFiles and ignoreValues).
+
 - **cramped-padding** (7x on take-home-trap-dossier `.twrap`): FALSE POSITIVE. `.twrap` is a
   horizontal-scroll wrapper around a bordered table; table cells carry `td{padding:11px 14px}`, so
   content is not cramped. The detector reads the table flush to the rounded scroll-wrapper border as
@@ -891,3 +893,10 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - **Root cause:** none in this page's own CSS. Both are the frame's by design and are already waived for `public/gravity-brief*.html` and the kit specimens: DESIGN.md defines the dark palette only, and the shell nav bar runs flush to the frame (the MyAlly seam of 2026-10-26).
 - **Repair:** Zach asked for the standard nav, hamburger and reading options on this page (2026-11-12), so the page carries the kit's light palette and frame. The file joins the two existing kit waivers rather than getting new ones.
 - **Guard:** the ratchet (the file scores 0 with the waivers; any new finding blocks) and `component_source_gate`, which now checks the page as template `recoil-twin` (5 of 5 kit signatures). The earlier open debt for this file stands: the generator-origin waivers (tiny-text, all-caps-body, radius, font-size) can be dropped once `scripts/recoil_brief.py`'s base CSS is off the page; the stack layout already sizes in rem on the kit ramp.
+
+## 2026-11-13 · option board for the Gravity glass review (repaired at the source, one value waived)
+
+- **Break:** the ratchet counted 17 findings against 0 at HEAD on the new `_ARTIFACTS/option-board/gravity-glass.html`: 9 `gpt-thin-border-wide-shadow` (the glow options drew a 1px cyan border under a 16px bloom), 3 `tight-leading` (headline variants at 1.25), 1 `all-caps-body` (mono caps labels), 2 `design-system-font-size` (0.85rem and 1.3rem) and 2 `design-system-color` (a literal 50% black shadow and the glass sheen).
+- **Root cause:** the first spec hand-wrote variant CSS without the kit ramp, and drew the glow rim as a border.
+- **Repair:** in the spec and `src/ui-kit/option-board/board.css`: the rim became an inset 1px ring inside the shadow stack, leading 1.3, labels in sentence case at 0.02em, sizes on `--fs-body` and `--fs-headline`, the black drop removed. One value stays: `rgba(255, 255, 255, 0.06)`, the sheen in `--glass-surface` from the ARCS OS Design System artifact, which DESIGN.md does not list yet. It is waived for this one file, since showing that layer is the board's purpose.
+- **Guard:** the ratchet (the file scores 0 with the waiver; any new finding blocks) and the option-board generator self-test (this PR), which fails when the committed board drifts from its spec. Open: DESIGN.md should adopt or reject the glass layer; then drop the waiver.
