@@ -20,5 +20,5 @@ Written 2026-11-13 by the session that relays Zach's picks. This is the one plac
 - Header (picked option B, 2026-11-13): the quote comes first, in italic Newsreader serif in --text-secondary (a token, never opacity). The attribution is right-aligned at 0.85x body size. A hairline rule follows, with the pane gap (24px) above and below it. Then the headline at weight 700.
   - Seam: weight 700 overrides the 2026-11-12 "Inter semibold" headline ruling, for this header only.
   - Seam: 0.85x sits off the four-step type ramp. Zach asked for "about 15% smaller", so it stays an exception unless he snaps it to --fs-label.
-  - Open: the quote marks still render as glyphs (now lighter), not the SVG swashes in the Quotes ruling. The question is with Zach.
+  - Quote marks (Zach, 2026-11-13, "Let's go with your suggestion"): the header keeps lighter font-glyph quote marks, not SVG swashes. This overrides the Quotes ruling for the header only.
 - Overview: the oversized text block was too big and overpowering. It becomes the four-up proof lockup (kit 71, PR 2240).
