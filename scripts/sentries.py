@@ -85,7 +85,13 @@ def discovery(root):
     return [f"WARN discovery: {l.strip()}; free work past the cap is a choice, make it on purpose"
             for l in r.stdout.splitlines() if "OVER CAP" in l]
 
-SENTRIES = [("seed-ledger", seed_ledger), ("claims", claims), ("main-drift", main_drift), ("open-loops", open_loops), ("discovery", discovery)]
+def kit_catalysts(root):
+    tool = os.path.join(root, "scripts/kit_periodic_table.py")
+    if not os.path.exists(tool): return []
+    n = sh(sys.executable, tool, "--behind", cwd=root)
+    return [f"WARN kit-catalysts: ledger is missing {n} event(s) from git history; run python3 scripts/kit_periodic_table.py --sync"] if n not in ("", "0") else []
+
+SENTRIES = [("seed-ledger", seed_ledger), ("claims", claims), ("main-drift", main_drift), ("open-loops", open_loops), ("discovery", discovery), ("kit-catalysts", kit_catalysts)]
 
 def self_test():
     ok = True

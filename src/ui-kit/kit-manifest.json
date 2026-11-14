@@ -954,11 +954,9 @@
    "jobs": [],
    "pages": [
     "_ARTIFACTS/arcs-knowledge-lattice.html",
-    "_ARTIFACTS/phosphor.html",
     "_ARTIFACTS/session-visuals/tao-255-induction-circuit-silkscreen.html",
     "_ARTIFACTS/todd-call-proposal-backup-2026-08-04.html",
     "public/blog-nftt-take-home-trap-dossier.html",
-    "public/dj.html",
     "public/forge-pattern.html",
     "public/good-case-reader-who-remembered.html",
     "public/good-case-six-week-outage.html",
@@ -971,7 +969,7 @@
     "public/prl-status-troubleshooting.html",
     "scripts/case_world_sync.py"
    ],
-   "reuse": 17,
+   "reuse": 15,
    "near_duplicates": [
     {
      "rule": ".sr",
@@ -1569,6 +1567,12 @@
      "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".gates",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-pm ul",
+     "jaccard": 0.8
     }
    ]
   },
@@ -2151,9 +2155,10 @@
     "scripts/kit_primitive_sync.py",
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py",
-    "scripts/tabbed_brief_build.py"
+    "scripts/tabbed_brief_build.py",
+    "scripts/week_plan_build.py"
    ],
-   "reuse": 14,
+   "reuse": 15,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2283,6 +2288,7 @@
     "_ARTIFACTS/brooks-audit-onepager.html",
     "_ARTIFACTS/brooks-pitch-storyboard.html",
     "_ARTIFACTS/docs-reconciliation.html",
+    "_ARTIFACTS/kit-periodic-table.html",
     "public/cia-brief.html",
     "public/good-audit-check.html",
     "public/good-audit-sample.html",
@@ -2291,7 +2297,7 @@
     "scripts/counterpart_onepager_build.py",
     "scripts/kit_pull.py"
    ],
-   "reuse": 12,
+   "reuse": 13,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -3252,6 +3258,12 @@
      "twin": "64-kintsugi-seam",
      "twin_rule": ".seam-rows code",
      "jaccard": 1.0
+    },
+    {
+     "rule": ".bg-facts ul",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tree, .wp-tree ol",
+     "jaccard": 1.0
     }
    ]
   },
@@ -3339,6 +3351,18 @@
      "twin": "34-manifold",
      "twin_rule": ".tpl",
      "jaccard": 0.83
+    },
+    {
+     "rule": ".sp-list",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-pm ul",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".sp-yes h3, .sp-no h3",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tab-n",
+     "jaccard": 0.83
     }
    ]
   },
@@ -3379,11 +3403,12 @@
    ],
    "pages": [
     "scripts/audit_report_build.py",
+    "scripts/kit_periodic_table.py",
     "scripts/kit_primitive_sync.py",
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py"
    ],
-   "reuse": 4,
+   "reuse": 5,
    "near_duplicates": []
   },
   {
@@ -3493,7 +3518,8 @@
     "token-tuner-viewports-breadcrumbs",
     "token-tuner-why-prompt",
     "token-tuner-global",
-    "token-tuner-plain-view"
+    "token-tuner-plain-view",
+    "composer-dogfood"
    ],
    "pages": [
     "_ARTIFACTS/docs-reconciliation.html",
@@ -4056,7 +4082,14 @@
     "scripts/tabbed_brief_build.py"
    ],
    "reuse": 12,
-   "near_duplicates": []
+   "near_duplicates": [
+    {
+     "rule": ".dprefs-btns button[aria-pressed=\"true\"]",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-mx td.wp-lit",
+     "jaccard": 1.0
+    }
+   ]
   },
   {
    "id": "52-plan-matrix",
@@ -4103,6 +4136,12 @@
      "twin": "53-cold-read",
      "twin_rule": ".cr-when",
      "jaccard": 0.8
+    },
+    {
+     "rule": ".pm-k .pm-kl",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-k",
+     "jaccard": 0.86
     }
    ]
   },
@@ -4397,11 +4436,13 @@
    "pages": [
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
     "_ARTIFACTS/recoil-hypercube-explorer.html",
+    "_ARTIFACTS/week-plan/gravity.html",
     "public/downshift.html",
     "scripts/recoil_hypercube_explorer.py",
-    "scripts/recoil_page.py"
+    "scripts/recoil_page.py",
+    "scripts/week_plan_build.py"
    ],
-   "reuse": 5,
+   "reuse": 7,
    "near_duplicates": [
     {
      "rule": ".fold",
@@ -4426,6 +4467,12 @@
      "twin": "61-option",
      "twin_rule": ".option-head",
      "jaccard": 0.8
+    },
+    {
+     "rule": ".fold-title h2",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-wh",
+     "jaccard": 1.0
     }
    ]
   },
@@ -4548,6 +4595,12 @@
      "twin": "62-attributed-notes",
      "twin_rule": ".note-head h3",
      "jaccard": 1.0
+    },
+    {
+     "rule": ".toast-title",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tab-n",
+     "jaccard": 0.83
     }
    ]
   },
@@ -4802,6 +4855,12 @@
      "twin": "61-option",
      "twin_rule": ".option-head",
      "jaccard": 0.8
+    },
+    {
+     "rule": ".note-head h3",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tab-n",
+     "jaccard": 0.83
     }
    ]
   },
@@ -4862,6 +4921,12 @@
      "twin": "64-kintsugi-seam",
      "twin_rule": ".seam-rows code",
      "jaccard": 1.0
+    },
+    {
+     "rule": ".pass-v",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tab-n",
+     "jaccard": 0.83
     }
    ]
   },
@@ -5106,6 +5171,200 @@
    "near_duplicates": []
   },
   {
+   "id": "70-week-plan",
+   "number": "70",
+   "name": "Week Plan",
+   "group": "Specimens",
+   "subtitle": "Organism 70 · Lay out a plan week by week: what will be true by the end of each week, how it cascades from executive to surgical, where the kairos forks sit and what must be true at each, and how best, base and worst play out, with keep and kill switches, on-ramps, off-ramps, opportunity cost and stop-losses on one color-coded sparkline.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/70-week-plan.html",
+   "data_shape": [
+    "sequence",
+    "state"
+   ],
+   "fidelity": [
+    "grain"
+   ],
+   "classes": [
+    "is-kill",
+    "wp",
+    "wp-a-executive",
+    "wp-a-operational",
+    "wp-a-strategic",
+    "wp-a-surgical",
+    "wp-a-tactical",
+    "wp-base",
+    "wp-best",
+    "wp-block",
+    "wp-cascade",
+    "wp-cost",
+    "wp-costt",
+    "wp-crow",
+    "wp-crow-tags",
+    "wp-dl",
+    "wp-fals",
+    "wp-fid",
+    "wp-flat",
+    "wp-flatt",
+    "wp-fork",
+    "wp-fork-card",
+    "wp-fork-h",
+    "wp-fork-q",
+    "wp-forkc",
+    "wp-forki",
+    "wp-forkl",
+    "wp-forks",
+    "wp-forkt",
+    "wp-fp",
+    "wp-fspark",
+    "wp-ftag",
+    "wp-hyp",
+    "wp-k",
+    "wp-keep",
+    "wp-key",
+    "wp-keyg",
+    "wp-kill",
+    "wp-lane",
+    "wp-legend",
+    "wp-lit",
+    "wp-live",
+    "wp-methods",
+    "wp-mmeta",
+    "wp-mtags",
+    "wp-mx",
+    "wp-mx-key",
+    "wp-mx-wrap",
+    "wp-n-base",
+    "wp-n-best",
+    "wp-n-worst",
+    "wp-neg",
+    "wp-negt",
+    "wp-none",
+    "wp-note",
+    "wp-note-h",
+    "wp-notes",
+    "wp-off",
+    "wp-offt",
+    "wp-on",
+    "wp-ont",
+    "wp-ontick",
+    "wp-ord",
+    "wp-panel",
+    "wp-pills",
+    "wp-pm",
+    "wp-pmtext",
+    "wp-pos",
+    "wp-post",
+    "wp-prem",
+    "wp-sr",
+    "wp-src",
+    "wp-stop",
+    "wp-stopl",
+    "wp-stopt",
+    "wp-strip",
+    "wp-stripwrap",
+    "wp-sw",
+    "wp-swb",
+    "wp-tab",
+    "wp-tab-n",
+    "wp-tab-s",
+    "wp-tabs",
+    "wp-tree",
+    "wp-tspark",
+    "wp-wh",
+    "wp-worst"
+   ],
+   "prim_blocks": [
+    "70-week-plan"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/week-plan/gravity.html",
+    "scripts/week_plan_build.py"
+   ],
+   "reuse": 2,
+   "near_duplicates": [
+    {
+     "rule": ".wp-pm ul",
+     "twin": "19-gate-ladder",
+     "twin_rule": ".gates",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".wp-tree, .wp-tree ol",
+     "twin": "35-backlog-graph",
+     "twin_rule": ".bg-facts ul",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".wp-pm ul",
+     "twin": "36-change",
+     "twin_rule": ".sp-list",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".wp-tab-n",
+     "twin": "36-change",
+     "twin_rule": ".sp-yes h3, .sp-no h3",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".wp-mx td.wp-lit",
+     "twin": "51-display-preferences",
+     "twin_rule": ".dprefs-btns button[aria-pressed=\"true\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".wp-k",
+     "twin": "52-plan-matrix",
+     "twin_rule": ".pm-k .pm-kl",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".wp-wh",
+     "twin": "56-fold",
+     "twin_rule": ".fold-title h2",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".wp-tab-n",
+     "twin": "58-toast",
+     "twin_rule": ".toast-title",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".wp-tab-n",
+     "twin": "62-attributed-notes",
+     "twin_rule": ".note-head h3",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".wp-tab-n",
+     "twin": "63-operator-pass",
+     "twin_rule": ".pass-v",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".wp-sr",
+     "twin": "grammar-chips",
+     "twin_rule": ".g-sr",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".wp-tab-s",
+     "twin": "grammar-chips",
+     "twin_rule": ".g-sr",
+     "jaccard": 0.83
+    }
+   ]
+  },
+  {
    "id": "grammar-chips",
    "number": "",
    "name": "Grammar Chips",
@@ -5172,6 +5431,18 @@
      "twin": "12-role-thesis",
      "twin_rule": ".adjacency-row",
      "jaccard": 0.8
+    },
+    {
+     "rule": ".g-sr",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-sr",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".g-sr",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tab-s",
+     "jaccard": 0.83
     }
    ]
   },
