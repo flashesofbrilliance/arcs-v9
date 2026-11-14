@@ -33,7 +33,7 @@ SSOT = os.path.join(ROOT, "public", "observatory", "colors_and_type.css")
 # The family of standalone public pages that should share the canonical palette.
 # Add good.html / germinate.html / arcs-field-scan.html when running the main-side rollout.
 FAMILY = [
-    "build.html", "playground.html", "status.html", "chan.html",
+    "build.html", "playground.html", "chan.html",  # status.html is generated: scripts/status_page_build.py (2026-11-12)
     "forge-pattern.html", "forge-cut.html", "good.html",
     "germinate.html", "arcs-field-scan.html",
 ]

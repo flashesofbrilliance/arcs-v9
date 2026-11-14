@@ -1,0 +1,108 @@
+{
+ "as_of": "2026-11-12",
+ "day": 217,
+ "commits": 6825,
+ "tempo": [
+  [
+   "2026-08-24",
+   15
+  ],
+  [
+   "2026-08-31",
+   34
+  ],
+  [
+   "2026-09-07",
+   88
+  ],
+  [
+   "2026-09-14",
+   17
+  ],
+  [
+   "2026-09-21",
+   43
+  ],
+  [
+   "2026-09-28",
+   130
+  ],
+  [
+   "2026-10-05",
+   407
+  ],
+  [
+   "2026-10-12",
+   350
+  ],
+  [
+   "2026-10-19",
+   155
+  ],
+  [
+   "2026-10-26",
+   108
+  ],
+  [
+   "2026-11-02",
+   124
+  ],
+  [
+   "2026-11-09",
+   140
+  ]
+ ],
+ "debt": {
+  "open": 19,
+  "in-progress": 8,
+  "decision": 7,
+  "done": 44
+ },
+ "debt_counts": {
+  "open": 19,
+  "in-progress": 8,
+  "decision": 7,
+  "done": 44
+ },
+ "items": {
+  "open": [
+   "Decision geometry explorer: data feed",
+   "Field HUD: real-device touch and screen-reader testing",
+   "App: keyboard support for clickable elements",
+   "Universe view: mapping the unmapped files",
+   "SHARP render checked on real data"
+  ],
+  "in-progress": [
+   "Design and accessibility debt burn-down",
+   "CI minutes leak",
+   "Page renderers: retire old greys and small sizes",
+   "Security review: false red on reruns",
+   "Receipt closure: separating test data",
+   "Accountant weekly run, unattended"
+  ],
+  "decision": [
+   "Spend cap: retire the old API keys",
+   "Write-lock stays advisory until every merge uses it",
+   "Human check of the Librarian calibration",
+   "Lattice regeneration (human-owned)",
+   "Claim-unit spec ruling"
+  ],
+  "done": [
+   "Raw API errors no longer shown to visitors",
+   "Main kept green for every PR",
+   "CI review spend cut",
+   "npm test script added",
+   "Design file label size fixed"
+  ]
+ },
+ "tracker_as_of": "2026-11-12",
+ "sources": {
+  "day": "days since T0 2026-04-09, as of the stamp date (scripts/status_floor_emit.py)",
+  "commits": "git rev-list --count HEAD",
+  "as_of": "system clock date at stamp time",
+  "tempo": "git log --first-parent --merges on HEAD, last 12 Monday-start weeks (same metric as /api/pulse tempo)",
+  "debt": "gh issue list --label debt --state all, counted by status label (closed wins); same rule as summarizeDebt in src/lib/pulse.ts",
+  "items": "PUBLIC_ITEMS in src/lib/pulse.ts (issue number to public label), grouped by the issue's live status",
+  "gate_cal, gate_goal": "GATES in src/lib/pulse.ts, read by scripts/status_page_build.py"
+ }
+}
