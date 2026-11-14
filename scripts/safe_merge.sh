@@ -12,6 +12,9 @@
 #   2. waits until every check on that head is final, then refuses unless all are SUCCESS
 #      (PENDING past the timeout, FAILURE, CANCELLED, only-SKIPPED checks, or zero checks: refuse; SKIPPED beside a SUCCESS is neutral)
 #   3. CONFLICTING mergeable: stop and say so (never rebases)
+#   3b. a PR that touches kit inputs (src/ui-kit, src/ui, the kit generators) refuses while main has kit-input
+#      commits it lacks: the kit manifest and periodic table are built from the whole kit, so a stale branch
+#      merges stale generated files even when git sees no conflict (PR 2239, 2026-11-13). Rebase, regenerate, push.
 #   4. merges with `gh pr merge --merge --match-head-commit <sha>` (gotcha 17: never squash/rebase)
 #   5. prints the merge commit and a decision_receipt INSERT template (never writes to Supabase), with
 #      job_id and tool_id filled (Sprint 5 coverage, AGENTS.md "Receipts or it didn't happen"):
@@ -19,7 +22,8 @@
 #      or changes; tool_id = tool:script:<name> of the scripts/ file with the most changed lines. When
 #      neither derives, a '<REQUIRED ...>' placeholder is printed: it fails the column CHECK, so it can
 #      never land as a silent NULL.
-# Env: SAFE_MERGE_TIMEOUT (default 1800), SAFE_MERGE_INTERVAL (default 20),
+# Env: SAFE_MERGE_TIMEOUT (default 1800), SAFE_MERGE_INTERVAL (default 20), SAFE_MERGE_KIT_BEHIND (self-test seam:
+#      a number that replaces the git count in step 3b),
 #      SAFE_MERGE_NOCHECK_GRACE (default 120: zero checks right after a push counts as pending this long).
 # Exit: 0 merged · 1 refused · 2 usage. Gating steps are never piped through tail/head/grep.
 set -euo pipefail
@@ -82,6 +86,20 @@ FAKE
   run_case only-skipped         1 no  abc1234def0000 MERGEABLE 60 "[$K]"
   run_case skipped-beside-failure 1 no abc1234def0000 MERGEABLE 60 "[$S,$K,$F]"
   run_case github-down          1 no  authdown       MERGEABLE 60 "[$S]"
+  # 3b: kit inputs plus main kit commits the branch lacks refuse; either one alone merges.
+  kit_case() { # name behind files-json want_rc want_merged
+    local d="$tmp/$1"; mkdir -p "$d"; echo abc1234def0000 > "$d/head"; echo MERGEABLE > "$d/mergeable"
+    echo "[$S]" > "$d/checks"; printf '{"body":"","headRefName":"b","files":%s}\n' "$3" > "$d/meta"
+    local rc=0
+    FAKE_DIR="$d" PATH="$tmp/bin:$PATH" SAFE_MERGE_INTERVAL=0 SAFE_MERGE_NOCHECK_GRACE=0 SAFE_MERGE_KIT_BEHIND="$2" \
+      bash "$here" 42 abc1234def > "$d/out" 2>&1 || rc=$?
+    local merged=no; [ -f "$d/merged" ] && merged=yes
+    if [ "$rc" = "$4" ] && [ "$merged" = "$5" ]; then echo "PASS $1 (rc=$rc merged=$merged)"; pass=$((pass+1))
+    else echo "FAIL $1 (rc=$rc want $4, merged=$merged want $5)"; sed 's/^/    /' "$d/out"; fail=$((fail+1)); fi
+  }
+  kit_case kit-behind      2 '[{"path":"src/ui-kit/kit-manifest.json","additions":1,"deletions":1}]' 1 no
+  kit_case kit-fresh       0 '[{"path":"src/ui-kit/kit-manifest.json","additions":1,"deletions":1}]' 0 yes
+  kit_case nonkit-behind   2 '[{"path":"README.md","additions":1,"deletions":0}]' 0 yes
   # Receipt job_id/tool_id derivation (Sprint 5): body ref, backlog-diff row, placeholders.
   derive_case() { # name meta-json diff-text want-job-grep want-tool-grep
     local name="$1" d="$tmp/$1"; mkdir -p "$d"; echo abc1234def0000 > "$d/head"; echo MERGEABLE > "$d/mergeable"
@@ -151,8 +169,29 @@ if bad: print("FAILURE:"+",".join(bad)); sys.exit()
 print("PENDING" if any(c["state"]!="SUCCESS" for c in real) else "SUCCESS")'
 }
 
+# 3b. Generated kit files go stale when a kit PR merges behind main's kit commits, even with no git conflict.
+KIT_PATHS="src/ui-kit src/ui scripts/kit_pull.py scripts/kit_periodic_table.py scripts/kit_specimen.py"
+check_kit_fresh() {
+  local files behind
+  files="$(gh pr view "$PR" --json body,headRefName,files 2>/dev/null || echo '{}')"
+  printf '%s' "$files" | python3 -c '
+import json,re,sys
+try: fs=json.load(sys.stdin).get("files") or []
+except ValueError: fs=[]
+sys.exit(0 if any(re.match(r"(src/ui-kit/|src/ui/|scripts/kit_(pull|periodic_table|specimen)\.py)", f.get("path","")) for f in fs) else 1)' || return 0
+  if [ -n "${SAFE_MERGE_KIT_BEHIND:-}" ]; then behind="$SAFE_MERGE_KIT_BEHIND"
+  else
+    git fetch -q origin main "+refs/pull/$PR/head:refs/safe-merge/pr-$PR" || die "could not fetch main and PR $PR to check kit freshness"
+    # shellcheck disable=SC2086
+    behind="$(git rev-list --count "refs/safe-merge/pr-$PR..origin/main" -- $KIT_PATHS)"
+    git update-ref -d "refs/safe-merge/pr-$PR"
+  fi
+  [ "$behind" -eq 0 ] || die "PR $PR touches kit inputs and main has $behind kit-input commit(s) it lacks. On the branch (owner only): rebase onto main, run python3 scripts/kit_pull.py manifest and python3 scripts/kit_periodic_table.py, commit, push, then re-run with the new head."
+}
+
 # GitHub health probe (jtbd-graph dep:service:github, runtime/specs/jtbd-graph-probes.json): refuse before any read or merge.
 gh_probe=$(gh auth status --hostname github.com 2>&1) || die "github.com unreachable or gh not signed in: $gh_probe"
+check_kit_fresh
 start=$(date +%s)
 while :; do
   check_head
@@ -169,7 +208,8 @@ while :; do
   sleep "$INTERVAL"
 done
 
-echo "safe_merge: head $HEAD_SHA verified, all checks SUCCESS, MERGEABLE. Merging PR $PR."
+check_kit_fresh  # main may have moved during the wait
+echo "safe_merge: head $HEAD_SHA verified, all checks SUCCESS, MERGEABLE, kit inputs current. Merging PR $PR."
 gh pr merge "$PR" --merge --match-head-commit "$HEAD_SHA"
 MERGE_SHA="$(gh pr view "$PR" --json state,mergeCommit | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d["state"]=="MERGED", d; print(d["mergeCommit"]["oid"])')"
 echo "MERGED: PR $PR head $HEAD_SHA merge commit $MERGE_SHA"

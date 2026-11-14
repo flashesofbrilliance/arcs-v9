@@ -1,0 +1,3243 @@
+{
+ "schema": "shipped-record/v1",
+ "as_of_commit": "7bee0584",
+ "lanes": [
+  "service",
+  "milestone",
+  "belief",
+  "invention",
+  "nftt",
+  "tao"
+ ],
+ "events": [
+  {
+   "id": "ms-01",
+   "lane": "milestone",
+   "date": "2026-04-09",
+   "label": "One commit. An empty scaffold.",
+   "rank": 1,
+   "day_label": "DAY 0 · APR 9",
+   "shas": [
+    "471d573"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[0]"
+  },
+  {
+   "id": "ms-02",
+   "lane": "milestone",
+   "date": "2026-05-18",
+   "label": "Ignition. The whole working core lands at once.",
+   "rank": 1,
+   "day_label": "DAY 39 · MAY 18",
+   "shas": [
+    "a61d492",
+    "752739d"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[1]"
+  },
+  {
+   "id": "ms-03",
+   "lane": "milestone",
+   "date": "2026-05-26",
+   "label": "The data contract gets locked.",
+   "rank": 2,
+   "day_label": "DAY 47 · MAY 26",
+   "shas": [
+    "61095c5",
+    "38aa0f6",
+    "e66d4de"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[2]"
+  },
+  {
+   "id": "ms-04",
+   "lane": "milestone",
+   "date": "2026-05-26",
+   "label": "The rulebook gets ratified.",
+   "rank": 3,
+   "day_label": "DAY 47 · MAY 26",
+   "shas": [
+    "b6e59e4"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[3]"
+  },
+  {
+   "id": "adr-011",
+   "lane": "invention",
+   "date": "2026-05-27",
+   "label": "ADR-011",
+   "cite": "_DECISIONS/ADR-011-ui-import-strategy.md (first commit)"
+  },
+  {
+   "id": "ms-05",
+   "lane": "milestone",
+   "date": "2026-05-27",
+   "label": "Live in production, ten days after ignition.",
+   "rank": 1,
+   "day_label": "DAY 48-49 · MAY 27-28",
+   "shas": [
+    "11ba2fc",
+    "5262c1a",
+    "9970c3f"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[4]"
+  },
+  {
+   "id": "ms-06",
+   "lane": "milestone",
+   "date": "2026-05-27",
+   "label": "A design system, from day one.",
+   "rank": 3,
+   "day_label": "DAY 48 · MAY 27",
+   "shas": [
+    "924fd10"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[5]"
+  },
+  {
+   "id": "svc-app",
+   "lane": "service",
+   "date": "2026-05-27",
+   "label": "ARCS compass, live in production",
+   "url": "https://app.arcs.care",
+   "cite": "public/status.html#MILESTONES[4]"
+  },
+  {
+   "id": "adr-020",
+   "lane": "invention",
+   "date": "2026-05-29",
+   "label": "ADR-020",
+   "cite": "_DECISIONS/ADR-020-tribune-intelligence-layer.md (first commit)"
+  },
+  {
+   "id": "F14",
+   "lane": "belief",
+   "date": "2026-06-03",
+   "scope": "infra",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F14 · infra reversal",
+   "refs": [
+    "_PATTERNS/session-post-mortem-2026-06-03.md"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F14"
+  },
+  {
+   "id": "F15",
+   "lane": "belief",
+   "date": "2026-06-03",
+   "scope": "infra",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F15 · infra reversal",
+   "refs": [
+    "_PATTERNS/session-post-mortem-2026-06-03.md"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F15"
+  },
+  {
+   "id": "F16",
+   "lane": "belief",
+   "date": "2026-06-03",
+   "scope": "infra",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F16 · infra reversal",
+   "refs": [
+    "_PATTERNS/session-post-mortem-2026-06-03.md"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F16"
+  },
+  {
+   "id": "ms-07",
+   "lane": "milestone",
+   "date": "2026-06-05",
+   "label": "The architecture gets challenged before it ships.",
+   "rank": 1,
+   "day_label": "DAY 57 · JUN 5",
+   "shas": [
+    "9f669fa",
+    "bbeb8a8"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[6]"
+  },
+  {
+   "id": "F13",
+   "lane": "belief",
+   "date": "2026-06-19",
+   "scope": "infra",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F13 · infra reversal",
+   "refs": [],
+   "cite": "_STATE/falsification-ledger.jsonl#F13"
+  },
+  {
+   "id": "F11",
+   "lane": "belief",
+   "date": "2026-06-20",
+   "scope": "canon",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F11 · canon reversal · gold seam",
+   "refs": [
+    "ADR-011"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F11"
+  },
+  {
+   "id": "F23",
+   "lane": "belief",
+   "date": "2026-06-22",
+   "scope": "deploy",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F23 · deploy reversal · gold seam",
+   "refs": [
+    "ADR-059",
+    "ADR-026"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F23"
+  },
+  {
+   "id": "adr-026",
+   "lane": "invention",
+   "date": "2026-06-22",
+   "label": "ADR-026",
+   "cite": "_DECISIONS/ADR-026-debrief-delivery-fix.md (first commit)"
+  },
+  {
+   "id": "F10",
+   "lane": "belief",
+   "date": "2026-06-23",
+   "scope": "canon",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F10 · canon reversal · gold seam",
+   "refs": [
+    "ADR-020"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F10"
+  },
+  {
+   "id": "F28",
+   "lane": "belief",
+   "date": "2026-06-24",
+   "scope": "process",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F28 · process reversal",
+   "refs": [
+    "memory:dont-confabulate-timestamps-verify-with-date"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F28"
+  },
+  {
+   "id": "ms-08",
+   "lane": "milestone",
+   "date": "2026-06-30",
+   "label": "The platform merge: 170 files, five subsystems, one day.",
+   "rank": 1,
+   "day_label": "DAY 82 · JUN 30",
+   "shas": [
+    "5db496b"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[7]"
+  },
+  {
+   "id": "ms-09",
+   "lane": "milestone",
+   "date": "2026-07-02",
+   "label": "Client pages become a production line.",
+   "rank": 1,
+   "day_label": "DAY 84-90 · JUL 2-8",
+   "shas": [
+    "1ea5e8a",
+    "cf8b084"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[8]"
+  },
+  {
+   "id": "ms-10",
+   "lane": "milestone",
+   "date": "2026-07-11",
+   "label": "Trust cleanup: delete first, rebuild second.",
+   "rank": 1,
+   "day_label": "DAY 93-95 · JUL 11-13",
+   "shas": [
+    "35fc2e7",
+    "8b486e8",
+    "b9dab2a",
+    "570e575"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[9]"
+  },
+  {
+   "id": "F31",
+   "lane": "belief",
+   "date": "2026-07-13",
+   "scope": "recoil",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F31 · recoil reversal",
+   "refs": [
+    "recoil-receipt:2026-07-13"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F31"
+  },
+  {
+   "id": "ms-11",
+   "lane": "milestone",
+   "date": "2026-07-16",
+   "label": "The loop closes. The system now grades itself.",
+   "rank": 1,
+   "day_label": "DAY 98 · JUL 16",
+   "shas": [
+    "eab39a3"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[10]"
+  },
+  {
+   "id": "F22",
+   "lane": "belief",
+   "date": "2026-07-17",
+   "scope": "deploy",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F22 · deploy reversal",
+   "refs": [
+    "memory:preview-serves-root-branch-trap"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F22"
+  },
+  {
+   "id": "svc-status",
+   "lane": "service",
+   "date": "2026-07-17",
+   "label": "Live build status",
+   "url": "https://status.arcs.care",
+   "cite": "public/status.html (first commit 2026-07-17)"
+  },
+  {
+   "id": "F17",
+   "lane": "belief",
+   "date": "2026-07-19",
+   "scope": "infra",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F17 · infra reversal",
+   "refs": [
+    "memory:verify-domain-topology-live-not-from-memory"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F17"
+  },
+  {
+   "id": "F27",
+   "lane": "belief",
+   "date": "2026-07-19",
+   "scope": "process",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F27 · process reversal",
+   "refs": [
+    "_PATTERNS/2026-07-19-token-efficiency-audit.md"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F27"
+  },
+  {
+   "id": "F29",
+   "lane": "belief",
+   "date": "2026-07-19",
+   "scope": "security",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F29 · security reversal",
+   "refs": [
+    "_PATTERNS/public-repo-exposure-audit.md"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F29"
+  },
+  {
+   "id": "F30",
+   "lane": "belief",
+   "date": "2026-07-19",
+   "scope": "security",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F30 · security reversal",
+   "refs": [
+    "_PATTERNS/2026-07-19-out-of-band-actions.md"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F30"
+  },
+  {
+   "id": "F24",
+   "lane": "belief",
+   "date": "2026-07-22",
+   "scope": "process",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F24 · process reversal",
+   "refs": [
+    "memory:control-integrity-described-vs-wired"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F24"
+  },
+  {
+   "id": "F19",
+   "lane": "belief",
+   "date": "2026-07-24",
+   "scope": "infra",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F19 · infra reversal",
+   "refs": [
+    "memory:vercel-analytics-live-mcp-tool-404s"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F19"
+  },
+  {
+   "id": "F26",
+   "lane": "belief",
+   "date": "2026-07-24",
+   "scope": "process",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F26 · process reversal",
+   "refs": [
+    "memory:never-merge-on-red-x-verify-check-conclusions"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F26"
+  },
+  {
+   "id": "F20",
+   "lane": "belief",
+   "date": "2026-07-25",
+   "scope": "deploy",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F20 · deploy reversal · gold seam",
+   "refs": [
+    "ADR-039"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F20"
+  },
+  {
+   "id": "F18",
+   "lane": "belief",
+   "date": "2026-08-01",
+   "scope": "infra",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F18 · infra reversal",
+   "refs": [
+    "memory:supabase-rls-hides-rows-from-new-roles"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F18"
+  },
+  {
+   "id": "F21",
+   "lane": "belief",
+   "date": "2026-08-01",
+   "scope": "deploy",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F21 · deploy reversal · gold seam",
+   "refs": [
+    "ADR-039"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F21"
+  },
+  {
+   "id": "F25",
+   "lane": "belief",
+   "date": "2026-08-01",
+   "scope": "process",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F25 · process reversal",
+   "refs": [
+    "memory:deploy-antipattern-grep-verified-ui"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F25"
+  },
+  {
+   "id": "adr-039",
+   "lane": "invention",
+   "date": "2026-08-01",
+   "label": "ADR-039",
+   "cite": "_DECISIONS/ADR-039-deploy-cost-guardrail-ignored-build-step.md (first commit)"
+  },
+  {
+   "id": "ms-12",
+   "lane": "milestone",
+   "date": "2026-08-07",
+   "label": "Stop building things by hand. Build the machine that builds them.",
+   "rank": 1,
+   "day_label": "DAY 120 · AUG 7",
+   "shas": [
+    "ac96aa9",
+    "b6b1b76",
+    "5ca190b",
+    "50aef5e"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[11]"
+  },
+  {
+   "id": "adr-052",
+   "lane": "invention",
+   "date": "2026-08-11",
+   "label": "ADR-052",
+   "cite": "_DECISIONS/ADR-052-inchworm-drift-auditor.md (first commit)"
+  },
+  {
+   "id": "ms-13",
+   "lane": "milestone",
+   "date": "2026-08-11",
+   "label": "The system learns to catch its own insights.",
+   "rank": 1,
+   "day_label": "DAY 124 · AUG 11",
+   "shas": [
+    "d32b7fc",
+    "d16b377",
+    "325d21e"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[12]"
+  },
+  {
+   "id": "tao-2026-08-11-adr-001",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 3,
+   "source": "ADR-001",
+   "tao_ids": [
+    "tao-047",
+    "tao-061",
+    "tao-112"
+   ],
+   "backfill": true,
+   "label": "3 Tao proverbs from ADR-001",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-001)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-002",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 3,
+   "source": "ADR-002",
+   "tao_ids": [
+    "tao-099",
+    "tao-167",
+    "tao-201"
+   ],
+   "backfill": true,
+   "label": "3 Tao proverbs from ADR-002",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-002)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-003",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 4,
+   "source": "ADR-003",
+   "tao_ids": [
+    "tao-001",
+    "tao-143",
+    "tao-144",
+    "tao-154"
+   ],
+   "backfill": true,
+   "label": "4 Tao proverbs from ADR-003",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-003)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-004",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 1,
+   "source": "ADR-004",
+   "tao_ids": [
+    "tao-002"
+   ],
+   "backfill": true,
+   "label": "1 Tao proverb from ADR-004",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-004)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-005",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 5,
+   "source": "ADR-005",
+   "tao_ids": [
+    "tao-048",
+    "tao-062",
+    "tao-145",
+    "tao-180",
+    "tao-215"
+   ],
+   "backfill": true,
+   "label": "5 Tao proverbs from ADR-005",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-005)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-006",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 3,
+   "source": "ADR-006",
+   "tao_ids": [
+    "tao-063",
+    "tao-125",
+    "tao-202"
+   ],
+   "backfill": true,
+   "label": "3 Tao proverbs from ADR-006",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-006)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-007",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 4,
+   "source": "ADR-007",
+   "tao_ids": [
+    "tao-024",
+    "tao-049",
+    "tao-100",
+    "tao-220"
+   ],
+   "backfill": true,
+   "label": "4 Tao proverbs from ADR-007",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-007)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-008",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 4,
+   "source": "ADR-008",
+   "tao_ids": [
+    "tao-013",
+    "tao-050",
+    "tao-101",
+    "tao-155"
+   ],
+   "backfill": true,
+   "label": "4 Tao proverbs from ADR-008",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-008)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-009",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 3,
+   "source": "ADR-009",
+   "tao_ids": [
+    "tao-064",
+    "tao-168",
+    "tao-203"
+   ],
+   "backfill": true,
+   "label": "3 Tao proverbs from ADR-009",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-009)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-010",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 4,
+   "source": "ADR-010",
+   "tao_ids": [
+    "tao-014",
+    "tao-051",
+    "tao-113",
+    "tao-136"
+   ],
+   "backfill": true,
+   "label": "4 Tao proverbs from ADR-010",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-010)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-011",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 3,
+   "source": "ADR-011",
+   "tao_ids": [
+    "tao-052",
+    "tao-102",
+    "tao-204"
+   ],
+   "backfill": true,
+   "label": "3 Tao proverbs from ADR-011",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-011)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-012",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 3,
+   "source": "ADR-012",
+   "tao_ids": [
+    "tao-053",
+    "tao-103",
+    "tao-156"
+   ],
+   "backfill": true,
+   "label": "3 Tao proverbs from ADR-012",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-012)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-013",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 8,
+   "source": "ADR-013",
+   "tao_ids": [
+    "tao-003",
+    "tao-019",
+    "tao-065",
+    "tao-104",
+    "tao-114",
+    "tao-169",
+    "tao-205",
+    "tao-221"
+   ],
+   "backfill": true,
+   "label": "8 Tao proverbs from ADR-013",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-013)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-014",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 5,
+   "source": "ADR-014",
+   "tao_ids": [
+    "tao-025",
+    "tao-066",
+    "tao-115",
+    "tao-181",
+    "tao-190"
+   ],
+   "backfill": true,
+   "label": "5 Tao proverbs from ADR-014",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-014)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-015",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 3,
+   "source": "ADR-015",
+   "tao_ids": [
+    "tao-015",
+    "tao-126",
+    "tao-191"
+   ],
+   "backfill": true,
+   "label": "3 Tao proverbs from ADR-015",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-015)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-016",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 3,
+   "source": "ADR-016",
+   "tao_ids": [
+    "tao-079",
+    "tao-127",
+    "tao-195"
+   ],
+   "backfill": true,
+   "label": "3 Tao proverbs from ADR-016",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-016)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-017",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 3,
+   "source": "ADR-017",
+   "tao_ids": [
+    "tao-026",
+    "tao-131",
+    "tao-146"
+   ],
+   "backfill": true,
+   "label": "3 Tao proverbs from ADR-017",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-017)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-018",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 4,
+   "source": "ADR-018",
+   "tao_ids": [
+    "tao-004",
+    "tao-027",
+    "tao-147",
+    "tao-206"
+   ],
+   "backfill": true,
+   "label": "4 Tao proverbs from ADR-018",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-018)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-019",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 3,
+   "source": "ADR-019",
+   "tao_ids": [
+    "tao-067",
+    "tao-170",
+    "tao-207"
+   ],
+   "backfill": true,
+   "label": "3 Tao proverbs from ADR-019",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-019)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-020",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 4,
+   "source": "ADR-020",
+   "tao_ids": [
+    "tao-028",
+    "tao-068",
+    "tao-157",
+    "tao-222"
+   ],
+   "backfill": true,
+   "label": "4 Tao proverbs from ADR-020",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-020)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-022",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 1,
+   "source": "ADR-022",
+   "tao_ids": [
+    "tao-089"
+   ],
+   "backfill": true,
+   "label": "1 Tao proverb from ADR-022",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-022)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-023",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 11,
+   "source": "ADR-023",
+   "tao_ids": [
+    "tao-005",
+    "tao-029",
+    "tao-054",
+    "tao-069",
+    "tao-086",
+    "tao-105",
+    "tao-116",
+    "tao-158",
+    "tao-171",
+    "tao-182",
+    "tao-192"
+   ],
+   "backfill": true,
+   "label": "11 Tao proverbs from ADR-023",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-023)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-024",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 4,
+   "source": "ADR-024",
+   "tao_ids": [
+    "tao-020",
+    "tao-030",
+    "tao-070",
+    "tao-159"
+   ],
+   "backfill": true,
+   "label": "4 Tao proverbs from ADR-024",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-024)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-025",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 4,
+   "source": "ADR-025",
+   "tao_ids": [
+    "tao-031",
+    "tao-081",
+    "tao-106",
+    "tao-223"
+   ],
+   "backfill": true,
+   "label": "4 Tao proverbs from ADR-025",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-025)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-026",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 2,
+   "source": "ADR-026",
+   "tao_ids": [
+    "tao-071",
+    "tao-209"
+   ],
+   "backfill": true,
+   "label": "2 Tao proverbs from ADR-026",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-026)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-027",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 2,
+   "source": "ADR-027",
+   "tao_ids": [
+    "tao-033",
+    "tao-160"
+   ],
+   "backfill": true,
+   "label": "2 Tao proverbs from ADR-027",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-027)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-028",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 2,
+   "source": "ADR-028",
+   "tao_ids": [
+    "tao-034",
+    "tao-118"
+   ],
+   "backfill": true,
+   "label": "2 Tao proverbs from ADR-028",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-028)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-029",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 1,
+   "source": "ADR-029",
+   "tao_ids": [
+    "tao-210"
+   ],
+   "backfill": true,
+   "label": "1 Tao proverb from ADR-029",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-029)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-030",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 2,
+   "source": "ADR-030",
+   "tao_ids": [
+    "tao-007",
+    "tao-149"
+   ],
+   "backfill": true,
+   "label": "2 Tao proverbs from ADR-030",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-030)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-031",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 2,
+   "source": "ADR-031",
+   "tao_ids": [
+    "tao-035",
+    "tao-211"
+   ],
+   "backfill": true,
+   "label": "2 Tao proverbs from ADR-031",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-031)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-032",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 10,
+   "source": "ADR-032",
+   "tao_ids": [
+    "tao-008",
+    "tao-056",
+    "tao-074",
+    "tao-107",
+    "tao-132",
+    "tao-137",
+    "tao-161",
+    "tao-174",
+    "tao-216",
+    "tao-224"
+   ],
+   "backfill": true,
+   "label": "10 Tao proverbs from ADR-032",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-032)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-033",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 6,
+   "source": "ADR-033",
+   "tao_ids": [
+    "tao-037",
+    "tao-091",
+    "tao-120",
+    "tao-128",
+    "tao-138",
+    "tao-197"
+   ],
+   "backfill": true,
+   "label": "6 Tao proverbs from ADR-033",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-033)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-034",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 7,
+   "source": "ADR-034",
+   "tao_ids": [
+    "tao-016",
+    "tao-057",
+    "tao-108",
+    "tao-175",
+    "tao-185",
+    "tao-212",
+    "tao-217"
+   ],
+   "backfill": true,
+   "label": "7 Tao proverbs from ADR-034",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-034)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-035",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 6,
+   "source": "ADR-035",
+   "tao_ids": [
+    "tao-009",
+    "tao-043",
+    "tao-121",
+    "tao-162",
+    "tao-176",
+    "tao-198"
+   ],
+   "backfill": true,
+   "label": "6 Tao proverbs from ADR-035",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-035)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-036",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 5,
+   "source": "ADR-036",
+   "tao_ids": [
+    "tao-021",
+    "tao-058",
+    "tao-075",
+    "tao-092",
+    "tao-122"
+   ],
+   "backfill": true,
+   "label": "5 Tao proverbs from ADR-036",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-036)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-037",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 4,
+   "source": "ADR-037",
+   "tao_ids": [
+    "tao-038",
+    "tao-083",
+    "tao-150",
+    "tao-186"
+   ],
+   "backfill": true,
+   "label": "4 Tao proverbs from ADR-037",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-037)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-038",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 5,
+   "source": "ADR-038",
+   "tao_ids": [
+    "tao-039",
+    "tao-093",
+    "tao-109",
+    "tao-139",
+    "tao-163"
+   ],
+   "backfill": true,
+   "label": "5 Tao proverbs from ADR-038",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-038)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-039",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 25,
+   "source": "ADR-039",
+   "tao_ids": [
+    "tao-010",
+    "tao-017",
+    "tao-022",
+    "tao-040",
+    "tao-044",
+    "tao-059",
+    "tao-076",
+    "tao-084",
+    "tao-087",
+    "tao-094",
+    "tao-097",
+    "tao-110",
+    "tao-123",
+    "tao-129",
+    "tao-133",
+    "tao-140",
+    "tao-151",
+    "tao-164",
+    "tao-177",
+    "tao-187",
+    "tao-193",
+    "tao-199",
+    "tao-213",
+    "tao-218",
+    "tao-225"
+   ],
+   "backfill": true,
+   "label": "25 Tao proverbs from ADR-039",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-039)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-040",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 25,
+   "source": "ADR-040",
+   "tao_ids": [
+    "tao-011",
+    "tao-018",
+    "tao-023",
+    "tao-041",
+    "tao-045",
+    "tao-060",
+    "tao-077",
+    "tao-085",
+    "tao-088",
+    "tao-095",
+    "tao-098",
+    "tao-111",
+    "tao-124",
+    "tao-130",
+    "tao-134",
+    "tao-141",
+    "tao-152",
+    "tao-165",
+    "tao-178",
+    "tao-188",
+    "tao-194",
+    "tao-200",
+    "tao-214",
+    "tao-219",
+    "tao-226"
+   ],
+   "backfill": true,
+   "label": "25 Tao proverbs from ADR-040",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-040)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-041",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 11,
+   "source": "ADR-041",
+   "tao_ids": [
+    "tao-012",
+    "tao-042",
+    "tao-046",
+    "tao-078",
+    "tao-096",
+    "tao-135",
+    "tao-142",
+    "tao-153",
+    "tao-166",
+    "tao-179",
+    "tao-189"
+   ],
+   "backfill": true,
+   "label": "11 Tao proverbs from ADR-041",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-041)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-048",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 4,
+   "source": "ADR-048",
+   "tao_ids": [
+    "tao-072",
+    "tao-082",
+    "tao-090",
+    "tao-173"
+   ],
+   "backfill": true,
+   "label": "4 Tao proverbs from ADR-048",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-048)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-049",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 4,
+   "source": "ADR-049",
+   "tao_ids": [
+    "tao-036",
+    "tao-073",
+    "tao-119",
+    "tao-184"
+   ],
+   "backfill": true,
+   "label": "4 Tao proverbs from ADR-049",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-049)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-050",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 2,
+   "source": "ADR-050",
+   "tao_ids": [
+    "tao-242",
+    "tao-246"
+   ],
+   "backfill": false,
+   "label": "2 Tao proverbs from ADR-050",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-050)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-051",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 1,
+   "source": "ADR-051",
+   "tao_ids": [
+    "tao-243"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from ADR-051",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-051)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-052",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 2,
+   "source": "ADR-052",
+   "tao_ids": [
+    "tao-244",
+    "tao-245"
+   ],
+   "backfill": false,
+   "label": "2 Tao proverbs from ADR-052",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-052)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-058",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 6,
+   "source": "ADR-058",
+   "tao_ids": [
+    "tao-006",
+    "tao-080",
+    "tao-117",
+    "tao-148",
+    "tao-172",
+    "tao-196"
+   ],
+   "backfill": true,
+   "label": "6 Tao proverbs from ADR-058",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-058)"
+  },
+  {
+   "id": "tao-2026-08-11-adr-059",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 4,
+   "source": "ADR-059",
+   "tao_ids": [
+    "tao-032",
+    "tao-055",
+    "tao-183",
+    "tao-208"
+   ],
+   "backfill": true,
+   "label": "4 Tao proverbs from ADR-059",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-059)"
+  },
+  {
+   "id": "tao-2026-08-11-founding-v1",
+   "lane": "tao",
+   "date": "2026-08-11",
+   "count": 15,
+   "source": "founding-v1",
+   "tao_ids": [
+    "tao-227",
+    "tao-228",
+    "tao-229",
+    "tao-230",
+    "tao-231",
+    "tao-232",
+    "tao-233",
+    "tao-234",
+    "tao-235",
+    "tao-236",
+    "tao-237",
+    "tao-238",
+    "tao-239",
+    "tao-240",
+    "tao-241"
+   ],
+   "backfill": true,
+   "label": "15 Tao proverbs from founding-v1",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=founding-v1)"
+  },
+  {
+   "id": "F1",
+   "lane": "belief",
+   "date": "2026-08-13",
+   "scope": "gauntlet",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F1 · gauntlet reversal",
+   "refs": [
+    "spec:hypercube-gauntlet-sampling-engine-v1",
+    "run:wf_90b0b237-fe2"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F1"
+  },
+  {
+   "id": "F12",
+   "lane": "belief",
+   "date": "2026-08-13",
+   "scope": "canon",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F12 · canon reversal · gold seam",
+   "refs": [
+    "ADR-057",
+    "_INBOX/adr-collision-remap-forensic.jsonl"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F12"
+  },
+  {
+   "id": "F2",
+   "lane": "belief",
+   "date": "2026-08-13",
+   "scope": "gauntlet",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F2 · gauntlet reversal · gold seam",
+   "refs": [
+    "ADR-060",
+    "run:engine-live-11"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F2"
+  },
+  {
+   "id": "F3",
+   "lane": "belief",
+   "date": "2026-08-13",
+   "scope": "gauntlet",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F3 · gauntlet reversal · gold seam",
+   "refs": [
+    "ADR-060",
+    "spec:hypercube-gauntlet-sampling-engine-v1"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F3"
+  },
+  {
+   "id": "F5",
+   "lane": "belief",
+   "date": "2026-08-13",
+   "scope": "gauntlet",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F5 · gauntlet reversal · gold seam",
+   "refs": [
+    "ADR-060",
+    "run:wf_56c743ca-18e"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F5"
+  },
+  {
+   "id": "F6",
+   "lane": "belief",
+   "date": "2026-08-13",
+   "scope": "canon",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F6 · canon reversal · gold seam",
+   "refs": [
+    "ADR-060",
+    "DEWY:2026-08-13",
+    "tao-248"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F6"
+  },
+  {
+   "id": "F7",
+   "lane": "belief",
+   "date": "2026-08-13",
+   "scope": "canon",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F7 · canon reversal · gold seam",
+   "refs": [
+    "ADR-060",
+    "ADR-052"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F7"
+  },
+  {
+   "id": "F8",
+   "lane": "belief",
+   "date": "2026-08-13",
+   "scope": "canon",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F8 · canon reversal · gold seam",
+   "refs": [
+    "ADR-060"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F8"
+  },
+  {
+   "id": "F9",
+   "lane": "belief",
+   "date": "2026-08-13",
+   "scope": "canon",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F9 · canon reversal · gold seam",
+   "refs": [
+    "ADR-060"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F9"
+  },
+  {
+   "id": "adr-057",
+   "lane": "invention",
+   "date": "2026-08-13",
+   "label": "ADR-057",
+   "cite": "_DECISIONS/ADR-057-sequence-oracle.md (first commit)"
+  },
+  {
+   "id": "adr-059",
+   "lane": "invention",
+   "date": "2026-08-13",
+   "label": "ADR-059",
+   "cite": "_DECISIONS/ADR-059-sage-signal-validation-path.md (first commit)"
+  },
+  {
+   "id": "ms-14",
+   "lane": "milestone",
+   "date": "2026-08-13",
+   "label": "The system turns its scrutiny on itself.",
+   "rank": 1,
+   "day_label": "DAY 126 · AUG 13",
+   "shas": [
+    "e5aa6b8",
+    "08330a8",
+    "39a5408",
+    "c1b21d8"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[13]"
+  },
+  {
+   "id": "tao-2026-08-13-adr-053",
+   "lane": "tao",
+   "date": "2026-08-13",
+   "count": 1,
+   "source": "ADR-053",
+   "tao_ids": [
+    "tao-247"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from ADR-053",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-13, source_adr=ADR-053)"
+  },
+  {
+   "id": "tao-2026-08-13-adr-060",
+   "lane": "tao",
+   "date": "2026-08-13",
+   "count": 1,
+   "source": "ADR-060",
+   "tao_ids": [
+    "tao-248"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from ADR-060",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-13, source_adr=ADR-060)"
+  },
+  {
+   "id": "F32",
+   "lane": "belief",
+   "date": "2026-08-14",
+   "scope": "process",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F32 · process reversal · gold seam",
+   "refs": [
+    "ADR-061",
+    "run:wf_8fb78226-084",
+    "kam-codex.arcs.care"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F32"
+  },
+  {
+   "id": "F4",
+   "lane": "belief",
+   "date": "2026-08-15",
+   "scope": "gauntlet",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F4 · gauntlet reversal · gold seam",
+   "refs": [
+    "ADR-060",
+    "run:engine-live-60"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F4"
+  },
+  {
+   "id": "F33",
+   "lane": "belief",
+   "date": "2026-08-16",
+   "scope": "process",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F33 · process reversal",
+   "refs": [
+    "run:wf_b1f37548-af2",
+    "ADR-062",
+    "status.arcs.care"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F33"
+  },
+  {
+   "id": "adr-061",
+   "lane": "invention",
+   "date": "2026-08-16",
+   "label": "ADR-061",
+   "cite": "_DECISIONS/ADR-061-verify-flags-against-full-source.md (first commit)"
+  },
+  {
+   "id": "adr-062",
+   "lane": "invention",
+   "date": "2026-08-16",
+   "label": "ADR-062",
+   "cite": "_DECISIONS/ADR-062-ouroboros-recursive-self-falsification.md (first commit)"
+  },
+  {
+   "id": "ms-15",
+   "lane": "milestone",
+   "date": "2026-08-16",
+   "label": "The front door opens, and the telemetry goes live.",
+   "rank": 1,
+   "day_label": "DAY 129 · AUG 16",
+   "shas": [
+    "9098fd4",
+    "aeaf140",
+    "db41d40"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[14]"
+  },
+  {
+   "id": "tao-2026-08-18-adr-065",
+   "lane": "tao",
+   "date": "2026-08-18",
+   "count": 1,
+   "source": "ADR-065",
+   "tao_ids": [
+    "tao-249"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from ADR-065",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-18, source_adr=ADR-065)"
+  },
+  {
+   "id": "F35",
+   "lane": "belief",
+   "date": "2026-08-27",
+   "scope": "canon",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F35 · canon reversal · gold seam",
+   "refs": [
+    "_ARTIFACTS/forensic-recoil-2026-08-27/FORENSIC_REPORT.md",
+    "commit:b63f453",
+    "ADR-072",
+    "ADR-073"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F35"
+  },
+  {
+   "id": "F36",
+   "lane": "belief",
+   "date": "2026-08-28",
+   "scope": "infra",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F36 · infra reversal",
+   "refs": [
+    "_STATE/night-moves/2026-08-28.md",
+    "commit:5f7ac6d2",
+    "operators/prod_receipt_to_op20_seed.py"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F36"
+  },
+  {
+   "id": "F37",
+   "lane": "belief",
+   "date": "2026-08-28",
+   "scope": "process",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F37 · process reversal · gold seam",
+   "refs": [
+    "_STATE/night-moves/2026-08-28.md",
+    "scripts/git-hooks/pre-commit",
+    "scripts/branch_hygiene_check.py"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F37"
+  },
+  {
+   "id": "F34",
+   "lane": "belief",
+   "date": "2026-08-29",
+   "scope": "canon",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F34 · canon reversal · gold seam",
+   "refs": [
+    "_STATE/2026-08-29-echo-detector-dogfood.json",
+    "commit:015a0c4",
+    "RC-OPS-001",
+    "supersedes-assumption:F33"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F34"
+  },
+  {
+   "id": "adr-072",
+   "lane": "invention",
+   "date": "2026-08-29",
+   "label": "ADR-072",
+   "cite": "_DECISIONS/ADR-072-engine-sovereignty-gradient.md (first commit)"
+  },
+  {
+   "id": "adr-073",
+   "lane": "invention",
+   "date": "2026-08-29",
+   "label": "ADR-073",
+   "cite": "_DECISIONS/ADR-073-model-routing-adr-audit-default.md (first commit)"
+  },
+  {
+   "id": "svc-beliefs",
+   "lane": "service",
+   "date": "2026-08-29",
+   "label": "Belief-change log",
+   "url": "https://status.arcs.care/beliefs",
+   "cite": "public/belief-log.html (first commit 2026-08-29)"
+  },
+  {
+   "id": "nftt-post-1",
+   "lane": "nftt",
+   "date": "2026-09-02",
+   "slug": "post-1",
+   "label": "The week my notes started filing themselves",
+   "url": "https://good.arcs.care/blog/nftt/post-1",
+   "cite": "public/blog-nftt-post-1.html (first commit 2026-09-02)"
+  },
+  {
+   "id": "nftt-post-2",
+   "lane": "nftt",
+   "date": "2026-09-02",
+   "slug": "post-2",
+   "label": "The week my own memory tried to make me lie to a friend",
+   "url": "https://good.arcs.care/blog/nftt/post-2",
+   "cite": "public/blog-nftt-post-2.html (first commit 2026-09-02)"
+  },
+  {
+   "id": "nftt-post-3",
+   "lane": "nftt",
+   "date": "2026-09-02",
+   "slug": "post-3",
+   "label": "The names were already there",
+   "url": "https://good.arcs.care/blog/nftt/post-3",
+   "cite": "public/blog-nftt-post-3.html (first commit 2026-09-02)"
+  },
+  {
+   "id": "nftt-post-4",
+   "lane": "nftt",
+   "date": "2026-09-02",
+   "slug": "post-4",
+   "label": "The detector's first catch was the document it was built to protect",
+   "url": "https://good.arcs.care/blog/nftt/post-4",
+   "cite": "public/blog-nftt-post-4.html (first commit 2026-09-02)"
+  },
+  {
+   "id": "nftt-take-home-trap",
+   "lane": "nftt",
+   "date": "2026-09-02",
+   "slug": "take-home-trap",
+   "label": "With Life, and Without It",
+   "url": "https://good.arcs.care/blog/nftt/take-home-trap",
+   "cite": "public/blog-nftt-take-home-trap.html (first commit 2026-09-02)"
+  },
+  {
+   "id": "svc-nftt",
+   "lane": "service",
+   "date": "2026-09-02",
+   "label": "Notes from the Trenches",
+   "url": "https://good.arcs.care/blog/nftt",
+   "cite": "public/blog-nftt-index.html (first commit 2026-09-02)"
+  },
+  {
+   "id": "ms-16",
+   "lane": "milestone",
+   "date": "2026-09-07",
+   "label": "The ledger learns to tell its assets from its liabilities.",
+   "rank": 1,
+   "day_label": "DAY 151 · SEP 7",
+   "shas": [
+    "79bf6f5",
+    "eca36c2",
+    "f2f4378"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[15]"
+  },
+  {
+   "id": "nftt-assets-and-liabilities",
+   "lane": "nftt",
+   "date": "2026-09-07",
+   "slug": "assets-and-liabilities",
+   "label": "Assets and Liabilities",
+   "url": "https://good.arcs.care/blog/nftt/assets-and-liabilities",
+   "cite": "public/blog-nftt-assets-and-liabilities.html (first commit 2026-09-07)"
+  },
+  {
+   "id": "nftt-cheapest-edit-is-a-diff",
+   "lane": "nftt",
+   "date": "2026-09-07",
+   "slug": "cheapest-edit-is-a-diff",
+   "label": "The Cheapest Edit Is a Diff",
+   "url": "https://good.arcs.care/blog/nftt/cheapest-edit-is-a-diff",
+   "cite": "public/blog-nftt-cheapest-edit-is-a-diff.html (first commit 2026-09-07)"
+  },
+  {
+   "id": "nftt-confirmed-not-my-bug",
+   "lane": "nftt",
+   "date": "2026-09-07",
+   "slug": "confirmed-not-my-bug",
+   "label": "Confirmed Not My Bug",
+   "url": "https://good.arcs.care/blog/nftt/confirmed-not-my-bug",
+   "cite": "public/blog-nftt-confirmed-not-my-bug.html (first commit 2026-09-07)"
+  },
+  {
+   "id": "nftt-the-loop-closes",
+   "lane": "nftt",
+   "date": "2026-09-07",
+   "slug": "the-loop-closes",
+   "label": "The Loop Closes",
+   "url": "https://good.arcs.care/blog/nftt/the-loop-closes",
+   "cite": "public/blog-nftt-the-loop-closes.html (first commit 2026-09-07)"
+  },
+  {
+   "id": "nftt-probably-confirmation-bias",
+   "lane": "nftt",
+   "date": "2026-09-08",
+   "slug": "probably-confirmation-bias",
+   "label": "Probably Confirmation Bias, Might Delete Later",
+   "url": "https://good.arcs.care/blog/nftt/probably-confirmation-bias",
+   "cite": "public/blog-nftt-probably-confirmation-bias.html (first commit 2026-09-08)"
+  },
+  {
+   "id": "nftt-schematic-scaffolds",
+   "lane": "nftt",
+   "date": "2026-09-08",
+   "slug": "schematic-scaffolds",
+   "label": "The Schematic That Scaffolds In The Missing Pieces",
+   "url": "https://good.arcs.care/blog/nftt/schematic-scaffolds",
+   "cite": "public/blog-nftt-schematic-scaffolds.html (first commit 2026-09-08)"
+  },
+  {
+   "id": "nftt-the-factory-on-itself",
+   "lane": "nftt",
+   "date": "2026-09-08",
+   "slug": "the-factory-on-itself",
+   "label": "The Factory on Itself",
+   "url": "https://good.arcs.care/blog/nftt/the-factory-on-itself",
+   "cite": "public/blog-nftt-the-factory-on-itself.html (first commit 2026-09-08)"
+  },
+  {
+   "id": "nftt-ledger-not-story",
+   "lane": "nftt",
+   "date": "2026-09-10",
+   "slug": "ledger-not-story",
+   "label": "The Ledger Is Not the Story",
+   "url": "https://good.arcs.care/blog/nftt/ledger-not-story",
+   "cite": "public/blog-nftt-ledger-not-story.html (first commit 2026-09-10)"
+  },
+  {
+   "id": "nftt-pulp-governance",
+   "lane": "nftt",
+   "date": "2026-09-10",
+   "slug": "pulp-governance",
+   "label": "The Ancestry Check",
+   "url": "https://good.arcs.care/blog/nftt/pulp-governance",
+   "cite": "public/blog-nftt-pulp-governance.html (first commit 2026-09-10)"
+  },
+  {
+   "id": "nftt-second-pass",
+   "lane": "nftt",
+   "date": "2026-09-10",
+   "slug": "second-pass",
+   "label": "The Second Pass",
+   "url": "https://good.arcs.care/blog/nftt/second-pass",
+   "cite": "public/blog-nftt-second-pass.html (first commit 2026-09-10)"
+  },
+  {
+   "id": "nftt-closing-the-loop-receipts",
+   "lane": "nftt",
+   "date": "2026-09-11",
+   "slug": "closing-the-loop-receipts",
+   "label": "Closing the Loop: Receipts on Three Predictions",
+   "url": "https://good.arcs.care/blog/nftt/closing-the-loop-receipts",
+   "cite": "public/blog-nftt-closing-the-loop-receipts.html (first commit 2026-09-11)"
+  },
+  {
+   "id": "nftt-four-dates-one-thesis-three-confirmations",
+   "lane": "nftt",
+   "date": "2026-09-11",
+   "slug": "four-dates-one-thesis-three-confirmations",
+   "label": "Four Dates, One Thesis, Three Confirmations",
+   "url": "https://good.arcs.care/blog/nftt/four-dates-one-thesis-three-confirmations",
+   "cite": "public/blog-nftt-four-dates-one-thesis-three-confirmations.html (first commit 2026-09-11)"
+  },
+  {
+   "id": "nftt-the-instinct-before-it-had-a-name",
+   "lane": "nftt",
+   "date": "2026-09-11",
+   "slug": "the-instinct-before-it-had-a-name",
+   "label": "The Instinct Before It Had a Name",
+   "url": "https://good.arcs.care/blog/nftt/the-instinct-before-it-had-a-name",
+   "cite": "public/blog-nftt-the-instinct-before-it-had-a-name.html (first commit 2026-09-11)"
+  },
+  {
+   "id": "nftt-the-method-that-was-already-built",
+   "lane": "nftt",
+   "date": "2026-09-11",
+   "slug": "the-method-that-was-already-built",
+   "label": "The Method That Was Already Built",
+   "url": "https://good.arcs.care/blog/nftt/the-method-that-was-already-built",
+   "cite": "public/blog-nftt-the-method-that-was-already-built.html (first commit 2026-09-11)"
+  },
+  {
+   "id": "nftt-the-pre-mortem-that-asked-to-be-wrong",
+   "lane": "nftt",
+   "date": "2026-09-11",
+   "slug": "the-pre-mortem-that-asked-to-be-wrong",
+   "label": "The Pre-Mortem That Asked to Be Wrong",
+   "url": "https://good.arcs.care/blog/nftt/the-pre-mortem-that-asked-to-be-wrong",
+   "cite": "public/blog-nftt-the-pre-mortem-that-asked-to-be-wrong.html (first commit 2026-09-11)"
+  },
+  {
+   "id": "nftt-the-same-rigor-applied-to-slang",
+   "lane": "nftt",
+   "date": "2026-09-11",
+   "slug": "the-same-rigor-applied-to-slang",
+   "label": "The Same Rigor, Applied to Slang",
+   "url": "https://good.arcs.care/blog/nftt/the-same-rigor-applied-to-slang",
+   "cite": "public/blog-nftt-the-same-rigor-applied-to-slang.html (first commit 2026-09-11)"
+  },
+  {
+   "id": "nftt-tuning-into-the-distortion-field",
+   "lane": "nftt",
+   "date": "2026-09-11",
+   "slug": "tuning-into-the-distortion-field",
+   "label": "Tuning into the Distortion Field",
+   "url": "https://good.arcs.care/blog/nftt/tuning-into-the-distortion-field",
+   "cite": "public/blog-nftt-tuning-into-the-distortion-field.html (first commit 2026-09-11)"
+  },
+  {
+   "id": "nftt-the-lock-that-was-already-there",
+   "lane": "nftt",
+   "date": "2026-09-13",
+   "slug": "the-lock-that-was-already-there",
+   "label": "The Lock That Was Already There",
+   "url": "https://good.arcs.care/blog/nftt/the-lock-that-was-already-there",
+   "cite": "public/blog-nftt-the-lock-that-was-already-there.html (first commit 2026-09-13)"
+  },
+  {
+   "id": "ms-17",
+   "lane": "milestone",
+   "date": "2026-09-15",
+   "label": "The constitutional gate learns to report its own zeros.",
+   "rank": 1,
+   "day_label": "DAY 159 · SEP 15",
+   "shas": [
+    "e2d9df3",
+    "34ad3f2",
+    "fde93c0"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[16]"
+  },
+  {
+   "id": "ms-18",
+   "lane": "milestone",
+   "date": "2026-09-23",
+   "label": "A question meant to test one feature found a six-week outage.",
+   "rank": 1,
+   "day_label": "DAY 167 · SEP 23",
+   "shas": [
+    "7d864ea",
+    "90a9f5d"
+   ],
+   "nftt": [
+    "the-question-that-found-the-outage"
+   ],
+   "cite": "public/status.html#MILESTONES[17]"
+  },
+  {
+   "id": "ms-19",
+   "lane": "milestone",
+   "date": "2026-09-24",
+   "label": "The prevention, and an honest look at the number that hid the fault.",
+   "rank": 1,
+   "day_label": "DAY 168 · SEP 24",
+   "shas": [
+    "f2aae73",
+    "625fe0b",
+    "b5076f6"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[18]"
+  },
+  {
+   "id": "nftt-a-draft-is-not-a-verb",
+   "lane": "nftt",
+   "date": "2026-09-24",
+   "slug": "a-draft-is-not-a-verb",
+   "label": "You Can Train Agency But You Can't Teach Good Judgment (Yet)",
+   "url": "https://good.arcs.care/blog/nftt/a-draft-is-not-a-verb",
+   "cite": "public/blog-nftt-a-draft-is-not-a-verb.html (first commit 2026-09-24)"
+  },
+  {
+   "id": "nftt-the-question-that-found-the-outage",
+   "lane": "nftt",
+   "date": "2026-09-24",
+   "slug": "the-question-that-found-the-outage",
+   "label": "The Question That Found the Outage",
+   "url": "https://good.arcs.care/blog/nftt/the-question-that-found-the-outage",
+   "cite": "public/blog-nftt-the-question-that-found-the-outage.html (first commit 2026-09-24)"
+  },
+  {
+   "id": "ms-20",
+   "lane": "milestone",
+   "date": "2026-09-25",
+   "label": "Can a cold agent rebuild a session from git alone?",
+   "rank": 2,
+   "day_label": "DAY 169 · SEP 25",
+   "shas": [
+    "87ac486"
+   ],
+   "nftt": [
+    "the-control-and-the-experiment"
+   ],
+   "cite": "public/status.html#MILESTONES[19]"
+  },
+  {
+   "id": "nftt-the-cold-reconstruction",
+   "lane": "nftt",
+   "date": "2026-09-25",
+   "slug": "the-cold-reconstruction",
+   "label": "The Reader Who Wasn't There",
+   "url": "https://good.arcs.care/blog/nftt/the-cold-reconstruction",
+   "cite": "public/blog-nftt-the-cold-reconstruction.html (first commit 2026-09-25)"
+  },
+  {
+   "id": "nftt-the-control-and-the-experiment",
+   "lane": "nftt",
+   "date": "2026-09-25",
+   "slug": "the-control-and-the-experiment",
+   "label": "We Gave the Reader Its Memory Back",
+   "url": "https://good.arcs.care/blog/nftt/the-control-and-the-experiment",
+   "cite": "public/blog-nftt-the-control-and-the-experiment.html (first commit 2026-09-25)"
+  },
+  {
+   "id": "F41",
+   "lane": "belief",
+   "date": "2026-09-26",
+   "scope": "canon",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F41 · canon reversal · gold seam",
+   "refs": [
+    "_STATE/2026-09-26-echo-detector-dogfood-seaworthy.json",
+    "_STATE/2026-09-26-echo-detector-seaworthy-prereg.md",
+    "operators/arcs_inchworm_echo.py",
+    "scripts/echo_detector_dogfood.py",
+    "RC-OPS-001",
+    "closes-loop:F34"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F41"
+  },
+  {
+   "id": "ms-21",
+   "lane": "milestone",
+   "date": "2026-09-26",
+   "label": "The audit offer went live, with two cases you can play first.",
+   "rank": 2,
+   "day_label": "DAY 170 · SEP 26",
+   "shas": [
+    "24e2fee",
+    "ac087aa"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[20]"
+  },
+  {
+   "id": "nftt-notomation",
+   "lane": "nftt",
+   "date": "2026-09-26",
+   "slug": "notomation",
+   "label": "Notomation",
+   "url": "https://good.arcs.care/blog/nftt/notomation",
+   "cite": "public/blog-nftt-notomation.html (first commit 2026-09-26)"
+  },
+  {
+   "id": "nftt-receipts-or-it-didnt-happen",
+   "lane": "nftt",
+   "date": "2026-09-26",
+   "slug": "receipts-or-it-didnt-happen",
+   "label": "A Tale of Two Incident Reports",
+   "url": "https://good.arcs.care/blog/nftt/receipts-or-it-didnt-happen",
+   "cite": "public/blog-nftt-receipts-or-it-didnt-happen.html (first commit 2026-09-26)"
+  },
+  {
+   "id": "svc-audit",
+   "lane": "service",
+   "date": "2026-09-26",
+   "label": "Agent-receipts audit",
+   "url": "https://good.arcs.care/audit",
+   "cite": "public/good-agent-receipts-audit.html (first commit 2026-09-26)"
+  },
+  {
+   "id": "F38",
+   "lane": "belief",
+   "date": "2026-09-27",
+   "scope": "process",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F38 · process reversal",
+   "refs": [
+    "_STATE/2026-09-27-forensic-recoil.md",
+    "_STATE/night-moves/2026-09-27.md"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F38"
+  },
+  {
+   "id": "F39",
+   "lane": "belief",
+   "date": "2026-09-27",
+   "scope": "infra",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F39 · infra reversal",
+   "refs": [
+    "scripts/operator_registry_emit.py",
+    "operators/OPERATOR-REGISTRY.json",
+    "operators/arcs_store.py"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F39"
+  },
+  {
+   "id": "F40",
+   "lane": "belief",
+   "date": "2026-09-27",
+   "scope": "canon",
+   "gold": true,
+   "verdict": "FALSIFIED",
+   "label": "F40 · canon reversal · gold seam",
+   "refs": [
+    "operators/docs/PERIODIC-TABLE.md",
+    "scripts/operator_registry_emit.py",
+    "scripts/altitude_canary.py",
+    "runtime/specs/operator-25-shavasana-v0.md"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F40"
+  },
+  {
+   "id": "ms-22",
+   "lane": "milestone",
+   "date": "2026-09-27",
+   "label": "A scoreboard that refuses to grade itself on too little data.",
+   "rank": 1,
+   "day_label": "DAY 171 · SEP 27",
+   "shas": [
+    "e36084f",
+    "defaecc",
+    "4356f50",
+    "740aa55"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[21]"
+  },
+  {
+   "id": "ms-23",
+   "lane": "milestone",
+   "date": "2026-09-28",
+   "label": "Retrieval by expected value, and a hole closed in the database.",
+   "rank": 1,
+   "day_label": "DAY 172 · SEP 28",
+   "shas": [
+    "150beb1",
+    "01af2f3",
+    "f0f9d92"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[22]"
+  },
+  {
+   "id": "tao-2026-09-28-field-2026-08-01",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "field-2026-08-01",
+   "tao_ids": [
+    "tao-258"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from field-2026-08-01",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=field-2026-08-01)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-assets-and-liabilities",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/assets-and-liabilities",
+   "tao_ids": [
+    "tao-259"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/assets-and-liabilities",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/assets-and-liabilities)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-cheapest-edit-is-a-diff",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/cheapest-edit-is-a-diff",
+   "tao_ids": [
+    "tao-260"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/cheapest-edit-is-a-diff",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/cheapest-edit-is-a-diff)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-closing-the-loop-receipts",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/closing-the-loop-receipts",
+   "tao_ids": [
+    "tao-261"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/closing-the-loop-receipts",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/closing-the-loop-receipts)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-confirmed-not-my-bug",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/confirmed-not-my-bug",
+   "tao_ids": [
+    "tao-262"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/confirmed-not-my-bug",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/confirmed-not-my-bug)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-four-dates-one-thesis-three-confirm",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/four-dates-one-thesis-three-confirmations",
+   "tao_ids": [
+    "tao-263"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/four-dates-one-thesis-three-confirmations",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/four-dates-one-thesis-three-confirmations)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-ledger-not-story",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/ledger-not-story",
+   "tao_ids": [
+    "tao-264"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/ledger-not-story",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/ledger-not-story)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-post-1",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/post-1",
+   "tao_ids": [
+    "tao-265"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/post-1",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/post-1)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-post-2",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/post-2",
+   "tao_ids": [
+    "tao-266"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/post-2",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/post-2)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-post-3",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/post-3",
+   "tao_ids": [
+    "tao-267"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/post-3",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/post-3)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-post-4",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/post-4",
+   "tao_ids": [
+    "tao-268"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/post-4",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/post-4)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-probably-confirmation-bias",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/probably-confirmation-bias",
+   "tao_ids": [
+    "tao-269"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/probably-confirmation-bias",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/probably-confirmation-bias)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-pulp-governance",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/pulp-governance",
+   "tao_ids": [
+    "tao-270"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/pulp-governance",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/pulp-governance)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-receipts-or-it-didnt-happen",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/receipts-or-it-didnt-happen",
+   "tao_ids": [
+    "tao-271"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/receipts-or-it-didnt-happen",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/receipts-or-it-didnt-happen)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-schematic-scaffolds",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/schematic-scaffolds",
+   "tao_ids": [
+    "tao-272"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/schematic-scaffolds",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/schematic-scaffolds)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-second-pass",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/second-pass",
+   "tao_ids": [
+    "tao-273"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/second-pass",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/second-pass)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-take-home-trap",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/take-home-trap",
+   "tao_ids": [
+    "tao-274"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/take-home-trap",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/take-home-trap)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-the-cold-reconstruction",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/the-cold-reconstruction",
+   "tao_ids": [
+    "tao-275"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/the-cold-reconstruction",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/the-cold-reconstruction)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-the-control-and-the-experiment",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/the-control-and-the-experiment",
+   "tao_ids": [
+    "tao-276"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/the-control-and-the-experiment",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/the-control-and-the-experiment)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-the-factory-on-itself",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/the-factory-on-itself",
+   "tao_ids": [
+    "tao-277"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/the-factory-on-itself",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/the-factory-on-itself)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-the-instinct-before-it-had-a-name",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/the-instinct-before-it-had-a-name",
+   "tao_ids": [
+    "tao-278"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/the-instinct-before-it-had-a-name",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/the-instinct-before-it-had-a-name)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-the-lock-that-was-already-there",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/the-lock-that-was-already-there",
+   "tao_ids": [
+    "tao-279"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/the-lock-that-was-already-there",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/the-lock-that-was-already-there)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-the-loop-closes",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/the-loop-closes",
+   "tao_ids": [
+    "tao-280"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/the-loop-closes",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/the-loop-closes)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-the-method-that-was-already-built",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/the-method-that-was-already-built",
+   "tao_ids": [
+    "tao-281"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/the-method-that-was-already-built",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/the-method-that-was-already-built)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-the-pre-mortem-that-asked-to-be-wro",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/the-pre-mortem-that-asked-to-be-wrong",
+   "tao_ids": [
+    "tao-282"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/the-pre-mortem-that-asked-to-be-wrong",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/the-pre-mortem-that-asked-to-be-wrong)"
+  },
+  {
+   "id": "tao-2026-09-28-nftt-the-question-that-found-the-outage",
+   "lane": "tao",
+   "date": "2026-09-28",
+   "count": 1,
+   "source": "nftt/the-question-that-found-the-outage",
+   "tao_ids": [
+    "tao-283"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/the-question-that-found-the-outage",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/the-question-that-found-the-outage)"
+  },
+  {
+   "id": "F42",
+   "lane": "belief",
+   "date": "2026-09-29",
+   "scope": "surface",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F42 · surface reversal",
+   "refs": [
+    "next.config.ts",
+    "public/status.html",
+    "scripts/status_floor_emit.py",
+    "PR #650",
+    "PR #591"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F42"
+  },
+  {
+   "id": "ms-24",
+   "lane": "milestone",
+   "date": "2026-09-29",
+   "label": "The privacy promise now has a test that fails if it breaks.",
+   "rank": 1,
+   "day_label": "DAY 173 · SEP 29",
+   "shas": [
+    "df94e60",
+    "62edaa9"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[23]"
+  },
+  {
+   "id": "nftt-any-stranger-can-be-a-bar-raiser",
+   "lane": "nftt",
+   "date": "2026-09-30",
+   "slug": "any-stranger-can-be-a-bar-raiser",
+   "label": "Any Stranger Can Be a Bar Raiser",
+   "url": "https://good.arcs.care/blog/nftt/any-stranger-can-be-a-bar-raiser",
+   "cite": "public/blog-nftt-any-stranger-can-be-a-bar-raiser.html (first commit 2026-09-30)"
+  },
+  {
+   "id": "nftt-the-video-that-said-too-much",
+   "lane": "nftt",
+   "date": "2026-09-30",
+   "slug": "the-video-that-said-too-much",
+   "label": "The Video That Said Too Much",
+   "url": "https://good.arcs.care/blog/nftt/the-video-that-said-too-much",
+   "cite": "public/blog-nftt-the-video-that-said-too-much.html (first commit 2026-09-30)"
+  },
+  {
+   "id": "nftt-light-at-thirty-eight-miles-an-hour",
+   "lane": "nftt",
+   "date": "2026-10-03",
+   "slug": "light-at-thirty-eight-miles-an-hour",
+   "label": "Light at Thirty-Eight Miles an Hour",
+   "url": "https://good.arcs.care/blog/nftt/light-at-thirty-eight-miles-an-hour",
+   "cite": "public/blog-nftt-light-at-thirty-eight-miles-an-hour.html (first commit 2026-10-03)"
+  },
+  {
+   "id": "tao-2026-10-04-nftt-light-at-thirty-eight-miles-an-hour",
+   "lane": "tao",
+   "date": "2026-10-04",
+   "count": 1,
+   "source": "nftt/light-at-thirty-eight-miles-an-hour",
+   "tao_ids": [
+    "tao-284"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from nftt/light-at-thirty-eight-miles-an-hour",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-10-04, source_adr=nftt/light-at-thirty-eight-miles-an-hour)"
+  },
+  {
+   "id": "nftt-seven-calls-seven-falsifiers",
+   "lane": "nftt",
+   "date": "2026-10-06",
+   "slug": "seven-calls-seven-falsifiers",
+   "label": "Seven Calls, Seven Falsifiers",
+   "url": "https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers",
+   "cite": "public/blog-nftt-seven-calls-seven-falsifiers.html (first commit 2026-10-06)"
+  },
+  {
+   "id": "tao-2026-10-06-runtime-specs-ahmed-order-vocabulary-md",
+   "lane": "tao",
+   "date": "2026-10-06",
+   "count": 1,
+   "source": "runtime/specs/ahmed-order-vocabulary.md",
+   "tao_ids": [
+    "tao-285"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from runtime/specs/ahmed-order-vocabulary.md",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-10-06, source_adr=runtime/specs/ahmed-order-vocabulary.md)"
+  },
+  {
+   "id": "tao-2026-10-14-artifacts-lyndon-onesheet-the-window-not",
+   "lane": "tao",
+   "date": "2026-10-14",
+   "count": 1,
+   "source": "_ARTIFACTS/lyndon-onesheet/the-window-not-just-the-odds.pdf",
+   "tao_ids": [
+    "tao-287"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from _ARTIFACTS/lyndon-onesheet/the-window-not-just-the-odds.pdf",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-10-14, source_adr=_ARTIFACTS/lyndon-onesheet/the-window-not-just-the-odds.pdf)"
+  },
+  {
+   "id": "tao-2026-10-14-session-2026-10-14-lyndon-oh-vico-recoil",
+   "lane": "tao",
+   "date": "2026-10-14",
+   "count": 1,
+   "source": "session:2026-10-14 Lyndon Oh (VICO) recoil close",
+   "tao_ids": [
+    "tao-286"
+   ],
+   "backfill": false,
+   "label": "1 Tao proverb from session:2026-10-14 Lyndon Oh (VICO) recoil close",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-10-14, source_adr=session:2026-10-14 Lyndon Oh (VICO) recoil close)"
+  },
+  {
+   "id": "svc-phosphor",
+   "lane": "service",
+   "date": "2026-10-17",
+   "label": "Phosphor",
+   "url": "https://dj.arcs.care",
+   "cite": "public/dj.html (first commit 2026-10-17)"
+  },
+  {
+   "id": "svc-rfp",
+   "lane": "service",
+   "date": "2026-10-30",
+   "label": "RFP-O-Matic",
+   "url": "https://good.arcs.care/rfp-engine",
+   "cite": "public/good-rfp-engine.html (first commit 2026-10-30)"
+  },
+  {
+   "id": "nftt-the-idempotent-fix",
+   "lane": "nftt",
+   "date": "2026-10-31",
+   "slug": "the-idempotent-fix",
+   "label": "!Hot-Fix &#8594; The Idempotent Fix: == Done, Right. For Good.",
+   "url": "https://good.arcs.care/blog/nftt/the-idempotent-fix",
+   "cite": "public/blog-nftt-the-idempotent-fix.html (first commit 2026-10-31)"
+  },
+  {
+   "id": "svc-check",
+   "lane": "service",
+   "date": "2026-10-31",
+   "label": "Free repo check",
+   "url": "https://good.arcs.care/audit/check",
+   "cite": "public/good-audit-check.html (first commit 2026-10-31)"
+  },
+  {
+   "id": "nftt-every-mistake-became-a-gate",
+   "lane": "nftt",
+   "date": "2026-11-02",
+   "slug": "every-mistake-became-a-gate",
+   "label": "Every Mistake Became a Gate",
+   "url": "https://good.arcs.care/blog/nftt/every-mistake-became-a-gate",
+   "cite": "public/blog-nftt-every-mistake-became-a-gate.html (first commit 2026-11-02)"
+  },
+  {
+   "id": "F43",
+   "lane": "belief",
+   "date": "2026-11-04",
+   "scope": "surface",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F43 · surface reversal",
+   "refs": [
+    "public/status.html",
+    "prisma/schema.prisma (Outcome.synthetic)",
+    "src/app/debrief/[receiptId]/page.tsx",
+    "receipt 2026-09-27--op19-accountant-bind-and-scoreboard-merge--ZH"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F43"
+  },
+  {
+   "id": "F44",
+   "lane": "belief",
+   "date": "2026-11-04",
+   "scope": "infra",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F44 · infra reversal",
+   "refs": [
+    "src/app/dashboard/page.tsx",
+    "src/app/receipt/[receiptId]/page.tsx",
+    "receipt 2026-09-28--receipt-save-nudge-v11-flag-merge--ZH",
+    "CLAUDE.md handoff v3.142.0 (Vercel 404)"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F44"
+  },
+  {
+   "id": "F45",
+   "lane": "belief",
+   "date": "2026-11-04",
+   "scope": "process",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F45 · process reversal",
+   "refs": [
+    "prisma/schema.prisma"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F45"
+  },
+  {
+   "id": "F46",
+   "lane": "belief",
+   "date": "2026-11-04",
+   "scope": "surface",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F46 · surface reversal",
+   "refs": [
+    "public/status.html",
+    "_CANON/ARCS-YellowPaper.md",
+    "_CANON/arcs-v9-additional/ARCS-WhitePaper-v2-1.md",
+    "receipt 2026-10-17--strike-unsupported-canon-claims-pr1518--ZH"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F46"
+  },
+  {
+   "id": "F47",
+   "lane": "belief",
+   "date": "2026-11-04",
+   "scope": "infra",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F47 · infra reversal",
+   "refs": [
+    "src/app/api/cron/debrief/route.ts",
+    "src/app/api/compass/route.ts",
+    "vercel.json",
+    "prisma/schema.prisma"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F47"
+  },
+  {
+   "id": "F48",
+   "lane": "belief",
+   "date": "2026-11-05",
+   "scope": "infra",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F48 · infra reversal",
+   "refs": [
+    "src/app/api/compass/route.ts",
+    "src/app/api/cron/debrief/route.ts",
+    "prisma/schema.prisma",
+    "belief log F47"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F48"
+  },
+  {
+   "id": "nftt-the-posted-rate",
+   "lane": "nftt",
+   "date": "2026-11-11",
+   "slug": "the-posted-rate",
+   "label": "The Posted Rate",
+   "url": "https://good.arcs.care/blog/nftt/the-posted-rate",
+   "cite": "public/blog-nftt-the-posted-rate.html (first commit 2026-11-11)"
+  }
+ ],
+ "links": [
+  {
+   "from": "F6",
+   "to": "tao-2026-08-13-adr-060",
+   "kind": "minted",
+   "cite": "_STATE/falsification-ledger.jsonl#F6 refs tao-248"
+  },
+  {
+   "from": "F7",
+   "to": "adr-052",
+   "kind": "led-to",
+   "cite": "_STATE/falsification-ledger.jsonl#F7 refs ADR-052"
+  },
+  {
+   "from": "F10",
+   "to": "adr-020",
+   "kind": "led-to",
+   "cite": "_STATE/falsification-ledger.jsonl#F10 refs ADR-020"
+  },
+  {
+   "from": "F11",
+   "to": "adr-011",
+   "kind": "led-to",
+   "cite": "_STATE/falsification-ledger.jsonl#F11 refs ADR-011"
+  },
+  {
+   "from": "F12",
+   "to": "adr-057",
+   "kind": "led-to",
+   "cite": "_STATE/falsification-ledger.jsonl#F12 refs ADR-057"
+  },
+  {
+   "from": "F20",
+   "to": "adr-039",
+   "kind": "led-to",
+   "cite": "_STATE/falsification-ledger.jsonl#F20 refs ADR-039"
+  },
+  {
+   "from": "F21",
+   "to": "adr-039",
+   "kind": "led-to",
+   "cite": "_STATE/falsification-ledger.jsonl#F21 refs ADR-039"
+  },
+  {
+   "from": "F23",
+   "to": "adr-059",
+   "kind": "led-to",
+   "cite": "_STATE/falsification-ledger.jsonl#F23 refs ADR-059"
+  },
+  {
+   "from": "F23",
+   "to": "adr-026",
+   "kind": "led-to",
+   "cite": "_STATE/falsification-ledger.jsonl#F23 refs ADR-026"
+  },
+  {
+   "from": "F32",
+   "to": "adr-061",
+   "kind": "led-to",
+   "cite": "_STATE/falsification-ledger.jsonl#F32 refs ADR-061"
+  },
+  {
+   "from": "F33",
+   "to": "adr-062",
+   "kind": "led-to",
+   "cite": "_STATE/falsification-ledger.jsonl#F33 refs ADR-062"
+  },
+  {
+   "from": "F33",
+   "to": "F34",
+   "kind": "repaired-by",
+   "cite": "_STATE/falsification-ledger.jsonl#F34 refs supersedes-assumption:F33"
+  },
+  {
+   "from": "F35",
+   "to": "adr-072",
+   "kind": "led-to",
+   "cite": "_STATE/falsification-ledger.jsonl#F35 refs ADR-072"
+  },
+  {
+   "from": "F35",
+   "to": "adr-073",
+   "kind": "led-to",
+   "cite": "_STATE/falsification-ledger.jsonl#F35 refs ADR-073"
+  },
+  {
+   "from": "F34",
+   "to": "F41",
+   "kind": "repaired-by",
+   "cite": "_STATE/falsification-ledger.jsonl#F41 refs closes-loop:F34"
+  },
+  {
+   "from": "F47",
+   "to": "F48",
+   "kind": "repaired-by",
+   "cite": "_STATE/falsification-ledger.jsonl#F48 refs 'belief log F47'"
+  },
+  {
+   "from": "adr-011",
+   "to": "tao-2026-08-11-adr-011",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-011)"
+  },
+  {
+   "from": "adr-020",
+   "to": "tao-2026-08-11-adr-020",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-020)"
+  },
+  {
+   "from": "adr-026",
+   "to": "tao-2026-08-11-adr-026",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-026)"
+  },
+  {
+   "from": "adr-039",
+   "to": "tao-2026-08-11-adr-039",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-039)"
+  },
+  {
+   "from": "adr-052",
+   "to": "tao-2026-08-11-adr-052",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-052)"
+  },
+  {
+   "from": "adr-059",
+   "to": "tao-2026-08-11-adr-059",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-08-11, source_adr=ADR-059)"
+  },
+  {
+   "from": "nftt-assets-and-liabilities",
+   "to": "tao-2026-09-28-nftt-assets-and-liabilities",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/assets-and-liabilities)"
+  },
+  {
+   "from": "nftt-cheapest-edit-is-a-diff",
+   "to": "tao-2026-09-28-nftt-cheapest-edit-is-a-diff",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/cheapest-edit-is-a-diff)"
+  },
+  {
+   "from": "nftt-closing-the-loop-receipts",
+   "to": "tao-2026-09-28-nftt-closing-the-loop-receipts",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/closing-the-loop-receipts)"
+  },
+  {
+   "from": "nftt-confirmed-not-my-bug",
+   "to": "tao-2026-09-28-nftt-confirmed-not-my-bug",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/confirmed-not-my-bug)"
+  },
+  {
+   "from": "nftt-four-dates-one-thesis-three-confirmations",
+   "to": "tao-2026-09-28-nftt-four-dates-one-thesis-three-confirm",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/four-dates-one-thesis-three-confirmations)"
+  },
+  {
+   "from": "nftt-ledger-not-story",
+   "to": "tao-2026-09-28-nftt-ledger-not-story",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/ledger-not-story)"
+  },
+  {
+   "from": "nftt-post-1",
+   "to": "tao-2026-09-28-nftt-post-1",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/post-1)"
+  },
+  {
+   "from": "nftt-post-2",
+   "to": "tao-2026-09-28-nftt-post-2",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/post-2)"
+  },
+  {
+   "from": "nftt-post-3",
+   "to": "tao-2026-09-28-nftt-post-3",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/post-3)"
+  },
+  {
+   "from": "nftt-post-4",
+   "to": "tao-2026-09-28-nftt-post-4",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/post-4)"
+  },
+  {
+   "from": "nftt-probably-confirmation-bias",
+   "to": "tao-2026-09-28-nftt-probably-confirmation-bias",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/probably-confirmation-bias)"
+  },
+  {
+   "from": "nftt-pulp-governance",
+   "to": "tao-2026-09-28-nftt-pulp-governance",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/pulp-governance)"
+  },
+  {
+   "from": "nftt-receipts-or-it-didnt-happen",
+   "to": "tao-2026-09-28-nftt-receipts-or-it-didnt-happen",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/receipts-or-it-didnt-happen)"
+  },
+  {
+   "from": "nftt-schematic-scaffolds",
+   "to": "tao-2026-09-28-nftt-schematic-scaffolds",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/schematic-scaffolds)"
+  },
+  {
+   "from": "nftt-second-pass",
+   "to": "tao-2026-09-28-nftt-second-pass",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/second-pass)"
+  },
+  {
+   "from": "nftt-take-home-trap",
+   "to": "tao-2026-09-28-nftt-take-home-trap",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/take-home-trap)"
+  },
+  {
+   "from": "nftt-the-cold-reconstruction",
+   "to": "tao-2026-09-28-nftt-the-cold-reconstruction",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/the-cold-reconstruction)"
+  },
+  {
+   "from": "nftt-the-control-and-the-experiment",
+   "to": "tao-2026-09-28-nftt-the-control-and-the-experiment",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/the-control-and-the-experiment)"
+  },
+  {
+   "from": "nftt-the-factory-on-itself",
+   "to": "tao-2026-09-28-nftt-the-factory-on-itself",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/the-factory-on-itself)"
+  },
+  {
+   "from": "nftt-the-instinct-before-it-had-a-name",
+   "to": "tao-2026-09-28-nftt-the-instinct-before-it-had-a-name",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/the-instinct-before-it-had-a-name)"
+  },
+  {
+   "from": "nftt-the-lock-that-was-already-there",
+   "to": "tao-2026-09-28-nftt-the-lock-that-was-already-there",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/the-lock-that-was-already-there)"
+  },
+  {
+   "from": "nftt-the-loop-closes",
+   "to": "tao-2026-09-28-nftt-the-loop-closes",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/the-loop-closes)"
+  },
+  {
+   "from": "nftt-the-method-that-was-already-built",
+   "to": "tao-2026-09-28-nftt-the-method-that-was-already-built",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/the-method-that-was-already-built)"
+  },
+  {
+   "from": "nftt-the-pre-mortem-that-asked-to-be-wrong",
+   "to": "tao-2026-09-28-nftt-the-pre-mortem-that-asked-to-be-wro",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/the-pre-mortem-that-asked-to-be-wrong)"
+  },
+  {
+   "from": "nftt-the-question-that-found-the-outage",
+   "to": "tao-2026-09-28-nftt-the-question-that-found-the-outage",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-09-28, source_adr=nftt/the-question-that-found-the-outage)"
+  },
+  {
+   "from": "nftt-light-at-thirty-eight-miles-an-hour",
+   "to": "tao-2026-10-04-nftt-light-at-thirty-eight-miles-an-hour",
+   "kind": "minted",
+   "cite": "_CANON/tao-proverbs.jsonl (minted=2026-10-04, source_adr=nftt/light-at-thirty-eight-miles-an-hour)"
+  },
+  {
+   "from": "ms-18",
+   "to": "nftt-the-question-that-found-the-outage",
+   "kind": "written-up",
+   "cite": "public/status.html#MILESTONES[17] names nftt/the-question-that-found-the-outage"
+  },
+  {
+   "from": "ms-20",
+   "to": "nftt-the-control-and-the-experiment",
+   "kind": "written-up",
+   "cite": "public/status.html#MILESTONES[19] names nftt/the-control-and-the-experiment"
+  }
+ ],
+ "unconfirmed": [
+  {
+   "from": "ms-11",
+   "to": "nftt-the-loop-closes",
+   "why": "same theme and title, but status.html does not cite the post"
+  },
+  {
+   "from": "ms-16",
+   "to": "nftt-assets-and-liabilities",
+   "why": "same date and theme, but status.html does not cite the post"
+  },
+  {
+   "from": "ms-21",
+   "to": "svc-audit",
+   "why": "the audit offer milestone names a page, not the svc row; date match only"
+  }
+ ],
+ "tempo": {
+  "commits": [
+   {
+    "week": "2026-04-06",
+    "n": 1
+   },
+   {
+    "week": "2026-05-18",
+    "n": 2
+   },
+   {
+    "week": "2026-05-25",
+    "n": 84
+   },
+   {
+    "week": "2026-06-01",
+    "n": 67
+   },
+   {
+    "week": "2026-06-08",
+    "n": 48
+   },
+   {
+    "week": "2026-06-15",
+    "n": 90
+   },
+   {
+    "week": "2026-06-22",
+    "n": 70
+   },
+   {
+    "week": "2026-06-29",
+    "n": 277
+   },
+   {
+    "week": "2026-07-06",
+    "n": 123
+   },
+   {
+    "week": "2026-07-13",
+    "n": 265
+   },
+   {
+    "week": "2026-07-20",
+    "n": 170
+   },
+   {
+    "week": "2026-07-27",
+    "n": 114
+   },
+   {
+    "week": "2026-08-03",
+    "n": 114
+   },
+   {
+    "week": "2026-08-10",
+    "n": 106
+   },
+   {
+    "week": "2026-08-17",
+    "n": 175
+   },
+   {
+    "week": "2026-08-24",
+    "n": 84
+   },
+   {
+    "week": "2026-08-31",
+    "n": 204
+   },
+   {
+    "week": "2026-09-07",
+    "n": 341
+   },
+   {
+    "week": "2026-09-14",
+    "n": 77
+   },
+   {
+    "week": "2026-09-21",
+    "n": 281
+   },
+   {
+    "week": "2026-09-28",
+    "n": 404
+   },
+   {
+    "week": "2026-10-05",
+    "n": 1045
+   },
+   {
+    "week": "2026-10-12",
+    "n": 840
+   },
+   {
+    "week": "2026-10-19",
+    "n": 455
+   },
+   {
+    "week": "2026-10-26",
+    "n": 505
+   },
+   {
+    "week": "2026-11-02",
+    "n": 364
+   },
+   {
+    "week": "2026-11-09",
+    "n": 558
+   }
+  ],
+  "commits_cite": "git log origin/main --since=2026-01-01, by ISO week",
+  "receipts": [
+   {
+    "week": "2026-08-24",
+    "n": 1
+   },
+   {
+    "week": "2026-09-07",
+    "n": 36
+   },
+   {
+    "week": "2026-09-14",
+    "n": 20
+   },
+   {
+    "week": "2026-09-21",
+    "n": 49
+   },
+   {
+    "week": "2026-09-28",
+    "n": 176
+   },
+   {
+    "week": "2026-10-05",
+    "n": 440
+   },
+   {
+    "week": "2026-10-12",
+    "n": 320
+   },
+   {
+    "week": "2026-10-19",
+    "n": 199
+   },
+   {
+    "week": "2026-10-26",
+    "n": 114
+   },
+   {
+    "week": "2026-11-02",
+    "n": 128
+   },
+   {
+    "week": "2026-11-09",
+    "n": 170
+   }
+  ],
+  "receipts_cite": "Supabase xbbpiryokswwvcrcutge public.decision_receipt, select date_trunc('week', event_at), count(*) group by 1; snapshot taken 2026-11-13 by shipped_record_emit's author session"
+ },
+ "counts": {
+  "milestone": 24,
+  "invention": 11,
+  "service": 8,
+  "belief": 48,
+  "tao": 81,
+  "nftt": 36
+ }
+}

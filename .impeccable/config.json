@@ -20,6 +20,13 @@
         "reason": "Zach's ruling 2026-11-12: tabbed-brief headlines and body in Inter (the claude.ai/design ARCS OS reference and DESIGN.md both name Inter), loaded from Google Fonts with SF Pro as fallback. Scoped to the Gravity pages. Seam booked 2026-11-12 in _PATTERNS/kintsugi-visual-grammar-seams.md"
       },
       {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": ["src/ui-kit/recoil-report/69-strata-explorer.html"],
+        "createdAt": "2026-11-13T21:00:00.000Z",
+        "reason": "Kit 69 specimen: the six hits are the shared kit_specimen.py shell (body, crumb, h1, section rule, the use/avoid headings) under _tokens-light.css, the kit's own light palette, which DESIGN.md (dark only) does not define. Same light-world scope as the precall-brief example waiver. Kit 64 and 68 carry the same shell and score 0; cause not found, logged as a seam in the PR, not silently passed."
+      },
+      {
         "rule": "dark-glow",
         "value": "*",
         "files": ["public/myally-hub.html"],
@@ -913,6 +920,8 @@
         "src/ui-kit/recoil-report/66-give-get-table.html",
         "src/ui-kit/recoil-report/67-trace-steps.html",
         "src/ui-kit/recoil-report/68-spec-rows.html",
+        "src/ui-kit/recoil-report/70-week-plan.html",
+        "src/ui-kit/recoil-report/71-proof-lockup.html",
           "public/gravity-brief*.html",
           "public/recoil-ext/2026-10-29-gasmi.html"
         ],
@@ -969,7 +978,8 @@
       {"rule": "tiny-text", "value": "*", "files": ["public/recoil-ext/2026-10-29-gasmi.html"], "createdAt": "2026-11-12T15:10:00.000Z", "reason": "Generator-origin CSS: the scripts/recoil_brief.py external template predates the kit type ramp and radius scale. Waived for this one twin so the already-sent Dioptra link opens (2026-11-12); fix the mold in recoil_brief.py, regenerate, then drop. Seam in _PATTERNS/kintsugi-visual-grammar-seams.md."},
       {"rule": "all-caps-body", "value": "*", "files": ["public/recoil-ext/2026-10-29-gasmi.html"], "createdAt": "2026-11-12T15:10:00.000Z", "reason": "Generator-origin CSS: the scripts/recoil_brief.py external template predates the kit type ramp and radius scale. Waived for this one twin so the already-sent Dioptra link opens (2026-11-12); fix the mold in recoil_brief.py, regenerate, then drop. Seam in _PATTERNS/kintsugi-visual-grammar-seams.md."},
       {"rule": "design-system-radius", "value": "*", "files": ["public/recoil-ext/2026-10-29-gasmi.html"], "createdAt": "2026-11-12T15:10:00.000Z", "reason": "Generator-origin CSS: the scripts/recoil_brief.py external template predates the kit type ramp and radius scale. Waived for this one twin so the already-sent Dioptra link opens (2026-11-12); fix the mold in recoil_brief.py, regenerate, then drop. Seam in _PATTERNS/kintsugi-visual-grammar-seams.md."},
-      {"rule": "design-system-font-size", "value": "*", "files": ["public/recoil-ext/2026-10-29-gasmi.html"], "createdAt": "2026-11-12T15:10:00.000Z", "reason": "Generator-origin CSS: the scripts/recoil_brief.py external template predates the kit type ramp and radius scale. Waived for this one twin so the already-sent Dioptra link opens (2026-11-12); fix the mold in recoil_brief.py, regenerate, then drop. Seam in _PATTERNS/kintsugi-visual-grammar-seams.md."}
+      {"rule": "design-system-font-size", "value": "*", "files": ["public/recoil-ext/2026-10-29-gasmi.html"], "createdAt": "2026-11-12T15:10:00.000Z", "reason": "Generator-origin CSS: the scripts/recoil_brief.py external template predates the kit type ramp and radius scale. Waived for this one twin so the already-sent Dioptra link opens (2026-11-12); fix the mold in recoil_brief.py, regenerate, then drop. Seam in _PATTERNS/kintsugi-visual-grammar-seams.md."},
+      {"rule": "design-system-color", "value": "rgba(255, 255, 255, 0.06)", "files": ["_ARTIFACTS/option-board/gravity-glass.html"], "createdAt": "2026-11-13T17:30:00.000Z", "reason": "The glass sheen (--glass-surface) from the ARCS OS Design System artifact, which DESIGN.md does not list yet. This board exists to show it as an option. Drop when DESIGN.md adopts or rejects the glass layer. Seam in _PATTERNS/kintsugi-visual-grammar-seams.md."}
     ]
   },
   "hook": {
