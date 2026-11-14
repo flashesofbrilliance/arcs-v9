@@ -332,7 +332,7 @@ def r_overview(d):
             '<div class="ftiles-c"><ul class="ftiles is-4" aria-label="At a glance">%s</ul></div>\n'
             '%s'
             '%s<div class="tb-expand%s"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>\n'
-            '<div class="tb-folds">%s</div>\n</div>') % (h, (('<p class="tb-byline">%s</p>\n' % md(o["byline"], "/overview/byline")) if o.get("byline") else "") + ("" if o.get("bites_at") == "end" else r_bites(o)), ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"], "/overview/subhead")) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(nbh(x), "/overview/lede/%d" % i) for i, x in enumerate(o["lede"]))) if o.get("lede") else "",
+            '<div class="tb-folds">%s</div>\n</div>') % (h, (('<p class="tb-byline">%s</p>\n' % md(o["byline"], "/overview/byline")) if o.get("byline") else "") + ("" if o.get("bites_at") in ("end", "top") else r_bites(o)), ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"], "/overview/subhead")) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(nbh(x), "/overview/lede/%d" % i) for i, x in enumerate(o["lede"]))) if o.get("lede") else "",
          tiles, go, cr,
          " solo" if len(o["sections"]) < 2 else "", folds)
     if o.get("receipt"):  # the proof object: one real dated call, above the tiles
@@ -349,6 +349,10 @@ def r_overview(d):
             ('<dt>Last resolved</dt><dd>%s</dd>' % md(r["last"], "/overview/receipt/last")) if r.get("last") else "", "")
         assert '<div class="ftiles-c">' in out
         out = out.replace('<div class="ftiles-c">', card + '<div class="ftiles-c">', 1)
+    if o.get("bites_at") == "top" and o.get("bites"):  # quote first, a rule, then the headline (Zach, header option B, 2026-11-13)
+        h1 = '<h1 class="tb-h1">'
+        assert out.count(h1) == 1
+        out = out.replace(h1, r_bites(o).replace('class="sb', 'class="sb is-top', 1) + '<hr class="tb-hd-rule">\n' + h1, 1)
     if o.get("bites_at") == "end" and o.get("bites"):  # evidence first, then what colleagues say
         assert out.endswith("</div>\n</div>")
         out = out[:-len("</div>")] + r_bites(o) + "</div>"
@@ -484,7 +488,7 @@ def render(d, artifact=False, page=None):
     marks = "<!-- @arcs-template: tabbed-brief -->\n<!-- @arcs-mode: persuade -->\n"
     # Inter and JetBrains Mono from Google Fonts, the design-system reference faces (Zach, 2026-11-12); SF Pro / system-ui is the fallback
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
-             '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap">\n')
+             '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700%s&display=swap">\n') % ("&family=Newsreader:ital,wght@1,400" if d.get("overview", {}).get("bites_at") == "top" else "")
     head = ('<title>%s</title>\n<meta name="robots" content="noindex, nofollow">\n%s%s\n<style>\n%s</style>\n') % (e(title), fonts, head_js, css)
     if artifact and page in (None, "ov"):
         return marks + '<meta name="claude:viewport-fit-sides" content="cover">\n' + head + main + "\n"

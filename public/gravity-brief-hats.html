@@ -10,7 +10,7 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Newsreader:ital,wght@1,400&display=swap">
 <script>(function(){var d=document.documentElement,s={};try{var r=localStorage.getItem('gravityTheme')||'';s=r.charAt(0)==='{'?JSON.parse(r):(r?{theme:r}:{})}catch(e){}d.setAttribute('data-theme',(s.theme||'light')==='dark'?'dark':'light');var A={font:'data-font',size:'data-size',space:'data-space'};for(var k in A){if(s[k]&&s[k]!=='std')d.setAttribute(A[k],s[k])}})();</script>
 <style>
 /* ARCS Recoil Report — Design Tokens */
@@ -720,6 +720,14 @@ a:active { color: var(--text); }
 }
 @container (max-width: 37.99rem) { .cr-slots { display: grid; grid-template-columns: minmax(0, 1fr); } .tb-tl-i { padding-left: var(--s-5); } .tb-tl-d { padding-left: 0; } }
 .tb-coldread .cr-slots dt::after { content: none; } /* Week One is three bands, not a lockup: no gutter bridge */
+/* Header option B (Zach, 2026-11-13): the quote leads, italic serif in secondary text, then a hairline rule (the pane gap, --sp-4, sets the space above and below), then the headline at 700.
+   The attribution runs at 85% of body size. Secondary text is the AA token, not opacity, so the words stay at full strength. */
+.sb.is-top { padding: 0; }
+.sb.is-top .sb-t { font-family: 'Newsreader', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif; font-style: italic; font-weight: 400; color: var(--text-secondary); }
+.sb.is-top .sb-t::before, .sb.is-top .sb-t::after { font-weight: 400; font-size: 1.8em; vertical-align: -0.32em; } /* lighter marks so they do not outweigh the quote */
+.sb.is-top .sb-by { font-size: calc(var(--fs-body) * 0.85); margin-top: var(--s-2); } /* 0.85x body, about 12.6px, per the style ledger (Zach 2026-11-13); clears the 12px reading floor */
+.tb-hd-rule { border: 0; border-top: 1px solid var(--border); margin: 0; } /* the pane gap (--sp-4, 24px at the default ?tune setting) is the space above and below */
+.tb-hd-rule + .tb-h1 { font-weight: 700; } /* only under bites_at "top"; seam: overrides the 2026-11-12 "Inter semibold" headline ruling for this header, by Zach's option B pick */
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>

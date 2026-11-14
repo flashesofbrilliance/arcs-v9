@@ -296,9 +296,10 @@
     "bites_at": {
      "enum": [
       "hero",
-      "end"
+      "end",
+      "top"
      ],
-     "description": "Optional: where the sound bite sits. hero (default) under the byline; end after the last section, so evidence comes before what colleagues say."
+     "description": "Optional: where the sound bite sits. hero (default) under the byline; end after the last section, so evidence comes before what colleagues say; top above the headline, then a rule (header option B)."
     }
    }
   },
