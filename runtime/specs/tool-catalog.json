@@ -7,18 +7,18 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 315,
+  "script": 316,
   "skill": 28,
   "workflow": 2
  },
- "total": 447,
+ "total": 448,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 605,
+   "WIRED": 607,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 3,
+   "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
@@ -28,14 +28,6 @@
     "surface": "repo",
     "kind": "script",
     "name": "jobs_posting_liveness.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "week_plan_build.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -1820,6 +1812,14 @@
   },
   {
    "kind": "script",
+   "name": "kit_attract.py",
+   "path": "scripts/kit_attract.py",
+   "jtbd": "kit_attract.py: advisory lookup, which kit parts a job attracts. Read-only; never edits a page.",
+   "invoke": "python3 scripts/kit_attract.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "kit_job_ratchet.py",
    "path": "scripts/kit_job_ratchet.py",
    "jtbd": "kit_job_ratchet.py: the count of kit parts that name a backlog job may rise, never fall.",
@@ -3256,7 +3256,7 @@
    "path": "scripts/week_plan_build.py",
    "jtbd": "week_plan_build: render a week plan (runtime/specs/week-plan.schema.json) as kit organism 70 Week Plan.",
    "invoke": "python3 scripts/week_plan_build.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
