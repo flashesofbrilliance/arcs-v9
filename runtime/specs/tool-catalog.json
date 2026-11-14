@@ -2924,6 +2924,14 @@
   },
   {
    "kind": "script",
+   "name": "status_page_build.py",
+   "path": "scripts/status_page_build.py",
+   "jtbd": "status_page_build: generate public/status.html (status.arcs.care) from a data file plus kit parts. Never hand-edit the page.",
+   "invoke": "python3 scripts/status_page_build.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "strata_explorer_build.py",
    "path": "scripts/strata_explorer_build.py",
    "jtbd": "strata_explorer_build: kit organism 69 (strata explorer) and its embeddable fragment, from the event table.",

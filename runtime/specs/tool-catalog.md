@@ -750,6 +750,8 @@ Install state: WIRED 609 · AVAILABLE-NOT-INSTALLED 0 · INSTALLED-UNUSED 2 · D
   `python3 scripts/static-serve.py`
 - **status_floor_emit.py** — status_floor_emit: stamp the no-JS static floor on public/status.html from the repo.  
   `python3 scripts/status_floor_emit.py`
+- **status_page_build.py** — status_page_build: generate public/status.html (status.arcs.care) from a data file plus kit parts. Never hand-edit the page.  
+  `python3 scripts/status_page_build.py`
 - **strata_explorer_build.py** — strata_explorer_build: kit organism 69 (strata explorer) and its embeddable fragment, from the event table.  
   `python3 scripts/strata_explorer_build.py`
 - **sugar_bulk.py** — sugar_bulk — build Sugar /rest/v11/bulk payloads and parse saved MCP results.  

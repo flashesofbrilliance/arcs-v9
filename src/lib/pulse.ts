@@ -86,6 +86,51 @@ export function riskStates(issues: DebtIssue[] | null): Record<string, RiskState
   return Object.keys(out).length ? out : null;
 }
 
+/**
+ * State-of-the-Union card items: tracker issue number -> PUBLIC label (curated, same pattern as
+ * RISK_BINDINGS; approved by Zach 2026-11-12). The label is wording written for the page; an issue
+ * title or body never crosses. Each item lands on the card for its LIVE status, so it moves when
+ * the issue does. Issue numbers stay server-side.
+ */
+export const PUBLIC_ITEMS: Record<number, string> = {
+  1000: "Spend cap: retire the old API keys",
+  1019: "Write-lock stays advisory until every merge uses it",
+  992: "Human check of the Librarian calibration",
+  991: "Lattice regeneration (human-owned)",
+  979: "Claim-unit spec ruling",
+  1969: "Decision geometry explorer: data feed",
+  1970: "Field HUD: real-device touch and screen-reader testing",
+  1971: "App: keyboard support for clickable elements",
+  1977: "Universe view: mapping the unmapped files",
+  1013: "SHARP render checked on real data",
+  1961: "Design and accessibility debt burn-down",
+  1046: "CI minutes leak",
+  1975: "Page renderers: retire old greys and small sizes",
+  1012: "Security review: false red on reruns",
+  1003: "Receipt closure: separating test data",
+  966: "Accountant weekly run, unattended",
+  1006: "Raw API errors no longer shown to visitors",
+  994: "Main kept green for every PR",
+  973: "CI review spend cut",
+  997: "npm test script added",
+  1965: "Design file label size fixed",
+};
+
+export type PublicItems = Record<DebtStatus, string[]>;
+
+/** Public labels grouped by each issue's live status, in map order. null on a failed or empty read. */
+export function publicItems(issues: DebtIssue[] | null): PublicItems | null {
+  if (!issues || issues.length === 0) return null;
+  const byNum = new Map(issues.map((i) => [i.number, i]));
+  const out: PublicItems = { decision: [], open: [], "in-progress": [], done: [] };
+  let n = 0;
+  for (const [num, label] of Object.entries(PUBLIC_ITEMS)) {
+    const i = byNum.get(Number(num));
+    if (i) { out[statusOf(i)].push(label); n += 1; }
+  }
+  return n ? out : null;
+}
+
 export interface TempoWeek {
   week: string; // ISO date of the Monday (UTC) that starts the week
   merges: number;
@@ -153,7 +198,7 @@ const UNSAFE: Array<[string, RegExp]> = [
 const ALLOWED_KEYS = new Set([
   "ok", "updated", "commit", "sha", "date", "commitsTotal", "prsOpen", "deploy", "state",
   "debt", "total", "open", "done", "byStatus", "bySev", "in-progress", "decision",
-  "P1", "P2", "P3", "risks", "sev", "status", "spend-cap", "write-lock", "ci-spend",
+  "P1", "P2", "P3", "items", "risks", "sev", "status", "spend-cap", "write-lock", "ci-spend",
   "tempo", "week", "merges", "gates", "receipts", "calibration", "n", "gate", "cohort",
   "goalMap", "evals", "degraded",
 ]);
