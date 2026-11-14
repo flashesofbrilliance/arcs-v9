@@ -1,0 +1,132 @@
+{
+ "number": "72",
+ "name": "Week Strip",
+ "slug": "week-strip",
+ "layer": "Organism",
+ "job": "Show week by week how many gates entered the always-run path, and tap a week to read each fix that added one as break, repair, gate, every step cited to a commit.",
+ "anatomy": [
+  {
+   "part": "Week cell",
+   "role": "A button per week: gates wired as a large count, the week's Monday, shaded by count",
+   "token": "`surface`, `cyan`, `text`"
+  },
+  {
+   "part": "Dots",
+   "role": "Up to three dots under the count: gates wired, a break-to-gate chain, a belief reversal (violet lifted toward text to clear 3:1)",
+   "token": "`cyan`, `gold`, `violet`"
+  },
+  {
+   "part": "Chain",
+   "role": "Three numbered steps: what broke, the fix with its commit and date, the gate it wired",
+   "token": "`text`, `text-secondary`, `gold`"
+  },
+  {
+   "part": "Readout",
+   "role": "A heading naming the picked week and its counts (a live region), any reversed beliefs as a link, then its chains or a plain empty line",
+   "token": "`text`"
+  },
+  {
+   "part": "Source",
+   "role": "One line under the strip: where the counts come from, and that client names are removed",
+   "token": "`text-secondary`"
+  }
+ ],
+ "states": [
+  {
+   "name": "Latest week",
+   "args": [
+    11,
+    "100%"
+   ],
+   "note": "The default: the newest week is picked."
+  },
+  {
+   "name": "The busiest week for chains",
+   "args": [
+    6,
+    "100%"
+   ],
+   "note": "Six fixes each added a gate."
+  },
+  {
+   "name": "A quiet week, phone width",
+   "args": [
+    0,
+    "20rem"
+   ],
+   "note": "No chain: the readout says so in words."
+  }
+ ],
+ "use_when": [
+  "A reader should see a hardening record over time: what broke and which check it became.",
+  "Every count and chain has a commit a reader could check."
+ ],
+ "avoid_when": [
+  "Do not invent a chain; a chain is a commit, and its public words are written from that commit's message.",
+  "Not for a single release's checklist: it needs weeks to mean anything."
+ ],
+ "data": [
+  {
+   "field": "weeks[]",
+   "type": "[week, monday label, gates, chains[], reversals[], withheld]",
+   "required": true,
+   "note": "Oldest first, one per ISO week, empty weeks kept; withheld counts chains not shown."
+  },
+  {
+   "field": "weeks[].chains[]",
+   "type": "[date, sha, scope, break, repair, gate]",
+   "required": true,
+   "note": "Break and repair are reviewed public words, never the raw commit subject."
+  },
+  {
+   "field": "max",
+   "type": "number",
+   "required": true,
+   "note": "The busiest week's gate count; shading scales to it."
+  },
+  {
+   "field": "beliefs",
+   "type": "url",
+   "required": true,
+   "note": "Where reversal ids link."
+  },
+  {
+   "field": "source",
+   "type": "string",
+   "required": true,
+   "note": "Printed under the strip."
+  }
+ ],
+ "access": [
+  "Each week is a native button with aria-pressed and a label that states its date and counts. The grid is one Tab stop (roving tabindex); arrow keys, Home and End move between weeks, Enter and Space pick.",
+  "Only the readout heading is a polite live region, so picking a week announces its date and counts, not every chain.",
+  "Counts are printed, so shading and dot colour are never the only signal; the dots are hidden from screen readers because the label says the same.",
+  "Nothing animates. Without script the host keeps every chain as a dated list."
+ ],
+ "built_from": [
+  {
+   "name": "Kit tokens (atoms)",
+   "href": "_tokens.css"
+  },
+  {
+   "name": "64 Kintsugi Seam",
+   "href": "64-kintsugi-seam.html"
+  }
+ ],
+ "used_by": [
+  {
+   "name": "Pressure Ledger, status.arcs.care/gauntlets"
+  }
+ ],
+ "gates": [
+  "`gate_chain_build.py --check` (pre-commit): the table, spec, fragment and template match a rebuild at the pinned hook commit.",
+  "`gate_chain_build.py --self-test`: every chain sha exists, no scrub term survives, an unreviewed scope fails.",
+  "`gauntlet_log_emit.py --gate`: leak-check, tripwire and wrap-lint on the served page.",
+  "`kit_specimen.py --check` and `kit_primitive_sync.py --kit`; `page_gate.py` on the page, 360 to 1440."
+ ],
+ "links": [
+  "_kit-sr.css"
+ ],
+ "css": "/* @prim:begin 72-week-strip */\n/* labels use the kit's --fs-label step (11px); body copy sits on --fs-body */\n.wstrip { font-size: var(--fs-body); display: flex; flex-direction: column; gap: 16px; color: var(--text); }\n.ws-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }\n.ws-cell { appearance: none; font: inherit; color: var(--text); text-align: left; cursor: pointer; min-height: 72px; min-width: 0;\n  padding: 8px; border: 1px solid var(--border); border-radius: var(--r-md); display: flex; flex-direction: column; justify-content: space-between; gap: 4px; }\n.ws-cell:hover { border-color: color-mix(in srgb, var(--cyan) 50%, var(--border)); }\n/* focus is a --text ring, not cyan: a cyan ring would merge into the cyan pressed border (DESIGN.md says cyan; seam logged) */\n/* picked: a 2px border with 1px less padding, so the cell keeps its size (no glow shadow) */\n.ws-cell[aria-pressed=\"true\"] { border: 2px solid var(--cyan); padding: 7px; }\n.ws-cell:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }\n.ws-n { font-family: var(--ds-font-mono); font-size: var(--fs-headline); font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }\n.ws-mon { font-family: var(--ds-font-mono); font-size: var(--fs-label); line-height: 1.2; overflow-wrap: anywhere; }\n.ws-dots { display: flex; gap: 4px; min-height: 6px; }\n.ws-dot { width: 6px; height: 6px; border-radius: 50%; flex: none; }\n.ws-d0 { background: var(--cyan); } .ws-d1 { background: var(--gold); } .ws-d2 { background: color-mix(in srgb, var(--violet) 60%, var(--text)); } /* lifted toward text: plain violet fell under 3:1 on the darkest cells */\n.ws-key { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: var(--fs-label); color: var(--text-secondary); }\n.ws-key li { display: inline-flex; align-items: center; gap: 8px; }\n.ws-read { display: flex; flex-direction: column; min-height: 3rem; }\n.ws-rhead { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;\n  color: var(--text); padding-bottom: 8px; }\n.ws-rhead a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; display: inline-block; padding-block: 12px; margin-block: -12px; }\n.ws-rhead a:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }\n.ws-chain { list-style: none; display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 12px 0; border-top: 1px solid var(--border); }\n.ws-step { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); align-items: baseline; gap: 4px 12px; }\n.ws-k { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); }\n.ws-v { min-width: 0; overflow-wrap: anywhere; }\n.ws-chip { box-sizing: border-box; display: inline-flex; align-items: center; height: 22px; padding: 0 10px; margin-right: 8px; vertical-align: 1px;\n  border-radius: var(--ds-r-xs); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em;\n  color: var(--cyan); background: color-mix(in srgb, var(--cyan) 13%, transparent); border: 1px solid color-mix(in srgb, var(--cyan) 35%, transparent); }\n.ws-meta { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text-secondary); }\n/* the gate is the gold seam: kintsugi gold marks the repaired break (ROM primitive 6, kit 64) */\n.ws-gate { font-family: var(--ds-font-mono); color: var(--gold); overflow-wrap: anywhere; }\n.ws-empty { padding: 12px 0; border-top: 1px solid var(--border); color: var(--text-secondary); }\n.ws-floor { list-style: none; display: flex; flex-direction: column; gap: 8px; }\n.ws-src { font-size: var(--fs-label); color: var(--text-secondary); }\n/* below 480px six columns fall under the 44px target: four columns, three rows */\n@media (max-width: 480px) { .ws-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }\n@media (max-width: 520px) { .ws-cell { padding: 6px; min-height: 64px; } .ws-cell[aria-pressed=\"true\"] { padding: 5px; } .ws-step { grid-template-columns: minmax(0, 1fr); gap: 2px; } }\n/* @prim:end 72-week-strip */\n",
+ "demo": "var WSTRIP={\"weeks\":[[\"2026-W35\",\"24 Aug 2026\",3,[],[\"F34\",\"F35\",\"F36\",\"F37\"],0],[\"2026-W36\",\"31 Aug 2026\",1,[],[],0],[\"2026-W37\",\"7 Sep 2026\",2,[],[],0],[\"2026-W38\",\"14 Sep 2026\",0,[],[],0],[\"2026-W39\",\"21 Sep 2026\",19,[[\"2026-09-24\",\"595ffd9a\",\"pages\",\"Header and footer edges sat a few pixels off the body text on six pages, copied from a shared template.\",\"Aligned all six; a lint now fails any page whose header or footer padding differs from its body.\",\"gutter_consistency_lint\"],[\"2026-09-26\",\"06c93e77\",\"compass\",\"Saved decisions never recorded their time horizon or review date, so follow-up reminders ran on a blind default.\",\"Both save paths store them now, and reminder timing scales with the horizon.\",\"receipt_timing_gate\"],[\"2026-09-26\",\"ce2b504b\",\"nftt\",\"About nine older field-note posts lacked the required title and description tags; the check only ran on files being edited.\",\"Fixed all nine and added a check that reads every post at once.\",\"nftt_meta_gate\"]],[\"F38\",\"F39\",\"F40\",\"F41\"],0],[\"2026-W40\",\"28 Sep 2026\",12,[],[\"F42\"],1],[\"2026-W41\",\"5 Oct 2026\",16,[[\"2026-10-05\",\"90743bf5\",\"forge\",\"Generated résumés carried the wrong location line, copied forward from old templates.\",\"Pinned the line at the source and corrected 183 lines; a gate checks every résumé.\",\"resume_location_gate\"],[\"2026-10-05\",\"190e662b\",\"cruft-sweep\",\"The worktree cleanup tool could back up the wrong branch for a detached or broken worktree.\",\"It now proves each target is a real worktree with its own history, and refuses otherwise.\",\"cruft_sweep\"],[\"2026-10-06\",\"c1be4cc7\",\"handoff\",\"The handoff archiver kept notes by position, so it could archive a newer note and keep an older one.\",\"It sorts by version now, and the hook warns when a handoff note is written by hand.\",\"handoff_fold\"],[\"2026-10-08\",\"8ef6dab3\",\"universe\",\"A committed snapshot counted commits, so it went stale with every commit by design.\",\"The check covers content only; the counts refresh on their own schedule.\",\"universe_snapshot_emit\"],[\"2026-10-08\",\"bac67125\",\"design-system\",\"A design-system card printed raw JavaScript template code instead of its values.\",\"Rebuilt the card as static markup; a lint blocks template code left in any page.\",\"template_leak_lint\"],[\"2026-10-08\",\"a01afc10\",\"design\",\"Two retired grey text colours, too faint to read, were still hardcoded across served pages.\",\"Swapped them out and recorded design debt per page; the count may only go down.\",\"design_debt_sweep\"]],[],0],[\"2026-W42\",\"12 Oct 2026\",12,[[\"2026-10-17\",\"bbed234a\",\"artifacts\",\"The zoom buttons in a DJ tool did nothing, because two elements shared one id.\",\"Fixed the ids and added a static review of the tool's sources.\",\"phosphor_static_review\"]],[],0],[\"2026-W43\",\"19 Oct 2026\",1,[],[],0],[\"2026-W44\",\"26 Oct 2026\",9,[[\"2026-10-30\",\"2e616122\",\"ui\",\"A review found status chips could drift from the shared colours and fall under the contrast floor.\",\"The chip generator's check now fails on either, on every commit.\",\"grammar_chips_emit\"]],[],0],[\"2026-W45\",\"2 Nov 2026\",8,[[\"2026-11-08\",\"1d101fee\",\"client\",\"On a client's project page, clicking a workstream collapsed it and the day columns left a blank strip.\",\"Fixed both, and added a test that clicks through the page.\",\"client_hub_crawl\"]],[\"F43\",\"F44\",\"F45\",\"F46\",\"F47\",\"F48\"],0],[\"2026-W46\",\"9 Nov 2026\",9,[[\"2026-11-12\",\"12822415\",\"share\",\"Share buttons on sign-in-only pages copied the page's own link, so the person it was sent to hit a 404.\",\"The buttons create a share link now; the same bug had come back three times before.\",\"share_control_gate\"],[\"2026-11-12\",\"b3b8dda8\",\"recoil\",\"A public share link showed more of an internal page than intended: lines were removed from a list, not allowed in.\",\"Public views are an allow-list now, and a gate checks the signed-out page.\",\"recoil_public_share_gate, recoil_public_share_render\"],[\"2026-11-12\",\"a715c92e\",\"scripts\",\"Self-tests run from a commit hook wrote into the real repository's settings, so commits went out under a test identity.\",\"All 17 self-tests drop git's environment first, and a gate checks for it.\",\"scratch_git_leak_gate\"]],[],0]],\"max\":19,\"beliefs\":\"https://status.arcs.care/beliefs\",\"source\":\"Source: git history of the pre-commit hook, 24 Aug 2026 to 13 Nov 2026: 92 gates wired, 16 of them by a fix commit (1 not shown here), each cited by commit and described in plain words, with client names removed. Reversals from the belief log.\"};\n/* Kit organism 72, week strip and chains. arcsWeekStrip(host, data, {pick}) replaces host's content.\n   data: {weeks: [[week, monday, gates, chains[[date, sha, scope, break, repair, gate]], reversals[id], withheld]], max, beliefs, source}.\n   Shading strength 0.75x (Zach's pick, 2026-11-13). Vanilla DOM, no dependencies. */\nfunction arcsWeekStrip(host, data, opts) {\n  var SHADE = 0.75, W = data.weeks, pick = opts && opts.pick !== undefined ? opts.pick : W.length - 1;\n  function el(tag, cls, text) {\n    var n = document.createElement(tag);\n    if (cls) n.className = cls;\n    if (text !== undefined) n.textContent = text;\n    return n;\n  }\n  function cols() { return getComputedStyle(grid).gridTemplateColumns.split(' ').length; }\n  function plural(n, one, many) { return n + \" \" + (n === 1 ? one : many); }\n  function counts(w) {\n    var s = plural(w[2], \"gate\", \"gates\") + \" wired, \" + plural(w[3].length + w[5], \"chain\", \"chains\");\n    return w[5] ? s + \" (\" + w[5] + \" not shown)\" : s;\n  }\n  host.textContent = \"\";\n  var grid = el(\"div\", \"ws-grid\"), read = el(\"div\", \"ws-read\"), head = el(\"div\", \"ws-rhead\"), body = el(\"div\"), cells = [];\n  head.setAttribute(\"aria-live\", \"polite\");\n  read.appendChild(head);\n  read.appendChild(body);\n  grid.setAttribute(\"role\", \"group\");\n  grid.setAttribute(\"aria-label\", \"Weeks, oldest first\");\n  W.forEach(function (w, i) {\n    var b = el(\"button\", \"ws-cell\"), dots = el(\"span\", \"ws-dots\");\n    b.type = \"button\";\n    b.tabIndex = -1;\n    b.setAttribute(\"aria-label\", \"Week of \" + w[1] + \": \" + counts(w) + \", \" + plural(w[4].length, \"belief\", \"beliefs\") + \" reversed\");\n    b.style.background = \"color-mix(in srgb, var(--cyan) \" + Math.round(SHADE * (6 + 44 * w[2] / data.max)) + \"%, var(--surface))\";\n    b.appendChild(el(\"span\", \"ws-n\", String(w[2])));\n    b.appendChild(el(\"span\", \"ws-mon\", w[1].replace(/ \\d{4}$/, \"\")));\n    dots.setAttribute(\"aria-hidden\", \"true\");\n    [w[2], w[3].length + w[5], w[4].length].forEach(function (n, k) { if (n) dots.appendChild(el(\"span\", \"ws-dot ws-d\" + k)); });\n    b.appendChild(dots);\n    b.addEventListener(\"click\", function () { show(i); });\n    b.addEventListener(\"keydown\", function (e) {\n      var j = { ArrowRight: i + 1, ArrowLeft: i - 1, ArrowDown: i + cols(), ArrowUp: i - cols(), Home: 0, End: W.length - 1 }[e.key];\n      if (j === undefined) return;\n      e.preventDefault();\n      j = Math.max(0, Math.min(W.length - 1, j));\n      show(j);\n      cells[j].focus();\n    });\n    cells.push(b);\n    grid.appendChild(b);\n  });\n  var key = el(\"ul\", \"ws-key\");\n  [\"gates wired\", \"chains: a fix that added a gate\", \"beliefs reversed\"].forEach(function (t, k) {\n    var li = el(\"li\");\n    li.appendChild(el(\"span\", \"ws-dot ws-d\" + k));\n    li.appendChild(document.createTextNode(t));\n    key.appendChild(li);\n  });\n  function step(k, v) {\n    var s = el(\"div\", \"ws-step\");\n    s.appendChild(el(\"span\", \"ws-k\", k));\n    s.appendChild(v);\n    return s;\n  }\n  function show(i) {\n    var w = W[i];\n    cells.forEach(function (c, j) { c.setAttribute(\"aria-pressed\", String(j === i)); c.tabIndex = j === i ? 0 : -1; });\n    head.textContent = \"Week of \" + w[1] + \" · \" + counts(w);\n    body.textContent = \"\";\n    if (w[4].length) {\n      head.appendChild(document.createTextNode(\" · \"));\n      var a = el(\"a\", \"\", plural(w[4].length, \"belief\", \"beliefs\") + \" reversed\");\n      a.title = w[4].join(\", \");\n      a.href = data.beliefs;\n      head.appendChild(a);\n    }\n    if (!w[3].length) { body.appendChild(el(\"p\", \"ws-empty\", w[5] ? \"This week's chain is not shown on the public page.\" : \"No fix commit added a gate this week.\")); return; }\n    var list = el(\"ul\");\n    list.style.listStyle = \"none\";\n    w[3].forEach(function (c) {\n      var li = el(\"li\", \"ws-chain\"), brk = el(\"span\", \"ws-v\");\n      brk.appendChild(el(\"span\", \"ws-chip\", c[2]));\n      brk.appendChild(document.createTextNode(c[3]));\n      li.appendChild(step(\"1 Break\", brk));\n      var fix = el(\"span\", \"ws-v\", c[4] + \" \");\n      fix.appendChild(el(\"span\", \"ws-meta\", c[1] + \" · \" + c[0]));\n      li.appendChild(step(\"2 Repair\", fix));\n      li.appendChild(step(\"3 Gate\", el(\"span\", \"ws-v ws-gate\", c[5])));\n      list.appendChild(li);\n    });\n    body.appendChild(list);\n  }\n  host.appendChild(grid);\n  host.appendChild(key);\n  host.appendChild(read);\n  host.appendChild(el(\"p\", \"ws-src\", data.source));\n  show(pick);\n}\n\nfunction wSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\narcsWeekStrip(wSlot(),WSTRIP);\nSTATES.forEach(function(a,i){var b=document.createElement('div');b.style.maxWidth=a[1];wSlot(i).appendChild(b);arcsWeekStrip(b,WSTRIP,{pick:a[0]});});"
+}
