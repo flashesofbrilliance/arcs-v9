@@ -4,7 +4,8 @@
      commits[w]  commits on main in week w; receipts[w]  decision receipts in week w, null where none were recorded
      lanes[]  {key, label, def, n}; events[] [id, lane index, day since start, gold 0|1]; links[] [from, to]
    arcsBraid(host, data, {w0, w1}) replaces host's static floor with the live chart. Stdlib DOM, no deps.
-   The window is two native range inputs (arrow keys, Home, End). Each event is focusable and fills a live readout.
+   The window is two native range inputs (arrow keys, Home, End). Each lane is one tab stop; arrow keys move between dots
+   (left/right in a lane, up/down across lanes), and the focused, pointed or tapped dot fills a live readout.
    A lane with fewer than 3 events in the window renders as grain and prints n. Nothing animates. */
 (function () {
   var NS = "http://www.w3.org/2000/svg", DAY = 864e5, GRAIN_N = 3;
@@ -71,19 +72,22 @@
     brush.appendChild(out);
     host.appendChild(brush);
 
+    var key = h("p", "bl-key", "Gold ring: the fix became a standing rule. Curve: a later reversal repaired an earlier one. Grain: under 3 events in the window, n printed.");
+    host.appendChild(key);
     var read = h("p", "bl-read");
     read.setAttribute("aria-live", "polite");
     host.appendChild(read);
     var src = h("p", "bl-src", data.source);
     host.appendChild(src);
-    var idle = "Focus or point at a dot to read it. A gold ring means the fix became a standing rule; a line between two dots means the later reversal repaired the earlier one.";
+    var idle = "Focus or point at a dot to read it. Tab reaches each lane; arrow keys move between dots.", picked = null;
 
     function say(e) {
+      picked = e[0];
       var ln = data.lanes[e[1]], when = fmtDate(t0 + e[2] * DAY);
       read.textContent = "";
       var b = h("b", null, ln.label + ", belief " + e[0].replace(/^F/, "#"));
       read.appendChild(b);
-      var s = ", " + when + ". " + ln.def + " We believed something here, ran a test, and the test proved us wrong. " +
+      var s = ", " + when + ". " + ln.def + " A belief held here met a runnable test and failed it. " +
         (e[3] ? "It changed the rulebook: the fix is now a standing rule." : "Fixed where it happened; no standing rule changed.");
       (repairs[e[0]] || []).forEach(function (r) { s += " " + (r[0] === "repairs" ? "It repairs belief " : "Later repaired by belief ") + r[1].replace(/^F/, "#") + "."; });
       read.appendChild(document.createTextNode(s));
@@ -95,12 +99,16 @@
       var w0 = t0 + a * 7 * DAY, w1 = Math.min(end, t0 + (z + 1) * 7 * DAY);
       out.textContent = fmtDate(w0) + " to " + fmtDate(w1 - DAY);
       while (g.firstChild) g.removeChild(g.firstChild);
+      var keep = picked;
       read.textContent = idle;
+      picked = null;
 
       var W = Math.max(280, Math.round(host.clientWidth || 640)), narrow = W < 520;
       var L = narrow ? 0 : 116, NC = narrow ? 8 : 92, X0 = L + 8, X1 = W - NC;
       var lh = narrow ? 40 : 28, rh = narrow ? 40 : 30;
       function xs(t) { return X0 + (t - w0) / (w1 - w0) * (X1 - X0); }
+      host.style.setProperty("--bl-lc", (narrow ? 48 : X0) + "px");
+      host.style.setProperty("--bl-nc", (narrow ? 0 : NC) + "px");
 
       // Activity ribbon: two sparkline rows, each with its own peak for the window.
       var y = 0;
@@ -154,14 +162,15 @@
             var k = seen[e[2]] = (seen[e[2]] || 0) + 1, off = (k % 2 ? 1 : -1) * Math.floor(k / 2) * 7;
             var x = xs(t0 + (e[2] + 0.5) * DAY) + off;
             pos[e[0]] = [x, cy];
-            var eg = el("g", { class: "bl-ev", tabindex: 0, role: "img",
-              "aria-label": ln.label + ", belief " + e[0] + ", " + fmtDate(t0 + e[2] * DAY) + (e[3] ? ", changed the rulebook" : "") }, lg);
+            var eg = el("g", { class: "bl-ev", tabindex: k === 1 && !lg.querySelector(".bl-ev") ? 0 : -1, role: "img",
+              "aria-label": ln.label + ", belief " + e[0].replace(/^F/, "#") + ", " + fmtDate(t0 + e[2] * DAY) + (e[3] ? ", changed the rulebook" : "") }, lg);
+            eg.dataset.id = e[0];
+            el("circle", { cx: x, cy: cy, r: 11, class: "bl-hit" }, eg);
             if (e[3]) el("circle", { cx: x, cy: cy, r: 7.5, class: "bl-ring" }, eg);
             el("circle", { cx: x, cy: cy, r: 4.5, class: "bl-dot" }, eg);
-            function on() { eg.classList.add("bl-on"); say(e); }
-            function off2() { eg.classList.remove("bl-on"); }
-            eg.addEventListener("focus", on); eg.addEventListener("mouseenter", on);
-            eg.addEventListener("blur", off2); eg.addEventListener("mouseleave", off2);
+            function on() { var o = g.querySelector(".bl-on"); if (o) o.classList.remove("bl-on"); eg.classList.add("bl-on"); say(e); }
+            eg.addEventListener("focus", on); eg.addEventListener("mouseenter", on); eg.addEventListener("click", on);
+            if (keep === e[0]) { eg.classList.add("bl-on"); say(e); }
           });
           y += lh;
         });
@@ -199,6 +208,26 @@
       title.textContent = inWin.length + " reversals across " + data.lanes.length + " domains, " + out.textContent +
         ", with weekly commits and decision receipts above. " + inWin.filter(function (e) { return e[3]; }).length + " changed the rulebook.";
     }
+    svg.addEventListener("keydown", function (ev) {
+      var cur = ev.target.closest && ev.target.closest(".bl-ev");
+      if (!cur || ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].indexOf(ev.key) < 0) return;
+      var lane = cur.parentNode, mine = [].slice.call(lane.querySelectorAll(".bl-ev")), next = null;
+      if (ev.key === "ArrowLeft") next = mine[mine.indexOf(cur) - 1];
+      else if (ev.key === "ArrowRight") next = mine[mine.indexOf(cur) + 1];
+      else if (ev.key === "Home") next = mine[0];
+      else if (ev.key === "End") next = mine[mine.length - 1];
+      else {
+        var lanes = [].slice.call(svg.querySelectorAll("g[class^='bl-c-']")).filter(function (l) { return l.querySelector(".bl-ev"); });
+        var to = lanes[lanes.indexOf(lane) + (ev.key === "ArrowDown" ? 1 : -1)];
+        next = to && to.querySelector(".bl-ev");
+      }
+      if (!next) return;
+      ev.preventDefault();
+      cur.setAttribute("tabindex", -1);
+      [].forEach.call(next.parentNode.querySelectorAll(".bl-ev"), function (n) { n.setAttribute("tabindex", -1); });
+      next.setAttribute("tabindex", 0);
+      next.focus();
+    });
     A.addEventListener("input", draw);
     B.addEventListener("input", draw);
     draw();

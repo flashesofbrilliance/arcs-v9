@@ -5602,7 +5602,6 @@
     "bl-c-recoil",
     "bl-c-security",
     "bl-c-surface",
-    "bl-commits",
     "bl-commits-l",
     "bl-div",
     "bl-dot",
@@ -5614,6 +5613,8 @@
     "bl-grainband",
     "bl-grainfill",
     "bl-hatch",
+    "bl-hit",
+    "bl-key",
     "bl-meta",
     "bl-n",
     "bl-name",
@@ -5629,7 +5630,8 @@
     "bl-svg",
     "bl-thin",
     "bl-tick",
-    "braid"
+    "braid",
+    "css"
    ],
    "prim_blocks": [
     "72-braided-lanes"

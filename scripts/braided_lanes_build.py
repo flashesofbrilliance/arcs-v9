@@ -30,15 +30,15 @@ SPEC = os.path.join(ROOT, "src/ui-kit/specimens/braided-lanes.json")
 FRAG = os.path.join(SRC, "belief-fragment.html")
 KIT = os.path.join(ROOT, "src/ui-kit/recoil-report")
 GRAIN_N = 3
-# Plain-English name and meaning of each ledger scope; the same words the belief-log page has always used.
+# Plain-English name and meaning of each ledger scope (names as the belief-log page has always used; meanings without pronouns).
 PLAIN = {
-    "canon": ("Rulebook", "Our written principles: the ideas we build by and decide with."),
+    "canon": ("Rulebook", "The written principles the work is built and decided by."),
     "infra": ("Infrastructure", "The machinery underneath: servers, databases, and builds."),
-    "process": ("How we work", "Our habits: reviews, checks, and when something counts as done."),
-    "gauntlet": ("Stress tests", "The review panels we put work through, and what they cost to run."),
-    "deploy": ("Shipping", "How a change gets from our desk to the live site."),
+    "process": ("How we work", "Working habits: reviews, checks, and when something counts as done."),
+    "gauntlet": ("Stress tests", "The review panels work goes through, and what they cost to run."),
+    "deploy": ("Shipping", "How a change gets from the desk to the live site."),
     "security": ("Security", "Keeping private things private, and automated access in check."),
-    "recoil": ("Client reads", "Our judgment calls about real outside engagements."),
+    "recoil": ("Client reads", "Judgment calls about real outside engagements."),
     "surface": ("Public pages", "The pages anyone can see, including this one."),
 }
 
@@ -83,7 +83,7 @@ def payload(rec):
                    for b in sorted(beliefs, key=lambda b: (b["date"], b["id"]))],
         "links": links,
         "source": ("Source: the falsification ledger, %d reversals from %s to %s; %d repaired-by links, each cited in the ledger. "
-                   "Commits: git log on main to %s. Receipts: the decision-receipt ledger, snapshot of %s; it begins the week of %s."
+                   "Commits: every commit on main, merges included, to %s. Receipts: the decision-receipt ledger, snapshot of %s; it begins the week of %s."
                    % (len(beliefs), fmt(first_belief), fmt(max(b["date"] for b in beliefs)), len(links),
                       fmt(as_of), fmt(tempo["receipts_as_of"]), fmt(first_r))),
     }
