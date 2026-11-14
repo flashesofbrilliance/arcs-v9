@@ -3261,6 +3261,12 @@
     },
     {
      "rule": ".bg-facts ul",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-rlist, .st-key, .st-floor",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".bg-facts ul",
      "twin": "70-week-plan",
      "twin_rule": ".wp-tree, .wp-tree ol",
      "jaccard": 1.0
@@ -3406,9 +3412,10 @@
     "scripts/kit_periodic_table.py",
     "scripts/kit_primitive_sync.py",
     "scripts/recoil_hypercube_explorer.py",
-    "scripts/recoil_page.py"
+    "scripts/recoil_page.py",
+    "scripts/strata_explorer_build.py"
    ],
-   "reuse": 5,
+   "reuse": 6,
    "near_duplicates": []
   },
   {
@@ -4436,13 +4443,12 @@
    "pages": [
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
     "_ARTIFACTS/recoil-hypercube-explorer.html",
-    "_ARTIFACTS/week-plan/gravity.html",
     "public/downshift.html",
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py",
     "scripts/week_plan_build.py"
    ],
-   "reuse": 7,
+   "reuse": 6,
    "near_duplicates": [
     {
      "rule": ".fold",
@@ -4796,6 +4802,30 @@
      "twin": "64-kintsugi-seam",
      "twin_rule": ".seam-rows dt",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".option-id",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-flabel",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".option-id",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-rhead",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".hhw dt",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-flabel",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".hhw dt",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-rhead",
+     "jaccard": 0.86
     }
    ]
   },
@@ -4967,9 +4997,10 @@
    ],
    "pages": [
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
-    "public/downshift.html"
+    "public/downshift.html",
+    "scripts/strata_explorer_build.py"
    ],
-   "reuse": 2,
+   "reuse": 3,
    "near_duplicates": [
     {
      "rule": ".seam-rows code",
@@ -4994,6 +5025,12 @@
      "twin": "63-operator-pass",
      "twin_rule": ".pass code",
      "jaccard": 1.0
+    },
+    {
+     "rule": ".seam-rows dt",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-flabel",
+     "jaccard": 0.86
     }
    ]
   },
@@ -5171,6 +5208,133 @@
    "near_duplicates": []
   },
   {
+   "id": "69-strata-explorer",
+   "number": "69",
+   "name": "Strata Explorer",
+   "group": "Specimens",
+   "subtitle": "Organism 69 · Walk shipped work since April 2026 as stacked planes: services on top, then milestones, reversed beliefs, the inventions they led to, the posts written up and the proverbs minted, every link cited.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/69-strata-explorer.html",
+   "data_shape": [
+    "evidence",
+    "state"
+   ],
+   "fidelity": [
+    "grain"
+   ],
+   "classes": [
+    "st-bar",
+    "st-btn",
+    "st-ctl",
+    "st-dot",
+    "st-field",
+    "st-flabel",
+    "st-floor",
+    "st-gold",
+    "st-grain",
+    "st-grainband",
+    "st-grainsw",
+    "st-jump",
+    "st-k",
+    "st-key",
+    "st-kseam",
+    "st-l0",
+    "st-l1",
+    "st-l2",
+    "st-l3",
+    "st-l4",
+    "st-l5",
+    "st-lab",
+    "st-meta",
+    "st-n",
+    "st-now",
+    "st-out",
+    "st-plane",
+    "st-read",
+    "st-rhead",
+    "st-rlist",
+    "st-seam",
+    "st-src",
+    "st-svg",
+    "st-sw",
+    "st-t0",
+    "st-t1",
+    "st-t2",
+    "st-t3",
+    "st-t4",
+    "st-t5",
+    "st-tick",
+    "st-tl",
+    "strata"
+   ],
+   "prim_blocks": [
+    "69-strata-explorer"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [
+    "strata-explorer-shipped"
+   ],
+   "pages": [
+    "scripts/strata_explorer_build.py"
+   ],
+   "reuse": 1,
+   "near_duplicates": [
+    {
+     "rule": ".st-rlist, .st-key, .st-floor",
+     "twin": "35-backlog-graph",
+     "twin_rule": ".bg-facts ul",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".st-flabel",
+     "twin": "61-option",
+     "twin_rule": ".option-id",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".st-rhead",
+     "twin": "61-option",
+     "twin_rule": ".option-id",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".st-flabel",
+     "twin": "61-option",
+     "twin_rule": ".hhw dt",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".st-rhead",
+     "twin": "61-option",
+     "twin_rule": ".hhw dt",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".st-flabel",
+     "twin": "64-kintsugi-seam",
+     "twin_rule": ".seam-rows dt",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".st-lab",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tab-n",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".st-rlist, .st-key, .st-floor",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tree, .wp-tree ol",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
    "id": "70-week-plan",
    "number": "70",
    "name": "Week Plan",
@@ -5285,10 +5449,9 @@
    "templates": [],
    "jobs": [],
    "pages": [
-    "_ARTIFACTS/week-plan/gravity.html",
     "scripts/week_plan_build.py"
    ],
-   "reuse": 2,
+   "reuse": 1,
    "near_duplicates": [
     {
      "rule": ".wp-pm ul",
@@ -5349,6 +5512,18 @@
      "twin": "63-operator-pass",
      "twin_rule": ".pass-v",
      "jaccard": 0.83
+    },
+    {
+     "rule": ".wp-tab-n",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-lab",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".wp-tree, .wp-tree ol",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-rlist, .st-key, .st-floor",
+     "jaccard": 1.0
     },
     {
      "rule": ".wp-sr",
