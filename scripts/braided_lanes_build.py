@@ -34,7 +34,7 @@ GRAIN_N = 3
 PLAIN = {
     "canon": ("Rulebook", "The written principles the work is built and decided by."),
     "infra": ("Infrastructure", "The machinery underneath: servers, databases, and builds."),
-    "process": ("How we work", "Working habits: reviews, checks, and when something counts as done."),
+    "process": ("How I work", "Working habits: reviews, checks, and when something counts as done."),
     "gauntlet": ("Stress tests", "The review panels work goes through, and what they cost to run."),
     "deploy": ("Shipping", "How a change gets from the desk to the live site."),
     "security": ("Security", "Keeping private things private, and automated access in check."),

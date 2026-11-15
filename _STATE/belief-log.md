@@ -1,6 +1,6 @@
 # ARCS — Belief-Change Log
 
-> The corpus record of what we believed, the test that overturned it, and what replaced it.
+> The corpus record of what I believed, the test that overturned it, and what replaced it.
 > One field, one SSOT: **generated from `_STATE/falsification-ledger.jsonl`** by
 > `scripts/belief_log_emit.py`. Do not hand-edit — append to the ledger and regenerate.
 
