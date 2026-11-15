@@ -1573,6 +1573,12 @@
      "twin": "70-week-plan",
      "twin_rule": ".wp-pm ul",
      "jaccard": 0.8
+    },
+    {
+     "rule": ".gates",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-floor",
+     "jaccard": 0.8
     }
    ]
   },
@@ -1735,6 +1741,12 @@
      "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".tpl",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-k",
+     "jaccard": 0.83
     }
    ]
   },
@@ -3097,6 +3109,12 @@
      "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".tpl",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-k",
+     "jaccard": 0.83
     }
    ]
   },
@@ -3373,6 +3391,12 @@
      "twin": "70-week-plan",
      "twin_rule": ".wp-tab-n",
      "jaccard": 0.83
+    },
+    {
+     "rule": ".sp-list",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-floor",
+     "jaccard": 1.0
     }
    ]
   },
@@ -4622,6 +4646,12 @@
      "twin": "70-week-plan",
      "twin_rule": ".wp-tab-n",
      "jaccard": 0.83
+    },
+    {
+     "rule": ".toast-title",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-rhead",
+     "jaccard": 0.86
     }
    ]
   },
@@ -4906,6 +4936,12 @@
      "twin": "70-week-plan",
      "twin_rule": ".wp-tab-n",
      "jaccard": 0.83
+    },
+    {
+     "rule": ".note-head h3",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-rhead",
+     "jaccard": 0.86
     }
    ]
   },
@@ -5013,9 +5049,10 @@
    "pages": [
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
     "public/downshift.html",
+    "scripts/gate_chain_build.py",
     "scripts/strata_explorer_build.py"
    ],
-   "reuse": 3,
+   "reuse": 4,
    "near_duplicates": [
     {
      "rule": ".seam-rows code",
@@ -5543,6 +5580,18 @@
      "jaccard": 1.0
     },
     {
+     "rule": ".wp-tab-n",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-k",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".wp-pm ul",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-floor",
+     "jaccard": 1.0
+    },
+    {
      "rule": ".wp-sr",
      "twin": "grammar-chips",
      "twin_rule": ".g-sr",
@@ -5593,6 +5642,112 @@
    ],
    "reuse": 1,
    "near_duplicates": []
+  },
+  {
+   "id": "72-week-strip",
+   "number": "72",
+   "name": "Week Strip",
+   "group": "Specimens",
+   "subtitle": "Organism 72 · Show week by week how many gates entered the always-run path, and tap a week to read each fix that added one as break, repair, gate, every step cited to a commit.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/72-week-strip.html",
+   "data_shape": [
+    "evidence"
+   ],
+   "fidelity": [],
+   "classes": [
+    "md",
+    "ws-cell",
+    "ws-chain",
+    "ws-chip",
+    "ws-d0",
+    "ws-d1",
+    "ws-d2",
+    "ws-dot",
+    "ws-dots",
+    "ws-empty",
+    "ws-floor",
+    "ws-gate",
+    "ws-grid",
+    "ws-k",
+    "ws-key",
+    "ws-meta",
+    "ws-mon",
+    "ws-n",
+    "ws-read",
+    "ws-rhead",
+    "ws-src",
+    "ws-step",
+    "ws-v",
+    "wstrip"
+   ],
+   "prim_blocks": [
+    "72-week-strip"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [
+    "gauntlet-week-strip-chains"
+   ],
+   "pages": [
+    "public/gauntlet-log.html",
+    "scripts/gate_chain_build.py"
+   ],
+   "reuse": 2,
+   "near_duplicates": [
+    {
+     "rule": ".ws-floor",
+     "twin": "19-gate-ladder",
+     "twin_rule": ".gates",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".ws-k",
+     "twin": "20-transport",
+     "twin_rule": ".tpl",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".ws-k",
+     "twin": "34-manifold",
+     "twin_rule": ".tpl",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".ws-floor",
+     "twin": "36-change",
+     "twin_rule": ".sp-list",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ws-rhead",
+     "twin": "58-toast",
+     "twin_rule": ".toast-title",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".ws-rhead",
+     "twin": "62-attributed-notes",
+     "twin_rule": ".note-head h3",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".ws-k",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tab-n",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".ws-floor",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-pm ul",
+     "jaccard": 1.0
+    }
+   ]
   },
   {
    "id": "grammar-chips",
