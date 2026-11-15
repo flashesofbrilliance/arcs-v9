@@ -93,7 +93,13 @@
      "crossrun only tests the shells installed on the machine it runs on.",
      "Covers bash 3.2, zsh, POSIX sh and ksh; fish and PowerShell are out of scope.",
      "lint flags known constructs; a clean lint is not proof of portability. crossrun is."
-    ]
+    ],
+    "try": {
+     "title": "Try it by voice",
+     "text": "Say a construct that breaks between shells, such as \"how do I lowercase a variable\", and hear the portable fix. Typing works too.",
+     "href": "/voice",
+     "label": "Open Rosetta Voice"
+    }
    }
   },
   "germinate": {
