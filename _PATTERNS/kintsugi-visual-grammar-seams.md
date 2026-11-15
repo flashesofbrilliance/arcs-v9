@@ -21,6 +21,12 @@
   warn (ratchet). Machines without the launcher skip cleanly and the seam is caught at the next
   machine that has it.
 
+## 2026-11-14 · a merge of main read main's rosetta-voice page as net-new debt
+- break: merging origin/main into PR 2219 was blocked by the ratchet on `public/rosetta-voice.html`, 23 findings vs 0 at HEAD. The page came in unchanged from main (6794efac, 943ea813); the branch never had it, so the ratchet's HEAD baseline was 0.
+- found by: the merge commit on claude/tabbed-brief-lockup.
+- repair: none to the page here; its 23 findings are open debt on main, owned by whoever next touches rosetta-voice (no live session owns it). The gate is fixed: on a merge commit, a page whose staged blob equals MERGE_HEAD's blob warns instead of blocking.
+- guard: the MERGE_HEAD blob check in `scripts/git-hooks/pre-commit`. A page edited during the merge still scores against HEAD as before. Not done: the 23 findings on rosetta-voice itself.
+
 ## 2026-10-26 · the MyAlly proposal page scored against the ARCS kit (palette waived, file-scoped)
 - break: the kintsugi ratchet blocked the MyAlly proposal page (new file, 14 findings vs 0 at HEAD): colors and corner radii outside DESIGN.md.
 - found by: the myally.arcs.care/proposal commit.
@@ -893,6 +899,20 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - **Root cause:** none in this page's own CSS. Both are the frame's by design and are already waived for `public/gravity-brief*.html` and the kit specimens: DESIGN.md defines the dark palette only, and the shell nav bar runs flush to the frame (the MyAlly seam of 2026-10-26).
 - **Repair:** Zach asked for the standard nav, hamburger and reading options on this page (2026-11-12), so the page carries the kit's light palette and frame. The file joins the two existing kit waivers rather than getting new ones.
 - **Guard:** the ratchet (the file scores 0 with the waivers; any new finding blocks) and `component_source_gate`, which now checks the page as template `recoil-twin` (5 of 5 kit signatures). The earlier open debt for this file stands: the generator-origin waivers (tiny-text, all-caps-body, radius, font-size) can be dropped once `scripts/recoil_brief.py`'s base CSS is off the page; the stack layout already sizes in rem on the kit ramp.
+
+## 2026-11-12 · tabbed brief moves to Inter, the design-system reference face (one waiver)
+
+- **Break:** the ratchet counted 4 findings against 0 at HEAD on `public/gravity-brief-beliefs.html`: 3 hairline border with a wide (16px) shadow blur on the new glass pieces, and 1 `overused-font` (primary font Inter).
+- **Root cause:** Zach ruled Inter semibold headlines, Inter loaded first from Google Fonts with SF Pro as fallback, and light glass with some depth (2026-11-12). The kit token stack leads with system-ui only to dodge this detector rule; DESIGN.md and the claude.ai/design reference both name Inter.
+- **Repair:** the lift shadow is cut to a 6px blur at source (`--lift` in `src/ui-kit/tabbed-brief/shell.css`). Inter stays per the ruling; `overused-font` is waived for `public/gravity-brief*.html` only.
+- **Guard:** the ratchet (the pages score 0 with the waiver; any new finding blocks). Open debt: decide whether the kit `_tokens.css` stack should lead with Inter for every page, and drop the per-page waiver then.
+
+## 2026-11-12 · tabbed brief masthead name in SF (one value waiver)
+
+- **Break:** the ratchet counted 1 `design-system-font` finding against 0 at HEAD: the masthead name uses SF Pro Display, which DESIGN.md does not declare.
+- **Root cause:** Zach ruled the masthead name (`.tb-name-main`) be set in the San Francisco system face rather than Inter (2026-11-12). SF is already the fallback in the Inter stack, so this names it first for one element.
+- **Repair:** none needed at source; the value `sf pro display` is waived for `public/gravity-brief*.html` only.
+- **Guard:** the ratchet (pages score 0 with the waiver; any new font finding blocks). Open debt: add SF as a named fallback face in DESIGN.md typography, then drop the waiver.
 
 ## 2026-11-13 · kit 71 proof lockup (filed as 69, renumbered: three PRs claimed 69) (one size repaired at the source, specimen joins the kit colour waiver)
 
