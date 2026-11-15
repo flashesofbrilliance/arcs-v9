@@ -1,8 +1,8 @@
 {
- "through": "30f08f55",
- "through_date": "2026-11-13",
+ "through": "215f358b",
+ "through_date": "2026-11-14",
  "hook": "scripts/git-hooks/pre-commit",
- "gate_count": 92,
+ "gate_count": 94,
  "chain_count": 16,
  "weeks": [
   {
@@ -218,7 +218,7 @@
      "scope": "nftt",
      "subject": "fix(nftt): conform all NFTT posts to the head-meta gate + add batch Frustration Gate",
      "public": [
-      "About nine older field-note posts lacked the required title and description tags; the check only ran on files being edited.",
+      "Nine older field-note posts lacked the required title and description tags; the check only ran on files being edited.",
       "Fixed all nine and added a check that reads every post at once."
      ],
      "gates": [
@@ -493,7 +493,7 @@
      "scope": "design",
      "subject": "fix(design): swap retired greys on served pages; baseline and ratchet the design debt",
      "public": [
-      "Two retired grey text colours, too faint to read, were still hardcoded across served pages.",
+      "Two retired grey text colors, too faint to read, were still hardcoded across served pages.",
       "Swapped them out and recorded design debt per page; the count may only go down."
      ],
      "gates": [
@@ -657,7 +657,7 @@
      "scope": "ui",
      "subject": "fix(ui): chip grammar gauntlet fixes 2-4: gate in pre-commit, HUD restraint, JSX texture",
      "public": [
-      "A review found status chips could drift from the shared colours and fall under the contrast floor.",
+      "A review found status chips could drift from the shared colors and fall under the contrast floor.",
       "The chip generator's check now fails on either, on every commit."
      ],
      "gates": [
@@ -804,6 +804,16 @@
      "2026-11-13",
      "df3cc420",
      "design_candidates.py"
+    ],
+    [
+     "2026-11-13",
+     "efd7ab45",
+     "kit_job_ratchet.py"
+    ],
+    [
+     "2026-11-14",
+     "71cbaad4",
+     "gate_chain_build.py"
     ]
    ],
    "chains": [
@@ -855,7 +865,7 @@
   }
  ],
  "cites": {
-  "gates": "git log -p 30f08f55 -- scripts/git-hooks/pre-commit (first commit whose added line names the script)",
+  "gates": "git log -p 215f358b -- scripts/git-hooks/pre-commit (first commit whose added line names the script)",
   "chains": "a fix(...) commit among those that first wired a script",
   "reversals": "_STATE/falsification-ledger.jsonl ts, id and scope only"
  }

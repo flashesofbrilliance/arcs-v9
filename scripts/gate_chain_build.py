@@ -54,9 +54,12 @@ BELIEFS = "https://status.arcs.care/beliefs"
 
 # Known client and counterpart words in commit text, and what the public page says instead (case-insensitive, whole word).
 SCRUB = [(r"myally", "client"), (r"counterpart\s+", "")]
-# Scopes a person has read and cleared for the public page (after SCRUB). A new scope fails the build until added here.
-REVIEWED_SCOPES = {"pages", "compass", "nftt", "db", "forge", "cruft-sweep", "handoff", "universe", "design-system",
-                   "design", "artifacts", "ui", "client", "share", "recoil", "scripts"}
+# Scopes a person has read and cleared for the public page (after SCRUB), each with the plain label the page shows
+# instead of the raw commit scope. A new scope fails the build until added here.
+REVIEWED_SCOPES = {"pages": "pages", "compass": "compass", "nftt": "blog", "db": "database", "forge": "résumés",
+                   "cruft-sweep": "cleanup", "handoff": "session notes", "universe": "stats", "design-system": "design",
+                   "design": "design", "artifacts": "pages", "ui": "interface", "client": "client work",
+                   "share": "sharing", "recoil": "call reports", "scripts": "tooling"}
 
 # Reviewed public words per chain: sha -> (what broke, what the fix did), each written from that commit's message,
 # no names. None withholds the chain from the page (it still counts). Add an entry before a new chain can ship.
@@ -65,7 +68,7 @@ PUBLIC = {
                  "Aligned all six; a lint now fails any page whose header or footer padding differs from its body."),
     "06c93e77": ("Saved decisions never recorded their time horizon or review date, so follow-up reminders ran on a blind default.",
                  "Both save paths store them now, and reminder timing scales with the horizon."),
-    "ce2b504b": ("About nine older field-note posts lacked the required title and description tags; the check only ran on files being edited.",
+    "ce2b504b": ("Nine older field-note posts lacked the required title and description tags; the check only ran on files being edited.",
                  "Fixed all nine and added a check that reads every post at once."),
     "e88ca1da": None,  # a past database access exposure, fixed the same day; withheld from the public page
     "90743bf5": ("Generated résumés carried the wrong location line, copied forward from old templates.",
@@ -78,11 +81,11 @@ PUBLIC = {
                  "The check covers content only; the counts refresh on their own schedule."),
     "bac67125": ("A design-system card printed raw JavaScript template code instead of its values.",
                  "Rebuilt the card as static markup; a lint blocks template code left in any page."),
-    "a01afc10": ("Two retired grey text colours, too faint to read, were still hardcoded across served pages.",
+    "a01afc10": ("Two retired grey text colors, too faint to read, were still hardcoded across served pages.",
                  "Swapped them out and recorded design debt per page; the count may only go down."),
     "bbed234a": ("The zoom buttons in a DJ tool did nothing, because two elements shared one id.",
                  "Fixed the ids and added a static review of the tool's sources."),
-    "2e616122": ("A review found status chips could drift from the shared colours and fall under the contrast floor.",
+    "2e616122": ("A review found status chips could drift from the shared colors and fall under the contrast floor.",
                  "The chip generator's check now fails on either, on every commit."),
     "1d101fee": ("On a client's project page, clicking a workstream collapsed it and the day columns left a blank strip.",
                  "Fixed both, and added a test that clicks through the page."),
@@ -158,7 +161,7 @@ def table(through):
         chains.append({"date": c["date"], "sha": c["sha"], "scope": scrub(m.group(1)).strip(),
                        "subject": clean_subject(c["subject"]), "public": list(words) if words else None,
                        "gates": [gate_name(s) for s in wired], "cite": "git show %s -- %s" % (c["sha"], HOOK)})
-    bad = sorted({ch["scope"] for ch in chains} - REVIEWED_SCOPES)
+    bad = sorted({ch["scope"] for ch in chains} - REVIEWED_SCOPES.keys())
     if bad:
         raise SystemExit("✖ unreviewed chain scope(s): %s. Read those commits for client or counterpart names, "
                          "add a SCRUB rule if needed, then add the scope to REVIEWED_SCOPES in scripts/gate_chain_build.py."
@@ -191,7 +194,7 @@ def fmt(date):
 
 def payload(t):
     weeks = [[w["week"], fmt(w["monday"]), len(w["gates"]),
-              [[c["date"], c["sha"], c["scope"], c["public"][0], c["public"][1], ", ".join(c["gates"])]
+              [[c["date"], c["sha"], REVIEWED_SCOPES[c["scope"]], c["public"][0], c["public"][1], ", ".join(c["gates"])]
                for c in w["chains"] if c["public"]],
               [r[0] for r in w["reversals"]], sum(1 for c in w["chains"] if not c["public"])] for w in t["weeks"]]
     held = sum(w[5] for w in weeks)
@@ -325,8 +328,8 @@ def self_test():
     assert "—" not in pub and "—" not in outs[SPEC], "em-dash"
     assert sum(len(w["gates"]) for w in t["weeks"]) == t["gate_count"], "gate counts do not add up"
     assert "<li>" in floor(p), "empty no-JS floor"
-    saved = set(REVIEWED_SCOPES)
-    REVIEWED_SCOPES.discard("db")
+    saved = dict(REVIEWED_SCOPES)
+    REVIEWED_SCOPES.pop("db")
     try:
         table(t["through"])
         raise AssertionError("an unreviewed scope did not fail")

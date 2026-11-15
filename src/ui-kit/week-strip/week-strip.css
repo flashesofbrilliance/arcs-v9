@@ -14,7 +14,7 @@
 .ws-dots { display: flex; gap: 4px; min-height: 6px; }
 .ws-dot { width: 6px; height: 6px; border-radius: 50%; flex: none; }
 .ws-d0 { background: var(--cyan); } .ws-d1 { background: var(--gold); } .ws-d2 { background: color-mix(in srgb, var(--violet) 60%, var(--text)); } /* lifted toward text: plain violet fell under 3:1 on the darkest cells */
-.ws-key { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: var(--fs-label); color: var(--text-secondary); }
+.ws-key { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: var(--fs-body); color: var(--text-secondary); }
 .ws-key li { display: inline-flex; align-items: center; gap: 8px; }
 .ws-read { display: flex; flex-direction: column; min-height: 3rem; }
 .ws-rhead { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
@@ -33,7 +33,7 @@
 .ws-gate { font-family: var(--ds-font-mono); color: var(--gold); overflow-wrap: anywhere; }
 .ws-empty { padding: 12px 0; border-top: 1px solid var(--border); color: var(--text-secondary); }
 .ws-floor { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.ws-src { font-size: var(--fs-label); color: var(--text-secondary); }
+.ws-src { font-size: var(--fs-body); color: var(--text-secondary); }
 /* below 480px six columns fall under the 44px target: four columns, three rows */
 @media (max-width: 480px) { .ws-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (max-width: 520px) { .ws-cell { padding: 6px; min-height: 64px; } .ws-cell[aria-pressed="true"] { padding: 5px; } .ws-step { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
