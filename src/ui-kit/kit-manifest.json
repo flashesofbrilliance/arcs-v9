@@ -4479,12 +4479,13 @@
    "pages": [
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
     "_ARTIFACTS/recoil-hypercube-explorer.html",
+    "_ARTIFACTS/week-plan/gravity.html",
     "public/downshift.html",
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py",
     "scripts/week_plan_build.py"
    ],
-   "reuse": 6,
+   "reuse": 7,
    "near_duplicates": [
     {
      "rule": ".fold",
@@ -5500,9 +5501,10 @@
     "week-plan-organism"
    ],
    "pages": [
+    "_ARTIFACTS/week-plan/gravity.html",
     "scripts/week_plan_build.py"
    ],
-   "reuse": 1,
+   "reuse": 2,
    "near_duplicates": [
     {
      "rule": ".wp-pm ul",
