@@ -456,14 +456,16 @@ def self_test():
     for want in ("cascade.executive: sourced needs a source", "best: a set p needs a basis", "M1: lens"):
         assert any(want in x for x in errs), (want, errs)
     out = render(doc)
-    assert out.count('role="tab"') == 7 and "wp-none" in out, "seven tabs, undrafted weeks flat"
+    assert out.count('role="tab"') == 7, "seven tabs"
+    stub = dict(doc, weeks=[w if w["n"] != 2 else {"n": 2, "title": "Not drafted", "draft": True} for w in doc["weeks"]])
+    assert "wp-none" in render(stub), "an undrafted week renders flat"
     assert "Shape only" in out, "unset values must say shape only"
     strips = re.findall(r'<svg class="wp-strip".*?</svg>', out, re.S) + re.findall(r'<svg class="wp-tspark.*?</svg>', out, re.S)
     assert strips and not any('class="wp-pos"' in s or 'class="wp-neg"' in s for s in strips), "ROI color drawn before a value is set"
     assert "\u2014" not in out, "em-dash in output"
     css = json.load(open(SPEC, encoding="utf-8"))["css"]
     assert ".wp-panel[hidden] { display: none; }" in css, "a display rule on .wp-panel must not override [hidden]"
-    assert out.count('class="wp-fork-card') == len(doc["weeks"][0]["kairos"])
+    assert out.count('class="wp-fork-card') == sum(len(w.get("kairos", [])) for w in doc["weeks"])
     from html.parser import HTMLParser
     class Bal(HTMLParser):
         def __init__(s): super().__init__(); s.st = []

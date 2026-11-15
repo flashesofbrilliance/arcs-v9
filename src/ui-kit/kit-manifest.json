@@ -2151,6 +2151,10 @@
     "_ARTIFACTS/tao-print-studio.html",
     "public/good-audit-check.html",
     "public/good-copypasta.html",
+    "public/gravity-brief-beliefs.html",
+    "public/gravity-brief-proof.html",
+    "public/gravity-brief.html",
+    "public/rosetta-voice.html",
     "scripts/counterpart_onepager_build.py",
     "scripts/kit_primitive_sync.py",
     "scripts/recoil_hypercube_explorer.py",
@@ -2158,7 +2162,7 @@
     "scripts/tabbed_brief_build.py",
     "scripts/week_plan_build.py"
    ],
-   "reuse": 15,
+   "reuse": 19,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -3447,10 +3451,11 @@
    "jobs": [],
    "pages": [
     "scripts/recoil_brief.py",
+    "scripts/rosetta_voice_build.py",
     "scripts/status_page_build.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 3,
+   "reuse": 4,
    "near_duplicates": [
     {
      "rule": ".wordmark",
@@ -4075,9 +4080,12 @@
     "proposal",
     "recoil-twin"
    ],
-   "jobs": [],
+   "jobs": [
+    "rosetta-voice-page"
+   ],
    "pages": [
     "_ARTIFACTS/louisville-proposal/source.html",
+    "public/germinate.html",
     "public/good-rfp-engine.html",
     "public/gravity-brief-beliefs.html",
     "public/gravity-brief-eir.html",
@@ -4086,13 +4094,16 @@
     "public/gravity-brief.html",
     "public/louisville-proposal.html",
     "public/recoil-ext/2026-10-29-gasmi.html",
+    "public/rosetta-shell.html",
+    "public/rosetta-voice.html",
     "public/status.html",
     "scripts/kit_primitive_sync.py",
     "scripts/recoil_brief.py",
+    "scripts/rosetta_voice_build.py",
     "scripts/status_page_build.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 14,
+   "reuse": 18,
    "near_duplicates": [
     {
      "rule": ".dprefs-btns button[aria-pressed=\"true\"]",
@@ -5577,8 +5588,10 @@
    },
    "templates": [],
    "jobs": [],
-   "pages": [],
-   "reuse": 0,
+   "pages": [
+    "public/gravity-brief.html"
+   ],
+   "reuse": 1,
    "near_duplicates": []
   },
   {
@@ -5639,9 +5652,10 @@
     "public/germinate.html",
     "public/good-rfp-engine.html",
     "public/honest.html",
-    "public/rosetta-shell.html"
+    "public/rosetta-shell.html",
+    "public/rosetta-voice.html"
    ],
-   "reuse": 6,
+   "reuse": 7,
    "near_duplicates": [
     {
      "rule": ".row",
