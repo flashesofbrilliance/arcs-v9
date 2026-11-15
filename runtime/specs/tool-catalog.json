@@ -7,18 +7,18 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 315,
+  "script": 320,
   "skill": 28,
   "workflow": 2
  },
- "total": 447,
+ "total": 452,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 605,
+   "WIRED": 611,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 3,
+   "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
@@ -28,14 +28,6 @@
     "surface": "repo",
     "kind": "script",
     "name": "jobs_posting_liveness.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "week_plan_build.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -1820,10 +1812,34 @@
   },
   {
    "kind": "script",
+   "name": "kit_attract.py",
+   "path": "scripts/kit_attract.py",
+   "jtbd": "kit_attract.py: advisory lookup, which kit parts a job attracts. Read-only; never edits a page.",
+   "invoke": "python3 scripts/kit_attract.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "kit_gate_results.py",
+   "path": "scripts/kit_gate_results.py",
+   "jtbd": "kit_gate_results.py: store, per kit part and per page, whether the pages that use the part pass page_gate.",
+   "invoke": "python3 scripts/kit_gate_results.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "kit_job_ratchet.py",
    "path": "scripts/kit_job_ratchet.py",
    "jtbd": "kit_job_ratchet.py: the count of kit parts that name a backlog job may rise, never fall.",
    "invoke": "python3 scripts/kit_job_ratchet.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "kit_optionboard.py",
+   "path": "scripts/kit_optionboard.py",
+   "jtbd": "kit_optionboard.py: build the internal kit option board from kit_rank.py output. Advisory page; edits nothing else.",
+   "invoke": "python3 scripts/kit_optionboard.py",
    "state": "WIRED"
   },
   {
@@ -1848,6 +1864,14 @@
    "path": "scripts/kit_pull.py",
    "jtbd": "kit_pull.py: give the Field OS kit a measurable pull, so parts flock to the pages and jobs they fit.",
    "invoke": "python3 scripts/kit_pull.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "kit_rank.py",
+   "path": "scripts/kit_rank.py",
+   "jtbd": "kit_rank.py: three kit-assembly options for a job, as JSON. Advisory; never edits a page.",
+   "invoke": "python3 scripts/kit_rank.py",
    "state": "WIRED"
   },
   {
@@ -2908,6 +2932,14 @@
   },
   {
    "kind": "script",
+   "name": "status_page_build.py",
+   "path": "scripts/status_page_build.py",
+   "jtbd": "status_page_build: generate public/status.html (status.arcs.care) from a data file plus kit parts. Never hand-edit the page.",
+   "invoke": "python3 scripts/status_page_build.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "strata_explorer_build.py",
    "path": "scripts/strata_explorer_build.py",
    "jtbd": "strata_explorer_build: kit organism 69 (strata explorer) and its embeddable fragment, from the event table.",
@@ -3256,7 +3288,7 @@
    "path": "scripts/week_plan_build.py",
    "jtbd": "week_plan_build: render a week plan (runtime/specs/week-plan.schema.json) as kit organism 70 Week Plan.",
    "invoke": "python3 scripts/week_plan_build.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",

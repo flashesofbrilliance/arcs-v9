@@ -894,6 +894,13 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - **Repair:** Zach asked for the standard nav, hamburger and reading options on this page (2026-11-12), so the page carries the kit's light palette and frame. The file joins the two existing kit waivers rather than getting new ones.
 - **Guard:** the ratchet (the file scores 0 with the waivers; any new finding blocks) and `component_source_gate`, which now checks the page as template `recoil-twin` (5 of 5 kit signatures). The earlier open debt for this file stands: the generator-origin waivers (tiny-text, all-caps-body, radius, font-size) can be dropped once `scripts/recoil_brief.py`'s base CSS is off the page; the stack layout already sizes in rem on the kit ramp.
 
+## 2026-11-13 · kit 71 proof lockup (filed as 69, renumbered: three PRs claimed 69) (one size repaired at the source, specimen joins the kit colour waiver)
+
+- **Break:** the ratchet counted 8 findings against 0 at HEAD on the new `src/ui-kit/recoil-report/71-proof-lockup.html`: 6 `design-system-color` from the specimen's light chrome and 2 `design-system-font-size` (the figure at a literal 1.6rem, the print figure at 1.25rem).
+- **Root cause:** the figure size was copied from the rendered option Zach picked (A, 2026-11-13) as a literal, not as a ramp step. The colours come from the kit 39 light remap that every specimen carries.
+- **Repair:** the figure now reads `max(1.5rem, min(var(--fs-display), Ncqi))` (7cqi stacked, 4cqi 2 by 2, 3cqi four-up), so it never leaves the display step and lands near 1.6rem in the Gravity lane, so the picked look holds on a ramp token; print uses `--fs-headline`. The specimen joins the existing kit-specimen `design-system-color` waiver (39, 43 to 68, now 71), no new waiver.
+- **Guard:** the ratchet (the file scores 0; any new finding blocks) and `kit_primitive_sync --check` for every page that later marks block 71.
+
 ## 2026-11-13 · option board for the Gravity glass review (repaired at the source, one value waived)
 
 - **Break:** the ratchet counted 17 findings against 0 at HEAD on the new `_ARTIFACTS/option-board/gravity-glass.html`: 9 `gpt-thin-border-wide-shadow` (the glow options drew a 1px cyan border under a 16px bloom), 3 `tight-leading` (headline variants at 1.25), 1 `all-caps-body` (mono caps labels), 2 `design-system-font-size` (0.85rem and 1.3rem) and 2 `design-system-color` (a literal 50% black shadow and the glass sheen).
@@ -903,7 +910,7 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 
 ## 2026-11-13 · kit 72 braided lanes specimen (joins the kit 69 shell waiver)
 
-- **Break:** the ratchet counted 6 findings against 0 at HEAD on the new `src/ui-kit/recoil-report/72-braided-lanes.html`, all `design-system-color`: body, crumb, h1, section rule and the use/avoid headings.
+- **Break:** the ratchet counted 6 findings against 0 at HEAD on the new kit 72 specimen page (72-braided-lanes, added by PR 2266), all `design-system-color`: body, crumb, h1, section rule and the use/avoid headings.
 - **Root cause:** none in the organism. The six hits are the shared `kit_specimen.py` shell under `_tokens-light.css`, the kit's light palette, which DESIGN.md (dark only) does not define; kit 69 carries the same six and is already waived. The organism fragment and its preview score 0 anti-patterns, and public/belief-log.html dropped from 17 findings to 13.
 - **Repair:** the kit 69 shell waiver now names the 72 page too; no new rule or value waived.
 - **Guard:** the ratchet (the file scores 0 with the waiver; any new finding blocks). Open debt stands from kit 69: find why kits 64 and 68 score 0 with the same shell, or add the light palette to DESIGN.md and drop both waivers.
