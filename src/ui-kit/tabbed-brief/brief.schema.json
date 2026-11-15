@@ -300,6 +300,19 @@
       "top"
      ],
      "description": "Optional: where the sound bite sits. hero (default) under the byline; end after the last section, so evidence comes before what colleagues say; top above the headline, then a rule (header option B)."
+    },
+    "lockup": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "kicker": {
+       "type": "string"
+      },
+      "closer": {
+       "type": "string"
+      }
+     },
+     "description": "Kit 71 proof lockup: when set, the tiles render as one proof panel between the kicker and the closer, and the lede is not rendered."
     }
    }
   },

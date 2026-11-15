@@ -328,12 +328,21 @@ def r_overview(d):
     note = ('<p class="tb-note">%s</p>' % md(o["action_note"], "/overview/action_note")) if o.get("action_note") else ""
     acts_html = ('<div class="tb-actions">%s</div>' % "".join(acts)) if acts else ""
     go = ('<div class="tb-go">%s%s%s%s</div>\n' % (lead, acts_html, cap, note)) if (lead or acts_html or cap or note) else ""
+    lk = o.get("lockup")
+    if lk:  # kit 71 proof lockup: kicker, one panel of proofs, closer; replaces the lede and the fact tiles
+        cells = "".join('<li class="plk-cell"><span class="plk-lab">%s</span> <span class="plk-fig">%s</span> <span class="plk-cap">%s</span></li>' % (
+            md(t["k"], "/overview/tiles/%d/k" % i), md(t["v"], "/overview/tiles/%d/v" % i), md(t["note"], "/overview/tiles/%d/note" % i)) for i, t in enumerate(o["tiles"]))
+        proof = '<div class="plk">%s<ul class="plk-cells" aria-label="At a glance">%s</ul>%s</div>' % (
+            ('<p class="plk-kick">%s</p>' % md(lk["kicker"], "/overview/lockup/kicker")) if lk.get("kicker") else "", cells,
+            ('<p class="plk-close">%s</p>' % md(lk["closer"], "/overview/lockup/closer")) if lk.get("closer") else "")
+    else:
+        proof = '<div class="ftiles-c"><ul class="ftiles is-4" aria-label="At a glance">%s</ul></div>' % tiles
     out = ('<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">\n<h1 class="tb-h1">%s</h1>\n%s%s%s'
-            '<div class="ftiles-c"><ul class="ftiles is-4" aria-label="At a glance">%s</ul></div>\n'
+            '%s\n'
             '%s'
             '%s<div class="tb-expand%s"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>\n'
             '<div class="tb-folds">%s</div>\n</div>') % (h, (('<p class="tb-byline">%s</p>\n' % md(o["byline"], "/overview/byline")) if o.get("byline") else "") + ("" if o.get("bites_at") in ("end", "top") else r_bites(o)), ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"], "/overview/subhead")) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(nbh(x), "/overview/lede/%d" % i) for i, x in enumerate(o["lede"]))) if o.get("lede") else "",
-         tiles, go, cr,
+         proof, go, cr,
          " solo" if len(o["sections"]) < 2 else "", folds)
     if o.get("receipt"):  # the proof object: one real dated call, above the tiles
         r = o["receipt"]
@@ -347,8 +356,8 @@ def r_overview(d):
             ('<span class="rcpt-odds">%s</span> ' % md(r["odds"], "/overview/receipt/odds")) if r.get("odds") else "",
             md(r["claim"], "/overview/receipt/claim"), md(r["kill"], "/overview/receipt/kill"), md(r["status"], "/overview/receipt/status"),
             ('<dt>Last resolved</dt><dd>%s</dd>' % md(r["last"], "/overview/receipt/last")) if r.get("last") else "", "")
-        assert '<div class="ftiles-c">' in out
-        out = out.replace('<div class="ftiles-c">', card + '<div class="ftiles-c">', 1)
+        assert proof in out
+        out = out.replace(proof, card + proof, 1)
     if o.get("bites_at") == "top" and o.get("bites"):  # quote first, a rule, then the headline (Zach, header option B, 2026-11-13)
         h1 = '<h1 class="tb-h1">'
         assert out.count(h1) == 1
