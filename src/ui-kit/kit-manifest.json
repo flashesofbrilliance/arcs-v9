@@ -3447,9 +3447,10 @@
    "jobs": [],
    "pages": [
     "scripts/recoil_brief.py",
+    "scripts/status_page_build.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 2,
+   "reuse": 3,
    "near_duplicates": [
     {
      "rule": ".wordmark",
@@ -3490,9 +3491,10 @@
     "_ARTIFACTS/brooks-audit-onepager.html",
     "scripts/counterpart_onepager_build.py",
     "scripts/recoil_brief.py",
+    "scripts/status_page_build.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 4,
+   "reuse": 5,
    "near_duplicates": []
   },
   {
@@ -4084,11 +4086,13 @@
     "public/gravity-brief.html",
     "public/louisville-proposal.html",
     "public/recoil-ext/2026-10-29-gasmi.html",
+    "public/status.html",
     "scripts/kit_primitive_sync.py",
     "scripts/recoil_brief.py",
+    "scripts/status_page_build.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 12,
+   "reuse": 14,
    "near_duplicates": [
     {
      "rule": ".dprefs-btns button[aria-pressed=\"true\"]",
@@ -5447,7 +5451,9 @@
     "no_raw_signal_hex": true
    },
    "templates": [],
-   "jobs": [],
+   "jobs": [
+    "week-plan-organism"
+   ],
    "pages": [
     "scripts/week_plan_build.py"
    ],
@@ -5538,6 +5544,42 @@
      "jaccard": 0.83
     }
    ]
+  },
+  {
+   "id": "71-proof-lockup",
+   "number": "71",
+   "name": "Proof Lockup",
+   "group": "Specimens",
+   "subtitle": "Organism 71 · Greet a cold reader with the two to four proofs behind a claim, each a figure they can check, between one short framing line and the promise it buys them.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/71-proof-lockup.html",
+   "data_shape": [
+    "state"
+   ],
+   "fidelity": [],
+   "classes": [
+    "plk",
+    "plk-cap",
+    "plk-cell",
+    "plk-cells",
+    "plk-close",
+    "plk-fig",
+    "plk-kick",
+    "plk-lab"
+   ],
+   "prim_blocks": [
+    "71-proof-lockup"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": []
   },
   {
    "id": "grammar-chips",
