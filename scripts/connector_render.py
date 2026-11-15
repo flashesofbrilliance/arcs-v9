@@ -225,14 +225,19 @@ def tool_template_head(title, desc, accent, note, jtbd=None):
     head = re.sub(r":root\{--tool-accent:#[0-9a-fA-F]{6}\}", ":root{--tool-accent:%s}" % accent, head)
     head = re.sub(r"rfp-engine wears [^.]*?\)", note, head)
     head = re.sub(r'<html lang="en"[^>]*>', f'<html lang="en" data-jtbd="{esc(jtbd)}">' if jtbd else '<html lang="en">', head, count=1)
-    return head, tail
+    # The tail carries the kit 51 display-preferences wiring, which needs its row and panel in the body.
+    # Lift both from the canonical page too, so the markup and the wiring always travel together.
+    row = re.search(r'<div class="dprefs">.*?</div>', src, re.S)
+    panel = re.search(r'<section id="dp" class="dprefs-panel".*?</section>', src, re.S)
+    dprefs = (row.group(0), panel.group(0)) if row and panel else ("", "")
+    return head, tail, dprefs
 
 
 def render_tool_page(repo, data, row, live):
     url = row["url"]
     gh = "https://" + url if not url.startswith("http") else url
     t = data["tool"]
-    head, tail = tool_template_head(f"{repo} · ARCS public goods", data["desc"], t["accent"], t["accent_note"], t.get("jtbd"))
+    head, tail, (dp_row, dp_panel) = tool_template_head(f"{repo} · ARCS public goods", data["desc"], t["accent"], t["accent_note"], t.get("jtbd"))
     chips = "\n".join(
         f'<span class="g-chip" data-tone="{c["tone"]}"><span class="g-glyph">{ {"show": "●", "say": "◆", "limit": "▲"}[c["tone"]] }</span>'
         f'<span class="g-tag">{esc(c["tag"])}</span><span class="g-body">{esc(c["body"])}</span></span>'
@@ -245,7 +250,11 @@ def render_tool_page(repo, data, row, live):
 <script defer src="/_vercel/insights/script.js"></script>
 <body>
 <main>
-<div class="eyebrow">ARCS public goods · {esc(t["stage"])}</div>
+<div class="top">
+<p class="section-label eyebrow">ARCS public goods · {esc(t["stage"])}</p>
+{dp_row}
+</div>
+{dp_panel}
 <h1>{esc(t["h1"])}</h1>
 <p class="lede">{esc(t["lede"])}</p>
 <div class="chips">
@@ -273,6 +282,11 @@ def render_tool_page(repo, data, row, live):
 <p><a href="/">ARCS public goods</a> · <a href="/llms.txt">site llms.txt</a> · <a href="/AGENTS.md">site AGENTS.md</a></p>
 </main>
 """
+    # Frustration gate: wiring without its markup throws on every load (rosetta-shell and germinate did,
+    # 2026-11-14). Refuse to write that page.
+    if "querySelector('.dprefs')" in tail and 'class="dprefs"' not in body:
+        raise SystemExit(f"REFUSED: {repo}.html would ship the display-preferences script without its row "
+                         f"and panel; {TOOL_TEMPLATE_SRC} must carry both.")
     out = os.path.join(OUTDIR, f"{repo}.html")
     write_page(out, head + body + tail)
     chans = ", ".join(f"{c}✓" for c in live if c in data["install"])
