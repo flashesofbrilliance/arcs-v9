@@ -21,6 +21,12 @@
   warn (ratchet). Machines without the launcher skip cleanly and the seam is caught at the next
   machine that has it.
 
+## 2026-11-14 · a merge of main read main's rosetta-voice page as net-new debt
+- break: merging origin/main into PR 2219 was blocked by the ratchet on `public/rosetta-voice.html`, 23 findings vs 0 at HEAD. The page came in unchanged from main (6794efac, 943ea813); the branch never had it, so the ratchet's HEAD baseline was 0.
+- found by: the merge commit on claude/tabbed-brief-lockup.
+- repair: none to the page here; its 23 findings are open debt on main, owned by whoever next touches rosetta-voice (no live session owns it). The gate is fixed: on a merge commit, a page whose staged blob equals MERGE_HEAD's blob warns instead of blocking.
+- guard: the MERGE_HEAD blob check in `scripts/git-hooks/pre-commit`. A page edited during the merge still scores against HEAD as before. Not done: the 23 findings on rosetta-voice itself.
+
 ## 2026-10-26 · the MyAlly proposal page scored against the ARCS kit (palette waived, file-scoped)
 - break: the kintsugi ratchet blocked the MyAlly proposal page (new file, 14 findings vs 0 at HEAD): colors and corner radii outside DESIGN.md.
 - found by: the myally.arcs.care/proposal commit.

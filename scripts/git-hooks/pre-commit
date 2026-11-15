@@ -879,6 +879,14 @@ except Exception: print("ERR")' 2>/dev/null || echo ERR)
         continue
       fi
       [ "${n:-0}" -eq 0 ] && continue
+      # Merge commits (seam 2026-11-14, PR 2219): a page that arrives unchanged from the
+      # branch being merged in is that branch's debt, already on it; HEAD lacking the file
+      # made it read as net-new. Skip when the staged blob equals MERGE_HEAD's blob.
+      if [ -f "$(git rev-parse --git-path MERGE_HEAD)" ] && \
+         [ "$(git rev-parse -q --verify "MERGE_HEAD:$f" 2>/dev/null)" = "$(git rev-parse -q --verify ":$f" 2>/dev/null)" ]; then
+        echo "⚠ pre-commit(kintsugi): $f carries $n design finding(s), unchanged from the merged branch. Not blocking (its debt, not this merge's)." >&2
+        continue
+      fi
       hn=0
       if git cat-file -e "HEAD:$f" 2>/dev/null; then
         # Score HEAD's blob under the SAME rule set as the working file. The detector applies
