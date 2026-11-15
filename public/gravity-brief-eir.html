@@ -732,17 +732,17 @@ a:active { color: var(--text); }
 .tb-hd-rule + .tb-h1 { font-weight: 700; } /* only under bites_at "top"; seam: overrides the 2026-11-12 "Inter semibold" headline ruling for this header, by Zach's option B pick */
 /* @prim:begin 71-proof-lockup */
 .plk { container-type: inline-size; display: grid; gap: var(--sp-2, 16px); margin: 0; min-width: 0; }
-.plk-kick { margin: 0; font-size: var(--fs-body); font-style: italic; font-weight: 400; line-height: 1.5; color: var(--text); text-wrap: pretty; }
+.plk-kick { margin: 0; font-size: var(--fs-body); font-weight: 400; line-height: 1.5; color: var(--text); text-wrap: pretty; }
 .plk-cells { display: grid; grid-template-columns: minmax(0, 1fr); margin: 0; padding: 0; list-style: none; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--glass, var(--surface)); box-shadow: var(--bevel, 0 0 0 transparent), var(--lift, 0 0 0 transparent); }
 .plk-cell { display: grid; grid-row: span 3; grid-template-rows: subgrid; align-content: start; row-gap: 4px; min-width: 0; padding: 14px 16px; }
 .plk-cell + .plk-cell { border-top: 1px solid var(--border); }
 .plk-lab { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; line-height: 1.2; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); align-self: end; }
-.plk-fig { font-family: var(--ds-font-mono); font-size: max(1.5rem, min(var(--fs-display), 7cqi)); font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; color: var(--cyan); overflow-wrap: anywhere; }
+.plk-fig { font-family: var(--ds-font-mono); font-size: var(--fs-headline); font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; color: var(--text); overflow-wrap: anywhere; }
 .plk-cap { font-size: calc(var(--fs-body) * 0.92); line-height: 1.4; color: var(--text-secondary); text-wrap: pretty; }
 .plk-close { margin: 0; font-size: var(--fs-body); font-weight: 600; line-height: 1.5; color: var(--text); text-wrap: pretty; }
-@container (min-width: 30rem) { .plk-cells { grid-template-columns: repeat(2, minmax(0, 1fr)); } .plk-cell + .plk-cell { border-top: 0; } .plk-cell:nth-child(2n) { border-left: 1px solid var(--border); } .plk-cell:nth-child(n+3) { border-top: 1px solid var(--border); } .plk-fig { font-size: max(1.5rem, min(var(--fs-display), 4cqi)); } }
-@container (min-width: 48rem) { .plk-cells { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); } .plk-cell:nth-child(n) { border-top: 0; } .plk-cell + .plk-cell { border-left: 1px solid var(--border); } .plk-fig { font-size: max(1.5rem, min(var(--fs-display), 3cqi)); } }
-@media print { .plk { break-inside: avoid; } .plk-cells { background: none; box-shadow: none; } .plk-fig { font-size: var(--fs-headline); color: var(--text); } }
+@container (min-width: 30rem) { .plk-cells { grid-template-columns: repeat(2, minmax(0, 1fr)); } .plk-cell + .plk-cell { border-top: 0; } .plk-cell:nth-child(2n) { border-left: 1px solid var(--border); } .plk-cell:nth-child(n+3) { border-top: 1px solid var(--border); } }
+@container (min-width: 48rem) { .plk-cells { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); } .plk-cell:nth-child(n) { border-top: 0; } .plk-cell + .plk-cell { border-left: 1px solid var(--border); } }
+@media print { .plk { break-inside: avoid; } .plk-cells { background: none; box-shadow: none; } }
 /* @prim:end 71-proof-lockup */
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
