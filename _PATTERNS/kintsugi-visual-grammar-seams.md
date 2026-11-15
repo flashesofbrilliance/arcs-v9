@@ -908,9 +908,9 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - **Repair:** in the spec and `src/ui-kit/option-board/board.css`: the rim became an inset 1px ring inside the shadow stack, leading 1.3, labels in sentence case at 0.02em, sizes on `--fs-body` and `--fs-headline`, the black drop removed. One value stays: `rgba(255, 255, 255, 0.06)`, the sheen in `--glass-surface` from the ARCS OS Design System artifact, which DESIGN.md does not list yet. It is waived for this one file, since showing that layer is the board's purpose.
 - **Guard:** the ratchet (the file scores 0 with the waiver; any new finding blocks) and the option-board generator self-test (this PR), which fails when the committed board drifts from its spec. Open: DESIGN.md should adopt or reject the glass layer; then drop the waiver.
 
-## 2026-11-13 · kit 72 braided lanes specimen (joins the kit 69 shell waiver)
+## 2026-11-13 · kit 73 braided lanes specimen (joins the kit 69 shell waiver)
 
-- **Break:** the ratchet counted 6 findings against 0 at HEAD on the new kit 72 specimen page (72-braided-lanes, added by PR 2266), all `design-system-color`: body, crumb, h1, section rule and the use/avoid headings.
+- **Break:** the ratchet counted 6 findings against 0 at HEAD on the new kit 73 specimen page (73-braided-lanes, added by PR 2266; filed as 72, renumbered 2026-11-15 after the week strip took 72 on main), all `design-system-color`: body, crumb, h1, section rule and the use/avoid headings.
 - **Root cause:** none in the organism. The six hits are the shared `kit_specimen.py` shell under `_tokens-light.css`, the kit's light palette, which DESIGN.md (dark only) does not define; kit 69 carries the same six and is already waived. The organism fragment and its preview score 0 anti-patterns, and public/belief-log.html dropped from 17 findings to 13.
-- **Repair:** the kit 69 shell waiver now names the 72 page too; no new rule or value waived.
+- **Repair:** the kit 69 shell waiver now names the 73 page too; no new rule or value waived.
 - **Guard:** the ratchet (the file scores 0 with the waiver; any new finding blocks). Open debt stands from kit 69: find why kits 64 and 68 score 0 with the same shell, or add the light palette to DESIGN.md and drop both waivers.

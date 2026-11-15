@@ -1435,7 +1435,7 @@
    "unlisted": false,
    "purpose": "A fixed-price audit that tests whether a cold reader can rebuild what your AI agents did from the record alone, and maps every gap it cannot close.",
    "kind": "product page",
-   "last_commit": "2026-11-05"
+   "last_commit": "2026-11-15"
   },
   {
    "host": "good.arcs.care",
@@ -5354,12 +5354,12 @@
     "next.config.ts"
    ],
    "title": "ARCS · Belief-Change Log",
-   "description": "A falsification ledger: every belief we held, the test that overturned it, and what replaced it. Corrections stay on the record.",
+   "description": "A falsification ledger: every belief I held, the test that overturned it, and what replaced it. Corrections stay on the record.",
    "index": null,
    "unlisted": false,
-   "purpose": "A falsification ledger: every belief we held, the test that overturned it, and what replaced it. Corrections stay on the record.",
+   "purpose": "A falsification ledger: every belief I held, the test that overturned it, and what replaced it. Corrections stay on the record.",
    "kind": "ledger",
-   "last_commit": "2026-11-05"
+   "last_commit": "2026-11-15"
   },
   {
    "host": "status.arcs.care",
@@ -5374,10 +5374,10 @@
     "next.config.ts"
    ],
    "title": "ARCS · Pressure Ledger",
-   "description": "The shape of the adversarial gauntlet record: every pre-ship pressure-test, plotted in time. Cadence and scale, never the contents.",
+   "description": "The shape of the adversarial gauntlet record, every pre-ship pressure-test plotted in time, and the gates added week by week with the mistakes behind them. Cadence, scale and plain-word fixes; never what a run found.",
    "index": null,
    "unlisted": false,
-   "purpose": "The shape of the adversarial gauntlet record: every pre-ship pressure-test, plotted in time. Cadence and scale, never the contents.",
+   "purpose": "The shape of the adversarial gauntlet record, every pre-ship pressure-test plotted in time, and the gates added week by week with the mistakes behind them. Cadence, scale and plain-word fixes; never what a run found.",
    "kind": "ledger",
    "last_commit": "2026-11-11"
   },

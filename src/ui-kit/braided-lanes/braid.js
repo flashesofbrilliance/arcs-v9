@@ -1,4 +1,4 @@
-/* ARCS kit organism 72 braided-lanes: reversals as one flat lane per scope, time on x, braided by repaired-by arcs.
+/* ARCS kit organism 73 braided-lanes: reversals as one flat lane per scope, time on x, braided by repaired-by arcs.
    Data: the payload the organism's generator writes from the cited build record.
      start   ISO Monday of week 0; weeks = number of weeks; as_of = the record's date
      commits[w]  commits on main in week w; receipts[w]  decision receipts in week w, null where none were recorded

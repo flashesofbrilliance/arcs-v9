@@ -91,7 +91,7 @@ def render_html(rows: list[dict]) -> str:
 
 
 KIT_TOKENS = ROOT / "src" / "ui-kit" / "recoil-report" / "_tokens.css"
-# Kit organism 72 (braided lanes), written by scripts/braided_lanes_build.py from runtime/specs/shipped-record.json.
+# Kit organism 73 (braided lanes), written by scripts/braided_lanes_build.py from runtime/specs/shipped-record.json.
 BRAID_FRAGMENT = ROOT / "src" / "ui-kit" / "braided-lanes" / "belief-fragment.html"
 
 

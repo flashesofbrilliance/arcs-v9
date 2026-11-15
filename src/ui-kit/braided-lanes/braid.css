@@ -1,4 +1,4 @@
-/* @prim:begin 72-braided-lanes */
+/* @prim:begin 73-braided-lanes */
 /* label step scoped to the organism: 12px, the same step as kit 69 */
 .braid { --fs-label: 0.75rem; --bl-blue: #5b8def; display: flex; flex-direction: column; gap: 12px; color: var(--text); }
 /* follows the kit light remap (_tokens-light.css); a dark-only page opts out with data-theme="dark" on <html> */
@@ -45,4 +45,4 @@
 .bl-src { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text-secondary); line-height: 1.5; }
 .bl-floor { list-style: none; display: flex; flex-direction: column; gap: 4px; font-size: var(--fs-body); }
 .bl-floor .bl-fmeta { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text-secondary); }
-/* @prim:end 72-braided-lanes */
+/* @prim:end 73-braided-lanes */

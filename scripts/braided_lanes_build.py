@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""braided_lanes_build: kit organism 72 (braided lanes) and the fragment status.arcs.care/beliefs inlines.
+"""braided_lanes_build: kit organism 73 (braided lanes) and the fragment status.arcs.care/beliefs inlines.
 
 In:  runtime/specs/shipped-record.json   (scripts/shipped_record_emit.py; beliefs, repaired-by links, weekly tempo)
      src/ui-kit/braided-lanes/braid.css + braid.js   (the organism's source)
-Out: src/ui-kit/specimens/braided-lanes.json -> scripts/kit_specimen.py -> src/ui-kit/recoil-report/72-braided-lanes.html
+Out: src/ui-kit/specimens/braided-lanes.json -> scripts/kit_specimen.py -> src/ui-kit/recoil-report/73-braided-lanes.html
      src/ui-kit/braided-lanes/belief-fragment.html   (style + no-JS floor + data + script; scripts/belief_log_emit.py
      inlines it into public/belief-log.html)
      --preview PATH writes the fragment under the kit tokens as a standalone page for page_gate (not committed)
@@ -107,7 +107,7 @@ def read(name):
 def fragment(p):
     data = json.dumps(p, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     # The fragment ships on a public page: its comment names no internal path (leak_check.sh, tripwire.sh).
-    return ("<!-- kit organism 72, braided lanes. Generated; do not hand-edit. -->\n"
+    return ("<!-- kit organism 73, braided lanes. Generated; do not hand-edit. -->\n"
             "<style>\n%s</style>\n<div class=\"braid\" data-braid>%s</div>\n"
             "<script type=\"application/json\" data-braid-data>%s</script>\n"
             "<script>\n%s(function(){var h=document.querySelector('[data-braid]'),d=document.querySelector('[data-braid-data]');"
@@ -133,7 +133,7 @@ def spec(p):
     w = p["weeks"] - 1
     aug = (dt.date(2026, 8, 10) - dt.date.fromisoformat(p["start"])).days // 7
     return {
-        "number": "72", "name": "Braided Lanes", "slug": "braided-lanes", "layer": "Organism",
+        "number": "73", "name": "Braided Lanes", "slug": "braided-lanes", "layer": "Organism",
         "job": "Read every reversed belief as one flat lane per domain over time, see which reversals repaired others and which hardened into rules, against the weekly pace of work.",
         "anatomy": [
             {"part": "Activity ribbon", "role": "Two sparkline rows, commits and decision receipts per week, each scaled to its own peak in the window; weeks with no count are hatched, never drawn as zero", "token": "`cyan`, `green`, `border`"},
