@@ -1,5 +1,5 @@
 /* @prim:begin 72-braided-lanes */
-/* label step scoped to the organism: 12px, the recoil-skim step (arc weld spec 4.3), same as 69 */
+/* label step scoped to the organism: 12px, the same step as kit 69 */
 .braid { --fs-label: 0.75rem; --bl-blue: #5b8def; display: flex; flex-direction: column; gap: 12px; color: var(--text); }
 /* follows the kit light remap (_tokens-light.css); a dark-only page opts out with data-theme="dark" on <html> */
 :root[data-theme="light"] .braid { --bl-blue: #2b56b0; }
