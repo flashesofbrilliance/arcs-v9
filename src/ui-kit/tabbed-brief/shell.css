@@ -359,7 +359,9 @@ a:active { color: var(--text); }
 @media (max-width: 599px) { .tb-fold-btn, .stacked .seat-btn { margin-inline-start: 0; width: 100%; } .tb-fold, .tb-fold:last-child { padding: var(--s-3) var(--s-4); } }
 .tb-fold-body { padding-top: var(--s-4); margin-top: var(--s-4); border-top: 1px solid var(--border); }
 .tb-fold:has(.tb-fold-btn[aria-expanded="false"]) .tb-fold-body { margin-top: 0; }
-.tb-fold .tb-card { background: none; border: 0; border-top: 1px solid var(--border); border-radius: 0; padding: var(--s-3) 0 0; }
+.tb-fold .tb-card { background: none; border: 0; border-radius: 0; padding: 0; }
+.tb-fold .tb-card + .tb-card { border-top: 1px solid var(--border); padding-top: var(--s-3); } /* stacked: rules between cards only */
+@media (min-width: 1024px) { .tb-fold .tb-card + .tb-card { border-top: 0; padding-top: 0; } } /* side by side: no rule (breakpoint follows stack_below) */
 .tb-fold .sl-group + .sl-group { padding-top: var(--s-4); border-top: 1px solid var(--border); }
 /* timeline molecule: date label over the release, cyan nodes on one rule (the Week One stepper, vertical) */
 .tb-tl { position: relative; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--s-4); }

@@ -22,3 +22,4 @@ Written 2026-11-13 by the session that relays Zach's picks. This is the one plac
   - Attribution size (Zach, 2026-11-13): 0.85x body (about 12.6px), kept off the four-step type ramp on purpose. Closed; do not snap it to --fs-label.
   - Quote marks (Zach, 2026-11-13, "Let's go with your suggestion"): the header keeps lighter font-glyph quote marks, not SVG swashes. This overrides the Quotes ruling for the header only.
 - Overview: the oversized text block was too big and overpowering. It becomes the four-up proof lockup (kit 71, PR 2240).
+- Folds: one rule per boundary; cards inside a fold take no top rule side by side, and rules between stacked cards only (Zach, 2026-11-15, "Wedge rules: A").
