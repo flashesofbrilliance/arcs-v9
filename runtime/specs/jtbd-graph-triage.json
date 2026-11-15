@@ -11,46 +11,6 @@
   },
   {
    "rule": "ORPHAN-TOOL",
-   "id": "tool:agent:grug",
-   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-10-31",
-   "resolve_by": "2026-11-14"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:command:arcs-mode",
-   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-10-31",
-   "resolve_by": "2026-11-14"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:script:drift_fp_sample.py",
-   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-10-31",
-   "resolve_by": "2026-11-14"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:script:phosphor_buildlog_video.py",
-   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-10-31",
-   "resolve_by": "2026-11-14"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:script:surface_watch.py",
-   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-10-31",
-   "resolve_by": "2026-11-14"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
    "id": "tool:agent:ciso-review",
    "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
    "row": "jtbd-standing-tools",
