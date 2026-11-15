@@ -183,6 +183,17 @@ if [ -n "$leak_pub" ] && [ -f scripts/leak_check.sh ]; then
     exit 1
   fi
 fi
+# Rewrite shadow check (2026-11-15): rewrites chain, so a host catch-all can re-rewrite one of that host's
+# own pages (rosetta-shell /voice served the landing page, live, 2026-11-14). Fires when next.config.ts
+# is staged. Fix: add the destination file to the catch-all's negative lookahead.
+rw_cfg=$(git diff --cached --name-only -- next.config.ts scripts/rewrite_shadow_check.py 2>/dev/null || true)
+if [ -n "$rw_cfg" ] && [ -f scripts/rewrite_shadow_check.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/rewrite_shadow_check.py >/dev/null 2>&1; then
+    python3 scripts/rewrite_shadow_check.py 2>&1 | grep "✖" >&2
+    echo "✖ commit blocked: a host catch-all rewrite swallows one of that host's pages (scripts/rewrite_shadow_check.py)." >&2
+    exit 1
+  fi
+fi
 # Engagement records (2026-11-06): the reply, agreement, Exhibit A and five-altitude page under
 # _ARTIFACTS/engagements/<slug>/out/ render from one engagement.json. --check fails when a cited
 # value moved and its outputs were not regenerated (names the field and every output citing it),
