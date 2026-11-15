@@ -49,3 +49,12 @@ S6 F15 TESTED (Detective, kill line fixed first). Per-merge coverage 11-01..11-1
 S7 Alchemist counterexample TESTED. Closing a row after its PR merges (close-time, manual, no tool): 42 DONE rows cite a merged PR vs 9 open rows that do, ~82% (upper bound). Kills "followed in proportion to tool load".
 S8 Prior detections of the same gap (Librarian): _PATTERNS/2026-10-17-claims-versus-proof.md:14 (~1.1% outcomes closed); scripts/receipt_outcome_queue.py:7 (834/854 receipts with open lines, 0 resolved, 10-18); backlog row outcome-capture-rate-keel-gap DONE ("not a build gap ... humans are not closing the loop"); echo-scheduled-receipts COMPOSTED 11-05 (unmoved); backlog-fate-triage-2026-10-18 READY ~4 weeks.
 S9 Counterexample to keep (Bayesian): LaneOutcome 2 of 2 closed (n=2).
+S10 SHALLOW CLONE (claims-skeptic). The checkout was shallow (history from 2026-10-26, 930 commits). F11-F14, F19 and S6/S7 were undercounts. Unshallowed (6,986 commits, 1,676 merged PRs) and re-derived:
+    PRs merged per week: W43 143, W44 108, W45 124, W46 179. Sync-from-main merges: W43 46, W44 15, W45 21, W46 81 (spiky, tracks volume; "compounding" WITHDRAWN). Backlog-DONE bookkeeping PRs: 3%, 2%, 8%, 8%.
+    NCI since 10-15: SKIP 1,314 of 1,681 (78%), scored 353, untagged 14; SKIP with no reason 38.
+    Close-on-merge: 99 DONE rows cite a merged PR vs 37 open rows: 73% (still above the 50% kill line).
+    Receipt per merge, all PRs merged to main since 11-01: 310 of 316 (98%). Non-safe_merge share 20%: exactly at Detective's kill line, so "safe_merge causes it" is killed at the boundary.
+    Handoff staleness: ~75 merged PRs since the v3.146.0 molt (skeptic, GitHub API).
+S11 F3 PARTLY: 407 rows carry a depends_on key but only 184 are non-empty (272 dependency ids).
+S12 F17 MISREAD: ADR-086's missing adapter is for Op 20 JOB rows (JobOpportunity), not backlog rows. seat-backlog-row-adapter is a separate READY row.
+S13 F9: the repo gate flags 3 STALE RUNNING claims (> 3 whole days), not 4.
