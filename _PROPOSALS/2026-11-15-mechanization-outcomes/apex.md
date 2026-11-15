@@ -1,94 +1,89 @@
 ---
 title: "The unattended door: what mechanizing ARCS protocols actually changed"
-version: v1 (I.D.E.A. pass 2 draft)
+version: v2 (I.D.E.A. pass 3 draft)
 date: 2026-11-15
 status: PROPOSAL. Nothing here is wired. Fates and rule changes are Zach's.
-evidence: facts.md in this folder (F1 to F28, seams S1 to S13)
+evidence: facts.md in this folder (F1 to F28, seams S1 to S16; seams supersede the F lines they name)
+baseline: origin/main 3f9b9f9, full clone. Main has since moved to c246b66e (#2274, a docs-only handoff molt, not reviewed here); the backlog file is unchanged.
 ---
 
 # The unattended door
 
 ## Bottom line
 
-ARCS does a step when the step falls due at a moment someone is already standing there. It drops the step when the step falls due later, after everyone has left the room.
+ARCS can schedule detection. It cannot schedule judgment.
 
-Receipts get filed on 98% of merges and rows get closed on 73% of merged PRs, though no tool performs either act: the merging session is present when they fall due. Ripe rows, receipt outcomes, dated bets and counterpart sends fall due days later, when no session is present, and they close at roughly zero.
+A mechanical step that falls due later gets done when a scheduler owns it: six cron workflows ran about 151 times on their due dates with nobody present. A step that needs judgment gets done only when it falls due at a moment someone is already acting. Receipts are filed for 98% of merges because the merging session is there. Ripe rows, receipt outcomes, dated bets and counterpart sends fall due later, and they close at roughly zero, even when a report puts them in front of a reader.
 
-The fix is not another detector. ARCS already has the detectors, and it has measured this gap at least three times. Each time the fix was filed as one more later step, and it decayed the same way. The fix is to move each later step into a moment that already happens, or to stop storing what can be computed.
+ARCS has measured this gap at least three times. Each fix was filed as one more later step, and it decayed the same way. The repair is to put each judgment step inside an act that already happens, the way pre-commit sits inside the commit, and to stop writing by hand what can be computed.
 
 ## The evidence
 
-Each row is one protocol step, measured on full history (origin/main 3f9b9f9, unshallowed).
-
-| Step | When it falls due | Who is present then | Done | Source |
+| Step | Falls due | Present then | Done | Source |
 |---|---|---|---|---|
-| File a decision receipt for a merge | at the merge | the merging session | 310 of 316 PRs since 11-01 (98%) | S10 |
-| Set a row DONE after its PR merges | at or near the merge | the merging session | 99 of 136 rows citing a merged PR (73%) | S10 |
-| Pass pre-commit gates | at the commit | the committing session | every commit (hard block) | F18 |
-| Promote a row whose dependencies cleared | whenever the last dependency closes | nobody | 0 of 19 eligible (HOLDING 8, OPEN 11) | S5 |
+| File a decision receipt for a merge | at the merge | the merging session (acting) | 310 of 316 PRs merged since 11-01 (98%) | S10 |
+| Set a row DONE when its PR merges | at the merge | the merging session (acting) | 99 of 136 rows that cite a merged PR (73%) | S10 |
+| Pass pre-commit gates | at the commit | the committing session (acting) | blocks wherever the hook is armed; bypassable with --no-verify and absent on GitHub-side merges | F18 |
+| Run a scheduled check | on its cron | a scheduler | about 151 scheduled runs across 6 workflows, mostly green | S14 |
+| Fix what a scheduled check found | after it goes red | nobody | no-squash red 10-11 to 10-14, no fix inside the streak | S14 |
+| Promote a row whose dependencies and trigger cleared | when the last one clears | a reader: the morning note already lists ripe rows | 0 of 10 structurally ripe rows promoted | S15 |
 | Act on a review_by date | on the date | nobody | 36 rows past due, oldest 10-25 | F7 |
 | Record an outcome on a compass receipt | days after the decision | nobody | 5 real of 277 (1.8%) | F16 |
-| Score a SessionReceipt bet | on its scoreBackDate | nobody | 0 of 4 past due | F16, n=4 renders grain |
-| Resolve a decision receipt's unconfirmed lines | later, when the world answers | nobody | 1,657 of 1,683 carry open lines; 0 resolved as of 10-18 | F15, S8 |
-| Send a drafted counterpart note, then score its bets | after Zach sends | Zach, outside any session | Harrison 6 days late; Brian, MyAlly, Louisville, PRL dates passed; 5 artifacts carry bets, 1 has a scoring row | F21, F22 |
+| Score a SessionReceipt bet | on its scoreBackDate | nobody | 0 of 4 past due (n=4, grain) | F16 |
+| Resolve a receipt's unconfirmed lines | when the world answers | nobody | 1,657 of 1,683 carry open lines; none resolved as of 10-18 | F15, S8 |
+| Send a drafted counterpart note, then score its bets | after Zach sends | Zach, outside any session | Harrison follow-up 6 days late; Brian, MyAlly, Louisville and PRL dates passed; 5 artifacts carry bets, 1 has a scoring row | F21, F22 |
 
-The counterexample worth keeping: LaneOutcome closes 2 of 2 (n=2, grain). Whether they were closed in the session that produced them is unverified; if so, they fit the reading.
+Reading is not acting. The morning note already prints the ripe rows (`open_loops.py:223-233`), and nothing moved.
 
-## The recursion
+## The recursion, in three lines
 
-The gap is not new. It has been found and filed, and the filing decayed.
+On 10-17 outcome closure was measured at about 1.1%, and on 10-18 `receipt_outcome_queue.py` found 834 of 854 receipts with open lines and none resolved. The row that would fire the nudge at the right moment, `echo-scheduled-receipts`, was composted on 11-05 because nobody moved it. The row built to put ripe rows in front of Zach, `backlog-fate-triage-2026-10-18`, has been READY for four weeks.
 
-1. 2026-10-17: outcome closure measured at about 1.1% (`_PATTERNS/2026-10-17-claims-versus-proof.md`).
-2. 2026-10-18: `receipt_outcome_queue.py` built; 834 of 854 receipts carried open lines, none resolved.
-3. Row `outcome-capture-rate-keel-gap` closed DONE with the verdict "not a build gap, humans are not closing the loop".
-4. Row `echo-scheduled-receipts`, which would have fired the nudge at the right moment, was COMPOSTED on 11-05 because nobody moved it.
-5. Row `backlog-fate-triage-2026-10-18`, built to put ripe rows in front of Zach, has been READY for four weeks.
+## What died on the way
 
-A detector with no reader at the due moment is a later step. A later step decays. So does any fix shaped like one.
+Kept as repaired seams, so the next pass does not rebuild them.
 
-## What this is not
-
-These readings were tested and died. They stay here as repaired seams.
-
-- **"Protocols are followed in proportion to how much the tool does."** Killed. Close-on-merge has no tool and runs at 73%. `safe_merge.sh` does not write receipts ("Not written by this script", line 241); sessions do, and 20% of receipts came through other tools.
-- **"58% NCI:SKIP is avoidance."** Killed. SKIP is sanctioned for docs and chores (ADR-035:57-61). On full history SKIP is 78%; at most 8% are candidate violations and 38 carry no reason.
-- **"Integration tax is compounding."** Withdrawn. Sync-from-main merges track merge volume (W43 46, W46 81), spiky rather than rising.
-- **"12 of 96 gates only test themselves."** Withdrawn. Only `backlog_ripeness` and `open_loops` are verified self-test-only.
+- **"Followed in proportion to how much the tool does."** Killed. Close-on-merge runs at 73% with no tool at the moment. `safe_merge.sh` prints the receipt and never writes it (line 241). `backlog_ripeness.py --apply-closes` can close rows, and did close 6, but only when someone ran it.
+- **"Steps that fall due later are dropped."** Narrowed. Cron jobs do later steps; the response to what they find is what decays.
+- **"58% NCI:SKIP is avoidance."** Killed. SKIP is sanctioned for docs and chores (ADR-035:57-61). On full history SKIP is 78%; about 8.5% are candidate violations; 36 carry no reason.
+- **"Integration tax is compounding."** Withdrawn. Sync merges track merge volume (W43 46, W44 15, W45 21, W46 81).
+- **"12 of 96 gates only test themselves."** Withdrawn. Two are: `backlog_ripeness` and `open_loops`.
+- **"19 ripe rows are bookkeeping."** Withdrawn. The status spec needs the trigger fired as well; 10 qualify.
+- The analyst's own break: the first counts ran on a shallow clone and undercounted history by 60 to 87%.
 
 ## Induced backlog
 
-Ranked by leverage per unit of effort. "Door" is two-way (reversible) or one-way. Each row names the existing rows it must not duplicate.
+In order. Door is two-way (reversible) or one-way.
 
 | # | Row id (proposed) | What it does | Evidence | Door | Do not duplicate |
 |---|---|---|---|---|---|
-| 1 | `ripeness-reads-state` | `backlog_ripeness.py` reads the `state` enum, never `status_note`; add a self-test fixture with a DONE row whose note does not start with a terminal word | S5: 36 terminal rows not skipped, 3 live rows skipped | two-way | none |
-| 2 | `backlog-derived-state` | READY-by-dependency and DONE-by-merged-PR are computed at read time in `backlog_graph.py`, `open_loops.py` and `scrum.py`; stored state keeps only human states (HELD, COMPOSTED, SUPERSEDED, fates); `backlog_status_check.py` warns when stored contradicts derived | S5 (19 rows), S10 (37 open rows cite a merged PR), 2 to 8% of PRs are bookkeeping | two-way, but it changes a rule | `backlog-fate-triage-2026-10-18`, `scrum-master-ritual` |
-| 3 | `groom-reads-ripeness` | the groom agenda lists HELD rows whose resume trigger fired (5 today) and rows past review_by (36) | F20: `scrum.py` has no ripeness input | two-way | `backlog-fate-triage-2026-10-18` (fold into it) |
-| 4 | revive `echo-scheduled-receipts` | the close-time prompt rides a moment that already happens: the weekday morning note (`arcs-open-loops-morning-note`) and session start list what falls due today (SessionReceipt scoreBackDate, dated bets, rows whose note says "Zach sends") | F16, F21, F22, S8 | two-way | `universe-outcome-capture`, `receipt-real-interview-closes`, `harrison-recoil-close-score` |
-| 5 | `ex-ante-bets-to-ledger` | dated probabilities written on artifact pages are filed as SessionReceipt rows with a scoreBackDate when the page is built, so row 4 can see them | F22: 5 artifacts carry bets, 1 has a row | two-way | none found |
-| 6 | `history-tools-refuse-shallow` | scripts that count git history (`receipt_coverage.py`, night-moves, `prior_art`, any weekly count) exit non-zero on a shallow clone unless `--allow-shallow` | S10: this pass undercounted by 60 to 87% before the skeptic caught it | two-way | none |
-| 7 | `shared-page-secret-sweep` | one pass over shared and pinned artifacts for passcodes in page source and personal contact lines; extend the recoil share gate pattern | F28 | two-way to sweep; rotating a passcode is one-way | `recoil-public-share-gate` (recoil pages only) |
-| 8 | `first-dollar-price-anchor` | price the audit, add one payment link, verify the CTA hop | F24: named in 3 artifacts, no executing row | one-way (public price) | `paid-brief-first-dollar`, `agent-receipts-audit-first-conversion` |
+| 1 | `ripeness-reads-state` | `backlog_ripeness.py` reads the `state` enum, never `status_note`; a cleared dependency no longer overrides a trigger that names a human event; self-test fixtures for both | S5: 36 terminal rows not skipped, 3 live rows skipped; S15: OR-joined clauses ripen `cia-recoil-close-michael-intro` | two-way | none |
+| 2 | `backlog-derived-ready` | READY is computed at read time, never written, for rows whose trigger is structured (a dependency, a date, a PR) and whose door is two-way. One shared function, imported by every reader of `state`; a pre-commit check lists those readers; a stored-vs-derived contradiction blocks on changed rows. DONE stays a human act, offered as a groom suggestion from an explicit `closes_pr` field | S15, S16: derived DONE from prose would have marked `recoil-kairos-7s-test` done from PR 2173 and surfaced a counterpart send as ready | two-way; changes a rule | `scrum-master-ritual` |
+| 3 | amend `backlog-fate-triage-2026-10-18` | the groom agenda lists HELD rows whose dependencies cleared, with the human trigger each still needs, and rows past review_by | F7, F20: `scrum.py` has no ripeness input | two-way | it is the existing row |
+| 4 | `act-time-bet-gate` | before `/recoil-prep`, `/precall-page` or `/recoil-ship` acts on a counterpart, it lists that counterpart's due bets and unsent drafts and asks for each to be scored or deferred with a date; the skill proceeds either way, but it records the choice | thesis: put the judgment inside the next act; F21, F22; the morning note already failed as a reading moment | two-way | `harrison-recoil-close-score`, `universe-outcome-capture` |
+| 5 | `ex-ante-bets-to-ledger` | dated probabilities on artifact pages are filed as SessionReceipt rows when the page is built, so row 4 has them to list | F22: 5 artifacts carry bets, 1 has a row | two-way | none found |
+| 6 | `history-tools-refuse-shallow` | scripts that count git history exit non-zero on a shallow clone unless given `--allow-shallow` | S10 | two-way | none |
 
-Cut on purpose: an NCI reason gate (38 commits, low value); a new handoff-staleness detector (it would be one more later step; run the molt instead); regenerating stale pinned snapshots (unpin or archive them by hand).
+Cut on purpose: a morning-note nudge for outcomes (a reading moment, already shown to fail); a handoff-staleness detector (one more later step); an NCI reason gate (36 commits); regenerating stale pinned snapshots (unpin them instead). Two rows moved to decisions: the secret sweep (live exposure, not backlog leverage) and the price anchor (a one-way public price).
 
 ## Ripe now
 
-By the status spec's own definitions these 19 rows already meet READY. Graduating them is bookkeeping, not a fate.
+Ten rows have every dependency DONE and a structured trigger that fired, and none is a one-way door: `recoil-kairos-7s-test`, `recoil-skills-on-runner`, `jtbd-graph-s5-feedback`, `doc-gate-false-positive-cleanup`, `rfp-ship-resume-tailor-rebase`, `rfp-ship-engine-branch-reconcile`, `librarian-apex-spine-tier-class`, `card-catalog-q4-rerun-with-receipts`, `session-overlay-recurring`, `open-loops-ssot-drift-line`.
 
-- HOLDING (8): agent-receipts-audit-first-conversion, merge-train-only-path, receipt-real-interview-closes, jtbd-graph-s5-feedback, cia-recoil-close-michael-intro, recoil-kairos-7s-test, recoil-ship-twin, seat-binding-design-log
-- OPEN (11): doc-gate-false-positive-cleanup, cia-technical-screen-prep, rfp-ship-resume-tailor-rebase, rfp-ship-engine-branch-reconcile, librarian-apex-spine-tier-class, card-catalog-q4-rerun-with-receipts, token-tuner-why-prompt, compounding-model-prereg, session-overlay-recurring, recoil-skills-on-runner, open-loops-ssot-drift-line
+Four more have dependencies done but wait on a human or outside event: both `cia-*` rows (a call not yet booked), `token-tuner-why-prompt` (Zach using breadcrumbs on a real page) and `seat-binding-design-log` (a pick log landing).
 
-`recoil-kairos-7s-test` is the last dependency in front of `recoil-brian-acceptance`.
+`recoil-brian-acceptance` waits on two rows: `recoil-kairos-7s-test` (ripe) and `recoil-brian-ssot` (READY, unclaimed).
 
 ## Decisions for Zach
 
-1. Approve row 2's rule: READY and merged-PR DONE become computed, not written.
-2. Resume or keep holding the 5 HELD rows whose triggers fired: rc-ops-001-graduation-ruling, asm-003-cold-molt-decided, compass-anti-distillation-build, hud-evidence-grain-d4, oracle-sync-namespace.
-3. The sends only you can make: the Harrison follow-up, the Brian note, the MyAlly agreement's 23 pending suggestions.
-4. The stranded decisions: 7 debt-tracker items aged about 40 days, two past their own deadlines.
-5. The price for row 8.
+1. **Secret sweep, now.** Passcodes sit in page source on two pinned artifacts (one client-side, one inline) and contact details in a link-shared pitch footer (F28, agent-read, unverified here). Rotating a passcode is one-way.
+2. **Send the Harrison follow-up.** It is six days late and its scoring check is due 11-16.
+3. **Approve row 2's rule:** READY is computed, not written, under the conditions in the table.
+4. **Claim `five-person-outcome-test`.** It has been READY and unclaimed for 11 days, and three HELD rows wait on it (`rc-ops-001-graduation-ruling`, `asm-003-cold-molt-decided`, `hud-evidence-grain-d4`). The other two HELD rows wait on your own word: WRITE-LOCK 1 for `compass-anti-distillation-build` and a new oracle namespace for `oracle-sync-namespace`.
+5. The other sends only you can make: the Brian note and the MyAlly agreement's 23 pending suggestions.
+6. The 7 debt-tracker decisions aged about 40 days, two past their own deadlines.
+7. A price for the audit, if you want the first-dollar row back.
 
 ## Method
 
-Two passes per ADR-086. Pass 1 mined the backlog, git and the receipt ledger in the shell and read 19 pinned artifacts through one agent. Pass 2 put the fact sheet before the I.D.E.A. seats (Alchemist, Librarian, Detective, Curator) and the Staff of Chiefs (Loki, Bayesian), plus Grug and the claims skeptic. Two pre-registered kill lines ran; one fired. Five facts broke and were repaired in view (S1 to S13). The deepest break was the analyst's own: a shallow clone.
+Two passes per ADR-086 (DRAFT). Pass 1 mined the backlog, full git history and the receipt ledger in the shell, and read 19 pinned artifacts through one agent. The I.D.E.A. seats (Alchemist, Librarian, Detective, Curator), the Staff of Chiefs (Loki, Bayesian, Conductor), base and worst scenario runs, Grug and the claims skeptic attacked the fact sheet and then this draft. Two pre-registered kill lines ran; one fired and one held at its boundary. At least nine facts broke and were repaired in view (S1 to S16). The ripe count fell from 24 to 19 to 10, each step from an attack.
