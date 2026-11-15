@@ -1067,7 +1067,7 @@
    "unlisted": true,
    "purpose": "Staff Product Engineer for the code-validation era. Built for a developer I already am.",
    "kind": "product page",
-   "last_commit": "2026-10-17"
+   "last_commit": "2026-11-14"
   },
   {
    "host": "blacksmith.arcs.care",
@@ -1352,7 +1352,7 @@
    "unlisted": false,
    "purpose": "A serializable, provenance-carrying handoff protocol for multi-agent, multi-worktree work. Compact a session into a dense seed; let many workers reconcile through git without lost updates. An MIT tool in the ARCS family.",
    "kind": "product page",
-   "last_commit": "2026-11-13"
+   "last_commit": "2026-11-14"
   },
   {
    "host": "good.arcs.care",
@@ -3787,7 +3787,7 @@
    "unlisted": true,
    "purpose": "Senior AI product operations for a growth org that needs adoption, not another pilot. Built by someone already running this exact motion.",
    "kind": "product page",
-   "last_commit": "2026-10-17"
+   "last_commit": "2026-11-14"
   },
   {
    "host": "growth-ai.arcs.care",
@@ -4009,7 +4009,7 @@
    "unlisted": true,
    "purpose": "The operator-builder for Mercury's Open Call: ships AI products with AI on Command/CLI/MCP, with regulated-capital fluency so yield and treasury claims survive compliance.",
    "kind": "product page",
-   "last_commit": "2026-10-17"
+   "last_commit": "2026-11-14"
   },
   {
    "host": "monday.arcs.care",
@@ -4887,7 +4887,7 @@
    "unlisted": false,
    "purpose": "Write one script; run it byte-identical across bash 3.2, zsh, POSIX sh, and ksh. A conformance runner proves the shim is identical, not guesses. An MIT tool in the ARCS family.",
    "kind": "product page",
-   "last_commit": "2026-11-13"
+   "last_commit": "2026-11-14"
   },
   {
    "host": "rosetta-shell.arcs.care",
@@ -4907,7 +4907,7 @@
    "unlisted": false,
    "purpose": "Say a shell construct that breaks between bash 3.2, zsh and POSIX sh. Hear the portable rosetta-shell fix and see which shells break. Free, MIT, part of ARCS public goods.",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-11-14"
   },
   {
    "host": "schriner.arcs.care",
@@ -5237,7 +5237,7 @@
    "unlisted": true,
    "purpose": "The 0 to 1 operator who stands up SentiLink's Government Program Integrity line: build, compliance, and go-to-market in one head.",
    "kind": "product page",
-   "last_commit": "2026-10-17"
+   "last_commit": "2026-11-14"
   },
   {
    "host": "serialized-teardown.arcs.care",
@@ -5374,12 +5374,12 @@
     "next.config.ts"
    ],
    "title": "ARCS · Pressure Ledger",
-   "description": "The shape of the adversarial gauntlet record, every pre-ship pressure-test plotted in time, and the mistakes that became gates, week by week. Cadence, scale and plain-word fixes; never what a run found.",
+   "description": "The shape of the adversarial gauntlet record, every pre-ship pressure-test plotted in time, and the gates added week by week with the mistakes behind them. Cadence, scale and plain-word fixes; never what a run found.",
    "index": null,
    "unlisted": false,
-   "purpose": "The shape of the adversarial gauntlet record, every pre-ship pressure-test plotted in time, and the mistakes that became gates, week by week. Cadence, scale and plain-word fixes; never what a run found.",
+   "purpose": "The shape of the adversarial gauntlet record, every pre-ship pressure-test plotted in time, and the gates added week by week with the mistakes behind them. Cadence, scale and plain-word fixes; never what a run found.",
    "kind": "ledger",
-   "last_commit": "2026-11-14"
+   "last_commit": "2026-11-15"
   },
   {
    "host": "status.arcs.care",
@@ -5460,7 +5460,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-11-12"
+   "last_commit": "2026-11-14"
   },
   {
    "host": "todd-call.arcs.care",
