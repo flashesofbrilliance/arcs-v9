@@ -6,8 +6,8 @@ artifacts drift because they were built once and polled by nobody (memory
 one-shot-ingest-decays-wire-into-recurring-loop). This is the recurring loop for them.
 
 What one run does, in a throwaway worktree detached at a fresh origin/main (never your checkout):
-  universe snapshot   universe_snapshot_emit.py            content emit (history stamp carried forward)
   lattice             lattice_drift_check.py --regenerate  mechanical countables only; epoch + judgment = Zach
+  universe snapshot   universe_snapshot_emit.py            content emit after the lattice (it is an input), then --check
   seedbank            seedbank_drift_check.py --regenerate receipt-only; curation (repo coverage) = Zach
   jtbd graph          universe_jtbd_adapter.py --check     gate result, receipt-only
   night-moves         age of the newest dated digest       receipt-only; the synthesis needs a model
@@ -103,8 +103,10 @@ def run(repo: str, dry: bool) -> int:
     env = dict(os.environ, CLAUDE_PROJECT_DIR=wt)
     try:
         steps = [
-            ("universe", ["python3", "scripts/universe_snapshot_emit.py"]),
+            # lattice first: it is an input to the universe snapshot, so emitting the snapshot
+            # before the lattice patch leaves it stale and pre-commit refuses (seen 2026-11-16)
             ("lattice", ["python3", "scripts/lattice_drift_check.py", "--regenerate"]),
+            ("universe", ["python3", "scripts/universe_snapshot_emit.py"]),
             ("seedbank", ["python3", "scripts/seedbank_drift_check.py", "--regenerate"]),
             ("jtbd-graph", ["python3", "scripts/universe_jtbd_adapter.py", "--check"]),
         ]
@@ -117,6 +119,14 @@ def run(repo: str, dry: bool) -> int:
         nm_gap = age is None or age > NIGHT_MOVES_MAX_DAYS
         receipt["steps"]["night-moves"] = {"last": last, "age_days": age, "gap": nm_gap}
         print("[night-moves] last dated digest %s, %s days old%s" % (last, age, " (GAP: needs the /night-moves synthesis)" if nm_gap else ""))
+
+        # post-condition, in dry runs too: the same check pre-commit runs on these outputs
+        rc, out = sh(["python3", "scripts/universe_snapshot_emit.py", "--check"], wt, env)
+        receipt["steps"]["universe-check"] = {"rc": rc, "out": out[-2000:]}
+        if rc != 0:
+            receipt["verdict"] = "ABORT: universe snapshot still stale after the regenerators"
+            print("stale-refresh: ABORT, universe --check fails after regenerating (no PR):\n  " + out[-600:])
+            return 1
 
         paths = changed_paths(wt)
         bad = outside_allow(paths)
