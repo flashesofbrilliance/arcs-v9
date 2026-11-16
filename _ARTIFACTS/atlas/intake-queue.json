@@ -73,6 +73,11 @@
    "added": "unknown (rename)"
   },
   {
+   "kind": "pattern",
+   "path": "_PATTERNS/zach-style-ledger.md",
+   "added": "2026-11-13"
+  },
+  {
    "kind": "recoil",
    "path": "runtime/recoil/generated/2026-10-29-gasmi.atlas.json",
    "added": "2026-11-12"
