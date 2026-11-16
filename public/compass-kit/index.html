@@ -39,12 +39,10 @@
 <script type="text/babel" src="/compass-kit/Brief.jsx"></script>
 
 <script type="text/babel" data-presets="react">
-  const { useState } = React;
-
   function App() {
-    const [screen, setScreen] = useState("home");   // home | compass | result | brief
-    const [result, setResult] = useState(null);
-    const [seed, setSeed] = useState(null);          // tributary prefill
+    const [screen, setScreen] = React.useState("home");   // home | compass | result | brief
+    const [result, setResult] = React.useState(null);
+    const [seed, setSeed] = React.useState(null);          // tributary prefill
 
     function goCompass(seedQ = null) { setSeed(seedQ); setScreen("compass"); window.scrollTo(0, 0); }
     function onResult(r) { setResult(r); setScreen("result"); window.scrollTo(0, 0); }
