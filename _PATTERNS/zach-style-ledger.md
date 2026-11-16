@@ -14,7 +14,7 @@ Written 2026-11-13 by the session that relays Zach's picks. This is the one plac
 - Light mode: wells sit lighter than their ground, no exception.
 - Dark mode: no banding in fold gradients (sheen pinned to 56px).
 - Quotes: serif, swash quote marks drawn as SVG.
-- Chips: the design-system Badge (22px outer height, border-box, 0 10px, radius-xs, mono 700 at 0.1em, 13% fill, 35% border); StatusBadge is .chip.status. Gold chips only on limit rows ("How I could read it wrong").
+- Chips: the design-system Badge (22px outer height, border-box, 0 10px, the 4px badge radius --ds-r-badge, 11px mono 700 text --fs-label at 0.1em, 13% fill, 35% border; the 4px radius picked 2026-11-13; the design system's 10px text was tried and kept at 11px after the legibility check blocked it on counterpart pages); StatusBadge is .chip.status. Gold chips only on limit rows ("How I could read it wrong").
 - Grid: the R2 keyline lockup primitive; every two-column molecule starts its content column on the same keyline (the keyline check that PR 2219 adds).
 - Measure: one shared px --measure for body text; ledes span full lane width matching their heading. Em-dashes 0.
 - Header (picked option B, 2026-11-13): the quote comes first, in italic Newsreader serif in --text-secondary (a token, never opacity). The attribution is right-aligned at 0.85x body size. A hairline rule follows, with the pane gap (24px) above and below it. Then the headline at weight 700.

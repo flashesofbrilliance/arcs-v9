@@ -3679,11 +3679,10 @@
     "public/gravity-brief-proof.html",
     "public/gravity-brief.html",
     "public/recoil-ext/2026-10-29-gasmi.html",
-    "scripts/kit_primitive_sync.py",
     "scripts/recoil_brief.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 9,
+   "reuse": 8,
    "near_duplicates": [
     {
      "rule": ".wordmark",
@@ -4123,13 +4122,12 @@
     "public/rosetta-shell.html",
     "public/rosetta-voice.html",
     "public/status.html",
-    "scripts/kit_primitive_sync.py",
     "scripts/recoil_brief.py",
     "scripts/rosetta_voice_build.py",
     "scripts/status_page_build.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 18,
+   "reuse": 17,
    "near_duplicates": [
     {
      "rule": ".dprefs-btns button[aria-pressed=\"true\"]",
@@ -4632,11 +4630,10 @@
    "pages": [
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
     "_ARTIFACTS/recoil-hypercube-explorer.html",
-    "scripts/kit_primitive_sync.py",
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py"
    ],
-   "reuse": 5,
+   "reuse": 4,
    "near_duplicates": [
     {
      "rule": ".toast-title",
