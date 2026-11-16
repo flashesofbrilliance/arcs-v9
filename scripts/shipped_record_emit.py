@@ -70,9 +70,15 @@ def day_to_date(label: str) -> str:
 
 def read_milestones() -> list[dict]:
     s = (ROOT / "public/status.html").read_text()
-    script = re.findall(r"<script[^>]*>(.*?)</script>", s, re.S)[0]
-    body = script[script.find("var MILESTONES"):]
+    # The page is generated (status_page_build.py) and MILESTONES is not in the first <script>
+    # since 2026-11-12; take the block that holds it, and fail loudly if none does.
+    scripts = [x for x in re.findall(r"<script[^>]*>(.*?)</script>", s, re.S) if "var MILESTONES" in x]
+    if not scripts:
+        raise SystemExit("shipped_record_emit: no var MILESTONES in public/status.html")
+    body = scripts[0][scripts[0].find("var MILESTONES"):]
     hits = list(re.finditer(r'date:\s*"([^"]+)",\s*title:\s*"([^"]+)",\s*rank:\s*(\d)', body))
+    if not hits:
+        raise SystemExit("shipped_record_emit: MILESTONES found but no entries parsed")
     rows = []
     for i, m in enumerate(hits):
         seg = body[m.end(): hits[i + 1].start() if i + 1 < len(hits) else len(body)]
