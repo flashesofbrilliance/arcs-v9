@@ -39,7 +39,7 @@ Inputs (what it relies on) → Decision (what it can't see) → Outcome (the dat
 
 1. Each decision written up with its three marks and the number that would tell you to stop, agreed up front. If one has played out, it sits beside the result.
 2. One page: Where the build stands, what's least efficient, which hypotheses aren't holding.
-3. A read against the five things you said matter: Accuracy, efficiency, speed, cost on your own on-prem setup, one source of truth without bloat or tech debt.
+3. A read against the six things you said matter, in your order: Accuracy, efficiency, speed, cost savings, on-prem, no data bloat.
 4. Next steps with dates, each with a number that shows it worked.
 5. Honest marks: What's unchecked, what's unsure, and your pushback, all on the page.
 6. A one-page field guide so your team can rerun the checks.
