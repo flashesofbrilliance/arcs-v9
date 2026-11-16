@@ -760,6 +760,8 @@ Install state: WIRED 621 · AVAILABLE-NOT-INSTALLED 0 · INSTALLED-UNUSED 2 · D
   `python3 scripts/source_trust_emit.py`
 - **squash_merge_detector.py** — squash_merge_detector.py: flag PRs that landed on main WITHOUT a merge commit.  
   `python3 scripts/squash_merge_detector.py`
+- **stale_refresh.py** — stale_refresh.py: run the snapshot regenerators the session-start hook reports stale, in one pass.  
+  `python3 scripts/stale_refresh.py`
 - **state_sync_check.py** — State-sync drift check — advisory only, never fails the build.  
   `python3 scripts/state_sync_check.py`
 - **static-serve.py** — (no declared JTBD — add a docstring/description)  

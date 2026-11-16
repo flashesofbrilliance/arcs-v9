@@ -1,3 +1,57 @@
+# Handoff — v3.147.0 (2026-11-15)
+
+> Three days (2026-11-12 to 11-15) across about fifteen sessions, folded from the shared progress ledger because no session left a fragment. The design-system kit grew from a pile of one-off pages into numbered organisms with a trial lane: option board (2227), atomic composer seed (2225), operator and chiefs roster (2229), chip true-up (2230), design-candidate lane (2232), strata explorer 69 (2238), week-plan 70 and proof lockup 71 (2239, 2240, 2270), hardening week strip (2261). Gravity overview work ran as one orchestrated family under harrison-dogfood. An axe 4.14 bump exposed a latent wordmark a11y defect, fixed on main (2262). Recoil wave 2 advanced in parallel: recoil-epic-tool-catalog, backlog-merge-driver-by-id, recoil-runner-beats and recoil-real-model-run are DONE on main.
+
+## Goal / true north
+Land the open kit and Gravity PRs on Zach's word, prove the axe 4.14 bump green, and finish recoil wave 2 (two READY rows, then the kairos test and Brian acceptance).
+
+## What changed
+- PR 2232 merged (2fe62730): design-candidate lane (scripts/design_candidates.py, runtime/specs/design-candidates.json, read by token_source_gate, motion_policy_gate and component_source_gate, plus pre-commit). PR 2235 merged (ec7b02ed): backlog row design-candidate-lane and tool catalog.
+- PR 2227 merged (8a7d3919), receipt 2026-11-13--option-board-pr2227--ZH. PR 2244 closed unmerged as superseded by PR 2243 (866de431).
+- PR 2218 merged with receipt (status page rebuild).
+- PR 2262 merged (73b3042a, by the busy-kirch session, receipt filed there): the ARCS Field OS wordmark takes its name from visible text on blacksmith, growth-ai, mercury-operator and sentilink-operator, which clears axe 4.14 rule label-content-name-mismatch.
+- My Ally receipts: closeloop (call moved to next week, 7-day sign NO) and ex-ante sign-before-kickoff (review 2026-11-19).
+- Memory banked 2026-11-15: axe-upgrade-flags-old-defect-fix-on-main-then-rebase, fe-smoke-single-runner-fixed-ports, and a bash 3.2 guard section in long-inline-shell-goes-in-a-script-file.
+
+## Current state
+- Merged since v3.146.0 (receipts filed by the merging session unless noted): 2218, 2225, 2226, 2227, 2228, 2229, 2230, 2231, 2232, 2235, 2238, 2239, 2240, 2243, 2251, 2261, 2262, 2265, 2270, 2271. Two receipts may exist for 2227 (see Open).
+- Open PRs: 2273 rosetta /voice link and leak gates; 2272 Dependabot minor-and-patch incl. axe-core 4.14 (replaces closed 2224); 2266 kit 73 braided lanes on status.arcs.care/beliefs; 2259 chip radius; 2248 kit-periodic-table rows; 2247 night-moves 11-12; 2222 Reading Room sixth room; 2221, 2260, 2267 dreaming passes 10 to 12; 2219 tabbed-brief lockup; 2214 Hermes review gate; 2073 Harrison recoil close; 2068 My Ally three-things rule.
+- Kit numbering settled: 69 strata, 70 week-plan, 71 proof lockup, 73 braided lanes.
+- fe-smoke is single-runner by construction (fixed container and ports on one Mac).
+- Recoil wave 2 on main: DONE recoil-epic-tool-catalog, backlog-merge-driver-by-id, recoil-runner-beats, recoil-real-model-run; READY recoil-brian-ssot, recoil-hardstop-amend; HOLDING recoil-kairos-7s-test and R12 recoil-brian-acceptance.
+- MEMORY.md index at 24,402 bytes of the 24,576 cap.
+
+## Decisions made
+- Zach, 2026-11-14: fix the wordmark on main rather than raise the a11y baseline.
+
+## Open decisions (waiting on Zach)
+1. Zach: PR 2219 (tabbed-brief lockup). Owner local_44360349 is blocked by the kintsugi gate on public/rosetta-voice.html (23 findings from main): fix the page on main, or book a seam.
+2. Zach: confirm week 1 of _ARTIFACTS/week-plan/gravity.json before weeks 2 to 7 are drafted.
+3. Zach: the Gravity date seams, RFP-O-Matic (10-30 vs 11-02) and NFTT (09-02 vs 08-18), raised by local_44360349.
+4. Zach: PR 2218's status-page grammar choices (gain seam, open interval, pressure gauge, canonical altitude ladder) and whether to start the wire and audit sessions.
+5. Zach: rule on dreaming pass 5 F1 (bash 3.2 harness refusal, 57 hits in 34 sessions in 4 days); the lesson is banked in memory, the formal ruling and any hook are not.
+6. Zach: the visual-grammar run waits on the composer-dogfood first round and his go.
+
+## Open (other)
+1. proposal_construction.py ORPHAN-TOOL hold in jtbd-graph-triage.json resolves by 2026-11-20 (owner: the session that added it).
+2. Production deploy after the kit merges not checked.
+3. Carried from v3.146.0: PR 2180 Gasmi twin, spec §8 Q4 item 3, cold-reader check on 3 Gasmi J4 cells, the groom decision packet, the main-checkout move (main checkout at 4afdce16, behind origin/main; project skills load stale).
+
+## Next action
+Zach clears the merge queue in one pass (2272 after green fe-smoke, then 2266, 2219, 2073); then start recoil-brian-ssot as the next wave-2 session card.
+
+## Cold-start recipe
+- gh pr list --state open
+- cat _STATE/handoff-progress.md (the per-session deltas this block folds)
+- python3 scripts/backlog_graph.py --top 30; filter epic recoil-call-service-wave2
+- Merge: scripts/safe_merge.sh <pr> <head>, one receipt per merge.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261115T191024Z--claude-myally-email-access-concerns-5dd89f.md` (branch `claude/myally-email-access-concerns-5dd89f`, head `3f9b9f90`).
+
+---
+
 # Handoff — v3.146.0 (2026-11-12)
 
 > One arc across five sessions: the recoil call service's wave 1 closed (R1 to R11 merged), wave 2 was induced, and the first real model run (Gasmi, J1 to J4) passed its pre-set bar except the cold-reader check. Fragment items written before later merges are superseded by the State and Open below; the What changed list keeps them raw.

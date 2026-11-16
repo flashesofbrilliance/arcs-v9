@@ -2964,6 +2964,14 @@
   },
   {
    "kind": "script",
+   "name": "stale_refresh.py",
+   "path": "scripts/stale_refresh.py",
+   "jtbd": "stale_refresh.py: run the snapshot regenerators the session-start hook reports stale, in one pass.",
+   "invoke": "python3 scripts/stale_refresh.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "state_sync_check.py",
    "path": "scripts/state_sync_check.py",
    "jtbd": "State-sync drift check — advisory only, never fails the build.",

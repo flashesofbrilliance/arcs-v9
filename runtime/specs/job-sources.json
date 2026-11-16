@@ -10,7 +10,7 @@
    },
    {
     "lane": "forward deployed",
-    "pattern": "forward[- ]deploy(?:ed|ment)|\\bFDE\\b|deployment strategist|deployed engineer"
+    "pattern": "forward[- ]deploy(?:ed|ment)|\\bFDE\\b|deployment strategist|deployed engineer|\\bai (?:solutions )?strategist\\b"
    },
    {
     "lane": "applied ai",
@@ -77,6 +77,8 @@
   "ro"
  ],
  "ashby": [
+  "context",
+  "newform",
   "openai",
   "notion",
   "ramp",
