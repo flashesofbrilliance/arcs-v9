@@ -136,7 +136,7 @@
 .cr { display: flex; flex-direction: column; gap: 20px; }
 .cr > * { margin: 0; }
 .cr > .callout { max-width: none; }
-.cr > .callout.cr-read { background: var(--surface-2); border-color: var(--border); }
+.cr > .callout.cr-read { background: var(--surface); border-color: var(--border); }
 .cr > .callout.cr-read b { color: var(--text-secondary); }
 .cr-slots { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 0; }
 .cr-slots dt, .cr-slots dd { margin: 0; padding: 12px 0; border-top: 1px solid var(--border); }
@@ -195,8 +195,10 @@
 .spec.cards > .specrow, .spec.cards > .specrow:last-child { grid-template-columns: minmax(0, 1fr); align-content: start; row-gap: var(--sp-1, 8px); padding: var(--sp-2, 16px) var(--sp-3, 24px); background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); }
 .spec.cards > .specrow dt { display: flex; align-items: center; gap: var(--sp-1, 8px); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); }
 .spec.cards > .specrow dt::before { content: ""; width: 8px; height: 8px; border-radius: var(--ds-r-pill); background: currentColor; flex-shrink: 0; }
+.spec.cards.is-3 { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 760px) { .spec.cards.is-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .spec.cards.is-3 > .specrow, .spec.cards.is-3 > .specrow:last-child { padding: var(--sp-2, 16px); } .spec.cards.is-3 > .specrow dt { text-wrap: balance; } }
 @media (max-width: 640px) { .specrow { grid-template-columns: minmax(0, 1fr); row-gap: 4px; } .spec.cards { grid-template-columns: minmax(0, 1fr); } }
-@container (max-width: 40rem) { .specrow { grid-template-columns: minmax(0, 1fr); row-gap: 4px; } .spec.cards { grid-template-columns: minmax(0, 1fr); } }
+@container (max-width: 40rem) { .specrow { grid-template-columns: minmax(0, 1fr); row-gap: 4px; } .spec.cards { grid-template-columns: minmax(0, 1fr); } .spec.cards.is-3 { grid-template-columns: minmax(0, 1fr); } }
 @media print { .spec { break-inside: avoid; } .specrow { grid-template-columns: 8rem minmax(0, 1fr); padding: 7px 0; break-inside: avoid; } .spec.cards { display: flex; gap: 0; } .spec.cards > .specrow { background: none; border: 0; border-top: 1px solid var(--border); border-radius: 0; padding: 7px 0; } }
 /* @prim:end 68-spec-rows */
 /* @prim:begin 71-proof-lockup */
@@ -207,7 +209,7 @@
 .plk-cell + .plk-cell { border-top: 1px solid var(--border); }
 .plk-lab { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; line-height: 1.2; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); align-self: end; }
 .plk-fig { font-family: var(--ds-font-mono); font-size: var(--fs-headline); font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; color: var(--text); overflow-wrap: anywhere; }
-.plk-cap { font-size: calc(var(--fs-body) * 0.92); line-height: 1.4; color: var(--text-secondary); text-wrap: pretty; }
+.plk-cap { font-size: var(--fs-body); line-height: 1.4; color: var(--text-secondary); text-wrap: pretty; }
 .plk-close { margin: 0; font-size: var(--fs-body); font-weight: 600; line-height: 1.5; color: var(--text); text-wrap: pretty; }
 @container (min-width: 30rem) { .plk-cells { grid-template-columns: repeat(2, minmax(0, 1fr)); } .plk-cell + .plk-cell { border-top: 0; } .plk-cell:nth-child(2n) { border-left: 1px solid var(--border); } .plk-cell:nth-child(n+3) { border-top: 1px solid var(--border); } }
 @container (min-width: 48rem) { .plk-cells { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); } .plk-cell:nth-child(n) { border-top: 0; } .plk-cell + .plk-cell { border-left: 1px solid var(--border); } }
@@ -253,13 +255,8 @@ h1{font-family:var(--ds-font-sans);font-weight:600;font-size:var(--fs-display);l
 .role{margin:0;color:var(--text-secondary)}
 h2.section-label{margin:0}
 .cr .callout{margin:0}
-/* Wells sit lighter than their ground (style ledger). Kit 53 cr-read uses surface-2, darker than the light ground;
-   page-local until kit 53 is fixed at source (blocked: the gravity-brief pages carry the same block, PR 2283). */
-.cr > .callout.cr-read{background:var(--surface)}
 .fold-body ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
 .fold-body li{margin:0}
-/* Three cards, not two: page-local until kit 68 grows a three-up variant (seam named in the PR). */
-@media (min-width:760px){.spec.cards.is-3{grid-template-columns:repeat(3,minmax(0,1fr))}.spec.cards.is-3 > .specrow{padding:16px 18px}.spec.cards.is-3 > .specrow dt{text-wrap:balance}}
 .foot{margin:0;color:var(--text-secondary);border-top:1px solid var(--border);padding-top:16px}
 a{color:var(--text);text-underline-offset:3px;text-decoration-color:var(--cyan)}
 a:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
