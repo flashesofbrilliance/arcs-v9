@@ -137,9 +137,10 @@ function arcsWeekStrip(host, data, opts) {
     var b = el("button", "ws-cell"), dots = el("span", "ws-dots");
     b.type = "button";
     b.tabIndex = -1;
-    b.setAttribute("aria-label", "Week of " + w[1] + ": " + counts(w) + ", " + plural(w[4].length, "belief", "beliefs") + " reversed");
+    b.setAttribute("aria-label", w[2] + " " + w[1].replace(/ \d{4}$/, "") + ", week of " + w[1] + ": " + counts(w) + ", " + plural(w[4].length, "belief", "beliefs") + " reversed");
     b.style.background = "color-mix(in srgb, var(--cyan) " + Math.round(SHADE * (6 + 44 * w[2] / data.max)) + "%, var(--surface))";
     b.appendChild(el("span", "ws-n", String(w[2])));
+    b.appendChild(document.createTextNode(" "));
     b.appendChild(el("span", "ws-mon", w[1].replace(/ \d{4}$/, "")));
     dots.setAttribute("aria-hidden", "true");
     [w[2], w[3].length + w[5], w[4].length].forEach(function (n, k) { if (n) dots.appendChild(el("span", "ws-dot ws-d" + k)); });
