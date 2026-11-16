@@ -48,8 +48,9 @@ Every 20 new test-set calls, or monthly, whichever comes first:
 | Listener cools before or after mid-curve | COMPOSTED | p 0.74 and 0.58 |
 | First-call overshoot | COMPOSTED | Spark from two arcs; 4 of 9 counterparts, p 0.77. First known-fabrication kill for ADR-081 rod 4 |
 | Naming a next step before hanging up changes outcomes | CANDIDATE (the Room Playbook experiment) | Test set only; detect from the last minutes of each transcript |
-| "A later meeting means advanced" | SPARK (from the first full-loop demo, 2026-11-16) | One recruiter call whose follow-up was a red flag (identity not verifiable). The calendar stream labelled it too recent; the email stream showed the follow-up and its failure. Outcome labels need a quality check from a second stream |
-| Recruiter room: go deep only on the deciding factor they name | CANDIDATE | Same call: both mid-curve turns answered the recruiter's own asks, one of them the stated deciding factor. Refines the Playbook's "save deep dives" |
+| "A later meeting means advanced" | SPARK (from the first full-loop demo, 2026-11-16) | The demo call was an impersonation from first contact (the Bitfury case). Its fast "advances" (same-day CV ask, quick next meeting) were the hook. Outcome labels need a trust check and a quality check from a second stream; an unverified counterpart's follow-up never counts as advanced |
+| Trust tier gates the next-step move | CANDIDATE | In that call the named next step was the attacker's ask. Verify identity first (the precall brief's T2 gate), then name a next step |
+| Recruiter room: go deep only on the deciding factor they name | CANDIDATE, weak | Same call, so the "recruiter" was not a real one. Kept only as a spark-grade lead until a verified recruiter call tests it |
 
 Known gaps: one call deleted for card details; one call never fetched (mistyped id); outcome labels
 from follow-up matching miss email follow-ups.
