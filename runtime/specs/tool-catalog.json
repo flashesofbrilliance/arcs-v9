@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 328,
+  "script": 330,
   "skill": 28,
   "workflow": 2
  },
- "total": 460,
+ "total": 462,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 622,
+   "WIRED": 625,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
@@ -1768,6 +1768,14 @@
    "path": "scripts/integrity_gate_selftest.py",
    "jtbd": "Fixtures for integrity_gate.py matcher fixes: directory ancestors and placeholder-truncated cites.",
    "invoke": "python3 scripts/integrity_gate_selftest.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "jobs_board_mcp.py",
+   "path": "scripts/jobs_board_mcp.py",
+   "jtbd": "jobs_board_mcp.py: a local stdio MCP server over the jobs.arcs.care board API.",
+   "invoke": "python3 scripts/jobs_board_mcp.py",
    "state": "WIRED"
   },
   {
