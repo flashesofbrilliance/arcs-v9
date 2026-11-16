@@ -9,7 +9,7 @@ Reads only real sources and writes runtime/specs/shipped-record.json:
   tao         _CANON/tao-proverbs.jsonl, grouped by (mint date, source)
   nftt        public/blog-nftt-*.html (dated by first commit), titles from <title>
   services    a short list of live product surfaces, each dated by its page's first commit
-  tempo       weekly commits on origin/main (git) and weekly decision receipts (snapshot file)
+  tempo       weekly commits on origin/main (git) and weekly decision receipts (snapshot file), each with its as-of date
 
 Every link carries a `cite` naming the file and key it was read from. A link that cannot be
 cited is never emitted; known-but-uncited candidates go to `unconfirmed`.
@@ -244,7 +244,10 @@ def build() -> dict:
         "links": links,
         "unconfirmed": unconfirmed,
         "tempo": {"commits": weekly_commits(), "commits_cite": "git log origin/main --since=%s-01-01, by ISO week" % YEAR,
-                  "receipts": receipts.get("weeks", []), "receipts_cite": receipts.get("cite", "missing")},
+                  "commits_as_of": git("log", "-1", "--format=%as", "origin/main"),
+                  "receipts": receipts.get("weeks", []), "receipts_cite": receipts.get("cite", "missing"),
+                  # Weeks after the snapshot date were never counted; a reader must not see them as zero.
+                  "receipts_as_of": receipts.get("as_of")},
         "counts": dict(Counter(e["lane"] for e in events)),
     }
 
@@ -256,6 +259,7 @@ def self_test() -> int:
     assert all(e.get("cite") for e in d["events"]), "uncited event"
     assert all(e["date"].startswith(YEAR) for e in d["events"])
     assert not any("claim" in e for e in d["events"]), "belief claim text leaked"
+    assert d["tempo"]["commits_as_of"] and d["tempo"]["receipts_as_of"], "tempo without its as-of dates"
     assert day_to_date("DAY 98 · JUL 16") == "2026-07-16", "day arithmetic off"
     # Rename-following once dated a November post by an older sibling template (2026-11-13).
     nf = {e["slug"]: e["date"] for e in d["events"] if e["lane"] == "nftt"}

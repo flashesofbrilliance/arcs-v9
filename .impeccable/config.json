@@ -22,9 +22,9 @@
       {
         "rule": "design-system-color",
         "value": "*",
-        "files": ["src/ui-kit/recoil-report/69-strata-explorer.html"],
+        "files": ["src/ui-kit/recoil-report/69-strata-explorer.html", "src/ui-kit/recoil-report/73-braided-lanes.html"],
         "createdAt": "2026-11-13T21:00:00.000Z",
-        "reason": "Kit 69 specimen: the six hits are the shared kit_specimen.py shell (body, crumb, h1, section rule, the use/avoid headings) under _tokens-light.css, the kit's own light palette, which DESIGN.md (dark only) does not define. Same light-world scope as the precall-brief example waiver. Kit 64 and 68 carry the same shell and score 0; cause not found, logged as a seam in the PR, not silently passed."
+        "reason": "Kit 69 specimen: the six hits are the shared kit_specimen.py shell (body, crumb, h1, section rule, the use/avoid headings) under _tokens-light.css, the kit's own light palette, which DESIGN.md (dark only) does not define. Same light-world scope as the precall-brief example waiver. Kit 64 and 68 carry the same shell and score 0; cause not found, logged as a seam in the PR, not silently passed. Kit 73 braided lanes (2026-11-13) carries the identical six shell hits and joins this waiver; its own organism CSS scores 0."
       },
       {
         "rule": "dark-glow",
