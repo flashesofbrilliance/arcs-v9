@@ -123,7 +123,9 @@ def block():
     atoms, init = atomic_family()
     reg = {"atomic": atoms, "init": init, "archetype": archetypes(), "advisor": advisors(), "operator": operators(), "primitive": primitives(),
            "gaps": ["protocol: no registry of protocols exists in the repo, so none are loaded"]}
-    return BEGIN + "\nvar REGISTRY = " + json.dumps(reg, ensure_ascii=False, separators=(",", ":")) + ";\n" + END
+    # No em-dashes in rendered text (house rule); the imported Book keeps its own punctuation verbatim.
+    data = json.dumps(reg, ensure_ascii=False, separators=(",", ":")).replace("\u2014", ", ")
+    return BEGIN + "\nvar REGISTRY = " + data + ";\n" + END
 
 
 def main():
