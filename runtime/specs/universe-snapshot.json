@@ -5,7 +5,7 @@
  "as_of_date": "2026-11-01",
  "backbone": "runtime/specs/knowledge-lattice-v1.json",
  "lattice_reviewed": "2026-10-06",
- "lattice_drift_check": "2026-10-20T12:45:02",
+ "lattice_drift_check": "2026-11-16T13:52:40",
  "null_origin": "zp",
  "federation": {
   "domains": {
@@ -30,13 +30,13 @@
   ]
  },
  "dimensions": {
-  "corpus": 2529,
+  "corpus": 2584,
   "canon": {
    "files": 126,
    "tao_proverbs": 287,
    "adrs": 88
   },
-  "codebase": 926,
+  "codebase": 988,
   "conviction": {
    "signal": null,
    "why": "Y-gate spread lives in the prod Receipt table; not read by this script"
@@ -45,8 +45,8 @@
    "nodes_clear": 53,
    "nodes": 81,
    "shore_open": 37,
-   "files_mapped": 338,
-   "files_fog": 3243
+   "files_mapped": 349,
+   "files_fog": 3349
   },
   "coherence": {
    "diamonds": 3,
@@ -1408,8 +1408,8 @@
    "population": {
     "corpus": 35,
     "canon": 4,
-    "codebase": 105,
-    "files": 332
+    "codebase": 115,
+    "files": 342
    }
   },
   {
@@ -1476,8 +1476,8 @@
    "population": {
     "corpus": 10,
     "canon": 1,
-    "codebase": 4,
-    "files": 26
+    "codebase": 5,
+    "files": 27
    }
   },
   {
@@ -2280,7 +2280,7 @@
   },
   {
    "id": "adrs",
-   "label": "84 ADRs",
+   "label": "88 ADRs",
    "stratum": "l",
    "domain": "lib",
    "status": "ok",
@@ -3331,13 +3331,13 @@
   {
    "path": "_SEEDS/index.jsonl",
    "kind": "index",
-   "rows": 73,
+   "rows": 75,
    "private": false
   },
   {
    "path": "_SEEDS/ledger.jsonl",
    "kind": "ledger",
-   "rows": 118,
+   "rows": 121,
    "private": false
   },
   {
@@ -3397,7 +3397,7 @@
   {
    "path": "_STATE/scrum/ledger.jsonl",
    "kind": "ledger",
-   "rows": 1,
+   "rows": 2,
    "private": false
   },
   {
@@ -3493,13 +3493,13 @@
   {
    "path": "runtime/specs/surface-catalog.json",
    "kind": "catalog",
-   "rows": 288,
+   "rows": 290,
    "private": false
   },
   {
    "path": "runtime/specs/tool-catalog.json",
    "kind": "catalog",
-   "rows": 434,
+   "rows": 459,
    "private": false
   },
   {
@@ -3517,7 +3517,7 @@
   {
    "path": "src/ui-kit/kit-manifest.json",
    "kind": "manifest",
-   "rows": 88,
+   "rows": 97,
    "private": false
   },
   {

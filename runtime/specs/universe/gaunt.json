@@ -26,8 +26,8 @@
  "dimensions": {
   "corpus": 10,
   "canon": 1,
-  "codebase": 4,
-  "files": 26
+  "codebase": 5,
+  "files": 27
  },
  "systems": {
   "_ARTIFACTS": 9,
@@ -40,7 +40,8 @@
   "_DECISIONS": 1,
   "_SPECS": 1,
   "_STATE": 1,
-  "public": 1
+  "public": 1,
+  "src": 1
  },
  "files": [
   ".claude/workflows/counterpart-gauntlet.js",
@@ -65,6 +66,7 @@
   "scripts/gauntlet_log_emit.py",
   "scripts/gauntlet_log_public_template.html",
   "scripts/gauntlet_report.py",
+  "src/ui-kit/week-strip/gauntlet-fragment.html",
   "tests/fixtures/teardown-eval/sample-fail.gauntlet.md",
   "tests/fixtures/teardown-eval/sample-pass.gauntlet.md",
   "tools/arcs-verb-eval/sample/gauntlet.json",
