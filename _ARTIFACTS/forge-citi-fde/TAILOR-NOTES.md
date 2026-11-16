@@ -22,7 +22,7 @@ JD: `jd-full.txt`. Resume cut: `resume-citi-fde-ats.html` (2 pages, unchanged th
 | Preferred: client-facing / consulting | Five embedded and advisory engagements 2019 to 2024. | Embedded section | Yes |
 | Preferred: AWS / GCP / Azure | Not claimed. Snowflake, Redshift, BigQuery listed under data systems, which implies cloud warehouse use but not platform certification. | Skills | Gap acknowledged |
 | Preferred: data engineering (ETL/ELT, warehousing) | Snowflake, Redshift, BigQuery, Segment/mParticle, distributed query systems, data governance. | Skills | Partly in record (Snowflake, Segment, governance); the rest is self-reported |
-| Preferred: payments or finance domain | Grayscale: SEC/FINRA-regulated digital-asset products, $7B AUM. No payments claim. | Grayscale | Yes; finance yes, payments no |
+| Preferred: payments or finance domain | Grayscale: SEC/FINRA-regulated digital-asset products, $7B launched. No payments claim. | Grayscale | Yes; finance yes, payments no |
 | Hybrid NYC, 3 days on site | "New York City (hybrid, 3 days on site)" | Header | Yes |
 
 ## 2. Evidence grade per lead claim
@@ -33,7 +33,7 @@ Grades: **documented** (public and checkable, or verbatim in the record of recor
 |---|---|---|
 | ARCS: MCP server + agentic orchestration on Claude, in production, 2025 to present | documented | record ROLES.arcs; app.arcs.care live, repo private |
 | Grayscale: Product Lead, GTM, 10 SEC/FINRA-regulated products, 2024 to 2025 | documented (title, dates, count) | record ROLES.grayscale |
-| $7B AUM | self-reported | record metric "$7B AUM · regulated product suite" |
+| $7B launched | self-reported | record metric "$7B launched · regulated product suite" |
 | Squat: sole technology partner, seven-figure embedded engagement, $350M ARR client, 2019 to 2020 | self-reported | record CONSULTING_CLIENTS.squat |
 | Twill: 3 AI-enabled lines, go-forward on 2 of 3, 2021 to 2023 | self-reported | record CONSULTING_CLIENTS.twill |
 | Axon: MVP definition for a first-responder OTT platform, 2023 | self-reported | record CONSULTING_CLIENTS.axon |
@@ -54,7 +54,7 @@ Items kept on the page that need a ready answer, and items dropped because they 
 
 **Defend (kept):**
 1. "Forward-deployed" as archetype, never as a held title. Answer: the Squat embed (sole product and tech partner, discovery through handoff, inside the client's building) and ARCS (built on contact with the real problem, no inherited spec). If asked "were you ever titled FDE": no, and the resume does not say so.
-2. $7B AUM. Answer: the suite of 10 products the GTM covered; it is Grayscale's public AUM figure for the period, not a personal P&L.
+2. $7B launched. Answer: the suite of 10 products the GTM covered; capital taken to private and public markets, not AUM, not a personal P&L.
 3. $850K+ and <120ms (WTA). Answer: first-year partnership revenue and scoring latency from the 2016 to 2018 build; consistent with the role, not externally auditable.
 4. 20% net-new revenue (CTF). Answer: measured against the prior year after the segmentation and personalization rollout; internal figure.
 5. Skills not in the record (R, Tableau, Redshift, BigQuery, Salesforce CDP). Answer: used in the CTF and WTA data-layer work; drop any one of them the moment it cannot be discussed fluently.

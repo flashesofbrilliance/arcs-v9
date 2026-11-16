@@ -884,6 +884,14 @@
   },
   {
    "kind": "script",
+   "name": "aum_claim_gate.py",
+   "path": "scripts/aum_claim_gate.py",
+   "jtbd": "aum_claim_gate: block the Grayscale \"$7B as assets under management\" phrasing from coming back.",
+   "invoke": "python3 scripts/aum_claim_gate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "babel_fish_listeners.py",
    "path": "scripts/babel_fish_listeners.py",
    "jtbd": "Write Babel Fish's listener registry into its artifact page, from the repo's own registries.",

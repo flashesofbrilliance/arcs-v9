@@ -1467,6 +1467,16 @@ if [ -n "$ps" ] && [ -f scripts/recoil_public_share_gate.py ] && command -v pyth
   fi
 fi
 
+# Grayscale launch-figure gate (2026-11-16, Frustration Gate): the $7B is capital launched across 10
+# regulated products, never assets under management. Blocks the old phrasing in any staged file outside
+# _ARCHIVE/. See scripts/aum_claim_gate.py (--self-test proves fail-on-bad, pass-on-good).
+if [ -f scripts/aum_claim_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/aum_claim_gate.py --staged; then
+    echo "✖ commit blocked: the Grayscale \$7B is a launch figure, not AUM (python3 scripts/aum_claim_gate.py --staged)." >&2
+    exit 1
+  fi
+fi
+
 # Ripple ledger (2026-10-16): warn, never block, when a staged path touches a one-way door that is not yet de-risked.
 # See scripts/ripple_ledger.py and _QUEUE/ripple-ledger.jsonl.
 if [ -f scripts/ripple_ledger.py ] && command -v python3 >/dev/null 2>&1; then
