@@ -42,7 +42,7 @@ ALLOW = (
     "src/data/universe-field.json",
     "runtime/specs/knowledge-lattice-v1.json",
 )
-NIGHT_MOVES_MAX_DAYS = 2  # a weekday digest; older than this is a gap
+NIGHT_MOVES_MAX_DAYS = 7  # weekly Sunday catch-up digest; same bar as the session-start hook (>= 8)
 
 
 def sh(cmd: list[str], cwd: str, env: dict | None = None) -> tuple[int, str]:
@@ -63,7 +63,7 @@ def changed_paths(wt: str) -> list[str]:
 
 def night_moves_age(wt: str) -> tuple[str | None, int | None]:
     days = sorted(os.path.basename(f)[:10] for f in glob.glob(os.path.join(wt, "_STATE/night-moves/*.md"))
-                  if re.match(r"\d{4}-\d{2}-\d{2}", os.path.basename(f)))
+                  if re.match(r"\d{4}-\d{2}-\d{2}(-catchup)?\.md$", os.path.basename(f)))
     if not days:
         return None, None
     return days[-1], (datetime.date.today() - datetime.date.fromisoformat(days[-1])).days
