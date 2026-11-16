@@ -98,6 +98,8 @@ select.sel { background: var(--bg); color: var(--text); border: 1px solid var(--
 .rung { font: 600 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--cyan); }
 .shadow { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; font-size: 13px; display: grid; gap: 4px; }
 .shadow b { color: var(--red); } .shadow.clear b { color: var(--green); }
+.log { margin: 6px 0; padding-left: 20px; font: 12px/1.5 var(--mono); color: var(--muted); display: grid; gap: 2px; }
+.log .bad { color: var(--red); }
 .third { border-left: 2px solid var(--gold); padding-left: 12px; display: grid; gap: 10px; }
 </style>
 
@@ -154,6 +156,7 @@ select.sel { background: var(--bg); color: var(--text); border: 1px solid var(--
     <div class="row"><label for="speaker" class="note">Speaker</label><select id="speaker" class="sel"></select></div>
     <div class="seg" id="rungs" role="group" aria-label="Altitude"></div>
     <p class="note" id="cellNote"></p>
+    <details id="logBox" hidden><summary>Run log (every Claude call: stage, time, outcome)</summary><ol id="runLog" class="log"></ol><button type="button" id="logCopy">Copy log</button></details>
     <p class="note" id="status">The example below is the codex's own six translations, unchecked. Press Translate and check to run them through the transceiver.</p>
   </section>
 
@@ -321,7 +324,7 @@ function showExample() {
 }
 function showError(where, e) {
   var msgs = { not_granted: "Claude access was declined for this page. Allow it from the page's permissions to run the engine.",
-    rate_limited: "Too many requests right now. Wait a minute, then try again.", refused: "Claude declined this request.",
+    rate_limited: "Claude's limit for this page was reached: too many calls at once, or your plan's usage limit. Finished steps are kept. Wait a minute, then press the same button again; only the unfinished calls run. If it keeps happening, your plan's usage limit is the likely cause.", refused: "Claude declined this request.",
     invalid_json: "Claude's answer was not in the expected shape. Try again, or shorten the signal.",
     prompt_too_large: "The signal is too long. Shorten it and try again.", cancelled: "Stopped." };
   var code = e && e.code ? e.code : "error";
@@ -886,7 +889,54 @@ function drawListeners(checkYou) {
   hasDrawn = true; drawSpeaker(); updateCellNote();
 }
 
+// ---- Call scheduling (root cause of "too many requests", 2026-11-16) ----
+// The sample docs: "A couple of calls run at once for a viewer, a few more wait their turn, and a flood
+// rejects rate_limited." The transceiver used to fire 2 calls per cell at once (14 for 7 cells). Now at most
+// MAX_INFLIGHT run at once, successes are remembered for this page load so pressing the button again replays
+// them and sends only the unfinished calls, and every call is logged. Never retried from code (the docs forbid it).
+var MAX_INFLIGHT = 2, inflight = 0, callQueue = [], memo = {}, callLog = [], callSeq = 0;
+var STAGES = [["You are a semantic parsing engine", "decompose"], ["You are the recomposition stage", "recompose"], ["Read this message", "blind read"],
+  ["You are the part of a listener", "shadow read"], ["You compare", "compare"], ["Each item below is one operator", "derive profiles"], ["Make two edited copies", "Loki mutate"]];
+function stageOf(input) { var t = typeof input === "string" ? input : ""; for (var i = 0; i < STAGES.length; i++) if (t.indexOf(STAGES[i][0]) === 0) return STAGES[i][1]; return "call"; }
+function logCall(entry) {
+  callLog.push(entry); if (callLog.length > 400) callLog.shift();
+  var box = $("logBox"), ol = $("runLog"); box.hidden = false;
+  ol.appendChild(el("li", { cls: entry.outcome === "ok" || entry.outcome === "replayed" ? "" : "bad",
+    text: entry.at + " · " + entry.stage + " · " + entry.outcome + (entry.ms != null ? " · " + (entry.ms / 1000).toFixed(1) + "s" : "") + (entry.queued ? " · waited " + (entry.queued / 1000).toFixed(1) + "s" : "") }));
+  while (ol.children.length > 200) ol.removeChild(ol.firstChild);
+}
+function throttled(raw) {
+  function pump() {
+    while (inflight < MAX_INFLIGHT && callQueue.length) start(callQueue.shift());
+  }
+  function start(j) {
+    if (j.opt && j.opt.signal && j.opt.signal.aborted) { j.rej({ code: "cancelled" }); return; }
+    inflight++; var t0 = Date.now();
+    raw.json(j.input, j.opt).then(function (v) {
+      memo[j.key] = v; logCall({ n: j.n, at: new Date(t0).toISOString().slice(11, 19), stage: j.stage, outcome: "ok", ms: Date.now() - t0, queued: t0 - j.t });
+      j.res(v);
+    }, function (e) {
+      var code = (e && e.code) || "error";
+      logCall({ n: j.n, at: new Date(t0).toISOString().slice(11, 19), stage: j.stage, outcome: code, ms: Date.now() - t0, queued: t0 - j.t });
+      if (code === "rate_limited") callQueue.splice(0).forEach(function (q) { logCall({ n: q.n, at: new Date().toISOString().slice(11, 19), stage: q.stage, outcome: "not sent (limit reached)" }); q.rej({ code: "rate_limited" }); });
+      j.rej(e);
+    }).then(function () { inflight--; pump(); });
+  }
+  return {
+    json: function (input, opt) {
+      var key = JSON.stringify([input, opt && opt.modelTier || ""]), stage = stageOf(input), n = ++callSeq;
+      if (key in memo) { logCall({ n: n, at: new Date().toISOString().slice(11, 19), stage: stage, outcome: "replayed" }); return Promise.resolve(memo[key]); }
+      return new Promise(function (res, rej) { callQueue.push({ input: input, opt: opt, key: key, stage: stage, n: n, t: Date.now(), res: res, rej: rej }); pump(); });
+    },
+    limits: raw.limits
+  };
+}
+
 // ---- Wiring ----
+$("logCopy").addEventListener("click", function () {
+  var t = callLog.map(function (e) { return [e.at, e.stage, e.outcome, e.ms != null ? e.ms + "ms" : "", e.queued ? "waited " + e.queued + "ms" : ""].join("\t"); }).join("\n"), b = $("logCopy");
+  try { navigator.clipboard.writeText(t).then(function () { b.textContent = "Copied"; }, function () { b.textContent = "Copy failed"; }); } catch (e) { b.textContent = "Copy failed"; }
+});
 ["Primary", "Shadow", "Secondary"].forEach(function (m) {
   $("hg" + m).addEventListener("click", function () { hgMode = m.toLowerCase(); ["Primary", "Shadow", "Secondary"].forEach(function (k) { $("hg" + k).setAttribute("aria-pressed", String(k === m)); }); });
 });
@@ -913,7 +963,7 @@ $("reset").addEventListener("click", function () { $("signal").value = SOURCE; s
 showExample();
 
 if (window.claude && window.claude.use) {
-  window.claude.use("sample").then(function (s) { sample = s; if (!s) $("status").textContent = "Claude is not available in this view, so only the example shows."; }).catch(function () {});
+  window.claude.use("sample").then(function (s) { sample = s ? throttled(s) : null; if (!s) $("status").textContent = "Claude is not available in this view, so only the example shows."; }).catch(function () {});
   // Redraw only the untouched example, so a late arrival never wipes a finished run.
   window.claude.use("tts").then(function (t) { if (t) { tts = t; if (!hasRun) showExample(); } }).catch(function () {});
   window.claude.use("dictation").then(function (d) {
