@@ -22,3 +22,9 @@ Written 2026-11-13 by the session that relays Zach's picks. This is the one plac
   - Attribution size (Zach, 2026-11-13): 0.85x body (about 12.6px), kept off the four-step type ramp on purpose. Closed; do not snap it to --fs-label.
   - Quote marks (Zach, 2026-11-13, "Let's go with your suggestion"): the header keeps lighter font-glyph quote marks, not SVG swashes. This overrides the Quotes ruling for the header only.
 - Overview: the oversized text block was too big and overpowering. It becomes the four-up proof lockup (kit 71, PR 2240).
+- Folds: one rule per boundary; cards inside a fold take no top rule side by side, and rules between stacked cards only (Zach, 2026-11-15, "Wedge rules: A").
+
+## Rulings (belief log, status.arcs.care/beliefs, 2026-11-13 to 2026-11-15)
+- Braided lanes (kit 73, PR 2266; filed as 72, renumbered 2026-11-15 when the week strip took 72 on main): layout C picked 2026-11-13 (ledger lanes, thin evidence set apart under a divider, two-slider week window).
+- Lane colours (Zach, 2026-11-15, "Keep coloured lanes"): each belief domain keeps its own colour (Rulebook cyan, How I work green, Security red, Client reads violet, Shipping magenta, Stress tests orange, Infrastructure blue, Public pages grey). The brand gate's objection, that signal colours do category work here (green on disproven beliefs), is ruled on: colour names the domain on this chart, the gold ring stays the only rule signal. Closed; do not neutralise the dots.
+- Voice (Zach, 2026-11-15, "the royal we is the wrong thing... it seems like I am speaking about myself in the third person"): the belief log speaks in first person singular ("Every belief I changed my mind about", lane "How I work"). One author, so no "we". Closed.

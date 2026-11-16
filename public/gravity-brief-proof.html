@@ -8,6 +8,9 @@
 <meta name="color-scheme" content="light dark">
 <title>Proof · Zach Harris for Gravity Labs</title>
 <meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Newsreader:ital,wght@1,400&display=swap">
 <script>(function(){var d=document.documentElement,s={};try{var r=localStorage.getItem('gravityTheme')||'';s=r.charAt(0)==='{'?JSON.parse(r):(r?{theme:r}:{})}catch(e){}d.setAttribute('data-theme',(s.theme||'light')==='dark'?'dark':'light');var A={font:'data-font',size:'data-size',space:'data-space'};for(var k in A){if(s[k]&&s[k]!=='std')d.setAttribute(A[k],s[k])}})();</script>
 <style>
 /* ARCS Recoil Report — Design Tokens */
@@ -175,12 +178,12 @@
 /* @prim:end 38-wordmark */
 /* @prim:begin 39-theme-toggle */
 :root{color-scheme:dark;}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}}
-:root[data-theme="light"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);color-scheme:light;}}
+:root[data-theme="light"]{--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);color-scheme:light;}
 .themebtn{display:inline-flex;align-items:center;min-height:44px;padding:0;margin:0 0 8px;font:inherit;font-size:var(--fs-body);color:var(--text-secondary);background:none;border:0;cursor:pointer;text-underline-offset:3px;}
 .themebtn:hover,.themebtn:focus-visible{color:var(--cyan);text-decoration:underline;}
 .themebtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
-@media print{:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;} .themebtn{display:none!important;} body{background:#fff!important;}}
+@media print{:root{--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);color-scheme:light;} .themebtn{display:none!important;} body{background:#fff!important;}}
 /* @prim:end 39-theme-toggle */
 /* @prim:begin 42-shell-nav */
 .shnav { position: relative; display: flex; align-items: center; gap: 24px; min-height: 52px; padding: 0 20px; }
@@ -290,14 +293,15 @@
 /* tabbed-brief template layer (2026-11-09). Composes kit parts; owns only the frame and the page organisms.
    Tokens: src/ui-kit/recoil-report/_tokens.css (inlined first) and the kit 39 light remap. No literal colours here.
    Type ramp, five steps: label 0.6875rem (labels only, never prose) · small 0.875rem · body 1rem · section 1.25rem · display (serif).
-   Breakpoints, two: 600px (phone) and 1024px (tabs). The builder replaces every (min-width: 1024px) here and kit 42 data-menu-below with the data's stack_below. */
+   Breakpoints, two: 600px (phone) and 1024px (tabs). The builder replaces every (min-width: 901px) here and kit 42 data-menu-below with the data's stack_below. */
 html { font-size: 100%; }
 /* hand-tuning tokens (the ?tune sliders move these): body line-height, section rhythm, card gap, letter-spacing */
 :root { --lh: 1.6; --sp-4: 24px; --gap: 12px; --ls: 0em;
   /* template scales (2026-11-12 polish): line height has three steps, spacing sits on a 4px grid, weight has three steps */
   --lh-display: 1.2; --lh-head: 1.35; --lh-text: 1.55;
   --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px;
-  --fw-text: 400; --fw-strong: 600; --fw-bold: 700; }
+  --fw-text: 400; --fw-strong: 600; --fw-bold: 700;
+  --key: 12rem; /* the keyline: one key-column width shared by every two-column molecule (ledger, cold read, tables) */ }
 body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: var(--lh); letter-spacing: var(--ls);
   padding-block: 32px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
   -webkit-font-smoothing: antialiased; }
@@ -354,7 +358,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-btn.primary { background: var(--cyan); border-color: var(--cyan); color: var(--surface); }
 .tb-note { margin: 0; flex-basis: 100%; font-size: var(--fs-body); color: var(--text-secondary); }
 .tb-expand { display: flex; justify-content: flex-end; }
-@media (min-width: 1024px) { .tb-expand.solo { display: none; } } /* one fold and no stacked seats: nothing to expand */
+@media (min-width: 901px) { .tb-expand.solo { display: none; } } /* one fold and no stacked seats: nothing to expand */
 
 /* fold sections: a heading that holds a button (the ARIA accordion pattern), a one-line tagline, a body */
 .tb-folds { display: flex; flex-direction: column; }
@@ -365,7 +369,6 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-h2 { margin: 0; font-size: var(--fs-headline); font-weight: var(--fw-strong); line-height: var(--lh-head); }
 .tb-fold-btn { width: 100%; display: flex; align-items: flex-start; justify-content: flex-start; gap: 12px; padding: 0; border: 0; background: none;
   color: var(--text); font: inherit; text-align: left; cursor: pointer; }
-.tb-fold-btn:hover { color: var(--cyan); }
 /* chevron as on MyAlly: left of the title, points right when closed, down when open */
 .tb-fold-btn::before { content: ""; flex: none; width: 8px; height: 8px; margin-top: 9px; border-right: 1.5px solid var(--cyan); border-bottom: 1.5px solid var(--cyan);
   transform: rotate(-45deg); transition: transform var(--dur-base) var(--ease-out); }
@@ -410,11 +413,10 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-table td { text-align: left; vertical-align: top; padding: 12px; line-height: var(--lh-text); color: var(--text); border-bottom: 1px solid var(--border); }
 .tb-table td:first-child { font-weight: 600; width: 32%; }
 .tb-table tr:last-child td { border-bottom: 0; }
-.tb-table td:has(> .chip) { width: 1%; white-space: nowrap; } /* ledger rows: the chip names the side, the column fits it */
 
 /* cards */
 .tb-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap); } /* one column until tabs show; no orphaned third card */
-@media (min-width: 1024px) { .tb-cards { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); } }
+@media (min-width: 901px) { .tb-cards { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); } }
 .tb-card { border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); padding: var(--s-4); display: flex; flex-direction: column; gap: var(--s-2); }
 .tb-card > * { margin: 0; }
 .tb-card-t { font-size: var(--fs-body); font-weight: var(--fw-strong); line-height: var(--lh-head); color: var(--text); }
@@ -460,12 +462,12 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .rcpt-meta span:first-child { color: var(--gold); }
 .rcpt-claim { margin: 0; font-size: var(--fs-headline); line-height: var(--lh-head); font-weight: 500; color: var(--text); }
 .rcpt-odds { display: block; margin-bottom: 4px; font-size: var(--fs-display); line-height: var(--lh-display); font-weight: var(--fw-strong); color: var(--text); }
-.rcpt-rows { display: grid; grid-template-columns: max-content 1fr; gap: 8px 16px; margin: var(--s-4) 0 0; padding-top: var(--s-3); border-top: 1px dashed var(--gold); font-size: var(--fs-body); }
+.rcpt-rows { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 8px; margin: var(--s-4) 0 0; padding-top: var(--s-3); border-top: 1px dashed var(--gold); font-size: var(--fs-body); }
 .rcpt-rows dt { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; color: var(--gold); padding-top: 3px; }
 .rcpt-rows dd { margin: 0; color: var(--text); }
 .rcpt-ask { margin: 0 0 12px; font-size: var(--fs-headline); line-height: var(--lh-text); color: var(--text); }
 .rcpt-mail { display: inline-block; padding: 4px 0; font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--cyan); }
-@media (max-width: 520px) { .rcpt { padding: 16px; } .rcpt-rows { grid-template-columns: 1fr; gap: 2px; } .rcpt-rows dd { margin-bottom: 8px; } }
+@media (max-width: 520px) { .rcpt { padding: 16px; } .rcpt-rows dd { margin-bottom: 8px; } }
 
 /* ---- polish layer (2026-11-12): one state set for every control, light and dark, from kit tokens ----
    Fact-tile type steps: kit 45 ships .75rem and .9rem; the template pins them to the ramp (label, body). */
@@ -483,8 +485,7 @@ a:active { color: var(--text); }
 .tb-btn.primary:active { background: var(--cyan); filter: brightness(0.92); }
 .tb-btn:disabled, .tb-btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
 /* folds and seat heads */
-.tb-fold-btn { border-radius: var(--ds-r-xs); transition: color var(--dur-fast) var(--ease-out); }
-.tb-fold-btn:active { color: var(--text-secondary); }
+.tb-fold-btn { border-radius: var(--ds-r-xs); }
 .tb-fold-btn:disabled { opacity: 0.45; cursor: not-allowed; }
 .stacked .seat-btn:hover { color: var(--cyan); }
 .stacked .seat-btn:active { color: var(--text-secondary); }
@@ -504,8 +505,245 @@ a:active { color: var(--text); }
 .dprefs-btns button:disabled, .dprefs-actions button:disabled { opacity: 0.45; cursor: not-allowed; }
 /* ledger rows and tables are read-only: no hover tint, so nothing implies a click. Kit 54 spacing (14px, 6px, 20px) pinned to the 4px grid. */
 .sl-row { padding: var(--s-3) 0; gap: var(--s-2) var(--s-5); }
-.sl-group.is-judgment .sl-rows { padding-left: var(--s-4); }
 @media (prefers-reduced-motion: reduce) { .tb-btn, .tb-fold-btn { transition: none; } }
+
+/* ---- lockup layer (2026-11-12): construction rules for molecules and organisms ----
+   R1 Lane: every organism spans the content lane edge to edge; nothing ends short of its siblings.
+   R2 Keyline: two-column molecules share one key column (--key) and one gutter (--s-5), so every evidence column
+      on a page starts on the same vertical line, and every key starts flush on the lane's left edge (no cell inset).
+   R3 Molecule lockup: a key is one unit (chip over its signal, tight --s-1); the evidence sits beside it, top-aligned.
+      On a phone the key runs inline (chip, then signal) above the evidence.
+   R4 Organism header: label and count share one baseline; no rule under it, because dividers sit between rows only.
+   R5 Rhythm: inside a molecule --s-1/--s-2, between molecules a hairline plus --s-3, between groups --s-6.
+   R6 Tiles: label, figure and caption sit inside one box. */
+/* R2 + R3: signal ledger, two columns at every width above a phone (the kit's third column split the key and left the chip column empty) */
+.sl { gap: var(--s-6); }
+.sl-key { gap: var(--s-1); }
+@container (min-width:58rem) { .sl-key { display: flex; } }
+@container (max-width:37.99rem) { .sl-key { flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: var(--s-2); } }
+/* R4 */
+.sl-gh { padding: 0 0 var(--s-1); border-bottom: 0; }
+/* R2: tables start keys on the lane edge and share the keyline */
+.tb-table th:first-child, .tb-table td:first-child { padding-left: 0; }
+.tb-table th:last-child, .tb-table td:last-child { padding-right: 0; }
+.tb-table td:first-child { width: var(--key); padding-right: var(--s-5); } /* content box is the key; the gutter is its right padding */
+.pm-table th:first-child, .pm-table td:first-child { padding-left: 0; }
+.pm-table th:last-child, .pm-table td:last-child { padding-right: 0; }
+/* R2: cold-read slots on the keyline */
+/* R1: the How steps fill the lane instead of leaving an empty third column */
+.cr-how { grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+/* R6: fact tile, one box for label, figure and caption */
+.ftile::before { grid-row: 1 / 4; }
+.ftile-lab { padding: var(--s-3) var(--s-4) 0; }
+.ftile-fig { padding: var(--s-1) var(--s-4) 0; }
+.ftile-cap { padding: var(--s-1) var(--s-4) var(--s-3); }
+.ftiles { gap: var(--s-2); }
+@media (max-width: 599px) {
+  .tb-table td:first-child { width: auto; }
+}
+
+/* ---- Week One as one organism (2026-11-12): one hairline section like every fold (no nested card), three bands ----
+   Band 1 the strip: gap, do, get read left to right as three columns split by hairlines (one row of evidence).
+   Band 2 the track: the How steps sit on one timeline rule with cyan nodes, not in boxes.
+   Band 3 the footer: how-to-read closes the panel on a hairline, not as a separate grey callout.
+   On a phone the strip stacks and the track turns vertical with the rule on the left. */
+.tb-coldread { gap: 0; padding: var(--s-5) 0 0; border-top: 1px solid var(--border); }
+.tb-coldread > .tb-h2 { margin: 0 0 var(--s-4); }
+.tb-coldread .cr { gap: 0; }
+/* band 1 */
+.tb-coldread .cr-slots { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto; grid-auto-flow: column; column-gap: 0; }
+.tb-coldread .cr-slots dt, .tb-coldread .cr-slots dd { border-top: 0; padding: 0 var(--s-5); }
+.tb-coldread .cr-slots dt.section-label { padding: 0 var(--s-5) var(--s-2); line-height: var(--lh-display); }
+.tb-coldread .cr-slots dd { padding-bottom: 0; line-height: var(--lh-text); text-wrap: pretty; }
+.tb-coldread .cr-slots dt:first-of-type, .tb-coldread .cr-slots dt:first-of-type + dd { padding-left: 0; }
+.tb-coldread .cr-slots dt:not(:first-of-type), .tb-coldread .cr-slots dt:not(:first-of-type) + dd { border-left: 1px solid var(--border); }
+.tb-coldread .cr-slots dt:last-of-type, .tb-coldread .cr-slots dt:last-of-type + dd { padding-right: 0; }
+/* band 2 */
+.tb-coldread .cr-howwrap { margin-top: var(--s-5); padding-top: var(--s-4); border-top: 1px solid var(--border); }
+.tb-coldread .cr-howwrap > .section-label { margin: 0 0 var(--s-3); }
+.tb-coldread .cr-how { position: relative; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: var(--s-5); }
+.tb-coldread .cr-how::before { content: ""; position: absolute; left: 0; right: 0; top: 5px; border-top: 1px solid var(--border); }
+.tb-coldread .cr-step { padding: var(--s-5) 0 0; border: 0; border-radius: 0; background: none; gap: var(--s-1); }
+.tb-coldread .cr-step::before { content: ""; position: absolute; left: 0; top: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 0 3px var(--bg); }
+/* band 3 */
+.tb-coldread .cr > .callout.cr-read { margin-top: var(--s-5); padding: var(--s-4) 0 0; border: 0; border-top: 1px solid var(--border); border-radius: 0; background: none; color: var(--text-secondary); line-height: var(--lh-text); }
+.tb-coldread .cr > .callout.cr-read b { display: block; margin: 0 0 var(--s-1); color: var(--text-secondary); }
+@media (max-width: 599px) {
+  .tb-coldread { padding: var(--s-4) 0 0; }
+  .tb-coldread .cr-slots { grid-template-columns: minmax(0, 1fr); grid-auto-flow: row; }
+  .tb-coldread .cr-slots dt, .tb-coldread .cr-slots dd, .tb-coldread .cr-slots dt.section-label { padding-left: 0; padding-right: 0; border-left: 0; }
+  .tb-coldread .cr-slots dt:not(:first-of-type) { padding-top: var(--s-3); margin-top: var(--s-3); border-top: 1px solid var(--border); }
+  .tb-coldread .cr-how::before { left: 5px; right: auto; top: 0; bottom: 0; border-top: 0; border-left: 1px solid var(--border); }
+  .tb-coldread .cr-step { padding: 0 0 0 var(--s-5); }
+}
+
+/* ---- cohesion pass (2026-11-12, brand-line-producer + impeccable finish review + Zach's fold and quote asks) ----
+   Atoms: ONE label style (mono, label size, uppercase, tracked, secondary); cyan only on links, figures, nodes and active state.
+   Molecules: keys in sans strong, tabular figures; no side stripes; tiles step up in scale.
+   Organisms: folds hang their chevron in the gutter so title, table and ledger edges lock on both sides of the lane.
+   Template: one rhythm, --s-6 body gutter on tablet and up, headline to lede the same on every page. */
+/* atom: label */
+.tb-table th, .pm-table th { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: var(--fw-bold); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); }
+.sl-gn { text-transform: uppercase; letter-spacing: 0.1em; }
+/* molecule: keys */
+.sl-sig { font-family: var(--ds-font-sans); font-size: var(--fs-body); font-weight: var(--fw-strong); letter-spacing: 0; line-height: var(--lh-head); color: var(--text); font-variant-numeric: tabular-nums; }
+.tb-table td:first-child { font-variant-numeric: tabular-nums; }
+/* molecule: no side stripes (the gold chip still marks judgment) */
+.sl-group.is-judgment .sl-rows { border-left: 0; padding-left: 0; }
+/* molecule: fact tile figure steps up a size where the grid has room */
+@media (min-width: 600px) { .ftile-fig { font-size: calc(var(--fs-headline) * 1.5); } }
+/* organism: folds. Chevron hangs in the gutter; title, body, tables share the lane edges left and right */
+@media (min-width: 600px) { .tb-body, .tb-meta { padding-inline: var(--s-6); } }
+.tb-fold-btn, .stacked .seat-btn { margin-inline-start: calc(-8px - var(--s-3)); width: calc(100% + 8px + var(--s-3)); }
+@media (max-width: 599px) { .tb-body { padding-inline: var(--s-5); } .tb-fold-btn, .stacked .seat-btn { gap: var(--s-2); margin-inline-start: calc(-8px - var(--s-2)); width: calc(100% + 8px + var(--s-2)); } }
+.tb-fold { padding: var(--s-5) 0 var(--s-4); }
+.tb-expand .tb-btn { border-color: transparent; background: none; padding-inline: 0; }
+.tb-expand .tb-btn:hover { background: none; text-decoration: underline; text-underline-offset: 3px; }
+/* template: rhythm */
+.seat-head { padding-bottom: 0; }
+/* organism: sound bite. No stripe; display-serif italic quote marks (typographic glyphs in a DESIGN.md face, not drawn icons); quote bigger and bolder; room below */
+.sb { border-left: 0; padding: 0 0 var(--s-5); }
+.sb-t { position: relative; font-size: calc(var(--fs-headline) * 1.3); font-weight: var(--fw-strong); line-height: var(--lh-head); }
+.sb-t::before, .sb-t::after { font-family: var(--ds-font-display); font-style: italic; font-weight: 700; font-size: 2.4em; line-height: 0; color: var(--cyan); vertical-align: -0.42em; }
+.sb-t::before { content: "\201C"; margin-right: 0.08em; }
+.sb-t::after { content: "\201D"; margin-left: 0.04em; }
+.sb-item { gap: var(--s-3); }
+
+/* ---- design-system rulings (Zach, 2026-11-12) ----
+   1. Headlines in Inter semibold, the reference's voice (was the display serif). The quote follows.
+   2. Inter loads from Google Fonts first; SF Pro / system-ui is the fallback.
+   3. Glass with a little dimensionality in both themes: a soft top-lit gradient, a hairline rim, an inset top highlight
+      and a short offset shadow on raised pieces (frame, tiles, cards, controls); chips sit as shallow wells. Tokens only. */
+:root { --ds-font-sans: 'Inter', -apple-system, 'SF Pro Text', system-ui, sans-serif; --ds-font-display: var(--ds-font-sans);
+  --glass: linear-gradient(180deg, var(--surface), color-mix(in srgb, var(--surface) 94%, var(--text)) 56px);
+  --bevel: inset 0 1px 0 color-mix(in srgb, white 70%, transparent), inset 0 -1px 0 color-mix(in srgb, var(--text) 5%, transparent);
+  --lift: 0 1px 2px color-mix(in srgb, var(--text) 7%, transparent), 0 3px 6px -3px color-mix(in srgb, var(--text) 12%, transparent);
+  --well: inset 0 1px 2px color-mix(in srgb, var(--text) 10%, transparent); }
+:root[data-theme="dark"] { --glass: linear-gradient(180deg, color-mix(in srgb, var(--surface) 88%, white), var(--surface) 56px); /* sheen pinned to 56px so tall and short panels match */
+  --bevel: inset 0 1px 0 color-mix(in srgb, white 6%, transparent), inset 0 -1px 0 color-mix(in srgb, black 40%, transparent);
+  --lift: 0 1px 2px color-mix(in srgb, black 40%, transparent), 0 3px 6px -3px color-mix(in srgb, black 55%, transparent);
+  --well: inset 0 1px 3px color-mix(in srgb, black 50%, transparent); }
+.tb-h1, .seat-h { font-family: var(--ds-font-sans); font-weight: var(--fw-strong); letter-spacing: -0.02em; }
+.sb-t { font-family: var(--ds-font-sans); letter-spacing: -0.01em; }
+.sb-t::before, .sb-t::after { font-family: var(--ds-font-sans); font-style: normal; font-weight: var(--fw-bold); }
+/* raised */
+.tb-frame { background: var(--glass); box-shadow: var(--bevel), var(--lift); }
+.tb-frame .tb-body { background: transparent; }
+/* sticky head (myAlly pattern): solid, never see-through; a shadow only once it is stuck */
+.tb-frame .tb-navwrap { background: var(--surface); }
+.tb-head.is-stuck { box-shadow: 0 1px 0 var(--border), 0 6px 12px -8px color-mix(in srgb, black 35%, transparent); }
+.ftile::before { background: var(--glass); box-shadow: var(--bevel), var(--lift); }
+.tb-card { background: var(--glass); } /* inside the raised frame: tinted, not lifted (no card inside a card) */
+.tb-btn, .dprefs-theme, .dprefs-aa, .sb-btn { background: var(--glass); box-shadow: var(--bevel), var(--lift); }
+.tb-btn:active, .dprefs-theme:active, .dprefs-aa:active, .sb-btn:active { box-shadow: var(--well); transform: translateY(1px); }
+.tb-expand .tb-btn { background: none; box-shadow: none; }
+/* wells */
+@media (prefers-reduced-motion: reduce) { .tb-btn:active, .dprefs-theme:active, .dprefs-aa:active, .sb-btn:active { transform: none; } }
+
+/* ---- folds as organisms (2026-11-12, Zach: the folds were weaker than the top half) ----
+   Each fold is a raised glass panel built like the fact tile (surface on a ::before, so it is one box, not a card in a card):
+   hairline rim, radius sm, bevel and lift, chevron header inside. Folds stack with one gap. Inside: ledger groups read as
+   sub-sections, no row counters; dated releases sit on the stepper track; cards inside a fold are flat sections. */
+.tb-folds { gap: var(--s-3); }
+.tb-fold, .tb-fold:last-child { position: relative; isolation: isolate; border: 0; padding: var(--s-4) var(--s-5); }
+.tb-fold::before { content: ""; position: absolute; inset: 0; z-index: -1; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--glass); box-shadow: var(--bevel), var(--lift); }
+.tb-fold-btn, .stacked .seat-btn { margin-inline-start: 0; width: 100%; }
+@media (max-width: 599px) { .tb-fold-btn, .stacked .seat-btn { margin-inline-start: 0; width: 100%; } .tb-fold, .tb-fold:last-child { padding: var(--s-3) var(--s-4); } }
+.tb-fold-body { padding-top: var(--s-4); margin-top: var(--s-4); border-top: 1px solid var(--border); }
+.tb-fold:has(.tb-fold-btn[aria-expanded="false"]) .tb-fold-body { margin-top: 0; }
+.tb-fold .tb-card { background: none; border: 0; border-radius: 0; padding: 0; }
+.tb-fold .tb-card + .tb-card { border-top: 1px solid var(--border); padding-top: var(--s-3); } /* stacked: rules between cards only */
+@media (min-width: 901px) { .tb-fold .tb-card + .tb-card { border-top: 0; padding-top: 0; } } /* side by side: no rule (breakpoint follows stack_below) */
+.tb-fold .sl-group + .sl-group { padding-top: var(--s-4); border-top: 1px solid var(--border); }
+/* timeline molecule: date label over the release, cyan nodes on one rule (the Week One stepper, vertical) */
+.tb-tl { position: relative; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--s-4); }
+.tb-tl::before { content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; border-left: 1px solid var(--border); }
+.tb-tl-i { position: relative; display: flex; flex-direction: column; gap: var(--s-1); }
+.tb-tl-i::before { content: ""; position: absolute; left: 0; top: 2px; width: 11px; height: 11px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 0 3px var(--surface); }
+.tb-tl-d { margin: 0; font-variant-numeric: tabular-nums; }
+.tb-tl-t { margin: 0; line-height: var(--lh-text); text-wrap: pretty; }
+
+.tb-fold-body { container-type: inline-size; }
+/* masthead name in the San Francisco system face (Zach, 2026-11-12); size, weight, caps and tracking unchanged; non-Apple falls back to system-ui */
+.tb-name-main { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif; }
+/* fold header states (2026-11-12): the title keeps --text in every state, so nothing changes colour on toggle or sticks after a tap.
+   Hover tints only the chevron, on fine pointers; focus-visible keeps its outline. */
+.tb-fold-btn::before { transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur-base) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .tb-fold-btn:hover::before { border-color: var(--text); } }
+
+/* quotes back in the kit serif (Zach, 2026-11-13: it stood out more) */
+.sb-t { font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif; }
+.sb-t::before, .sb-t::after { font-family: inherit; }
+
+/* ---- glass picks, second set (Zach, 2026-11-13, option board PR 2227): Header C glow, Stats B glass, Week One C deboss,
+   Folds B glass, Evidence rows A flat. Glass strength 0.75x: every glass alpha below is the 1x value times --k-glass.
+   Stats B and Folds B are the raised glass already set above (tile and fold ::before); evidence rows stay flat. ---- */
+:root { --k-glass: 0.75;
+  --glass: linear-gradient(180deg, var(--surface), color-mix(in srgb, var(--surface) calc(100% - 6% * var(--k-glass)), var(--text)) 56px);
+  --bevel: inset 0 1px 0 color-mix(in srgb, white calc(70% * var(--k-glass)), transparent), inset 0 -1px 0 color-mix(in srgb, var(--text) calc(5% * var(--k-glass)), transparent);
+  --lift: 0 1px 2px color-mix(in srgb, var(--text) calc(7% * var(--k-glass)), transparent), 0 3px 6px -3px color-mix(in srgb, var(--text) calc(12% * var(--k-glass)), transparent);
+  --well: inset 0 1px 2px color-mix(in srgb, var(--text) calc(10% * var(--k-glass)), transparent);
+  --deboss-fill: color-mix(in srgb, var(--surface) 40%, white); /* light: a well sits lighter than its ground (Zach, no exception); the inset shadow carries the sink */
+  --deboss: inset 0 2px 4px color-mix(in srgb, var(--text) calc(14% * var(--k-glass)), transparent), inset 0 -1px 0 color-mix(in srgb, white calc(60% * var(--k-glass)), transparent); }
+:root[data-theme="dark"] {
+  --glass: linear-gradient(180deg, color-mix(in srgb, var(--surface) calc(100% - 12% * var(--k-glass)), white), var(--surface) 56px);
+  --bevel: inset 0 1px 0 color-mix(in srgb, white calc(6% * var(--k-glass)), transparent), inset 0 -1px 0 color-mix(in srgb, black calc(40% * var(--k-glass)), transparent);
+  --lift: 0 1px 2px color-mix(in srgb, black calc(40% * var(--k-glass)), transparent), 0 3px 6px -3px color-mix(in srgb, black calc(55% * var(--k-glass)), transparent);
+  --well: inset 0 1px 3px color-mix(in srgb, black calc(50% * var(--k-glass)), transparent);
+  --deboss-fill: var(--bg);
+  --deboss: inset 0 2px 4px color-mix(in srgb, black calc(60% * var(--k-glass)), transparent), inset 0 -1px 0 color-mix(in srgb, white calc(6% * var(--k-glass)), transparent); }
+
+/* Header: no rim glow (Zach, 2026-11-13: "kill that for dark and light"); the head is solid, divider and stuck shadow only */
+
+/* Week One C: the whole cold-read sits pressed into one well (surface on a ::before, so it is one box, not a card in the frame) */
+.tb-coldread .cr { position: relative; isolation: isolate; padding: var(--s-4) var(--s-5); }
+.tb-coldread .cr::before { content: ""; position: absolute; inset: 0; z-index: -1; border: 1px solid var(--border); border-radius: var(--ds-r-md); background: var(--deboss-fill); box-shadow: var(--deboss); }
+.tb-coldread .cr-step::before { box-shadow: 0 0 0 3px var(--deboss-fill); }
+@media (max-width: 599px) { .tb-coldread .cr { padding: var(--s-3) var(--s-4); } }
+/* stuck at the top of the viewport the head goes square, so no page shows through its corner notches */
+.tb-head.is-stuck, .tb-head.is-stuck .tb-meta { border-radius: 0; }
+/* pull quote attribution sits right, the pull-quote convention (Zach, 2026-11-13) */
+.sb-by { justify-content: flex-end; text-align: right; }
+/* quote under the headline: no extra room below (the pane gap spaces it); on a phone it stays smaller than the headline */
+.sb { padding-bottom: 0; }
+@media (max-width: 599px) { .sb-t { font-size: var(--fs-headline); } }
+
+/* ---- R2 lockup primitive (2026-11-13, root cause of drifting content edges) ----
+   ONE rule lays out every two-column molecule: a key column (--key) and one gutter (--s-5), stacked below a 38rem container.
+   Molecules never write their own column template. A molecule that needs a full-width rule draws it on the row,
+   never by changing the column math. Gate: scripts/keyline_check.mjs (npm test). */
+.tb-body { container-type: inline-size; }
+.tb-tl-d { padding-left: var(--s-5); } /* the dot track lives inside the key column */
+@container (min-width: 38rem) {
+  .sl-row, .cr-slots, .rcpt-rows, .tb-tl-i { display: grid; grid-template-columns: var(--key) minmax(0, 1fr); column-gap: var(--s-5); }
+  .tb-tl-i { align-items: baseline; }
+  .cr-slots dt { position: relative; }
+  .cr-slots dt:not(:first-of-type)::after { content: ""; position: absolute; top: -1px; left: 100%; width: var(--s-5); border-top: 1px solid var(--border); } /* the row rule runs through the gutter */
+}
+@container (max-width: 37.99rem) { .cr-slots { display: grid; grid-template-columns: minmax(0, 1fr); } .tb-tl-i { padding-left: var(--s-5); } .tb-tl-d { padding-left: 0; } }
+.tb-coldread .cr-slots dt::after { content: none; } /* Week One is three bands, not a lockup: no gutter bridge */
+/* Header option B (Zach, 2026-11-13): the quote leads, italic serif in secondary text, then a hairline rule (the pane gap, --sp-4, sets the space above and below), then the headline at 700.
+   The attribution runs at 85% of body size. Secondary text is the AA token, not opacity, so the words stay at full strength. */
+.sb.is-top { padding: 0; }
+.sb.is-top .sb-t { font-family: 'Newsreader', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif; font-style: italic; font-weight: 400; color: var(--text-secondary); }
+.sb.is-top .sb-t::before, .sb.is-top .sb-t::after { font-weight: 400; font-size: 1.8em; vertical-align: -0.32em; } /* lighter marks so they do not outweigh the quote */
+.sb.is-top .sb-by { font-size: calc(var(--fs-body) * 0.85); margin-top: var(--s-2); } /* 0.85x body, about 12.6px, per the style ledger (Zach 2026-11-13); clears the 12px reading floor */
+.tb-hd-rule { border: 0; border-top: 1px solid var(--border); margin: 0; } /* the pane gap (--sp-4, 24px at the default ?tune setting) is the space above and below */
+.tb-hd-rule + .tb-h1 { font-weight: 700; } /* only under bites_at "top"; seam: overrides the 2026-11-12 "Inter semibold" headline ruling for this header, by Zach's option B pick */
+/* @prim:begin 71-proof-lockup */
+.plk { container-type: inline-size; display: grid; gap: var(--sp-2, 16px); margin: 0; min-width: 0; }
+.plk-kick { margin: 0; font-size: var(--fs-body); font-weight: 400; line-height: 1.5; color: var(--text); text-wrap: pretty; }
+.plk-cells { display: grid; grid-template-columns: minmax(0, 1fr); margin: 0; padding: 0; list-style: none; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--glass, var(--surface)); box-shadow: var(--bevel, 0 0 0 transparent), var(--lift, 0 0 0 transparent); }
+.plk-cell { display: grid; grid-row: span 3; grid-template-rows: subgrid; align-content: start; row-gap: 4px; min-width: 0; padding: 14px 16px; }
+.plk-cell + .plk-cell { border-top: 1px solid var(--border); }
+.plk-lab { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; line-height: 1.2; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); align-self: end; }
+.plk-fig { font-family: var(--ds-font-mono); font-size: var(--fs-headline); font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; color: var(--text); overflow-wrap: anywhere; }
+.plk-cap { font-size: calc(var(--fs-body) * 0.92); line-height: 1.4; color: var(--text-secondary); text-wrap: pretty; }
+.plk-close { margin: 0; font-size: var(--fs-body); font-weight: 600; line-height: 1.5; color: var(--text); text-wrap: pretty; }
+@container (min-width: 30rem) { .plk-cells { grid-template-columns: repeat(2, minmax(0, 1fr)); } .plk-cell + .plk-cell { border-top: 0; } .plk-cell:nth-child(2n) { border-left: 1px solid var(--border); } .plk-cell:nth-child(n+3) { border-top: 1px solid var(--border); } }
+@container (min-width: 48rem) { .plk-cells { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); } .plk-cell:nth-child(n) { border-top: 0; } .plk-cell + .plk-cell { border-left: 1px solid var(--border); } }
+@media print { .plk { break-inside: avoid; } .plk-cells { background: none; box-shadow: none; } }
+/* @prim:end 71-proof-lockup */
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -515,17 +753,18 @@ a:active { color: var(--text); }
 <section id="dprefs" class="dprefs-panel" role="dialog" aria-modal="false" aria-labelledby="dprefs-h" hidden><p id="dprefs-h" class="dprefs-title">Reading options</p><div class="dprefs-group" role="group" aria-labelledby="dprefs-font"><span id="dprefs-font" class="dprefs-label">Font</span><span class="dprefs-btns"><button type="button" data-k="font" data-v="std" aria-pressed="true">Standard</button><button type="button" data-k="font" data-v="easy" aria-pressed="false">Easy-read</button></span></div><div class="dprefs-group" role="group" aria-labelledby="dprefs-size"><span id="dprefs-size" class="dprefs-label">Text size</span><span class="dprefs-btns"><button type="button" data-k="size" data-v="std" aria-pressed="true">Standard</button><button type="button" data-k="size" data-v="l" aria-pressed="false">Larger</button><button type="button" data-k="size" data-v="xl" aria-pressed="false">Largest</button></span></div><div class="dprefs-group" role="group" aria-labelledby="dprefs-space"><span id="dprefs-space" class="dprefs-label">Spacing</span><span class="dprefs-btns"><button type="button" data-k="space" data-v="std" aria-pressed="true">Standard</button><button type="button" data-k="space" data-v="roomy" aria-pressed="false">Roomy</button></span></div><div class="dprefs-actions"><button type="button" data-reset>Reset</button><button type="button" data-close>Close</button></div></section>
 <section class="tb-frame" aria-label="Zach Harris for Gravity Labs">
 <div class="tb-head"><dl class="tb-meta"><div class="opt"><dt>Prepared for</dt><dd>The Gravity Labs team</dd></div></dl>
-<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Pages" data-menu-below="1024"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs"><a class="shnav-tab" href="/" data-target="pane-ov" aria-current="false">Overview</a><a class="shnav-tab" href="/eir" data-target="pane-eir" aria-current="false">EIR</a><a class="shnav-tab" href="/hats" data-target="pane-hats" aria-current="false">Hats</a><a class="shnav-tab" href="/proof" data-target="pane-proof" aria-current="page">Proof</a><a class="shnav-tab" href="/beliefs" data-target="pane-beliefs" aria-current="false">Beliefs</a></div><p class="tb-name"><span class="tb-name-main">Zach Harris</span><span class="tb-name-sub"><a href="https://app.ens.domains/zachharris.eth">zachharris.eth</a> · <a href="https://zach.md">zach.md</a></span></p><button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Go to a page"><span></span></button></nav></div></div>
+<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Pages" data-menu-below="901"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs"><a class="shnav-tab" href="/" data-target="pane-ov" aria-current="false">Overview</a><a class="shnav-tab" href="/eir" data-target="pane-eir" aria-current="false">EIR</a><a class="shnav-tab" href="/hats" data-target="pane-hats" aria-current="false">Hats</a><a class="shnav-tab" href="/proof" data-target="pane-proof" aria-current="page">Proof</a><a class="shnav-tab" href="/beliefs" data-target="pane-beliefs" aria-current="false">Beliefs</a></div><p class="tb-name"><span class="tb-name-main">Zach Harris</span><span class="tb-name-sub"><a href="https://app.ens.domains/zachharris.eth">zachharris.eth</a> · <a href="https://zach.md">zach.md</a> · <a href="mailto:zach.harris@gmail.com">zach.harris@gmail.com</a></span></p><button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Go to a page"><span></span></button></nav></div></div>
 <div class="tb-body">
 <div id="pane-proof" class="tb-pane seat">
 <div class="seat-head"><p class="section-label seat-name">Proof</p><h1 class="seat-h">28 of 37 claims link to a public record.</h1></div>
 <div class="seat-body" id="seat-proof-body"><p class="seat-lede">Quoted from <a href="https://zach.md/proof">my proof ledger</a>, never retyped: 8 are private (employer data or a private repository, references on request) and 1 is not shown yet, named. The build itself is counted live on <a href="https://status.arcs.care">the status page</a>.</p>
-<section class="unit"><h2 class="tb-h3">Counted Live</h2><div class="sl"><section class="sl-group" aria-labelledby="sl-tabs-2-units-0-blocks-0-0"><div class="sl-gh"><h3 class="section-label" id="sl-tabs-2-units-0-blocks-0-0">Status</h3><span class="sl-gn">3 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip cyan">shown</span><span class="sl-sig">2026-11-12</span></div><p class="sl-ev"><strong>6,800+ commits on main since April 2026, counted live.</strong> Live pulse JSON from the production app: commitsTotal 6,809 at 23:28 UTC on 2026-11-12. Record: <a href="https://app.arcs.care/api/pulse">app.arcs.care/api/pulse</a>.</p></li><li class="sl-row"><div class="sl-key"><span class="chip">on request</span><span class="sl-sig">2026-11-12</span></div><p class="sl-ev"><strong>1,900+ pull requests merged, each approved by a human; merges leave receipts in an append-only ledger.</strong> GitHub merged-PR count, 1,911 on 2026-11-12. The repository is private.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">shown</span><span class="sl-sig">2026-10-30</span></div><p class="sl-ev"><strong>Built in public since day zero: the live build status is measured from the repository, not written by hand.</strong> Commits, days and milestones, each tied to a real commit. Record: <a href="https://status.arcs.care">status.arcs.care</a>.</p></li></ul></section></div></section>
-<section class="unit"><h2 class="tb-h3">Build and Ship</h2><div class="sl"><section class="sl-group" aria-labelledby="sl-tabs-2-units-1-blocks-0-0"><div class="sl-gh"><h3 class="section-label" id="sl-tabs-2-units-1-blocks-0-0">In production</h3><span class="sl-gn">4 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip cyan">shown</span><span class="sl-sig">2026-10-30</span></div><p class="sl-ev"><strong>Built ARCS, a decision intelligence platform on Claude, and runs it in production.</strong> The live app, and a status page that measures the build from the repository itself. Record: <a href="https://status.arcs.care">status.arcs.care</a>.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">shown</span><span class="sl-sig">2026-10-20</span></div><p class="sl-ev"><strong>99 pull requests merged in one day, a human approving every one.</strong> Release notes for the day: what shipped, what broke, and an honest human-time estimate. Record: <a href="https://good.arcs.care/blog/til/one-day-99-merges">One Day, 99 Merges</a>.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">shown</span><span class="sl-sig">2026-11-02</span></div><p class="sl-ev"><strong>Published the RFP engine&#x27;s source, with a self-check anyone can run without an API key.</strong> Public repository. The mock-model check runs in one command and compares the MCP server with the engine called directly. The repository has no license file as of 2026-11-09. Record: <a href="https://github.com/flashesofbrilliance/rfp-engine">github.com/flashesofbrilliance/rfp-engine</a>.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">shown</span><span class="sl-sig">2026-09-02</span></div><p class="sl-ev"><strong>Spotted a state-sponsored fake-recruiter malware lure, dissected it for defenders, and built a scanner from it.</strong> The DPRK Famous Chollima (G1052) operation delivering BeaverTail and InvisibleFerret: the matched-pair account, a detection and response dossier, and sbom-payload-scan, which checks an unknown repo&#x27;s dependencies for payloads before anything runs. Record: <a href="https://good.arcs.care/blog/nftt/take-home-trap/dossier">The Take-Home Trap: dossier</a>.</p></li></ul></section></div></section>
-<section class="unit"><h2 class="tb-h3">Where Mistakes Are Expensive</h2><div class="sl"><section class="sl-group" aria-labelledby="sl-tabs-2-units-2-blocks-0-0"><div class="sl-gh"><h3 class="section-label" id="sl-tabs-2-units-2-blocks-0-0">Regulated and live</h3><span class="sl-gn">4 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip">on request</span><span class="sl-sig">2025</span></div><p class="sl-ev"><strong>Grayscale: ran ten SEC and FINRA regulated products, a $7B portfolio; cut release-cycle time 35 percent with zero violations.</strong> Employer record, 2024 to 2025. References available.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">shown</span><span class="sl-sig">2020</span></div><p class="sl-ev"><strong>Led a PE turnaround&#x27;s patient journey rebuild for a $350M ARR, 3,500+ clinic medical program under HIPAA: qualified leads up 40 percent, program adherence at 73 percent.</strong> Ideal Protein, via Squat New York, 2019 to 2020: research through relaunch, a two-step qualification flow, accessibility and HIPAA-safe forms. Booking success within five miles up 63 percent; website NPS up 23 points. Condensed from an 18-slide deck that was confidential while the company was a PE holding. Record: <a href="https://www.arcs.care/case-study">Ideal Protein growth case</a>.</p></li><li class="sl-row"><div class="sl-key"><span class="chip">on request</span><span class="sl-sig">2026-10-30</span></div><p class="sl-ev"><strong>Per-tenant database roles with row-level security that fail closed.</strong> In the private repository; walkthrough on request.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">shown</span><span class="sl-sig">2026-08-30</span></div><p class="sl-ev"><strong>Turns a recurring bug into a gate that fails the build on the whole class, not just the instance.</strong> A recurring bug becomes a gate, a misattribution becomes a named pathogen, and the detector&#x27;s first true positive lands on the document it was built to protect. Record: <a href="https://good.arcs.care/blog/nftt/post-4">NFTT Post 4</a>.</p></li></ul></section></div></section>
-<section class="unit"><h2 class="tb-h3">Documented as I Build</h2><div class="sl"><section class="sl-group" aria-labelledby="sl-tabs-2-units-3-blocks-0-0"><div class="sl-gh"><h3 class="section-label" id="sl-tabs-2-units-3-blocks-0-0">ARCS building ARCS, in the open</h3><span class="sl-gn">4 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip cyan">shown</span><span class="sl-sig">2026-11-11</span></div><p class="sl-ev"><strong>36 Notes from the Trenches posts since 2026-08-18: lessons from building ARCS, with the receipts.</strong> Every post carries a frozen publish timestamp taken from the commit that routed it. Record: <a href="https://good.arcs.care/blog/nftt">Notes from the Trenches</a>.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">shown</span><span class="sl-sig">2026-10-20</span></div><p class="sl-ev"><strong>Long-form deep dives with a belief ledger scored before the outcome and re-scored against it.</strong> Today I Learned: forensic reads, each with its predictions written down first. Record: <a href="https://good.arcs.care/blog/til">Today I Learned</a>.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">shown</span><span class="sl-sig">2026-10-30</span></div><p class="sl-ev"><strong>Built in public since day zero: the live build status is measured from the repository, not written by hand.</strong> Commits, days and milestones, each tied to a real commit. Record: <a href="https://status.arcs.care">status.arcs.care</a>.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">shown</span><span class="sl-sig">2026-11-02</span></div><p class="sl-ev"><strong>Published the RFP engine&#x27;s source, with a self-check anyone can run without an API key.</strong> Public repository. The mock-model check runs in one command and compares the MCP server with the engine called directly. The repository has no license file as of 2026-11-09. Record: <a href="https://github.com/flashesofbrilliance/rfp-engine">github.com/flashesofbrilliance/rfp-engine</a>.</p></li></ul></section></div></section>
-<section class="unit"><h2 class="tb-h3">Revenue</h2><div class="sl"><section class="sl-group" aria-labelledby="sl-tabs-2-units-4-blocks-0-0"><div class="sl-gh"><h3 class="section-label" id="sl-tabs-2-units-4-blocks-0-0">Built from zero</h3><span class="sl-gn">4 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip">on request</span><span class="sl-sig">2016</span></div><p class="sl-ev"><strong>Co-founded a direct-to-consumer brand: zero to profitability and more than $2M revenue in 24 months.</strong> Co-founder, IBRShop, 2012 to 2016.</p></li><li class="sl-row"><div class="sl-key"><span class="chip">on request</span><span class="sl-sig">2011</span></div><p class="sl-ev"><strong>Grew a video ad network from $4,500 to more than $1M a month, and net operating margin by 25 percent.</strong> General Manager, Selectable Media, 2010 to 2011.</p></li><li class="sl-row"><div class="sl-key"><span class="chip">on request</span><span class="sl-sig">2018</span></div><p class="sl-ev"><strong>Closed the WTA&#x27;s first commercial data partnerships, with Twitter and Facebook: $850K in year one.</strong> Head of Product and Strategic Partnerships, 2016 to 2018.</p></li><li class="sl-row"><div class="sl-key"><span class="chip">on request</span><span class="sl-sig">2019</span></div><p class="sl-ev"><strong>Rebuilt a foundation&#x27;s CRM and customer data into one source of truth; net-new revenue up 20 percent.</strong> Senior Director, Data and Strategy, Children&#x27;s Tumor Foundation, 2018 to 2019.</p></li></ul></section></div></section>
-<section class="unit"><h2 class="tb-h3">Not Proven Yet</h2><div class="sl"><section class="sl-group" aria-labelledby="sl-tabs-2-units-5-blocks-0-0"><div class="sl-gh"><h3 class="section-label" id="sl-tabs-2-units-5-blocks-0-0">The gap, named</h3><span class="sl-gn">1 row</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip gold">not yet shown</span><span class="sl-sig">2026-10-30</span></div><p class="sl-ev"><strong>ARCS&#x27;s decision scoring is accurate.</strong> Each decision is scored when made and closed against its outcome. Not enough outcomes have closed to publish an accuracy figure, so none is claimed.</p></li></ul></section></div></section>
+<div class="tb-expand"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>
+<div class="tb-folds"><section class="tb-fold" id="proof-counted-live"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="true" aria-controls="proof-counted-live-body"><span><span class="tb-fold-t">Counted Live</span></span></button></h2><div class="tb-fold-body" id="proof-counted-live-body"><div class="sl"><section class="sl-group" aria-labelledby="sl-tabs-2-units-0-blocks-0-0"><div class="sl-gh"><h3 class="section-label" id="sl-tabs-2-units-0-blocks-0-0">Status</h3></div><ul class="sl-rows"><li class="sl-row is-shown"><div class="sl-key"><span class="chip cyan status">shown</span><span class="sl-sig">2026-11-12</span></div><p class="sl-ev"><strong>6,800+ commits on main since April 2026, counted live.</strong> Live pulse JSON from the production app: commitsTotal 6,809 at 23:28 UTC on 2026-11-12. Record: <a href="https://app.arcs.care/api/pulse">app.arcs.care/api/pulse</a>.</p></li><li class="sl-row is-on-request"><div class="sl-key"><span class="chip status">on request</span><span class="sl-sig">2026-11-12</span></div><p class="sl-ev"><strong>1,900+ pull requests merged, each approved by a human; merges leave receipts in an append-only ledger.</strong> GitHub merged-PR count, 1,911 on 2026-11-12. The repository is private.</p></li><li class="sl-row is-shown"><div class="sl-key"><span class="chip cyan status">shown</span><span class="sl-sig">2026-10-30</span></div><p class="sl-ev"><strong>Built in public since day zero: the live build status is measured from the repository, not written by hand.</strong> Commits, days and milestones, each tied to a real commit. Record: <a href="https://status.arcs.care">status.arcs.care</a>.</p></li></ul></section></div></div></section>
+<section class="tb-fold" id="proof-build-and-ship"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="false" aria-controls="proof-build-and-ship-body"><span><span class="tb-fold-t">Build and Ship</span></span></button></h2><div class="tb-fold-body" id="proof-build-and-ship-body" hidden><div class="sl"><section class="sl-group" aria-labelledby="sl-tabs-2-units-1-blocks-0-0"><div class="sl-gh"><h3 class="section-label" id="sl-tabs-2-units-1-blocks-0-0">In production</h3></div><ul class="sl-rows"><li class="sl-row is-shown"><div class="sl-key"><span class="chip cyan status">shown</span><span class="sl-sig">2026-10-30</span></div><p class="sl-ev"><strong>Built ARCS, a decision intelligence platform on Claude, and runs it in production.</strong> The live app, and a status page that measures the build from the repository itself. Record: <a href="https://status.arcs.care">status.arcs.care</a>.</p></li><li class="sl-row is-shown"><div class="sl-key"><span class="chip cyan status">shown</span><span class="sl-sig">2026-10-20</span></div><p class="sl-ev"><strong>99 pull requests merged in one day, a human approving every one.</strong> Release notes for the day: what shipped, what broke, and an honest human-time estimate. Record: <a href="https://good.arcs.care/blog/til/one-day-99-merges">One Day, 99 Merges</a>.</p></li><li class="sl-row is-shown"><div class="sl-key"><span class="chip cyan status">shown</span><span class="sl-sig">2026-11-02</span></div><p class="sl-ev"><strong>Published the RFP engine&#x27;s source, with a self-check anyone can run without an API key.</strong> Public repository. The mock-model check runs in one command and compares the MCP server with the engine called directly. The repository has no license file as of 2026-11-09. Record: <a href="https://github.com/flashesofbrilliance/rfp-engine">github.com/flashesofbrilliance/rfp-engine</a>.</p></li><li class="sl-row is-shown"><div class="sl-key"><span class="chip cyan status">shown</span><span class="sl-sig">2026-09-02</span></div><p class="sl-ev"><strong>Spotted a state-sponsored fake-recruiter malware lure, dissected it for defenders, and built a scanner from it.</strong> The DPRK Famous Chollima (G1052) operation delivering BeaverTail and InvisibleFerret: the matched-pair account, a detection and response dossier, and sbom-payload-scan, which checks an unknown repo&#x27;s dependencies for payloads before anything runs. Record: <a href="https://good.arcs.care/blog/nftt/take-home-trap/dossier">The Take-Home Trap: dossier</a>.</p></li></ul></section></div></div></section>
+<section class="tb-fold" id="proof-where-mistakes-are-expensive"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="false" aria-controls="proof-where-mistakes-are-expensive-body"><span><span class="tb-fold-t">Where Mistakes Are Expensive</span></span></button></h2><div class="tb-fold-body" id="proof-where-mistakes-are-expensive-body" hidden><div class="sl"><section class="sl-group" aria-labelledby="sl-tabs-2-units-2-blocks-0-0"><div class="sl-gh"><h3 class="section-label" id="sl-tabs-2-units-2-blocks-0-0">Regulated and live</h3></div><ul class="sl-rows"><li class="sl-row is-on-request"><div class="sl-key"><span class="chip status">on request</span><span class="sl-sig">2025</span></div><p class="sl-ev"><strong>Grayscale: ran ten SEC and FINRA regulated products, a $7B portfolio; cut release-cycle time 35 percent with zero violations.</strong> Employer record, 2024 to 2025. References available.</p></li><li class="sl-row is-shown"><div class="sl-key"><span class="chip cyan status">shown</span><span class="sl-sig">2020</span></div><p class="sl-ev"><strong>Led a PE turnaround&#x27;s patient journey rebuild for a $350M ARR, 3,500+ clinic medical program under HIPAA: qualified leads up 40 percent, program adherence at 73 percent.</strong> Ideal Protein, via Squat New York, 2019 to 2020: research through relaunch, a two-step qualification flow, accessibility and HIPAA-safe forms. Booking success within five miles up 63 percent; website NPS up 23 points. Condensed from an 18-slide deck that was confidential while the company was a PE holding. Record: <a href="https://www.arcs.care/case-study">Ideal Protein growth case</a>.</p></li><li class="sl-row is-on-request"><div class="sl-key"><span class="chip status">on request</span><span class="sl-sig">2026-10-30</span></div><p class="sl-ev"><strong>Per-tenant database roles with row-level security that fail closed.</strong> In the private repository; walkthrough on request.</p></li><li class="sl-row is-shown"><div class="sl-key"><span class="chip cyan status">shown</span><span class="sl-sig">2026-08-30</span></div><p class="sl-ev"><strong>Turns a recurring bug into a gate that fails the build on the whole class, not just the instance.</strong> A recurring bug becomes a gate, a misattribution becomes a named pathogen, and the detector&#x27;s first true positive lands on the document it was built to protect. Record: <a href="https://good.arcs.care/blog/nftt/post-4">NFTT Post 4</a>.</p></li></ul></section></div></div></section>
+<section class="tb-fold" id="proof-documented-as-i-build"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="false" aria-controls="proof-documented-as-i-build-body"><span><span class="tb-fold-t">Documented as I Build</span></span></button></h2><div class="tb-fold-body" id="proof-documented-as-i-build-body" hidden><div class="sl"><section class="sl-group" aria-labelledby="sl-tabs-2-units-3-blocks-0-0"><div class="sl-gh"><h3 class="section-label" id="sl-tabs-2-units-3-blocks-0-0">ARCS building ARCS, in the open</h3></div><ul class="sl-rows"><li class="sl-row is-shown"><div class="sl-key"><span class="chip cyan status">shown</span><span class="sl-sig">2026-11-11</span></div><p class="sl-ev"><strong>36 Notes from the Trenches posts since 2026-08-18: lessons from building ARCS, with the receipts.</strong> Every post carries a frozen publish timestamp taken from the commit that routed it. Record: <a href="https://good.arcs.care/blog/nftt">Notes from the Trenches</a>.</p></li><li class="sl-row is-shown"><div class="sl-key"><span class="chip cyan status">shown</span><span class="sl-sig">2026-10-20</span></div><p class="sl-ev"><strong>Long-form deep dives with a belief ledger scored before the outcome and re-scored against it.</strong> Today I Learned: forensic reads, each with its predictions written down first. Record: <a href="https://good.arcs.care/blog/til">Today I Learned</a>.</p></li><li class="sl-row is-shown"><div class="sl-key"><span class="chip cyan status">shown</span><span class="sl-sig">2026-10-30</span></div><p class="sl-ev"><strong>Built in public since day zero: the live build status is measured from the repository, not written by hand.</strong> Commits, days and milestones, each tied to a real commit. Record: <a href="https://status.arcs.care">status.arcs.care</a>.</p></li><li class="sl-row is-shown"><div class="sl-key"><span class="chip cyan status">shown</span><span class="sl-sig">2026-11-02</span></div><p class="sl-ev"><strong>Published the RFP engine&#x27;s source, with a self-check anyone can run without an API key.</strong> Public repository. The mock-model check runs in one command and compares the MCP server with the engine called directly. The repository has no license file as of 2026-11-09. Record: <a href="https://github.com/flashesofbrilliance/rfp-engine">github.com/flashesofbrilliance/rfp-engine</a>.</p></li></ul></section></div></div></section>
+<section class="tb-fold" id="proof-revenue"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="false" aria-controls="proof-revenue-body"><span><span class="tb-fold-t">Revenue</span></span></button></h2><div class="tb-fold-body" id="proof-revenue-body" hidden><div class="sl"><section class="sl-group" aria-labelledby="sl-tabs-2-units-4-blocks-0-0"><div class="sl-gh"><h3 class="section-label" id="sl-tabs-2-units-4-blocks-0-0">Built from zero</h3></div><ul class="sl-rows"><li class="sl-row is-on-request"><div class="sl-key"><span class="chip status">on request</span><span class="sl-sig">2016</span></div><p class="sl-ev"><strong>Co-founded a direct-to-consumer brand: zero to profitability and more than $2M revenue in 24 months.</strong> Co-founder, IBRShop, 2012 to 2016.</p></li><li class="sl-row is-on-request"><div class="sl-key"><span class="chip status">on request</span><span class="sl-sig">2011</span></div><p class="sl-ev"><strong>Grew a video ad network from $4,500 to more than $1M a month, and net operating margin by 25 percent.</strong> General Manager, Selectable Media, 2010 to 2011.</p></li><li class="sl-row is-on-request"><div class="sl-key"><span class="chip status">on request</span><span class="sl-sig">2018</span></div><p class="sl-ev"><strong>Closed the WTA&#x27;s first commercial data partnerships, with Twitter and Facebook: $850K in year one.</strong> Head of Product and Strategic Partnerships, 2016 to 2018.</p></li><li class="sl-row is-on-request"><div class="sl-key"><span class="chip status">on request</span><span class="sl-sig">2019</span></div><p class="sl-ev"><strong>Rebuilt a foundation&#x27;s CRM and customer data into one source of truth; net-new revenue up 20 percent.</strong> Senior Director, Data and Strategy, Children&#x27;s Tumor Foundation, 2018 to 2019.</p></li></ul></section></div></div></section>
+<section class="tb-fold" id="proof-not-proven-yet"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="false" aria-controls="proof-not-proven-yet-body"><span><span class="tb-fold-t">Not Proven Yet</span></span></button></h2><div class="tb-fold-body" id="proof-not-proven-yet-body" hidden><div class="sl"><section class="sl-group" aria-labelledby="sl-tabs-2-units-5-blocks-0-0"><div class="sl-gh"><h3 class="section-label" id="sl-tabs-2-units-5-blocks-0-0">The gap, named</h3></div><ul class="sl-rows"><li class="sl-row is-not-yet-shown"><div class="sl-key"><span class="chip gold status">not yet shown</span><span class="sl-sig">2026-10-30</span></div><p class="sl-ev"><strong>ARCS&#x27;s decision scoring is accurate.</strong> Each decision is scored when made and closed against its outcome. Not enough outcomes have closed to publish an accuracy figure, so none is claimed.</p></li></ul></section></div></div></section></div>
 </div>
 </div>
 </div>
@@ -587,6 +826,8 @@ a:active { color: var(--text); }
 
   /* jumps: clear the sticky head (meta strip and nav) by 12px; respect reduced motion */
   var nav = document.querySelector('.tb-head') || document.querySelector('.tb-navwrap');
+  if (nav && window.IntersectionObserver) { var sent = document.createElement('div'); sent.setAttribute('aria-hidden', 'true'); nav.parentNode.insertBefore(sent, nav);
+    new IntersectionObserver(function (es) { nav.classList.toggle('is-stuck', !es[0].isIntersecting); }).observe(sent); }
   function cover() { return nav ? nav.getBoundingClientRect().height : 0; }
   function jumpTo(el, how) { if (!el) return; var y = el.getBoundingClientRect().top + scrollY - cover() - 12; scrollTo({ top: Math.max(0, y), behavior: how || (reduce() ? 'auto' : 'smooth') }); }
   var booting = true; addEventListener('load', function () { setTimeout(function () { booting = false; }, 0); });

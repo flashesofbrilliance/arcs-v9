@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 310,
+  "script": 320,
   "skill": 28,
   "workflow": 2
  },
- "total": 442,
+ "total": 452,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 601,
+   "WIRED": 611,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
@@ -1812,6 +1812,46 @@
   },
   {
    "kind": "script",
+   "name": "kit_attract.py",
+   "path": "scripts/kit_attract.py",
+   "jtbd": "kit_attract.py: advisory lookup, which kit parts a job attracts. Read-only; never edits a page.",
+   "invoke": "python3 scripts/kit_attract.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "kit_gate_results.py",
+   "path": "scripts/kit_gate_results.py",
+   "jtbd": "kit_gate_results.py: store, per kit part and per page, whether the pages that use the part pass page_gate.",
+   "invoke": "python3 scripts/kit_gate_results.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "kit_job_ratchet.py",
+   "path": "scripts/kit_job_ratchet.py",
+   "jtbd": "kit_job_ratchet.py: the count of kit parts that name a backlog job may rise, never fall.",
+   "invoke": "python3 scripts/kit_job_ratchet.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "kit_optionboard.py",
+   "path": "scripts/kit_optionboard.py",
+   "jtbd": "kit_optionboard.py: build the internal kit option board from kit_rank.py output. Advisory page; edits nothing else.",
+   "invoke": "python3 scripts/kit_optionboard.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "kit_periodic_table.py",
+   "path": "scripts/kit_periodic_table.py",
+   "jtbd": "kit_periodic_table: the visual periodic table of the ARCS ui-kit parts, plus its catalyst ledger.",
+   "invoke": "python3 scripts/kit_periodic_table.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "kit_primitive_sync.py",
    "path": "scripts/kit_primitive_sync.py",
    "jtbd": "kit_primitive_sync: the Instrument Lab primitives promoted from Phosphor stay identical to the page.",
@@ -1824,6 +1864,14 @@
    "path": "scripts/kit_pull.py",
    "jtbd": "kit_pull.py: give the Field OS kit a measurable pull, so parts flock to the pages and jobs they fit.",
    "invoke": "python3 scripts/kit_pull.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "kit_rank.py",
+   "path": "scripts/kit_rank.py",
+   "jtbd": "kit_rank.py: three kit-assembly options for a job, as JSON. Advisory; never edits a page.",
+   "invoke": "python3 scripts/kit_rank.py",
    "state": "WIRED"
   },
   {
@@ -2812,6 +2860,14 @@
   },
   {
    "kind": "script",
+   "name": "shipped_record_emit.py",
+   "path": "scripts/shipped_record_emit.py",
+   "jtbd": "shipped_record_emit: one evidence-backed event table for \"what shipped this year\".",
+   "invoke": "python3 scripts/shipped_record_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "slop_eval.py",
    "path": "scripts/slop_eval.py",
    "jtbd": "slop_eval: the JUDGMENT tier of the slop-free system (companion to the mechanical slop_lint).",
@@ -2872,6 +2928,22 @@
    "path": "scripts/status_floor_emit.py",
    "jtbd": "status_floor_emit: stamp the no-JS static floor on public/status.html from the repo.",
    "invoke": "python3 scripts/status_floor_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "status_page_build.py",
+   "path": "scripts/status_page_build.py",
+   "jtbd": "status_page_build: generate public/status.html (status.arcs.care) from a data file plus kit parts. Never hand-edit the page.",
+   "invoke": "python3 scripts/status_page_build.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "strata_explorer_build.py",
+   "path": "scripts/strata_explorer_build.py",
+   "jtbd": "strata_explorer_build: kit organism 69 (strata explorer) and its embeddable fragment, from the event table.",
+   "invoke": "python3 scripts/strata_explorer_build.py",
    "state": "WIRED"
   },
   {
@@ -3208,6 +3280,14 @@
    "path": "scripts/watchdog.sh",
    "jtbd": "scripts/watchdog.sh — Default stop-rule for any long-running task (J21).",
    "invoke": "scripts/watchdog.sh",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "week_plan_build.py",
+   "path": "scripts/week_plan_build.py",
+   "jtbd": "week_plan_build: render a week plan (runtime/specs/week-plan.schema.json) as kit organism 70 Week Plan.",
+   "invoke": "python3 scripts/week_plan_build.py",
    "state": "WIRED"
   },
   {

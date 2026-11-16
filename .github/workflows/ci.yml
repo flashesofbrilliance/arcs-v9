@@ -141,6 +141,9 @@ jobs:
       - name: Surface catalog covers every next.config.ts host and matches its emitter
         if: always()
         run: python3 scripts/surface_catalog_emit.py --check
+      - name: No host catch-all rewrite swallows one of that host's own pages
+        if: always()
+        run: python3 scripts/rewrite_shadow_check.py --self-test && python3 scripts/rewrite_shadow_check.py
 
   smoke:
     # arcs-light (2026-11-02 leak audit): smoke starts no server and no Postgres, the only reasons a

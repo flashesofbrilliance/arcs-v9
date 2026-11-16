@@ -1,6 +1,6 @@
 {
  "schema": "shipped-record/v1",
- "as_of_commit": "7bee0584",
+ "as_of_commit": "09ba94b4",
  "lanes": [
   "service",
   "milestone",
@@ -3180,10 +3180,11 @@
    },
    {
     "week": "2026-11-09",
-    "n": 558
+    "n": 596
    }
   ],
   "commits_cite": "git log origin/main --since=2026-01-01, by ISO week",
+  "commits_as_of": "2026-11-13",
   "receipts": [
    {
     "week": "2026-08-24",
@@ -3230,7 +3231,8 @@
     "n": 170
    }
   ],
-  "receipts_cite": "Supabase xbbpiryokswwvcrcutge public.decision_receipt, select date_trunc('week', event_at), count(*) group by 1; snapshot taken 2026-11-13 by shipped_record_emit's author session"
+  "receipts_cite": "Supabase xbbpiryokswwvcrcutge public.decision_receipt, select date_trunc('week', event_at), count(*) group by 1; snapshot taken 2026-11-13 by shipped_record_emit's author session",
+  "receipts_as_of": "2026-11-13"
  },
  "counts": {
   "milestone": 24,
