@@ -126,7 +126,7 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 # Handoff — v3.148.0 (2026-11-16)
 
-> Two weeks of very high throughput (about 300 merged PRs, 2026-11-02 to 11-16) across the UI kit (parts 41 to 73, the kit wire advisors, token tuner, option board, design-candidate lane), the recoil call service waves 1 and 2, Gravity and Louisville sends, Rosetta Voice and status.arcs.care. This molt closes a paperwork pass: PR 2311 merged with a receipt, 23 backlog rows trued up (two stale RUNNING claims closed, the patent-filing chain held on Zach's ruling, 14 ripe rows readied), the kit catalyst ledger synced, and cruise control run for the first time. The open edge is a decision queue for Zach, led by JTBD triage holds that expire 2026-11-17.
+> Two weeks of very high throughput (about 300 merged PRs, 2026-11-02 to 11-16) across the UI kit (parts 41 to 73, the kit wire advisors, token tuner, option board, design-candidate lane), the recoil call service waves 1 and 2, Gravity and Louisville sends, Rosetta Voice and status.arcs.care. This molt closes a paperwork pass: PR 2311 merged with a receipt, 23 backlog rows trued up (two stale RUNNING claims closed, then the whole patent-filing chain composted on Zach's ruling (23 rows; graph depth 12 to 6 waves), 14 ripe rows readied), the kit catalyst ledger synced, and cruise control run for the first time. The open edge is a decision queue for Zach, led by JTBD triage holds that expire 2026-11-17.
 
 ## Goal / true north
 Keep the merge queue and the backlog honest: paperwork matches what merged, rankings lead with work Zach is actually doing, and the harness reports stay fresh.
@@ -134,7 +134,7 @@ Keep the merge queue and the backlog honest: paperwork matches what merged, rank
 ## What changed
 - PR #2311 merged (0baa2968, jobs intake unstall, two seed resumes); receipt 2026-11-16--jobs-intake-unstall-pr2311--ZH.
 - 300 PRs merged 2026-11-02 to 11-16 (53 in the last 24h); release notes and status report given in session status-release-notes-91254f.
-- Backlog sweep, 23 rows: pr-design-brief-habit and gauntlet-brief-polyform RUNNING to DONE (PRs #2148, #2141 merged 11-12); the 7 READY filing-* rows to HELD on Zach's ruling; 14 ripe OPEN rows to READY (dependencies done or date trigger passed).
+- Backlog sweep, 23 rows: pr-design-brief-habit and gauntlet-brief-polyform RUNNING to DONE (PRs #2148, #2141 merged 11-12); the 7 READY filing-* rows to HELD, then all 23 open filing-* rows COMPOSTED on Zach's follow-up ruling; 14 ripe OPEN rows to READY (dependencies done or date trigger passed).
 - Kit catalyst ledger synced (31 derived events appended), kit-periodic-table.html regenerated.
 
 ## Current state
@@ -146,7 +146,7 @@ Keep the merge queue and the backlog honest: paperwork matches what merged, rank
 
 ## Decisions made
 - Zach, 2026-11-16: merge PR 2311.
-- Zach, 2026-11-16: not yet ready to patent; hold the filing chain until after the core engine and subsequent phases.
+- Zach, 2026-11-16: the patent-filing chain is premature; compost it (not yet ready to patent, core engine and later phases come first).
 - Zach, 2026-11-16: sweep merged-PR paperwork and ripe rows in one pass.
 
 ## Open decisions (waiting on Zach)
