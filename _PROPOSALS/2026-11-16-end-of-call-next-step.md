@@ -55,8 +55,35 @@ pre-call page already computes (T0 self-asserted up to T4 company-confirmed):
 The baseline and the detector belong with the projection-map pilot's data (branch
 `claude/voice-branded-mini-app-1ne11t`), not in this repo's main line.
 
+## Pre-registration (written 2026-11-16, before any baseline numbers were computed)
+
+Zach gave the go on 2026-11-16. Follows `PREREGISTRATION-TEMPLATE.md` and the frozen discovery/test line in
+`tools/projection-map/ACCUMULATION.md` (branch `claude/voice-branded-mini-app-1ne11t`). Disclosed peek: four
+discovery-set call endings were read by hand to build the detector (2 of 4 NAMED; Zach named one).
+
+**Detector (fixed):** `tools/next-step/nextstep.py`. NAMED = one line in the last 180 seconds holds a date
+expression and a commitment phrase; VERIFY = an identity-proof ask there instead; else NONE. Owner is read
+from the line's speaker. A changed regex or window is a new candidate, not a retest.
+
+**Outcome (fixed):** `outcome.py`'s Advanced label (a later recorded call shares a name or company token),
+with two exclusions: a counterpart below T2 never counts as Advanced (the Bitfury spark), and a sensitivity
+run drops first-name-only matches.
+
+- **B1, baseline (descriptive, discovery set):** share of calls NAMED, by audience (interview, recruiter,
+  client, peer). Stop rule: if 70% or more of verified calls are already NAMED, the prompt adds little; stop
+  and remove nothing, build nothing.
+- **E1, does naming go with advancing:** Advanced rate is higher for NAMED calls than NONE calls.
+  Within-audience permutation test, 10,000 shuffles. Discovery set can only reach LEANING (p < 0.10);
+  promotion needs the same direction at p < 0.10 on the test set.
+- **E2, does the prompt change behavior:** on test-set calls where the pre-call page carried the `close`
+  section, the NAMED share is higher than B1 for the same audiences.
+- **Kill rule:** E1 false on the test set (the sign flips, or p >= 0.10 twice) or E2 false (NAMED share no
+  higher than B1): remove the `close` section and the recoil-close field.
+- **Window:** 15 verified test-set calls (default; Zach may change it before the first test-set call).
+- **Data quality (inherited):** drop calls under 300 words or with the other side under 10% of words.
+
 ## Open for Zach
 
-1. Go or no-go on the experiment.
+1. ~~Go or no-go on the experiment.~~ Go (2026-11-16).
 2. The 5-minute highlight: on the page, or no timer at all?
-3. Window size: 15 verified calls, or a fixed number of weeks?
+3. Window size: 15 verified calls (the default above), or a fixed number of weeks?
