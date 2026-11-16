@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // jobs_score_sweep.mjs — JD read + score worker (driver half).
-// Fetches each UNSCORED row's JD as plain text locally (LinkedIn guest API is
-// blocked from datacenter IPs, so the fetch must run from a residential path),
+// Fetches each UNSCORED row's JD as plain text locally (LinkedIn rows read the same
+// role from the company's public ATS; linkedin.com is never fetched, robots.txt 2026-11-16),
 // then posts batches to POST /api/jobs/score, which holds the prod key and does
 // the model call + writeback. Cost: Haiku, temp 0, cached rubric prefix, batched.
 //
@@ -12,7 +12,7 @@
 // Env: JOBS_PIPELINE_TOKEN, JOBS_BASE (default https://jobs.arcs.care).
 // Non-LinkedIn rows (scripts/jobs_sources.mjs) fetch their JD via atsJD() from the board's own API.
 
-import { atsJD } from "./jobs_sources.mjs"
+import { atsJD, linkedinToAts, fetchAllowed } from "./jobs_sources.mjs"
 
 const arg = (k, d) => { const i = process.argv.indexOf(k); return i >= 0 ? (process.argv[i + 1] ?? true) : d }
 const has = (k) => process.argv.includes(k)
@@ -34,11 +34,10 @@ async function fetchJD(row) {
     // Rows from scripts/jobs_sources.mjs (greenhouse-/lever-/ashby-/yc-/hn- ids) read their JD from the same public API.
     const ats = await atsJD(row)
     if (ats && ats.length > 200) return ats
-    if (/^\d+$/.test(row.jobid)) {
-      const r = await fetch(`https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/${row.jobid}`, { headers: { "user-agent": "Mozilla/5.0" } })
-      if (r.ok) { const t = strip(await r.text()); if (t.length > 200) return t }
-    }
-    if (row.url) { const r = await fetch(row.url, { headers: { "user-agent": "Mozilla/5.0" } }); if (r.ok) { const t = strip(await r.text()); if (t.length > 200) return t } }
+    // LinkedIn rows (numeric ids): robots.txt disallows every path, so read the same role from the company's public ATS.
+    // Jack & Jill and Fonzi rows carry a signed-in app link, so they resolve to their ATS twin the same way.
+    if (/^(\d+$|fonzi-|jackandjill-)/.test(row.jobid)) { const tw = await linkedinToAts(row); if (tw) { row.twin = tw; return tw.jd } return null }
+    if (row.url && fetchAllowed(row.url)) { const r = await fetch(row.url, { headers: { "user-agent": "Mozilla/5.0" } }); if (r.ok) { const t = strip(await r.text()); if (t.length > 200) return t } }
   } catch { /* fall through */ }
   return null
 }
@@ -55,6 +54,7 @@ async function main() {
   for (const r of unscored) { r.jd = await fetchJD(r); if (r.jd) fetched++; else nofetch++; await new Promise(z=>setTimeout(z,700)) }
   const scorable = unscored.filter((r) => r.jd)
   console.log(`JDs fetched: ${fetched} · fetch-failed: ${nofetch}`)
+  for (const r of unscored.filter((x) => x.twin)) console.log(`  ats twin ${r.jobid} -> ${r.twin.board} ${r.twin.url}`)
   if (DRY) { console.log(`DRY: would score ${scorable.length} in ${Math.ceil(scorable.length / BATCH)} batches.`); return }
 
   let scored = 0, inTok = 0, outTok = 0, cacheRead = 0, top = []
