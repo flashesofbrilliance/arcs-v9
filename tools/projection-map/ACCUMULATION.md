@@ -52,9 +52,11 @@ Every 20 new test-set calls, or monthly, whichever comes first:
 | Trust tier gates the next-step move | CANDIDATE | In that call the named next step was the attacker's ask. Verify identity first (the precall brief's T2 gate), then name a next step |
 | Recruiter room: go deep only on the deciding factor they name | CANDIDATE, weak | Same call, so the "recruiter" was not a real one. Kept only as a spark-grade lead until a verified recruiter call tests it |
 
-| Register (Book of ARCS archetype) is a reliable second stream | CANDIDATE, passed pilot | Two blind coders on different models, 15 turns of one call: kappa 0.75 (80% raw). Needs 50+ turns across rooms before BOND |
-| Grug count matches perceived density | BOND (two streams agree) | Both blind coders vs the Grug flag: kappa 0.67; coders agreed with each other 100%. Makes the density null credible |
-| Counted uptake measures landing | COMPOSTED as a landing measure | Turns judged as landing had lower counted lift (0.70 to 0.75 vs 0.87). Keep uptake as a raw count; judge landing with coders (kappa 0.47 between them) |
+| Register (Book of ARCS archetype) is a reliable second stream | BOND (reliability) | Two blind coders on different models: pilot kappa 0.75 (15 turns), scale-up kappa 0.69 (60 turns, 5 calls, rooms hidden, calls picked by rule) |
+| Grug count matches perceived density | BOND (two streams agree) | Pilot kappa 0.67; scale-up 0.42 (Haiku) and 0.62 (Sonnet). Makes the density null credible |
+| Counted uptake measures landing | CANDIDATE (reinstated, Kintsugi seam) | Pilot (15 turns) reversed and I composted it too early; scale-up (60 turns) agrees: judged-landed turns lift 0.99 to 1.0 vs 0.68 to 0.75. Coders agree on landing at kappa 0.60. Lesson: never retire a measure on a 15-turn pilot |
+| Home registers: Sage, Shapeshifter, Heart; no register reliably loses | BOND (descriptive) | About three-quarters of 60 long turns; only 8 of 45 agreed turns judged not landing, spread across registers. Heart lands most with peers and recruiters, Shapeshifter with clients and interviews (cells of 5 to 20 turns) |
+| High-stakes peer call: high floor share and mid-curve, polite decline | SPARK | One call (73% talk, 1.3 mid-curve per 10, a pilot declined twice). Consistent with the mid-curve leaning; one call is an anecdote |
 
 Known gaps: one call deleted for card details; one call never fetched (mistyped id); outcome labels
 from follow-up matching miss email follow-ups.
