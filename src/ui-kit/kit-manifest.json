@@ -3669,7 +3669,9 @@
     "tabbed-brief",
     "recoil-twin"
    ],
-   "jobs": [],
+   "jobs": [
+    "downshift-kit-number-collision"
+   ],
    "pages": [
     "public/gravity-brief-beliefs.html",
     "public/gravity-brief-eir.html",
@@ -4231,7 +4233,8 @@
    ],
    "jobs": [
     "hud-high-signal-field",
-    "readme-cold-read-to-video"
+    "readme-cold-read-to-video",
+    "downshift-kit-number-collision"
    ],
    "pages": [
     "public/gravity-brief.html",

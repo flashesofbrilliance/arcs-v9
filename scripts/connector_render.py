@@ -246,6 +246,10 @@ def render_tool_page(repo, data, row, live):
     note = f'\n<p>{esc(data["note_linux"])}</p>' if data.get("note_linux") else ""
     rules = "\n".join(f'<div class="panel"><h3>{esc(c["t"])}</h3><p>{esc(c["p"])}</p></div>' for c in t["what"])
     gaps = "\n".join(f"<li>{esc(g)}</li>" for g in t["not_proven"])
+    # Optional "try it" link to a companion page on the same host (rosetta-shell's /voice, 2026-11-15).
+    tr = t.get("try")
+    try_html = (f'\n\n<h2>{esc(tr["title"])}</h2>\n<div class="panel"><p>{esc(tr["text"])}</p>'
+                f'<p><a href="{esc(tr["href"])}">{esc(tr["label"])}</a></p></div>') if tr else ""
     body = f"""</head>
 <script defer src="/_vercel/insights/script.js"></script>
 <body>
@@ -265,7 +269,7 @@ def render_tool_page(repo, data, row, live):
 <p>{esc(t["why"])}</p>
 
 <h2>Install</h2>
-{installs}{note}
+{installs}{note}{try_html}
 
 <h2>{esc(t["what_label"])}</h2>
 <div class="rules">

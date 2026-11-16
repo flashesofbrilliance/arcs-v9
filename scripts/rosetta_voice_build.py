@@ -36,8 +36,6 @@ def build(app_path):
     fonts = between(sib, '<link rel="preload" href="/fonts/', "/* fonts_selfhost:end */\n</style>")
     dp_wire = between(sib, "/* 51 display-preferences wiring", "apply();})();")
     js = between(app, "<script>", "</script>", inclusive=False)
-    js = js.replace("Type below, or tap a phrase. In claude.ai, use Chrome or the desktop app.",
-                    "Type below, or tap a phrase. Voice needs a browser with speech recognition, such as Chrome, Edge or Safari.")
     return TEMPLATE.format(kit_css=kit_css, wordmark=wordmark, fonts=fonts, js=js, dp_wire=dp_wire)
 
 
@@ -184,7 +182,7 @@ main::before{{content:"";display:block;width:48px;height:3px;background:var(--to
 <ul>
 <li>It knows the six constructs <code>rosetta lint</code> flags. A clean answer is not proof a script is portable; <code>rosetta crossrun</code> is.</li>
 <li>Spoken matching uses keywords. When it is unsure it says so and shows what it heard.</li>
-<li>Firefox has no speech recognition, so it gets typing only.</li>
+<li>Voice input needs a browser that offers speech recognition: Safari (on iPhone, with Siri and Dictation on) or Google Chrome. Comet, Firefox and other iPhone browsers get typing only for now.</li>
 </ul>
 
 <h2 class="section-label">For agents</h2>
