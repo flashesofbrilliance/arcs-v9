@@ -7,18 +7,18 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 320,
+  "script": 326,
   "skill": 28,
   "workflow": 2
  },
- "total": 452,
+ "total": 458,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 611,
+   "WIRED": 617,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 2,
+   "INSTALLED-UNUSED": 3,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
@@ -38,6 +38,14 @@
     "name": "frontend-design@claude-plugins-official",
     "why": "project-scoped to /Users/zharris/arcs only",
     "fix": "claude plugin uninstall frontend-design@claude-plugins-official"
+   },
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "user",
+    "kind": "plugin",
+    "name": "stripe@claude-plugins-official",
+    "why": "project-scoped to /Users/zharris only",
+    "fix": "claude plugin uninstall stripe@claude-plugins-official"
    },
    {
     "state": "DUPLICATE",
@@ -884,6 +892,14 @@
   },
   {
    "kind": "script",
+   "name": "babel_fish_listeners.py",
+   "path": "scripts/babel_fish_listeners.py",
+   "jtbd": "Write Babel Fish's listener registry into its artifact page, from the repo's own registries.",
+   "invoke": "python3 scripts/babel_fish_listeners.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "backlog_append.py",
    "path": "scripts/backlog_append.py",
    "jtbd": "backlog_append.py: add rows to _QUEUE/induced-backlog.jsonl without rewriting the file. Stdlib, no model calls.",
@@ -1008,6 +1024,14 @@
    "path": "scripts/blog_render.py",
    "jtbd": "blog_render — render a Notes-from-the-Trenches markdown post to a FieldOS-styled static HTML page.",
    "invoke": "python3 scripts/blog_render.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "braided_lanes_build.py",
+   "path": "scripts/braided_lanes_build.py",
+   "jtbd": "braided_lanes_build: kit organism 73 (braided lanes) and the fragment status.arcs.care/beliefs inlines.",
+   "invoke": "python3 scripts/braided_lanes_build.py",
    "state": "WIRED"
   },
   {
@@ -1340,6 +1364,14 @@
   },
   {
    "kind": "script",
+   "name": "ds_artifact_sync.py",
+   "path": "scripts/ds_artifact_sync.py",
+   "jtbd": "Project the UI kit's specimens into the ARCS OS Design System artifact.",
+   "invoke": "python3 scripts/ds_artifact_sync.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "echo_detector_dogfood.py",
    "path": "scripts/echo_detector_dogfood.py",
    "jtbd": "echo_detector_dogfood.py — falsifiable seaworthiness test for the Orthogonal Echo",
@@ -1520,6 +1552,14 @@
    "path": "scripts/fork_lineage_check.sh",
    "jtbd": "Fork Lineage drift check (J17) — conditional action.",
    "invoke": "scripts/fork_lineage_check.sh",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "gate_chain_build.py",
+   "path": "scripts/gate_chain_build.py",
+   "jtbd": "gate_chain_build: kit organism 72 (week strip and chains) and the hardening section of status.arcs.care/gauntlets.",
+   "invoke": "python3 scripts/gate_chain_build.py",
    "state": "WIRED"
   },
   {
@@ -2700,6 +2740,14 @@
   },
   {
    "kind": "script",
+   "name": "rewrite_shadow_check.py",
+   "path": "scripts/rewrite_shadow_check.py",
+   "jtbd": "rewrite_shadow_check: fail when a host's catch-all rewrite would swallow one of that host's own pages.",
+   "invoke": "python3 scripts/rewrite_shadow_check.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "ripple_ledger.py",
    "path": "scripts/ripple_ledger.py",
    "jtbd": "ripple_ledger: one row per decision, with how reversible it is and what it costs to get wrong.",
@@ -2720,6 +2768,14 @@
    "path": "scripts/risk_underwriter.py",
    "jtbd": "risk_underwriter.py: price each induced-backlog row's risk. Read-only, stdlib, no model calls.",
    "invoke": "python3 scripts/risk_underwriter.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "rosetta_voice_build.py",
+   "path": "scripts/rosetta_voice_build.py",
+   "jtbd": "Build public/rosetta-voice.html (served at rosetta-shell.arcs.care/voice).",
+   "invoke": "python3 scripts/rosetta_voice_build.py",
    "state": "WIRED"
   },
   {
