@@ -1,0 +1,51 @@
+Zach Harris
+Product Leader and Builder, Applied AI
+New York Metro · zach.harris@gmail.com · linkedin.com/in/zharris · github.com/flashesofbrilliance
+
+I lead product by building the first version myself. Two decades taking products from zero to production in regulated,
+high-consequence fields, including a $7B launch at Grayscale under SEC and FINRA controls. Today I build ARCS, an
+AI decision platform on Claude, where I write the prompt chains, run the evaluations and sit with the people using it,
+and every decision it produces carries a score that can be checked against what happened later.
+
+EXPERIENCE
+ARCS, Founder and Builder                                                                                   2025 to Present
+  Designed and built an AI decision platform on Claude: a Model Context Protocol server, multi-step agentic tool use,
+  and a scoring layer that rates each decision for conviction and stability and tracks it against later outcomes.
+  Prototyped in code with real users, kept the parts people used, cut the rest, and put evaluation and approval gates in
+  front of every model output.
+  Built on Next.js, TypeScript, Prisma and Postgres, with a Python (FastAPI) embedding service.
+Grayscale Investments, Product Lead                                                                          2024 to 2025
+   Took over the investor-facing platform behind ten regulated digital-asset products worth $7B and raised how the
+   team shipped, running four parallel workstreams through legal, compliance and audit controls.
+   Cut spec-to-release cycle time by 35 percent and built role-based access controls and pre-deployment integrity gates
+   so speed did not cost compliance.
+Mañana, Embedded Product Partner                                                                    2020 to Present
+  Twill Health (HIPAA): researched three AI-enabled digital-therapeutics lines, recommended two for investment,
+  and stopped the third before it consumed engineering time.
+  Led discovery and go or no-go calls for Axon, GoPro and Verizon Media across public-safety, consumer and 5G
+  ventures.
+Squat New York, Head of Product Innovation and Tech Lead                                                     2019 to 2020
+  Sole product and technology lead for a private-equity portfolio company; rebuilt the platform mobile-first with
+  HIPAA and WCAG 2.0 compliance designed in.
+  Rebuilt lead qualification and location search, lifting qualified leads by 40 percent, booking success by 63 percent
+  and NPS by 23 points.
+Children's Tumor Foundation, Senior Director, Data and Strategy                                             2018 to 2019
+  Built the first data and decision layer (customer data platform, Salesforce, lifecycle segmentation) and grew net-new
+  revenue by 20 percent.
+Earlier: Head of Product and Strategic Partnerships at the Women's Tennis Association, where I built real-time fan
+scoring that ran in under 120 milliseconds. Co-founder of IBRShop, grown from zero to more than $2M in revenue in
+24 months. General Manager at Selectable Media, a video ad network acquired by Meredith, where I grew revenue
+from $4,500 to more than $1M a month.
+
+SKILLS
+Product: AI-native product strategy, discovery with lighthouse customers, rapid prototyping, roadmap and theme
+setting, inheriting and raising a team's bar.
+Applied AI: Claude and OpenAI APIs, prompt chains, agentic tool use, evaluation frameworks, Model Context
+Protocol servers, embeddings, human-in-the-loop review.
+Technical: Python (FastAPI), TypeScript, Next.js, SQL and PostgreSQL, Prisma, Supabase, Vercel.
+Regulated domains: SEC and FINRA, HIPAA, GDPR, role-based access control, release and change controls.
+
+EDUCATION
+Oberlin College, Bachelor of Arts, Studio Art.
+MIT xPRO, certificates in AI strategy and in building AI products and services. Section4, Certified Product Strategist.
+

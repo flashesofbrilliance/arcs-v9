@@ -16,6 +16,7 @@
 //   node scripts/jobs_sources.mjs --import rows.json --source fonzi [--dry-run]
 //        rows an agent read from an MCP-only source (Fonzi search_companies): [{id,title,company,location,url,salary?}].
 //        Same title/location filter, dedupe and post as the adapters; read-only on Fonzi, never save interest.
+//        --source jackandjill: matches read from Jack & Jill emails in Gmail (the app is never driven); url = the ATS twin when found.
 // Env: JOBS_PIPELINE_TOKEN (falls back to ~/.arcs/jobs-pipeline.env), JOBS_BASE.
 
 import fs from "node:fs"
@@ -26,7 +27,7 @@ import { fileURLToPath } from "node:url"
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 export const SPEC = JSON.parse(fs.readFileSync(path.join(HERE, "..", "runtime", "specs", "job-sources.json"), "utf8"))
 const UA = { "user-agent": "arcs-jobs-sources/1.0 (+https://jobs.arcs.care)", accept: "application/json" }
-const SOURCE_KEY = { greenhouse: "greenhouse_board", lever: "lever_board", ashby: "ashby_board", yc: "yc_jobs", hn: "hn_whoishiring", fonzi: "fonzi" }
+const SOURCE_KEY = { greenhouse: "greenhouse_board", lever: "lever_board", ashby: "ashby_board", yc: "yc_jobs", hn: "hn_whoishiring", fonzi: "fonzi", jackandjill: "jackandjill_match" }
 
 // ---------- filters (pure) ----------
 const rx = (p) => new RegExp(p, "i")
@@ -174,6 +175,56 @@ export async function atsJD(r) {
   return null
 }
 
+// ---------- LinkedIn rows: never fetched (robots.txt "User-agent: * / Disallow: /", checked 2026-11-16) ----------
+// A LinkedIn alert row carries title, company and location from the email only. Its JD is read from the SAME role on
+// the company's own public ATS board (Greenhouse / Ashby / Lever JSON APIs), found through the employer index or a
+// slug probe. No match = the row stays UNSCORED with a reason (human-paste path); a LinkedIn page is never requested.
+// app.jackandjill.ai and talent.fonzi.ai are signed-in app pages, never a JD: fetching them would score page chrome.
+export const NO_FETCH_HOST = /(^|\.)linkedin\.com$|^app\.jackandjill\.ai$|^talent\.fonzi\.ai$/i
+export function fetchAllowed(url) { try { return !NO_FETCH_HOST.test(new URL(url).hostname) } catch { return false } }
+const STOP = new Set(["the", "a", "an", "and", "of", "for", "to", "in", "at", "with", "us", "usa", "nyc", "ny", "new", "york", "remote", "hybrid", "sr", "senior"])
+const toks = (s) => norm(String(s).replace(/\(.*?\)|\[.*?\]/g, " ")).split(" ").filter((w) => w && !STOP.has(w))
+// Same-role test: every distinctive title word on one side appears on the other (order-free), with seniority kept separate.
+export function sameRole(a, b) {
+  const A = new Set(toks(a)), B = new Set(toks(b))
+  if (!A.size || !B.size) return false
+  const sen = (s) => (/\b(staff|principal|lead|head|director|vp|chief|founding)\b/i.exec(s) || [""])[0].toLowerCase()
+  if (sen(a) !== sen(b)) return false
+  const small = A.size <= B.size ? A : B, big = small === A ? B : A
+  let hit = 0; for (const w of small) if (big.has(w)) hit++
+  return hit === small.size && small.size >= Math.min(2, big.size)
+}
+const slugGuesses = (company) => {
+  const base = norm(company).replace(/\b(inc|llc|ltd|corp|co|technologies|technology|labs|ai|hq|group)\b/g, " ").trim()
+  const full = norm(company)
+  return [...new Set([full.replace(/ /g, ""), base.replace(/ /g, ""), full.replace(/ /g, "-"), base.replace(/ /g, "-")].filter((x) => x.length > 1))]
+}
+const boardCache = new Map()
+async function boardRows(ats, slug) {
+  const k = `${ats}:${slug}`
+  if (!boardCache.has(k)) {
+    let rows = null
+    try { const a = ADAPTERS[ats]; rows = a.normalize(await getJSON(a.url(slug)), slug) } catch { rows = null }
+    boardCache.set(k, rows)
+  }
+  return boardCache.get(k)
+}
+// -> { jobid, url, jd, board } for the ATS twin of a LinkedIn row, else null.
+export async function linkedinToAts(r) {
+  const idx = employerIndex()
+  const hit = Object.entries(idx).find(([k, m]) => m && m.verify === "ok" && (norm(k) === norm(r.company) || norm(m.display) === norm(r.company)))
+  const cands = hit ? [[hit[1].ats, hit[1].slug]] : slugGuesses(r.company).flatMap((s) => [["greenhouse", s], ["ashby", s], ["lever", s]])
+  for (const [ats, slug] of cands) {
+    const rows = await boardRows(ats, slug)
+    if (!rows || !rows.length) continue
+    const twin = rows.find((x) => sameRole(r.title, x.title))
+    if (!twin) { if (hit) return null; continue }
+    const jd = await atsJD(twin)
+    if (jd && jd.length > 200) return { jobid: twin.jobid, url: twin.url, jd, board: `${ats}:${slug}` }
+  }
+  return null
+}
+
 // Rows handed in by an agent from an MCP-only source. id must be stable per posting (e.g. company id + title slug).
 export function importRows(file, src) {
   const list = JSON.parse(fs.readFileSync(file, "utf8"))
@@ -231,6 +282,11 @@ function selftest() {
   t("employer index: verified boards for one ats only", JSON.stringify(indexSlugs(idx, "ashby")) === '["acme"]' && indexSlugs(null, "lever").length === 0)
   const hnKept = hn.filter((r) => locationOk(r.location, false, r.title))
   t("hn drops a header with an off-target city", hn.length === 2 && hnKept.length === 1)
+  t("linkedin host never fetched", !fetchAllowed("https://www.linkedin.com/jobs/view/1/") && fetchAllowed("https://jobs.ashbyhq.com/x/1"))
+  t("platform app pages never fetched", !fetchAllowed("https://app.jackandjill.ai/jobs/x/post") && !fetchAllowed("https://talent.fonzi.ai/companies/x"))
+  t("sameRole: word order and brackets", sameRole("Forward Deployed Engineer (NYC)", "Forward Deployed Engineer - New York"))
+  t("sameRole: seniority kept apart", !sameRole("Staff Product Manager", "Product Manager") && !sameRole("Senior Product Manager", "Product Designer"))
+  t("sameRole: extra qualifier on one side ok", sameRole("Applied AI Engineer", "Applied AI Engineer, Agents"))
   t("hn normalize keeps only lane matches", hnKept[0].title === "Senior Product Engineer" && hnKept[0].location === "New York, NY" && hnKept[0].jd.includes("agents"))
 }
 

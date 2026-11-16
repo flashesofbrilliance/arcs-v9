@@ -23,8 +23,8 @@ const ICLOUD = process.env.ICLOUD_RESUMES || `${process.env.HOME}/Library/Mobile
 const SEED = fs.readFileSync("_ARTIFACTS/resume-blacksmith/cover-letter-blacksmith.md", "utf8")
 const strip = (h) => { const m = h.match(/<div class="show-more-less-html__markup[^"]*">([\s\S]*?)<\/div>/); const b = m ? m[1] : h; return b.replace(/<[^>]+>/g, "\n").replace(/&[a-z]+;/g, " ").replace(/\n\s*\n+/g, "\n\n").trim() }
 async function fetchJD(jobid, url) {
-  try { if (/^\d+$/.test(jobid)) { const x = await fetch(`https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/${jobid}`, { headers: { "user-agent": "Mozilla/5.0" } }); if (x.ok) { const t = strip(await x.text()); if (t.length > 200) return t } } } catch {}
-  try { if (url) { const x = await fetch(url, { headers: { "user-agent": "Mozilla/5.0" } }); if (x.ok) { const t = strip(await x.text()); if (t.length > 200) return t } } } catch {}
+  // linkedin.com is never fetched (robots.txt disallows all paths, 2026-11-16); a LinkedIn row needs its JD pasted or an ATS twin.
+  try { if (url && !/(^|\.)linkedin\.com\//i.test(url.replace(/^https?:\/\//, ""))) { const x = await fetch(url, { headers: { "user-agent": "Mozilla/5.0" } }); if (x.ok) { const t = strip(await x.text()); if (t.length > 200) return t } } } catch {}
   return null
 }
 // Run the prose gate; returns "READY" | "HELD". Never throws: a gate that cannot run HOLDS.
