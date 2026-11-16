@@ -34,7 +34,7 @@
    {
     "v": "{claims_shown} of {claims_total}",
     "k": "Claims, public record",
-    "note": "{claims_total} claims, each linked to its record: {claims_on_request} on request, {claims_not_yet} not yet shown"
+    "note": "{claims_total} claims: {claims_shown} link to a public record, {claims_on_request} on request, {claims_not_yet} named but not shown yet"
    },
    {
     "v": "{beliefs_count}",
@@ -243,7 +243,7 @@
           "chip": "Proof",
           "tone": "cyan",
           "signal": "Don't trust, verify",
-          "text": "[{claims_total} claims about my work](https://zach.md/proof), each linked to its record: {claims_shown} public, {claims_on_request} on request, and the {claims_not_yet} I cannot show yet, named."
+          "text": "[{claims_total} claims about my work](https://zach.md/proof), {claims_shown} link to a public record, {claims_on_request} are on request, and the {claims_not_yet} I cannot show yet is named."
          },
          {
           "chip": "Essays",
@@ -274,7 +274,7 @@
   "bites_still": true,
   "bites_at": "top",
   "lockup": {
-   "kicker": "Kyle wrote that “significance” is in the eye of the beholder, and AI “is not particularly good at assessing it.” I am, and I keep the receipts.",
+   "kicker": "[Kyle wrote](https://kylelibra.substack.com/p/last-week-in-crypto-oct-2) that significance is in the eye of the beholder, and that AI is not particularly good at assessing it. I keep the record of which calls held up.",
    "closer": "When I tell you no on a hatch, you get the test that would reopen it."
   },
   "coldread": {
@@ -382,7 +382,7 @@
         ],
         [
          "Intellectual honesty",
-         "My [proof page](https://zach.md/proof) links {claims_total} claims to their records, marks the private ones, and names the one I cannot show yet."
+         "My [proof page](https://zach.md/proof) lists {claims_total} claims; {claims_shown} link to the record, and it names the ones that do not."
         ]
        ]
       }
@@ -401,7 +401,7 @@
         },
         {
          "title": "First user, and why it is not built",
-         "text": "Treasury or compliance leads at fintechs piloting agent payments. ARCS records decisions and flags irreversible ones, but has no payment rails or design partner. Your stealth agentic payments company may already own this; I would ask first."
+         "text": "Treasury or compliance leads at fintechs piloting agent payments. ARCS, the tool I keep calls in, records decisions and flags irreversible ones, but has no payment rails or design partner. Adjacent, and closer to institutions: a decision that has to answer to the firm's own policies and data, not only a vendor's feed. The record of why a call was allowed is the part I already build. Your stealth agentic payments company may already own this; I would ask first."
         },
         {
          "title": "Kill it if",
@@ -459,7 +459,7 @@
    "name": "Hats",
    "tagline": "The seats I can take, each shown",
    "headline": "A studio needs more than one title. Here are mine.",
-   "lede": "At a studio the job title is a guess. I can take any seat below and run the rest as agent sessions I direct, each one checked by me before it ships. Every hat links to the work behind it.",
+   "lede": "At a studio the job title is a guess. I can take any seat below and run the rest as agent sessions I direct. The same plan works at advisor weight. Every hat links to the work behind it.",
    "units": [
     {
      "title": "Seats I Can Take",
@@ -516,6 +516,14 @@
          ]
         },
         {
+         "hat": "Advisor, portfolio company",
+         "text": "Part-time to a founding team on product, and on the calls where a mistake costs real money, with a short written check-in each month on which calls held.",
+         "ids": [
+          "wta",
+          "rfp-engine"
+         ]
+        },
+        {
          "hat": "Agent operator",
          "text": "Run the hats I am not wearing as parallel agent sessions, a human approving every merge.",
          "ids": [
@@ -537,9 +545,9 @@
    "id": "proof",
    "label": "Proof",
    "name": "Proof",
-   "tagline": "Every claim linked to its record",
+   "tagline": "Every claim named, and where its record is",
    "headline": "{claims_shown} of {claims_total} claims link to a public record.",
-   "lede": "Quoted from [my proof ledger](https://zach.md/proof), never retyped: {claims_on_request} are private (employer data or a private repository, references on request) and {claims_not_yet} is not shown yet, named. The build itself is counted live on [the status page](https://status.arcs.care).",
+   "lede": "Quoted from [my proof ledger](https://zach.md/proof), never retyped: {claims_on_request} are private (employer data or a private repository, references on request) and {claims_not_yet} is not shown yet, named. The build itself is counted live on [the status page](https://status.arcs.care). Below are the 18 most relevant to a studio; the full {claims_total} are on the ledger.",
    "units": [
     {
      "title": "Counted Live",
@@ -607,9 +615,7 @@
          "label": "ARCS building ARCS, in the open",
          "ids": [
           "nftt",
-          "til",
-          "status-open",
-          "rfp-source"
+          "til"
          ]
         }
        ]

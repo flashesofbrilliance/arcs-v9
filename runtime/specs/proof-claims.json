@@ -40,7 +40,7 @@
         },
         {
           "id": "ninety-nine",
-          "claim": "99 pull requests merged in one day, a human approving every one.",
+          "claim": "99 pull requests merged in one day.",
           "status": "shown",
           "evidence": "Release notes for the day: what shipped, what broke, and an honest human-time estimate.",
           "date": "2026-10-20",
@@ -49,7 +49,7 @@
         },
         {
           "id": "prs",
-          "claim": "1,900+ pull requests merged, each approved by a human; merges leave receipts in an append-only ledger.",
+          "claim": "1,900+ pull requests merged, each through gated checks and then my review of the diff; merges leave receipts in an append-only ledger.",
           "status": "on-request",
           "evidence": "GitHub merged-PR count, 1,911 on 2026-11-12. The repository is private.",
           "date": "2026-11-12"
@@ -147,9 +147,9 @@
       "claims": [
         {
           "id": "beliefs",
-          "claim": "{beliefs_count} beliefs logged as overturned, each with the test that overturned it; {beliefs_rules} became standing rules.",
+          "claim": "{beliefs_count} beliefs overturned since June, all on a public timeline by date and area; {beliefs_rules} became standing rules. The belief and test behind each are on request.",
           "status": "shown",
-          "evidence": "A public falsification ledger. Three of the entries:",
+          "evidence": "Three shown in full:",
           "date": "{beliefs_last}",
           "url": "https://status.arcs.care/beliefs",
           "label": "status.arcs.care/beliefs",
