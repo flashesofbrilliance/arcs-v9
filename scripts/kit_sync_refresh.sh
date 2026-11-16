@@ -17,7 +17,9 @@ PUSH=1
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 [ "$BRANCH" = "main" ] || [ "$BRANCH" = "HEAD" ] && { echo "kit_sync_refresh: refusing on main or a detached HEAD; check out your PR branch" >&2; exit 1; }
-[ -n "$(git status --porcelain --untracked-files=no)" ] && { echo "kit_sync_refresh: tracked changes are uncommitted; commit them first" >&2; exit 1; }
+# hook-written state files (session-start pulse, snapshot) do not count as uncommitted work
+DIRTY=$(git status --porcelain --untracked-files=no | grep -vE '_STATE/pulse.json|_STATE/snapshot.json|public/family-roster.json' || true)
+[ -n "$DIRTY" ] && { echo "kit_sync_refresh: tracked changes are uncommitted; commit them first:" >&2; echo "$DIRTY" >&2; exit 1; }
 
 git fetch -q origin main
 if ! git merge -q --no-edit origin/main; then
