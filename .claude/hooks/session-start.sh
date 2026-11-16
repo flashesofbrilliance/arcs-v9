@@ -76,6 +76,8 @@ fi
 # pickup instead of rotting. Guarded to never fail the hook.
 # scrum master: one line only when the weekly groom is overdue (.claude/skills/scrum/SKILL.md)
 python3 "$CLAUDE_PROJECT_DIR/scripts/scrum.py" nudge 2>/dev/null || true
+# daily boot (2026-11-16): first session of the day gets the ritual, every thread gets the per-thread boot
+python3 "$CLAUDE_PROJECT_DIR/scripts/daily_boot.py" 2>/dev/null || true
 python3 "$CLAUDE_PROJECT_DIR/scripts/pulse.py" check 2>/dev/null || true
 
 # Inchworm auditor — OPEN end (orient / red thread). Check the orphaned knowledge
