@@ -35,7 +35,8 @@ async function fetchJD(row) {
     const ats = await atsJD(row)
     if (ats && ats.length > 200) return ats
     // LinkedIn rows (numeric ids): robots.txt disallows every path, so read the same role from the company's public ATS.
-    if (/^\d+$/.test(row.jobid)) { const tw = await linkedinToAts(row); if (tw) { row.twin = tw; return tw.jd } return null }
+    // Jack & Jill and Fonzi rows carry a signed-in app link, so they resolve to their ATS twin the same way.
+    if (/^(\d+$|fonzi-|jackandjill-)/.test(row.jobid)) { const tw = await linkedinToAts(row); if (tw) { row.twin = tw; return tw.jd } return null }
     if (row.url && fetchAllowed(row.url)) { const r = await fetch(row.url, { headers: { "user-agent": "Mozilla/5.0" } }); if (r.ok) { const t = strip(await r.text()); if (t.length > 200) return t } }
   } catch { /* fall through */ }
   return null

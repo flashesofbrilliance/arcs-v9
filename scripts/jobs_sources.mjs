@@ -16,6 +16,7 @@
 //   node scripts/jobs_sources.mjs --import rows.json --source fonzi [--dry-run]
 //        rows an agent read from an MCP-only source (Fonzi search_companies): [{id,title,company,location,url,salary?}].
 //        Same title/location filter, dedupe and post as the adapters; read-only on Fonzi, never save interest.
+//        --source jackandjill: matches read from Jack & Jill emails in Gmail (the app is never driven); url = the ATS twin when found.
 // Env: JOBS_PIPELINE_TOKEN (falls back to ~/.arcs/jobs-pipeline.env), JOBS_BASE.
 
 import fs from "node:fs"
@@ -26,7 +27,7 @@ import { fileURLToPath } from "node:url"
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 export const SPEC = JSON.parse(fs.readFileSync(path.join(HERE, "..", "runtime", "specs", "job-sources.json"), "utf8"))
 const UA = { "user-agent": "arcs-jobs-sources/1.0 (+https://jobs.arcs.care)", accept: "application/json" }
-const SOURCE_KEY = { greenhouse: "greenhouse_board", lever: "lever_board", ashby: "ashby_board", yc: "yc_jobs", hn: "hn_whoishiring", fonzi: "fonzi" }
+const SOURCE_KEY = { greenhouse: "greenhouse_board", lever: "lever_board", ashby: "ashby_board", yc: "yc_jobs", hn: "hn_whoishiring", fonzi: "fonzi", jackandjill: "jackandjill_match" }
 
 // ---------- filters (pure) ----------
 const rx = (p) => new RegExp(p, "i")
@@ -178,7 +179,8 @@ export async function atsJD(r) {
 // A LinkedIn alert row carries title, company and location from the email only. Its JD is read from the SAME role on
 // the company's own public ATS board (Greenhouse / Ashby / Lever JSON APIs), found through the employer index or a
 // slug probe. No match = the row stays UNSCORED with a reason (human-paste path); a LinkedIn page is never requested.
-export const NO_FETCH_HOST = /(^|\.)linkedin\.com$/i
+// app.jackandjill.ai and talent.fonzi.ai are signed-in app pages, never a JD: fetching them would score page chrome.
+export const NO_FETCH_HOST = /(^|\.)linkedin\.com$|^app\.jackandjill\.ai$|^talent\.fonzi\.ai$/i
 export function fetchAllowed(url) { try { return !NO_FETCH_HOST.test(new URL(url).hostname) } catch { return false } }
 const STOP = new Set(["the", "a", "an", "and", "of", "for", "to", "in", "at", "with", "us", "usa", "nyc", "ny", "new", "york", "remote", "hybrid", "sr", "senior"])
 const toks = (s) => norm(String(s).replace(/\(.*?\)|\[.*?\]/g, " ")).split(" ").filter((w) => w && !STOP.has(w))
@@ -281,6 +283,7 @@ function selftest() {
   const hnKept = hn.filter((r) => locationOk(r.location, false, r.title))
   t("hn drops a header with an off-target city", hn.length === 2 && hnKept.length === 1)
   t("linkedin host never fetched", !fetchAllowed("https://www.linkedin.com/jobs/view/1/") && fetchAllowed("https://jobs.ashbyhq.com/x/1"))
+  t("platform app pages never fetched", !fetchAllowed("https://app.jackandjill.ai/jobs/x/post") && !fetchAllowed("https://talent.fonzi.ai/companies/x"))
   t("sameRole: word order and brackets", sameRole("Forward Deployed Engineer (NYC)", "Forward Deployed Engineer - New York"))
   t("sameRole: seniority kept apart", !sameRole("Staff Product Manager", "Product Manager") && !sameRole("Senior Product Manager", "Product Designer"))
   t("sameRole: extra qualifier on one side ok", sameRole("Applied AI Engineer", "Applied AI Engineer, Agents"))
