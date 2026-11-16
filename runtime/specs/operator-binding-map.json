@@ -11,7 +11,7 @@
   "BOUND": 77,
   "UNBOUND": 28,
   "reads_backlog": 1,
-  "edges": 579
+  "edges": 580
  },
  "seats": [
   {
@@ -2311,7 +2311,7 @@
     "serves_surface": 3,
     "invokes_primitive": 0
    },
-   "active_rows": 3,
+   "active_rows": 2,
    "edges": [
     {
      "target": "tool:hook:pre-commit",
@@ -2403,7 +2403,7 @@
     {
      "target": "job:backlog:svc-sage-should-it-exist-decision",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 44,
@@ -2784,7 +2784,7 @@
     "serves_surface": 4,
     "invokes_primitive": 0
    },
-   "active_rows": 5,
+   "active_rows": 3,
    "edges": [
     {
      "target": "tool:operator:arcs_mcp_bridge.py",
@@ -2924,7 +2924,7 @@
     {
      "target": "job:backlog:accountant-calibration-curve",
      "kind": "mentioned_by_row",
-     "row_state": "HOLDING",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 77,
@@ -2935,7 +2935,7 @@
     {
      "target": "job:backlog:accountant-external-cohort-nonzero",
      "kind": "mentioned_by_row",
-     "row_state": "HOLDING",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 76,
@@ -3176,7 +3176,7 @@
     "serves_surface": 7,
     "invokes_primitive": 0
    },
-   "active_rows": 4,
+   "active_rows": 3,
    "edges": [
     {
      "target": "tool:operator:arcs_api.py",
@@ -3375,7 +3375,7 @@
     {
      "target": "job:backlog:svc-sage-should-it-exist-decision",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 44,
@@ -3890,13 +3890,13 @@
    "status": "BOUND",
    "reads_backlog": false,
    "counts": {
-    "mentioned_by_row": 6,
+    "mentioned_by_row": 7,
     "cited_by_tool": 5,
     "cites_tool": 0,
     "serves_surface": 7,
     "invokes_primitive": 1
    },
-   "active_rows": 4,
+   "active_rows": 5,
    "edges": [
     {
      "target": "tool:agent:chief-conductor",
@@ -3994,6 +3994,17 @@
       "line": 52,
       "row_id": "pond-etch-protocol-serialize-molt-test",
       "needle": "\\b[Oo]p(?:erator)?[ -]?22\\b"
+     }
+    },
+    {
+     "target": "job:backlog:recoil-brian-ssot",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 517,
+      "row_id": "recoil-brian-ssot",
+      "needle": "\\bConductor\\b"
      }
     },
     {
@@ -5186,7 +5197,7 @@
     "serves_surface": 0,
     "invokes_primitive": 0
    },
-   "active_rows": 3,
+   "active_rows": 1,
    "edges": [
     {
      "target": "tool:script:accountant_weekly.py",
@@ -5245,7 +5256,7 @@
     {
      "target": "job:backlog:accountant-calibration-curve",
      "kind": "mentioned_by_row",
-     "row_state": "HOLDING",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 77,
@@ -5256,7 +5267,7 @@
     {
      "target": "job:backlog:accountant-external-cohort-nonzero",
      "kind": "mentioned_by_row",
-     "row_state": "HOLDING",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 76,
@@ -5302,7 +5313,7 @@
     "serves_surface": 0,
     "invokes_primitive": 2
    },
-   "active_rows": 4,
+   "active_rows": 3,
    "edges": [
     {
      "target": "tool:operator:arcs_echo_embedding.py",
@@ -5398,7 +5409,7 @@
     {
      "target": "job:backlog:svc-sage-should-it-exist-decision",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 44,
@@ -5624,7 +5635,7 @@
     "serves_surface": 0,
     "invokes_primitive": 0
    },
-   "active_rows": 1,
+   "active_rows": 0,
    "edges": [
     {
      "target": "tool:operator:arcs_cis.py",
@@ -5647,7 +5658,7 @@
     {
      "target": "job:backlog:svc-sage-should-it-exist-decision",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 44,
@@ -6637,7 +6648,7 @@
     "serves_surface": 3,
     "invokes_primitive": 0
    },
-   "active_rows": 3,
+   "active_rows": 2,
    "edges": [
     {
      "target": "tool:hook:pre-commit",
@@ -6718,7 +6729,7 @@
     {
      "target": "job:backlog:svc-sage-should-it-exist-decision",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 44,

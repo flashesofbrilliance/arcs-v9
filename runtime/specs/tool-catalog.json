@@ -574,7 +574,7 @@
    "kind": "agent",
    "name": "idea-alchemist",
    "path": ".claude/agents/idea-alchemist.md",
-   "jtbd": "[CANDIDATE] Sharpen a fuzzy premise into ONE falsifiable claim with labelled parts.",
+   "jtbd": "Sharpen a fuzzy premise into ONE falsifiable claim with labelled parts.",
    "invoke": "Agent subagent_type=idea-alchemist",
    "state": "WIRED"
   },
@@ -702,7 +702,7 @@
    "kind": "agent",
    "name": "scenario-runner",
    "path": ".claude/agents/scenario-runner.md",
-   "jtbd": "[CANDIDATE] Run ONE case (best, base or worst) with a pre-mortem, post-mortem and probability graph.",
+   "jtbd": "Run ONE case (best, base or worst) with a pre-mortem, post-mortem and probability graph.",
    "invoke": "Agent subagent_type=scenario-runner",
    "state": "WIRED"
   },
