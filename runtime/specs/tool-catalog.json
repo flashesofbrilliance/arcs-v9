@@ -6,31 +6,23 @@
   "command": 18,
   "hook": 3,
   "operator": 46,
-  "package": 4,
+  "package": 5,
   "script": 331,
   "skill": 28,
   "workflow": 2
  },
- "total": 463,
+ "total": 464,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 626,
+   "WIRED": 628,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 2,
+   "INSTALLED-UNUSED": 1,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
   "gaps": [
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "jobs_posting_liveness.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
    {
     "state": "INSTALLED-UNUSED",
     "surface": "user",
@@ -3408,6 +3400,14 @@
    "path": "tools/cold-recon/README.md",
    "jtbd": "A self-contained, parameterized CLI for the ARCS **cold-reconstruction** post-mortem method:",
    "invoke": "tools/cold-recon/cold-recon",
+   "state": "UNAUDITED"
+  },
+  {
+   "kind": "package",
+   "name": "projection-map",
+   "path": "tools/projection-map/README.md",
+   "jtbd": "Counts how Zach projects on calls, from Granola transcripts, with no model judgment in the scoring.",
+   "invoke": "see tools/projection-map/README.md",
    "state": "UNAUDITED"
   },
   {
