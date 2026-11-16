@@ -334,6 +334,8 @@ Install state: WIRED 625 · AVAILABLE-NOT-INSTALLED 0 · INSTALLED-UNUSED 2 · D
   `python3 scripts/counterpart_onepager_build.py`
 - **cruft_sweep.py** — cruft_sweep — survey, classify, and safely reclaim stale git worktrees.  
   `python3 scripts/cruft_sweep.py`
+- **daily_boot.py** — daily_boot.py: the boot sequence every arcs-v9 thread starts with (Zach, 2026-11-16).  
+  `python3 scripts/daily_boot.py`
 - **decision_geometry_ret.py** — decision_geometry_ret.py: score the RET take-home DECISIONS.md on the 5x5 decision geometry.  
   `python3 scripts/decision_geometry_ret.py`
 - **decision_receipt_to_accountant.py** — decision_receipt_to_accountant: bridge outcomes on Zach's decision receipts into the Accountant. Read-only, stdlib.  

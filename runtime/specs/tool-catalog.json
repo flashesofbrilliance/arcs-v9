@@ -1260,6 +1260,14 @@
   },
   {
    "kind": "script",
+   "name": "daily_boot.py",
+   "path": "scripts/daily_boot.py",
+   "jtbd": "daily_boot.py: the boot sequence every arcs-v9 thread starts with (Zach, 2026-11-16).",
+   "invoke": "python3 scripts/daily_boot.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "decision_geometry_ret.py",
    "path": "scripts/decision_geometry_ret.py",
    "jtbd": "decision_geometry_ret.py: score the RET take-home DECISIONS.md on the 5x5 decision geometry.",
