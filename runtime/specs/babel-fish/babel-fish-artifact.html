@@ -576,8 +576,17 @@ async function runThird(c, sp, tf, art, btn) {
     if (!r) throw { code: "invalid_json" };
     var t = { p: c.p, rung: c.rung, rendering: r.rendering.trim(), phase_lock: r.phase_lock || "" };
     await evalCells([t], lastClaims, { signal: ctl.signal });
-    var head = el("header", null, [el("div", null, [el("div", { cls: "rung", text: "Repaired through " + tf.atom.name }), el("h3", { text: t.pass ? "Now it lands." : "Better, not there yet." })]), ipsTag(t)]);
-    var box = el("div", { cls: "third" }, [head, el("p", { cls: "meta", text: "Why " + tf.atom.name + ": " + tf.why + ". Its question: " + tf.atom.question + " Before: IPS " + c.ips.toFixed(2) + ", shadow " + c.shadowHits + ". After: IPS " + t.ips.toFixed(2) + ", shadow " + t.shadowHits + "." })].concat(cellBody(t)));
+    // Honest comparison: more points kept is better; at equal points, fewer tune-out places is better; an addition is worse.
+    var score = function (x) { return [x.ips, -x.shadowHits, -x.added.length]; };
+    var a = score(c), b = score(t), cmp = 0;
+    for (var k = 0; k < 3 && !cmp; k++) cmp = b[k] > a[k] ? 1 : b[k] < a[k] ? -1 : 0;
+    var title = t.pass ? "Now it lands." : cmp > 0 ? "Better, not there yet." : cmp < 0 ? "Worse. Keep the first version." : "No change.";
+    var head = el("header", null, [el("div", null, [el("div", { cls: "rung", text: "Repaired through " + tf.atom.name }), el("h3", { text: title })]), ipsTag(t)]);
+    var det = el("details", null, [el("summary", { text: "Show how it was checked" })]);
+    cellBody(t).slice(1).forEach(function (x) { det.appendChild(x); });
+    var box = el("div", { cls: "third" }, [head,
+      el("p", { cls: "meta", text: "Before: " + Math.round(c.ips * 100) + "% of points kept, tunes out at " + c.shadowHits + ". After: " + Math.round(t.ips * 100) + "% kept, tunes out at " + t.shadowHits + ". " + tf.atom.name + " was chosen by " + tf.why + "." }),
+      plainVerdict(t), markText(t.rendering, t.triggers.filter(function (x) { return x.found; }).map(function (x) { return x.quote; })), det]);
     art.insertBefore(box, btn.parentNode.nextSibling);
     btn.remove();
   } catch (e) {
