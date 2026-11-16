@@ -32,7 +32,7 @@ TEMPLATE = os.path.join(TDIR, "page.tpl")
 SCHEMA = os.path.join(TDIR, "brief.schema.json")
 EXAMPLE = os.path.join(ROOT, "_ARTIFACTS/precall-brief/example.json")
 SKELETON = '<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>\n'
-SECTIONS = ["trip", "ask", "rule", "say"]
+SECTIONS = ["trip", "ask", "rule", "say", "close"]
 LANES = ["before", "opening", "interview", "debrief"]
 GATES = ["intake", "before-send", "before-booking", "on-call", "silence"]
 TIERS = {"T0": "self-asserted", "T1": "company-published", "T2": "domain-authenticated", "T3": "trusted mutual", "T4": "company-confirmed"}
@@ -103,6 +103,11 @@ def validate(d):
         return errs
     if [s["id"] for s in d["cockpit"]["sections"]] != SECTIONS:
         errs.append(f"cockpit.sections: ids must be {SECTIONS} in that order (stop-loss order)")
+    close = next((s for s in d["cockpit"]["sections"] if s["id"] == "close"), None)
+    if close and d["qualification"]["tier"] < "T2":
+        for it in close["items"]:
+            if not it["h"].lower().startswith("verify"):
+                errs.append(f"cockpit close/{it['h']!r}: below T2 the only next step is verification; start the headline with 'Verify'")
     if [l["id"] for l in d["lanes"]] != LANES:
         errs.append(f"lanes: ids must be {LANES} in that order (call order)")
     titles = [c["title"] for l in d["lanes"] for c in l["cards"]]
@@ -184,6 +189,11 @@ def self_test():
     bad("missing qualification", lambda d: d.pop("qualification"), "qualification")
     bad("go below T2", lambda d: d["qualification"].update(tier="T0", verdict="go"), "needs tier T2")
     bad("go with a failed gate", lambda d: d["qualification"]["checks"][0].update(status="fail"), "failed check")
+    bad("next step below T2", lambda d: d["qualification"].update(tier="T0", verdict="hold"), "only next step is verification")
+    v = copy.deepcopy(good); v["qualification"].update(tier="T0", verdict="hold")
+    next(s for s in v["cockpit"]["sections"] if s["id"] == "close")["items"] = [{"h": "Verify first", "lede": "Ask for the next step from their company address.", "bullets": ["Send nothing until it arrives."]}]
+    assert not [e for e in validate(v) if "close/" in e], "a Verify step below T2 must pass"
+    print("  ok  verify step below T2 passes")
     bad("gate order", lambda d: d["qualification"]["checks"].reverse(), "in that order")
     print("self-test passed")
 

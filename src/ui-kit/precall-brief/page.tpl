@@ -93,7 +93,7 @@ details[open]>.unfold{animation:unfold var(--dur-base) var(--ease-out)}
 .cockpit-head h2{font:600 var(--fs-headline)/1.1 var(--ds-font-display);margin:0;color:var(--cyan)}
 .csec{border-top:1px solid var(--border);padding-top:var(--sp-2)}
 .csum{font:600 var(--fs-label)/1.3 var(--ds-font-mono);letter-spacing:.12em;text-transform:uppercase;padding-block:var(--sp-1)}
-.csec.say{--tone:var(--cyan)} .csec.ask{--tone:var(--gold)} .csec.trip{--tone:var(--red)} .csec.rule{--tone:var(--green)}
+.csec.say{--tone:var(--cyan)} .csec.ask{--tone:var(--gold)} .csec.trip{--tone:var(--red)} .csec.rule{--tone:var(--green)} .csec.close{--tone:var(--cyan)}
 .csec>.csum{color:var(--tone)}
 .citems{display:grid;gap:var(--sp-1);padding:var(--sp-2) 0 var(--sp-1) var(--sp-5)}
 .citem-row{display:grid;grid-template-columns:1fr auto;align-items:start;column-gap:var(--sp-2);border-left:2px solid var(--tone);padding:var(--sp-2) 0 var(--sp-2) var(--sp-3)}

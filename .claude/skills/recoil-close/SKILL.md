@@ -26,6 +26,10 @@ omission-drift. This is ROM #6, the Exogenous Forge — a claim stands only if s
   ([[confidence-conviction-nci-operational-definitions]]).
 - **Belief trajectory** (`kinematic_series`): confidence over segments/calls; `scripts/recoil` computes
   the chart + D1-D3 kinematics.
+- **Next step named?** (experiment, pre-registered 2026-11-16 in `_PROPOSALS/2026-11-16-end-of-call-next-step.md`):
+  save the timestamped transcript privately (never commit it), run `python3 tools/next-step/nextstep.py <file>`,
+  and record its verdict (NAMED / VERIFY / NONE), who named it (zach / them), the trust tier, and whether it
+  matches the `close` step predicted on the pre-call page. Do not relabel by hand; the detector is frozen.
 - Kairos / quiet signals / risk flags (`list`).
 - **Candidacy only: re-score `opportunity.req_reality` from the transcript** (quote the line that
   sets it into `req_reality_basis`) and log `artifacts_after_signal` = artifacts sent after the

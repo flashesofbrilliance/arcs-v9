@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "arcs/precall-brief/brief.schema.json",
   "title": "Pre-call brief data",
-  "description": "The #brief-data block of a precall-brief page. scripts/precall_brief_build.py validates against this file (a stdlib subset: type, required, properties, additionalProperties, enum, const, items, minItems, maxItems, minimum, maximum, pattern, oneOf) and then adds the checks JSON Schema cannot say: cockpit section order trip/ask/rule/say, lane order before/opening/interview/debrief, every cockpit link names a card title, card titles unique, no em-dashes.",
+  "description": "The #brief-data block of a precall-brief page. scripts/precall_brief_build.py validates against this file (a stdlib subset: type, required, properties, additionalProperties, enum, const, items, minItems, maxItems, minimum, maximum, pattern, oneOf) and then adds the checks JSON Schema cannot say: cockpit section order trip/ask/rule/say/close, a close section below T2 holds only Verify steps, lane order before/opening/interview/debrief, every cockpit link names a card title, card titles unique, no em-dashes.",
   "type": "object",
   "additionalProperties": false,
   "required": ["id", "title", "eyebrow", "sub", "when", "start", "end", "meet", "qualification", "cockpit", "lanes", "footer"],
@@ -45,12 +45,12 @@
       "type": "object", "additionalProperties": false, "required": ["sections"],
       "properties": {
         "sections": {
-          "type": "array", "minItems": 4, "maxItems": 4,
-          "description": "Stop-loss order, fixed: trip, ask, rule, say.",
+          "type": "array", "minItems": 5, "maxItems": 5,
+          "description": "Stop-loss order, fixed: trip, ask, rule, say, close. close is the end-of-call next step (action, owner, date); below T2 its only item is a Verify step.",
           "items": {
             "type": "object", "additionalProperties": false, "required": ["id", "title", "items"],
             "properties": {
-              "id": {"enum": ["trip", "ask", "rule", "say"]},
+              "id": {"enum": ["trip", "ask", "rule", "say", "close"]},
               "title": {"type": "string"},
               "items": {
                 "type": "array", "minItems": 1,

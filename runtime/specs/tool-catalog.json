@@ -6,20 +6,20 @@
   "command": 18,
   "hook": 3,
   "operator": 46,
-  "package": 4,
-  "script": 328,
+  "package": 5,
+  "script": 329,
   "skill": 28,
   "workflow": 2
  },
- "total": 460,
+ "total": 462,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 622,
+   "WIRED": 532,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 2,
-   "DUPLICATE": 6,
+   "INSTALLED-UNUSED": 1,
+   "DUPLICATE": 1,
    "BROKEN": 0
   },
   "gaps": [
@@ -30,54 +30,6 @@
     "name": "jobs_posting_liveness.mjs",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "user",
-    "kind": "plugin",
-    "name": "frontend-design@claude-plugins-official",
-    "why": "project-scoped to /Users/zharris/arcs only",
-    "fix": "claude plugin uninstall frontend-design@claude-plugins-official"
-   },
-   {
-    "state": "DUPLICATE",
-    "surface": "multi",
-    "kind": "duplicate",
-    "name": "impeccable",
-    "why": "same name: repo:skill:impeccable | user:skill:impeccable",
-    "fix": "pick the canonical one; retire or point the other at it"
-   },
-   {
-    "state": "DUPLICATE",
-    "surface": "multi",
-    "kind": "duplicate",
-    "name": "impeccable-asset-producer",
-    "why": "same name: repo:agent:impeccable-asset-producer | user:agent:impeccable-asset-producer",
-    "fix": "pick the canonical one; retire or point the other at it"
-   },
-   {
-    "state": "DUPLICATE",
-    "surface": "multi",
-    "kind": "duplicate",
-    "name": "impeccable-documenter",
-    "why": "same name: repo:agent:impeccable-documenter | user:agent:impeccable-documenter",
-    "fix": "pick the canonical one; retire or point the other at it"
-   },
-   {
-    "state": "DUPLICATE",
-    "surface": "multi",
-    "kind": "duplicate",
-    "name": "impeccable-finish-reviewer",
-    "why": "same name: repo:agent:impeccable-finish-reviewer | user:agent:impeccable-finish-reviewer",
-    "fix": "pick the canonical one; retire or point the other at it"
-   },
-   {
-    "state": "DUPLICATE",
-    "surface": "multi",
-    "kind": "duplicate",
-    "name": "impeccable-manual-edit-applier",
-    "why": "same name: repo:agent:impeccable-manual-edit-applier | user:agent:impeccable-manual-edit-applier",
-    "fix": "pick the canonical one; retire or point the other at it"
    },
    {
     "state": "DUPLICATE",
@@ -3392,6 +3344,14 @@
    "path": "tools/cold-recon/README.md",
    "jtbd": "A self-contained, parameterized CLI for the ARCS **cold-reconstruction** post-mortem method:",
    "invoke": "tools/cold-recon/cold-recon",
+   "state": "UNAUDITED"
+  },
+  {
+   "kind": "package",
+   "name": "floor-light",
+   "path": "tools/floor-light/README.md",
+   "jtbd": "A menu-bar dot that shows how long you have held the floor on a live call.",
+   "invoke": "see tools/floor-light/README.md",
    "state": "UNAUDITED"
   },
   {

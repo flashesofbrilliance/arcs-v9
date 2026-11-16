@@ -53,13 +53,17 @@ Run this before Step 1 and before any send to the counterpart. Worked case: Bitf
 ## Step 2: fill the JSON
 Copy the example to `_ARTIFACTS/precall-brief/private/<yyyy-mm-dd>-<counterpart>.json` and replace every value.
 
-**The verification layer is standard, not optional.** The schema requires all four cockpit sections in stop-loss order:
+**The verification layer is standard, not optional.** The schema requires all five cockpit sections in stop-loss order:
 1. `trip` Tripwires: keep the three standard ones (install or fix anything; personal data or money; a move to another
    channel or code to open) and add any the case adds.
 2. `ask` Ask first: the identity check in the first minutes. One question whose specific, checkable answer is a pass,
    plus the strongest proof available (a company-domain email address).
 3. `rule` Decide: a go rule and a stop rule with a minute deadline, and what to do on stop (finish politely, send nothing).
 4. `say` Say: the opener and the lines for the likely probes, used only once the person checks out.
+5. `close` Close: one next step to name before hanging up (action, owner, date), written before the call as a
+   prediction. Below T2 the only next step is verification, and the build refuses any item whose headline does not
+   start with "Verify". Experiment pre-registered 2026-11-16 (`_PROPOSALS/2026-11-16-end-of-call-next-step.md`);
+   `/recoil-close` scores it.
 
 The Before lane carries the evidence behind that layer: Status (what you sent, what came back, when to re-check),
 who the interviewer is per the public record, the recruiter for and against, Odds with error bars and what moves them,

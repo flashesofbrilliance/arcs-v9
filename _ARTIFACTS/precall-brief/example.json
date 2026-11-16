@@ -62,6 +62,9 @@
       {"id": "say", "title": "4 · Say: once the person checks out", "items": [
         {"h": "Opener", "lede": "Payments product lead. Moving money safely is the work.", "bullets": ["Two launches under a money-transmitter license, zero regulator findings.", "Bridge: that is the core problem a payouts product has to get right."], "link": "What they test"},
         {"h": "If scale comes up", "lede": "Owned the payouts roadmap from pilot to general availability.", "bullets": ["Say the volume you can source; skip the ones you cannot.", "Product person, not a payments engineer."], "link": "Roadmap method"}
+      ]},
+      {"id": "close", "title": "5 · Close: one next step before you hang up", "items": [
+        {"h": "Name the next step", "lede": "Before we go, can we name one next step? Action, owner, date.", "bullets": ["Mine: send the payouts case study by Thursday.", "Ask theirs: who decides on the next round, and by when.", "If they will not name one, that is the answer. Log it, do not push."], "link": "What they test"}
       ]}
     ]
   },
