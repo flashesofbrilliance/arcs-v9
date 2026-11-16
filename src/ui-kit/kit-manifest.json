@@ -5155,14 +5155,17 @@
     "proposal"
    ],
    "jobs": [],
-   "pages": [],
-   "reuse": 0,
+   "pages": [
+    "_ARTIFACTS/louisville-proposal/source.html",
+    "public/louisville-proposal.html"
+   ],
+   "reuse": 2,
    "near_duplicates": [
     {
      "rule": ".qpair",
      "twin": "66-give-get-table",
      "twin_rule": ".gg",
-     "jaccard": 1.0
+     "jaccard": 0.8
     }
    ]
   },
@@ -5217,7 +5220,7 @@
      "rule": ".gg",
      "twin": "65-question-pair",
      "twin_rule": ".qpair",
-     "jaccard": 1.0
+     "jaccard": 0.8
     }
    ]
   },

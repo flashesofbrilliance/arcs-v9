@@ -32,10 +32,7 @@ CATCH_ALL = re.compile(r'^/:path\((.*)\)$', re.S)
 PARAM = re.compile(r':(\w+)\(([^()]*)\)')
 # (host, destination) -> why it is held. Remove an entry when its route is fixed or retired.
 KNOWN = {
-    ("scott-profile.arcs.care", "/scott-signal.html"):
-        "live 2026-11-15: /signal serves scott-profile.html; the profile page links to it; restore or retire is Zach's call",
-    ("resume.arcs.care", "/resume-google-gtm.html"):
-        "live 2026-11-15: /google serves resume.html (src/proxy.ts resume map, added 2026-10-30, routes first); restore or retire is Zach's call",
+    # both 2026-11-15 entries resolved by Zach 2026-11-16: scott-profile /signal restored, resume /google retired.
 }
 
 
