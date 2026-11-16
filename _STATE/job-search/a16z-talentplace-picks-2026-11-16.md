@@ -31,6 +31,10 @@ Tags: recent role match, 1 tech skill match, industry fit. Talentplace shows no 
 Tags: recent role match, industry fit, office match. Weakest fit: robotics data, Bay Area office.
 > Training and evaluation data is where model quality is won or lost, and evaluation is the core of how I build agents in ARCS. If the open role leans toward data operations, evaluation design or customer deployment, I would like to talk.
 
+### Added on your pick: Gamma (SF, Series B, AI for presentations and communication)
+Tags: industry fit, office match (no recent-role tag). You said you love the product; the note leads with that, so change the first line if it does not match how you use it.
+> I use Gamma, and I love what it does to the blank page: it turns a rough idea into something you can put in front of a room. That is the problem I care about too. ARCS, the agentic platform I build, takes a messy decision and renders a brief at the fidelity the evidence earns, and before that I spent years on growth and communication products, from personalization that lifted net-new revenue 20 percent to the WTA's first data partnerships with Twitter and Facebook. I am in New York and would like to talk about product or applied AI roles.
+
 ### Already shared: Adaptive Security (NYC, Series B)
 Use the note under the first list below (section 1) in the "Add note" box.
 
