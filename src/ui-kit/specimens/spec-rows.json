@@ -3,7 +3,7 @@
  "name": "Spec Rows",
  "slug": "spec-rows",
  "layer": "Molecule",
- "job": "Name a few labelled choices and what each one covers, as hairline rows in running text or as side-by-side cards when the reader is meant to pick.",
+ "job": "Name a few labelled choices and what each one covers, as hairline rows in running text or as side-by-side cards (two or three across) when the reader is meant to pick.",
  "anatomy": [
   {
    "part": "Row",
@@ -23,6 +23,11 @@
   {
    "part": "Cards variant",
    "role": "`.spec.cards`: each row a surface card, two columns, stacking on a phone",
+   "token": "`surface`, `border`, `ds-r-md`"
+  },
+  {
+   "part": "Three-up variant",
+   "role": "`.spec.cards.is-3`: three cards in one row from 760px; one column below that, so a third card never orphans under two",
    "token": "`surface`, `border`, `ds-r-md`"
   }
  ],
@@ -44,6 +49,14 @@
    "note": "Two choices the reader picks between."
   },
   {
+   "name": "Cards, three",
+   "args": [
+    "cards3",
+    "100%"
+   ],
+   "note": "Three choices: one row of three from 760px, one column below."
+  },
+  {
    "name": "Cards, phone width",
    "args": [
     "cards",
@@ -58,7 +71,8 @@
  ],
  "avoid_when": [
   "Do not use it for a single inline term; that is 50 Term Definition.",
-  "Do not put prices or terms in a card; those belong in 41 Offer Close."
+  "Do not put prices or terms in a card; those belong in 41 Offer Close.",
+  "Do not use `is-3` with two or four rows; two cards take the plain cards variant."
  ],
  "data": [
   {
@@ -69,9 +83,9 @@
   },
   {
    "field": "variant",
-   "type": "rows | cards",
+   "type": "rows | cards | cards is-3",
    "required": false,
-   "note": "Default `rows`."
+   "note": "Default `rows`. `is-3` only with exactly three rows."
   }
  ],
  "access": [
@@ -88,6 +102,9 @@
  "used_by": [
   {
    "name": "Louisville proposal (louisville.arcs.care/proposal), page-local today; swap in after the send"
+  },
+  {
+   "name": "ARCS case study (public/case-study.html), the three-up levers"
   }
  ],
  "gates": [
@@ -99,6 +116,6 @@
   "_tokens-light.css",
   "_kit-sr.css"
  ],
- "css": "/* @prim:begin 68-spec-rows */\n.spec { display: flex; flex-direction: column; margin: 0; }\n.specrow { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); column-gap: var(--sp-3, 24px); padding: var(--sp-2, 16px) 0; border-top: 1px solid var(--border); }\n.specrow:last-child { border-bottom: 1px solid var(--border); }\n.specrow dt { font-weight: 600; color: var(--text); }\n.specrow dd { margin: 0; color: var(--text-secondary); text-wrap: pretty; }\n.spec.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-2, 16px); }\n.spec.cards > .specrow, .spec.cards > .specrow:last-child { grid-template-columns: minmax(0, 1fr); align-content: start; row-gap: var(--sp-1, 8px); padding: var(--sp-2, 16px) var(--sp-3, 24px); background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); }\n.spec.cards > .specrow dt { display: flex; align-items: center; gap: var(--sp-1, 8px); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); }\n.spec.cards > .specrow dt::before { content: \"\"; width: 8px; height: 8px; border-radius: var(--ds-r-pill); background: currentColor; flex-shrink: 0; }\n@media (max-width: 640px) { .specrow { grid-template-columns: minmax(0, 1fr); row-gap: 4px; } .spec.cards { grid-template-columns: minmax(0, 1fr); } }\n@container (max-width: 40rem) { .specrow { grid-template-columns: minmax(0, 1fr); row-gap: 4px; } .spec.cards { grid-template-columns: minmax(0, 1fr); } }\n@media print { .spec { break-inside: avoid; } .specrow { grid-template-columns: 8rem minmax(0, 1fr); padding: 7px 0; break-inside: avoid; } .spec.cards { display: flex; gap: 0; } .spec.cards > .specrow { background: none; border: 0; border-top: 1px solid var(--border); border-radius: 0; padding: 7px 0; } }\n/* @prim:end 68-spec-rows */\n",
- "demo": "function kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar SR=[['Technical','How the build works, followed from the data in to the answer out: where it held, slowed or broke.'],['Business','A call the build informed, such as a flavor bet or the number that says stop before an order.']];\nfunction kitSpec(host,v){var w=document.createElement('dl');w.className='spec'+(v==='cards'?' cards':'');w.innerHTML=SR.map(function(r){return '<div class=\"specrow\"><dt>'+kEsc(r[0])+'</dt><dd>'+kEsc(r[1])+'</dd></div>'}).join('');host.appendChild(w);return w}\nkitSpec(kSlot(),'cards');\nSTATES.forEach(function(a,i){var b=document.createElement('div');b.style.maxWidth=a[1];if(a[1]!=='100%')b.style.containerType='inline-size';kSlot(i).appendChild(b);kitSpec(b,a[0])});"
+ "css": "/* @prim:begin 68-spec-rows */\n.spec { display: flex; flex-direction: column; margin: 0; }\n.specrow { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); column-gap: var(--sp-3, 24px); padding: var(--sp-2, 16px) 0; border-top: 1px solid var(--border); }\n.specrow:last-child { border-bottom: 1px solid var(--border); }\n.specrow dt { font-weight: 600; color: var(--text); }\n.specrow dd { margin: 0; color: var(--text-secondary); text-wrap: pretty; }\n.spec.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-2, 16px); }\n.spec.cards > .specrow, .spec.cards > .specrow:last-child { grid-template-columns: minmax(0, 1fr); align-content: start; row-gap: var(--sp-1, 8px); padding: var(--sp-2, 16px) var(--sp-3, 24px); background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); }\n.spec.cards > .specrow dt { display: flex; align-items: center; gap: var(--sp-1, 8px); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); }\n.spec.cards > .specrow dt::before { content: \"\"; width: 8px; height: 8px; border-radius: var(--ds-r-pill); background: currentColor; flex-shrink: 0; }\n.spec.cards.is-3 { grid-template-columns: minmax(0, 1fr); }\n@media (min-width: 760px) { .spec.cards.is-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .spec.cards.is-3 > .specrow, .spec.cards.is-3 > .specrow:last-child { padding: var(--sp-2, 16px); } .spec.cards.is-3 > .specrow dt { text-wrap: balance; } }\n@media (max-width: 640px) { .specrow { grid-template-columns: minmax(0, 1fr); row-gap: 4px; } .spec.cards { grid-template-columns: minmax(0, 1fr); } }\n@container (max-width: 40rem) { .specrow { grid-template-columns: minmax(0, 1fr); row-gap: 4px; } .spec.cards { grid-template-columns: minmax(0, 1fr); } .spec.cards.is-3 { grid-template-columns: minmax(0, 1fr); } }\n@media print { .spec { break-inside: avoid; } .specrow { grid-template-columns: 8rem minmax(0, 1fr); padding: 7px 0; break-inside: avoid; } .spec.cards { display: flex; gap: 0; } .spec.cards > .specrow { background: none; border: 0; border-top: 1px solid var(--border); border-radius: 0; padding: 7px 0; } }\n/* @prim:end 68-spec-rows */\n",
+ "demo": "function kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar SR=[['Technical','How the build works, followed from the data in to the answer out: where it held, slowed or broke.'],['Business','A call the build informed, such as a flavor bet or the number that says stop before an order.']];\nvar SR3=SR.concat([['Craft','How the page reads to a first-time reader: one lane, one measure, nothing to decode.']]);\nfunction kitSpec(host,v){var w=document.createElement('dl');w.className='spec'+(v==='cards'?' cards':v==='cards3'?' cards is-3':'');w.innerHTML=(v==='cards3'?SR3:SR).map(function(r){return '<div class=\"specrow\"><dt>'+kEsc(r[0])+'</dt><dd>'+kEsc(r[1])+'</dd></div>'}).join('');host.appendChild(w);return w}\nkitSpec(kSlot(),'cards');\nSTATES.forEach(function(a,i){var b=document.createElement('div');b.style.maxWidth=a[1];if(a[1]!=='100%')b.style.containerType='inline-size';kSlot(i).appendChild(b);kitSpec(b,a[0])});"
 }

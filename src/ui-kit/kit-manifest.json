@@ -4110,6 +4110,7 @@
    ],
    "pages": [
     "_ARTIFACTS/louisville-proposal/source.html",
+    "public/case-study.html",
     "public/germinate.html",
     "public/good-rfp-engine.html",
     "public/gravity-brief-beliefs.html",
@@ -4127,7 +4128,7 @@
     "scripts/status_page_build.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 17,
+   "reuse": 18,
    "near_duplicates": [
     {
      "rule": ".dprefs-btns button[aria-pressed=\"true\"]",
@@ -4235,10 +4236,11 @@
     "downshift-kit-number-collision"
    ],
    "pages": [
+    "public/case-study.html",
     "public/gravity-brief.html",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 2,
+   "reuse": 3,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -4483,12 +4485,13 @@
    "pages": [
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
     "_ARTIFACTS/recoil-hypercube-explorer.html",
+    "public/case-study.html",
     "public/downshift.html",
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py",
     "scripts/week_plan_build.py"
    ],
-   "reuse": 6,
+   "reuse": 7,
    "near_duplicates": [
     {
      "rule": ".fold",
@@ -5246,7 +5249,7 @@
    "number": "68",
    "name": "Spec Rows",
    "group": "Specimens",
-   "subtitle": "Molecule 68 · Name a few labelled choices and what each one covers, as hairline rows in running text or as side-by-side cards when the reader is meant to pick.",
+   "subtitle": "Molecule 68 · Name a few labelled choices and what each one covers, as hairline rows in running text or as side-by-side cards (two or three across) when the reader is meant to pick.",
    "family": "kit",
    "path": "src/ui-kit/recoil-report/68-spec-rows.html",
    "data_shape": [
@@ -5255,6 +5258,7 @@
    "fidelity": [],
    "classes": [
     "cards",
+    "is-3",
     "spec",
     "specrow"
    ],
@@ -5273,9 +5277,10 @@
    "jobs": [],
    "pages": [
     "_ARTIFACTS/louisville-proposal/source.html",
+    "public/case-study.html",
     "public/louisville-proposal.html"
    ],
-   "reuse": 2,
+   "reuse": 3,
    "near_duplicates": []
   },
   {
@@ -5676,9 +5681,10 @@
    "templates": [],
    "jobs": [],
    "pages": [
+    "public/case-study.html",
     "public/gravity-brief.html"
    ],
-   "reuse": 1,
+   "reuse": 2,
    "near_duplicates": []
   },
   {
