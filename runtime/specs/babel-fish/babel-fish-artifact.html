@@ -1,0 +1,343 @@
+<title>Babel Fish</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one column. Signal in, then the three stages as a strip, then one card per listener
+   with its rendering and the transceiver's verdict. Single dark look on purpose: ARCS brand tokens. */
+:root {
+  --bg: #020408; --surface: #0d1117; --raise: #111823; --border: #1e293b;
+  --text: #e2e8f0; --muted: #94a3b8; --dim: #8391a7;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "Crimson Pro", Georgia, serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --measure: 760px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--text); }
+body { font: 15px/1.55 var(--sans); }
+.wrap { max-width: var(--measure); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; display: grid; gap: 20px; }
+.brand { font: 600 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--cyan); }
+h1 { font: 500 clamp(30px, 6vw, 42px)/1.05 var(--serif); margin: 6px 0 8px; text-wrap: balance; }
+h1 em { color: var(--gold); font-style: normal; }
+.lede { margin: 0; color: var(--muted); }
+h2 { font: 600 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; display: grid; gap: 12px; min-width: 0; }
+textarea { width: 100%; min-height: 120px; resize: vertical; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; font: 14px/1.5 var(--sans); }
+textarea:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+button { font: 600 13px var(--sans); color: var(--text); background: var(--raise); border: 1px solid var(--border); border-radius: 6px; min-height: 40px; padding: 0 14px; cursor: pointer; }
+button:hover { border-color: var(--cyan); }
+button.primary { background: var(--cyan); color: var(--bg); border-color: var(--cyan); }
+button:disabled { opacity: 1; color: var(--dim); border-style: dashed; cursor: not-allowed; background: var(--raise); }
+.mic[data-on="1"] { background: var(--cyan); color: var(--bg); }
+.personas { display: flex; flex-wrap: wrap; gap: 6px; }
+.personas label { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px; font-size: 13px; cursor: pointer; }
+.personas input { accent-color: var(--cyan); }
+.note { font-size: 13px; color: var(--muted); margin: 0; }
+.stages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 560px) { .stages { grid-template-columns: 1fr; } }
+.stage { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; display: grid; gap: 2px; }
+.stage b { font: 600 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.stage span { font-size: 13px; color: var(--muted); }
+.stage[data-s="run"] { border-color: var(--cyan); } .stage[data-s="run"] b { color: var(--cyan); }
+.stage[data-s="done"] b { color: var(--green); }
+.stage[data-s="fail"] { border-color: var(--red); } .stage[data-s="fail"] b { color: var(--red); }
+ol.claims { margin: 0; padding-left: 22px; display: grid; gap: 4px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; display: grid; gap: 12px; min-width: 0; }
+.card header { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.card h3 { margin: 0; font: 500 21px/1.2 var(--serif); }
+.meta { font-size: 13px; color: var(--muted); margin: 0; }
+.ips { font: 600 12px var(--mono); padding: 5px 8px; border-radius: 4px; border: 1px solid; white-space: nowrap; }
+.ips.ok { color: var(--green); } .ips.mid { color: var(--gold); } .ips.bad { color: var(--red); } .ips.eg { color: var(--dim); }
+blockquote { margin: 0; border-left: 2px solid var(--cyan); padding: 2px 0 2px 12px; font-size: 15px; overflow-wrap: anywhere; }
+.verdicts { display: grid; gap: 6px; }
+.v { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 10px; font-size: 13px; align-items: start; }
+.v b { font: 600 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; padding-top: 2px; }
+.v.kept b { color: var(--green); } .v.weakened b { color: var(--gold); } .v.dropped b { color: var(--red); }
+.v .q { color: var(--muted); font-style: italic; }
+.v .warn { color: var(--gold); font-style: normal; }
+.seam { border: 1px dashed var(--gold); border-radius: 8px; padding: 10px 12px; font-size: 13px; display: grid; gap: 4px; }
+.seam b { color: var(--gold); }
+details { font-size: 13px; color: var(--muted); }
+details summary { cursor: pointer; color: var(--text); }
+.err { border: 1px dashed var(--red); border-radius: 8px; padding: 10px 12px; font-size: 13px; }
+.err b { color: var(--red); }
+footer { color: var(--muted); font-size: 12px; display: grid; gap: 4px; }
+code { font: 12px var(--mono); color: var(--cyan); }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="brand">ARCS &middot; Babel Fish &middot; lossless translation</div>
+    <h1>Say it once. Each listener hears it <em>natively</em>, and you see what survived.</h1>
+    <p class="lede">Decomposition finds the load-bearing claims. Recomposition re-emits them in each persona's register from the Adaptive Translation Codex. The transceiver then reads each rendering blind, restates what it heard, and marks every claim kept, weakened or dropped. Anything lost shows as a seam. Nothing is sent anywhere; you copy what you want.</p>
+  </header>
+
+  <section class="panel" aria-label="Signal">
+    <h2>1 &middot; Signal</h2>
+    <textarea id="signal" aria-label="Concept to translate"></textarea>
+    <div class="row">
+      <button class="mic" id="mic" type="button" hidden aria-label="Dictate">Dictate</button>
+      <button class="primary" id="go" type="button">Translate and check</button>
+      <button id="stop" type="button" hidden>Stop</button>
+      <button id="reset" type="button">Load the codex source concept</button>
+    </div>
+    <div class="personas" id="personas" role="group" aria-label="Listeners"></div>
+    <p class="note" id="status">The example below is the codex's own six translations, unchecked. Press Translate and check to run them through the transceiver.</p>
+  </section>
+
+  <section class="stages" aria-label="Pipeline">
+    <div class="stage" id="st-decomp" data-s="idle"><b>Decomposition</b><span>load-bearing claims</span></div>
+    <div class="stage" id="st-recomp" data-s="idle"><b>Recomposition</b><span>one rendering per listener</span></div>
+    <div class="stage" id="st-trans" data-s="idle"><b>Transceiver</b><span>blind receive, then compare</span></div>
+  </section>
+
+  <section class="panel" id="claimsPanel" aria-label="Load-bearing claims">
+    <h2>2 &middot; Load-bearing claims (the invariants)</h2>
+    <ol class="claims" id="claims"></ol>
+  </section>
+
+  <section id="cards" aria-live="polite" style="display:grid;gap:14px"></section>
+
+  <footer>
+    <div>Personas, registers and phase-lock lines come from the ARCS Adaptive Translation Codex. The stage names follow <code>operators/arcs_lte.py</code>. IPS here is semantic (a blind receiver), not the LTE's keyword overlap, and there is no recovery pass that pastes missing claims back on.</div>
+    <div>Each run asks Claude 9 times on your own account (1 decomposition, 1 recomposition, 6 blind receives, 1 comparison). Quoted evidence is checked against the rendering on this page; a quote that is not there is flagged.</div>
+  </footer>
+</div>
+
+<script>
+var SOURCE = "ARCS is decision intelligence infrastructure. It makes the irreplaceable tacit wisdom you've developed (your judgment, your pattern recognition, your room-reading) legible, compounding, and deployable. Traditional human capital frameworks treat your knowledge as something to be extracted and commoditized. ARCS inverts that: your most valuable capability is precisely what can't be extracted, and ARCS is how you develop it into a structural advantage.";
+var CODEX_INVARIANTS = [
+  "ARCS develops what can't be extracted: irreplaceable tacit wisdom.",
+  "It makes human judgment more precise, not more automated.",
+  "The output compounds: every artifact makes the next one sharper.",
+  "The most dangerous failure mode is the wrong problem, not the wrong execution."
+];
+// From the Adaptive Translation Codex (six synthetic personas).
+var PERSONAS = [
+  { id: "consultant", name: "Consulting Partner", dialect: "Investment frameworks, ROI multiples, utilization, MOIC, IRR, opportunity cost, time-to-value", fear: "This adds overhead without a measurable return.", entry: "Land the return anchor before any philosophy.", revealed: "Moves on intellectual novelty; the return framing unlocks permission.", avoid: "Opening with philosophy; explaining scoring methodology.", lock: "So it's a decision governance layer with a compounding return.",
+    example: "ARCS has increased my time-to-value, personal IRR, and MOIC of my own human capital by over 1000x, cut opportunity cost on poorly-deployed effort by roughly 99%, and ensured I'm always working on the right problem, in the right direction, at the right moment, with the right level of effort. Not more effort. Calibrated effort." },
+  { id: "cto", name: "Regulated-Industry CTO", dialect: "Compliance, governance, audit trails, risk frameworks, human-in-the-loop", fear: "AI speeds up the process and also speeds up the failure.", entry: "Establish regulatory credibility before any capability claim.", revealed: "Fears personal exposure for signing off on a deployment that becomes a liability.", avoid: "ML jargon before the governance frame; describing a platform.", lock: "This is basically a paper trail for judgment calls.",
+    example: "The governance problem in enterprise AI isn't the model, it's the decision layer around it. Who approved this output? What was the fallback? What's the audit trail when something goes wrong in front of a regulator? ARCS builds that layer explicitly. Every decision gets an artifact: the reasoning, the confidence, the alternatives considered. It's not process overhead; it's what keeps AI deployment from becoming a liability." },
+  { id: "mle", name: "ML/AI Engineer", dialect: "Eval harnesses, feedback loops, ground truth, drift, RLHF, human-in-the-loop checkpoints", fear: "This is a process framework masquerading as engineering.", entry: "Establish technical peer credibility before any 'wisdom' language.", revealed: "Responds to instrumentation analogies; thinks in systems.", avoid: "Wisdom or tacit-knowledge language early.", lock: "RLHF but for the human.",
+    example: "Think of ARCS as an eval harness for the human decision layer, not just the model output. Standard evals test whether the model behaves correctly given an input. ARCS tests whether the human is asking the right question, tracking the right signal, and interpreting the output correctly under live conditions. The feedback loop runs on the practitioner, not just the pipeline. Drift detection at the judgment layer, not just the embedding space." },
+  { id: "cdo", name: "Fortune 100 CDO", dialect: "Decision velocity, organizational coherence, change management, governance gaps, executive alignment", fear: "We deploy AI and our people don't know how to use it or when to override it.", entry: "Frame around organizational coherence, not personal productivity.", revealed: "Afraid of the mandate gap: capability without a decision architecture.", avoid: "Personal productivity metrics; the personal-use origin story.", lock: "The decision architecture comes before the tool.",
+    example: "The problem I keep seeing in enterprise AI deployments isn't the technology. It's that the organization redesigns the tool but not the decision it supports. You get faster output for the same flawed process. ARCS is how you redesign the decision first: map where the actual judgment call happens, who owns it, what signals matter, and what a good output looks like before you touch the model. That clarity is also the governance layer." },
+  { id: "pm", name: "Skeptical Product Manager", dialect: "Sprint velocity, user stories, stakeholder alignment, requirements traceability, scope creep", fear: "We have process debt. More process won't fix process debt.", entry: "Show workflow acceleration before any decision theory.", revealed: "Frustrated by sprints that end in the wrong place.", avoid: "Abstract decision theory first; financial metaphors.", lock: "Discovery before build, with a stop-loss.",
+    example: "The velocity trap: most teams ship fast in the wrong direction. ARCS is a forcing function at the decision layer before execution starts. Five questions that stop a two-week sprint from solving the wrong problem: who's affected, what's the real success condition, what's the stop-loss if this doesn't work, who has to agree for this to ship, and what are we explicitly not building. That's how you protect sprint velocity from scope drift." },
+  { id: "founder", name: "Founder / Builder", dialect: "Systems thinking, founder mode, compounding infrastructure, first principles, production vs prototype", fear: "None; the risk is over-explaining the obvious.", entry: "Show the artifact immediately; they infer the system.", revealed: "Already thinks this way; show, don't teach.", avoid: "Over-explaining before showing; human-capital philosophy.", lock: "Can I see one?",
+    example: "What if your own decision-making was a production system, not metaphorically but literally instrumented the way you'd instrument an API? Input, output, latency, error rate, feedback loop, version history. Every significant decision gets a receipt: what was the question, what were the alternatives, what was the confidence, what happened. The receipts compound. Six months later you can query your own judgment history and find patterns you couldn't see in real time." }
+];
+var IPS_THRESHOLD = 0.95; // from operators/arcs_lte.py
+
+function $(id) { return document.getElementById(id); }
+function el(tag, attrs, kids) {
+  var n = document.createElement(tag);
+  if (attrs) for (var k in attrs) { if (k === "text") n.textContent = attrs[k]; else if (k === "cls") n.className = attrs[k]; else n.setAttribute(k, attrs[k]); }
+  (kids || []).forEach(function (c) { if (c) n.appendChild(typeof c === "string" ? document.createTextNode(c) : c); });
+  return n;
+}
+function setStage(id, s, text) { var n = $(id); n.setAttribute("data-s", s); if (text) n.querySelector("span").textContent = text; }
+function norm(s) { return String(s || "").toLowerCase().replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/\s+/g, " ").trim(); }
+
+// ---- Prompts (stage 1 adapts the LTE's own decomposition prompt) ----
+function decompPrompt(signal) {
+  return "You are a semantic parsing engine. Extract LOAD-BEARING CLAIMS only.\n\n" +
+    "A load-bearing claim:\n1. Cannot be removed without changing what the speaker is fundamentally asking for or asserting\n" +
+    "2. Could in principle be true or false (falsifiable)\n3. Would need to survive into any faithful paraphrase\n\n" +
+    "Signal:\n<signal>" + signal + "</signal>\n\n" +
+    "List ONLY load-bearing claims. Maximum 7. Each: one declarative sentence, stripped of emotion.\n" +
+    "Do NOT include: tone, examples, analogies, emotional framing, meta-commentary.\nReturn ONLY a JSON array of strings.";
+}
+function recompPrompt(signal, claims, listeners) {
+  var ls = listeners.map(function (p) { return { id: p.id, name: p.name, native_dialect: p.dialect, fear: p.fear, entry_point: p.entry, revealed: p.revealed, avoid: p.avoid }; });
+  return "You are the recomposition stage of a lossless translation engine. Re-emit the SOURCE in the native register of each listener.\n\n" +
+    "Rules:\n- Every numbered CLAIM must survive with its meaning intact. You may change vocabulary, order, examples and altitude.\n" +
+    "- Do NOT add claims, numbers, metrics, results or promises that are not in the source.\n" +
+    "- Use the listener's entry point; avoid what they are listed to avoid.\n- 60 to 120 words per rendering. Plain prose, no lists, no headings.\n\n" +
+    "SOURCE:\n<source>" + signal + "</source>\n\nCLAIMS:\n" + claims.map(function (c, i) { return (i + 1) + ". " + c; }).join("\n") +
+    "\n\nLISTENERS:\n" + JSON.stringify(ls) +
+    '\n\nReturn ONLY JSON: [{"id": "<listener id>", "rendering": "<text>", "phase_lock": "<the short phrase this listener would say if it landed>"}], one entry per listener, same ids.';
+}
+function receivePrompt(rendering) {
+  return "Read this message as its intended listener would. List every distinct claim it makes, as short plain declarative sentences in your own words. " +
+    "Include an implied claim only if a careful reader would take it as asserted.\n\nMessage:\n<message>" + rendering + "</message>\n\nReturn ONLY a JSON array of strings.";
+}
+function judgePrompt(claims, items) {
+  return "You compare what was sent with what was received.\n\nORIGINAL CLAIMS:\n" + claims.map(function (c, i) { return (i + 1) + ". " + c; }).join("\n") +
+    "\n\nFor each listener you get the RENDERING that was sent and RECEIVED: a blind reader's restatement of the rendering (the reader never saw the original claims).\n\n" +
+    "For each original claim decide:\n- kept: the received claims carry the same meaning\n- weakened: present but softened, narrowed, hedged or ambiguous\n- dropped: absent or contradicted\n" +
+    "Quote the shortest exact span of the RENDERING that carries the claim (empty string if dropped). Copy it character for character.\n" +
+    "Also list \"added\": received claims that assert something the original claims do not (new numbers, results, promises or scope).\n\n" +
+    "LISTENERS:\n" + JSON.stringify(items.map(function (it) { return { id: it.id, rendering: it.rendering, received: it.received }; })) +
+    '\n\nReturn ONLY JSON: [{"id": "<listener id>", "claims": [{"n": 1, "status": "kept|weakened|dropped", "quote": "<exact span or empty>", "note": "<12 words or fewer>"}], "added": ["<claim>"]}]';
+}
+
+// ---- Rendering ----
+function renderClaims(claims, label) {
+  var ol = $("claims"); ol.textContent = "";
+  claims.forEach(function (c) { ol.appendChild(el("li", { text: c })); });
+  $("claimsPanel").querySelector("h2").textContent = "2 · " + label;
+}
+function ipsOf(verdicts) {
+  if (!verdicts.length) return 0;
+  var s = 0; verdicts.forEach(function (v) { s += v.status === "kept" ? 1 : v.status === "weakened" ? 0.5 : 0; });
+  return s / verdicts.length;
+}
+var tts = null, lastCards = [];
+function card(p, data, isExample) {
+  var head = el("header", null, [el("h3", { text: p.name }),
+    isExample ? el("span", { cls: "ips eg", text: "example, unchecked" })
+              : el("span", { cls: "ips " + (data.ips >= IPS_THRESHOLD ? "ok" : data.ips >= 0.75 ? "mid" : "bad"), text: "IPS " + data.ips.toFixed(2) })]);
+  var kids = [head, el("p", { cls: "meta", text: "Register: " + p.dialect + ". Fear: " + p.fear }),
+    el("blockquote", { text: data.rendering })];
+  if (data.phase_lock) kids.push(el("p", { cls: "meta", text: "Phase-lock line if it lands: “" + data.phase_lock + "”" }));
+  if (!isExample) {
+    var vs = el("div", { cls: "verdicts" });
+    data.verdicts.forEach(function (v, i) {
+      var q = v.quote ? el("span", { cls: "q", text: "“" + v.quote + "”" }) : null;
+      var warn = v.quote && !v.quoteFound ? el("span", { cls: "warn", text: " (quote not found in the rendering)" }) : null;
+      vs.appendChild(el("div", { cls: "v " + v.status }, [el("b", { text: v.status }),
+        el("span", null, [el("span", { text: (i + 1) + ". " + v.claim + " " }), q, warn, v.note ? el("span", { text: " · " + v.note }) : null])]));
+    });
+    kids.push(vs);
+    var lost = data.verdicts.filter(function (v) { return v.status !== "kept"; });
+    if (lost.length || data.added.length || data.verdicts.some(function (v) { return v.quote && !v.quoteFound; })) {
+      var seam = el("div", { cls: "seam" }, [el("b", { text: "Seam" })]);
+      lost.forEach(function (v) { seam.appendChild(el("span", { text: (v.status === "dropped" ? "Dropped: " : "Weakened: ") + v.claim })); });
+      data.added.forEach(function (a) { seam.appendChild(el("span", { text: "Added (not in the source): " + a })); });
+      data.verdicts.filter(function (v) { return v.quote && !v.quoteFound; }).forEach(function (v) { seam.appendChild(el("span", { text: "Evidence quote for claim " + (data.verdicts.indexOf(v) + 1) + " is not in the rendering; treat that verdict as unproven." })); });
+      kids.push(seam);
+    }
+    var det = el("details", null, [el("summary", { text: "What the blind receiver heard" })]);
+    var ul = el("ul"); data.received.forEach(function (r) { ul.appendChild(el("li", { text: r })); }); det.appendChild(ul);
+    kids.push(det);
+  }
+  var copy = el("button", { type: "button", text: "Copy rendering" });
+  copy.addEventListener("click", function () {
+    try { navigator.clipboard.writeText(data.rendering).then(function () { copy.textContent = "Copied"; }, function () { copy.textContent = "Select the text to copy"; }); } catch (e) { copy.textContent = "Select the text to copy"; }
+  });
+  var row = el("div", { cls: "row" }, [copy]);
+  if (tts) {
+    var say = el("button", { type: "button", text: "Read aloud" });
+    say.addEventListener("click", function () { tts.speak(data.rendering).catch(function () {}); });
+    row.appendChild(say);
+  }
+  kids.push(row);
+  return el("article", { cls: "card" }, kids);
+}
+function showExample() {
+  renderClaims(CODEX_INVARIANTS, "The codex's four invariants (example)");
+  var box = $("cards"); box.textContent = "";
+  PERSONAS.forEach(function (p) { box.appendChild(card(p, { rendering: p.example, phase_lock: p.lock }, true)); });
+  ["st-decomp", "st-recomp", "st-trans"].forEach(function (s) { setStage(s, "idle"); });
+}
+function showError(where, e) {
+  var msgs = { not_granted: "Claude access was declined for this page. Allow it from the page's permissions to run the engine.",
+    rate_limited: "Too many requests right now. Wait a minute, then try again.", refused: "Claude declined this request.",
+    invalid_json: "Claude's answer was not in the expected shape. Try again, or shorten the signal.",
+    prompt_too_large: "The signal is too long. Shorten it and try again.", cancelled: "Stopped." };
+  var code = e && e.code ? e.code : "error";
+  $("cards").prepend(el("div", { cls: "err" }, [el("b", { text: where + ": " }), msgs[code] || ("Something failed (" + code + "). Try again.")]));
+}
+
+// ---- The engine ----
+var sample = null, ctl = null, running = false, hasRun = false;
+function selected() { return PERSONAS.filter(function (p) { return $("p-" + p.id).checked; }); }
+function asStrings(x) { return Array.isArray(x) ? x.filter(function (s) { return typeof s === "string" && s.trim(); }).map(function (s) { return s.trim(); }) : []; }
+
+async function run() {
+  var signal = $("signal").value.trim();
+  var listeners = selected();
+  if (!signal) { $("status").textContent = "Type or dictate a concept first."; return; }
+  if (!listeners.length) { $("status").textContent = "Pick at least one listener."; return; }
+  if (!sample) { $("status").textContent = "Claude is not available in this view, so the engine cannot run. The example stays on screen."; return; }
+  running = true; hasRun = true; ctl = new AbortController(); $("go").disabled = true; $("stop").hidden = false;
+  $("cards").textContent = ""; $("claims").textContent = "";
+  var opt = { signal: ctl.signal };
+  try {
+    setStage("st-decomp", "run", "finding load-bearing claims");
+    $("status").textContent = "Thinking. The first answer can take up to a minute.";
+    var claims = asStrings(await sample.json(decompPrompt(signal), opt)).slice(0, 7);
+    if (!claims.length) throw { code: "invalid_json" };
+    renderClaims(claims, "Load-bearing claims (the invariants)");
+    setStage("st-decomp", "done", claims.length + " claims");
+
+    setStage("st-recomp", "run", "rendering for " + listeners.length + " listeners");
+    var rec = await sample.json(recompPrompt(signal, claims, listeners), opt);
+    var byId = {}; (Array.isArray(rec) ? rec : []).forEach(function (r) { if (r && r.id && typeof r.rendering === "string") byId[r.id] = r; });
+    var items = listeners.filter(function (p) { return byId[p.id]; }).map(function (p) { return { id: p.id, p: p, rendering: byId[p.id].rendering.trim(), phase_lock: byId[p.id].phase_lock || "" }; });
+    if (!items.length) throw { code: "invalid_json" };
+    setStage("st-recomp", "done", items.length + " renderings");
+
+    setStage("st-trans", "run", "blind receive 0 of " + items.length);
+    var done = 0;
+    await Promise.all(items.map(function (it) {
+      return sample.json(receivePrompt(it.rendering), { signal: ctl.signal, modelTier: "quick" }).then(function (r) {
+        it.received = asStrings(r); done++; setStage("st-trans", "run", "blind receive " + done + " of " + items.length);
+      });
+    }));
+    setStage("st-trans", "run", "comparing sent with received");
+    var judged = await sample.json(judgePrompt(claims, items), opt);
+    var jById = {}; (Array.isArray(judged) ? judged : []).forEach(function (j) { if (j && j.id) jById[j.id] = j; });
+    var box = $("cards");
+    items.forEach(function (it) {
+      var j = jById[it.id] || { claims: [], added: [] };
+      var rendN = norm(it.rendering);
+      var verdicts = claims.map(function (c, i) {
+        var v = (Array.isArray(j.claims) ? j.claims : []).filter(function (x) { return x && Number(x.n) === i + 1; })[0] || { status: "dropped", quote: "", note: "no verdict returned" };
+        var status = ["kept", "weakened", "dropped"].indexOf(v.status) >= 0 ? v.status : "dropped";
+        var quote = typeof v.quote === "string" ? v.quote.trim() : "";
+        return { claim: c, status: status, quote: quote, quoteFound: !quote || rendN.indexOf(norm(quote)) >= 0, note: typeof v.note === "string" ? v.note : "" };
+      });
+      // A verdict whose evidence is not in the rendering cannot count as kept.
+      verdicts.forEach(function (v) { if (v.status === "kept" && v.quote && !v.quoteFound) v.status = "weakened"; });
+      var data = { rendering: it.rendering, phase_lock: it.phase_lock, verdicts: verdicts, added: asStrings(j.added), received: it.received || [] };
+      data.ips = ipsOf(verdicts);
+      box.appendChild(card(it.p, data, false));
+    });
+    setStage("st-trans", "done", "checked " + items.length + " renderings");
+    $("status").textContent = "Done. Each card shows its IPS (lossless at " + IPS_THRESHOLD + " or above) and a seam for anything lost or added.";
+  } catch (e) {
+    ["st-decomp", "st-recomp", "st-trans"].forEach(function (s) { if ($(s).getAttribute("data-s") === "run") setStage(s, "fail", "stopped"); });
+    showError("Babel Fish", e);
+    $("status").textContent = "The run did not finish.";
+  } finally {
+    running = false; $("go").disabled = false; $("stop").hidden = true;
+  }
+}
+
+// ---- Wiring ----
+PERSONAS.forEach(function (p) {
+  var cb = el("input", { type: "checkbox", id: "p-" + p.id }); cb.checked = true;
+  $("personas").appendChild(el("label", { for: "p-" + p.id }, [cb, p.name]));
+});
+$("signal").value = SOURCE;
+$("go").addEventListener("click", function () { if (!running) run(); });
+$("stop").addEventListener("click", function () { if (ctl) ctl.abort(); });
+$("reset").addEventListener("click", function () { $("signal").value = SOURCE; showExample(); $("status").textContent = "The codex source concept is loaded. Press Translate and check."; });
+showExample();
+
+if (window.claude && window.claude.use) {
+  window.claude.use("sample").then(function (s) { sample = s; if (!s) $("status").textContent = "Claude is not available in this view, so only the example shows."; }).catch(function () {});
+  // Redraw only the untouched example, so a late arrival never wipes a finished run.
+  window.claude.use("tts").then(function (t) { if (t) { tts = t; if (!hasRun) showExample(); } }).catch(function () {});
+  window.claude.use("dictation").then(function (d) {
+    if (!d) return;
+    var mic = $("mic"); mic.hidden = false; var on = false, base = "";
+    d.onPartial(function (p) { $("signal").value = (base + " " + p.text).trim(); });
+    d.onFinal(function (f) { base = (base + " " + f.text).trim(); $("signal").value = base; });
+    d.onState(function (s) { on = s.state !== "idle"; mic.setAttribute("data-on", on ? "1" : "0"); mic.textContent = on ? "Stop dictating" : "Dictate"; });
+    mic.addEventListener("click", function () {
+      if (on) { d.stop().catch(function () {}); return; }
+      base = ""; $("signal").value = "";
+      d.start().catch(function (e) { mic.textContent = "Dictate"; $("status").textContent = e && e.code === "not_granted" ? "Dictation is off for this page; type instead." : "Could not start dictation; type instead."; });
+    });
+  }).catch(function () {});
+} else {
+  $("status").textContent = "Open this page in claude.ai to run the engine. The example shows the codex's own translations.";
+}
+</script>
