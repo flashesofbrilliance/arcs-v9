@@ -1,4 +1,42 @@
-# a16z Talentplace: top 10 from the open tiles, 2026-11-16
+# a16z Talentplace picks, 2026-11-16
+
+## Talentplace's own best fits: "Matches a recent role" (read first)
+After the profile update, Talentplace's Recommended tab lists 49 companies. Eight carry its strongest tag, "Matches a recent role" (an open role there matches your profile). Adaptive Security is already shared (the page showed "Shared 3m ago", no note attached; that share did not come from this session), so it can still take a note. Ordered by fit with your record and location. Each note fits the "Add note" box on a shared tile; nothing has been shared or added.
+
+### 1. Stuut (NYC, Series A, AI agents for accounts receivable)
+Tags: recent role match, 1 tech skill match, industry fit.
+> Accounts receivable is the kind of work agents should own end to end: follow-ups, cash application, reconciling payments against invoices across CRM and ERP data. I build agentic pipelines with an evaluation layer that decides when deterministic logic is enough and when model reasoning is needed, which is the line between an agent finance teams trust and one they audit by hand. I am in New York and would like to talk about the open role.
+
+### 2. Roebling (NYC, seed, the first AI-native engineering firm)
+Tags: recent role match, industry fit, sector fit.
+> An AI-native firm in an industry that has not changed in 40 years is the shape I like best: senior judgment amplified by agents that do the repetitive work by default. I build ARCS, an agentic platform with retrieval, tool use and an evaluation layer around every output, and I have led delivery in regulated, high-consequence settings, including a $7B launch at Grayscale. I am in New York and would welcome a conversation about the open role.
+
+### 3. Temporal (remote friendly, growth stage, durable execution)
+Tags: recent role match, industry fit, remote friendly.
+> Long-running agents fail in the middle, and durable execution is how they recover. I live that problem building ARCS, an agentic platform with multi-step tool use and handoffs, and I wrote germinate, an open-source protocol that carries state and provenance between agents. I would like to talk about the open role, ideally on the AI and agent side of Temporal, working remotely from New York.
+
+### 4. Hippocratic AI (Palo Alto, Series C, safety-focused healthcare LLM)
+Tags: recent role match, 1 tech skill match, industry fit.
+> Safety-first AI for healthcare is the right order of operations. I build agentic systems where evaluation is the core discipline, gating each output on evidence before it ships, and I took three AI-enabled digital-therapeutics product lines through strategy and validation under HIPAA at Twill Health. I am in New York and interested in the open role, remote or hybrid.
+
+### 5. EarnIn (Mountain View, growth stage, earned wage access)
+Tags: recent role match, 2 tech skills match, industry fit.
+> I have spent my career on growth and fintech products in regulated settings: personalization that lifted net-new revenue 20 percent at the Children's Tumor Foundation, and product for ten SEC- and FINRA-regulated products at Grayscale. Today I build agentic systems with evaluation built in. Bringing that to members living paycheck to paycheck is work I would care about. I am in New York and interested in the open role.
+
+### 6. Hercules (SF, seed, foundation models and developer tools)
+Tags: recent role match, 1 tech skill match, industry fit. Talentplace shows no description; look at the company before sharing.
+> I build developer tooling for AI agents: a custom MCP server and agentic pipelines in ARCS, plus open-source tools for model-tier routing (token-savings-bank) and agent handoffs (germinate). I would like to learn more about the open role and where Hercules is headed.
+
+### 7. Calder (Redwood City, seed, human data for robotics and embodied AI)
+Tags: recent role match, industry fit, office match. Weakest fit: robotics data, Bay Area office.
+> Training and evaluation data is where model quality is won or lost, and evaluation is the core of how I build agents in ARCS. If the open role leans toward data operations, evaluation design or customer deployment, I would like to talk.
+
+### Already shared: Adaptive Security (NYC, Series B)
+Use the note under the first list below (section 1) in the "Add note" box.
+
+Other strong Recommended tiles without the role tag: OpenRouter (NYC, the sleeper below), ModernFi (NYC, Series B fintech, 2 tech skills), Pomelo Care (NYC, Series C health, remote friendly), Salient (compliance-first agents for regulated lending, 2 tech skills), Decagon (conversational agents, 2 tech skills), Braintrust (AI evals, remote friendly).
+
+## Earlier pass: top 10 from the first 22 tiles (alphabetical, before Recommended loaded)
 
 Source: the 22 company tiles loaded on talentplace.a16z.com/a16z-companies (the "All" tab shows 579; only the first 22, alphabetical 11x to Ambience, were on the page). Graded on AI-native product, fit with your record (agentic systems, regulated launches, health, fintech and crypto, growth), location (NYC metro, Boston, US remote) and stage. Nothing has been shared. Each note uses only facts from your master resume; read it aloud and change anything that does not sound like you.
 
