@@ -685,6 +685,8 @@ def check(root=REPO, mem_dir=MEM_DIR):
         print(x)
     for r, i, due in triaged:
         print(f"TRIAGED {r} {i}: held until {due}")
+    for x in gg.triage_due_soon(triaged, __import__("datetime").date.today()):
+        print(x)  # warning only: never changes the verdict
     for r, ids in grew.items():
         for i in ids:
             print(f"BASELINE-GREW {r} {i}: the baseline may only shrink (add a dated amendment and get Zach's ok to grow it)")

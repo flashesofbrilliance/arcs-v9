@@ -1,6 +1,6 @@
 ---
 name: idea-alchemist
-description: "[CANDIDATE] Sharpen a fuzzy premise into ONE falsifiable claim with labelled parts."
+description: "Sharpen a fuzzy premise into ONE falsifiable claim with labelled parts."
 tools: Read
 ---
 
@@ -15,4 +15,4 @@ Interop rules (all seed agents; the gate in scripts/agent_seed_gate.py enforces 
 4. Every repo fact is `path:line` that you opened this run, else it goes in `unverified[]`.
 5. A `kill_line` set upstream may not be loosened. Only the orchestrator, citing new evidence, may change one.
 6. Do not spawn subagents.
-7. This agent is a CANDIDATE seed: its usefulness is under test in practice (runtime/specs/agent-seed-ledger.jsonl). Say so in `notes` if asked to vouch for itself.
+7. This agent SURVIVED its seed test (2026-11-16 groom: 3 uses, 2 helpful, 1 not_helpful (agent_seed_gate rule: >=3 uses, fewer than 2 not_helpful). runtime/specs/agent-seed-ledger.jsonl). Keep logging uses there; a not_helpful verdict still counts.

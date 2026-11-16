@@ -17,6 +17,7 @@
 import fs from "node:fs"
 import path from "node:path"
 import { execSync } from "node:child_process"
+import { atsJD, linkedinToAts, fetchAllowed } from "./jobs_sources.mjs"
 
 const arg = (k, d) => { const i = process.argv.indexOf(k); return i >= 0 ? (process.argv[i + 1] ?? true) : d }
 const has = (k) => process.argv.includes(k)
@@ -38,8 +39,10 @@ const shape = (r) => {
 const slugify = (r) => `${r.company} ${r.title}`.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40).replace(/-$/, "")
 const strip = (html) => { const m = html.match(/<div class="show-more-less-html__markup[^"]*">([\s\S]*?)<\/div>/); const b = m ? m[1] : html; return b.replace(/<[^>]+>/g, "\n").replace(/&[a-z]+;/g, " ").replace(/\n\s*\n+/g, "\n\n").trim() }
 async function fetchJD(r) {
-  try { if (/^\d+$/.test(r.jobid)) { const x = await fetch(`https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/${r.jobid}`, { headers: { "user-agent": "Mozilla/5.0" } }); if (x.ok) { const t = strip(await x.text()); if (t.length > 200) return t } } } catch { /* */ }
-  try { if (r.url) { const x = await fetch(r.url, { headers: { "user-agent": "Mozilla/5.0" } }); if (x.ok) { const t = strip(await x.text()); if (t.length > 200) return t } } } catch { /* */ }
+  // linkedin.com is never fetched (robots.txt disallows all paths, 2026-11-16): ATS board rows read their own API, LinkedIn rows their ATS twin.
+  try { const a = await atsJD(r); if (a && a.length > 200) return a } catch { /* */ }
+  try { if (/^\d+$/.test(r.jobid)) { const tw = await linkedinToAts(r); if (tw) return tw.jd } } catch { /* */ }
+  try { if (r.url && fetchAllowed(r.url)) { const x = await fetch(r.url, { headers: { "user-agent": "Mozilla/5.0" } }); if (x.ok) { const t = strip(await x.text()); if (t.length > 200) return t } } } catch { /* */ }
   return null
 }
 const readSeedHtml = (dir) => {
