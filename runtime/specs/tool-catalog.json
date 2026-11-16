@@ -7,18 +7,18 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 326,
+  "script": 327,
   "skill": 28,
   "workflow": 2
  },
- "total": 458,
+ "total": 459,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 617,
+   "WIRED": 621,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 3,
+   "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
@@ -38,14 +38,6 @@
     "name": "frontend-design@claude-plugins-official",
     "why": "project-scoped to /Users/zharris/arcs only",
     "fix": "claude plugin uninstall frontend-design@claude-plugins-official"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "user",
-    "kind": "plugin",
-    "name": "stripe@claude-plugins-official",
-    "why": "project-scoped to /Users/zharris only",
-    "fix": "claude plugin uninstall stripe@claude-plugins-official"
    },
    {
     "state": "DUPLICATE",
@@ -2960,6 +2952,14 @@
    "path": "scripts/squash_merge_detector.py",
    "jtbd": "squash_merge_detector.py: flag PRs that landed on main WITHOUT a merge commit.",
    "invoke": "python3 scripts/squash_merge_detector.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "stale_refresh.py",
+   "path": "scripts/stale_refresh.py",
+   "jtbd": "stale_refresh.py: run the snapshot regenerators the session-start hook reports stale, in one pass.",
+   "invoke": "python3 scripts/stale_refresh.py",
    "state": "WIRED"
   },
   {

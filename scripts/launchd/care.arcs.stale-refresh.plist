@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Weekly stale-snapshot refresh (scripts/stale_refresh.py): one data-only PR, receipts for the rest.
+  PROPOSED, not installed. Install steps are in scripts/launchd/stale-refresh-run.sh.
+  Logs: ~/.arcs/stale-refresh.out.log and .err.log; run receipts: _INBOX/stale-refresh.jsonl
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>care.arcs.stale-refresh</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/zharris/.arcs/stale-refresh-run.sh</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key><integer>0</integer>
+    <key>Hour</key><integer>20</integer>
+    <key>Minute</key><integer>15</integer>
+  </dict>
+  <key>RunAtLoad</key><false/>
+  <key>StandardOutPath</key><string>/Users/zharris/.arcs/stale-refresh.out.log</string>
+  <key>StandardErrorPath</key><string>/Users/zharris/.arcs/stale-refresh.err.log</string>
+</dict>
+</plist>
