@@ -1,0 +1,292 @@
+{
+ "schema": "arcs-accountant-report/v1",
+ "operator": 19,
+ "symbol": "Acco",
+ "name": "Accountant",
+ "generated_at": "2026-11-16T14:06:58+00:00",
+ "thresholds": {
+  "calibration_min_n": 30
+ },
+ "totals": {
+  "receipts": 277,
+  "outcomes": 5,
+  "outcomes_joined": 5,
+  "cohorts": {
+   "anonymous": 48,
+   "test": 190,
+   "external": 11,
+   "founder": 25,
+   "real": 3
+  },
+  "closed_by_cohort": {
+   "anonymous": 0,
+   "test": 4,
+   "external": 0,
+   "founder": 1,
+   "real": 0
+  }
+ },
+ "cohorts": {
+  "anonymous": {
+   "cohort": "anonymous",
+   "receipts": 48,
+   "receipts_with_horizon": 48,
+   "by_horizon": {
+    "WEEK": 31,
+    "QUARTER": 12,
+    "TODAY": 3,
+    "YEARS": 2
+   },
+   "by_mode": {
+    "PLAN": 29,
+    "COURT": 18,
+    "QUICKMOVE": 1
+   },
+   "outcomes_logged": 0,
+   "matched": 0,
+   "unmatched": 0,
+   "fate": {
+    "OPEN": 48,
+    "EXPIRED": "not_computed"
+   },
+   "drift": {
+    "ON_TRACK": 48,
+    "LANDED": 0,
+    "DRIFTING": 0
+   },
+   "closure_rate": 0.0,
+   "regret_scores": [],
+   "mean_regret": null,
+   "mean_nci_all": 58.396,
+   "nci_scored": 48,
+   "calibration": {
+    "sufficiency": "insufficient",
+    "n": 0,
+    "threshold": 30,
+    "reason": "n=0 < 30; a curve at this n would be two or three points dressed as a trend",
+    "mean_nci_matched": null,
+    "mean_nci_unmatched": null,
+    "spearman_nci_vs_regret": null,
+    "n_matched": null,
+    "n_unmatched": null
+   },
+   "missing_fields": {}
+  },
+  "external": {
+   "cohort": "external",
+   "receipts": 11,
+   "receipts_with_horizon": 11,
+   "by_horizon": {
+    "QUARTER": 4,
+    "TODAY": 2,
+    "WEEK": 5
+   },
+   "by_mode": {
+    "COURT": 6,
+    "PLAN": 5
+   },
+   "outcomes_logged": 0,
+   "matched": 0,
+   "unmatched": 0,
+   "fate": {
+    "OPEN": 11,
+    "EXPIRED": "not_computed"
+   },
+   "drift": {
+    "ON_TRACK": 11,
+    "LANDED": 0,
+    "DRIFTING": 0
+   },
+   "closure_rate": 0.0,
+   "regret_scores": [],
+   "mean_regret": null,
+   "mean_nci_all": 53.0,
+   "nci_scored": 11,
+   "calibration": {
+    "sufficiency": "insufficient",
+    "n": 0,
+    "threshold": 30,
+    "reason": "n=0 < 30; a curve at this n would be two or three points dressed as a trend",
+    "mean_nci_matched": null,
+    "mean_nci_unmatched": null,
+    "spearman_nci_vs_regret": null,
+    "n_matched": null,
+    "n_unmatched": null
+   },
+   "missing_fields": {}
+  },
+  "founder": {
+   "cohort": "founder",
+   "receipts": 25,
+   "receipts_with_horizon": 25,
+   "by_horizon": {
+    "WEEK": 15,
+    "YEARS": 2,
+    "QUARTER": 6,
+    "TODAY": 2
+   },
+   "by_mode": {
+    "PLAN": 13,
+    "COURT": 10,
+    "QUICKMOVE": 2
+   },
+   "outcomes_logged": 1,
+   "matched": 0,
+   "unmatched": 1,
+   "fate": {
+    "OPEN": 24,
+    "LOGGED": 1,
+    "EXPIRED": "not_computed"
+   },
+   "drift": {
+    "ON_TRACK": 24,
+    "DRIFTING": 1,
+    "LANDED": 0
+   },
+   "closure_rate": 0.04,
+   "regret_scores": [
+    3
+   ],
+   "mean_regret": 3.0,
+   "mean_nci_all": 51.0,
+   "nci_scored": 25,
+   "calibration": {
+    "sufficiency": "insufficient",
+    "n": 1,
+    "threshold": 30,
+    "reason": "n=1 < 30; a curve at this n would be two or three points dressed as a trend",
+    "mean_nci_matched": null,
+    "mean_nci_unmatched": null,
+    "spearman_nci_vs_regret": null,
+    "n_matched": null,
+    "n_unmatched": null
+   },
+   "missing_fields": {}
+  },
+  "real": {
+   "cohort": "real",
+   "receipts": 3,
+   "receipts_with_horizon": 3,
+   "by_horizon": {
+    "WEEK": 1,
+    "QUARTER": 1,
+    "YEARS": 1
+   },
+   "by_mode": {
+    "COURT": 3
+   },
+   "outcomes_logged": 0,
+   "matched": 0,
+   "unmatched": 0,
+   "fate": {
+    "OPEN": 3,
+    "EXPIRED": "not_computed"
+   },
+   "drift": {
+    "ON_TRACK": 3,
+    "LANDED": 0,
+    "DRIFTING": 0
+   },
+   "closure_rate": 0.0,
+   "regret_scores": [],
+   "mean_regret": null,
+   "mean_nci_all": 59.333,
+   "nci_scored": 3,
+   "calibration": {
+    "sufficiency": "insufficient",
+    "n": 0,
+    "threshold": 30,
+    "reason": "n=0 < 30; a curve at this n would be two or three points dressed as a trend",
+    "mean_nci_matched": null,
+    "mean_nci_unmatched": null,
+    "spearman_nci_vs_regret": null,
+    "n_matched": null,
+    "n_unmatched": null
+   },
+   "missing_fields": {}
+  },
+  "test": {
+   "cohort": "test",
+   "receipts": 190,
+   "receipts_with_horizon": 190,
+   "by_horizon": {
+    "QUARTER": 32,
+    "WEEK": 128,
+    "TODAY": 15,
+    "YEARS": 15
+   },
+   "by_mode": {
+    "COURT": 65,
+    "PLAN": 118,
+    "QUICKMOVE": 7
+   },
+   "outcomes_logged": 4,
+   "matched": 2,
+   "unmatched": 2,
+   "fate": {
+    "OPEN": 186,
+    "LOGGED": 4,
+    "EXPIRED": "not_computed"
+   },
+   "drift": {
+    "ON_TRACK": 180,
+    "DRIFTING": 4,
+    "LANDED": 6
+   },
+   "closure_rate": 0.0211,
+   "regret_scores": [
+    1,
+    3,
+    2,
+    3
+   ],
+   "mean_regret": 2.25,
+   "mean_nci_all": 58.337,
+   "nci_scored": 190,
+   "calibration": {
+    "sufficiency": "insufficient",
+    "n": 4,
+    "threshold": 30,
+    "reason": "n=4 < 30; a curve at this n would be two or three points dressed as a trend",
+    "mean_nci_matched": null,
+    "mean_nci_unmatched": null,
+    "spearman_nci_vs_regret": null,
+    "n_matched": null,
+    "n_unmatched": null
+   },
+   "missing_fields": {}
+  }
+ },
+ "sufficiency": "insufficient",
+ "refusals": [
+  "anonymous: calibration refused, n=0 closed positions with nci+outcome < threshold 30",
+  "test: calibration refused, n=4 closed positions with nci+outcome < threshold 30",
+  "external: calibration refused, n=0 closed positions with nci+outcome < threshold 30",
+  "founder: calibration refused, n=1 closed positions with nci+outcome < threshold 30",
+  "real: calibration refused, n=0 closed positions with nci+outcome < threshold 30",
+  "EXPIRED not computed: no expiry rule registered for receipt horizons (fates.json receipt class is soft; Receipt has no status column)."
+ ],
+ "orphans": {},
+ "vocabulary": {
+  "receipt_fates": {
+   "OPEN": "non_terminal",
+   "LOGGED": "terminal",
+   "EXPIRED": "terminal"
+  },
+  "drift_fates": [
+   "LANDED",
+   "DRIFTING"
+  ],
+  "source": "runtime/specs/fates.json (class receipt)"
+ },
+ "synthetic_excluded": 5,
+ "provenance": {
+  "source_export": "mcp-19ba8754-b4f4-48bf-af48-1a5034789808-execute_sql-1794838014603.txt",
+  "source_export_sha256": "9c305a51113633694a142845824cc7ed81e84821ae29b0a6b9784e621fb5fc93",
+  "source_query": "read-only SELECT on prod Receipt LEFT JOIN User LEFT JOIN Outcome (EXPORT_SQL in operators/prod_receipt_to_accountant.py), via Supabase execute_sql",
+  "adapter": "operators/prod_receipt_to_accountant.py",
+  "runner": "scripts/accountant_weekly.py",
+  "cohort_rule": "founder = sha256(email) in FOUNDER_SHA256; external = other userId; anonymous = null userId",
+  "rows_in": 277
+ }
+}
