@@ -34,7 +34,7 @@ I build and operate AI-native systems in production, and I translate what I lear
 
 AI Agent Observability sits at exactly the seam I know best: the gap between what an agentic system is doing and what anyone can see about why. I built ARCS on Claude with an MCP server and agentic orchestration running in production. The instrumentation problem, capturing LLM spans, scoring weights, and decision outcomes in a way that compounds into institutional memory, is the problem I designed ARCS to solve from the inside. When Datadog customers ask how to make their agent pipelines observable and debuggable at scale, I have built the thing they are trying to observe.
 
-The PSA motion you describe, reference architectures, proofs of concept, field enablement, product feedback loops, is the operating pattern I have run across regulated environments at Grayscale (ten SEC/FINRA products, $7B AUM) and in HIPAA digital health. I am not applying as an AI engineer. I am the operator who brings that depth into your field engagements without waiting on a platform team.
+The PSA motion you describe, reference architectures, proofs of concept, field enablement, product feedback loops, is the operating pattern I have run across regulated environments at Grayscale (ten SEC/FINRA products, $7B launched) and in HIPAA digital health. I am not applying as an AI engineer. I am the operator who brings that depth into your field engagements without waiting on a platform team.
 
 SQL, Python, Snowflake, Segment, Claude, MCP. Zero to one under SEC/FINRA and HIPAA.
 

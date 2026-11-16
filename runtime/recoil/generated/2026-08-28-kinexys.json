@@ -15,7 +15,7 @@
   },
   "opportunity": {"audience": "internal", "y_state": "GREEN", "topology": "CONVERGENT", "nci_prior": 0, "nci_post": 0, "note": "Strongest DOMAIN fit of the 2026-08 batch: Grayscale ($7B regulated digital-assets launch, SEC/FINRA) maps 1:1 to Kinexys DLT/payments. The bet is 'domain fluency + regulated shipping', not the AI-native archetype."},
   "beliefs": [
-    {"id": "P1", "audience": "internal", "claim": "My Grayscale digital-assets/regulated record is a top-decile domain match for this role", "evidence": "JD requires 'Web3, banking, finance, payments ecosystems' + 'cryptocurrency technology fundamentals'; Grayscale = $7B AUM, 10-product regulated crypto launch, SEC/FINRA", "inference": "GROUNDED", "confidence": [0.8, 0.8], "conviction": "HIGH", "verdict": "NEW"},
+    {"id": "P1", "audience": "internal", "claim": "My Grayscale digital-assets/regulated record is a top-decile domain match for this role", "evidence": "JD requires 'Web3, banking, finance, payments ecosystems' + 'cryptocurrency technology fundamentals'; Grayscale = $7B, 10-product regulated crypto launch, SEC/FINRA", "inference": "GROUNDED", "confidence": [0.8, 0.8], "conviction": "HIGH", "verdict": "NEW"},
     {"id": "P2", "audience": "internal", "claim": "The gating risk is org-shape (JPM matrix) not domain or level", "evidence": "JD preferred-qual: 'experience in highly matrixed, complex organizations'; my strongest recent work is high-autonomy (ARCS solo, Squat sole-partner)", "inference": "EXP", "confidence": [0.55, 0.55], "conviction": "MED", "verdict": "NEW"},
     {"id": "P3", "audience": "internal", "claim": "AI-native is NOT the surface here — do not lead with the MCP/agent story", "evidence": "JD is DLT/blockchain product; no LLM/agent requirement. Archetype rubric would score this lower on AI-native, higher on strength-leverage", "inference": "GROUNDED", "confidence": [0.7, 0.7], "conviction": "HIGH", "verdict": "NEW"}
   ],
@@ -113,7 +113,7 @@
       ]},
 
       {"tab": "defense", "type": "rosetta", "audience": "internal", "h2": "The same model, both directions", "left": "Kinexys / JPM world", "right": "Zach's record", "rows": [
-        ["Distributed-ledger / tokenization product", "Shipped a 10-product regulated digital-assets suite (Grayscale, $7B AUM)"],
+        ["Distributed-ledger / tokenization product", "Shipped a 10-product regulated digital-assets suite (Grayscale, $7B launched)"],
         ["Governance, risk, reliability as first-class metrics", "Policy-at-the-glass publishing controls + RBAC built into the product; compliance-in-the-loop release cadence"],
         ["Web3 / banking / payments ecosystems", "Regulated fintech + payments-adjacent partnerships (WTA data/API deals); SEC/FINRA operating context"],
         ["Highly matrixed, complex org", "Cross-functional release train across 4 time zones, aligning legal/risk/compliance/eng on schedule"]

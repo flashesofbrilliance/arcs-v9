@@ -7,18 +7,18 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 326,
+  "script": 327,
   "skill": 28,
   "workflow": 2
  },
- "total": 458,
+ "total": 459,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 617,
+   "WIRED": 621,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 3,
+   "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
@@ -38,14 +38,6 @@
     "name": "frontend-design@claude-plugins-official",
     "why": "project-scoped to /Users/zharris/arcs only",
     "fix": "claude plugin uninstall frontend-design@claude-plugins-official"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "user",
-    "kind": "plugin",
-    "name": "stripe@claude-plugins-official",
-    "why": "project-scoped to /Users/zharris only",
-    "fix": "claude plugin uninstall stripe@claude-plugins-official"
    },
    {
     "state": "DUPLICATE",
@@ -888,6 +880,14 @@
    "path": "scripts/audit_report_build.py",
    "jtbd": "Build an Agent Receipts Audit report page from one audit data file.",
    "invoke": "python3 scripts/audit_report_build.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "aum_claim_gate.py",
+   "path": "scripts/aum_claim_gate.py",
+   "jtbd": "aum_claim_gate: block the Grayscale \"$7B as assets under management\" phrasing from coming back.",
+   "invoke": "python3 scripts/aum_claim_gate.py",
    "state": "WIRED"
   },
   {
