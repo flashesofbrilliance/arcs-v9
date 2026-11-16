@@ -1,3 +1,55 @@
+# Handoff — v3.148.0 (2026-11-16)
+
+> Two weeks of very high throughput (about 300 merged PRs, 2026-11-02 to 11-16) across the UI kit (parts 41 to 73, the kit wire advisors, token tuner, option board, design-candidate lane), the recoil call service waves 1 and 2, Gravity and Louisville sends, Rosetta Voice and status.arcs.care. This molt closes a paperwork pass: PR 2311 merged with a receipt, 23 backlog rows trued up (two stale RUNNING claims closed, then the whole patent-filing chain composted on Zach's ruling (23 rows; graph depth 12 to 6 waves), 14 ripe rows readied), the kit catalyst ledger synced, and cruise control run for the first time. The open edge is a decision queue for Zach, led by JTBD triage holds that expire 2026-11-17.
+
+## Goal / true north
+Keep the merge queue and the backlog honest: paperwork matches what merged, rankings lead with work Zach is actually doing, and the harness reports stay fresh.
+
+## What changed
+- PR #2311 merged (0baa2968, jobs intake unstall, two seed resumes); receipt 2026-11-16--jobs-intake-unstall-pr2311--ZH.
+- 300 PRs merged 2026-11-02 to 11-16 (53 in the last 24h); release notes and status report given in session status-release-notes-91254f.
+- Backlog sweep, 23 rows: pr-design-brief-habit and gauntlet-brief-polyform RUNNING to DONE (PRs #2148, #2141 merged 11-12); the 7 READY filing-* rows to HELD, then all 23 open filing-* rows COMPOSTED on Zach's follow-up ruling; 14 ripe OPEN rows to READY (dependencies done or date trigger passed).
+- Kit catalyst ledger synced (31 derived events appended), kit-periodic-table.html regenerated.
+
+## Current state
+- Open PRs: 2312 status milestones (checks were pending); 2272 Dependabot axe 4.14 (fe-smoke red on a stale 11-15 run, only failure is gauntlet-log.html, fixed on main by #2288; needs a rebase); 2248 (one conflict in the generated kit-periodic-table.html, regenerate); 2214 (five real conflicts incl. scripts/safe_merge.sh and AGENTS.md, owner should resolve); 2222 (fe-smoke red, build not run); 2073 and 2068 drafts (2068 is based on the merged feat/myally-step1-checklist branch, retarget to main before review); dreaming passes 10 to 13 (2221, 2260, 2267, 2276) and night-moves 11-12 (2247) drafts, ruled through a one-form picker in this session.
+- Backlog: OPEN 56, READY 33, HOLDING 54, HELD 137, RUNNING 3, BLOCKED 11, DONE 177.
+- Cruise-control agent ran for the first time (read-only morning sweep). Approvals ledger: no PR carries a traced approval.
+- Sessions: 3 running, about 12 idle with merged PRs not archived.
+- Session kind-perlman-3d4858 has an unmerged stale-refresh runner on branch claude/kind-perlman-3d4858 (lattice countables, universe emit, night-moves age as receipts), schedule not installed, row stale-snapshot-refresh-loop HOLDING on Zach.
+
+## Decisions made
+- Zach, 2026-11-16: merge PR 2311.
+- Zach, 2026-11-16: the patent-filing chain is premature; compost it (not yet ready to patent, core engine and later phases come first).
+- Zach, 2026-11-16: sweep merged-PR paperwork and ripe rows in one pass.
+
+## Open decisions (waiting on Zach)
+1. Zach: T1 from dreaming pass 13 is urgent: 32 JTBD triage holds expire 2026-11-17 and CI gates then fail on every branch. Re-date or give them job rows.
+2. Zach: rule the dreaming picker (safe_merge L1/Q1/T2 as one change, bash 3.2 F1, N1, N2, L2) and the fate of the five draft PRs.
+3. Zach: My Ally unpaid discovery is 33.6 to 47.4 h against a 10 h cap: bill, box or stop.
+4. Zach: comment @dependabot rebase on 2272 so fe-smoke reruns on current main.
+5. Zach: confirm week 1 of _ARTIFACTS/week-plan/gravity.json; settle the Gravity date seams (RFP-O-Matic 10-30 vs 11-02, NFTT 09-02 vs 08-18).
+
+## Open (other)
+1. Findings gait: no finding closed in 7 beats; give the oldest open finding a fate.
+2. Correction (kintsugi): the status report said 41 rows were already done. Only 2 cited merged PRs (gates-class-prevent-leak-and-render-drift, compounding-model-prereg) and both notes name remaining work, so they stay open; the other 39 were ripe, not done.
+3. Doors left OPEN on purpose in the sweep: cia-technical-screen-prep, cia-recoil-close-michael-intro, rfp-ship-resume-tailor-rebase, rfp-ship-public-leak-gate, rfp-ship-packages-publish, myally-step1-audit.
+
+## Next action
+Zach rules T1 (triage holds expiring 2026-11-17) before end of day; everything else can wait for the next batch merge.
+
+## Cold-start recipe
+- gh pr list --state open; python3 scripts/approvals_ledger.py
+- python3 scripts/backlog_graph.py --top 15
+- python3 scripts/open_loops.py --summary
+- _PROPOSALS/2026-11-16-dreaming-pass-13.md (T1)
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261116T182925Z--claude-status-release-notes-91254f.md` (branch `claude/status-release-notes-91254f`, head `0baa2968`).
+
+---
+
 # Handoff — v3.147.0 (2026-11-15)
 
 > Three days (2026-11-12 to 11-15) across about fifteen sessions, folded from the shared progress ledger because no session left a fragment. The design-system kit grew from a pile of one-off pages into numbered organisms with a trial lane: option board (2227), atomic composer seed (2225), operator and chiefs roster (2229), chip true-up (2230), design-candidate lane (2232), strata explorer 69 (2238), week-plan 70 and proof lockup 71 (2239, 2240, 2270), hardening week strip (2261). Gravity overview work ran as one orchestrated family under harrison-dogfood. An axe 4.14 bump exposed a latent wordmark a11y defect, fixed on main (2262). Recoil wave 2 advanced in parallel: recoil-epic-tool-catalog, backlog-merge-driver-by-id, recoil-runner-beats and recoil-real-model-run are DONE on main.
