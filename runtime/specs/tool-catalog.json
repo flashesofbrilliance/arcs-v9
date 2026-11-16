@@ -510,7 +510,7 @@
    "kind": "agent",
    "name": "chief-loki",
    "path": ".claude/agents/chief-loki.md",
-   "jtbd": "[CANDIDATE] Staff of Chiefs, Loki: attack with the cheapest thing that breaks the claim.",
+   "jtbd": "Staff of Chiefs, Loki: attack with the cheapest thing that breaks the claim.",
    "invoke": "Agent subagent_type=chief-loki",
    "state": "WIRED"
   },

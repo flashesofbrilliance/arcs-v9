@@ -133,7 +133,7 @@ Install state: WIRED 626 · AVAILABLE-NOT-INSTALLED 0 · INSTALLED-UNUSED 2 · D
   `Agent subagent_type=chief-bayesian`
 - **chief-conductor** — [CANDIDATE] Staff of Chiefs, Conductor: sequence surviving paths and rank them with reasons.  
   `Agent subagent_type=chief-conductor`
-- **chief-loki** — [CANDIDATE] Staff of Chiefs, Loki: attack with the cheapest thing that breaks the claim.  
+- **chief-loki** — Staff of Chiefs, Loki: attack with the cheapest thing that breaks the claim.  
   `Agent subagent_type=chief-loki`
 - **ciso-review** — Security review of a diff or PR from a CISO perspective. Run on changes touching API routes, auth, schema, env handling, or external calls.  
   `Agent subagent_type=ciso-review`

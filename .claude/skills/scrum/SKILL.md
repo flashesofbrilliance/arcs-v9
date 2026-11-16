@@ -48,6 +48,18 @@ at most four questions, multiSelect where it fits (memory `prefers-interactive-m
 6. **Commit (3 min).** At most 5 rows, from READY and `python3 scripts/backlog_graph.py --top 5`, plus one sprint-goal
    sentence. The script refuses a sixth row. Then:
    `python3 scripts/scrum.py log --ritual groom --commit a,b,c --rule <ID> --verdict <v> --minutes <N> --note "<goal>"`
+6a. **Seat council (after the commit; Zach 2026-11-16: every seat folds in, so each earns or loses its place).**
+   Take the one biggest call among the committed rows (a one-way door if there is one, else the top row). Run the
+   seats on it as subagents, in this order, each on the cheapest model that holds up, each given only the row and
+   the previous seats' one-line outputs: `idea-alchemist` (one falsifiable claim), `idea-librarian` (prior art),
+   `idea-detective` (the weak joint and its cheapest falsifier), `idea-curator` (one orthogonal reframe),
+   `scenario-runner` (best, base, worst), `chief-bayesian` (priors and their basis), `chief-loki` (the cheapest
+   break), `chief-conductor` (rank the surviving paths). Also, once per groom: `claim-index-sme` on the public
+   numbers of any page published that week, and `prospect-scout` on the top PURSUE role (research and a draft only;
+   Zach makes every touch). Log every run as a use in `runtime/specs/agent-seed-ledger.jsonl` with a verdict
+   (`helpful` or `not_helpful`, one line of why); `python3 scripts/agent_seed_gate.py --check` promotes a seat at 3
+   uses with fewer than 2 not_helpful, and a seat with 2 not_helpful is killed. Graduation is earned through the
+   ledger, never decreed. If time runs out, run the council next groom; never skip logging a run that happened.
 7. **Scheduled reports (only on the first groom of the month).** `list_scheduled_tasks`: any enabled task that hasn't
    run in 14 days, or whose purpose is past, gets a disable proposal. Fewer reports that get read beat more that don't.
 
