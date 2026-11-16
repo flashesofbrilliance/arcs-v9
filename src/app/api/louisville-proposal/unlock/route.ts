@@ -22,7 +22,12 @@ export async function POST(req: NextRequest) {
   if (process.env.LOUISVILLE_PASSCODE === process.env.LOUISVILLE_PROPOSAL_PASSCODE) {
     return NextResponse.json({ error: "gate_unconfigured" }, { status: 503 })
   }
-  if (!passcode || passcode !== secret) return NextResponse.json({ error: "invalid" }, { status: 401 })
+  // Case-insensitive and trimmed: the passcode is a share code printed in an email
+  // ("adobo"), and "Adobo" or a phone's auto-capital should still open the page.
+  // The cookie token still derives from the stored secret, so it is unchanged.
+  if (!passcode || passcode.trim().toLowerCase() !== secret.trim().toLowerCase()) {
+    return NextResponse.json({ error: "invalid" }, { status: 401 })
+  }
 
   const res = NextResponse.json({ ok: true })
   res.cookies.set(LOUISVILLE_PROPOSAL_GATE.cookie, await gateToken(LOUISVILLE_PROPOSAL_GATE.ns, secret), {
