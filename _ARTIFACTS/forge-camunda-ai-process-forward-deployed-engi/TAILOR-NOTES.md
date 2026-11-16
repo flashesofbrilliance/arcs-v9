@@ -13,7 +13,7 @@ Record of record: `_STATE/job-search/forge-inputs/record-of-record.txt` (the res
 | Stakeholder communication across engineering, architecture, business leadership | Grayscale: coordinated product, engineering, legal, risk, compliance through regulated release gates. Squat: aligned engineering, clinical, operations. | dmap row 3 | Yes |
 | Practical AI experience: context management, prompt engineering, agent testing, integration tradeoffs | ARCS: agentic AI pipelines, MCP server, in production, not experiments. Skills line adds prompt engineering and agent testing explicitly (both true of the ARCS build). | Thesis, skills | Yes |
 | Comfort with ambiguity, judgment calls without a playbook, document what you learn | ARCS: no inherited spec. Twill: market-viability testing for 3 AI lines under HIPAA, KPI frameworks drove 2 of 3 go-forward, informing the next call. | dmap row 4 | Yes |
-| Enterprise production experience, stayed to see it operate, governance and resilience at scale | Grayscale: 10 SEC/FINRA-regulated products, $7B AUM, regulated release gates. CTF: enterprise data layer across 3 business units. | pillars, Grayscale, CTF | Yes |
+| Enterprise production experience, stayed to see it operate, governance and resilience at scale | Grayscale: 10 SEC/FINRA-regulated products, $7B launched, regulated release gates. CTF: enterprise data layer across 3 business units. | pillars, Grayscale, CTF | Yes |
 | Nice-to-have: customer-facing / professional services role | Squat, Twill, Axon, Verizon, GoPro: five embedded and advisory engagements, 2019 to 2024. | Embedded section | Yes |
 | Nice-to-have: regulated industries (financial services, healthcare, insurance) | Grayscale (SEC/FINRA), Twill (HIPAA). No insurance claim. | Grayscale, Twill | Yes; insurance gap left open |
 | Nice-to-have: production experience with agentic systems | ARCS: MCP server, agentic orchestration, live commit trail on request, repo private. | ARCS | Yes |
@@ -30,7 +30,7 @@ Grades: **documented** (public and checkable, or verbatim in the record of recor
 |---|---|---|
 | ARCS: MCP server + agentic orchestration on Claude, in production, 2025 to present | documented | record ROLES.arcs; app.arcs.care live, repo private |
 | Grayscale: Product Lead, GTM, 10 SEC/FINRA-regulated products, 2024 to 2025 | documented (title, dates, count) | record ROLES.grayscale |
-| $7B AUM | self-reported | record metric "$7B AUM · regulated product suite" |
+| $7B launched | self-reported | record metric "$7B launched · regulated product suite" |
 | Squat: sole technology partner, seven-figure embedded engagement, $350M ARR client, 2019 to 2020 | self-reported | record CONSULTING_CLIENTS.squat |
 | Twill: 3 AI-enabled lines, go-forward on 2 of 3, 2021 to 2023 | self-reported | record CONSULTING_CLIENTS.twill |
 | Axon: MVP definition for a first-responder OTT platform, 2023 | self-reported | record CONSULTING_CLIENTS.axon |
@@ -52,7 +52,7 @@ Title note: the embedded section is headed "Embedded Product & Solution Lead," a
 1. "Forward-deployed" as archetype, never as a held title. Answer: the Squat embed (sole product and tech partner, discovery through handoff) and ARCS (built on contact with the real problem, no inherited spec, operated solo end to end). If asked "were you ever titled FDE": no, and the resume does not say so.
 2. "Configure the system myself" / technical-depth pillar mapped against Camunda cluster config and custom-agent work. Answer: no Camunda- or BPMN-specific experience exists; the claim is deliberately phrased as the general pattern (build agents/instrumentation where no default fits), not a Camunda-specific claim. If pressed on BPMN specifically: say so plainly, point to the MCP/agentic build as the closest transferable proof.
 3. Prompt engineering / agent testing on the skills line. Answer: both were required to build and validate the MCP server and agentic pipeline at ARCS; not separately itemized in the record's own SKILLS list, so grade as self-reported and drop the phrase "agent testing" specifically if it can't be discussed fluently.
-4. $7B AUM, $850K+, <120ms, 20% net-new revenue. Same standing answers as the Citi bundle: firm-level or internal figures tied to specific roles, not independently auditable.
+4. $7B launched, $850K+, <120ms, 20% net-new revenue. Same standing answers as the Citi bundle: firm-level or internal figures tied to specific roles, not independently auditable.
 5. Skills not in the record (R, Tableau, Redshift, BigQuery, Salesforce CDP). Drop any one the moment it cannot be discussed fluently.
 
 **Dropped (not on the page):**

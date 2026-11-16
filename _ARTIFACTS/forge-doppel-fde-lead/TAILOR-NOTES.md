@@ -33,7 +33,7 @@ Grades: **documented** (public and checkable, or verbatim in the record of recor
 |---|---|---|
 | ARCS: MCP server + agentic orchestration on Claude, in production, 2025 to present | documented | record ROLES.arcs; app.arcs.care live, repo private |
 | Grayscale: Product Lead, GTM, 10 SEC/FINRA-regulated products, 2024 to 2025 | documented (title, dates, count) | record ROLES.grayscale |
-| $7B AUM | self-reported | record metric "$7B AUM · regulated product suite" |
+| $7B launched | self-reported | record metric "$7B launched · regulated product suite" |
 | Squat: sole technology partner, seven-figure embedded engagement, $350M ARR client, 2019 to 2020 | self-reported | record CONSULTING_CLIENTS.squat |
 | Twill, Axon, Verizon, GoPro engagement figures | self-reported | record CONSULTING_CLIENTS.* |
 | CTF: 20% net-new revenue; WTA: <120ms, $850K+ | documented (titles/dates) / self-reported (figures) | record ROLES.ctf, ROLES.wta |
@@ -48,7 +48,7 @@ Grades: **documented** (public and checkable, or verbatim in the record of recor
 
 **Defend (kept):**
 1. "Undefined mandate, owned end to end" as the lead frame. Answer: this is the one part of the posting where the match is exact and provable (ARCS, built from zero spec).
-2. $7B AUM, seven-figure Squat engagement, $850K+/<120ms WTA, 20% CTF. Same standing answers as the Citi bundle: internal/firm figures from the era, not personally auditable, consistent with the roles.
+2. $7B launched, seven-figure Squat engagement, $850K+/<120ms WTA, 20% CTF. Same standing answers as the Citi bundle: internal/firm figures from the era, not personally auditable, consistent with the roles.
 3. Skills not in the record (R, Tableau, Redshift, BigQuery, Salesforce CDP). Used in the CTF/WTA data-layer work; drop any one the moment it can't be discussed fluently.
 4. Loose analogy on "turning bespoke work into product" (ARCS's compounding decision framework vs. the posting's "customer integration graduates into platform"). Answer if asked: acknowledge it is a different domain (decision analysis, not customer-facing integration code) but the same underlying discipline of generalizing a one-off into a reusable system.
 

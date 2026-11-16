@@ -240,6 +240,8 @@ Install state: WIRED 622 · AVAILABLE-NOT-INSTALLED 0 · INSTALLED-UNUSED 2 · D
   `python3 scripts/attribution_provenance_lint.py`
 - **audit_report_build.py** — Build an Agent Receipts Audit report page from one audit data file.  
   `python3 scripts/audit_report_build.py`
+- **aum_claim_gate.py** — aum_claim_gate: block the Grayscale "$7B as assets under management" phrasing from coming back.  
+  `python3 scripts/aum_claim_gate.py`
 - **babel_fish_listeners.py** — Write Babel Fish's listener registry into its artifact page, from the repo's own registries.  
   `python3 scripts/babel_fish_listeners.py`
 - **backlog_append.py** — backlog_append.py: add rows to _QUEUE/induced-backlog.jsonl without rewriting the file. Stdlib, no model calls.  

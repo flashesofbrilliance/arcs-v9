@@ -25,7 +25,7 @@ Co-leader of an internal AI development platform. Multi-agent orchestration and 
 ## Evidence grades per lead claim
 
 - documented: MCP server, agentic orchestration, HITL control; OSS tools with conformance suites; titles and dates for ARCS, Grayscale, Squat, CTF, WTA, Twill, Axon, GoPro, Verizon; engineering stack; Oberlin BA; MIT xPRO certificate (one).
-- self-reported: $7B AUM, 10 products (Grayscale); seven-figure engagement, $350M ARR client (Squat); 20% net-new revenue (CTF); $850K+ year one, under 120ms scoring (WTA); 3 product lines / 2 of 3 (Twill); five 5G ventures (Verizon).
+- self-reported: $7B launched, 10 products (Grayscale); seven-figure engagement, $350M ARR client (Squat); 20% net-new revenue (CTF); $850K+ year one, under 120ms scoring (WTA); 3 product lines / 2 of 3 (Twill); five 5G ventures (Verizon).
 - unverifiable (not on the page): 60% decision-noise reduction, 3 to 5x time-to-insight.
 
 ## Defend-or-drop list (what the resume does NOT claim)

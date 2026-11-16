@@ -32,7 +32,7 @@ Grades: **documented** (verbatim in the record of record, or independently publi
 | ARCS: MCP server + agentic orchestration on Claude, in production, 2025 to present | documented | record ROLES.arcs; app.arcs.care live, repo private |
 | ARCS: structured evidence taxonomy / gating architecture | documented | record ROLES.arcs bullet ("structured evidence taxonomy and evidence-gating architecture") |
 | Grayscale: Product Lead, GTM, 10 SEC/FINRA-regulated products, 2024 to 2025 | documented (title, dates, count) | record ROLES.grayscale |
-| $7B AUM | self-reported | record metric "$7B AUM · regulated product suite" |
+| $7B launched | self-reported | record metric "$7B launched · regulated product suite" |
 | Twill Health: 3 AI-enabled digital-health lines, go-forward on 2 of 3, 2021 to 2023 | self-reported | record CONSULTING_CLIENTS.twill |
 | Squat: sole technology partner, seven-figure embedded engagement, $350M ARR client, 2019 to 2020 | self-reported | record CONSULTING_CLIENTS.squat |
 | Axon: MVP definition for a first-responder OTT platform, 2023 | self-reported | record CONSULTING_CLIENTS.axon |
@@ -50,7 +50,7 @@ Grades: **documented** (verbatim in the record of record, or independently publi
 **Defend (kept):**
 1. "Founder-facing, not committee-facing" as a pillar. Answer: literally true at ARCS (sole founder); the embedded engagements involved direct executive contact, but Zach was never titled "Applied Scientist" reporting into a founder team. If pressed on the JD's specific "partner with founders" framing: the closest direct analog is ARCS itself, where Zach is both.
 2. "Prompt engineering" on the skills line. Answer: not a separately documented record entry; inferred from building and running the ARCS MCP/agentic pipeline. Would narrow this to "agentic pipeline design" if pressed hard on the specific term.
-3. $7B AUM, $850K+, <120ms, 20%, seven-figure engagement. Same defend posture as the Citi bundle: self-reported figures consistent with the documented role and era, not personal P&L claims.
+3. $7B launched, $850K+, <120ms, 20%, seven-figure engagement. Same defend posture as the Citi bundle: self-reported figures consistent with the documented role and era, not personal P&L claims.
 4. No biotech/life-science employer. Answer: closest adjacent work is Twill Health (HIPAA digital health) and CTF (clinical-adjacent nonprofit); state plainly that neither is pharma commercial.
 5. Skills not in the record (R, Tableau, Redshift, BigQuery, Salesforce CDP, distributed query systems). Same posture as prior bundles: used in CTF/WTA data-layer work; drop any one the moment it cannot be discussed fluently.
 

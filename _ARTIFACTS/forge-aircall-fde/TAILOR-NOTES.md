@@ -38,7 +38,7 @@ Lead order: Squat NY (embed, sole technical partner) and Grayscale (regulated mu
 | ARCS runs on Claude with a custom MCP server and agentic pipelines | documented | live app, master resume, public OSS tools |
 | OSS tools on npm, Homebrew, and a Claude Code plugin marketplace, each with a conformance suite | documented | public repos; master resume verbatim |
 | 60% decision-noise reduction; 3 to 5x time-to-insight | self-reported | internal measurement of own product; master resume verbatim |
-| Grayscale: 10 SEC/FINRA-regulated products, $7B AUM | self-reported (AUM figure is public) | master resume verbatim |
+| Grayscale: 10 SEC/FINRA-regulated products, $7B launched | self-reported (launch figure is public) | master resume verbatim |
 | Squat NY: seven-figure engagement, $350M-ARR client, sole technology partner | self-reported | master resume verbatim |
 | CTF: 20% net-new revenue lift; Salesforce Lightning CRM modernization | self-reported | master resume verbatim |
 | WTA: $850K+ year one, under 120ms scoring, load simulation ahead of the Finals | self-reported | master resume verbatim |
