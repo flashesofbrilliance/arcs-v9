@@ -306,7 +306,17 @@ def r_fold(s, horizons, p=""):
 
 def r_overview(d):
     o = d["overview"]
-    h = "".join('<span class="hl">%s</span>' % md(nbh(x), "/overview/headline/%d" % i) for i, x in enumerate(o["headline"]))
+    def _hl(x, i):
+        # Each sentence in a clause gets its own span, so below the phone floor the shell can give every sentence a
+        # line (Zach, 2026-11-16: "Yes, add the floor"). Split only plain rendered text; a clause holding markup stays whole.
+        r = md(nbh(x), "/overview/headline/%d" % i)
+        parts = re.split(r"(?<=[.!?])\s+", r) if "<" not in r else [r]
+        return '<span class="hl">%s</span>' % " ".join('<span class="hs">%s</span>' % y for y in parts)
+    h = "".join(_hl(x, i) for i, x in enumerate(o["headline"]))
+    # Longest clause in characters, links and markup stripped: the shell sizes the type so that clause fits one
+    # line at every width (Zach's pick B, 2026-11-16). page_gate's one-line check fails if any clause still wraps.
+    hl_ch = max(len(re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", str(x))) for x in o["headline"])
+    hs_ch = max(len(y) for x in o["headline"] for y in re.split(r"(?<=[.!?])\s+", re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", str(x))))
     acts = []
     for a in o.get("actions", []):
         cls = "tb-btn primary" if a.get("primary") else "tb-btn"
@@ -337,11 +347,11 @@ def r_overview(d):
             ('<p class="plk-close">%s</p>' % md(lk["closer"], "/overview/lockup/closer")) if lk.get("closer") else "")
     else:
         proof = '<div class="ftiles-c"><ul class="ftiles is-4" aria-label="At a glance">%s</ul></div>' % tiles
-    out = ('<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">\n<h1 class="tb-h1">%s</h1>\n%s%s%s'
+    out = ('<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">\n<h1 class="tb-h1" style="--hl-ch: %d; --hs-ch: %d">%s</h1>\n%s%s%s'
             '%s\n'
             '%s'
             '%s<div class="tb-expand%s"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>\n'
-            '<div class="tb-folds">%s</div>\n</div>') % (h, (('<p class="tb-byline">%s</p>\n' % md(o["byline"], "/overview/byline")) if o.get("byline") else "") + ("" if o.get("bites_at") in ("end", "top") else r_bites(o)), ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"], "/overview/subhead")) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(nbh(x), "/overview/lede/%d" % i) for i, x in enumerate(o["lede"]))) if o.get("lede") else "",
+            '<div class="tb-folds">%s</div>\n</div>') % (hl_ch, hs_ch, h, (('<p class="tb-byline">%s</p>\n' % md(o["byline"], "/overview/byline")) if o.get("byline") else "") + ("" if o.get("bites_at") in ("end", "top") else r_bites(o)), ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"], "/overview/subhead")) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(nbh(x), "/overview/lede/%d" % i) for i, x in enumerate(o["lede"]))) if o.get("lede") else "",
          proof, go, cr,
          " solo" if len(o["sections"]) < 2 else "", folds)
     if o.get("receipt"):  # the proof object: one real dated call, above the tiles
@@ -359,7 +369,7 @@ def r_overview(d):
         assert proof in out
         out = out.replace(proof, card + proof, 1)
     if o.get("bites_at") == "top" and o.get("bites"):  # quote first, a rule, then the headline (Zach, header option B, 2026-11-13)
-        h1 = '<h1 class="tb-h1">'
+        h1 = '<h1 class="tb-h1" style="--hl-ch: %d; --hs-ch: %d">' % (hl_ch, hs_ch)
         assert out.count(h1) == 1
         out = out.replace(h1, r_bites(o).replace('class="sb', 'class="sb is-top', 1) + '<hr class="tb-hd-rule">\n' + h1, 1)
     if o.get("bites_at") == "end" and o.get("bites"):  # evidence first, then what colleagues say

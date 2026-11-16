@@ -44,6 +44,16 @@
      "border-radius": "50%"
     }
    }
+  },
+  "71-proof-lockup": {
+   "component": "Proof lockup kicker in the quote voice (Zach's kicker C pick, 2026-11-16)",
+   "rules": {
+    ".plk-kick": {
+     "font-family": "'Newsreader', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif",
+     "font-style": "italic"
+    }
+   },
+   "why": "Named stack, never var(--ds-font-display): the tabbed-brief shell redefines that token as Inter, so the kicker rendered sans on the Gravity pages while the kit preview showed serif (2026-11-16)."
   }
  }
 }

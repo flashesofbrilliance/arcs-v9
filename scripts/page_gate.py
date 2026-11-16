@@ -296,6 +296,32 @@ async function axeScan(p) {
   }
 }
 
+// Headline clauses that must never wrap mid-phrase (Zach's hero rule): any h1 .hl span, or any element marked
+// data-one-line, that renders on more than one line. Measured per device, so a clause that fits at 1280 but splits
+// at 375 fails (2026-11-16: the Gravity headline split at ~530px while a single 1060px check passed).
+async function oneLine(p) {
+  return await p.evaluate(() => {
+    const out = [];
+    // When a clause's sentences (.hs) stack as blocks (the phone floor), each sentence is the unit. A wrap is allowed
+    // only once the headline type sits at its --hl-floor: below that size the text would undercut the body copy.
+    const units = [];
+    for (const e of document.querySelectorAll('h1 .hl, [data-one-line]')) {
+      const hs = [...e.querySelectorAll('.hs')];
+      if (hs.length && getComputedStyle(hs[0]).display === 'block') units.push(...hs); else units.push(e);
+    }
+    for (const e of units) {
+      if (!e.offsetParent && getComputedStyle(e).position !== 'fixed') continue;
+      const h1 = e.closest('h1');
+      const floor = h1 ? parseFloat(getComputedStyle(h1).getPropertyValue('--hl-floor')) : NaN;
+      if (floor && parseFloat(getComputedStyle(e).fontSize) <= floor + 0.5) continue;
+      const r = document.createRange(); r.selectNodeContents(e);
+      const tops = new Set([...r.getClientRects()].filter(x => x.width > 1).map(x => Math.round(x.top)));
+      if (tops.size > 1) out.push('"' + e.textContent.trim().slice(0, 48) + '" breaks onto ' + tops.size + ' lines');
+    }
+    return out;
+  });
+}
+
 async function flexText(p) {
   return await p.evaluate(() => {
     const out = [];
@@ -340,7 +366,7 @@ async function small(p) {
   const servers = {};
   const out = {};
   for (const f of files) {
-    const res = { overflow: {}, lede: null, snap: [], errors: [], small: {}, custom: [], axe: [], axeMissing: false, flexText: [] };
+    const res = { overflow: {}, lede: null, snap: [], errors: [], small: {}, custom: [], axe: [], axeMissing: false, flexText: [], oneLine: [] };
     let url = 'file://' + f;
     for (const r of Object.keys(roots)) {
       if (f.startsWith(r + path.sep)) {
@@ -400,6 +426,7 @@ async function small(p) {
         if (scheme === 'light') {
           if (d.touch) res.small[d.name] = await small(p);
           for (const x of await flexText(p)) if (!res.flexText.includes(x)) res.flexText.push(x);
+          for (const x of await oneLine(p)) res.oneLine.push(d.name + ': ' + x);
           const sn = await snapCheck(p);
           for (const x of sn) res.snap.push(Object.assign({ device: d.name }, x));
           if (smoke) {
@@ -554,6 +581,8 @@ def main():
                     (errs if strict else warns).append("console: " + e_)
                 for m_ in d.get("custom", [])[:12]:
                     errs.append("smoke: " + m_)
+                for x in d.get("oneLine", [])[:8]:
+                    errs.append(f"one-line: {x}; a headline clause must hold its own line at every width (size the type to fit, never wrap mid-phrase)")
                 for x in d.get("flexText", []):
                     (errs if strict else warns).append(f"flex-text: {x}: loose words in a flex box become ragged columns; wrap them in one <span> or use a block with inline pieces")
                 for dev, items in d.get("small", {}).items():

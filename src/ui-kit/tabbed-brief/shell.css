@@ -47,6 +47,20 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 /* hero */
 .tb-h1 { margin: 0; font-family: var(--ds-font-display); font-weight: 500; font-size: var(--fs-display); line-height: var(--lh-display); letter-spacing: -0.01em; color: var(--text); }
 .tb-h1 .hl { display: block; text-wrap: balance; }
+/* Each headline clause holds one line at every width (Zach's pick B, 2026-11-16): the builder stamps --hl-ch, the
+   longest clause in characters, and the type shrinks with the container so that clause fits. 0.5em per character is
+   Inter 700 at -0.02em tracking (measured 0.45) plus margin. page_gate's one-line check fails if a clause still wraps. */
+.tb-h1[style*="--hl-ch"] { font-size: min(var(--fs-display), calc(100cqi / (var(--hl-ch) * 0.5))); }
+.tb-h1[style*="--hl-ch"] .hl { white-space: nowrap; }
+/* Phone floor (Zach, 2026-11-16): below a 600px lane the shrink would undercut the body text, so each sentence takes
+   its own line and the type stops at --hl-floor. Only at the floor may a sentence wrap (balanced); page_gate's
+   one-line check reads --hl-floor and allows a wrap only there. */
+.tb-h1 { --hl-floor: 24px; }
+@container (max-width: 600px) {
+  .tb-h1[style*="--hs-ch"] { font-size: max(var(--hl-floor), min(var(--fs-display), calc(100cqi / (var(--hs-ch) * 0.5)))); }
+  .tb-h1[style*="--hs-ch"] .hl { white-space: normal; }
+  .tb-h1[style*="--hs-ch"] .hs { display: block; text-wrap: balance; }
+}
 .tb-sub { margin: 0; font-size: var(--fs-headline); font-weight: var(--fw-bold); line-height: var(--lh-head); color: var(--text); text-wrap: balance; }
 .cr-howwrap > .section-label { margin: 0 0 12px; }
 .tb-lede .ln { display: block; }
@@ -440,7 +454,7 @@ a:active { color: var(--text); }
 .tb-hd-rule + .tb-h1 { font-weight: 700; } /* only under bites_at "top"; seam: overrides the 2026-11-12 "Inter semibold" headline ruling for this header, by Zach's option B pick */
 /* @prim:begin 71-proof-lockup */
 .plk { container-type: inline-size; display: grid; gap: var(--sp-2, 16px); margin: 0; min-width: 0; }
-.plk-kick { margin: 0; font-family: var(--ds-font-display); font-size: var(--fs-body); font-style: italic; font-weight: 400; line-height: 1.5; color: var(--text); text-wrap: pretty; }
+.plk-kick { margin: 0; font-family: 'Newsreader', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif; font-size: var(--fs-body); font-style: italic; font-weight: 400; line-height: 1.5; color: var(--text); text-wrap: pretty; }
 .plk-cells { display: grid; grid-template-columns: minmax(0, 1fr); margin: 0; padding: 0; list-style: none; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--glass, var(--surface)); box-shadow: var(--bevel, 0 0 0 transparent), var(--lift, 0 0 0 transparent); }
 .plk-cell { display: grid; grid-row: span 3; grid-template-rows: subgrid; align-content: start; row-gap: 4px; min-width: 0; padding: 14px 16px; }
 .plk-cell + .plk-cell { border-top: 1px solid var(--border); }
