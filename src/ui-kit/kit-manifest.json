@@ -2162,6 +2162,9 @@
     "_ARTIFACTS/tao-print-studio.html",
     "public/good-audit-check.html",
     "public/good-copypasta.html",
+    "public/gravity-brief-beliefs.html",
+    "public/gravity-brief-proof.html",
+    "public/gravity-brief.html",
     "public/rosetta-voice.html",
     "scripts/counterpart_onepager_build.py",
     "scripts/kit_primitive_sync.py",
@@ -2170,7 +2173,7 @@
     "scripts/tabbed_brief_build.py",
     "scripts/week_plan_build.py"
    ],
-   "reuse": 16,
+   "reuse": 19,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -5672,8 +5675,10 @@
    },
    "templates": [],
    "jobs": [],
-   "pages": [],
-   "reuse": 0,
+   "pages": [
+    "public/gravity-brief.html"
+   ],
+   "reuse": 1,
    "near_duplicates": []
   },
   {

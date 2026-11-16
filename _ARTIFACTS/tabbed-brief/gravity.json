@@ -2,7 +2,7 @@
  "id": "gravity",
  "doc_title": "Zach Harris for Gravity Labs",
  "masthead": "Zach Harris",
- "masthead_sub": "[zachharris.eth](https://app.ens.domains/zachharris.eth) · [zach.md](https://zach.md)",
+ "masthead_sub": "[zachharris.eth](https://app.ens.domains/zachharris.eth) · [zach.md](https://zach.md) · [zach.harris@gmail.com](mailto:zach.harris@gmail.com)",
  "storage_key": "gravityTheme",
  "analytics": true,
  "horizons": [
@@ -17,14 +17,14 @@
  "overview": {
   "label": "Overview",
   "headline": [
-   "Gravity's agents made ideas cheap.",
+   "Gravity’s agents made ideas cheap.",
    "Judgment is still expensive. I want that job."
   ],
   "tiles": [
    {
     "v": "10",
     "k": "Regulated products",
-    "note": "Digital-asset investment products at Grayscale, ~$7B"
+    "note": "SEC and FINRA regulated, at Grayscale: a $7B portfolio"
    },
    {
     "v": "$0 → $2M+",
@@ -50,15 +50,11 @@
     "open": true,
     "blocks": [
      {
-      "type": "table",
-      "head": [
-       "When",
-       "What"
-      ],
+      "type": "timeline",
       "rows": [
        [
         "2026-04-09",
-        "[ARCS](https://app.arcs.care), with its [build history](https://status.arcs.care) and [beliefs ledger](https://status.arcs.care/beliefs): question in, dated record out. The one I am most excited about."
+        "[ARCS](https://app.arcs.care), with its [build history](https://status.arcs.care) and [beliefs ledger](https://status.arcs.care/beliefs): question in, dated record out."
        ],
        [
         "2026-08-18",
@@ -100,7 +96,7 @@
           "chip": "Bull",
           "tone": "plain",
           "signal": "Transaction counts (leading, noisy)",
-          "text": "[x402 reported](https://www.rzlt.io/blog/agentic-payments-2026-x402-explainer) over 165M agent transactions by April 2026, about half tests. Re-read due."
+          "text": "[x402 reported](https://www.rzlt.io/blog/agentic-payments-2026-x402-explainer) over 165M agent transactions by April 2026, about half tests."
          },
          {
           "chip": "Bull",
@@ -112,11 +108,11 @@
           "chip": "Bear",
           "tone": "plain",
           "signal": "Volume with tests and wash trades removed",
-          "text": "[Allium, via Nevermined](https://nevermined.ai/blog/stablecoin-payments-ai-agents-statistics): about $1.6M a month of agent volume on the strictest filter. Re-read due."
+          "text": "[Allium, via Nevermined](https://nevermined.ai/blog/stablecoin-payments-ai-agents-statistics): about $1.6M a month of agent volume on the strictest filter."
          },
          {
           "chip": "Rules",
-          "tone": "cyan",
+          "tone": "plain",
           "signal": "Regulatory calendar",
           "text": "The [OCC stablecoin rule](https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-92.html) takes effect 2027-01-18. A [procedural vote](https://www.americanbanker.com/news/crypto-market-structure-bill-fails-in-senate-vote-49-50) on the market-structure bill failed 49 to 50 on 2026-09-15."
          },
@@ -134,19 +130,16 @@
         "rows": [
          {
           "chip": "Trigger",
-          "tone": "gold",
           "signal": "Who pays when an agent exceeds its mandate",
           "text": "[Footnote 25 of Kyle's stablecoin post](https://kylelibra.substack.com/p/a-lot-of-what-people-think-about): crypto payments will have to address chargebacks and fraud liability \"to some extent to be viable.\" For agents, I think that starts with a record of what the user told the agent. It is [unsettled](https://worldpay.com/en/insights/articles/agentic-commerce-liability-is-still-being-written) today; the first network rule requiring an intent record decides it."
          },
          {
           "chip": "My call",
-          "tone": "gold",
           "signal": "Enter small, before the rule",
           "text": "Volume is the lagging bet; the liability rule is the leading one. My read: 1 in 3 that Visa, Mastercard or a top-10 US card issuer has a rule in effect by 2027-06-30 requiring a record of what the user told the agent. Announcements without an effective date do not count. I will post the outcome either way."
          },
          {
           "chip": "If I'm wrong",
-          "tone": "gold",
           "signal": "The other 2 in 3",
           "text": "No network rule by mid-2027, and about three weeks spent. ARCS records human decisions this way today; it does not yet do signed agent mandates."
          }
@@ -158,13 +151,11 @@
         "rows": [
          {
           "chip": "Wording",
-          "tone": "gold",
           "signal": "The odds moved with the wording",
           "text": "My estimate swung from about 1 in 4 to about 3 in 5 depending on the rule's wording, so I wrote the resolution rule above before picking a number. The inputs were my judgment, not data; the simulation is on request. The base rate of a network rule drives most of the remaining spread; I re-mark at each Visa and Mastercard rules release."
          },
          {
           "chip": "Conflict",
-          "tone": "gold",
           "signal": "I build the thing that would benefit",
           "text": "So I wrote the kill rule so the rulebooks settle it, not me; anyone can check, Gravity included."
          }
@@ -219,18 +210,21 @@
          {
           "chip": "Running",
           "tone": "cyan",
+          "status": true,
           "signal": "Commit history",
-          "text": "[Day 0 to day 210](https://status.arcs.care): 6,195 commits by Nov 5, built solo and run in production. Every number is read from the repository."
+          "text": "Built solo since April and run in production. [The status page](https://status.arcs.care) counts every commit live, straight from the repository."
          },
          {
           "chip": "Running",
           "tone": "cyan",
+          "status": true,
           "signal": "RFP-O-Matic",
           "text": "Cites the clause or says the document is silent. [Four short videos](https://good.arcs.care/rfp-engine) and [source](https://github.com/flashesofbrilliance/rfp-engine)."
          },
          {
           "chip": "Running",
           "tone": "cyan",
+          "status": true,
           "signal": "ARCS",
           "text": "[The tool these records come from](https://app.arcs.care): you ask a question; it writes a dated record. [11 saved decisions from outside users, 0 outcomes closed](https://status.arcs.care); 5 people behind them, from a production read on request."
          }
@@ -261,7 +255,7 @@
           "chip": "Calls",
           "tone": "cyan",
           "signal": "Falsifiable predictions, scored",
-          "text": "From 20 calls in my LinkedIn articles since January (ledger on request): 9 resolved (2 hit, one weak; 1 partly; 6 missed), 9 open, 2 unverified. The falsifiers held; my 85 to 90% confidence did not, so new calls ship with lower numbers, like the 1 in 3 above. Method: [seven calls, seven falsifiers](https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers). Same shape as Mogg, a dated YES or NO resolved by the world, but 20 calls in ten months, not 10 a day."
+          "text": "20 dated calls in my LinkedIn articles since January (ledger on request). 9 resolved: 2 hit (1 weakly), 1 partly, 6 missed. 9 open, 2 unverified. The falsifiers held; my 85 to 90% confidence did not, so new calls carry lower numbers, like the 1 in 3 above. Method: [seven calls, seven falsifiers](https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers)."
          }
         ]
        }
@@ -272,18 +266,17 @@
   ],
   "bites": [
    {
-    "text": "Zach is a ball of livewire energy who gets projects done with great velocity, humor and craft. He's a great Swiss army knife to have in the team.",
+    "text": "Zach is a ball of livewire energy who gets projects done with great velocity, humor and craft. He’s a great Swiss army knife to have in the team.",
     "name": "Gareth Kay",
     "role": "Vice President, Brand · Coinbase"
    }
   ],
-  "bites_source": "[More recommendations](https://zachharris.xyz)",
   "bites_still": true,
-  "lede": [
-   "Kyle wrote that “significance” is in the eye of the beholder, and AI “is not particularly good at assessing it.” I am, and I keep the receipts. At Grayscale I owned the investor platform 10 regulated digital-asset products ran on, about $7B. I co-founded a company that went from $0 to $2M+, profitable in 24 months. Since June I have killed {beliefs_count} of my own beliefs with runnable tests. When I tell you no on a hatch, you get the test that would reopen it.",
-   "Harrison can set up 20 minutes, or write to me: [zach.harris@gmail.com](mailto:zach.harris@gmail.com)"
-  ],
-  "bites_at": "end",
+  "bites_at": "top",
+  "lockup": {
+   "kicker": "Kyle wrote that “significance” is in the eye of the beholder, and AI “is not particularly good at assessing it.” I am, and I keep the receipts.",
+   "closer": "When I tell you no on a hatch, you get the test that would reopen it."
+  },
   "coldread": {
    "id": "week-one",
    "title": "Week One",
@@ -326,7 +319,7 @@
    "name": "Entrepreneur in Residence",
    "tagline": "The role I'm here for",
    "headline": "One wedge, not a category.",
-   "lede": "Your page: six months to source hatches in DeFi, stablecoins, infrastructure and prediction markets, and find one to found.",
+   "lede": "The seat, per your posting: six months to source hatches in DeFi, stablecoins, infrastructure and prediction markets, and find one worth founding.",
    "units": [
     {
      "title": "30 / 90 / 180",
@@ -381,7 +374,7 @@
        "rows": [
         [
          "A senior operator from a strong crypto company",
-         "Grayscale, 2024 to 2025: owned the investor platform for 10 regulated digital-asset products."
+         "Grayscale, 2024 to 2025: ran 10 SEC and FINRA regulated products, a $7B portfolio."
         ],
         [
          "A notable swing and miss",
@@ -533,9 +526,8 @@
        ]
       },
       {
-       "type": "callout",
-       "lead": "Gravity's open roles.",
-       "text": "Your site lists [Founder, Portfolio Company](https://gravity-labs.xyz/jobs-founder-portfolio-company.html) and [Principal, New Ventures](https://gravity-labs.xyz/jobs-principal-new-ventures.html) beside the EIR seat. The first two rows answer them."
+       "type": "p",
+       "text": "**Gravity's open roles.** Your site lists [Founder, Portfolio Company](https://gravity-labs.xyz/jobs-founder-portfolio-company.html) and [Principal, New Ventures](https://gravity-labs.xyz/jobs-principal-new-ventures.html) beside the EIR seat. The first two rows answer them."
       }
      ]
     }
