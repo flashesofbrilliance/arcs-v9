@@ -82,3 +82,27 @@ Jack builds the profile from LinkedIn and edits it himself (emails of 2026-10-12
 > Jack, two adjustments to the search. Weight toward forward-deployed and applied-AI roles in regulated finance, healthcare and government, NYC hybrid or in office, or US remote. Skip San Francisco in-office roles and anything that expects weekend work. Base floor $220K. Also, I've attached a one-page resume that reflects how I want to be positioned.
 
 Attach the same Maybern-cut PDF. Driving the app in Chrome waits on reading Jack & Jill's terms (browser-rendered) and on Zach's go.
+
+# Adjacent title families (Dean Harris and Marcia Harris, 2026-11-16)
+
+Sources: Dean's "Don't know if you have been looking under this job title?" and "Forward Deployed Creative Jobs", and Marcia's "Forward Deployed Creative (FDC)" (a screenshot). Dean's two emails are pasted AI search summaries that say "AI can make mistakes", so each named listing counted only after it was found on the company's own public board.
+
+## Forward Deployed Strategist and Deployment Strategist: HOLDS (primary adjacent)
+- **Need-to-have:** executive discovery, scoping, delivery through adoption and ROI, enough technical depth to work with engineers. **Met:** Grayscale, the Manana engagements, ARCS. The 2026-11-04 card already graded Cursor's FDS as PURSUE.
+- **Insurmountable:** none for the family. Pay varies: Palantir Deployment Strategist ($110K to $170K per Dean's list) sits under the floor, while Context ($180K to $350K) clears it.
+- **Board:** the scan's forward-deployed lane already matched these titles; 89 strategist rows were on the board, several already right-swiped. Added today: the Context board (its Forward Deployed Strategist is live on Ashby) and an AI Strategist pattern (Perplexity, Edra, Distyl, Thomson Reuters style titles).
+- **Objection:** "Consulting pedigree?" Two decades of embedded engagements and a regulated launch stand in for a top-tier consulting badge; lead with outcomes.
+
+## AI Strategist: HOLDS
+- Same evidence as above, domain-specialized (financial services is common). Perplexity's needs 3+ years in front-office finance (see card 5).
+
+## Forward Deployed Creative: SELECTIVE
+- **Need-to-have (per Dean's summary):** hands-on generative image and video production (node-based tools such as ComfyUI), paid-ad creative under deadline, client workshops.
+- **Met:** creative technologist with a studio-art degree, ran a video ad network (Selectable Media), design-first foundation. **Not met:** a current portfolio of generative-media production work. That is near insurmountable for production-heavy FDC roles.
+- **Verified on a public board:** Newform (Ashby, NYC on-site; Dean lists $80K to $120K, under the floor). Google Flow's FDC ($183K to $265K per Dean) is on Google's own careers site, unverified here; it is the one FDC worth a 10-minute check. Hightouch, Magnific and Comfy Org have no matching public posting.
+- **Verdict:** keep FDC in the scan (the forward-deployed pattern already matches it) and grade each posting; do not retarget the resume toward it.
+
+Not verified on any public board (treat as rumors): Adverity, Opmed (Stamford, CT), Mason, Hyro, FIS.
+
+# Canonical positioning (2026-11-16)
+One source now drives every channel: `positioning.json` in the private resume-tailor-zach skill (headline, summary, looking-for line, target titles, floor, locations, unconfirmed claims). A renderer writes each channel's fields and the master resume, which carries the Jack & Jill CV edits so the next export does not regress them. Channel text is shown to Zach and applied only on his yes. LinkedIn, Indeed and ZipRecruiter bar automated access, so Zach applies those by hand from the rendered text. Lever has no candidate profile, only a per-application resume.
