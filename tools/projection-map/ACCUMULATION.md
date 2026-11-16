@@ -47,7 +47,9 @@ Every 20 new test-set calls, or monthly, whichever comes first:
 | Mid-curve follows their long turns (about 1.6x their usual) | BOND (descriptive) | Same in died and advanced calls |
 | Listener cools before or after mid-curve | COMPOSTED | p 0.74 and 0.58 |
 | First-call overshoot | COMPOSTED | Spark from two arcs; 4 of 9 counterparts, p 0.77. First known-fabrication kill for ADR-081 rod 4 |
-| Naming a next step before hanging up changes outcomes | CANDIDATE (the Room Playbook experiment) | Test set only; detect from the last minutes of each transcript |
+| Naming a next step before hanging up changes outcomes | CANDIDATE, pre-registered | Frozen in `_PROPOSALS/2026-11-16-end-of-call-next-step.md` (branch claude/sharp-turing-5jwnf6), detector `tools/next-step/nextstep.py`, adopted unchanged. Baseline B1: 17% of 109 timed calls end NAMED (recruiter 32%, client 28%, interview 13%, peer 9%); stop rule (70%) not met. E1 on discovery: +0.09 to +0.15, p 0.61 to 0.70, noise. Test window: 15 verified calls after 2026-11-16 |
+| Zach himself names the next step | BOND (descriptive) | Of 19 NAMED endings, the counterpart named it 13 times, Zach 6 (3 with clients) |
+| Who names the step matters (Zach vs counterpart) | CANDIDATE, new | Added separately so the frozen pre-registration stays unchanged: on test-set calls, record the namer and compare advance rates |
 | "A later meeting means advanced" | SPARK (from the first full-loop demo, 2026-11-16) | The demo call was an impersonation from first contact (the Bitfury case). Its fast "advances" (same-day CV ask, quick next meeting) were the hook. Outcome labels need a trust check and a quality check from a second stream; an unverified counterpart's follow-up never counts as advanced |
 | Trust tier gates the next-step move | CANDIDATE | In that call the named next step was the attacker's ask. Verify identity first (the precall brief's T2 gate), then name a next step |
 | Recruiter room: go deep only on the deciding factor they name | CANDIDATE, weak | Same call, so the "recruiter" was not a real one. Kept only as a spark-grade lead until a verified recruiter call tests it |
