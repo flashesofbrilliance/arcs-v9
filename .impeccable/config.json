@@ -358,6 +358,24 @@
         "reason": "Mono tracked-caps section labels/eyebrows are the instrument-legend voice (label role), not all-caps body copy."
       },
       {
+        "rule": "all-caps-body",
+        "value": "*",
+        "files": [
+          "public/case-study.html"
+        ],
+        "createdAt": "2026-11-16T15:30:00.000Z",
+        "reason": "Kit label roles verbatim: the 27 section-label eyebrow (32 chars) and the 31 callout label in 53 read tone (57 chars), not all-caps body copy."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          "public/case-study.html"
+        ],
+        "createdAt": "2026-11-16T15:40:00.000Z",
+        "reason": "Kit re-render adds light mode: the five hits are the kit 39 theme-toggle light remap (body ground, text-secondary, border, light cyan on the 68 card labels) and the kit 51 reading-options shadow, all verbatim kit values that DESIGN.md (dark only) does not define. Same light-world scope as the kit 69 shell waiver. Seam booked 2026-11-16 in _PATTERNS/kintsugi-visual-grammar-seams.md."
+      },
+      {
         "rule": "wide-tracking",
         "value": "*",
         "files": [
