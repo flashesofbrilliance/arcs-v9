@@ -1,0 +1,3910 @@
+{
+ "version": "2026-11-16",
+ "doc": "Zach's past applications and their outcomes, harvested read-only from Gmail (confirmation, interview and decision emails). scripts/jobs_sources.mjs priorVerdict() reads it: block = the same role is live or was declined inside cooldown_days; warn = another process at the company inside the cooldown or still live; info = older history. scripts/jobs_prior_check.mjs reports matches on the board; forge_edit_from_seed.mjs and jobs_cover_letter.mjs refuse a block and print a warn. Refresh with the Autorun's prior-application step (Gmail is MCP-only).",
+ "cooldown_days": 180,
+ "applications": [
+  {
+   "company": "Resolve AI",
+   "role": "Forward Deployed Engineer",
+   "applied": "2026-11-16",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying!",
+   "thread": "1a1e61bd4caf57ed"
+  },
+  {
+   "company": "Fora",
+   "role": null,
+   "applied": "2026-11-16",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Fora",
+   "thread": "1a1e5feda6b6b950"
+  },
+  {
+   "company": "Pallet",
+   "role": null,
+   "applied": "2026-11-04",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Pallet",
+   "thread": "1a1a481b4967698a"
+  },
+  {
+   "company": "Joyful Health",
+   "role": "Forward Deployed Engineer",
+   "applied": "2026-11-16",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Joyful Health!",
+   "thread": "1a1e5e807a3114de"
+  },
+  {
+   "company": "Edra",
+   "role": null,
+   "applied": "2026-10-09",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Edra",
+   "thread": "1a121e7efaa3f023"
+  },
+  {
+   "company": "OpenAI",
+   "role": null,
+   "applied": "2026-06-18",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to OpenAI",
+   "thread": "19edc8d208f734f1"
+  },
+  {
+   "company": "Footprint",
+   "role": "Forward Deployed Engineer",
+   "applied": "2026-11-16",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Footprint",
+   "thread": "1a1e5df786a49e3a"
+  },
+  {
+   "company": "Ramp",
+   "role": "Applied AI Engineer",
+   "applied": "2026-11-16",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Ramp!",
+   "thread": "1a1e5dcc49c94526"
+  },
+  {
+   "company": "Concurrence",
+   "role": "Staff Applied AI Engineer (Forward Deployed) [NYC or SF]",
+   "applied": "2026-11-16",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Concurrence!",
+   "thread": "1a1e5d9daf8b99d2"
+  },
+  {
+   "company": "Obin AI",
+   "role": "Forward Deployed AI Engineer",
+   "applied": "2026-11-16",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Obin AI",
+   "thread": "1a1e543e9c4c8aa6"
+  },
+  {
+   "company": "Oxbow Talent",
+   "role": "Staff Product Manager",
+   "applied": "2026-11-16",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to Staff Product Manager at Oxbow Talent",
+   "thread": "1a1e5320269a9082"
+  },
+  {
+   "company": "Aaru",
+   "role": "Product Manager",
+   "applied": "2026-09-29",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-29",
+   "evidence": "Your application to Aaru (not an ideal fit)",
+   "thread": "1a0ee4d7211be14c"
+  },
+  {
+   "company": "Aaru",
+   "role": "Product Manager",
+   "applied": "2026-11-09",
+   "outcome": "rejected",
+   "outcome_date": "2026-11-09",
+   "evidence": "Your application to Aaru (not an ideal fit)",
+   "thread": "1a1c247e98e88892"
+  },
+  {
+   "company": "Playlist (Mindbody)",
+   "role": "Lead Product Manager, Marketing Platform",
+   "applied": "2026-09-24",
+   "outcome": "rejected",
+   "outcome_date": "2026-11-04",
+   "evidence": "Thank you for applying to Playlist (also LinkedIn application 2026-11-06)",
+   "thread": "1a1a831fb9119cc3"
+  },
+  {
+   "company": "TouchCare",
+   "role": null,
+   "applied": "2026-09-01",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to TouchCare",
+   "thread": "1a05c6c3976bccd2"
+  },
+  {
+   "company": "August",
+   "role": "AI Product Engineer",
+   "applied": "2026-09-01",
+   "outcome": "rejected",
+   "outcome_date": "2026-11-05",
+   "evidence": "Your application to August (decided not to move forward)",
+   "thread": "1a1adc8bad1f476e"
+  },
+  {
+   "company": "Schonfeld",
+   "role": "Forward Deployed Engineer",
+   "applied": "2026-11-05",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Schonfeld",
+   "thread": "1a1a9bb4474f36cf"
+  },
+  {
+   "company": "Serval",
+   "role": "Deployment Strategist",
+   "applied": "2026-11-04",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Serval!",
+   "thread": "1a1a79d1bec30564"
+  },
+  {
+   "company": "Valon",
+   "role": null,
+   "applied": "2026-11-04",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Valon",
+   "thread": "1a1a47e13f6365e8"
+  },
+  {
+   "company": "Didero",
+   "role": "AI Deployment Strategist",
+   "applied": "2026-11-04",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying! | Didero",
+   "thread": "1a1a46a975178f40"
+  },
+  {
+   "company": "Method",
+   "role": "Forward Deployed Product Manager",
+   "applied": "2026-11-04",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying!",
+   "thread": "1a1a464ff7f3214e"
+  },
+  {
+   "company": "Higharc",
+   "role": "Forward Deployed Engineer",
+   "applied": "2026-11-04",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Application Received",
+   "thread": "1a1a449f7f4b7e78"
+  },
+  {
+   "company": "Higharc",
+   "role": "Forward Deployed Product Manager",
+   "applied": "2026-09-10",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to a role at Higharc!",
+   "thread": "1a08ca48c874a532"
+  },
+  {
+   "company": "Tekkr",
+   "role": "AI Product & Deployment Lead",
+   "applied": "2026-11-04",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "We received your application for a position at Tekkr",
+   "thread": "1a1a4422655ea5ab"
+  },
+  {
+   "company": "StackAI",
+   "role": "Forward Deployed AI Engineer",
+   "applied": "2026-11-04",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to StackAI!",
+   "thread": "1a1a43552643252d"
+  },
+  {
+   "company": "Tenex",
+   "role": "Applied AI, Engineer & Creator",
+   "applied": "2026-11-04",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Tenex!",
+   "thread": "1a1a428f06619886"
+  },
+  {
+   "company": "Baseten",
+   "role": "Product Platform - Product Engineer",
+   "applied": "2026-11-04",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Baseten!",
+   "thread": "1a1a4251f3b35ede"
+  },
+  {
+   "company": "Assort Health",
+   "role": "Forward Deployed Engineer",
+   "applied": "2026-10-21",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Assort Health!",
+   "thread": "1a15ea1f67f2a16b"
+  },
+  {
+   "company": "Ironclad",
+   "role": "Senior Staff Software Engineer, Agentic Search",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-11-03",
+   "evidence": "Thank you for applying to Ironclad! (decided not to move forward)",
+   "thread": "1a1a35b52c76ab8a"
+  },
+  {
+   "company": "GitLab",
+   "role": "AI Transformation Owner, Product & Design",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-11-03",
+   "evidence": "Information about your application to GitLab - AI Transformation Owner, Product & Design",
+   "thread": "1a1a2250f7484a5f"
+  },
+  {
+   "company": "GitLab",
+   "role": "AI Transformation Owner, CRO",
+   "applied": "2026-09-06",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-29",
+   "evidence": "Information about your application to GitLab - AI Transformation Owner, CRO",
+   "thread": "1a0ee4b07be08d51"
+  },
+  {
+   "company": "GitLab",
+   "role": "Senior AI Engineer",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-09-23",
+   "evidence": "Information about your application to GitLab - Senior AI Engineer",
+   "thread": "1a0ceb6036347be0"
+  },
+  {
+   "company": "Aircall",
+   "role": "Forward Deployed Engineer - AI Solutions Engineering",
+   "applied": "2026-11-02",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to Forward Deployed Engineer - AI Solutions Engineering at Aircall",
+   "thread": "1a19d8e3cefbe567"
+  },
+  {
+   "company": "Aircall",
+   "role": "Director, Forward Deployed (title truncated in snippet)",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-09-08",
+   "evidence": "Aircall Application Update (decided not to proceed)",
+   "thread": "1a081563cd13bdc0"
+  },
+  {
+   "company": "Sharp Electronics",
+   "role": "Senior Director AI and Software Product Management",
+   "applied": "2026-09-09",
+   "outcome": "rejected",
+   "outcome_date": "2026-10-30",
+   "evidence": "Thank You From Sharp Electronics (decided not to fill the position)",
+   "thread": "1a18d803a6848b41"
+  },
+  {
+   "company": "Oliver Wyman",
+   "role": "Regional AI Product Enablement Manager - New York",
+   "applied": "2026-10-30",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to Oliver Wyman - Regional AI Product Enablement Manager",
+   "thread": "1a18d3908505c634"
+  },
+  {
+   "company": "Profound",
+   "role": "Member of Technical Staff, Product, CMS",
+   "applied": "2026-10-28",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Profound!",
+   "thread": "1a18357fcc9137e9"
+  },
+  {
+   "company": "Robots & Pencils",
+   "role": "Senior AI Product Manager",
+   "applied": "2026-10-21",
+   "outcome": "rejected",
+   "outcome_date": "2026-10-24",
+   "evidence": "Thank you for applying at Robots & Pencils (moving forward with other candidates)",
+   "thread": "1a16f4fdb32dc1d5"
+  },
+  {
+   "company": "Zenity",
+   "role": "Solutions Architect",
+   "applied": "2026-10-09",
+   "outcome": "rejected",
+   "outcome_date": "2026-10-21",
+   "evidence": "Thank you for applying for the Solutions Architect position at Zenity (no interview)",
+   "thread": "1a15f27d0d095252"
+  },
+  {
+   "company": "WithCoverage",
+   "role": "Product Manager",
+   "applied": "2026-10-19",
+   "outcome": "rejected",
+   "outcome_date": "2026-10-21",
+   "evidence": "Application Updates | WithCoverage",
+   "thread": "1a15f4cf165894c5"
+  },
+  {
+   "company": "WithCoverage",
+   "role": "Sr. Member of Technical Staff",
+   "applied": "2026-09-04",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-07",
+   "evidence": "Application Updates | WithCoverage",
+   "thread": "1a07b64a0b0b1ed4"
+  },
+  {
+   "company": "Fluidstack",
+   "role": "Product Engineer, AI",
+   "applied": "2026-10-21",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Application Received - Product Engineer, AI at Fluidstack",
+   "thread": "1a15e9d004cc6483"
+  },
+  {
+   "company": "Siro",
+   "role": null,
+   "applied": "2026-10-21",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Siro!",
+   "thread": "1a15c73787718c07"
+  },
+  {
+   "company": "Gyde",
+   "role": "Lead Product Manager",
+   "applied": "2026-10-21",
+   "outcome": "rejected",
+   "outcome_date": "2026-10-29",
+   "evidence": "Your application with Gyde (not moving forward)",
+   "thread": "1a188420eaa15bb9"
+  },
+  {
+   "company": "Avantos AI",
+   "role": "Senior Product Manager",
+   "applied": "2026-10-21",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Avantos AI!",
+   "thread": "1a15c55e704f4ccd"
+  },
+  {
+   "company": "Point11",
+   "role": "Product Manager, AI",
+   "applied": "2026-10-21",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Application received: Product Manager, AI",
+   "thread": "1a15c4057f3a3fb0"
+  },
+  {
+   "company": "G-P",
+   "role": "Front End AI Engineer",
+   "applied": "2026-10-21",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to G-P",
+   "thread": "1a15c2f07188cdc5"
+  },
+  {
+   "company": "Vi",
+   "role": "Sr. Applied AI Engineer - Wellness",
+   "applied": "2026-10-21",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying for Sr. Applied AI Engineer - Wellness",
+   "thread": "1a15c2cb1c437a12"
+  },
+  {
+   "company": "ScaleOps",
+   "role": "AI Engineer - US",
+   "applied": "2026-10-21",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to ScaleOps",
+   "thread": "1a15c2c4f51404ae"
+  },
+  {
+   "company": "hussh",
+   "role": "Product Manager",
+   "applied": "2026-10-20",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to Product Manager at hussh",
+   "thread": "1a15b758dc5bf477"
+  },
+  {
+   "company": "Harris Allied",
+   "role": "Head of AI/Operations",
+   "applied": "2026-10-14",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to Head of AI/Operations at Harris Allied",
+   "thread": "1a13c42d45965aa1"
+  },
+  {
+   "company": "Beacon Software",
+   "role": "Product Lead",
+   "applied": "2026-10-09",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Application Received - Beacon Software",
+   "thread": "1a121f5549e8ecc0"
+  },
+  {
+   "company": "Sixfold",
+   "role": "VP, Product",
+   "applied": "2026-10-09",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Sixfold!!",
+   "thread": "1a121eedcea4b92c"
+  },
+  {
+   "company": "Upside",
+   "role": "Staff Full Stack Engineer, GTM Systems",
+   "applied": "2026-10-09",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Upside!",
+   "thread": "1a121d2ecdbe749e"
+  },
+  {
+   "company": "Conduit Health",
+   "role": "Product Manager - Patient Experience",
+   "applied": "2026-10-09",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Conduit Health!",
+   "thread": "1a121606ae467a21"
+  },
+  {
+   "company": "Doppel",
+   "role": null,
+   "applied": "2026-10-07",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Doppel!",
+   "thread": "1a1176987c4c6c0d"
+  },
+  {
+   "company": "Daloopa",
+   "role": "Senior Product Manager, Scout",
+   "applied": "2026-10-07",
+   "outcome": "rejected",
+   "outcome_date": "2026-11-03",
+   "evidence": "Important information regarding your application with Daloopa (position filled)",
+   "thread": "1a1a2f7c864b597a"
+  },
+  {
+   "company": "Madhive",
+   "role": "Applied AI Lead",
+   "applied": "2026-10-05",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Madhive!",
+   "thread": "1a10d7a7a7d5dc5f"
+  },
+  {
+   "company": "Future Secure AI",
+   "role": "Product Lead",
+   "applied": "2026-10-01",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to Future Secure AI — Product Lead",
+   "thread": "1a0f514629558940"
+  },
+  {
+   "company": "Cambio AI",
+   "role": "Senior Product Manager",
+   "applied": "2026-09-30",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Cambio AI Inc.!",
+   "thread": "1a0f4534f0c17a2b"
+  },
+  {
+   "company": "Squad",
+   "role": "Product Engineer",
+   "applied": "2026-09-24",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Squad!",
+   "thread": "1a0d4f315c6e4e11"
+  },
+  {
+   "company": "EliseAI",
+   "role": "Deployment Strategist Lead, Future Platforms | Housing",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-09-21",
+   "evidence": "Regarding Your Application to EliseAI",
+   "thread": "1a0c5dc315f280ed"
+  },
+  {
+   "company": "EliseAI",
+   "role": "Chief of Staff to CTO",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2025-09-08",
+   "evidence": "Regarding Your Application to EliseAI",
+   "thread": "1992b309a113ab45"
+  },
+  {
+   "company": "PermitFlow",
+   "role": "Engineering Manager",
+   "applied": "2026-09-18",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to PermitFlow!",
+   "thread": "1a0b2a9e4bf35ec6"
+  },
+  {
+   "company": "Lantern",
+   "role": "Senior Lead, AI Automation",
+   "applied": "2026-09-06",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-15",
+   "evidence": "Important information about your application to Lantern",
+   "thread": "1a0a67c607a7b7fe"
+  },
+  {
+   "company": "Wealth.com",
+   "role": null,
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-09-15",
+   "evidence": "Your application to Wealth.com (not moving forward)",
+   "thread": "1a0a29926f3e6ee8"
+  },
+  {
+   "company": "Forum Group Connecticut",
+   "role": "Director, Decision Intelligence & Product",
+   "applied": "2026-09-12",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to Director, Decision Intelligence & Product at Forum Group CT",
+   "thread": "1a097a149dcec48c"
+  },
+  {
+   "company": "Talkdesk",
+   "role": "Forward Deployed AI Product Manager, FSI",
+   "applied": "2026-09-11",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Talkdesk",
+   "thread": "1a090eedba79f323"
+  },
+  {
+   "company": "Talkdesk",
+   "role": "Forward Deployed AI Product Manager, HLS",
+   "applied": "2026-09-07",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-18",
+   "evidence": "Talkdesk: Update (decided to move forward with other candidates)",
+   "thread": "1a079ae0d2b79e7b"
+  },
+  {
+   "company": "Understood",
+   "role": "Director, Product Management",
+   "applied": "2026-09-11",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Understood",
+   "thread": "1a090ee198ac6e97"
+  },
+  {
+   "company": "Hightouch",
+   "role": "Product Manager, Real Time",
+   "applied": "2026-09-11",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-13",
+   "evidence": "Hightouch | Your Application (decided not to proceed)",
+   "thread": "1a09adad02bbf91e"
+  },
+  {
+   "company": "Celigo",
+   "role": "Forward Deployed AI Engineer",
+   "applied": "2026-09-11",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Celigo",
+   "thread": "1a090ea626e39cc6"
+  },
+  {
+   "company": "Brillio",
+   "role": "AI Strategy & Transformation Lead, Commercial Banking",
+   "applied": "2026-09-11",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to AI Strategy & Transformation Lead at Brillio",
+   "thread": "1a0908f072a3b0e0"
+  },
+  {
+   "company": "Sailor Health",
+   "role": "Strategy & Operations Lead",
+   "applied": "2026-09-11",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Sailor Health!",
+   "thread": "1a090516a298c026"
+  },
+  {
+   "company": "Raspberry AI",
+   "role": "AI Transformation Lead",
+   "applied": "2026-09-11",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Raspberry AI!",
+   "thread": "1a0904b1b9c58d77"
+  },
+  {
+   "company": "Raydar",
+   "role": "AI Education Lead",
+   "applied": "2026-09-11",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Raydar",
+   "thread": "1a09047dc6561bbb"
+  },
+  {
+   "company": "Infillion",
+   "role": "Vice President, Transformation",
+   "applied": "2026-09-11",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Infillion!",
+   "thread": "1a090465eb85a028"
+  },
+  {
+   "company": "Trunk Tools",
+   "role": "Program Manager, AI Transformation",
+   "applied": "2026-09-11",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for Applying to Trunk Tools",
+   "thread": "1a09042ccfe54ef6"
+  },
+  {
+   "company": "BOI",
+   "role": "AI Transformation Lead",
+   "applied": "2026-09-11",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to BOI",
+   "thread": "1a090419fd6a3bdc"
+  },
+  {
+   "company": "Sia",
+   "role": null,
+   "applied": "2026-09-11",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Sia",
+   "thread": "1a0903ddf48b32df"
+  },
+  {
+   "company": "Chainlink Labs",
+   "role": "Principal Strategist (AI & Privacy)",
+   "applied": "2026-09-11",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-11",
+   "evidence": "Thank you for applying at Chainlink Labs (decided not to move forward)",
+   "thread": "1a08f7b4f87311ad"
+  },
+  {
+   "company": "Navan",
+   "role": "Internal AI Innovation Lead",
+   "applied": "2026-09-10",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Navan",
+   "thread": "1a08cb026020c485"
+  },
+  {
+   "company": "Reindeer",
+   "role": "AI Solutions Engineer (New York)",
+   "applied": "2026-09-10",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Reindeer",
+   "thread": "1a08c5a10bf6887e"
+  },
+  {
+   "company": "Figma",
+   "role": "Product Manager, AI Growth",
+   "applied": "2026-09-10",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for your application to Figma",
+   "thread": "1a08bb46d651f918"
+  },
+  {
+   "company": "Maven AGI",
+   "role": "Senior Solutions Engineer",
+   "applied": "2026-09-10",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-10",
+   "evidence": "Thank you for applying to Maven AGI (role closed, offer made to another candidate)",
+   "thread": "1a08b68e51704afe"
+  },
+  {
+   "company": "Rare Candy",
+   "role": "Lead Product Builder (PM & Design)",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-11-08",
+   "evidence": "Rare Candy Application Update",
+   "thread": "1a1bcb6212c6c54f"
+  },
+  {
+   "company": "Draftwise",
+   "role": "Deployment Strategist - New York",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-11-06",
+   "evidence": "Update from Draftwise",
+   "thread": "1a1ae70886c9cfb2"
+  },
+  {
+   "company": "Concourse",
+   "role": "Forward Deployed Engineer",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-10-23",
+   "evidence": "Concourse Candidacy Update (after speaking with them)",
+   "thread": "1a168f8fa6db7323"
+  },
+  {
+   "company": "Amex",
+   "role": "Sr. Product Manager - AI Innovation & Research - MCP Platform",
+   "applied": "2026-06-29",
+   "outcome": "rejected",
+   "outcome_date": "2026-10-17",
+   "evidence": "Update on Your Application (verify wording)",
+   "thread": "1a14a97b1ec95fa0"
+  },
+  {
+   "company": "Amex",
+   "role": "Vice President, Onchain Products",
+   "applied": "2026-06-29",
+   "outcome": "rejected",
+   "outcome_date": "2026-10-02",
+   "evidence": "Update on Your Application (verify wording)",
+   "thread": "1a0fda70af57658c"
+  },
+  {
+   "company": "Amex",
+   "role": "Director, Product Development - MCP Platform & Agent Ecosystem",
+   "applied": "2026-08-31",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-12",
+   "evidence": "Update on Your Application (verify wording)",
+   "thread": "1a096dde1774ac03"
+  },
+  {
+   "company": "Distyl",
+   "role": "Lead AI Strategist",
+   "applied": "2026-09-09",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-14",
+   "evidence": "Distyl: Update on Your Application",
+   "thread": "1a0a033bb6c31ad1"
+  },
+  {
+   "company": "Distyl",
+   "role": "Forward Deployed AI Engineer - Lead",
+   "applied": "2026-06-19",
+   "outcome": "rejected",
+   "outcome_date": "2026-06-25",
+   "evidence": "Distyl: Update on Your Application",
+   "thread": "19f0123f5308c63f"
+  },
+  {
+   "company": "Distyl",
+   "role": "AI Strategist",
+   "applied": "2026-02-17",
+   "outcome": "rejected",
+   "outcome_date": "2026-02-19",
+   "evidence": "Distyl: Update on Your Application",
+   "thread": "19c775d4330483c6"
+  },
+  {
+   "company": "Plaid",
+   "role": "Staff Product Manager - AI Foundations",
+   "applied": "2026-09-01",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-09",
+   "evidence": "Update on your application for Staff Product Manager - AI Foundations",
+   "thread": "1a086fd349ee4313"
+  },
+  {
+   "company": "Prolific",
+   "role": "Senior Product Engineer",
+   "applied": "2026-09-01",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-04",
+   "evidence": "Update on your application with Prolific",
+   "thread": "1a06cc4112fe0597"
+  },
+  {
+   "company": "ParetoHealth",
+   "role": "Vice President, Product Management",
+   "applied": "2026-08-28",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-03",
+   "evidence": "Important information about your application to ParetoHealth",
+   "thread": "1a067fea48f13d02"
+  },
+  {
+   "company": "Iterative Health",
+   "role": "Forward Deployed Product Manager - AI",
+   "applied": "2026-07-20",
+   "outcome": "rejected",
+   "outcome_date": "2026-07-24",
+   "evidence": "Important information about your application to Iterative Health",
+   "thread": "19f932f0228c851b"
+  },
+  {
+   "company": "AssemblyAI",
+   "role": "Applied AI Engineer",
+   "applied": "2026-06-19",
+   "outcome": "rejected",
+   "outcome_date": "2026-07-21",
+   "evidence": "Update on Your Application - AssemblyAI (prior-application note: rejected Jul 2026) (role from the July interview thread 19f48de71f67e7ed)",
+   "thread": "19f862ed4548c2eb"
+  },
+  {
+   "company": "Pelago",
+   "role": "Product Engineer",
+   "applied": "2026-06-19",
+   "outcome": "rejected",
+   "outcome_date": "2026-07-01",
+   "evidence": "Important information about your application to Pelago",
+   "thread": "19f1f4e5803469b3"
+  },
+  {
+   "company": "M0",
+   "role": "Senior Product Manager",
+   "applied": "2026-04-24",
+   "outcome": "rejected",
+   "outcome_date": "2026-05-22",
+   "evidence": "Important information about your application to M0",
+   "thread": "19e504c6e044ac7d"
+  },
+  {
+   "company": "Fireblocks",
+   "role": null,
+   "applied": "2026-04-24",
+   "outcome": "rejected",
+   "outcome_date": "2026-05-20",
+   "evidence": "Important information about your application to Fireblocks",
+   "thread": "19e45f7d4b5209e8"
+  },
+  {
+   "company": "Kizen",
+   "role": null,
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-04-01",
+   "evidence": "Kizen | An update regarding your application",
+   "thread": "19d4a9fc41ba0e78"
+  },
+  {
+   "company": "Vim",
+   "role": "Product Manager, VBC",
+   "applied": "2025-12-28",
+   "outcome": "rejected",
+   "outcome_date": "2026-03-18",
+   "evidence": "Regarding your application to Vim",
+   "thread": "19d023d8cc85ea35"
+  },
+  {
+   "company": "Authentic Brands Group",
+   "role": "Principal Prompt Architect",
+   "applied": "2025-12-21",
+   "outcome": "rejected",
+   "outcome_date": "2026-02-23",
+   "evidence": "Update regarding your application to Authentic Brands Group",
+   "thread": "19c8c9fdde2f7cbe"
+  },
+  {
+   "company": "Click Therapeutics",
+   "role": "Senior Product Manager",
+   "applied": "2026-01-12",
+   "outcome": "rejected",
+   "outcome_date": "2026-01-16",
+   "evidence": "Click Therapeutics | Important Information Regarding Your Application",
+   "thread": "19bc89bb0c9ecbf5"
+  },
+  {
+   "company": "The Knot Worldwide",
+   "role": "Lead Product Manager, Guest Management",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2025-12-30",
+   "evidence": "Update on your Application with The Knot Worldwide",
+   "thread": "19b70d8a08d867a1"
+  },
+  {
+   "company": "dev.fun",
+   "role": null,
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2025-12-28",
+   "evidence": "Update on your application (via mlabs recruiter)",
+   "thread": "19b664dec1f576ef"
+  },
+  {
+   "company": "Aztec Group",
+   "role": "Product and Client Solutions Director",
+   "applied": "2025-11-24",
+   "outcome": "rejected",
+   "outcome_date": "2025-11-28",
+   "evidence": "Important information about your application to Aztec Group",
+   "thread": "19acb81687ec671f"
+  },
+  {
+   "company": "Omaha Productions",
+   "role": "Director of Business Operations",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2025-11-11",
+   "evidence": "Update on Your Application for Director of Business Operations at Omaha Productions",
+   "thread": "19a743cddcbd8f02"
+  },
+  {
+   "company": "Notion",
+   "role": "Digital Strategy Lead",
+   "applied": "2025-11-09",
+   "outcome": "rejected",
+   "outcome_date": "2025-11-11",
+   "evidence": "Update on your application to Notion, Zach",
+   "thread": "19a73e57936d8f69"
+  },
+  {
+   "company": "Hinge",
+   "role": "Lead Product Manager, Monetization",
+   "applied": "2025-10-28",
+   "outcome": "rejected",
+   "outcome_date": "2025-11-05",
+   "evidence": "Thank You from Hinge - Regarding your Application for Lead Product Manager, Monetization",
+   "thread": "19a54567f09e028c"
+  },
+  {
+   "company": "Hinge",
+   "role": "Lead Product Manager, Platform",
+   "applied": "2026-06-19",
+   "outcome": "rejected",
+   "outcome_date": "2026-07-13",
+   "evidence": "Update From Hinge (role filled)",
+   "thread": "19f5d3a278d33bc4"
+  },
+  {
+   "company": "Alchemy",
+   "role": "Product Lead, Fintech & Financial Institutions",
+   "applied": "2025-11-03",
+   "outcome": "rejected",
+   "outcome_date": "2025-11-04",
+   "evidence": "Important information about your application to Alchemy",
+   "thread": "19a4ff26fba78f3d"
+  },
+  {
+   "company": "Paxos",
+   "role": "Product Lead, Experience Platform",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2025-09-25",
+   "evidence": "Update on your application to Paxos",
+   "thread": "199815617446c127"
+  },
+  {
+   "company": "Paxos",
+   "role": "Product Lead, Assets",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2025-09-12",
+   "evidence": "Update on your application to Paxos",
+   "thread": "1993e66a7f66ae1d"
+  },
+  {
+   "company": "Paxos",
+   "role": "Senior Product Manager, Blockchain",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2025-08-14",
+   "evidence": "Update on your application to Paxos",
+   "thread": "198a8c7cda762ae1"
+  },
+  {
+   "company": "Justworks",
+   "role": "Senior Product Manager, Expansion & Growth",
+   "applied": "2025-08-19",
+   "outcome": "rejected",
+   "outcome_date": "2025-09-17",
+   "evidence": "Important information about your application to Justworks",
+   "thread": "19957c32e13833e0"
+  },
+  {
+   "company": "Spotify",
+   "role": "Senior Product Manager - Advertising",
+   "applied": "2025-07-30",
+   "outcome": "rejected",
+   "outcome_date": "2025-08-27",
+   "evidence": "An Update on your Application",
+   "thread": "198ec27a6420f29e"
+  },
+  {
+   "company": "Biograph",
+   "role": "Senior Product Manager",
+   "applied": "2025-08-19",
+   "outcome": "rejected",
+   "outcome_date": "2025-08-22",
+   "evidence": "Update on your application for Senior Product Manager with Biograph",
+   "thread": "198d2704463b9615"
+  },
+  {
+   "company": "Blockworks",
+   "role": "VP of Product",
+   "applied": "2025-07-22",
+   "outcome": "interviewing",
+   "outcome_date": "2025-08-28",
+   "evidence": "Reminder: Your Upcoming Interview with Blockworks (no outcome email found)",
+   "thread": "198f228a306390a5"
+  },
+  {
+   "company": "Tribe AI",
+   "role": "Forward Deployed Product Manager Lead",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-07-09",
+   "evidence": "Tribe AI Candidacy Update (after interviews)",
+   "thread": "19f476920b25db39"
+  },
+  {
+   "company": "Juniper Square",
+   "role": "Senior Forward Deployed Engineer (AI)",
+   "applied": "2026-06-22",
+   "outcome": "interviewing",
+   "outcome_date": "2026-07-02",
+   "evidence": "Reminder: Your Upcoming Interview with Juniper Square (no outcome email found)",
+   "thread": "19f23663d885998e"
+  },
+  {
+   "company": "Fidelity Investments",
+   "role": "Product Strategy Leader (Custody and Trading)",
+   "applied": "2025-10-22",
+   "outcome": "interviewing",
+   "outcome_date": "2025-11-13",
+   "evidence": "Fidelity Investments Video Interview for 2108714 Product Strategy Leader",
+   "thread": "19a7ec8af7af4533"
+  },
+  {
+   "company": "Fidelity Investments",
+   "role": "Director - Product Manager - Blockchain, Tokenomics, DeFI, Web3",
+   "applied": "2025-11-05",
+   "outcome": "interviewing",
+   "outcome_date": "2025-11-10",
+   "evidence": "Fidelity Investments Video Interview for 2120212 Director",
+   "thread": "19a6e849c88e3c32"
+  },
+  {
+   "company": "Arlyn AI",
+   "role": "Senior Applied Scientist, Agentic AI",
+   "applied": "2026-08-28",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-14",
+   "evidence": "Thanks for Taking the Time (not an ideal fit)",
+   "thread": "1a0a1c2d37b830f9"
+  },
+  {
+   "company": "monday.com",
+   "role": "Forward Deployed Engineer, Strategic Deployments",
+   "applied": "2026-09-06",
+   "outcome": "rejected",
+   "outcome_date": "2026-11-02",
+   "evidence": "Update from monday.com (after interviews and take-home)",
+   "thread": "1a19ce7621a863dc"
+  },
+  {
+   "company": "monday.com",
+   "role": "Forward Deployed Engineer",
+   "applied": "2026-09-06",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-16",
+   "evidence": "Thanks for applying to the Forward Deployed Engineer role at monday.com",
+   "thread": "1a0aac0d717689d8"
+  },
+  {
+   "company": "Percepta",
+   "role": "Applied AI Engineer",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-09-11",
+   "evidence": "Percepta Application Update (not an ideal fit)",
+   "thread": "1a090adeac9f74bc"
+  },
+  {
+   "company": "Mirage",
+   "role": "Group Product Manager",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-09-11",
+   "evidence": "Update from Mirage, Group Product Manager",
+   "thread": "1a090c70794aebce"
+  },
+  {
+   "company": "Norm Ai",
+   "role": "Forward Deployed Engineer",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-09-14",
+   "evidence": "Norm: Application Update (not an ideal fit)",
+   "thread": "1a0a1bc2e46ae987"
+  },
+  {
+   "company": "Luma",
+   "role": "Forward Deployed Engineer",
+   "applied": "2026-09-10",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-10",
+   "evidence": "Luma | About Your Forward Deployed Engineer Application",
+   "thread": "1a08a1c47c4964be"
+  },
+  {
+   "company": "Baseten",
+   "role": "Product Manager, Inference Platform",
+   "applied": "2026-09-09",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Baseten",
+   "thread": "1a0880267f9a3d55"
+  },
+  {
+   "company": "Baseten",
+   "role": "Applied AI Inference - Forward Deployed Engineer",
+   "applied": "2026-06-18",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Baseten",
+   "thread": "19edc797ad600fa5"
+  },
+  {
+   "company": "Parloa",
+   "role": "Forward Deployed Engineer - US",
+   "applied": "2026-09-09",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-17",
+   "evidence": "Your Application @ Parloa",
+   "thread": "1a0aef49823d2c2d"
+  },
+  {
+   "company": "talentpluto",
+   "role": "Forward Deployed Engineer",
+   "applied": "2026-09-09",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to talentpluto",
+   "thread": "1a087ec7769ecbf4"
+  },
+  {
+   "company": "Zingage (via talentpluto)",
+   "role": "Forward Deployed Engineer",
+   "applied": "2026-09-08",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to talentpluto",
+   "thread": "1a082708cac2e051"
+  },
+  {
+   "company": "talentpluto",
+   "role": "Founding GTM",
+   "applied": "2026-02-25",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to talentpluto",
+   "thread": "19c92774ca1e038d"
+  },
+  {
+   "company": "talentpluto",
+   "role": "Growth Hacker",
+   "applied": "2025-10-14",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to talentpluto",
+   "thread": "199e06fa334ee593"
+  },
+  {
+   "company": "Savvy Wealth",
+   "role": "Director of Engineering, Product & AI",
+   "applied": "2026-09-09",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Savvy Wealth",
+   "thread": "1a08770ba54f10ce"
+  },
+  {
+   "company": "Arcadia",
+   "role": "AI Operations Lead",
+   "applied": "2026-09-09",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Arcadia",
+   "thread": "1a0875cf1486939b"
+  },
+  {
+   "company": "Google",
+   "role": "Product Manager, AI Acceleration - New York or San Jose",
+   "applied": "2026-09-07",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-23",
+   "evidence": "Following up on your recent application to Google",
+   "thread": "1a0ccf5d0028a8dc"
+  },
+  {
+   "company": "Google",
+   "role": null,
+   "applied": "2026-09-03",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-10",
+   "evidence": "Google Online Assessment Results",
+   "thread": "1a08c1f969a9dc92"
+  },
+  {
+   "company": "monday.com",
+   "role": "Deployment Architect",
+   "applied": "2026-09-06",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-09",
+   "evidence": "Thanks for applying to the Deployment Architect role at monday.com",
+   "thread": "1a0870d17eb83ead"
+  },
+  {
+   "company": "David AI",
+   "role": "Technical Product Manager",
+   "applied": "2026-09-09",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Application Received - David AI",
+   "thread": "1a086f4bc73a288e"
+  },
+  {
+   "company": "Charta Health",
+   "role": "Deployment Strategist",
+   "applied": "2026-09-09",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Charta Health",
+   "thread": "1a086f2fea675668"
+  },
+  {
+   "company": "LangChain",
+   "role": "AI Engineer, Enablement",
+   "applied": "2026-09-08",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to LangChain",
+   "thread": "1a0827ea5373b9ae"
+  },
+  {
+   "company": "nitra",
+   "role": "Forward Deployed Engineer, AI Solutions",
+   "applied": "2026-09-08",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for your application to nitra",
+   "thread": "1a0827777c621026"
+  },
+  {
+   "company": "Thesis Care",
+   "role": "Forward Deployed Engineer",
+   "applied": "2026-09-08",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-22",
+   "evidence": "Update from Thesis Care",
+   "thread": "1a0c9b452cf7d4d7"
+  },
+  {
+   "company": "Thesis",
+   "role": null,
+   "applied": "2026-09-08",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Thesis",
+   "thread": "1a0821946e52e48b"
+  },
+  {
+   "company": "Venn",
+   "role": null,
+   "applied": "2026-09-08",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Venn!",
+   "thread": "1a081ffa115a046f"
+  },
+  {
+   "company": "Rockstar",
+   "role": "AI Transformation, Enablement",
+   "applied": "2026-09-08",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Rockstar",
+   "thread": "1a08151666938249"
+  },
+  {
+   "company": "AJAIA",
+   "role": "Senior AI Strategist",
+   "applied": "2026-09-08",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to AJAIA",
+   "thread": "1a0814ea81818eae"
+  },
+  {
+   "company": "AvePoint",
+   "role": null,
+   "applied": "2026-09-08",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-09",
+   "evidence": "Your Application at AvePoint",
+   "thread": "1a0882f93aa48d06"
+  },
+  {
+   "company": "Knit",
+   "role": "Lead Product Manager",
+   "applied": "2026-09-08",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Knit",
+   "thread": "1a07e8fd1f8fda08"
+  },
+  {
+   "company": "Knit",
+   "role": "Senior Product Manager",
+   "applied": "2026-04-28",
+   "outcome": "rejected",
+   "outcome_date": "2026-04-30",
+   "evidence": "Your Application to Knit",
+   "thread": "19ddca59d195da95"
+  },
+  {
+   "company": "Listen Labs",
+   "role": "Member of Technical Staff, Product",
+   "applied": "2026-09-08",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Listen Labs",
+   "thread": "1a07e796a2ecb85c"
+  },
+  {
+   "company": "Charlie Health",
+   "role": "Staff Forward Deployed Platform Engineer",
+   "applied": "2026-09-08",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-10",
+   "evidence": "Update on your Charlie Health Application",
+   "thread": "1a08c1a098fef8fb"
+  },
+  {
+   "company": "Crosby",
+   "role": "Member of Technical Staff, AI Developer Experience",
+   "applied": "2026-09-07",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Crosby!",
+   "thread": "1a07e41033e43111"
+  },
+  {
+   "company": "Crosby",
+   "role": "Software Engineer",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-09-10",
+   "evidence": "Crosby Application Update",
+   "thread": "1a08b696df2c2dc0"
+  },
+  {
+   "company": "Camunda",
+   "role": "AI Process Forward Deployed Engineer",
+   "applied": "2026-09-07",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-08",
+   "evidence": "Camunda Candidacy Update - AI Process Forward Deployed Engineer",
+   "thread": "1a08296c1a4a80db"
+  },
+  {
+   "company": "Headstart",
+   "role": "Staff, Applied AI Engineer",
+   "applied": "2026-09-07",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Headstart",
+   "thread": "1a07c95a9e9f9f89"
+  },
+  {
+   "company": "Monstro",
+   "role": "AI Marketing Engineer",
+   "applied": "2026-09-07",
+   "outcome": "interviewing",
+   "outcome_date": "2026-09-09",
+   "evidence": "Interview Confirmation - AI Marketing Engineer role at Monstro",
+   "thread": "1a081c67d8eb3444"
+  },
+  {
+   "company": "Anthropic",
+   "role": "Applied AI Architect, Startups",
+   "applied": "2026-09-06",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-21",
+   "evidence": "Anthropic Follow-Up for Applied AI Architect, Startups",
+   "thread": "1a0c5575b5074025"
+  },
+  {
+   "company": "Anthropic",
+   "role": "Product Manager, Research",
+   "applied": "2025-10-28",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Anthropic",
+   "thread": "19a2bee35604a169"
+  },
+  {
+   "company": "Percepta",
+   "role": "Product Engineer",
+   "applied": "2026-09-06",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-08",
+   "evidence": "Percepta Application Update",
+   "thread": "1a081463c9c6d5ce"
+  },
+  {
+   "company": "Percepta",
+   "role": "Embedded Product Manager",
+   "applied": "2026-04-28",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Percepta!",
+   "thread": "19dd720dee621da1"
+  },
+  {
+   "company": "6sense",
+   "role": null,
+   "applied": "2026-09-06",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to 6sense",
+   "thread": "1a0783ee589c68f9"
+  },
+  {
+   "company": "Tabs",
+   "role": "Senior Solutions Consultant",
+   "applied": "2026-09-06",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-11",
+   "evidence": "Tabs - Application Follow Up",
+   "thread": "1a09090063f72b00"
+  },
+  {
+   "company": "Baselayer",
+   "role": null,
+   "applied": "2026-09-06",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Baselayer",
+   "thread": "1a0774a7a6fe5664"
+  },
+  {
+   "company": "Amex",
+   "role": "Senior Manager - MarTech AI Transformation",
+   "applied": "2026-09-05",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Senior Manager - MarTech AI Transformation",
+   "thread": "1a0726a3fd332eac"
+  },
+  {
+   "company": "Canary Technologies",
+   "role": "Staff AI Voice Product Manager",
+   "applied": "2026-09-05",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to Staff AI Voice Product Manager at Canary Technologies",
+   "thread": "1a0718bdb055926d"
+  },
+  {
+   "company": "Mimic",
+   "role": "Product Engineer (AI)",
+   "applied": "2026-09-04",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to Product Engineer (AI) at Mimic",
+   "thread": "1a06e69499b4ba07"
+  },
+  {
+   "company": "Day One Partners",
+   "role": "Founding Product Engineer | AI Healthcare Startup",
+   "applied": "2026-09-04",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Day One Partners",
+   "thread": "1a06c09b867697b0"
+  },
+  {
+   "company": "People In AI",
+   "role": "Staff Product Engineer",
+   "applied": "2026-09-04",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to People In AI",
+   "thread": "1a06beead5b7b5ed"
+  },
+  {
+   "company": "Saragossa",
+   "role": "Senior Delivery Manager - AI Transformation - Capital Markets",
+   "applied": "2026-09-04",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Saragossa",
+   "thread": "1a06be75f5407439"
+  },
+  {
+   "company": "InfoMagnus",
+   "role": "Director of AI & Strategy",
+   "applied": "2026-09-04",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to InfoMagnus",
+   "thread": "1a06ac2958215e3c"
+  },
+  {
+   "company": "Future Secure AI",
+   "role": "Engagement Lead",
+   "applied": "2026-09-01",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-03",
+   "evidence": "Your application to Future Secure AI - Engagement Lead",
+   "thread": "1a068c3be1492c89"
+  },
+  {
+   "company": "Future Secure AI",
+   "role": "Engagement Director",
+   "applied": "2026-08-28",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to Future Secure AI - Engagement Director",
+   "thread": "1a049516efed570c"
+  },
+  {
+   "company": "Nxt Level",
+   "role": "Applied AI Engineer",
+   "applied": "2026-09-02",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Nxt Level",
+   "thread": "1a064359c0fc12bf"
+  },
+  {
+   "company": "Evidence Action",
+   "role": "Vice President, The AI Access Initiative",
+   "applied": "2026-09-01",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Evidence Action",
+   "thread": "1a05c7ae0ea075dc"
+  },
+  {
+   "company": "Madhive",
+   "role": "AI Enablement Director",
+   "applied": "2026-08-28",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Madhive!",
+   "thread": "1a049522d3e53102"
+  },
+  {
+   "company": "Cresta",
+   "role": "Special Projects, AI Agents Team",
+   "applied": "2026-09-01",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Cresta",
+   "thread": "1a05c5c8675fd454"
+  },
+  {
+   "company": "Cresta",
+   "role": "Product Operations Manager",
+   "applied": "2026-01-20",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Cresta",
+   "thread": "19bd9e2a1ac6725b"
+  },
+  {
+   "company": "Cresta",
+   "role": "Forward Deployed Product Manager, AI Agent",
+   "applied": "2026-01-01",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Cresta",
+   "thread": "19b77b67b9e2879c"
+  },
+  {
+   "company": "Comet",
+   "role": null,
+   "applied": "2026-08-31",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Comet",
+   "thread": "1a058ff414e3bda2"
+  },
+  {
+   "company": "Radar",
+   "role": "Staff Product Manager, Maps",
+   "applied": "2026-08-28",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-10",
+   "evidence": "Update - Staff Product Manager, Maps - Radar",
+   "thread": "1a089354f936e0b8"
+  },
+  {
+   "company": "Sequence Holdings",
+   "role": "Forward Deployed Engineer",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-09-09",
+   "evidence": "Sequence Holdings Application Update",
+   "thread": "1a0871ec8fc4ad5c"
+  },
+  {
+   "company": "Brex",
+   "role": null,
+   "applied": "2026-08-28",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Zachary, Thank You for Applying to Brex!",
+   "thread": "1a049878199dae77"
+  },
+  {
+   "company": "Minerva",
+   "role": null,
+   "applied": "2026-08-28",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Minerva!",
+   "thread": "1a0498730f1a4a74"
+  },
+  {
+   "company": "CookUnity",
+   "role": null,
+   "applied": "2026-08-28",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to CookUnity",
+   "thread": "1a04984ab9879ea2"
+  },
+  {
+   "company": "Meta",
+   "role": "Product (title truncated)",
+   "applied": "2026-08-28",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Meta",
+   "thread": "1a0497caabb638e4"
+  },
+  {
+   "company": "TribalScale",
+   "role": null,
+   "applied": "2026-08-28",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-03",
+   "evidence": "Thank You Zach Harris For Your Time!",
+   "thread": "1a068b30a5513c2e"
+  },
+  {
+   "company": "Dynamo AI",
+   "role": "Senior (title truncated)",
+   "applied": "2026-08-24",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Dynamo AI",
+   "thread": "1a03401df4148ea0"
+  },
+  {
+   "company": "Braze",
+   "role": "Forward Deployed AI Accelerator",
+   "applied": "2026-07-20",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Braze!",
+   "thread": "19f80fb72434b353"
+  },
+  {
+   "company": "Braze",
+   "role": "Applied AI Architect, GTM",
+   "applied": "2026-07-21",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Braze!",
+   "thread": "19f84f67eb0724e0"
+  },
+  {
+   "company": "Braze",
+   "role": "Senior Product Manager - Message Composition",
+   "applied": "2025-11-25",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Braze!",
+   "thread": "19abc1394b01c514"
+  },
+  {
+   "company": "Playlist",
+   "role": "Founding Product Manager, New AI Products",
+   "applied": "2026-06-18",
+   "outcome": "rejected",
+   "outcome_date": "2026-07-21",
+   "evidence": "Thank you for applying to Playlist",
+   "thread": "19f863234525dab8"
+  },
+  {
+   "company": "BioRender",
+   "role": "Product Lead",
+   "applied": "2026-07-21",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "BioRender | Thank you for your Application!",
+   "thread": "19f84cfe9f766d61"
+  },
+  {
+   "company": "AE Studio",
+   "role": null,
+   "applied": "2026-07-20",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to AE Studio",
+   "thread": "19f8157fa1891e52"
+  },
+  {
+   "company": "Gradient Labs",
+   "role": "Senior Agent Product Manager",
+   "applied": "2026-07-21",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Gradient Labs",
+   "thread": "19f860cc7034b623"
+  },
+  {
+   "company": "Tremendous",
+   "role": null,
+   "applied": "2026-07-20",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Application Received - Thank you for your interest in Tremendous",
+   "thread": "19f811c6f2c7f67f"
+  },
+  {
+   "company": "Annapurna",
+   "role": "Deployment Strategist",
+   "applied": "2026-07-20",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to Deployment Strategist at Annapurna",
+   "thread": "19f803ec71022fe6"
+  },
+  {
+   "company": "FOX",
+   "role": null,
+   "applied": "2026-07-13",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for Applying!",
+   "thread": "19f5d67ff560c3f0"
+  },
+  {
+   "company": "Prophet",
+   "role": null,
+   "applied": "2026-07-05",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Prophet",
+   "thread": "19f32ec1e5e6e5f0"
+  },
+  {
+   "company": "CypherShield",
+   "role": "Founding / Fractional Product Manager - AI Decision Intelligence",
+   "applied": "2026-07-03",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to CypherShield",
+   "thread": "19f29f0889b108a5"
+  },
+  {
+   "company": "Tessera Labs",
+   "role": "Deployed Strategist",
+   "applied": "2026-06-30",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Tessera Labs",
+   "thread": "19f1619d428b44bd"
+  },
+  {
+   "company": "StackAI",
+   "role": "AI Strategist",
+   "applied": "2026-06-29",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to StackAI!",
+   "thread": "19f1590f294d76f4"
+  },
+  {
+   "company": "Context (via Crossing Hurdles)",
+   "role": "Deployment Strategist",
+   "applied": "2026-06-29",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Application Received for Deployment Strategist role at Context",
+   "thread": "19f1565424176e00"
+  },
+  {
+   "company": "Tilt Finance",
+   "role": "Agentic AI Lead",
+   "applied": "2026-06-29",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Tilt Finance",
+   "thread": "19f153b73d651ebb"
+  },
+  {
+   "company": "Metropolis",
+   "role": "Director, Applied AI",
+   "applied": "2026-06-19",
+   "outcome": "rejected",
+   "outcome_date": "2026-06-22",
+   "evidence": "Thank you for applying to Metropolis",
+   "thread": "19ef04f455fca554"
+  },
+  {
+   "company": "Metropolis",
+   "role": "Senior Product Manager",
+   "applied": "2025-11-09",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for your interest in Metropolis",
+   "thread": "19a6656abf890b56"
+  },
+  {
+   "company": "Roku",
+   "role": "Senior Product Manager, Ads Targeting & Audience Activation",
+   "applied": "2026-06-24",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-22",
+   "evidence": "Your application for the Senior Product Manager, Ads Targeting & Audience Activation position at Roku",
+   "thread": "1a0cb0dc0891b7c6"
+  },
+  {
+   "company": "Roku",
+   "role": "Product Strategy & Operations Lead, Advertising",
+   "applied": "2025-12-22",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Roku",
+   "thread": "19b48701f4a0603e"
+  },
+  {
+   "company": "PermitFlow",
+   "role": "Forward Deployed Engineer",
+   "applied": "2026-06-22",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to PermitFlow!",
+   "thread": "19ef0815ee36b198"
+  },
+  {
+   "company": "Catena",
+   "role": "Forward Deployed Engineer",
+   "applied": "2026-06-22",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Catena!",
+   "thread": "19ef07d0c5737ba1"
+  },
+  {
+   "company": "Gigs",
+   "role": null,
+   "applied": "2026-01-20",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Gigs",
+   "thread": "19bd9deeedbf369c"
+  },
+  {
+   "company": "East West Bank",
+   "role": "Senior AI Engineering",
+   "applied": "2026-06-21",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to East West Bank",
+   "thread": "19eec9cc71ecf99a"
+  },
+  {
+   "company": "Galent",
+   "role": "Gen AI Solution Architect",
+   "applied": "2026-06-21",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Galent",
+   "thread": "19eec26db5683d63"
+  },
+  {
+   "company": "Haast",
+   "role": "Forward Deployed Engineer",
+   "applied": "2026-06-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Haast!",
+   "thread": "19ee0f7d1ef91df6"
+  },
+  {
+   "company": "DISCO",
+   "role": "Senior Manager, Product Management",
+   "applied": "2026-06-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to DISCO",
+   "thread": "19ee0f64fd5ee932"
+  },
+  {
+   "company": "Actively AI",
+   "role": null,
+   "applied": "2026-06-18",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Actively AI",
+   "thread": "19edcb2eddc3aa86"
+  },
+  {
+   "company": "Actively AI",
+   "role": null,
+   "applied": "2025-08-19",
+   "outcome": "rejected",
+   "outcome_date": "2025-08-22",
+   "evidence": "Thanks for applying to ActivelyAI",
+   "thread": "198d2b533119e82e"
+  },
+  {
+   "company": "Pivotal Health",
+   "role": null,
+   "applied": "2026-06-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying for Pivotal Health",
+   "thread": "19ee0d6f66ee2a42"
+  },
+  {
+   "company": "Semafor",
+   "role": null,
+   "applied": "2026-06-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Semafor",
+   "thread": "19ee0cdcedb4fe25"
+  },
+  {
+   "company": "Veho",
+   "role": "Director, Product Engineer - AI Tooling & Builder Experience",
+   "applied": "2026-06-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Veho | Thank you for your Application",
+   "thread": "19ee0c239d69bff1"
+  },
+  {
+   "company": "D. E. Shaw group",
+   "role": null,
+   "applied": "2026-06-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to the D. E. Shaw group",
+   "thread": "19ee0c52af486d30"
+  },
+  {
+   "company": "D. E. Shaw group",
+   "role": "Start-up Ventures: Technical Product Manager at Wisable",
+   "applied": "2025-09-11",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to the D. E. Shaw group (Message 1 of 2)",
+   "thread": "19938993ec091953"
+  },
+  {
+   "company": "Whatnot",
+   "role": "AI Tooling Engineer",
+   "applied": "2026-06-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Whatnot!",
+   "thread": "19ee0b1b01ba9ab7"
+  },
+  {
+   "company": "Whatnot",
+   "role": "Product Manager",
+   "applied": "2026-01-12",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Whatnot!",
+   "thread": "19bb3e88a9d12873"
+  },
+  {
+   "company": "Whatnot",
+   "role": "Head of Marketing Strategy and Operations",
+   "applied": "2025-07-02",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Whatnot!",
+   "thread": "197c878253589729"
+  },
+  {
+   "company": "Edison Scientific",
+   "role": "AI Engineer - Forward Deployed",
+   "applied": "2026-06-18",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Edison Scientific!",
+   "thread": "19edc81d2f5873d0"
+  },
+  {
+   "company": "Palantir",
+   "role": "Forward Deployed AI Engineer",
+   "applied": "2026-06-18",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application has been received!",
+   "thread": "19edc89c4cf242be"
+  },
+  {
+   "company": "ExaCare AI",
+   "role": null,
+   "applied": "2026-06-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to ExaCare Inc",
+   "thread": "19ee09335e1bf2ad"
+  },
+  {
+   "company": "BlinkRx",
+   "role": "Sr. Product Manager",
+   "applied": "2026-05-23",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to Sr. Product Manager at BlinkRx",
+   "thread": "19e569170eee52ec"
+  },
+  {
+   "company": "Deloitte",
+   "role": null,
+   "applied": "2026-05-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Deloitte!",
+   "thread": "19e4254fd0898287"
+  },
+  {
+   "company": "Elmwood Brand Consultancy",
+   "role": "Strategy Partner",
+   "applied": "2026-05-12",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Elmwood Brand Consultancy",
+   "thread": "19e1a8a53bb94d7e"
+  },
+  {
+   "company": "Harvey",
+   "role": "Head of Web",
+   "applied": "2026-04-29",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank You for Applying to Harvey",
+   "thread": "19ddb045939a306f"
+  },
+  {
+   "company": "Harvey",
+   "role": "Senior Product Operations Manager",
+   "applied": "2026-01-12",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank You for Applying to Harvey",
+   "thread": "19bb369deea9e23f"
+  },
+  {
+   "company": "SoundHound AI",
+   "role": "Director, M&A Integrations and Strategic Initiatives",
+   "applied": "2026-04-24",
+   "outcome": "rejected",
+   "outcome_date": "2026-04-28",
+   "evidence": "Your application to SoundHound AI",
+   "thread": "19dd49db1d3b034e"
+  },
+  {
+   "company": "Handl Health (via Braintrust)",
+   "role": null,
+   "applied": "2026-04-27",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to Handl Health was sent",
+   "thread": "19dcfc22fb13a306"
+  },
+  {
+   "company": "Crosslake Technologies",
+   "role": "Product Management Lead Consultant (Remote, US)",
+   "applied": "2026-04-27",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for your application to Crosslake Technologies LLC",
+   "thread": "19dd02497d84c1af"
+  },
+  {
+   "company": "Human Agency",
+   "role": "Venture Executive - New York",
+   "applied": "2026-04-24",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Human Agency",
+   "thread": "19dc08e4e9ab60a2"
+  },
+  {
+   "company": "Human Agency",
+   "role": "Product CEO / Venture Studio Director - Bay Area",
+   "applied": "2026-03-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Human Agency",
+   "thread": "19d07a50c22478d6"
+  },
+  {
+   "company": "Ondo Finance",
+   "role": "Senior Product Manager",
+   "applied": "2026-04-27",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Ondo Finance",
+   "thread": "19dcfd66bee98b72"
+  },
+  {
+   "company": "Ondo Finance",
+   "role": "Product Manager",
+   "applied": "2025-11-03",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Ondo Finance",
+   "thread": "19a4b3fe9ff299cc"
+  },
+  {
+   "company": "Ripple",
+   "role": null,
+   "applied": "2026-04-24",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Ripple",
+   "thread": "19dc08f4bdf2f59d"
+  },
+  {
+   "company": "Blink Health",
+   "role": "Sr. Product Manager",
+   "applied": "2026-04-24",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Blink Health!",
+   "thread": "19dc0767fc14bb9a"
+  },
+  {
+   "company": "Blink Health",
+   "role": "Principal Product Manager",
+   "applied": "2025-08-19",
+   "outcome": "rejected",
+   "outcome_date": "2025-12-04",
+   "evidence": "Feedback: Principal Product Manager: Blink Health",
+   "thread": "19aeac796d23ce77"
+  },
+  {
+   "company": "Machinify",
+   "role": null,
+   "applied": "2026-03-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Machinify",
+   "thread": "19d07a987dc9f032"
+  },
+  {
+   "company": "Sandstone",
+   "role": "Ops Lead",
+   "applied": "2026-03-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Sandstone!",
+   "thread": "19d07a964607fd15"
+  },
+  {
+   "company": "MLabs",
+   "role": "Head of Marketing",
+   "applied": "2026-03-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to MLabs",
+   "thread": "19d07a230a6a814e"
+  },
+  {
+   "company": "MLabs",
+   "role": "Head of Product",
+   "applied": "2025-11-24",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to MLabs",
+   "thread": "19ab7d48c0bd703a"
+  },
+  {
+   "company": "iAltA",
+   "role": "Senior Product Manager",
+   "applied": "2026-03-11",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to Senior Product Manager at iAltA",
+   "thread": "19cdf2bc6ca78df6"
+  },
+  {
+   "company": "Blue Star Partners",
+   "role": "Billing Coordinator",
+   "applied": "2026-03-08",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Application Received for Billing Coordinator position",
+   "thread": "19ccfb4894d9b88e"
+  },
+  {
+   "company": "Amazon",
+   "role": "Sr. Product Manager, Cloud Economics Tooling",
+   "applied": "2026-02-25",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for Applying to Amazon!",
+   "thread": "19c96ba341e140e9"
+  },
+  {
+   "company": "Amazon",
+   "role": "Sr Ad Tech Go To Market Specialist, Seller Tool GTM, Enablement, and Planning (STEP)",
+   "applied": "2025-08-14",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for Applying to Amazon!",
+   "thread": "198a9e801d3cfa92"
+  },
+  {
+   "company": "Amazon",
+   "role": "Senior Product Manager, Prime Video Marketplace",
+   "applied": "2025-07-03",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for Applying to Amazon!",
+   "thread": "197d1f7e73159775"
+  },
+  {
+   "company": "Hyro",
+   "role": "Solution Architect (NYC)",
+   "applied": "2026-02-17",
+   "outcome": "rejected",
+   "outcome_date": "2026-02-25",
+   "evidence": "Thank you for applying for the Solution Architect (NYC) position at Hyro",
+   "thread": "19c93ad5ba293937"
+  },
+  {
+   "company": "BOI",
+   "role": "AI Transformation Director",
+   "applied": "2026-02-25",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to BOI",
+   "thread": "19c927842ec37f12"
+  },
+  {
+   "company": "Zapier",
+   "role": "Sr. Product Manager - Chat & Knowledge",
+   "applied": "2026-02-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Zapier: Thanks for applying",
+   "thread": "19c76ef04c9cdf53"
+  },
+  {
+   "company": "Zapier",
+   "role": "Go-to-Market General Application",
+   "applied": "2025-06-24",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Zapier: Thanks for applying",
+   "thread": "197a3068cef21076"
+  },
+  {
+   "company": "UP.Labs",
+   "role": "Sr. Product Manager",
+   "applied": "2026-02-18",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to UP.Labs",
+   "thread": "19c71b70792028dc"
+  },
+  {
+   "company": "Expert Institute",
+   "role": "Senior Product Manager (Hybrid - NYC)",
+   "applied": "2026-02-17",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for your application to Expert Institute!",
+   "thread": "19c6df37ba2844b6"
+  },
+  {
+   "company": "Arch",
+   "role": "Talent Pool",
+   "applied": "2026-02-17",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Arch!",
+   "thread": "19c6d75fada5693a"
+  },
+  {
+   "company": "ElevenLabs",
+   "role": "Forward Deployed Engineer - Strategist",
+   "applied": "2026-02-17",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "ElevenLabs | Application Received",
+   "thread": "19c6d0e65800b13e"
+  },
+  {
+   "company": "ElevenLabs",
+   "role": "Startup Partnerships",
+   "applied": "2025-07-14",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "ElevenLabs | Application Received",
+   "thread": "1980a4d84221b42e"
+  },
+  {
+   "company": "One Eighty Collective",
+   "role": "Senior Product Manager | AI-native startup (Bessemer led)",
+   "applied": "2026-02-11",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to One Eighty Collective",
+   "thread": "19c4dca23324f050"
+  },
+  {
+   "company": "Garner Health",
+   "role": "Product Manager II",
+   "applied": "2026-01-12",
+   "outcome": "rejected",
+   "outcome_date": "2026-02-12",
+   "evidence": "Garner Health - Product Manager II Update",
+   "thread": "19c4fe138f7167a7"
+  },
+  {
+   "company": "Okta",
+   "role": "Staff Agile Program Manager",
+   "applied": "2026-02-06",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to Staff Agile Program Manager at Okta",
+   "thread": "19c3363ef7716fe9"
+  },
+  {
+   "company": "Okta",
+   "role": null,
+   "applied": "2025-12-23",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Okta!",
+   "thread": "19b48e19f0e9ef07"
+  },
+  {
+   "company": "Fractional AI",
+   "role": null,
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-02-02",
+   "evidence": "Thank you for your application to Fractional AI",
+   "thread": "19c1f4fbec964a5e"
+  },
+  {
+   "company": "Hivemind Capital",
+   "role": "Director of Product, Go-To-Market",
+   "applied": "2026-02-01",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Hivemind Capital",
+   "thread": "19c16ca20e9711a3"
+  },
+  {
+   "company": "Age of Learning",
+   "role": "Senior Product Manager",
+   "applied": "2025-12-11",
+   "outcome": "rejected",
+   "outcome_date": "2026-01-27",
+   "evidence": "Thanks for your interest in Age of Learning, Zach",
+   "thread": "19c0129e69f0c019"
+  },
+  {
+   "company": "Babylist",
+   "role": "Staff Product Manager, Health & Education",
+   "applied": "2026-01-27",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank You for Applying to Babylist!",
+   "thread": "19c009b40509e08d"
+  },
+  {
+   "company": "Babylist",
+   "role": "Director of Product Management, Media & Marketing",
+   "applied": "2026-01-01",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank You for Applying to Babylist!",
+   "thread": "19b77f77a0510297"
+  },
+  {
+   "company": "Stepful",
+   "role": "Staff Product Manager",
+   "applied": "2026-01-20",
+   "outcome": "rejected",
+   "outcome_date": "2026-01-20",
+   "evidence": "Thank you for applying to Stepful",
+   "thread": "19bdd56a64e9510a"
+  },
+  {
+   "company": "Starling",
+   "role": "Product Consultant - Engine by Starling",
+   "applied": "2026-01-20",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Starling",
+   "thread": "19bd9dbbfbfb45d4"
+  },
+  {
+   "company": "Starling",
+   "role": "Product Director (Client Solutions) - Engine by Starling",
+   "applied": "2025-12-04",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Starling",
+   "thread": "19ae6f736d6ef600"
+  },
+  {
+   "company": "Vanilla",
+   "role": "Senior Product Manager",
+   "applied": "2026-01-20",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Vanilla",
+   "thread": "19bd9723c60d3309"
+  },
+  {
+   "company": "AI Digital",
+   "role": "AI Transformation Consultant",
+   "applied": "2026-01-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to AI Digital",
+   "thread": "19bd83bdd0533012"
+  },
+  {
+   "company": "Zip Co",
+   "role": "Senior Product Manager",
+   "applied": "2025-12-22",
+   "outcome": "rejected",
+   "outcome_date": "2026-01-15",
+   "evidence": "Zip Co Application",
+   "thread": "19bc247a6a098f09"
+  },
+  {
+   "company": "Zip Co",
+   "role": "Senior Product Manager, Product Launch & GTM",
+   "applied": "2025-08-08",
+   "outcome": "rejected",
+   "outcome_date": "2025-09-11",
+   "evidence": "Your Senior Product Manager, Product Launch & GTM Application with Zip",
+   "thread": "19939662eb8a7f0d"
+  },
+  {
+   "company": "Zip Co",
+   "role": "Senior Product Manager, Go-to-Market",
+   "applied": "2026-01-18",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Zip Co",
+   "thread": "19bd19541019078d"
+  },
+  {
+   "company": "Rula",
+   "role": "Staff Product Manager - Partnerships (Remote)",
+   "applied": "2026-01-12",
+   "outcome": "rejected",
+   "outcome_date": "2026-01-15",
+   "evidence": "Your application to work at Rula",
+   "thread": "19bc3ba3a2025ae2"
+  },
+  {
+   "company": "Sword Health",
+   "role": "Chief of Staff, Enterprise",
+   "applied": "2026-01-13",
+   "outcome": "rejected",
+   "outcome_date": "2026-01-15",
+   "evidence": "Thanks for your application to Sword Health, Zach",
+   "thread": "19bbf6ea7bd4c437"
+  },
+  {
+   "company": "Attentive",
+   "role": "Senior Product Manager, Growth",
+   "applied": "2026-01-13",
+   "outcome": "rejected",
+   "outcome_date": "2026-01-15",
+   "evidence": "Thanks from Attentive",
+   "thread": "19bc2a4816192b1d"
+  },
+  {
+   "company": "Hex",
+   "role": "Product Manager",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-01-15",
+   "evidence": "Following up from Hex",
+   "thread": "19bbf269614b897d"
+  },
+  {
+   "company": "Plaid",
+   "role": "Product Manager",
+   "applied": "2026-01-13",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for your application to Plaid",
+   "thread": "19bb62a0d4ddb418"
+  },
+  {
+   "company": "Plaid",
+   "role": "Experienced Growth Product Manager - Web",
+   "applied": "2025-07-03",
+   "outcome": "rejected",
+   "outcome_date": "2025-07-22",
+   "evidence": "Plaid Application Follow-Up",
+   "thread": "1983330589e2bd07"
+  },
+  {
+   "company": "Glean",
+   "role": "AI Outcomes Manager",
+   "applied": "2026-01-13",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Glean",
+   "thread": "19bb5f3593f68179"
+  },
+  {
+   "company": "Addepar",
+   "role": null,
+   "applied": "2026-01-13",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for your application to Addepar",
+   "thread": "19bb5e780068ec75"
+  },
+  {
+   "company": "Foundation Health",
+   "role": "Product Manager",
+   "applied": "2026-01-12",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Foundation Health!",
+   "thread": "19bb4074a36c60da"
+  },
+  {
+   "company": "Vetcove",
+   "role": "Product Manager",
+   "applied": "2026-01-12",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Vetcove!",
+   "thread": "19bb4061db17f001"
+  },
+  {
+   "company": "Suno",
+   "role": "Senior Project Manager",
+   "applied": "2026-01-06",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Suno, Zach",
+   "thread": "19b948eecefdb171"
+  },
+  {
+   "company": "Suno",
+   "role": "Strategy & Business Development Manager",
+   "applied": "2025-07-08",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Suno, Zach",
+   "thread": "197ebbe2b2818a74"
+  },
+  {
+   "company": "Dream Machine XR Studio",
+   "role": "Music and technology project manager",
+   "applied": "2026-01-01",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Dream Machine XR Studio",
+   "thread": "19b78182159c63f1"
+  },
+  {
+   "company": "Octus",
+   "role": "Director of Product Strategy",
+   "applied": "2025-12-22",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Octus",
+   "thread": "19b77d68728ec64a"
+  },
+  {
+   "company": "Octus",
+   "role": "Senior Product Manager",
+   "applied": "2025-08-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Octus",
+   "thread": "198c3f078d2d6e6f"
+  },
+  {
+   "company": "Clair",
+   "role": "Senior Product Manager",
+   "applied": "2026-01-01",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Clair",
+   "thread": "19b77b92c69c9b40"
+  },
+  {
+   "company": "Green Key Resources",
+   "role": "Program Manager",
+   "applied": "2025-12-31",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Green Key Resources",
+   "thread": "19b763a5ffb7ce9f"
+  },
+  {
+   "company": "Fulcrum Digital",
+   "role": "Product Owner",
+   "applied": "2025-12-31",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Fulcrum Digital",
+   "thread": "19b7637572ea09a5"
+  },
+  {
+   "company": "IMAGINiT Technologies",
+   "role": "Sr. Business Analyst - Process Transformation",
+   "applied": "2025-12-31",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to IMAGINiT Technologies",
+   "thread": "19b756ac9d9c9e44"
+  },
+  {
+   "company": "Maple",
+   "role": "Opportunistic role",
+   "applied": "2025-12-31",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Maple",
+   "thread": "19b71f99bd4eadad"
+  },
+  {
+   "company": "JUUL Labs",
+   "role": null,
+   "applied": "2025-12-28",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to JUUL Labs!",
+   "thread": "19b66e86551c82f9"
+  },
+  {
+   "company": "Global Relay",
+   "role": "Lead, Enterprise Project Manager",
+   "applied": "2025-12-28",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Global Relay",
+   "thread": "19b66e78641f17e5"
+  },
+  {
+   "company": "Farther",
+   "role": "Senior Product Manager - Consumer & Client Products",
+   "applied": "2025-12-22",
+   "outcome": "rejected",
+   "outcome_date": "2025-12-23",
+   "evidence": "Following up on Your Application to Farther",
+   "thread": "19b4bc745842b903"
+  },
+  {
+   "company": "Fete",
+   "role": "Head of Product Management",
+   "applied": "2025-12-23",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Fete",
+   "thread": "19b4c2837f42940e"
+  },
+  {
+   "company": "GrubHub",
+   "role": null,
+   "applied": "2025-12-23",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to GrubHub!",
+   "thread": "19b4cb158e6fa433"
+  },
+  {
+   "company": "Cato Networks",
+   "role": "Customer Experience Strategy Lead - AI Integration",
+   "applied": "2025-12-24",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Cato Networks",
+   "thread": "19b4f2b1b5b0c436"
+  },
+  {
+   "company": "STAND 8",
+   "role": null,
+   "applied": "2025-12-23",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying Zachary",
+   "thread": "19b48b4ad9807b14"
+  },
+  {
+   "company": "Quince",
+   "role": "Senior/Principal Product Manager - App",
+   "applied": "2025-12-13",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Quince",
+   "thread": "19b192839e7cc6bf"
+  },
+  {
+   "company": "Trexquant Investment",
+   "role": "Head of LLM Application Team (USA)",
+   "applied": "2025-12-17",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Trexquant Investment",
+   "thread": "19b29e2226f887d5"
+  },
+  {
+   "company": "Atria Physician Practice New York PC",
+   "role": "Group Product Manager, Member Experience",
+   "applied": "2025-12-17",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Atria Physician Practice New York PC",
+   "thread": "19b29e05df1ab23e"
+  },
+  {
+   "company": "Flowdesk",
+   "role": "Head of Internal Product - Business Operations",
+   "applied": "2025-12-09",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Flowdesk",
+   "thread": "19b0144a49e13721"
+  },
+  {
+   "company": "Integral Ad Science",
+   "role": "Staff Product Manager",
+   "applied": "2025-12-05",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Integral Ad Science",
+   "thread": "19aeee73d1fc5f56"
+  },
+  {
+   "company": "Integral Ad Science",
+   "role": "Head of Product Management - Social, Measurement and Optimization",
+   "applied": "2025-10-31",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Integral Ad Science",
+   "thread": "19a3b4467fa51443"
+  },
+  {
+   "company": "Portage Point Partners",
+   "role": "Director, Product Management & AI Solutions",
+   "applied": "2025-12-03",
+   "outcome": "rejected",
+   "outcome_date": "2025-12-05",
+   "evidence": "Thanks for your interest in Portage Point Partners, Zach",
+   "thread": "19aef23157b6e7fe"
+  },
+  {
+   "company": "Portage Point Partners",
+   "role": "Vice President, Cross-Functional",
+   "applied": "2025-10-20",
+   "outcome": "rejected",
+   "outcome_date": "2025-10-21",
+   "evidence": "Thanks for your interest in Portage Point Partners, Zach",
+   "thread": "19a07640a305ec8a"
+  },
+  {
+   "company": "Traba",
+   "role": "General Manager, Special Projects",
+   "applied": "2025-12-04",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Traba!",
+   "thread": "19aeb605422b1d68"
+  },
+  {
+   "company": "Canoe Intelligence",
+   "role": "Senior Product Owner",
+   "applied": "2025-12-03",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Canoe Intelligence - Application Received",
+   "thread": "19ae5410b84a76bd"
+  },
+  {
+   "company": "Norm AI",
+   "role": "Senior Product Manager",
+   "applied": "2025-12-03",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Norm AI!",
+   "thread": "19ae5410a57f8c37"
+  },
+  {
+   "company": "Omada Health",
+   "role": null,
+   "applied": "2025-12-03",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Omada Health!",
+   "thread": "19ae52912a7756b1"
+  },
+  {
+   "company": "InMobi",
+   "role": "Senior Product Manager",
+   "applied": "2025-12-03",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank You for Applying to InMobi",
+   "thread": "19ae51312fc914ff"
+  },
+  {
+   "company": "Palona AI",
+   "role": "Forward Deployed Engineer",
+   "applied": "2025-12-03",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Palona AI",
+   "thread": "19ae5070503d6f86"
+  },
+  {
+   "company": "ION Group",
+   "role": "Lead Product Manager - Financial Services, New York",
+   "applied": "2025-12-01",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for your application to ION Group",
+   "thread": "19adac5ec66a9898"
+  },
+  {
+   "company": "Code for America",
+   "role": "Principal Product Manager",
+   "applied": "2025-08-21",
+   "outcome": "rejected",
+   "outcome_date": "2025-12-01",
+   "evidence": "Update from Code for America",
+   "thread": "19ada8a847b67fba"
+  },
+  {
+   "company": "FlowFuse",
+   "role": null,
+   "applied": "2025-11-26",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to FlowFuse Inc.",
+   "thread": "19ac15bc2ecd33c4"
+  },
+  {
+   "company": "DriveWealth",
+   "role": "Senior Product Owner, Mutual Funds",
+   "applied": "2025-11-26",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to DriveWealth!",
+   "thread": "19ac19bccd9fcb90"
+  },
+  {
+   "company": "SoFi",
+   "role": "Principal Product Manager (Crypto)",
+   "applied": "2025-11-26",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Zachary, thank you for applying to SoFi!",
+   "thread": "19ac18c5355c1aa4"
+  },
+  {
+   "company": "SoFi",
+   "role": "Senior Product Manager, Crypto",
+   "applied": "2025-08-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Zachary, thank you for applying to SoFi!",
+   "thread": "198c408295a3ec78"
+  },
+  {
+   "company": "Zinnia",
+   "role": "Product Implementation Lead",
+   "applied": "2025-11-26",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Zinnia",
+   "thread": "19ac138f340a4806"
+  },
+  {
+   "company": "Bridgewater Associates",
+   "role": null,
+   "applied": "2025-11-25",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Bridgewater Associates",
+   "thread": "19abc50f3217089c"
+  },
+  {
+   "company": "KKR",
+   "role": "Technology Strategy and Delivery Lead",
+   "applied": "2025-11-26",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to KKR",
+   "thread": "19ac198362895733"
+  },
+  {
+   "company": "Figure",
+   "role": null,
+   "applied": "2025-11-26",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank You for Applying to Figure",
+   "thread": "19ac137fc0a46e7a"
+  },
+  {
+   "company": "Perplexity",
+   "role": null,
+   "applied": "2025-11-26",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Perplexity!",
+   "thread": "19ac1ca971c2643b"
+  },
+  {
+   "company": "VideaHealth",
+   "role": "Chief of Staff",
+   "applied": "2025-11-26",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for your application to VideaHealth",
+   "thread": "19ac15560c81cc66"
+  },
+  {
+   "company": "AirOps",
+   "role": "Chief of Staff to CEO",
+   "applied": "2025-11-26",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to AirOps!",
+   "thread": "19ac1512ee5a9742"
+  },
+  {
+   "company": "AirOps",
+   "role": "Senior Product Manager, AI",
+   "applied": "2025-11-09",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to AirOps!",
+   "thread": "19a665f4b48274d8"
+  },
+  {
+   "company": "Nomura",
+   "role": "AMR Global Markets - Digital Innovation and Strategy",
+   "applied": "2025-11-26",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "New Application Received",
+   "thread": "19ac17f22bbf4661"
+  },
+  {
+   "company": "Echo Base",
+   "role": "Director, Product (Crypto)",
+   "applied": "2025-11-26",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Echo Base",
+   "thread": "19ac19184459d74a"
+  },
+  {
+   "company": "moomoo",
+   "role": "Product Manager, Custodial Wallet (Crypto)",
+   "applied": "2025-10-22",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to moomoo",
+   "thread": "19a0960b71806e29"
+  },
+  {
+   "company": "The Browser Company",
+   "role": "Software Engineer, Product",
+   "applied": "2025-11-13",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for your application to The Browser Company",
+   "thread": "19a7ecaead0d22a6"
+  },
+  {
+   "company": "Brigit",
+   "role": "Sr Product Manager - Instant Cash",
+   "applied": "2025-11-13",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "We got it! Thanks for applying to Brigit",
+   "thread": "19a7e16a2533272b"
+  },
+  {
+   "company": "Whetstone Research",
+   "role": "Protocol Researcher",
+   "applied": "2025-11-13",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Whetstone Research!",
+   "thread": "19a7bbdef2e7d434"
+  },
+  {
+   "company": "Decentraland",
+   "role": "Senior Product Manager",
+   "applied": "2025-11-12",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for your application to Decentraland",
+   "thread": "19a79a1607790894"
+  },
+  {
+   "company": "Plasma",
+   "role": "Head of Operations",
+   "applied": "2025-11-10",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Plasma",
+   "thread": "19a6f4d8651b4834"
+  },
+  {
+   "company": "GoFundMe",
+   "role": "Principal, Business Operations - Go-To-Market Systems",
+   "applied": "2025-11-04",
+   "outcome": "rejected",
+   "outcome_date": "2025-11-21",
+   "evidence": "Thank you for your interest in GoFundMe!",
+   "thread": "19aa87c7b4627718"
+  },
+  {
+   "company": "Calm",
+   "role": null,
+   "applied": "2025-10-27",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Calm!",
+   "thread": "19a27490517b67a5"
+  },
+  {
+   "company": "Asana",
+   "role": null,
+   "applied": "2025-10-28",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for your application to Asana!",
+   "thread": "19a2ba6f4010e36b"
+  },
+  {
+   "company": "Co-Star",
+   "role": null,
+   "applied": "2025-10-27",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Today at a glance: Co-Star received your application",
+   "thread": "19a2757bdfb33106"
+  },
+  {
+   "company": "Gauntlet",
+   "role": "General Interest Applications",
+   "applied": "2025-07-01",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for your application to Gauntlet",
+   "thread": "197c7c9ad1867996"
+  },
+  {
+   "company": "Hebbia",
+   "role": null,
+   "applied": "2025-08-21",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for your interest in Hebbia",
+   "thread": "198cecdaf33ff7ec"
+  },
+  {
+   "company": "DRW",
+   "role": null,
+   "applied": "2025-07-07",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to DRW",
+   "thread": "197e5fa2b2c1efc1"
+  },
+  {
+   "company": "Sand Cherry Associates",
+   "role": "Program Manager, Corporate Transformation",
+   "applied": "2025-10-22",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Sand Cherry Associates",
+   "thread": "19a096855d81940f"
+  },
+  {
+   "company": "Sand Cherry Associates",
+   "role": "Product Manager",
+   "applied": "2025-06-24",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Sand Cherry Associates",
+   "thread": "1979febaeee96363"
+  },
+  {
+   "company": "Zaelab",
+   "role": "Project Manager - E-commerce",
+   "applied": "2025-10-22",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Zaelab",
+   "thread": "19a096168c9c1b7f"
+  },
+  {
+   "company": "Public Digital",
+   "role": "PD Network North America - Talent Pool",
+   "applied": "2025-10-13",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Public Digital",
+   "thread": "199de6f9699e4a83"
+  },
+  {
+   "company": "CLEAR",
+   "role": "VP, Product Management (Travel)",
+   "applied": "2025-10-13",
+   "outcome": "rejected",
+   "outcome_date": "2025-10-15",
+   "evidence": "Thank you for your interest in CLEAR",
+   "thread": "199e8a74c9d3819d"
+  },
+  {
+   "company": "CLEAR",
+   "role": "Chief of Staff",
+   "applied": "2025-07-23",
+   "outcome": "rejected",
+   "outcome_date": "2025-07-28",
+   "evidence": "CLEAR Employment Application",
+   "thread": "1985147b3cee43fe"
+  },
+  {
+   "company": "Amaris Consulting",
+   "role": "Product Owner",
+   "applied": "2025-10-13",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your application to Amaris Consulting",
+   "thread": "199db39e98c46e5a"
+  },
+  {
+   "company": "Offchain Labs",
+   "role": "Product Manager, Ecosystems",
+   "applied": "2025-08-15",
+   "outcome": "rejected",
+   "outcome_date": "2025-09-28",
+   "evidence": "Thanks for your interest in Offchain Labs",
+   "thread": "199907fc8ea0435d"
+  },
+  {
+   "company": "LayerZero Labs",
+   "role": "Solutions Architect Lead - Financial Services",
+   "applied": "2025-09-09",
+   "outcome": "rejected",
+   "outcome_date": "2025-09-17",
+   "evidence": "LayerZero Labs Application Update",
+   "thread": "19958e73e2be527c"
+  },
+  {
+   "company": "Medallion",
+   "role": "Senior (title truncated)",
+   "applied": "2025-09-09",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Medallion",
+   "thread": "1992fca79faf78e7"
+  },
+  {
+   "company": "Stripe",
+   "role": "Staff Product Manager, Crypto",
+   "applied": "2025-09-09",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Stripe!",
+   "thread": "1992ef6b155032b0"
+  },
+  {
+   "company": "Hang",
+   "role": "Product Strategy",
+   "applied": "2025-09-09",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying!",
+   "thread": "1992edd32db9a7be"
+  },
+  {
+   "company": "Paradigm",
+   "role": "Product - Paradigm Portfolio",
+   "applied": "2025-09-09",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Paradigm: Thank you for Applying!",
+   "thread": "1992ed7df9c2fbfa"
+  },
+  {
+   "company": "Navan",
+   "role": "Lead, Product Manager - User Experience",
+   "applied": "2025-08-28",
+   "outcome": "rejected",
+   "outcome_date": "2025-09-05",
+   "evidence": "Thank you for your application to Navan",
+   "thread": "1991adffa6368978"
+  },
+  {
+   "company": "MoonPay",
+   "role": "Director, Product Operations",
+   "applied": "2025-09-04",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank You for Your Application | MoonPay",
+   "thread": "199154262d0df736"
+  },
+  {
+   "company": "FundingU (via Rockstar)",
+   "role": "Senior Program Manager",
+   "applied": "2025-08-31",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Application Received - Senior Program Manager @ FundingU",
+   "thread": "199038d19d60d102"
+  },
+  {
+   "company": "The Farmer's Dog",
+   "role": "Senior Product Manager 2",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2025-08-30",
+   "evidence": "Your application to The Farmer's Dog",
+   "thread": "198f8d599a295d8c"
+  },
+  {
+   "company": "Coast",
+   "role": "Senior/Principal Product Manager",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2025-08-28",
+   "evidence": "Thanks from Coast",
+   "thread": "198f24a2156dbc10"
+  },
+  {
+   "company": "Sayari",
+   "role": "General Opportunities",
+   "applied": "2025-08-28",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for your application to Sayari",
+   "thread": "198f1d013306a16e"
+  },
+  {
+   "company": "OpenAsset",
+   "role": "Senior Product Manager",
+   "applied": "2025-08-26",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to OpenAsset",
+   "thread": "198e7b3eac791273"
+  },
+  {
+   "company": "Jobgether",
+   "role": "Director of Strategic Initiatives",
+   "applied": "2025-08-20",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Follow-up on your application to Director of Strategic Initiatives",
+   "thread": "198ed01d91433915"
+  },
+  {
+   "company": "Lyra Health",
+   "role": "GTM Technology Manager",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2025-08-20",
+   "evidence": "Thank you for your interest (position closed)",
+   "thread": "198c898c1aed19a3"
+  },
+  {
+   "company": "Pinecone",
+   "role": "Product Manager",
+   "applied": "2025-08-19",
+   "outcome": "rejected",
+   "outcome_date": "2025-08-19",
+   "evidence": "Your application to Pinecone",
+   "thread": "198c4849dbb80eff"
+  },
+  {
+   "company": "Pinecone",
+   "role": "Senior Product Manager (Experience)",
+   "applied": "2025-07-01",
+   "outcome": "rejected",
+   "outcome_date": "2025-07-06",
+   "evidence": "Your application to Pinecone",
+   "thread": "197dd2ee2c57934a"
+  },
+  {
+   "company": "Piermont Bank",
+   "role": null,
+   "applied": "2025-08-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Piermont Bank",
+   "thread": "198c3ff13e180b6d"
+  },
+  {
+   "company": "Yext",
+   "role": null,
+   "applied": "2025-08-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Yext!",
+   "thread": "198c3eccb3a96a69"
+  },
+  {
+   "company": "Mutiny",
+   "role": null,
+   "applied": "2025-08-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Mutiny",
+   "thread": "198c4122fa50df6e"
+  },
+  {
+   "company": "Rippling",
+   "role": "Director of Product Management, Platform",
+   "applied": "2025-08-19",
+   "outcome": "rejected",
+   "outcome_date": "2025-08-21",
+   "evidence": "Thank you for applying to Rippling - Director of Product Management, Platform",
+   "thread": "198cd4dd7a29a695"
+  },
+  {
+   "company": "Cloudflare",
+   "role": "Director of Product, Media Platform",
+   "applied": "2025-08-21",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Cloudflare Recruiting | Application Received",
+   "thread": "198ce60ea1b3d2e4"
+  },
+  {
+   "company": "Rokt",
+   "role": "Accelerator",
+   "applied": "2025-08-21",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Rokt",
+   "thread": "198ce59d926f4eae"
+  },
+  {
+   "company": "Rokt",
+   "role": "Senior Product Manager (Rokt Thanks)",
+   "applied": "2025-08-08",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Rokt",
+   "thread": "1988a0a8385defbd"
+  },
+  {
+   "company": "Booksy",
+   "role": "Global Manager, Strategic Initiatives",
+   "applied": "2025-08-21",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Booksy",
+   "thread": "198ca3de6b1e336e"
+  },
+  {
+   "company": "Figment",
+   "role": null,
+   "applied": "2025-08-20",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Figment",
+   "thread": "198c94480d973758"
+  },
+  {
+   "company": "Carbyne",
+   "role": "Sr/Principal Product Manager",
+   "applied": "2025-08-22",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Carbyne",
+   "thread": "198cfd84cf018340"
+  },
+  {
+   "company": "Arc",
+   "role": null,
+   "applied": "2025-08-21",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank You for Applying to Arc!",
+   "thread": "198ce63709496d24"
+  },
+  {
+   "company": "CoinTracker",
+   "role": null,
+   "applied": "2025-08-19",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to CoinTracker, Zach",
+   "thread": "198c3c42a753fad2"
+  },
+  {
+   "company": "Upstart",
+   "role": "Senior Product Manager, Marketing Technology & Growth Platform",
+   "applied": "2025-08-17",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Upstart",
+   "thread": "198b9bb72b24b275"
+  },
+  {
+   "company": "Dalio Family Office",
+   "role": "Senior Project Associate",
+   "applied": "2025-08-12",
+   "outcome": "rejected",
+   "outcome_date": "2025-08-15",
+   "evidence": "Thank you for Applying to the Dalio Family Office",
+   "thread": "198ade55bdbba4e7"
+  },
+  {
+   "company": "GrowthLoop",
+   "role": "Principal Product Manager",
+   "applied": "2025-08-12",
+   "outcome": "rejected",
+   "outcome_date": "2025-08-15",
+   "evidence": "GrowthLoop - Follow-Up",
+   "thread": "198aed7466f452c2"
+  },
+  {
+   "company": "Coalition",
+   "role": "Senior Product Manager, AI & Servicing",
+   "applied": "2025-07-14",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Coalition, Inc.!",
+   "thread": "1980a30e6b689636"
+  },
+  {
+   "company": "Kraken",
+   "role": "Research Manager - Digital Asset Markets",
+   "applied": "2025-07-22",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Kraken",
+   "thread": "198333e33f038b82"
+  },
+  {
+   "company": "Moment",
+   "role": null,
+   "applied": "2025-07-23",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Moment",
+   "thread": "19838edd5ab72aa1"
+  },
+  {
+   "company": "UnitedMasters",
+   "role": "Translation",
+   "applied": "2025-07-23",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to UnitedMasters",
+   "thread": "19838eb59b1fd82a"
+  },
+  {
+   "company": "Kajabi",
+   "role": null,
+   "applied": "2025-07-22",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Kajabi | Your Application Has Been Received",
+   "thread": "1983343a62147a73"
+  },
+  {
+   "company": "Unit8 SA",
+   "role": "Managing Director to Lead a High-Tech, Dynamic Data & AI Expansion into the USA",
+   "applied": "2025-07-23",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Unit8 SA",
+   "thread": "19838e3ad7de2561"
+  },
+  {
+   "company": "Bitstamp by Robinhood",
+   "role": "Business Development Manager",
+   "applied": "2025-07-16",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Bitstamp by Robinhood",
+   "thread": "19814e56aed5ac9f"
+  },
+  {
+   "company": "DreamFi",
+   "role": "Vice President of Product",
+   "applied": "2025-07-11",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to DreamFi",
+   "thread": "197fb3f3e1c765df"
+  },
+  {
+   "company": "Tebra",
+   "role": "Director of GTM Technology",
+   "applied": "2025-07-01",
+   "outcome": "rejected",
+   "outcome_date": "2025-07-09",
+   "evidence": "Update on the Director of GTM Technology Position at Tebra",
+   "thread": "197f17a06cd87a16"
+  },
+  {
+   "company": "Weedmaps",
+   "role": "Senior Product Manager (Remote)",
+   "applied": "2025-07-03",
+   "outcome": "rejected",
+   "outcome_date": "2025-07-08",
+   "evidence": "Your application to Weedmaps",
+   "thread": "197eb3d29014ed14"
+  },
+  {
+   "company": "Aptos",
+   "role": "Product Manager, Watchee",
+   "applied": "2025-07-07",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Your Application to Product Manager, Watchee at Aptos",
+   "thread": "197e61fab7ee994e"
+  },
+  {
+   "company": "Vivaldi Group",
+   "role": "Senior Partner",
+   "applied": "2025-07-07",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Vivaldi Group",
+   "thread": "197e5acc2801b0ba"
+  },
+  {
+   "company": "Griz",
+   "role": "Creative Partnerships Manager (Advertising & Production)",
+   "applied": "2025-07-06",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Griz",
+   "thread": "197dd8b80a8554c0"
+  },
+  {
+   "company": "First Achieve",
+   "role": "Senior Manager, Strategy and Operations",
+   "applied": "2025-07-05",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to First Achieve",
+   "thread": "197d83ab3b2389eb"
+  },
+  {
+   "company": "Clay",
+   "role": "Staff Product Manager",
+   "applied": "2025-07-02",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Clay!",
+   "thread": "197c890fecf8b414"
+  },
+  {
+   "company": "Pulley",
+   "role": null,
+   "applied": "2025-07-01",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Pulley!",
+   "thread": "197c7d7fa45e8dff"
+  },
+  {
+   "company": "Vimeo",
+   "role": "Principal Product Manager, Growth",
+   "applied": "2025-06-25",
+   "outcome": "rejected",
+   "outcome_date": "2025-06-25",
+   "evidence": "Vimeo - Update for Principal Product Manager, Growth",
+   "thread": "197a79b7316ec711"
+  },
+  {
+   "company": "Headway",
+   "role": "Senior Product Manager, Growth",
+   "applied": "2025-06-25",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Headway",
+   "thread": "197a777d24c08106"
+  },
+  {
+   "company": "Recidiviz",
+   "role": null,
+   "applied": "2025-06-24",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Recidiviz",
+   "thread": "197a257b80c925f2"
+  },
+  {
+   "company": "ClassDojo",
+   "role": null,
+   "applied": "2025-06-25",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to ClassDojo",
+   "thread": "197a8dd9f26a82d5"
+  },
+  {
+   "company": "Worth Search",
+   "role": "Senior Product Manager",
+   "applied": "2025-06-27",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Worth Search",
+   "thread": "197b2a2d168b6096"
+  },
+  {
+   "company": "Everyrealm",
+   "role": "Product Growth Lead",
+   "applied": "2025-06-24",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Everyrealm",
+   "thread": "1979fe6ca21b9101"
+  },
+  {
+   "company": "The Crypto Recruiters",
+   "role": "Stablecoin Product Manager",
+   "applied": "2025-06-23",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to The Crypto Recruiters",
+   "thread": "1979da7975d995e1"
+  },
+  {
+   "company": "VLink",
+   "role": "Product Manager",
+   "applied": "2025-06-23",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to VLink",
+   "thread": "1979d5dbf0226b57"
+  },
+  {
+   "company": "NBCUniversal",
+   "role": "Sr. Director of Product, Content Experience",
+   "applied": "2025-06-20",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to NBCUniversal",
+   "thread": "1978e42dfce2d834"
+  },
+  {
+   "company": "Facet",
+   "role": "Senior Product Manager - Remote",
+   "applied": "2025-06-20",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thanks for applying to Facet",
+   "thread": "1978e3949c49fd39"
+  },
+  {
+   "company": "ZipRecruiter",
+   "role": "Sr. Product Manager, Search",
+   "applied": "2025-06-18",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to ZipRecruiter!",
+   "thread": "197810784f720afc"
+  },
+  {
+   "company": "Mackinnon Bruce International",
+   "role": "VP of Product",
+   "applied": "2025-06-13",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Mackinnon Bruce International",
+   "thread": "19766fc38418bb20"
+  },
+  {
+   "company": "Galaxy",
+   "role": "Product Manager",
+   "applied": "2025-06-09",
+   "outcome": "rejected",
+   "outcome_date": "2025-06-16",
+   "evidence": "Regarding Product Manager Application at Galaxy",
+   "thread": "197799b64b724a48"
+  },
+  {
+   "company": "FinTech AI & Blockchain Startup (unnamed)",
+   "role": "Head of Product Ownership",
+   "applied": "2025-06-02",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to FinTech AI & Blockchain Startup",
+   "thread": "19731a62be317f40"
+  },
+  {
+   "company": "Vendoroo",
+   "role": "Ex Product Founder",
+   "applied": "2025-06-02",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to Vendoroo",
+   "thread": "1973156871b13513"
+  },
+  {
+   "company": "Fireblocks",
+   "role": "Senior Product Manager, Fireblocks Trust Company",
+   "applied": "2025-11-26",
+   "outcome": "rejected",
+   "outcome_date": "2025-12-26",
+   "evidence": "Update from Fireblocks | Senior Product Manager, Fireblocks Trust Company",
+   "thread": "19b59ed87860db83"
+  },
+  {
+   "company": "Culinary Institute of America (via Syfter recruiter)",
+   "role": "Solutions / Enterprise Architect (CRM/Data)",
+   "applied": "2026-10-28",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Resume Confirmation: Culinary Institute of America",
+   "thread": "1a1836d6d19612c4"
+  },
+  {
+   "company": "Dioptra - an Icertis Company (via Paraform)",
+   "role": "Staff Product Manager",
+   "applied": "2026-10-30",
+   "outcome": "rejected",
+   "outcome_date": "2026-11-12",
+   "evidence": "Know someone great for Paraform roles? (process closed)",
+   "thread": "1a1d0b4c8973f5b0"
+  },
+  {
+   "company": "Blacksmith (via Paraform)",
+   "role": "Staff Product Engineer",
+   "applied": "2026-09-02",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Confirm your application for Staff Product Engineer at Blacksmith",
+   "thread": "1a0646179d55b218"
+  },
+  {
+   "company": "Code and Theory",
+   "role": "Program Lead, Enterprise Transformation (US)",
+   "applied": "2026-06-29",
+   "outcome": "rejected",
+   "outcome_date": "2026-09-30",
+   "evidence": "Update: Your application to Code and Theory",
+   "thread": "1a0f42561026dffa"
+  },
+  {
+   "company": "Simplex",
+   "role": "Senior Applied AI Engineer - Applied AI",
+   "applied": "2026-09-30",
+   "outcome": "rejected",
+   "outcome_date": "2026-10-09",
+   "evidence": "Senior Applied AI Engineer - Applied AI - Update [Application #52354980]",
+   "thread": "1a122708c9604b47"
+  },
+  {
+   "company": "Rho",
+   "role": "Product Manager",
+   "applied": "2026-09-28",
+   "outcome": "rejected",
+   "outcome_date": "2026-10-01",
+   "evidence": "Thank you for your interest in Rho",
+   "thread": "1a0f7addd2af007e"
+  },
+  {
+   "company": "Hatch",
+   "role": "Director of Product",
+   "applied": null,
+   "outcome": "rejected",
+   "outcome_date": "2026-09-14",
+   "evidence": "Thank You for your application",
+   "thread": "1a0a0136e518ca41"
+  },
+  {
+   "company": "OpenAI",
+   "role": "Forward Deployed Engineer (FDE) - NYC",
+   "applied": "2026-11-16",
+   "outcome": "applied",
+   "outcome_date": null,
+   "evidence": "Thank you for applying to OpenAI (Zach confirmed the role)",
+   "thread": "1a1e5e798970cf6e"
+  }
+ ],
+ "harvested": {
+  "date": "2026-11-16",
+  "range": "2025-06-02 to 2026-11-16",
+  "by": "read-only Gmail harvest",
+  "gaps": "LinkedIn Easy Apply mail and recruiter-forwarded applications may be missing; some decline emails with unusual subjects may be missing"
+ }
+}
