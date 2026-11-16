@@ -182,8 +182,12 @@ export async function atsJD(r) {
 // app.jackandjill.ai and talent.fonzi.ai are signed-in app pages, never a JD: fetching them would score page chrome.
 export const NO_FETCH_HOST = /(^|\.)linkedin\.com$|^app\.jackandjill\.ai$|^talent\.fonzi\.ai$/i
 export function fetchAllowed(url) { try { return !NO_FETCH_HOST.test(new URL(url).hostname) } catch { return false } }
-const STOP = new Set(["the", "a", "an", "and", "of", "for", "to", "in", "at", "with", "us", "usa", "nyc", "ny", "new", "york", "remote", "hybrid", "sr", "senior"])
-const toks = (s) => norm(String(s).replace(/\(.*?\)|\[.*?\]/g, " ")).split(" ").filter((w) => w && !STOP.has(w))
+// Words inside brackets count (WRITER "AI deployment engineer (East)" is not "(Central)", 2026-11-16). City names are
+// normalized, not dropped: "(NYC)", "- New York" and "NY" are one token and "SF" / "San Francisco" another, so
+// OpenAI "FDE - NYC" never matches "FDE - SF". Work-mode words carry no role meaning and are stop words.
+const STOP = new Set(["the", "a", "an", "and", "or", "of", "for", "to", "in", "at", "with", "us", "usa", "remote", "hybrid", "onsite", "on", "site", "sr", "senior"])
+const cities = (s) => String(s).replace(/new york city|new york|\bnyc\b|\bny\b/gi, " cityNYC ").replace(/san francisco|\bsf\b|bay area/gi, " citySF ")
+const toks = (s) => norm(cities(s)).split(" ").filter((w) => w && !STOP.has(w))
 // Same-role score: Jaccard overlap of distinctive title words (order-free), 0 when seniority differs.
 // A twin must clear 0.7 AND be the best-scoring posting on the board, so "AI Builder - Research (Global)"
 // never stands in for "AI Builder - FDE, Research, & Product (NYC)" when the exact posting exists (2026-11-16).
@@ -221,7 +225,10 @@ export async function linkedinToAts(r) {
   for (const [ats, slug] of cands) {
     const rows = await boardRows(ats, slug)
     if (!rows || !rows.length) continue
-    const twin = rows.map((x) => [roleScore(r.title, x.title), x]).filter(([sc]) => sc >= 0.7).sort((p, q) => q[0] - p[0])[0]?.[1]
+    // Ties (a city-less title against "FDE - NYC" and "FDE - SF") go to the posting whose location matches the row's.
+    const city = (l) => (/new york|nyc|\bny\b/i.test(l || "") ? "nyc" : /san francisco|\bsf\b/i.test(l || "") ? "sf" : "")
+    const here = city(r.location)
+    const twin = rows.map((x) => [roleScore(r.title, x.title) + (here && city(x.location) === here ? 0.001 : 0), x]).filter(([sc]) => sc >= 0.7).sort((p, q) => q[0] - p[0])[0]?.[1]
     if (!twin) { if (hit) return null; continue }
     const jd = await atsJD(twin)
     if (jd && jd.length > 200) return { jobid: twin.jobid, url: twin.url, jd, board: `${ats}:${slug}` }
@@ -300,6 +307,8 @@ function selftest() {
   t("sameRole: word order and brackets", sameRole("Forward Deployed Engineer (NYC)", "Forward Deployed Engineer - New York"))
   t("sameRole: seniority kept apart", !sameRole("Staff Product Manager", "Product Manager") && !sameRole("Senior Product Manager", "Product Designer"))
   t("sameRole: extra qualifier on one side ok", sameRole("Applied AI Engineer", "Applied AI Engineer, Agents"))
+  t("cities normalize, never drop", !sameRole("Forward Deployed Engineer (FDE) - NYC", "Forward Deployed Engineer (FDE) - SF") && sameRole("Forward Deployed Engineer (NYC)", "Forward Deployed Engineer - New York"))
+  t("bracketed region qualifiers stay distinct", !sameRole("AI deployment engineer (East)", "AI deployment engineer (Central)") && sameRole("AI deployment engineer (East)", "AI deployment engineer (East)"))
   t("twin picks the closest title, not the first subset", roleScore("AI Builder - FDE, Research, & Product (NYC)", "AI Builder - FDE, Research, & Product (NYC)") > roleScore("AI Builder - FDE, Research, & Product (NYC)", "AI Builder - Research (Global)"))
   t("a thin subset is not a twin", !sameRole("AI Builder - FDE, Research, & Product (NYC)", "AI Builder - Research (Global)"))
   t("hn normalize keeps only lane matches", hnKept[0].title === "Senior Product Engineer" && hnKept[0].location === "New York, NY" && hnKept[0].jd.includes("agents"))
