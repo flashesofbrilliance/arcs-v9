@@ -17,7 +17,7 @@
 import fs from "node:fs"
 import path from "node:path"
 import { execSync } from "node:child_process"
-import { atsJD, linkedinToAts, fetchAllowed, aiPolicyFor } from "./jobs_sources.mjs"
+import { atsJD, linkedinToAts, fetchAllowed, aiPolicyFor, priorVerdict } from "./jobs_sources.mjs"
 
 const arg = (k, d) => { const i = process.argv.indexOf(k); return i >= 0 ? (process.argv[i + 1] ?? true) : d }
 const has = (k) => process.argv.includes(k)
@@ -66,7 +66,7 @@ async function main() {
   const jid = arg("--jobid", null)
   if (jid) targets = rows.filter((r) => r.jobid === String(jid))
   else if (has("--auto")) {
-    const queued = rows.filter((r) => r.forge && r.forge.status === "queued" && seedByShape[shape(r)] && !aiPolicyFor(r.company)).sort((a, b) => (b.composite || 0) - (a.composite || 0))
+    const queued = rows.filter((r) => r.forge && r.forge.status === "queued" && seedByShape[shape(r)] && !aiPolicyFor(r.company) && priorVerdict(r.company, r.title)?.level !== "block").sort((a, b) => (b.composite || 0) - (a.composite || 0))
     targets = queued.slice(0, 1)
   } else { console.error("pass --jobid <id> or --auto"); process.exit(2) }
   if (!targets.length) { console.error("no matching target (no seed for its cluster?)"); process.exit(1) }
@@ -74,6 +74,9 @@ async function main() {
   for (const t of targets) {
     const pol = aiPolicyFor(t.company)
     if (pol) { console.error(`${t.jobid}: REFUSED, ${t.company} forbids AI-drafted applications (${pol.source}). Zach drafts first; Claude may only refine.`); process.exitCode = 3; continue }
+    const prior = priorVerdict(t.company, t.title)
+    if (prior?.level === "block" && !process.argv.includes("--override-prior")) { console.error(`${t.jobid}: REFUSED, ${prior.reason} (runtime/specs/prior-applications.json; --override-prior on Zach's say-so)`); process.exitCode = 3; continue }
+    if (prior && prior.level !== "block") console.error(`${t.jobid}: NOTE ${prior.level}, ${prior.reason}`)
     const sh = shape(t); const seed = arg("--seed", null) ? Object.values(seedByShape).find((s) => s.slug === arg("--seed", null)) : seedByShape[sh]
     if (!seed) { console.error(`${t.jobid}: no seed for cluster ${sh}`); continue }
     const slug = slugify(t)

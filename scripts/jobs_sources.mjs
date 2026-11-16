@@ -244,6 +244,35 @@ export function aiPolicyFor(company) {
   return AIPOL.find((p) => new RegExp(p.company_pattern, "i").test(String(company || ""))) || null
 }
 
+// ---------- prior applications (runtime/specs/prior-applications.json, harvested from Gmail) ----------
+// Before a role is drafted, the board checks whether Zach already went through a process at that company.
+// block: the same role (or one that scores as the same) was rejected or is still live inside the cooldown.
+// warn: any other process at the company inside the cooldown, or any live process there. Neither is ever silent.
+export const companyKey = (c) => norm(c).replace(/\b(inc|llc|ltd|corp|co|company|technologies|technology|labs|ai|hq|group|the|io|app)\b/g, " ").replace(/\s+/g, "")
+let PRIOR = null
+export function priorSpec() {
+  if (!PRIOR) { try { PRIOR = JSON.parse(fs.readFileSync(path.join(HERE, "..", "runtime", "specs", "prior-applications.json"), "utf8")) } catch { PRIOR = { cooldown_days: 180, applications: [] } } }
+  return PRIOR
+}
+export function priorApplications(company, spec = priorSpec()) {
+  const k = companyKey(company); if (!k) return []
+  return (spec.applications || []).filter((a) => companyKey(a.company) === k)
+}
+export function priorVerdict(company, title, spec = priorSpec(), today = new Date()) {
+  const apps = priorApplications(company, spec); if (!apps.length) return null
+  const days = (d) => (d ? (today - new Date(d)) / 864e5 : Infinity)
+  const cool = spec.cooldown_days ?? 180
+  const live = (a) => a.outcome === "applied" || a.outcome === "interviewing"
+  const recent = (a) => days(a.outcome_date || a.applied) <= cool
+  const same = apps.filter((a) => a.role && title && roleScore(title, a.role) >= 0.7)
+  const pick = (a) => `${a.role || "a role"}: ${a.outcome}${a.outcome_date ? " " + a.outcome_date : a.applied ? " (applied " + a.applied + ")" : ""}`
+  const b = same.find((a) => (a.outcome === "rejected" && recent(a)) || live(a))
+  if (b) return { level: "block", reason: `same role already in a process or declined: ${pick(b)}`, apps }
+  const w = apps.find((a) => live(a) || recent(a))
+  if (w) return { level: "warn", reason: `earlier process at ${company}: ${pick(w)}`, apps }
+  return { level: "info", reason: `older process at ${company}: ${pick(apps[0])}`, apps }
+}
+
 // Rows handed in by an agent from an MCP-only source. id must be stable per posting (e.g. company id + title slug).
 export function importRows(file, src) {
   const list = JSON.parse(fs.readFileSync(file, "utf8"))
@@ -302,6 +331,19 @@ function selftest() {
   const hnKept = hn.filter((r) => locationOk(r.location, false, r.title))
   t("hn drops a header with an off-target city", hn.length === 2 && hnKept.length === 1)
   t("linkedin host never fetched", !fetchAllowed("https://www.linkedin.com/jobs/view/1/") && fetchAllowed("https://jobs.ashbyhq.com/x/1"))
+  {
+    const spec = { cooldown_days: 180, applications: [
+      { company: "AssemblyAI", role: "Applied AI Engineer", applied: "2026-06-19", outcome: "rejected", outcome_date: "2026-07-21" },
+      { company: "Justworks", role: "Senior Product Manager, Expansion & Growth", applied: "2025-08-19", outcome: "rejected", outcome_date: "2025-09-17" },
+      { company: "Obin AI", role: "Forward Deployed AI Engineer", applied: "2026-11-16", outcome: "applied", outcome_date: null } ] }
+    const now = new Date("2026-11-16")
+    t("prior: company names match across suffixes", priorApplications("assemblyai", spec).length === 1 && priorApplications("Obin", spec).length === 1)
+    t("prior: same role declined inside cooldown blocks", priorVerdict("AssemblyAI", "Applied AI Engineer", { ...spec, cooldown_days: 200 }, now)?.level === "block")
+    t("prior: other role at a recently declining company warns", priorVerdict("AssemblyAI", "Forward Deployed Engineer, Triage", spec, now)?.level === "warn")
+    t("prior: same role still live blocks a duplicate", priorVerdict("Obin AI", "Forward Deployed AI Engineer", spec, now)?.level === "block")
+    t("prior: old decline on a different role is info only", priorVerdict("Justworks", "Senior AI Engineer, People", spec, now)?.level === "info")
+    t("prior: unknown company is clear", priorVerdict("ClarityPay", "Forward Deployed Engineer, AI", spec, now) === null)
+  }
   t("candidate AI policy: Anthropic blocks generated drafts", aiPolicyFor("Anthropic")?.rule === "candidate-drafts-first" && aiPolicyFor("anthropic") && !aiPolicyFor("Ramp"))
   t("platform app pages never fetched", !fetchAllowed("https://app.jackandjill.ai/jobs/x/post") && !fetchAllowed("https://talent.fonzi.ai/companies/x"))
   t("sameRole: word order and brackets", sameRole("Forward Deployed Engineer (NYC)", "Forward Deployed Engineer - New York"))
