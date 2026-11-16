@@ -4,57 +4,22 @@
 > One field, one SSOT: **generated from `_STATE/falsification-ledger.jsonl`** by
 > `scripts/belief_log_emit.py`. Do not hand-edit — append to the ledger and regenerate.
 
-**48 beliefs overturned** · 20 promoted to canon · span 2026-06-03 → 2026-11-05
+**51 beliefs overturned** · 20 promoted to canon · span 2026-06-03 → 2026-11-16
 
-By scope: infra 12 · canon 11 · process 10 · gauntlet 5 · deploy 4 · surface 3 · security 2 · recoil 1
+By scope: infra 12 · canon 11 · process 11 · gauntlet 5 · surface 5 · deploy 4 · security 2 · recoil 1
 
 ---
 
-## This week — spotlight (2026-10-30 → 2026-11-05)
+## This week — spotlight (2026-11-10 → 2026-11-16)
 
 The reversals that went most against the grain this week:
 
-### F48 · 2026-11-05 · `infra`
-- **Held:** F47 (2026-11-04): 2 of the 5 outside users were never emailed although their check-in dates had passed.
-- **Test:** Read-only prod query on 2026-11-05, per outside user: each receipt's reminderDate, debriefSentAt and the user's firstDebriefSentAt.
-- **FALSIFIED →** Corrects F47. Of the two: one user's only check-in is 2026-12-31, not yet due, so no email is correct behavior. The other had debriefs scheduled for all 3 receipts on 2026-06-25, the day the receipts were made, but User.firstDebriefSentAt was never set, so 'ever emailed' read false. Debriefs were scheduled for 6 receipts across 4 users, and no user whose check-in came due was skipped. Whether the 6 were delivered is unrecorded, because debriefSentAt is stamped at scheduling (gauntlet G7). F47 read one flag as delivery and never checked the dates.
-- **Now:** Treat 'emailed' as unknown until delivery is recorded; count by reminderDate, never by firstDebriefSentAt. The journey map gauntlet (G1, G2) and the interview script are corrected. Still open: why firstDebriefSentAt was not set for the June sends, and why one check-in fell on the day the receipt was made.
-- _refs: src/app/api/compass/route.ts, src/app/api/cron/debrief/route.ts, prisma/schema.prisma, belief log F47 · confidence: high_
-
-### F47 · 2026-11-04 · `infra`
-- **Held:** The debrief email reaches every saved receipt's owner once its check-in date passes (the debrief cron and the compass-time send both exist).
-- **Test:** Read-only prod query on 2026-11-04 over the 11 receipts from the 5 outside users: check-in dates passed, Receipt.debriefSentAt, User.firstDebriefSentAt, User.debriefOptIn.
-- **FALSIFIED →** 10 of 11 check-ins have passed, but debrief emails were sent for 6 receipts, to 3 of the 5 people; 2 people were never emailed at all. 0 of 5 opted in to repeat reminders, so by design each person is asked about one receipt at most. None of the 6 emails produced an outcome. The cause of the 2 never-emailed people is open: the cron is declared in vercel.json, but its run logs were not checked.
-- **Now:** Check the cron's runs and the two users' rows before the five-person test. The journey map now names the opt-in (step 07) and makes calling the five who already tried ARCS the first step of the build order. Found by the journey map gauntlet (G1, G2, G4).
-- _refs: src/app/api/cron/debrief/route.ts, src/app/api/compass/route.ts, vercel.json, prisma/schema.prisma · confidence: medium_
-
-### F46 · 2026-11-04 · `surface`
-- **Held:** Striking an unsupported claim from canon removes it from every served page (the Oct 17 strike, PR 1518, covered every 87% accuracy, expert-comparison and network-effect claim).
-- **Test:** For each eval row on public/status.html, open the paper section it cites and check whether the claim is still there (2026-11-04).
-- **FALSIFIED →** Four of six eval rows cited sections struck on Oct 17 (YellowPaper §2.4 three times, §6.2 once) and still read NOT RUN, as if the claims were live and awaiting a test; three Archaeology chips repeated them. The strike changed the papers, not the pages that cite them. Separately, WhitePaper v2.1 §2.1 still claims 78% cascade prediction and +35% ROAS, the same class of unsupported number the strike removed elsewhere.
-- **Now:** Rows relabeled STRUCK with the date and kept visible; the section intro says why; chips marked struck. The WhitePaper §2.1 claims are left for Zach to rule on (a canon change).
-- _refs: public/status.html, _CANON/ARCS-YellowPaper.md, _CANON/arcs-v9-additional/ARCS-WhitePaper-v2-1.md, receipt 2026-10-17--strike-unsupported-canon-claims-pr1518--ZH · confidence: high_
-
-### F45 · 2026-11-04 · `process`
-- **Held:** Outcome rows are mostly synthetic plumbing probes, so no real outcome has ever been logged (said in this session, from a schema comment).
-- **Test:** Same prod query as F43: Outcome rows split by the synthetic flag.
-- **FALSIFIED →** 5 of 10 Outcome rows are real. The narrower true statement: no outside person has logged one. A schema comment described the flag, not the data; the claim was made without reading the rows.
-- **Now:** Count rows before characterizing them. The session's recommendation stands on the narrower fact (0 outside outcomes).
-- _refs: prisma/schema.prisma · confidence: high_
-
-### F44 · 2026-11-04 · `infra`
-- **Held:** The eight track() calls in the app (compass_run, receipt_save_*, brief_*) are live funnel events we can measure the journey with (journey map draft 2, this session).
-- **Test:** Read the receipts and handoff that queried Vercel: count_events and aggregate_events on project arcs-v9 returned 404 'Web Analytics not found' on 2026-09-27, and the analytics query API returned the same 404 on 2026-10-27.
-- **FALSIFIED →** The calls exist in code but Web Analytics is not enabled on arcs-v9, so every event is dropped. A track() call in the code proves an event is sent, not that it is recorded. The journey map's measurement plan already counted from the database first; its 'live' label for events was wrong.
-- **Now:** Journey map relabels the eight events 'in code, not recorded' and makes enabling Web Analytics (and confirming one event lands) step zero of measurement. No new events until one existing event is seen in the dashboard.
-- _refs: src/app/dashboard/page.tsx, src/app/receipt/[receiptId]/page.tsx, receipt 2026-09-28--receipt-save-nudge-v11-flag-merge--ZH, CLAUDE.md handoff v3.142.0 (Vercel 404) · confidence: medium_
-
-### F43 · 2026-11-04 · `surface`
-- **Held:** The evidence base the gated features wait for builds itself through normal use: every decision and its outcome accumulates calibration data automatically (status.arcs.care, Roadmap and Risk Register).
-- **Test:** Read-only prod query on 2026-11-04 (Supabase ARCS_v9): count Outcome rows with synthetic = false and the distinct people behind them, against the outcome loop shipping on Day 98.
-- **FALSIFIED →** About 110 days after the outcome loop shipped: 10 Outcome rows, 5 real, all 5 from one person, last logged 2026-10-25. 8 users, 6 with real receipts, 2 active in the last 30 days. The page's own counter reads 0 of 30 closed outcomes from outside users. Nothing built itself: the loop records outcomes only when someone is asked, and no outside person has answered.
-- **Now:** Reword the two status lines from 'builds itself' to what is true (outcomes are logged only when a debrief is answered; 0 outside so far). Make the outcome loop the next build (receipt stub, check-in tracker, outcome on the receipt) and run the five-person test before any gated feature.
-- _refs: public/status.html, prisma/schema.prisma (Outcome.synthetic), src/app/debrief/[receiptId]/page.tsx, receipt 2026-09-27--op19-accountant-bind-and-scoreboard-merge--ZH · confidence: high_
+### F49 · 2026-11-16 · `surface`
+- **Held:** The public counts stay current on every surface that shows them, because status.arcs.care stamps its floor from git.
+- **Test:** On 2026-11-16, compared the commit and PR figures on status.arcs.care, zach.md, the proof ledger and the resume with app.arcs.care/api/pulse (commitsTotal 7,133) and the GitHub merged-PR count (1,993).
+- **FALSIFIED →** Only the status floor has a stamping script. zach.md said 6,809 commits, the proof ledger 6,800+, the resume 6,300+ from Nov 9. The status page's own milestones stopped at Day 173 while its header read Day 217, and its "shows 13 milestones" line had drifted to 19.
+- **Now:** PR 2312 brings every surface to 7,133 commits and 1,993 PRs as of 2026-11-16 and adds Days 194 to 218 to the milestones. Still open: one shared count source, or a check that fails when the surfaces disagree.
+- _refs: PR 2312, scripts/status_floor_emit.py, _ARTIFACTS/status/explorer.js, app.arcs.care/api/pulse · confidence: high_
 
 ---
 
@@ -62,6 +27,9 @@ The reversals that went most against the grain this week:
 
 | id | date | scope | canon | belief that broke → what replaced it |
 |----|------|-------|-------|--------------------------------------|
+| F49 | 2026-11-16 | surface | — | **The public counts stay current on every surface that shows them, because status.arcs.care stamps its floor from git** → PR 2312 brings every surface to 7,133 commits and 1,993 PRs as of 2026-11-16 and adds Days 194 to 218 to the milestones |
+| F51 | 2026-11-09 | process | — | **A public repo the seedbank check flags as not catalogued can be catalogued by hand in one change** → None yet |
+| F50 | 2026-11-09 | surface | — | **Every tool listed with the open MIT-licensed public goods carries an MIT license** → PR 2105 lists it apart from the MIT tools and says it has no license file |
 | F48 | 2026-11-05 | infra | — | **F47 (2026-11-04): 2 of the 5 outside users were never emailed although their check-in dates had passed** → Treat 'emailed' as unknown until delivery is recorded; count by reminderDate, never by firstDebriefSentAt |
 | F47 | 2026-11-04 | infra | — | **The debrief email reaches every saved receipt's owner once its check-in date passes (the debrief cron and the compass-time send both exist)** → Check the cron's runs and the two users' rows before the five-person test |
 | F46 | 2026-11-04 | surface | — | **Striking an unsupported claim from canon removes it from every served page (the Oct 17 strike, PR 1518, covered every 87% accuracy, expert-comparison and…** → Rows relabeled STRUCK with the date and kept visible; the section intro says why; chips marked struck |
@@ -112,4 +80,4 @@ The reversals that went most against the grain this week:
 | F14 | 2026-06-03 | infra | — | **A green Next.js production build means the database layer works** → explicit Pool + PrismaPg with SSL; run a real query against prod before calling the DB layer 'working' |
 
 ---
-_Regenerated by `scripts/belief_log_emit.py` · 48 entries · do not hand-edit — the ledger is the SSOT._
+_Regenerated by `scripts/belief_log_emit.py` · 51 entries · do not hand-edit — the ledger is the SSOT._

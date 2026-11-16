@@ -866,7 +866,16 @@
      "cite": "git show a715c92e -- scripts/git-hooks/pre-commit"
     }
    ],
-   "reversals": []
+   "reversals": [
+    [
+     "F50",
+     "surface"
+    ],
+    [
+     "F51",
+     "process"
+    ]
+   ]
   },
   {
    "week": "2026-W47",
@@ -879,7 +888,12 @@
     ]
    ],
    "chains": [],
-   "reversals": []
+   "reversals": [
+    [
+     "F49",
+     "surface"
+    ]
+   ]
   }
  ],
  "cites": {
