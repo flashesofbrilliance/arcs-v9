@@ -52,5 +52,9 @@ Every 20 new test-set calls, or monthly, whichever comes first:
 | Trust tier gates the next-step move | CANDIDATE | In that call the named next step was the attacker's ask. Verify identity first (the precall brief's T2 gate), then name a next step |
 | Recruiter room: go deep only on the deciding factor they name | CANDIDATE, weak | Same call, so the "recruiter" was not a real one. Kept only as a spark-grade lead until a verified recruiter call tests it |
 
+| Register (Book of ARCS archetype) is a reliable second stream | CANDIDATE, passed pilot | Two blind coders on different models, 15 turns of one call: kappa 0.75 (80% raw). Needs 50+ turns across rooms before BOND |
+| Grug count matches perceived density | BOND (two streams agree) | Both blind coders vs the Grug flag: kappa 0.67; coders agreed with each other 100%. Makes the density null credible |
+| Counted uptake measures landing | COMPOSTED as a landing measure | Turns judged as landing had lower counted lift (0.70 to 0.75 vs 0.87). Keep uptake as a raw count; judge landing with coders (kappa 0.47 between them) |
+
 Known gaps: one call deleted for card details; one call never fetched (mistyped id); outcome labels
 from follow-up matching miss email follow-ups.
