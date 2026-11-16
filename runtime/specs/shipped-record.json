@@ -1,6 +1,6 @@
 {
  "schema": "shipped-record/v1",
- "as_of_commit": "09ba94b4",
+ "as_of_commit": "91179a3a",
  "lanes": [
   "service",
   "milestone",
@@ -2617,12 +2617,68 @@
    "cite": "public/dj.html (first commit 2026-10-17)"
   },
   {
+   "id": "ms-25",
+   "lane": "milestone",
+   "date": "2026-10-20",
+   "label": "Ninety-nine pull requests merged in one day, each one approved.",
+   "rank": 1,
+   "day_label": "DAY 194 · OCT 20",
+   "shas": [
+    "d39a6fc"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[24]"
+  },
+  {
+   "id": "ms-26",
+   "lane": "milestone",
+   "date": "2026-10-30",
+   "label": "Every claim about the builder now links to its record.",
+   "rank": 1,
+   "day_label": "DAY 204 · OCT 30",
+   "shas": [
+    "91a1260",
+    "cffbee7"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[25]"
+  },
+  {
    "id": "svc-rfp",
    "lane": "service",
    "date": "2026-10-30",
    "label": "RFP-O-Matic",
    "url": "https://good.arcs.care/rfp-engine",
    "cite": "public/good-rfp-engine.html (first commit 2026-10-30)"
+  },
+  {
+   "id": "ms-27",
+   "lane": "milestone",
+   "date": "2026-10-31",
+   "label": "The audit runs on its own build first.",
+   "rank": 2,
+   "day_label": "DAY 205-206 · OCT 31-NOV 1",
+   "shas": [
+    "dab25b0",
+    "23a9392"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[26]"
+  },
+  {
+   "id": "ms-28",
+   "lane": "milestone",
+   "date": "2026-10-31",
+   "label": "An RFP engine in five days, published with its miss.",
+   "rank": 1,
+   "day_label": "DAY 205-207 · OCT 31-NOV 2",
+   "shas": [
+    "d63f992",
+    "6e51372",
+    "fd1ae1a"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[27]"
   },
   {
    "id": "nftt-the-idempotent-fix",
@@ -2744,6 +2800,35 @@
    "cite": "_STATE/falsification-ledger.jsonl#F48"
   },
   {
+   "id": "F50",
+   "lane": "belief",
+   "date": "2026-11-09",
+   "scope": "surface",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F50 · surface reversal",
+   "refs": [
+    "PR 2105",
+    "github.com/flashesofbrilliance/rfp-engine"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F50"
+  },
+  {
+   "id": "F51",
+   "lane": "belief",
+   "date": "2026-11-09",
+   "scope": "process",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F51 · process reversal",
+   "refs": [
+    "scripts/seedbank_drift_check.py",
+    "_SEEDS/ledger.jsonl",
+    "PR 2105"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F51"
+  },
+  {
    "id": "nftt-the-posted-rate",
    "lane": "nftt",
    "date": "2026-11-11",
@@ -2751,6 +2836,36 @@
    "label": "The Posted Rate",
    "url": "https://good.arcs.care/blog/nftt/the-posted-rate",
    "cite": "public/blog-nftt-the-posted-rate.html (first commit 2026-11-11)"
+  },
+  {
+   "id": "ms-29",
+   "lane": "milestone",
+   "date": "2026-11-12",
+   "label": "This page is now generated, and every figure names its source.",
+   "rank": 2,
+   "day_label": "DAY 217-218 · NOV 12-13",
+   "shas": [
+    "f9f4d82",
+    "fc2e899"
+   ],
+   "nftt": [],
+   "cite": "public/status.html#MILESTONES[28]"
+  },
+  {
+   "id": "F49",
+   "lane": "belief",
+   "date": "2026-11-16",
+   "scope": "surface",
+   "gold": false,
+   "verdict": "FALSIFIED",
+   "label": "F49 · surface reversal",
+   "refs": [
+    "PR 2312",
+    "scripts/status_floor_emit.py",
+    "_ARTIFACTS/status/explorer.js",
+    "app.arcs.care/api/pulse"
+   ],
+   "cite": "_STATE/falsification-ledger.jsonl#F49"
   }
  ],
  "links": [
@@ -3180,11 +3295,15 @@
    },
    {
     "week": "2026-11-09",
-    "n": 596
+    "n": 730
+   },
+   {
+    "week": "2026-11-16",
+    "n": 114
    }
   ],
   "commits_cite": "git log origin/main --since=2026-01-01, by ISO week",
-  "commits_as_of": "2026-11-13",
+  "commits_as_of": "2026-11-16",
   "receipts": [
    {
     "week": "2026-08-24",
@@ -3235,10 +3354,10 @@
   "receipts_as_of": "2026-11-13"
  },
  "counts": {
-  "milestone": 24,
+  "milestone": 29,
   "invention": 11,
   "service": 8,
-  "belief": 48,
+  "belief": 51,
   "tao": 81,
   "nftt": 36
  }

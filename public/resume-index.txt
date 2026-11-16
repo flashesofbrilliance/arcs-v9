@@ -18,14 +18,14 @@
 - 2016–18
 - ◈ARCS · DECISION INTELLIGENCE PLATFORM
 - 2025–Present
-- Built a decision intelligence platform from scratch: structured pre/post-decision capture, AI-native analysis pipeline (Claude, MCP), and a scoring loop that closes each decision against its recorded outcome. Built solo and in the open: 6,300+ commits in 214 days.
-- 1,790+
+- Built a decision intelligence platform from scratch: structured pre/post-decision capture, AI-native analysis pipeline (Claude, MCP), and a scoring loop that closes each decision against its recorded outcome. Built solo and in the open: 7,100+ commits in 221 days.
+- 1,990+
 - PRS MERGED, EACH HUMAN-APPROVED
-- Shipped solo and in the open: 6,300+ commits in 214 days (as of Nov 9, 2026), every figure on status.arcs.care measured from the repository itself
+- Shipped solo and in the open: 7,100+ commits in 221 days (as of Nov 16, 2026), every figure on status.arcs.care measured from the repository itself
 - Built AI-native analysis pipeline on Claude; MCP server + agentic orchestration layer handles pre/post-decision capture automatically
 - Designed the outcome-capture method: each decision is scored for confidence when made and closed against what actually happened; no accuracy figure is published until enough outcomes close
 - Platform guardrails as code: per-tenant Postgres roles with row-level security that fail closed, generated route and tool inventories with drift checks, and pre-commit gates that block whole classes of bugs. Live app at app.arcs.care; commit history and traces on request
-- Human-in-the-loop dev harness: parallel agent sessions, merges pinned to the approved commit, an append-only decision ledger in Postgres. 1,790+ PRs merged, 99 in one day, a human approving every merge. Live counts: status.arcs.care; release notes: one day, 99 merges
+- Human-in-the-loop dev harness: parallel agent sessions, merges pinned to the approved commit, an append-only decision ledger in Postgres. 1,990+ PRs merged, 99 in one day, a human approving every merge. Live counts: status.arcs.care; release notes: one day, 99 merges
 - Compounding by design: merges are receipted to a generated tool graph whose outcome weights steer the next build; graph retrieval beat the flat catalog 16/18 to 6/18 in a pre-registered blind test
 - Operating the full stack: go-to-market, growth motion, product development, commercial strategy. Breadth is the product
 - COMPASS SIGNAL
@@ -195,7 +195,7 @@
 - B
 - Decision Intelligence · AI Strategist
 - Not just measuring outcomes: designing the pre-decision capture, evidence taxonomy, and feedback loop that closes each decision against its outcome. The intelligence compounds or it doesn't.
-- IN PRACTICE ▲ARCS: 1,790+ PRs merged, a human approving every one. Grayscale: GTM across 10 regulated products. WTA: <120ms real-time behavioral scoring. All three required inventing the taxonomy from scratch.
+- IN PRACTICE ▲ARCS: 1,990+ PRs merged, a human approving every one. Grayscale: GTM across 10 regulated products. WTA: <120ms real-time behavioral scoring. All three required inventing the taxonomy from scratch.
 - C
 - Commercial layer alongside analytical depth
 - Growth intelligence isn't just measurement. It's knowing what the measurement is for, and being able to run the commercial decision, not just report on it.

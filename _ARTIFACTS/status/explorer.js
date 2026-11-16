@@ -322,6 +322,62 @@ var MILESTONES = [
       { sha: "df94e60", msg: "PR #642 ygate + trust-contract no-anon-write tests, close YG-005 + TC-004" },
       { sha: "62edaa9", msg: "PR #641 className/Tailwind guard, close LINT-006" }
     ]
+  },
+  {
+    date: "DAY 194 · OCT 20", title: "Ninety-nine pull requests merged in one day, each one approved.", rank: 1, proof: {url:"https://good.arcs.care/blog/til/one-day-99-merges", label:"the release notes for that day"},
+    alt: [
+      "One founder merged 99 pull requests in a single day, and a human approved every one.",
+      "The release notes for the day list what shipped, what broke and how long the human part took, so the count can be checked against the work behind it."
+    ],
+    commits: [
+      { sha: "d39a6fc", msg: "PR #1783 release notes: one day, 99 merges" }
+    ]
+  },
+  {
+    date: "DAY 204 · OCT 30", title: "Every claim about the builder now links to its record.", rank: 1, proof: {url:"https://zach.md/proof", label:"the proof ledger"},
+    alt: [
+      "A proof ledger now answers one question: can you trust what he says about himself? Each claim links to the record behind it, or is marked private or not yet shown.",
+      "The same day, the public sites gained llms.txt files so an AI agent can read them without guessing. The ledger is generated from one claims file and a check fails the build if the page drifts from it."
+    ],
+    commits: [
+      { sha: "91a1260", msg: "PR #1868 proof ledger at zach.md/proof" },
+      { sha: "cffbee7", msg: "PR #1864 llms.txt on the public hosts" }
+    ]
+  },
+  {
+    date: "DAY 205-206 · OCT 31-NOV 1", title: "The audit runs on its own build first.", rank: 2, proof: {url:"https://good.arcs.care/audit/sample", label:"the sample report"},
+    alt: [
+      "A free check now scores how many of an open-source repo's last 30 commits explain themselves. It runs in the browser and stores nothing.",
+      "The full audit was run on this project before it was offered to anyone: a reader with no memory of the work rebuilt 17 of 19 commits and artifacts from the repo history alone, and found 8 gaps."
+    ],
+    commits: [
+      { sha: "dab25b0", msg: "PR #1891 free repo receipts check" },
+      { sha: "23a9392", msg: "PR #1915 sample audit report" }
+    ]
+  },
+  {
+    date: "DAY 205-207 · OCT 31-NOV 2", title: "An RFP engine in five days, published with its miss.", rank: 1, proof: {url:"https://good.arcs.care/rfp-engine", label:"the engine and its results"},
+    alt: [
+      "An open tool now answers questions about an RFP with the exact clause behind each answer, or says plainly that the RFP does not cover it.",
+      "Its one real-model run, on 24 questions, came back 11 correct, 12 withheld and 1 wrong. The target set in advance was 0 wrong; the page says it was missed.",
+      "The five days of building logged 79 mistakes, and each became a check the next change had to pass. The source went public on Day 207."
+    ],
+    commits: [
+      { sha: "d63f992", msg: "PR #1876 RFP engine page" },
+      { sha: "6e51372", msg: "PR #1936 public source repository" },
+      { sha: "fd1ae1a", msg: "PR #1954 NFTT: every mistake became a gate" }
+    ]
+  },
+  {
+    date: "DAY 217-218 · NOV 12-13", title: "This page is now generated, and every figure names its source.", rank: 2,
+    alt: [
+      "The status page is built from data files and kit parts instead of being edited by hand. Each number carries the source it was read from.",
+      "Figures a script can count, such as commits and days, are stamped by that script, and a check fails if they go stale."
+    ],
+    commits: [
+      { sha: "f9f4d82", msg: "generate status.arcs.care from data and kit parts" },
+      { sha: "fc2e899", msg: "PR #2218 status page rebuild" }
+    ]
   }
 ];
 

@@ -6,7 +6,7 @@
     </div>
     <div class="section-title">Pick your depth. The story stays the same, the detail changes.</div>
     <div class="section-body">
-      <strong>The one page read</strong> shows 13 milestones, one plain sentence each. Each level down adds
+      <strong>The one page read</strong> shows 22 milestones, one plain sentence each. Each level down adds
       more events and more detail, until <strong>Commits</strong> names the commit behind each milestone.
       Each milestone that a stranger can check without my word carries a <strong>verify</strong> link to the live thing; the internal ones say so.
       Keys 1 to 5 work too.
