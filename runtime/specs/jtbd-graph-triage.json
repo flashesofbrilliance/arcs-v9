@@ -251,6 +251,30 @@
   },
   {
    "rule": "ORPHAN-JOB",
+   "id": "job:backlog:dcpd-prereg-labels",
+   "reason": "child of drift-classifier-productive-destructive split by the 2026-11-16 work-graph pass; no tool exists until dcpd-classifier-script builds it, the same gap its parent is held for",
+   "row": "backlog-work-graph-2026-11-16",
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
+  },
+  {
+   "rule": "ORPHAN-JOB",
+   "id": "job:backlog:dcpd-classifier-script",
+   "reason": "child of drift-classifier-productive-destructive split by the 2026-11-16 work-graph pass; no tool exists until dcpd-classifier-script builds it, the same gap its parent is held for",
+   "row": "backlog-work-graph-2026-11-16",
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
+  },
+  {
+   "rule": "ORPHAN-JOB",
+   "id": "job:backlog:dcpd-wire-deceipt-sweep",
+   "reason": "child of drift-classifier-productive-destructive split by the 2026-11-16 work-graph pass; no tool exists until dcpd-classifier-script builds it, the same gap its parent is held for",
+   "row": "backlog-work-graph-2026-11-16",
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
+  },
+  {
+   "rule": "ORPHAN-JOB",
    "id": "job:backlog:drift-classifier-productive-destructive",
    "reason": "kept by Zach 2026-11-03 as seed candidate for the receipt -> deceipt sweep; no tool yet, so the job stays orphaned until the sweep or classifier is built",
    "row": "jtbd-graph-triage-2026-10-20",
