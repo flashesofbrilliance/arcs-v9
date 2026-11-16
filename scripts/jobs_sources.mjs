@@ -184,16 +184,20 @@ export const NO_FETCH_HOST = /(^|\.)linkedin\.com$|^app\.jackandjill\.ai$|^talen
 export function fetchAllowed(url) { try { return !NO_FETCH_HOST.test(new URL(url).hostname) } catch { return false } }
 const STOP = new Set(["the", "a", "an", "and", "of", "for", "to", "in", "at", "with", "us", "usa", "nyc", "ny", "new", "york", "remote", "hybrid", "sr", "senior"])
 const toks = (s) => norm(String(s).replace(/\(.*?\)|\[.*?\]/g, " ")).split(" ").filter((w) => w && !STOP.has(w))
-// Same-role test: every distinctive title word on one side appears on the other (order-free), with seniority kept separate.
-export function sameRole(a, b) {
+// Same-role score: Jaccard overlap of distinctive title words (order-free), 0 when seniority differs.
+// A twin must clear 0.7 AND be the best-scoring posting on the board, so "AI Builder - Research (Global)"
+// never stands in for "AI Builder - FDE, Research, & Product (NYC)" when the exact posting exists (2026-11-16).
+export function roleScore(a, b) {
   const A = new Set(toks(a)), B = new Set(toks(b))
-  if (!A.size || !B.size) return false
+  if (!A.size || !B.size) return 0
   const sen = (s) => (/\b(staff|principal|lead|head|director|vp|chief|founding)\b/i.exec(s) || [""])[0].toLowerCase()
-  if (sen(a) !== sen(b)) return false
-  const small = A.size <= B.size ? A : B, big = small === A ? B : A
-  let hit = 0; for (const w of small) if (big.has(w)) hit++
-  return hit === small.size && small.size >= Math.min(2, big.size)
+  if (sen(a) !== sen(b)) return 0
+  let hit = 0; for (const w of A) if (B.has(w)) hit++
+  const small = Math.min(A.size, B.size)
+  if (hit < small || small < Math.min(2, Math.max(A.size, B.size))) return 0
+  return hit / (A.size + B.size - hit)
 }
+export const sameRole = (a, b) => roleScore(a, b) >= 0.7
 const slugGuesses = (company) => {
   const base = norm(company).replace(/\b(inc|llc|ltd|corp|co|technologies|technology|labs|ai|hq|group)\b/g, " ").trim()
   const full = norm(company)
@@ -217,7 +221,7 @@ export async function linkedinToAts(r) {
   for (const [ats, slug] of cands) {
     const rows = await boardRows(ats, slug)
     if (!rows || !rows.length) continue
-    const twin = rows.find((x) => sameRole(r.title, x.title))
+    const twin = rows.map((x) => [roleScore(r.title, x.title), x]).filter(([sc]) => sc >= 0.7).sort((p, q) => q[0] - p[0])[0]?.[1]
     if (!twin) { if (hit) return null; continue }
     const jd = await atsJD(twin)
     if (jd && jd.length > 200) return { jobid: twin.jobid, url: twin.url, jd, board: `${ats}:${slug}` }
@@ -287,6 +291,8 @@ function selftest() {
   t("sameRole: word order and brackets", sameRole("Forward Deployed Engineer (NYC)", "Forward Deployed Engineer - New York"))
   t("sameRole: seniority kept apart", !sameRole("Staff Product Manager", "Product Manager") && !sameRole("Senior Product Manager", "Product Designer"))
   t("sameRole: extra qualifier on one side ok", sameRole("Applied AI Engineer", "Applied AI Engineer, Agents"))
+  t("twin picks the closest title, not the first subset", roleScore("AI Builder - FDE, Research, & Product (NYC)", "AI Builder - FDE, Research, & Product (NYC)") > roleScore("AI Builder - FDE, Research, & Product (NYC)", "AI Builder - Research (Global)"))
+  t("a thin subset is not a twin", !sameRole("AI Builder - FDE, Research, & Product (NYC)", "AI Builder - Research (Global)"))
   t("hn normalize keeps only lane matches", hnKept[0].title === "Senior Product Engineer" && hnKept[0].location === "New York, NY" && hnKept[0].jd.includes("agents"))
 }
 
