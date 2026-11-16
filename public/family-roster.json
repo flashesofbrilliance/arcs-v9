@@ -96,6 +96,33 @@
         "github"
       ],
       "connector": "resume-tailor.arcs.care"
+    },
+    {
+      "repo": "check-it-before-you-say-it",
+      "url": "https://github.com/flashesofbrilliance/check-it-before-you-say-it",
+      "live": true,
+      "channels": [
+        "github"
+      ],
+      "connector": "honest.arcs.care"
+    },
+    {
+      "repo": "cruft-sweep-skill",
+      "url": "https://github.com/flashesofbrilliance/cruft-sweep-skill",
+      "live": true,
+      "channels": [
+        "github"
+      ],
+      "connector": null
+    },
+    {
+      "repo": "claims-skeptic-skill",
+      "url": "https://github.com/flashesofbrilliance/claims-skeptic-skill",
+      "live": true,
+      "channels": [
+        "github"
+      ],
+      "connector": null
     }
   ],
   "lab": [
@@ -125,6 +152,14 @@
     },
     {
       "alias": "page-factory-from-session",
+      "status": "maybe"
+    },
+    {
+      "alias": "sbom-payload-scan",
+      "status": "ripe"
+    },
+    {
+      "alias": "echo-scan",
       "status": "maybe"
     }
   ],

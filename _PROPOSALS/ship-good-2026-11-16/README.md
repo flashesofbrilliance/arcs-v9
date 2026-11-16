@@ -1,11 +1,11 @@
-# Ship to good.arcs.care: staged, not published
+# Ship to good.arcs.care: published 2026-11-16 (Zach approved)
 
 Staged 2026-11-16 after the build-index audit (PR 2290). Nothing here is public. Each package is scrubbed of counterpart names and ARCS-local paths and still needs Zach's go to become a public repo, a seed-bank row, an arcs-skills marketplace entry and a card on good.arcs.care/instruments.
 
 | Package | Status | Notes |
 |---|---|---|
-| cruft-sweep-skill | staged | Skill plus `scripts/cruft_sweep.py` (stdlib Python, parses and prints help). Hard-coded memory dir, bundle dir and hook-state paths replaced by flags and env vars. Not yet tested outside this repo: run its own self-test in a scratch repo before publishing. |
-| claims-skeptic-skill | staged | One agent file; repo-specific lines generalised. Cites no tooling. |
+| cruft-sweep-skill | PUBLISHED | github.com/flashesofbrilliance/cruft-sweep-skill; self-test passes; in arcs-skills PR 2. |
+| claims-skeptic-skill | PUBLISHED | github.com/flashesofbrilliance/claims-skeptic-skill; in arcs-skills PR 2. |
 | decision-receipt-cli | NOT STAGED | Seed row says candidate; `scripts/receipt.py` does not exist (receipts are hand-written SQL). Nothing to ship until it is built. |
 
 ## Publish steps, each needs a go
