@@ -322,13 +322,13 @@ function showExample() {
   PERSONAS.forEach(function (p) { box.appendChild(card(p, { rendering: p.example, phase_lock: p.lock }, true)); });
   ["st-decomp", "st-recomp", "st-trans"].forEach(function (s) { setStage(s, "idle"); });
 }
-function showError(where, e) {
-  var msgs = { not_granted: "Claude access was declined for this page. Allow it from the page's permissions to run the engine.",
+function errText(e) { var code = e && e.code ? e.code : "error"; return ERR_MSGS[code] || ("Something failed (" + code + "). Try again."); }
+var ERR_MSGS = { not_granted: "Claude access was declined for this page. Allow it from the page's permissions to run the engine.",
     rate_limited: "Claude's limit for this page was reached: too many calls at once, or your plan's usage limit. Finished steps are kept. Wait a minute, then press the same button again; only the unfinished calls run. If it keeps happening, your plan's usage limit is the likely cause.", refused: "Claude declined this request.",
     invalid_json: "Claude's answer was not in the expected shape. Try again, or shorten the signal.",
     prompt_too_large: "The signal is too long. Shorten it and try again.", cancelled: "Stopped." };
-  var code = e && e.code ? e.code : "error";
-  $("cards").prepend(el("div", { cls: "err" }, [el("b", { text: where + ": " }), msgs[code] || ("Something failed (" + code + "). Try again.")]));
+function showError(where, e) {
+  $("cards").prepend(el("div", { cls: "err" }, [el("b", { text: where + ": " }), errText(e)]));
 }
 
 // ---- The engine ----
@@ -511,7 +511,7 @@ function bondCard(c, sp) {
 }
 async function runThird(c, sp, tf, art, btn) {
   if (running || !sample) return;
-  running = true; btn.disabled = true; btn.textContent = "Routing through " + tf.atom.name + "..."; ctl = new AbortController(); $("stop").hidden = false;
+  running = true; updateCellNote(); btn.disabled = true; btn.textContent = "Routing through " + tf.atom.name + "..."; ctl = new AbortController(); $("stop").hidden = false;
   try {
     var rec = await sample.json(cellRecompPrompt(lastSignal, lastClaims, c.rung, [c.p], sp, tf), { signal: ctl.signal });
     var r = (Array.isArray(rec) ? rec : []).filter(function (x) { return x && x.id === c.p.id && typeof x.rendering === "string"; })[0];
@@ -524,13 +524,14 @@ async function runThird(c, sp, tf, art, btn) {
     btn.remove();
   } catch (e) {
     btn.disabled = false; btn.textContent = "Route through a third force: " + tf.atom.name; showError("Third force", e);
-  } finally { running = false; $("stop").hidden = true; }
+  } finally { running = false; $("stop").hidden = true; updateCellNote(); }
 }
 function updateCellNote() {
   var n = selected().length, m = selectedRungs().length, k = n * m;
   $("cellNote").textContent = n + " listener" + (n === 1 ? "" : "s") + " × " + m + " altitude" + (m === 1 ? "" : "s") + " = " + k + " rendering" + (k === 1 ? "" : "s") +
     (k > MAX_CELLS ? ". The limit is " + MAX_CELLS + " per run; untick some." : ", each read twice (once by the listener, once by its shadow).");
-  $("go").disabled = running || k === 0 || k > MAX_CELLS;
+  $("go").disabled = running || lokiRunning || k === 0 || k > MAX_CELLS;
+  $("lokiGo").disabled = running || lokiRunning;
 }
 function drawSpeaker() {
   var cur = $("speaker").value, sel = $("speaker"); sel.textContent = "";
@@ -545,7 +546,8 @@ async function run() {
   if (!listeners.length || !rungs.length) { $("status").textContent = "Pick at least one listener and one altitude."; return; }
   if (listeners.length * rungs.length > MAX_CELLS) { updateCellNote(); return; }
   if (!sample) { $("status").textContent = "Claude is not available in this view, so the engine cannot run. The example stays on screen."; return; }
-  running = true; hasRun = true; ctl = new AbortController(); $("go").disabled = true; $("stop").hidden = false;
+  if (lokiRunning) return;
+  running = true; hasRun = true; ctl = new AbortController(); updateCellNote(); $("stop").hidden = false;
   $("cards").textContent = ""; $("claims").textContent = "";
   var opt = { signal: ctl.signal };
   try {
@@ -563,21 +565,26 @@ async function run() {
       (Array.isArray(d) ? d : []).forEach(function (x) { if (x && x.id && need.some(function (p) { return p.id === x.id; })) DERIVED[x.id] = { dialect: x.dialect || "", fear: x.fear || "", entry: x.entry || "", revealed: x.revealed || "", avoid: x.avoid || "" }; });
     }
     setStage("st-recomp", "run", "rendering " + listeners.length * rungs.length + " cells");
-    var cells = [];
+    var cells = [], recPrompts = {};
     await Promise.all(rungs.map(function (rung) {
-      return sample.json(cellRecompPrompt(signal, tiered, rung, listeners, sp, null), opt).then(function (rec) {
+      var pr = recPrompts[rung.id] = cellRecompPrompt(signal, tiered, rung, listeners, sp, null);
+      return sample.json(pr, opt).then(function (rec) {
         var by = {}; (Array.isArray(rec) ? rec : []).forEach(function (r) { if (r && r.id && typeof r.rendering === "string") by[r.id] = r; });
         listeners.forEach(function (p) { if (by[p.id]) cells.push({ p: p, rung: rung, rendering: by[p.id].rendering.trim(), phase_lock: by[p.id].phase_lock || "" }); });
       });
     }));
     if (!cells.length) throw { code: "invalid_json" };
+    var missing = []; rungs.forEach(function (rung) { listeners.forEach(function (p) { if (!cells.some(function (c) { return c.p === p && c.rung === rung; })) missing.push(profileOf(p).name + " at " + rung.name); }); });
+    rungs.forEach(function (rung) { if (sample.forget && missing.some(function (m) { return m.slice(-rung.name.length) === rung.name; })) sample.forget(recPrompts[rung.id]); });
     setStage("st-recomp", "done", cells.length + " renderings");
     setStage("st-trans", "run", "blind receive and shadow read, then compare");
     await evalCells(cells, tiered, opt);
     cells.sort(function (a, b) { return RUNGS.indexOf(a.rung) - RUNGS.indexOf(b.rung); });
     var box = $("cards"); cells.forEach(function (c) { box.appendChild(bondCard(c, sp)); });
     var passed = cells.filter(function (c) { return c.pass; }).length;
-    setStage("st-trans", "done", passed + " of " + cells.length + " landed clean");
+    var asked = listeners.length * rungs.length;
+    setStage("st-trans", missing.length ? "fail" : "done", passed + " of " + asked + " landed clean" + (missing.length ? "; " + missing.length + " missing" : ""));
+    if (missing.length) box.prepend(el("div", { cls: "err" }, [el("b", { text: "Missing from Claude's answer: " }), missing.join("; ") + ". Press Translate and check again; finished renderings replay and only these are asked for."]));
     $("status").textContent = "Done. A cell lands clean when IPS is " + IPS_THRESHOLD + " or above on the claims required at its altitude, nothing was added, and its shadow stayed asleep. Cells that did not land offer a third force.";
   } catch (e) {
     ["st-decomp", "st-recomp", "st-trans"].forEach(function (s) { if ($(s).getAttribute("data-s") === "run") setStage(s, "fail", "stopped"); });
@@ -604,7 +611,7 @@ var LOKI_CONCEPTS = [
   "Security reviews slow us down only when they happen at the end; done at design time they removed rework on four of five projects.",
   "None of the three vendors is ready: one lacks SSO, one cannot host in the EU, and one has no export, so we build the minimum ourselves."
 ];
-var lokiCtl = null, lokiResults = null;
+var lokiCtl = null, lokiResults = null, lokiRunning = false;
 function mutatePrompt(rendering, claims, nNeg, nSoft) {
   return "Make two edited copies of the MESSAGE. Change as little as possible each time.\n" +
     "NEGATE: change only what is needed so claim " + nNeg + " is asserted as false (the reverse), leaving everything else as it was.\n" +
@@ -695,7 +702,8 @@ function renderLoki(rows, done) {
 }
 async function runLoki() {
   if (!sample) { $("lokiStatus").textContent = "Claude is not available in this view, so the Loki test cannot run."; return; }
-  lokiCtl = new AbortController(); $("lokiGo").disabled = true; $("go").disabled = true; $("lokiStop").hidden = false; $("lokiCopy").hidden = true;
+  if (running || lokiRunning) return;
+  lokiRunning = true; lokiCtl = new AbortController(); $("lokiGo").disabled = true; $("go").disabled = true; $("lokiStop").hidden = false; $("lokiCopy").hidden = true;
   var rows = [];
   try {
     for (var i = 0; i < LOKI_CONCEPTS.length; i++) {
@@ -709,9 +717,9 @@ async function runLoki() {
     $("lokiStatus").textContent = (s.drop_negate.pass && s.add_soften.pass ? "Passed the pre-registered bar." : "Did not pass the pre-registered bar.") + " Copy the results and file them in the receipt either way.";
   } catch (e) {
     if (rows.length) renderLoki(rows, false);
-    $("lokiStatus").textContent = (e && e.code === "cancelled" ? "Stopped" : "Stopped by an error (" + ((e && e.code) || "error") + ")") + " after " + rows.length + " of " + LOKI_CONCEPTS.length + " concepts. A partial run does not count against the bar.";
+    $("lokiStatus").textContent = (e && e.code === "cancelled" ? "Stopped." : "Stopped: " + errText(e)) + " After " + rows.length + " of " + LOKI_CONCEPTS.length + " concepts. A partial run does not count against the bar.";
   } finally {
-    $("lokiGo").disabled = false; $("go").disabled = false; $("lokiStop").hidden = true; $("lokiCopy").hidden = !lokiResults;
+    lokiRunning = false; $("lokiGo").disabled = false; $("lokiStop").hidden = true; $("lokiCopy").hidden = !lokiResults; updateCellNote();
   }
 }
 
@@ -928,6 +936,7 @@ function throttled(raw) {
       if (key in memo) { logCall({ n: n, at: new Date().toISOString().slice(11, 19), stage: stage, outcome: "replayed" }); return Promise.resolve(memo[key]); }
       return new Promise(function (res, rej) { callQueue.push({ input: input, opt: opt, key: key, stage: stage, n: n, t: Date.now(), res: res, rej: rej }); pump(); });
     },
+    forget: function (input, tier) { delete memo[JSON.stringify([input, tier || ""])]; },
     limits: raw.limits
   };
 }
