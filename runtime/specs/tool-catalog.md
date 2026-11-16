@@ -149,7 +149,7 @@ Install state: WIRED 626 · AVAILABLE-NOT-INSTALLED 0 · INSTALLED-UNUSED 2 · D
   `Agent subagent_type=dream-scout`
 - **grug** — Grug brain check (grugbrain.dev). Call before a plan, a new tool or gate, or when spiraling. Asks if the thing needs to exist at all. Read-only, short answers. Pair with a gigabrain agent (e.g. chief-loki) on the same prompt; agreement mean  
   `Agent subagent_type=grug`
-- **idea-alchemist** — [CANDIDATE] Sharpen a fuzzy premise into ONE falsifiable claim with labelled parts.  
+- **idea-alchemist** — Sharpen a fuzzy premise into ONE falsifiable claim with labelled parts.  
   `Agent subagent_type=idea-alchemist`
 - **idea-curator** — [CANDIDATE] Seat for the Curator (orthogonal reframe): offer ONE reframe perpendicular to the current framing. Not a keep or cut filter, not the Taxonomist.  
   `Agent subagent_type=idea-curator`
@@ -181,7 +181,7 @@ Install state: WIRED 626 · AVAILABLE-NOT-INSTALLED 0 · INSTALLED-UNUSED 2 · D
   `Agent subagent_type=recoil-reason`
 - **sanity-check** — Plan-time brief check for counterpart artifacts (proposal, leave-behind, page). Run before applying any multi-part copy plan or polish round. Given the counterpart's verbatim ask and the plan, draft or diff, it answers one question - does t  
   `Agent subagent_type=sanity-check`
-- **scenario-runner** — [CANDIDATE] Run ONE case (best, base or worst) with a pre-mortem, post-mortem and probability graph.  
+- **scenario-runner** — Run ONE case (best, base or worst) with a pre-mortem, post-mortem and probability graph.  
   `Agent subagent_type=scenario-runner`
 - **scrum-master** — [CANDIDATE] Read-only scrum master. Runs scripts/scrum.py board (or standup) and returns the groom agenda with a proposed default for every decision: fates for the oldest rows, at most 5 rows to commit, and a keep/loosen/cut/move verdict on  
   `Agent subagent_type=scrum-master`
