@@ -109,7 +109,12 @@ async function runQueue() {
   }
   const tally = out.reduce((a, o) => ((a[o.verdict] = (a[o.verdict] || 0) + 1), a), {})
   if (JSON_OUT) { console.log(JSON.stringify({ queue: queue.length, tally, rows: out, write: WRITE })); return }
-  for (const o of out) console.log(`${o.verdict}\t${o.jobid}\t${o.company ?? ""}\t${(o.title ?? "").slice(0, 60)}${o.wrote ? `\twrote ${o.wrote}` : ""}`)
+  // Zach, 2026-11-16: unknown is not open. Confirmed rows print first; unknown rows (no public ATS twin) print in
+  // their own UNCONFIRMED block, to be checked by hand before anyone recommends them.
+  const line = (o) => `${o.verdict}\t${o.jobid}\t${o.company ?? ""}\t${(o.title ?? "").slice(0, 60)}${o.wrote ? `\twrote ${o.wrote}` : ""}`
+  for (const o of out.filter((o) => o.verdict !== "unknown")) console.log(line(o))
+  const unc = out.filter((o) => o.verdict === "unknown")
+  if (unc.length) { console.log(`# UNCONFIRMED (${unc.length}): no public ATS twin, open the posting by hand before recommending`); for (const o of unc) console.log(line(o)) }
   console.log(`# send queue ${queue.length} · ${Object.entries(tally).map(([k, n]) => `${k} ${n}`).join(" · ") || "empty"} · ${WRITE ? "WRITE (gone -> posting-closed)" : "dry run (add --write to mark gone rows posting-closed)"}`)
 }
 
