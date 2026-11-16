@@ -10,7 +10,7 @@
    },
    {
     "lane": "forward deployed",
-    "pattern": "forward[- ]deploy(?:ed|ment)|\\bFDE\\b|deployment strategist|deployed engineer|\\bai (?:solutions )?strategist\\b"
+    "pattern": "forward[- ]deploy(?:ed|ment)|\\bFDE\\b|deployment strategist|deployed engineer|\\bai (?:solutions )?strategist\\b|\\bai transformation (?:lead|director|manager|head)\\b"
    },
    {
     "lane": "applied ai",

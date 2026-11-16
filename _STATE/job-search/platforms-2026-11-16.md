@@ -106,3 +106,32 @@ Not verified on any public board (treat as rumors): Adverity, Opmed (Stamford, C
 
 # Canonical positioning (2026-11-16)
 One source now drives every channel: `positioning.json` in the private resume-tailor-zach skill (headline, summary, looking-for line, target titles, floor, locations, unconfirmed claims). A renderer writes each channel's fields and the master resume, which carries the Jack & Jill CV edits so the next export does not regress them. Channel text is shown to Zach and applied only on his yes. LinkedIn, Indeed and ZipRecruiter bar automated access, so Zach applies those by hand from the rendered text. Lever has no candidate profile, only a per-application resume.
+
+# Jack & Jill diversified search (2026-11-16, against the new CV): 8 matches
+
+Each role was checked on the company's own board before grading; scores come from that posting's JD.
+
+| Role | Verified on | Board score | Verdict |
+|---|---|---|---|
+| ServiceNow, Principal, AI Deployment Strategist, FDE ($221,200 to $387,100) | SmartRecruiters 744000155133610, posted 2026-10-13 | 0.69 CONSIDER (re-scored from the posting; the older 0.41 came from an unknown JD) | CONSIDER: see card |
+| Sayari, Forward Deployed Engineer II (remote US, $160K to $180K) | Greenhouse 4465984009 | 0.88 PURSUE | PURSUE if the floor allows: under $220K, at or under Fonzi's current $180K |
+| Runlayer, Deployment Strategist (NY hybrid, est $145K to $175K) | Ashby | 0.49 PASS | Skip: low fit and under the floor |
+| Raspberry AI, AI Transformation Lead (NY hybrid, est $155K to $215K) | Ashby | 0.41 PASS | Skip on this posting; the title family now scans (see below) |
+| Fireworks, AI Deployment Strategist (San Mateo hybrid) | Ashby | not posted | Skip: outside the location scope |
+| Fulcrum, Founding AI Deployment Strategist (SF in office) | not found on a public board | not posted | Skip: outside the location scope |
+| talentpluto (agency) for "Tenex", Forward Deployed Engineer (NYC in office, $180K to $260K) | not verified | not posted | HOLD at T0: Tenex's public FDE roles are all in Kansas City, so the NYC req is not on Tenex's own board |
+| True Talent Solutions Partners (agency), Forward Deployed Strategist (NYC in office, $160K to $250K) | not verified | not posted | HOLD at T0: end client unnamed |
+
+## ServiceNow, Principal, AI Deployment Strategist, FDE
+- **Posting:** New York, 50 Hudson Yards, hybrid (Jack & Jill said remote; the posting says hybrid). Base $221,200 to $387,100 plus equity and incentive.
+- **Need-to-have:** strategic ownership of an FDE portfolio and go-to-market calibration (the scorer's read). **Met:** Grayscale go-to-market for 10 regulated products, Manana engagements.
+- **Gap:** the scorer reads it as an operator seat, not hands-on build, which runs against the "hands on the problem" line in your positioning.
+- **Best:** principal-level strategist seat at the top of the pay range. **Base:** recruiter screen, then a large-company loop. **Worst:** they want ServiceNow platform tenure.
+- **Objection:** "No ServiceNow platform background." Answer with deployment outcomes in regulated settings; the platform is learnable.
+- **Time:** about 25 minutes on SmartRecruiters with the master resume.
+
+## Agency listings (pre-call gate)
+Both agencies start at T0 (self-asserted). Before sending a CV or booking a call, ask the recruiter to name the end client, then confirm the role on that company's own careers page (T1). For talentpluto, if the client is the Kansas City security company Tenex, the NYC in-office detail conflicts with its public postings.
+
+## Scan change
+"AI Transformation Lead / Director / Manager / Head" titles now match the scan (forward-deployed lane). They fit the "go-to digital transformation person for a principal-led organization" shape from 2026-11-03.
