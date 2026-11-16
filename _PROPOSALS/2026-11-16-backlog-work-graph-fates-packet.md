@@ -1,6 +1,37 @@
 # Backlog work graph and fates packet (2026-11-16)
 
-**Status:** PROPOSED. The row edits in this PR are applied; nothing in the decision sections below is applied. Every fate waits for Zach's word in the session that applies it.
+**Status:** GROOMED 2026-11-16. Zach answered sections 2 and 3 in the groom the same day. Below is what was applied and what was held.
+
+## Groom record (2026-11-16, 25 minutes)
+
+**Approved and applied** (`scrum.apply_fates`, under its lock):
+- **Section 2, all seven items:**
+  - rfp-ship: 2 rows DONE, 1 SUPERSEDED.
+  - 4 rows HOLDING to READY.
+  - 4 rows to BLOCKED with resolve_by 2026-11-30 (the 3 waiting on a ruling, plus `brooks-audit-proposal-send`).
+  - `backlog-fate-triage-2026-10-18` SUPERSEDED, and `onchain-receipt-anchor-registry` COMPOSTED.
+- **Claims released to OPEN:** `engagement-compounding-v0` and `gravity-eir-candidate-brief`. Not released, by Zach's choice: `gauntlet-brief-polyform` and `pr-design-brief-habit`.
+- **Fates:**
+  - 79 Phosphor rows renewed to 2026-12-14.
+  - 13 filing rows renewed to 2026-11-30.
+  - 19 more renewed to 2026-11-30: the scrum renew defaults, plus `warm-path-campaign-v0` and `role-lens-kaizen-loop`, which are kept.
+  - 41 composted by the default.
+- **Sprint** (logged in `_STATE/scrum/ledger.jsonl`): `filing-prior-filings`, `filing-audit-log`, `filing-who-saw-it`, `recoil-brian-ssot`, `cia-technical-screen-prep`.
+  - Goal: settle the disclosure clock and land recoil wave 2's next step.
+  - Queued for the next sprint: `recoil-hardstop-amend`, `seat-backlog-row-adapter`, `ready-now-door-decision-split`, `backlog-tiebreak-rule`. Zach asked for both sprint sets, and the cap is 5 a sprint.
+- **Rule AGENTS gotcha 2** (inline styles only): verdict **move**, to a path-scoped rule. The edit is a separate small PR.
+
+**Held, not composted, and back to Zach.** I found these after the approval: composting them would break a dependency chain or drop a safety task.
+- **4 rows have live dependents,** so composting them leaves dead edges: `model-roles-upgrade-haiku-opus`, `rc-ops-001-graduation-ruling`, `svc-sage-should-it-exist-decision`, `tao-renders-regenerated-from-projection`.
+- **3 more are their upstream rows,** restored after the dead-edge check: `model-outcome-eval-set`, `accountant-calibration-curve`, `accountant-external-cohort-nonzero`.
+- `model-provider-adapter` is the parent of the 4 children added today. `doc-gates-blocking` is what rank 19 unblocks.
+- `agent-readable-arcs-hosts` was committed in the last sprint (its first slip).
+- **API key and spend safety:** `old-anthropic-callers-moved`, `revoke-old-anthropic-keys`, `anthropic-spend-monitor`.
+- `cia-recoil-close-michael-intro` waits on whether the Michael call happened.
+
+After the groom, both gates pass (`backlog_status_check --check` and `universe_jtbd_adapter.py --check`), and the graph shows 0 dead dependencies, 0 dangling and 0 cycles. Live rows: 344 before, 298 after.
+
+*The sections below are the packet as proposed before the groom.*
 
 ## Why
 
