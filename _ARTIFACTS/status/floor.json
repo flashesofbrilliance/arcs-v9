@@ -1,12 +1,8 @@
 {
- "as_of": "2026-11-12",
- "day": 217,
- "commits": 6825,
+ "as_of": "2026-11-16",
+ "day": 221,
+ "commits": 7133,
  "tempo": [
-  [
-   "2026-08-24",
-   15
-  ],
   [
    "2026-08-31",
    34
@@ -49,7 +45,11 @@
   ],
   [
    "2026-11-09",
-   140
+   182
+  ],
+  [
+   "2026-11-16",
+   35
   ]
  ],
  "debt": {
@@ -95,7 +95,7 @@
    "Design file label size fixed"
   ]
  },
- "tracker_as_of": "2026-11-12",
+ "tracker_as_of": "2026-11-16",
  "sources": {
   "day": "days since T0 2026-04-09, as of the stamp date (scripts/status_floor_emit.py)",
   "commits": "git rev-list --count HEAD",
