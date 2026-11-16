@@ -18,7 +18,14 @@ set -e
 
 TITLE="$1"
 BODY="${2:-Shipped via scripts/ship_docs.sh}"
-[ -z "$TITLE" ] && { echo "usage: ship_docs.sh \"PR title\" [\"body\"]" >&2; exit 2; }
+# No title: default to the last commit subject, NCI tag stripped (dreaming pass 10 L2, 2026-11-16).
+# Still exit 2 when there is nothing ahead of origin/main to ship.
+if [ -z "$TITLE" ]; then
+  git fetch -q origin main 2>/dev/null || true
+  [ "$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)" = "0" ] && { echo "usage: ship_docs.sh \"PR title\" [\"body\"] (no commits ahead of origin/main)" >&2; exit 2; }
+  TITLE=$(git log -1 --format=%s | sed 's/ *\[NCI:[^]]*\]//')
+  echo "ship_docs: title defaulted to \"$TITLE\""
+fi
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 [ "$BRANCH" = "main" ] && { echo "ship_docs: refusing to run on main — branch first" >&2; exit 1; }

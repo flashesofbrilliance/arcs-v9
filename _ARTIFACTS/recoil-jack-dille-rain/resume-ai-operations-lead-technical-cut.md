@@ -47,7 +47,7 @@ orchestration, human-in-the-loop control, Next.js/TypeScript product surface.
 Grayscale Investments, Digital Currency Group
 Product Lead, Go-To-Market, 2024–2025
 - Diagnosed and prioritized: built the enterprise data/decision layer from scratch (CDP evaluation,
-  segmentation, GTM analytics) across 10 regulated digital-asset products moving $7B AUM — no
+  segmentation, GTM analytics) across 10 regulated digital-asset products that launched $7B — no
   inherited measurement framework, +20% net-new revenue via personalization.
 - Ran cross-functional coordination across 4 time zones and compliance-in-the-loop review cycles —
   the "translate business requirements into technical specs, manage competing priorities across

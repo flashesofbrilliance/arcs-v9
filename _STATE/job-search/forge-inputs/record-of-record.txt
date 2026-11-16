@@ -15,7 +15,7 @@ const ROLES = [
     ] },
   { id:'grayscale', glyph:'▣', label:'Grayscale Investments (DCG)', color:T.steel,
     dates:'2024–2025', role:'Product Lead, Go-To-Market',
-    summary:'Led go-to-market for 10 SEC/FINRA-regulated digital-asset investment products ($7B AUM): positioning, segmentation, and adoption strategy inside regulated controls and governance.',
+    summary:'Led go-to-market for 10 SEC/FINRA-regulated digital-asset investment products ($7B launched): positioning, segmentation, and adoption strategy inside regulated controls and governance.',
     metric:'$7B', metricLabel:'AUM · REGULATED PRODUCT SUITE',
     compassPrompt:'How do you take ten regulated investment products to market inside SEC/FINRA controls, and what does the governance-first go-to-market sequence look like?',
     bullets:[
