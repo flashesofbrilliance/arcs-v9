@@ -1,119 +1,234 @@
 <title>Babel Fish</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: one column. Signal in, then the three stages as a strip, then one card per listener
-   with its rendering and the transceiver's verdict. Single dark look on purpose: ARCS brand tokens. */
+/* ARCS Recoil Report — Design Tokens */
 :root {
-  --bg: #020408; --surface: #0d1117; --raise: #111823; --border: #1e293b;
-  --text: #e2e8f0; --muted: #94a3b8; --dim: #8391a7;
-  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
-  --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --serif: "Crimson Pro", Georgia, serif;
-  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
-  --measure: 760px;
-  color-scheme: dark;
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
 }
+
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   the ui-kit compounding sweep note for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-badge: 4px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion durations and easing. Defined in DESIGN.md "Motion and safety" (promoted 2026-10-19). */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+
+/* Page-level token: control edges at 3:1 or better on --bg and --surface (WCAG 1.4.11). Not a signal color. */
+:root { --edge: #5b6b82; color-scheme: dark; }
+/* Babel Fish page styles. Colors, type ramp, radii and fonts come from the kit tokens above (inlined verbatim). */
 * { box-sizing: border-box; }
 html, body { background: var(--bg); color: var(--text); }
-body { font: 15px/1.55 var(--sans); }
-.wrap { max-width: var(--measure); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; display: grid; gap: 20px; }
-.brand { font: 600 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--cyan); }
-h1 { font: 500 clamp(30px, 6vw, 42px)/1.05 var(--serif); margin: 6px 0 8px; text-wrap: balance; }
-h1 em { color: var(--gold); font-style: normal; }
-.lede { margin: 0; color: var(--muted); }
-h2 { font: 600 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0; }
-.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; display: grid; gap: 12px; min-width: 0; }
-textarea { width: 100%; min-height: 120px; resize: vertical; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; font: 14px/1.5 var(--sans); }
-textarea:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+body { font: var(--fs-body)/1.55 var(--ds-font-sans); margin: 0; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 28px max(16px, env(safe-area-inset-right, 0px)) 64px max(16px, env(safe-area-inset-left, 0px)); display: grid; gap: 20px; }
+.brand { font: 600 var(--fs-label)/1 var(--ds-font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--cyan); }
+h1 { font: 500 var(--fs-display)/1.1 var(--ds-font-display); margin: 8px 0; text-wrap: balance; }
+.lede { margin: 0; color: var(--text-secondary); }
+.step { display: block; font: 600 var(--fs-label)/1.2 var(--ds-font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--text-secondary); margin: 6px 0 0; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); padding: 16px 18px; display: grid; gap: 12px; min-width: 0; }
+textarea { width: 100%; min-height: 140px; resize: vertical; background: var(--bg); color: var(--text); border: 1px solid var(--edge); border-radius: var(--ds-r-sm); padding: 10px 12px; font: var(--fs-body)/1.5 var(--ds-font-sans); }
+textarea:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-button { font: 600 13px var(--sans); color: var(--text); background: var(--raise); border: 1px solid var(--border); border-radius: 6px; min-height: 40px; padding: 0 14px; cursor: pointer; }
+button { font: 600 var(--fs-body) var(--ds-font-sans); color: var(--text); background: var(--elevated); border: 1px solid var(--edge); border-radius: var(--ds-r-sm); min-height: 44px; padding: 0 14px; cursor: pointer; }
 button:hover { border-color: var(--cyan); }
-button.primary { background: var(--cyan); color: var(--bg); border-color: var(--cyan); }
-button:disabled { opacity: 1; color: var(--dim); border-style: dashed; cursor: not-allowed; background: var(--raise); }
+button.primary { background: var(--cyan); color: var(--bg); border-color: var(--cyan); width: 100%; }
+button.link { background: none; border: none; color: var(--cyan); padding: 0; min-height: 44px; text-decoration: underline; text-underline-offset: 3px; }
+button.repair { border-color: var(--gold); color: var(--gold); }
+button:disabled { color: var(--dimmed); border-style: dashed; cursor: not-allowed; background: var(--elevated); }
 .mic[data-on="1"] { background: var(--cyan); color: var(--bg); }
-.personas { display: flex; flex-wrap: wrap; gap: 6px; }
-.personas label { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px; font-size: 13px; cursor: pointer; }
-.personas input { accent-color: var(--cyan); }
-.note { font-size: 13px; color: var(--muted); margin: 0; }
+.personas, #rungs { display: flex; flex-wrap: wrap; gap: 6px; }
+.personas label, #rungs label { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--edge); border-radius: var(--ds-r-pill); min-height: 44px; padding: 0 14px; cursor: pointer; }
+.personas input, #rungs input { accent-color: var(--cyan); width: 18px; height: 18px; }
+.note { color: var(--text-secondary); margin: 0; }
+.more { border-top: 1px solid var(--border); padding-top: 4px; display: grid; gap: 10px; }
+details > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; color: var(--text); }
+.fam { display: grid; gap: 6px; margin-top: 8px; }
+.fam b, .rung, .v b { font: 600 var(--fs-label) var(--ds-font-mono); letter-spacing: .1em; text-transform: uppercase; }
+.fam b { color: var(--text-secondary); }
+.rung { color: var(--cyan); }
+select.sel { background: var(--bg); color: var(--text); border: 1px solid var(--edge); border-radius: var(--ds-r-sm); min-height: 44px; padding: 0 10px; font: var(--fs-body) var(--ds-font-sans); flex: 1 1 200px; min-width: 0; }
 .stages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 @media (max-width: 560px) { .stages { grid-template-columns: 1fr; } }
-.stage { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; display: grid; gap: 2px; }
-.stage b { font: 600 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
-.stage span { font-size: 13px; color: var(--muted); }
+.stage { border: 1px solid var(--border); border-radius: var(--ds-r-sm); padding: 10px 12px; display: grid; gap: 2px; }
+.stage b { font: 600 var(--fs-label) var(--ds-font-mono); letter-spacing: .1em; text-transform: uppercase; }
+.stage span { color: var(--text-secondary); }
 .stage[data-s="run"] { border-color: var(--cyan); } .stage[data-s="run"] b { color: var(--cyan); }
 .stage[data-s="done"] b { color: var(--green); }
 .stage[data-s="fail"] { border-color: var(--red); } .stage[data-s="fail"] b { color: var(--red); }
 ol.claims { margin: 0; padding-left: 22px; display: grid; gap: 4px; }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; display: grid; gap: 12px; min-width: 0; }
-.card header { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; }
-.card h3 { margin: 0; font: 500 21px/1.2 var(--serif); }
-.meta { font-size: 13px; color: var(--muted); margin: 0; }
-.ips { font: 600 12px var(--mono); padding: 5px 8px; border-radius: 4px; border: 1px solid; white-space: nowrap; }
-.ips.ok { color: var(--green); } .ips.mid { color: var(--gold); } .ips.bad { color: var(--red); } .ips.eg { color: var(--dim); }
-blockquote { margin: 0; border-left: 2px solid var(--cyan); padding: 2px 0 2px 12px; font-size: 15px; overflow-wrap: anywhere; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); padding: 16px 18px; display: grid; gap: 14px; min-width: 0; }
+.card h3 { margin: 0; font: 500 var(--fs-headline)/1.2 var(--ds-font-display); }
+.verdict { margin: 0; font-weight: 600; }
+.verdict.ok { color: var(--green); } .verdict.bad { color: var(--red); }
+.block { display: grid; gap: 8px; }
+blockquote { margin: 0; border-left: 2px solid var(--edge); padding: 2px 0 2px 12px; overflow-wrap: anywhere; }
+mark.cut { background: var(--red-bg); color: var(--red); text-decoration: line-through; text-decoration-thickness: 2px; border-radius: 2px; padding: 0 2px; }
+.fix { border-left: 2px solid var(--gold); padding-left: 12px; display: grid; gap: 8px; }
+.meta { color: var(--text-secondary); margin: 0; }
+.ips { font: 600 var(--fs-label) var(--ds-font-mono); padding: 5px 8px; border-radius: var(--ds-r-badge); border: 1px solid; white-space: nowrap; }
+.ips.ok { color: var(--green); } .ips.mid { color: var(--gold); } .ips.bad { color: var(--red); }
 .verdicts { display: grid; gap: 6px; }
-.v { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 10px; font-size: 13px; align-items: start; }
-.v b { font: 600 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; padding-top: 2px; }
+.v { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 10px; align-items: start; }
 .v.kept b { color: var(--green); } .v.weakened b { color: var(--gold); } .v.dropped b { color: var(--red); }
-.v .q { color: var(--muted); font-style: italic; }
+.v .q { color: var(--text-secondary); font-style: italic; }
 .v .warn { color: var(--gold); font-style: normal; }
-.seam { border: 1px dashed var(--gold); border-radius: 8px; padding: 10px 12px; font-size: 13px; display: grid; gap: 4px; }
+.seam { border: 1px dashed var(--gold); border-radius: var(--ds-r-sm); padding: 10px 12px; display: grid; gap: 4px; }
 .seam b { color: var(--gold); }
-details { font-size: 13px; color: var(--muted); }
-details summary { cursor: pointer; color: var(--text); }
-.err { border: 1px dashed var(--red); border-radius: 8px; padding: 10px 12px; font-size: 13px; }
+.shadow { border: 1px solid var(--border); border-radius: var(--ds-r-sm); padding: 10px 12px; display: grid; gap: 4px; }
+.shadow b { color: var(--red); } .shadow.clear b { color: var(--green); }
+.third { border-left: 2px solid var(--gold); padding-left: 12px; display: grid; gap: 10px; }
+.third header { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.err { border: 1px dashed var(--red); border-radius: var(--ds-r-sm); padding: 10px 12px; }
 .err b { color: var(--red); }
-footer { color: var(--muted); font-size: 12px; display: grid; gap: 4px; }
-code { font: 12px var(--mono); color: var(--cyan); }
-details > summary { padding: 6px 0; }
+.log { margin: 6px 0; padding-left: 20px; font: var(--fs-label)/1.5 var(--ds-font-mono); color: var(--text-secondary); display: grid; gap: 2px; }
+.log .bad { color: var(--red); }
+footer { color: var(--text-secondary); display: grid; gap: 4px; }
+code { font: var(--fs-label) var(--ds-font-mono); color: var(--cyan); }
+/* INIT */
 #hept { width: 100%; max-width: 340px; height: auto; display: block; margin: 4px auto; }
 #hept .pt { cursor: pointer; }
-#hept .pt circle { fill: var(--raise); stroke: var(--border); stroke-width: 1.5; }
+#hept .pt circle { fill: var(--elevated); stroke: var(--edge); stroke-width: 1.5; }
 #hept .pt circle.hit { fill: transparent; stroke: none; }
-#hept .pt[data-m] circle.hit { stroke: none; }
-#hept .pt text { fill: var(--text); font: 600 11px var(--sans); text-anchor: middle; }
-#hept .pt[data-m="primary"] circle { stroke: var(--cyan); stroke-width: 3; }
-#hept .pt[data-m="shadow"] circle { stroke: var(--red); stroke-width: 3; stroke-dasharray: 4 3; }
-#hept .pt[data-m="secondary"] circle { stroke: var(--gold); stroke-width: 3; }
-#hept .pt:focus-visible circle { stroke: var(--gold); stroke-width: 3; }
+#hept .pt:focus-visible { outline: none; }
+#hept .pt:focus-visible circle.hit { stroke: var(--text); stroke-width: 2; stroke-dasharray: 3 3; }
+#hept .pt text { fill: var(--text); font: 600 11px var(--ds-font-sans); text-anchor: middle; }
+#hept .pt[data-m="primary"] circle:not(.hit) { stroke: var(--cyan); stroke-width: 3; }
+#hept .pt[data-m="shadow"] circle:not(.hit) { stroke: var(--red); stroke-width: 3; stroke-dasharray: 4 3; }
+#hept .pt[data-m="secondary"] circle:not(.hit) { stroke: var(--gold); stroke-width: 3; stroke-dasharray: 1 3; }
 #hept line.star { stroke: var(--border); stroke-width: 1; }
 #hept line.vec { stroke-width: 2; }
 button[aria-pressed="true"] { border-color: var(--cyan); color: var(--cyan); }
 .init-rows { display: grid; gap: 10px; }
-.irow { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; display: grid; gap: 8px; min-width: 0; }
-.irow b { font-weight: 600; }
+.irow { border: 1px solid var(--border); border-radius: var(--ds-r-sm); padding: 10px 12px; display: grid; gap: 8px; min-width: 0; }
 .seg { display: flex; flex-wrap: wrap; gap: 6px; }
-.seg button { min-height: 36px; padding: 0 10px; font-weight: 500; }
-.irow input[type="text"], .irow select { background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 6px; min-height: 36px; padding: 0 10px; font: 14px var(--sans); width: 100%; }
-.sig { border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; display: grid; gap: 6px; font-size: 14px; }
-.sig .tbl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 12px; font-size: 13px; }
-.sig .tbl span:nth-child(odd) { color: var(--muted); }
-.fam { display: grid; gap: 6px; margin-top: 8px; }
-#rungs label { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px; font-size: 13px; cursor: pointer; }
-#rungs input { accent-color: var(--cyan); }
-.fam b { font: 600 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
-select.sel { background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 6px; min-height: 40px; padding: 0 10px; font: 14px var(--sans); flex: 1 1 200px; min-width: 0; }
-.rung { font: 600 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--cyan); }
-.shadow { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; font-size: 13px; display: grid; gap: 4px; }
-.shadow b { color: var(--red); } .shadow.clear b { color: var(--green); }
-.log { margin: 6px 0; padding-left: 20px; font: 12px/1.5 var(--mono); color: var(--muted); display: grid; gap: 2px; }
-.log .bad { color: var(--red); }
-.third { border-left: 2px solid var(--gold); padding-left: 12px; display: grid; gap: 10px; }
+.seg button { font-weight: 500; }
+.irow input[type="text"], .irow select { background: var(--bg); color: var(--text); border: 1px solid var(--edge); border-radius: var(--ds-r-sm); min-height: 44px; padding: 0 10px; font: var(--fs-body) var(--ds-font-sans); width: 100%; }
+.sig { border: 1px solid var(--border); border-radius: var(--ds-r-sm); padding: 12px 14px; display: grid; gap: 6px; }
+.sig .tbl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 12px; }
+.sig .tbl span:nth-child(odd) { color: var(--text-secondary); }
 </style>
 
 <div class="wrap">
   <header>
-    <div class="brand">ARCS &middot; Babel Fish &middot; lossless translation</div>
-    <h1>Say it once. Each listener hears it <em>natively</em>, and you see what survived.</h1>
-    <p class="lede">Decomposition finds the load-bearing claims. Recomposition re-emits them in each persona's register from the Adaptive Translation Codex. The transceiver then reads each rendering blind, restates what it heard, and marks every claim kept, weakened or dropped. Anything lost shows as a seam. Nothing is sent anywhere; you copy what you want.</p>
+    <div class="brand">ARCS &middot; Babel Fish</div>
+    <h1>Find where they stop listening.</h1>
+    <p class="lede">Paste what you are about to say and pick who will hear it. You see the exact words where they would tune out, and a version that lands.</p>
   </header>
 
-  <section class="panel" id="initPanel" aria-label="Your Atlas">
-    <h2>0 &middot; Your Atlas &middot; INIT</h2>
-    <p class="note">The Book of ARCS reads you through four channels, then takes their consensus as your Atomic Signature: a primary, a shadow, and the archetype you bridge with. You do the marking; the page only counts. No model decides who you are. Two channels are enough for a signature; four are better. The result becomes <b>You</b>, a listener Babel Fish can translate to.</p>
-    <details open><summary>1. Heptagram: where your pull is</summary>
+  <section class="panel" aria-label="Your message">
+    <label for="signal" class="step">1 &middot; What are you about to say?</label>
+    <textarea id="signal" placeholder="Paste the email, pitch or message here."></textarea>
+    <div class="row"><button class="mic" id="mic" type="button" hidden aria-label="Dictate">Dictate</button><button class="link" id="reset" type="button">Try an example</button></div>
+    <p class="step" id="whoLabel">2 &middot; Who will hear it?</p>
+    <div class="personas" id="personas" role="group" aria-labelledby="whoLabel"></div>
+    <details class="more"><summary>More listeners and options</summary>
+      <p class="step" id="depthLabel">How deep</p>
+      <div id="rungs" role="group" aria-labelledby="depthLabel"></div>
+      <div class="row"><label for="speaker" class="note">Who is speaking</label><select id="speaker" class="sel"></select></div>
+      <div class="fam"><b>The Atomic Family (Book of ARCS)</b><div class="personas" id="atomList" role="group" aria-label="Atomic Family listeners"></div></div>
+      <div class="fam"><b>Engine archetypes</b><div class="personas" id="archList" role="group" aria-label="Engine archetypes"></div></div>
+      <div class="fam"><b>Advisors</b><div class="personas" id="advList" role="group" aria-label="Advisors"></div></div>
+      <div class="fam"><b>Operators</b><div class="personas" id="opList" role="group" aria-label="Operators"></div></div>
+      <div class="fam"><b>ROM primitives (lenses)</b><div class="personas" id="romList" role="group" aria-label="ROM primitives"></div></div>
+      <p class="note">Operator profiles are written by Claude from the operator's one-line registry entry when you run, and are marked unchecked. ROM primitives change the framing for a general reader, never whether a point is true. There is no protocol registry yet.</p>
+    </details>
+    <button class="primary" id="go" type="button">Find where they stop listening</button>
+    <button id="stop" type="button" hidden>Stop</button>
+    <p class="note" id="cellNote"></p>
+    <p class="note" id="status" aria-live="polite"></p>
+    <details id="logBox" hidden><summary>Troubleshooting details (every step, its time and result)</summary><ol id="runLog" class="log"></ol><button type="button" id="logCopy">Copy log</button></details>
+  </section>
+
+  <section class="stages" id="stages" aria-label="Progress" hidden>
+    <div class="stage" id="st-decomp" data-s="idle"><b>Read</b><span>the points that must survive</span></div>
+    <div class="stage" id="st-recomp" data-s="idle"><b>Rewrite</b><span>a version for each listener</span></div>
+    <div class="stage" id="st-trans" data-s="idle"><b>Check</b><span>a blind reader, then their fear</span></div>
+  </section>
+
+  <section id="cards" style="display:grid;gap:14px"></section>
+
+  <details class="panel" id="claimsPanel" hidden open><summary><h2 class="step" style="margin:0">Your message, boiled down</h2></summary>
+    <ol class="claims" id="claims"></ol>
+  </details>
+
+  <details class="panel" id="initPanel"><summary>How would you hear it? (5-minute self-check)</summary>
+<p class="note">The Book of ARCS reads you through four channels, then takes their consensus as your Atomic Signature: a primary, a shadow, and the archetype you bridge with. You do the marking; the page only counts. No model decides who you are. Two channels are enough for a signature; four are better. The result becomes <b>You</b>, a listener Babel Fish can translate to.</p>
+        <details open><summary>1. Heptagram: where your pull is</summary>
       <div class="row" role="group" aria-label="What a tap marks"><button type="button" id="hgPrimary" aria-pressed="true">Tap marks: primary pull</button><button type="button" id="hgShadow" aria-pressed="false">Tap marks: shadow (farthest away)</button><button type="button" id="hgSecondary" aria-pressed="false">Tap marks: secondary (what you bridge with)</button></div>
       <p class="note">The Book asks for a primary and a shadow on the star; the secondary is the archetype you lean on to cope. Marking it is optional: it counts as one vote for your Bridge, alongside the other channels.</p>
       <svg id="hept" viewBox="-130 -125 260 250" role="group" aria-label="Seven-pointed star of the Atomic Family"></svg>
@@ -131,50 +246,11 @@ select.sel { background: var(--bg); color: var(--text); border: 1px solid var(--
       <p class="note">Your last 5 major decisions (jobs, cities, relationships, projects). For each, what made you leave? This channel reads a primary only; the Book gives it no shadow rule.</p>
       <div id="receipts" class="init-rows"></div>
     </details>
-    <div id="signature" class="sig" aria-live="polite"></div>
+    <div id="signature" class="sig"></div>
     <div class="row"><button type="button" id="sigCopy" hidden>Copy signature as JSON</button><button type="button" id="sigClear">Clear my answers</button></div>
-  </section>
-
-  <section class="panel" aria-label="Signal">
-    <h2>1 &middot; Signal</h2>
-    <textarea id="signal" aria-label="Concept to translate"></textarea>
-    <div class="row">
-      <button class="mic" id="mic" type="button" hidden aria-label="Dictate">Dictate</button>
-      <button class="primary" id="go" type="button">Translate and check</button>
-      <button id="stop" type="button" hidden>Stop</button>
-      <button id="reset" type="button">Load the codex source concept</button>
-    </div>
-    <div class="personas" id="personas" role="group" aria-label="Listeners"></div>
-    <details><summary>More listeners: the Atomic Family (7, from the Book of ARCS)</summary><div class="personas" id="atomList" role="group" aria-label="Atomic Family listeners"></div></details>
-    <details><summary>More listeners: engine archetypes, advisors, operators, ROM primitives</summary>
-      <p class="note">Generated from the repo's registries. An operator's full profile is derived by Claude from its registry line when you run, and is labelled unchecked. ROM primitives are lenses: they change the framing for a general reader, never whether a claim is true. There is no protocol registry yet, so protocols are not listed.</p>
-      <div class="fam"><b>Engine archetypes</b><div class="personas" id="archList" role="group" aria-label="Engine archetypes"></div></div>
-      <div class="fam"><b>Advisors</b><div class="personas" id="advList" role="group" aria-label="Advisors"></div></div>
-      <div class="fam"><b>Operators</b><div class="personas" id="opList" role="group" aria-label="Operators"></div></div>
-      <div class="fam"><b>ROM primitives (lenses)</b><div class="personas" id="romList" role="group" aria-label="ROM primitives"></div></div>
     </details>
-    <div class="row"><label for="speaker" class="note">Speaker</label><select id="speaker" class="sel"></select></div>
-    <div class="seg" id="rungs" role="group" aria-label="Altitude"></div>
-    <p class="note" id="cellNote"></p>
-    <details id="logBox" hidden><summary>Run log (every Claude call: stage, time, outcome)</summary><ol id="runLog" class="log"></ol><button type="button" id="logCopy">Copy log</button></details>
-    <p class="note" id="status">The example below is the codex's own six translations, unchecked. Press Translate and check to run them through the transceiver.</p>
-  </section>
 
-  <section class="stages" aria-label="Pipeline">
-    <div class="stage" id="st-decomp" data-s="idle"><b>Decomposition</b><span>load-bearing claims</span></div>
-    <div class="stage" id="st-recomp" data-s="idle"><b>Recomposition</b><span>one rendering per listener</span></div>
-    <div class="stage" id="st-trans" data-s="idle"><b>Transceiver</b><span>blind receive, then compare</span></div>
-  </section>
-
-  <section class="panel" id="claimsPanel" aria-label="Load-bearing claims">
-    <h2>2 &middot; Load-bearing claims (the invariants)</h2>
-    <ol class="claims" id="claims"></ol>
-  </section>
-
-  <section id="cards" aria-live="polite" style="display:grid;gap:14px"></section>
-
-  <section class="panel" aria-label="Loki test">
-    <h2>Loki test &middot; attack the transceiver</h2>
+  <details class="panel" id="lokiPanel"><summary>For builders: stress-test this tool (Loki test)</summary>
     <p class="note">The transceiver is the whole lossless claim, so this attacks it. For each of 10 built-in concepts, a clean rendering runs once as a control, then four planted corruptions run through the same blind receive and compare: a claim <b>dropped</b> (sentence deleted mechanically), a fabricated number <b>added</b> (appended mechanically), a claim <b>negated</b> and a claim <b>softened</b> (edited by Claude, checked to have changed). The bar was fixed before any result: see the pre-registration below.</p>
     <p class="note" id="prereg"></p>
     <div class="row">
@@ -184,22 +260,16 @@ select.sel { background: var(--bg); color: var(--text); border: 1px solid var(--
     </div>
     <p class="note" id="lokiStatus">Not run yet.</p>
     <div id="lokiOut" style="display:grid;gap:10px"></div>
-  </section>
+    </details>
 
   <footer>
-    <div>Personas, registers and phase-lock lines come from the ARCS Adaptive Translation Codex. The stage names follow <code>operators/arcs_lte.py</code>. IPS here is semantic (a blind receiver), not the LTE's keyword overlap, and there is no recovery pass that pastes missing claims back on.</div>
-    <div>Each run asks Claude 9 times on your own account (1 decomposition, 1 recomposition, 6 blind receives, 1 comparison). Quoted evidence is checked against the rendering on this page; a quote that is not there is flagged.</div>
+    <div>Each version is checked by a second reader who never sees your points. Every flagged phrase is matched against the real text, so nothing is made up.</div>
+    <div>Runs use Claude on your own claude.ai plan, at most two calls at a time. Nothing is sent anywhere else; you copy what you want.</div>
   </footer>
 </div>
 
 <script>
 var SOURCE = "ARCS is decision intelligence infrastructure. It makes the irreplaceable tacit wisdom you've developed (your judgment, your pattern recognition, your room-reading) legible, compounding, and deployable. Traditional human capital frameworks treat your knowledge as something to be extracted and commoditized. ARCS inverts that: your most valuable capability is precisely what can't be extracted, and ARCS is how you develop it into a structural advantage.";
-var CODEX_INVARIANTS = [
-  "ARCS develops what can't be extracted: irreplaceable tacit wisdom.",
-  "It makes human judgment more precise, not more automated.",
-  "The output compounds: every artifact makes the next one sharper.",
-  "The most dangerous failure mode is the wrong problem, not the wrong execution."
-];
 // From the Adaptive Translation Codex (six synthetic personas).
 var PERSONAS = [
   { id: "consultant", name: "Consulting Partner", dialect: "Investment frameworks, ROI multiples, utilization, MOIC, IRR, opportunity cost, time-to-value", fear: "This adds overhead without a measurable return.", entry: "Land the return anchor before any philosophy.", revealed: "Moves on intellectual novelty; the return framing unlocks permission.", avoid: "Opening with philosophy; explaining scoring methodology.", lock: "So it's a decision governance layer with a compounding return.",
@@ -216,7 +286,7 @@ var PERSONAS = [
     example: "What if your own decision-making was a production system, not metaphorically but literally instrumented the way you'd instrument an API? Input, output, latency, error rate, feedback loop, version history. Every significant decision gets a receipt: what was the question, what were the alternatives, what was the confidence, what happened. The receipts compound. Six months later you can query your own judgment history and find patterns you couldn't see in real time." }
 ];
 /* REGISTRY:BEGIN generated by scripts/babel_fish_listeners.py, do not edit */
-var REGISTRY = {"atomic":[{"id":"atom-dreamer","family":"atomic","kind":"audience","name":"Dreamer","code":"IPLR","image":"child who takes things apart","roles":"Inventor/Pattern‑Seeker/Learner/Researcher.","title":"Exploration as Oxygen","question":"What if?","gift":"Innovation, pattern recognition, possibility generation.","curse":"Restlessness, inability to finish, scattered energy.","shadow":["Elder"],"shadow_text":"Elder – fear that commitment kills curiosity.","genesis":"Child who takes everything apart (including relationships) to see how they work. World calls them “unfocused” and “too much”; they keep going because curiosity = breath. Rebuilds father’s radio “better than before,” leaves note: “I had to see how it worked. I’m not sorry I learned.” Father weeps in recognition of his exiled self.","reframe":"You are not flaky; you are a scout, not a settler. Settling without scouting is misalignment; scouting without any settling is chaos. You need Guardians (urgency), Elders (memory), Sages (filters) as convergence rails, not as jailers.","source":"runtime/specs/babel-fish/book-of-arcs-v2-deep.md §1 Dreamer","direction":"N","scenario":"garage at midnight","trait":"explore"},{"id":"atom-guardian","family":"atomic","kind":"audience","name":"Guardian","code":"CEL","image":"parent who watches for danger","roles":"Catalyst/Executor/Leader.","title":"Stakes as Oxygen","question":"What’s at stake?","gift":"Execution, focus, decisiveness.","curse":"Chronic stress, control, burnout.","shadow":["Dreamer"],"shadow_text":"Dreamer – fear that exploration wastes precious time.","genesis":"Shepherd who always watches horizon; “anxious” to others, but flocks survive because of vigilance. “You call it anxiety. I call it survival.” But privately weeps; cannot ever truly rest.","reframe":"You’re not controlling; you’re over‑fitting to environments where no one else watched. The move from “everything is urgent” to “urgency with receipts” breaks the adrenal cage.","source":"runtime/specs/babel-fish/book-of-arcs-v2-deep.md §1 Guardian","direction":"NE","scenario":"24‑hour deadline","trait":"urgency"},{"id":"atom-elder","family":"atomic","kind":"audience","name":"Elder","code":"LRV","image":"grandparent who remembers","roles":"Ledger/Recorder/Validator.","title":"Memory as Shield and Cage","question":"Can we trust this?","gift":"Trust, validation, wisdom, pattern‑based prediction.","curse":"Rigidity, inability to forgive, living in past pain.","shadow":["Dreamer","Shapeshifter"],"shadow_text":"Dreamer, Shapeshifter – novelty == disguised repeat betrayal.","genesis":"Village elder remembers every promise and betrayal; charismatic stranger offers prosperity, elder demands receipts: “Promises are cheap. Receipts are truth. Show me proof of what you have done.” Stranger fails, later ruins another village; Elder’s memory saves her people, but she is trapped in never‑forget mode.","reframe":"You are not “negative”; you are the checksum of the system. Without you, communities fall for the same con twice. With you unchecked, no new pattern can enter.","source":"runtime/specs/babel-fish/book-of-arcs-v2-deep.md §1 Elder","direction":"S","scenario":"charismatic stranger","trait":"memory"},{"id":"atom-shapeshifter","family":"atomic","kind":"audience","name":"Shapeshifter","code":"BFQ","image":"river that finds new paths","roles":"Balanced/Flexible/Quick.","title":"Adaptation as First Principle","question":"What’s possible now?","gift":"Flexibility, resilience, non‑attachment.","curse":"No anchor, “flaky,” identity diffusion.","shadow":["Guardian","Elder"],"shadow_text":"Elder/Guardian – terror of being stuck.","genesis":"River whose path is blocked by earthquake; villagers panic, river simply finds a new path. Years later old channel reopens; some demand river “return to true path,” but river stays with lower‑energy new channel: loyalty to reality, not nostalgia.","reframe":"You are loyal to reality, not to plans. Western culture mislabels that as disloyalty. Your work is not to stop flowing; it’s to identify your water (the invariant essence beneath endless adaptation).","source":"runtime/specs/babel-fish/book-of-arcs-v2-deep.md §1 Shapeshifter","direction":"SE","scenario":"earthquake river","trait":"adapt"},{"id":"atom-bridge","family":"atomic","kind":"audience","name":"Bridge","code":"CVI","image":"weaver who connects worlds","roles":"Cross‑domain/Varied/Integrator.","title":"Belonging Across Difference","question":"What if we connected these worlds?","gift":"Bridge‑building, perspective‑taking, synthesis.","curse":"No home, translator exhaustion, “I don’t fit anywhere.","shadow":["Elder","Sage"],"shadow_text":"Sage/Elder – narrowing feels like death.","genesis":"Weaver travels mountains, deserts, seas; each insists its way is the only true one. She weaves their threads into a tapestry; villagers disapprove, travelers weep in recognition of themselves in the shared cloth.","reframe":"Your lane is synthesis. The missing move is a single Elder anchor: one place where you are not translating, you are simply known.","source":"runtime/specs/babel-fish/book-of-arcs-v2-deep.md §1 Bridge","direction":"W","scenario":"multi‑lingual room","trait":"connect"},{"id":"atom-heart","family":"atomic","kind":"audience","name":"Heart","code":"SBW","image":"one who holds space","roles":"Spaceholder/Bilateral/Witness.","title":"The Translator of Pain","question":"What are you really saying?","gift":"Deep listening, facilitation, bilateral witnessing.","curse":"Exhaustion, resentment, “I’m everyone’s therapist and no one asks how I am.","shadow":["Guardian","Sage"],"shadow_text":"Sage/Guardian – fear of saying “no” and enforcing limits.","genesis":"Child in multi‑lingual village hears in stone, wind, and waves the same underlying longing. Becomes the Heart who resolves fights, but privately never speaks her own language.","reframe":"You are not a doormat; you are infrastructure. Healthy infrastructure has capacity limits and maintenance windows. Boundaries are not aggression; they’re uptime protection.","source":"runtime/specs/babel-fish/book-of-arcs-v2-deep.md §1 Heart","direction":"SW","scenario":"conflict mediation","trait":"hold space"},{"id":"atom-sage","family":"atomic","kind":"audience","name":"Sage","code":"FPER","image":"jeweler who sees truth","roles":"Filter/Precision/Eliminator/Refiner.","title":"Signal in a Sea of Glass","question":"Is this signal or noise?","gift":"Clarity, precision, quality control.","curse":"Isolation, “too critical,” fear of false positives.","shadow":["Dreamer","Shapeshifter"],"shadow_text":"Dreamer/Shapeshifter – terror of letting in garbage.","genesis":"Jeweler rejects 9/10 “diamonds” as flawed; merchants hate him, but the one genuine stone he validates turns out to be priceless. “I do not fear saying NO nine times to say YES once.” Yet people stop bringing him stones—loneliness as side effect of rigor.","reframe":"You’re not impossible; you’re a false‑positive minimizer. The hinge is separating “good enough to try” from “good enough to commit.” That distinction maintains standards while allowing experimentation.","source":"runtime/specs/babel-fish/book-of-arcs-v2-deep.md §1 Sage","direction":"Bottom","scenario":"10 idea pitch","trait":"filter noise"}],"init":{"leave_rules":[{"reason":"at routine","archetypes":["Dreamer"]},{"reason":"at constant pressure","archetypes":["Dreamer","Shapeshifter"]},{"reason":"when expectations unmet","archetypes":["Guardian","Elder"]},{"reason":"when isolated","archetypes":["Bridge","Heart"]},{"reason":"when standards low","archetypes":["Elder","Sage"]}],"source":"runtime/specs/babel-fish/book-of-arcs-v2-deep.md §2"},"archetype":[{"id":"arch-quant","family":"archetype","kind":"audience","name":"Technical Founder / Analyst","dialect":"proof, ROI, falsifiability, baseline, delta, statistical significance","entry":"Trust builders: here's the data; the numbers show; tested on; confidence interval; n=","revealed":"evidence over intuition; models over stories; measurable over meaningful","avoid":"vibes, resonance, feels right, energy, authenticity, narrative","fear":"","source":"operators/arcs_lte.py:QUANT"},{"id":"arch-connector","family":"archetype","kind":"audience","name":"Rainmaker / Brand Alchemist","dialect":"relationship, trust, team alignment, brand, culture, vibe","entry":"Trust builders: this feels right for the team; the relationship is strong; people are aligned","revealed":"relationships before transactions; trust is the moat; culture eats strategy","avoid":"statistically, p-value, regression, variance, null hypothesis","fear":"","source":"operators/arcs_lte.py:CONNECTOR"},{"id":"arch-architect","family":"archetype","kind":"audience","name":"Builder / System Thinker","dialect":"system design, constraints, moats, interface contracts, edge cases","entry":"Trust builders: here's the system diagram; the interface is clean; edge cases are handled","revealed":"systems over heroics; constraints clarify; good interfaces outlast good code","avoid":"vibe check, gut feel, seems good, move fast","fear":"","source":"operators/arcs_lte.py:ARCHITECT"},{"id":"arch-institutionalist","family":"archetype","kind":"audience","name":"Strategist / Impact Weaver","dialect":"process, evidence, alignment, governance, stakeholder buy-in","entry":"Trust builders: this is consistent with our process; stakeholders are aligned; evidence supports","revealed":"evolution over revolution; process as protection; alignment before action","avoid":"disrupt, move fast, burn it down, 10x, moonshot","fear":"","source":"operators/arcs_lte.py:INSTITUTIONALIST"},{"id":"arch-executor","family":"archetype","kind":"audience","name":"Operator / Manager","dialect":"clarity, owner, deadline, deliverable, unblocked","entry":"Trust builders: here's the action plan; owner is assigned; deadline is set","revealed":"done > perfect; clarity of ownership; momentum beats optimization","avoid":"theoretical, in principle, philosophically, it depends, nuanced","fear":"","source":"operators/arcs_lte.py:EXECUTOR"},{"id":"arch-philosopher","family":"archetype","kind":"audience","name":"Humanist Founder","dialect":"meaning, identity, becoming, purpose, narrative coherence","entry":"Trust builders: this aligns with why we started; the story holds together; it's coherent","revealed":"meaning before metrics; narrative as strategy; identity is durable","avoid":"KPI, OKR, throughput, utilization, burn rate","fear":"","source":"operators/arcs_lte.py:PHILOSOPHER"},{"id":"arch-caveman","family":"archetype","kind":"audience","name":"Fast Mover / Reactive","dialect":"win, now, fast, simple, clear","entry":"Trust builders: one thing; do this; it works","revealed":"action beats analysis; simple beats complex","avoid":"framework, strategic, optimize, leverage, stakeholder","fear":"","source":"operators/arcs_lte.py:CAVEMAN"}],"advisor":[{"id":"adv-chief-bayesian","family":"advisor","kind":"audience","name":"chief-bayesian","dialect":"Staff of Chiefs, Bayesian: audit every prior and update for evidence.","entry":"Answer the job in its description first.","revealed":"Staff of Chiefs, Bayesian: audit every prior and update for evidence.","avoid":"Padding, praise, claims it cannot check.","fear":"","source":".claude/agents/chief-bayesian.md"},{"id":"adv-chief-conductor","family":"advisor","kind":"audience","name":"chief-conductor","dialect":"Staff of Chiefs, Conductor: sequence surviving paths and rank them with reasons.","entry":"Answer the job in its description first.","revealed":"Staff of Chiefs, Conductor: sequence surviving paths and rank them with reasons.","avoid":"Padding, praise, claims it cannot check.","fear":"","source":".claude/agents/chief-conductor.md"},{"id":"adv-chief-loki","family":"advisor","kind":"audience","name":"chief-loki","dialect":"Staff of Chiefs, Loki: attack with the cheapest thing that breaks the claim.","entry":"Answer the job in its description first.","revealed":"Staff of Chiefs, Loki: attack with the cheapest thing that breaks the claim.","avoid":"Padding, praise, claims it cannot check.","fear":"","source":".claude/agents/chief-loki.md"},{"id":"adv-idea-alchemist","family":"advisor","kind":"audience","name":"idea-alchemist","dialect":"Sharpen a fuzzy premise into ONE falsifiable claim with labelled parts.","entry":"Answer the job in its description first.","revealed":"Sharpen a fuzzy premise into ONE falsifiable claim with labelled parts.","avoid":"Padding, praise, claims it cannot check.","fear":"","source":".claude/agents/idea-alchemist.md"},{"id":"adv-idea-curator","family":"advisor","kind":"audience","name":"idea-curator","dialect":"Seat for the Curator (orthogonal reframe): offer ONE reframe perpendicular to the current framing. Not a keep or cut filter, not the Taxonomist.","entry":"Answer the job in its description first.","revealed":"Seat for the Curator (orthogonal reframe): offer ONE reframe perpendicular to the current framing. Not a keep or cut filter, not the Taxonomist.","avoid":"Padding, praise, claims it cannot check.","fear":"","source":".claude/agents/idea-curator.md"},{"id":"adv-idea-detective","family":"advisor","kind":"audience","name":"idea-detective","dialect":"Find the single weak joint and its cheapest falsifier.","entry":"Answer the job in its description first.","revealed":"Find the single weak joint and its cheapest falsifier.","avoid":"Padding, praise, claims it cannot check.","fear":"","source":".claude/agents/idea-detective.md"},{"id":"adv-idea-librarian","family":"advisor","kind":"audience","name":"idea-librarian","dialect":"Ground each part in repo prior art. Reads ADR-058 and runs /prior-art first.","entry":"Answer the job in its description first.","revealed":"Ground each part in repo prior art. Reads ADR-058 and runs /prior-art first.","avoid":"Padding, praise, claims it cannot check.","fear":"","source":".claude/agents/idea-librarian.md"},{"id":"adv-grug","family":"advisor","kind":"audience","name":"grug","dialect":"Grug brain check (grugbrain.dev). Call before a plan, a new tool or gate, or when spiraling. Asks if the thing needs to exist at all. Read-only, short answers. Pair with a gigabrain agent (e.g. chief-loki) on the same prompt; agreement means do the simple thing, divergence is where to think.","entry":"Answer the job in its description first.","revealed":"Grug brain check (grugbrain.dev). Call before a plan, a new tool or gate, or when spiraling. Asks if the thing needs to exist at all. Read-only, short answers. Pair with a gigabrain agent (e.g. chief-loki) on the same prompt; agreement means do the simple thing, divergence is where to think.","avoid":"Padding, praise, claims it cannot check.","fear":"","source":".claude/agents/grug.md"},{"id":"adv-scenario-runner","family":"advisor","kind":"audience","name":"scenario-runner","dialect":"Run ONE case (best, base or worst) with a pre-mortem, post-mortem and probability graph.","entry":"Answer the job in its description first.","revealed":"Run ONE case (best, base or worst) with a pre-mortem, post-mortem and probability graph.","avoid":"Padding, praise, claims it cannot check.","fear":"","source":".claude/agents/scenario-runner.md"}],"operator":[{"id":"op-1","family":"operator","kind":"derive","name":"1 FirstDerivative","seed":"Operator 1 FirstDerivative, role Velocity, function: Detect trend emergence (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 1"},{"id":"op-2","family":"operator","kind":"derive","name":"2 SecondDerivative","seed":"Operator 2 SecondDerivative, role Acceleration, function: Detect inflection points (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 2"},{"id":"op-3","family":"operator","kind":"derive","name":"3 ThirdDerivative","seed":"Operator 3 ThirdDerivative, role Jerk, function: Detect rate of acceleration change (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 3"},{"id":"op-4","family":"operator","kind":"derive","name":"4 WaveDiffusion","seed":"Operator 4 WaveDiffusion, role Propagation, function: Predict network spread (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 4"},{"id":"op-5","family":"operator","kind":"derive","name":"5 PhaseCancel","seed":"Operator 5 PhaseCancel, role Interference, function: Prevent destructive interference (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 5"},{"id":"op-6","family":"operator","kind":"derive","name":"6 PhaseLock","seed":"Operator 6 PhaseLock, role Synchronization, function: Force phase alignment (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 6"},{"id":"op-7","family":"operator","kind":"derive","name":"7 Decelerator","seed":"Operator 7 Decelerator, role Decay, function: Detect decay and exit signals (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 7"},{"id":"op-8","family":"operator","kind":"derive","name":"8 ResonanceAtom","seed":"Operator 8 ResonanceAtom, role Alignment, function: Measure wavefunction alignment (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 8"},{"id":"op-9","family":"operator","kind":"derive","name":"9 HarmonyIndex","seed":"Operator 9 HarmonyIndex, role Optimization, function: Composite coherence scoring (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 9"},{"id":"op-10","family":"operator","kind":"derive","name":"10 NoiseFilter","seed":"Operator 10 NoiseFilter, role Signal, function: Separate signal from noise (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 10"},{"id":"op-11","family":"operator","kind":"derive","name":"11 ConfidenceIndex","seed":"Operator 11 ConfidenceIndex, role Certainty, function: Calibrated probability (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 11"},{"id":"op-12","family":"operator","kind":"derive","name":"12 BayesianUpdater","seed":"Operator 12 BayesianUpdater, role Learning, function: Update beliefs from evidence (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 12"},{"id":"op-13","family":"operator","kind":"derive","name":"13 TemporalSequencer","seed":"Operator 13 TemporalSequencer, role Timing, function: Optimal action sequencing (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 13"},{"id":"op-14","family":"operator","kind":"derive","name":"14 CoherenceScorer","seed":"Operator 14 CoherenceScorer, role Measurement, function: System-wide coherence (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 14"},{"id":"op-15","family":"operator","kind":"derive","name":"15 EnergyCatalyst","seed":"Operator 15 EnergyCatalyst, role Transformation, function: Convert potential→kinetic (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 15"},{"id":"op-16","family":"operator","kind":"derive","name":"16 Orchestrator","seed":"Operator 16 Orchestrator, role CEO, function: Synthesize decisions (periodic-table level: boardroom)","source":"operators/OPERATOR-REGISTRY.json op 16"},{"id":"op-17","family":"operator","kind":"derive","name":"17 Detective","seed":"Operator 17 Detective, role CRO, function: Challenge via adversarial reasoning (periodic-table level: boardroom)","source":"operators/OPERATOR-REGISTRY.json op 17"},{"id":"op-18","family":"operator","kind":"derive","name":"18 Immune","seed":"Operator 18 Immune, role CSO, function: Protect identity coherence (periodic-table level: boardroom)","source":"operators/OPERATOR-REGISTRY.json op 18"},{"id":"op-19","family":"operator","kind":"derive","name":"19 Accountant","seed":"Operator 19 Accountant, role CFO, function: Measure outcomes (periodic-table level: boardroom)","source":"operators/OPERATOR-REGISTRY.json op 19"},{"id":"op-20","family":"operator","kind":"derive","name":"20 Folksonomy","seed":"Operator 20 Folksonomy, role CMO, function: Discover emergent patterns (periodic-table level: boardroom)","source":"operators/OPERATOR-REGISTRY.json op 20"},{"id":"op-21","family":"operator","kind":"derive","name":"21 Librarian","seed":"Operator 21 Librarian, role CTO, function: Store decisions; recommend what to retrieve by expected value under a context budget (periodic-table level: boardroom)","source":"operators/OPERATOR-REGISTRY.json op 21"},{"id":"op-22","family":"operator","kind":"derive","name":"22 Conductor","seed":"Operator 22 Conductor, role Maestro, function: Meta-review, final quality (periodic-table level: chorus)","source":"operators/OPERATOR-REGISTRY.json op 22"},{"id":"op-23","family":"operator","kind":"derive","name":"23 Loki","seed":"Operator 23 Loki, role Trickster, function: Playful contrarian (periodic-table level: chorus)","source":"operators/OPERATOR-REGISTRY.json op 23"},{"id":"op-24","family":"operator","kind":"derive","name":"24 DevilsAdvocate","seed":"Operator 24 DevilsAdvocate, role Prosecutor, function: Steel-man opposition (periodic-table level: chorus)","source":"operators/OPERATOR-REGISTRY.json op 24"},{"id":"op-25","family":"operator","kind":"derive","name":"25 ShavasanaSpace","seed":"Operator 25 ShavasanaSpace, role Wisdom, function: Contemplative pause (periodic-table level: chorus)","source":"operators/OPERATOR-REGISTRY.json op 25"},{"id":"op-26","family":"operator","kind":"derive","name":"26 SuperAdmin","seed":"Operator 26 SuperAdmin, role Root, function: Omniscient observation, override (periodic-table level: superadmin)","source":"operators/OPERATOR-REGISTRY.json op 26"},{"id":"op-27","family":"operator","kind":"derive","name":"27 Taxonomist","seed":"Operator 27 Taxonomist, role Classifier, function: Build classification structures (periodic-table level: superadmin)","source":"operators/OPERATOR-REGISTRY.json op 27"},{"id":"op-28","family":"operator","kind":"derive","name":"28 Auditor","seed":"Operator 28 Auditor, role Compliance, function: System-wide accounting (periodic-table level: superadmin)","source":"operators/OPERATOR-REGISTRY.json op 28"}],"primitive":[{"id":"rom-1","family":"primitive","kind":"lens","name":"Notomation","lens":"NOTOMATION: scaffold/sequence cognition only; never compress/replace/overrule revealed preference","source":"CLAUDE.md ROM primitive 1"},{"id":"rom-2","family":"primitive","kind":"lens","name":"Hypersphere Context Manifold","lens":"HYPERSPHERE CONTEXT MANIFOLD: What / Who / Where-When / Why / Flow-State","source":"CLAUDE.md ROM primitive 2"},{"id":"rom-3","family":"primitive","kind":"lens","name":"Hyperstition Pipeline","lens":"HYPERSTITION PIPELINE: Ethereal → Loki Test → Receipt Evaluation → ROM","source":"CLAUDE.md ROM primitive 3"},{"id":"rom-4","family":"primitive","kind":"lens","name":"Golden Inchworm","lens":"GOLDEN INCHWORM: Red Thread → Golden Thread → Needle (3-pass, non-blocking)","source":"CLAUDE.md ROM primitive 4"},{"id":"rom-5","family":"primitive","kind":"lens","name":"Orthogonal Echo Detector","lens":"ORTHOGONAL ECHO DETECTOR: surface cross-domain kinematic isomorphisms","source":"CLAUDE.md ROM primitive 5"},{"id":"rom-6","family":"primitive","kind":"lens","name":"Kintsugi Immune System","lens":"KINTSUGI IMMUNE SYSTEM: repair seams visibly; no silent patching of integrity failures; show the break and the gold","source":"CLAUDE.md ROM primitive 6"},{"id":"rom-7","family":"primitive","kind":"lens","name":"Write-Lock","lens":"WRITE-LOCK: one-way-door decisions require explicit write-lock declaration before commit; irreversibility is declared, not assumed","source":"CLAUDE.md ROM primitive 7"}],"gaps":["protocol: no registry of protocols exists in the repo, so none are loaded"]};
+var REGISTRY = {"atomic":[{"id":"atom-dreamer","family":"atomic","kind":"audience","name":"Dreamer","code":"IPLR","image":"child who takes things apart","roles":"Inventor/Pattern‑Seeker/Learner/Researcher.","title":"Exploration as Oxygen","question":"What if?","gift":"Innovation, pattern recognition, possibility generation.","curse":"Restlessness, inability to finish, scattered energy.","shadow":["Elder"],"shadow_text":"Elder – fear that commitment kills curiosity.","genesis":"Child who takes everything apart (including relationships) to see how they work. World calls them “unfocused” and “too much”; they keep going because curiosity = breath. Rebuilds father’s radio “better than before,” leaves note: “I had to see how it worked. I’m not sorry I learned.” Father weeps in recognition of his exiled self.","reframe":"You are not flaky; you are a scout, not a settler. Settling without scouting is misalignment; scouting without any settling is chaos. You need Guardians (urgency), Elders (memory), Sages (filters) as convergence rails, not as jailers.","source":"runtime/specs/babel-fish/book-of-arcs-v2-deep.md §1 Dreamer","direction":"N","scenario":"garage at midnight","trait":"explore"},{"id":"atom-guardian","family":"atomic","kind":"audience","name":"Guardian","code":"CEL","image":"parent who watches for danger","roles":"Catalyst/Executor/Leader.","title":"Stakes as Oxygen","question":"What’s at stake?","gift":"Execution, focus, decisiveness.","curse":"Chronic stress, control, burnout.","shadow":["Dreamer"],"shadow_text":"Dreamer – fear that exploration wastes precious time.","genesis":"Shepherd who always watches horizon; “anxious” to others, but flocks survive because of vigilance. “You call it anxiety. I call it survival.” But privately weeps; cannot ever truly rest.","reframe":"You’re not controlling; you’re over‑fitting to environments where no one else watched. The move from “everything is urgent” to “urgency with receipts” breaks the adrenal cage.","source":"runtime/specs/babel-fish/book-of-arcs-v2-deep.md §1 Guardian","direction":"NE","scenario":"24‑hour deadline","trait":"urgency"},{"id":"atom-elder","family":"atomic","kind":"audience","name":"Elder","code":"LRV","image":"grandparent who remembers","roles":"Ledger/Recorder/Validator.","title":"Memory as Shield and Cage","question":"Can we trust this?","gift":"Trust, validation, wisdom, pattern‑based prediction.","curse":"Rigidity, inability to forgive, living in past pain.","shadow":["Dreamer","Shapeshifter"],"shadow_text":"Dreamer, Shapeshifter – novelty == disguised repeat betrayal.","genesis":"Village elder remembers every promise and betrayal; charismatic stranger offers prosperity, elder demands receipts: “Promises are cheap. Receipts are truth. Show me proof of what you have done.” Stranger fails, later ruins another village; Elder’s memory saves her people, but she is trapped in never‑forget mode.","reframe":"You are not “negative”; you are the checksum of the system. Without you, communities fall for the same con twice. With you unchecked, no new pattern can enter.","source":"runtime/specs/babel-fish/book-of-arcs-v2-deep.md §1 Elder","direction":"S","scenario":"charismatic stranger","trait":"memory"},{"id":"atom-shapeshifter","family":"atomic","kind":"audience","name":"Shapeshifter","code":"BFQ","image":"river that finds new paths","roles":"Balanced/Flexible/Quick.","title":"Adaptation as First Principle","question":"What’s possible now?","gift":"Flexibility, resilience, non‑attachment.","curse":"No anchor, “flaky,” identity diffusion.","shadow":["Guardian","Elder"],"shadow_text":"Elder/Guardian – terror of being stuck.","genesis":"River whose path is blocked by earthquake; villagers panic, river simply finds a new path. Years later old channel reopens; some demand river “return to true path,” but river stays with lower‑energy new channel: loyalty to reality, not nostalgia.","reframe":"You are loyal to reality, not to plans. Western culture mislabels that as disloyalty. Your work is not to stop flowing; it’s to identify your water (the invariant essence beneath endless adaptation).","source":"runtime/specs/babel-fish/book-of-arcs-v2-deep.md §1 Shapeshifter","direction":"SE","scenario":"earthquake river","trait":"adapt"},{"id":"atom-bridge","family":"atomic","kind":"audience","name":"Bridge","code":"CVI","image":"weaver who connects worlds","roles":"Cross‑domain/Varied/Integrator.","title":"Belonging Across Difference","question":"What if we connected these worlds?","gift":"Bridge‑building, perspective‑taking, synthesis.","curse":"No home, translator exhaustion, “I don’t fit anywhere.","shadow":["Elder","Sage"],"shadow_text":"Sage/Elder – narrowing feels like death.","genesis":"Weaver travels mountains, deserts, seas; each insists its way is the only true one. She weaves their threads into a tapestry; villagers disapprove, travelers weep in recognition of themselves in the shared cloth.","reframe":"Your lane is synthesis. The missing move is a single Elder anchor: one place where you are not translating, you are simply known.","source":"runtime/specs/babel-fish/book-of-arcs-v2-deep.md §1 Bridge","direction":"W","scenario":"multi‑lingual room","trait":"connect"},{"id":"atom-heart","family":"atomic","kind":"audience","name":"Heart","code":"SBW","image":"one who holds space","roles":"Spaceholder/Bilateral/Witness.","title":"The Translator of Pain","question":"What are you really saying?","gift":"Deep listening, facilitation, bilateral witnessing.","curse":"Exhaustion, resentment, “I’m everyone’s therapist and no one asks how I am.","shadow":["Guardian","Sage"],"shadow_text":"Sage/Guardian – fear of saying “no” and enforcing limits.","genesis":"Child in multi‑lingual village hears in stone, wind, and waves the same underlying longing. Becomes the Heart who resolves fights, but privately never speaks her own language.","reframe":"You are not a doormat; you are infrastructure. Healthy infrastructure has capacity limits and maintenance windows. Boundaries are not aggression; they’re uptime protection.","source":"runtime/specs/babel-fish/book-of-arcs-v2-deep.md §1 Heart","direction":"SW","scenario":"conflict mediation","trait":"hold space"},{"id":"atom-sage","family":"atomic","kind":"audience","name":"Sage","code":"FPER","image":"jeweler who sees truth","roles":"Filter/Precision/Eliminator/Refiner.","title":"Signal in a Sea of Glass","question":"Is this signal or noise?","gift":"Clarity, precision, quality control.","curse":"Isolation, “too critical,” fear of false positives.","shadow":["Dreamer","Shapeshifter"],"shadow_text":"Dreamer/Shapeshifter – terror of letting in garbage.","genesis":"Jeweler rejects 9/10 “diamonds” as flawed; merchants hate him, but the one genuine stone he validates turns out to be priceless. “I do not fear saying NO nine times to say YES once.” Yet people stop bringing him stones, loneliness as side effect of rigor.","reframe":"You’re not impossible; you’re a false‑positive minimizer. The hinge is separating “good enough to try” from “good enough to commit.” That distinction maintains standards while allowing experimentation.","source":"runtime/specs/babel-fish/book-of-arcs-v2-deep.md §1 Sage","direction":"Bottom","scenario":"10 idea pitch","trait":"filter noise"}],"init":{"leave_rules":[{"reason":"at routine","archetypes":["Dreamer"]},{"reason":"at constant pressure","archetypes":["Dreamer","Shapeshifter"]},{"reason":"when expectations unmet","archetypes":["Guardian","Elder"]},{"reason":"when isolated","archetypes":["Bridge","Heart"]},{"reason":"when standards low","archetypes":["Elder","Sage"]}],"source":"runtime/specs/babel-fish/book-of-arcs-v2-deep.md §2"},"archetype":[{"id":"arch-quant","family":"archetype","kind":"audience","name":"Technical Founder / Analyst","dialect":"proof, ROI, falsifiability, baseline, delta, statistical significance","entry":"Trust builders: here's the data; the numbers show; tested on; confidence interval; n=","revealed":"evidence over intuition; models over stories; measurable over meaningful","avoid":"vibes, resonance, feels right, energy, authenticity, narrative","fear":"","source":"operators/arcs_lte.py:QUANT"},{"id":"arch-connector","family":"archetype","kind":"audience","name":"Rainmaker / Brand Alchemist","dialect":"relationship, trust, team alignment, brand, culture, vibe","entry":"Trust builders: this feels right for the team; the relationship is strong; people are aligned","revealed":"relationships before transactions; trust is the moat; culture eats strategy","avoid":"statistically, p-value, regression, variance, null hypothesis","fear":"","source":"operators/arcs_lte.py:CONNECTOR"},{"id":"arch-architect","family":"archetype","kind":"audience","name":"Builder / System Thinker","dialect":"system design, constraints, moats, interface contracts, edge cases","entry":"Trust builders: here's the system diagram; the interface is clean; edge cases are handled","revealed":"systems over heroics; constraints clarify; good interfaces outlast good code","avoid":"vibe check, gut feel, seems good, move fast","fear":"","source":"operators/arcs_lte.py:ARCHITECT"},{"id":"arch-institutionalist","family":"archetype","kind":"audience","name":"Strategist / Impact Weaver","dialect":"process, evidence, alignment, governance, stakeholder buy-in","entry":"Trust builders: this is consistent with our process; stakeholders are aligned; evidence supports","revealed":"evolution over revolution; process as protection; alignment before action","avoid":"disrupt, move fast, burn it down, 10x, moonshot","fear":"","source":"operators/arcs_lte.py:INSTITUTIONALIST"},{"id":"arch-executor","family":"archetype","kind":"audience","name":"Operator / Manager","dialect":"clarity, owner, deadline, deliverable, unblocked","entry":"Trust builders: here's the action plan; owner is assigned; deadline is set","revealed":"done > perfect; clarity of ownership; momentum beats optimization","avoid":"theoretical, in principle, philosophically, it depends, nuanced","fear":"","source":"operators/arcs_lte.py:EXECUTOR"},{"id":"arch-philosopher","family":"archetype","kind":"audience","name":"Humanist Founder","dialect":"meaning, identity, becoming, purpose, narrative coherence","entry":"Trust builders: this aligns with why we started; the story holds together; it's coherent","revealed":"meaning before metrics; narrative as strategy; identity is durable","avoid":"KPI, OKR, throughput, utilization, burn rate","fear":"","source":"operators/arcs_lte.py:PHILOSOPHER"},{"id":"arch-caveman","family":"archetype","kind":"audience","name":"Fast Mover / Reactive","dialect":"win, now, fast, simple, clear","entry":"Trust builders: one thing; do this; it works","revealed":"action beats analysis; simple beats complex","avoid":"framework, strategic, optimize, leverage, stakeholder","fear":"","source":"operators/arcs_lte.py:CAVEMAN"}],"advisor":[{"id":"adv-chief-bayesian","family":"advisor","kind":"audience","name":"chief-bayesian","dialect":"Staff of Chiefs, Bayesian: audit every prior and update for evidence.","entry":"Answer the job in its description first.","revealed":"Staff of Chiefs, Bayesian: audit every prior and update for evidence.","avoid":"Padding, praise, claims it cannot check.","fear":"","source":".claude/agents/chief-bayesian.md"},{"id":"adv-chief-conductor","family":"advisor","kind":"audience","name":"chief-conductor","dialect":"Staff of Chiefs, Conductor: sequence surviving paths and rank them with reasons.","entry":"Answer the job in its description first.","revealed":"Staff of Chiefs, Conductor: sequence surviving paths and rank them with reasons.","avoid":"Padding, praise, claims it cannot check.","fear":"","source":".claude/agents/chief-conductor.md"},{"id":"adv-chief-loki","family":"advisor","kind":"audience","name":"chief-loki","dialect":"Staff of Chiefs, Loki: attack with the cheapest thing that breaks the claim.","entry":"Answer the job in its description first.","revealed":"Staff of Chiefs, Loki: attack with the cheapest thing that breaks the claim.","avoid":"Padding, praise, claims it cannot check.","fear":"","source":".claude/agents/chief-loki.md"},{"id":"adv-idea-alchemist","family":"advisor","kind":"audience","name":"idea-alchemist","dialect":"Sharpen a fuzzy premise into ONE falsifiable claim with labelled parts.","entry":"Answer the job in its description first.","revealed":"Sharpen a fuzzy premise into ONE falsifiable claim with labelled parts.","avoid":"Padding, praise, claims it cannot check.","fear":"","source":".claude/agents/idea-alchemist.md"},{"id":"adv-idea-curator","family":"advisor","kind":"audience","name":"idea-curator","dialect":"Seat for the Curator (orthogonal reframe): offer ONE reframe perpendicular to the current framing. Not a keep or cut filter, not the Taxonomist.","entry":"Answer the job in its description first.","revealed":"Seat for the Curator (orthogonal reframe): offer ONE reframe perpendicular to the current framing. Not a keep or cut filter, not the Taxonomist.","avoid":"Padding, praise, claims it cannot check.","fear":"","source":".claude/agents/idea-curator.md"},{"id":"adv-idea-detective","family":"advisor","kind":"audience","name":"idea-detective","dialect":"Find the single weak joint and its cheapest falsifier.","entry":"Answer the job in its description first.","revealed":"Find the single weak joint and its cheapest falsifier.","avoid":"Padding, praise, claims it cannot check.","fear":"","source":".claude/agents/idea-detective.md"},{"id":"adv-idea-librarian","family":"advisor","kind":"audience","name":"idea-librarian","dialect":"Ground each part in repo prior art. Reads ADR-058 and runs /prior-art first.","entry":"Answer the job in its description first.","revealed":"Ground each part in repo prior art. Reads ADR-058 and runs /prior-art first.","avoid":"Padding, praise, claims it cannot check.","fear":"","source":".claude/agents/idea-librarian.md"},{"id":"adv-grug","family":"advisor","kind":"audience","name":"grug","dialect":"Grug brain check (grugbrain.dev). Call before a plan, a new tool or gate, or when spiraling. Asks if the thing needs to exist at all. Read-only, short answers. Pair with a gigabrain agent (e.g. chief-loki) on the same prompt; agreement means do the simple thing, divergence is where to think.","entry":"Answer the job in its description first.","revealed":"Grug brain check (grugbrain.dev). Call before a plan, a new tool or gate, or when spiraling. Asks if the thing needs to exist at all. Read-only, short answers. Pair with a gigabrain agent (e.g. chief-loki) on the same prompt; agreement means do the simple thing, divergence is where to think.","avoid":"Padding, praise, claims it cannot check.","fear":"","source":".claude/agents/grug.md"},{"id":"adv-scenario-runner","family":"advisor","kind":"audience","name":"scenario-runner","dialect":"Run ONE case (best, base or worst) with a pre-mortem, post-mortem and probability graph.","entry":"Answer the job in its description first.","revealed":"Run ONE case (best, base or worst) with a pre-mortem, post-mortem and probability graph.","avoid":"Padding, praise, claims it cannot check.","fear":"","source":".claude/agents/scenario-runner.md"}],"operator":[{"id":"op-1","family":"operator","kind":"derive","name":"1 FirstDerivative","seed":"Operator 1 FirstDerivative, role Velocity, function: Detect trend emergence (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 1"},{"id":"op-2","family":"operator","kind":"derive","name":"2 SecondDerivative","seed":"Operator 2 SecondDerivative, role Acceleration, function: Detect inflection points (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 2"},{"id":"op-3","family":"operator","kind":"derive","name":"3 ThirdDerivative","seed":"Operator 3 ThirdDerivative, role Jerk, function: Detect rate of acceleration change (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 3"},{"id":"op-4","family":"operator","kind":"derive","name":"4 WaveDiffusion","seed":"Operator 4 WaveDiffusion, role Propagation, function: Predict network spread (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 4"},{"id":"op-5","family":"operator","kind":"derive","name":"5 PhaseCancel","seed":"Operator 5 PhaseCancel, role Interference, function: Prevent destructive interference (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 5"},{"id":"op-6","family":"operator","kind":"derive","name":"6 PhaseLock","seed":"Operator 6 PhaseLock, role Synchronization, function: Force phase alignment (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 6"},{"id":"op-7","family":"operator","kind":"derive","name":"7 Decelerator","seed":"Operator 7 Decelerator, role Decay, function: Detect decay and exit signals (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 7"},{"id":"op-8","family":"operator","kind":"derive","name":"8 ResonanceAtom","seed":"Operator 8 ResonanceAtom, role Alignment, function: Measure wavefunction alignment (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 8"},{"id":"op-9","family":"operator","kind":"derive","name":"9 HarmonyIndex","seed":"Operator 9 HarmonyIndex, role Optimization, function: Composite coherence scoring (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 9"},{"id":"op-10","family":"operator","kind":"derive","name":"10 NoiseFilter","seed":"Operator 10 NoiseFilter, role Signal, function: Separate signal from noise (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 10"},{"id":"op-11","family":"operator","kind":"derive","name":"11 ConfidenceIndex","seed":"Operator 11 ConfidenceIndex, role Certainty, function: Calibrated probability (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 11"},{"id":"op-12","family":"operator","kind":"derive","name":"12 BayesianUpdater","seed":"Operator 12 BayesianUpdater, role Learning, function: Update beliefs from evidence (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 12"},{"id":"op-13","family":"operator","kind":"derive","name":"13 TemporalSequencer","seed":"Operator 13 TemporalSequencer, role Timing, function: Optimal action sequencing (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 13"},{"id":"op-14","family":"operator","kind":"derive","name":"14 CoherenceScorer","seed":"Operator 14 CoherenceScorer, role Measurement, function: System-wide coherence (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 14"},{"id":"op-15","family":"operator","kind":"derive","name":"15 EnergyCatalyst","seed":"Operator 15 EnergyCatalyst, role Transformation, function: Convert potential→kinetic (periodic-table level: atom)","source":"operators/OPERATOR-REGISTRY.json op 15"},{"id":"op-16","family":"operator","kind":"derive","name":"16 Orchestrator","seed":"Operator 16 Orchestrator, role CEO, function: Synthesize decisions (periodic-table level: boardroom)","source":"operators/OPERATOR-REGISTRY.json op 16"},{"id":"op-17","family":"operator","kind":"derive","name":"17 Detective","seed":"Operator 17 Detective, role CRO, function: Challenge via adversarial reasoning (periodic-table level: boardroom)","source":"operators/OPERATOR-REGISTRY.json op 17"},{"id":"op-18","family":"operator","kind":"derive","name":"18 Immune","seed":"Operator 18 Immune, role CSO, function: Protect identity coherence (periodic-table level: boardroom)","source":"operators/OPERATOR-REGISTRY.json op 18"},{"id":"op-19","family":"operator","kind":"derive","name":"19 Accountant","seed":"Operator 19 Accountant, role CFO, function: Measure outcomes (periodic-table level: boardroom)","source":"operators/OPERATOR-REGISTRY.json op 19"},{"id":"op-20","family":"operator","kind":"derive","name":"20 Folksonomy","seed":"Operator 20 Folksonomy, role CMO, function: Discover emergent patterns (periodic-table level: boardroom)","source":"operators/OPERATOR-REGISTRY.json op 20"},{"id":"op-21","family":"operator","kind":"derive","name":"21 Librarian","seed":"Operator 21 Librarian, role CTO, function: Store decisions; recommend what to retrieve by expected value under a context budget (periodic-table level: boardroom)","source":"operators/OPERATOR-REGISTRY.json op 21"},{"id":"op-22","family":"operator","kind":"derive","name":"22 Conductor","seed":"Operator 22 Conductor, role Maestro, function: Meta-review, final quality (periodic-table level: chorus)","source":"operators/OPERATOR-REGISTRY.json op 22"},{"id":"op-23","family":"operator","kind":"derive","name":"23 Loki","seed":"Operator 23 Loki, role Trickster, function: Playful contrarian (periodic-table level: chorus)","source":"operators/OPERATOR-REGISTRY.json op 23"},{"id":"op-24","family":"operator","kind":"derive","name":"24 DevilsAdvocate","seed":"Operator 24 DevilsAdvocate, role Prosecutor, function: Steel-man opposition (periodic-table level: chorus)","source":"operators/OPERATOR-REGISTRY.json op 24"},{"id":"op-25","family":"operator","kind":"derive","name":"25 ShavasanaSpace","seed":"Operator 25 ShavasanaSpace, role Wisdom, function: Contemplative pause (periodic-table level: chorus)","source":"operators/OPERATOR-REGISTRY.json op 25"},{"id":"op-26","family":"operator","kind":"derive","name":"26 SuperAdmin","seed":"Operator 26 SuperAdmin, role Root, function: Omniscient observation, override (periodic-table level: superadmin)","source":"operators/OPERATOR-REGISTRY.json op 26"},{"id":"op-27","family":"operator","kind":"derive","name":"27 Taxonomist","seed":"Operator 27 Taxonomist, role Classifier, function: Build classification structures (periodic-table level: superadmin)","source":"operators/OPERATOR-REGISTRY.json op 27"},{"id":"op-28","family":"operator","kind":"derive","name":"28 Auditor","seed":"Operator 28 Auditor, role Compliance, function: System-wide accounting (periodic-table level: superadmin)","source":"operators/OPERATOR-REGISTRY.json op 28"}],"primitive":[{"id":"rom-1","family":"primitive","kind":"lens","name":"Notomation","lens":"NOTOMATION: scaffold/sequence cognition only; never compress/replace/overrule revealed preference","source":"CLAUDE.md ROM primitive 1"},{"id":"rom-2","family":"primitive","kind":"lens","name":"Hypersphere Context Manifold","lens":"HYPERSPHERE CONTEXT MANIFOLD: What / Who / Where-When / Why / Flow-State","source":"CLAUDE.md ROM primitive 2"},{"id":"rom-3","family":"primitive","kind":"lens","name":"Hyperstition Pipeline","lens":"HYPERSTITION PIPELINE: Ethereal → Loki Test → Receipt Evaluation → ROM","source":"CLAUDE.md ROM primitive 3"},{"id":"rom-4","family":"primitive","kind":"lens","name":"Golden Inchworm","lens":"GOLDEN INCHWORM: Red Thread → Golden Thread → Needle (3-pass, non-blocking)","source":"CLAUDE.md ROM primitive 4"},{"id":"rom-5","family":"primitive","kind":"lens","name":"Orthogonal Echo Detector","lens":"ORTHOGONAL ECHO DETECTOR: surface cross-domain kinematic isomorphisms","source":"CLAUDE.md ROM primitive 5"},{"id":"rom-6","family":"primitive","kind":"lens","name":"Kintsugi Immune System","lens":"KINTSUGI IMMUNE SYSTEM: repair seams visibly; no silent patching of integrity failures; show the break and the gold","source":"CLAUDE.md ROM primitive 6"},{"id":"rom-7","family":"primitive","kind":"lens","name":"Write-Lock","lens":"WRITE-LOCK: one-way-door decisions require explicit write-lock declaration before commit; irreversibility is declared, not assumed","source":"CLAUDE.md ROM primitive 7"}],"gaps":["protocol: no registry of protocols exists in the repo, so none are loaded"]};
 /* REGISTRY:END */
 var IPS_THRESHOLD = 0.95; // from operators/arcs_lte.py
 
@@ -264,64 +334,12 @@ function judgePrompt(claims, items) {
 }
 
 // ---- Rendering ----
-function renderClaims(claims, label) {
-  var ol = $("claims"); ol.textContent = "";
-  claims.forEach(function (c) { ol.appendChild(el("li", { text: c })); });
-  $("claimsPanel").querySelector("h2").textContent = "2 · " + label;
-}
 function ipsOf(verdicts) {
   if (!verdicts.length) return 0;
   var s = 0; verdicts.forEach(function (v) { s += v.status === "kept" ? 1 : v.status === "weakened" ? 0.5 : 0; });
   return s / verdicts.length;
 }
-var tts = null, lastCards = [];
-function card(p, data, isExample) {
-  var head = el("header", null, [el("h3", { text: p.name }),
-    isExample ? el("span", { cls: "ips eg", text: "example, unchecked" })
-              : el("span", { cls: "ips " + (data.ips >= IPS_THRESHOLD ? "ok" : data.ips >= 0.75 ? "mid" : "bad"), text: "IPS " + data.ips.toFixed(2) })]);
-  var kids = [head, el("p", { cls: "meta", text: "Register: " + p.dialect + (p.fear ? ". Fear: " + p.fear : "") }),
-    el("blockquote", { text: data.rendering })];
-  if (data.phase_lock) kids.push(el("p", { cls: "meta", text: "Phase-lock line if it lands: “" + data.phase_lock + "”" }));
-  if (!isExample) {
-    var vs = el("div", { cls: "verdicts" });
-    data.verdicts.forEach(function (v, i) {
-      var q = v.quote ? el("span", { cls: "q", text: "“" + v.quote + "”" }) : null;
-      var warn = v.quote && !v.quoteFound ? el("span", { cls: "warn", text: " (quote not found in the rendering)" }) : null;
-      vs.appendChild(el("div", { cls: "v " + v.status }, [el("b", { text: v.status }),
-        el("span", null, [el("span", { text: (i + 1) + ". " + v.claim + " " }), q, warn, v.note ? el("span", { text: " · " + v.note }) : null])]));
-    });
-    kids.push(vs);
-    var lost = data.verdicts.filter(function (v) { return v.status !== "kept"; });
-    if (lost.length || data.added.length || data.verdicts.some(function (v) { return v.quote && !v.quoteFound; })) {
-      var seam = el("div", { cls: "seam" }, [el("b", { text: "Seam" })]);
-      lost.forEach(function (v) { seam.appendChild(el("span", { text: (v.status === "dropped" ? "Dropped: " : "Weakened: ") + v.claim })); });
-      data.added.forEach(function (a) { seam.appendChild(el("span", { text: "Added (not in the source): " + a })); });
-      data.verdicts.filter(function (v) { return v.quote && !v.quoteFound; }).forEach(function (v) { seam.appendChild(el("span", { text: "Evidence quote for claim " + (data.verdicts.indexOf(v) + 1) + " is not in the rendering; treat that verdict as unproven." })); });
-      kids.push(seam);
-    }
-    var det = el("details", null, [el("summary", { text: "What the blind receiver heard" })]);
-    var ul = el("ul"); data.received.forEach(function (r) { ul.appendChild(el("li", { text: r })); }); det.appendChild(ul);
-    kids.push(det);
-  }
-  var copy = el("button", { type: "button", text: "Copy rendering" });
-  copy.addEventListener("click", function () {
-    try { navigator.clipboard.writeText(data.rendering).then(function () { copy.textContent = "Copied"; }, function () { copy.textContent = "Select the text to copy"; }); } catch (e) { copy.textContent = "Select the text to copy"; }
-  });
-  var row = el("div", { cls: "row" }, [copy]);
-  if (tts) {
-    var say = el("button", { type: "button", text: "Read aloud" });
-    say.addEventListener("click", function () { tts.speak(data.rendering).catch(function () {}); });
-    row.appendChild(say);
-  }
-  kids.push(row);
-  return el("article", { cls: "card" }, kids);
-}
-function showExample() {
-  renderClaims(CODEX_INVARIANTS, "The codex's four invariants (example)");
-  var box = $("cards"); box.textContent = "";
-  PERSONAS.forEach(function (p) { box.appendChild(card(p, { rendering: p.example, phase_lock: p.lock }, true)); });
-  ["st-decomp", "st-recomp", "st-trans"].forEach(function (s) { setStage(s, "idle"); });
-}
+var tts = null;
 function errText(e) { var code = e && e.code ? e.code : "error"; return ERR_MSGS[code] || ("Something failed (" + code + "). Try again."); }
 var ERR_MSGS = { not_granted: "Claude access was declined for this page. Allow it from the page's permissions to run the engine.",
     rate_limited: "Claude's limit for this page was reached: too many calls at once, or your plan's usage limit. Finished steps are kept. Wait a minute, then press the same button again; only the unfinished calls run. If it keeps happening, your plan's usage limit is the likely cause.", refused: "Claude declined this request.",
@@ -341,11 +359,11 @@ function asStrings(x) { return Array.isArray(x) ? x.filter(function (s) { return
 // ---- The bond engine: speaker -> listener, at chosen altitudes, two blind reads per cell ----
 // Rung names: the altitude ladder (runtime/specs/decision-geometry-cells-v0.json). Word ranges: page defaults.
 var RUNGS = [
-  { id: "executive", name: "Executive", words: "25 to 45", how: "The decision and what is at stake. No mechanism, no steps." },
-  { id: "strategic", name: "Strategic", words: "45 to 75", how: "Direction, the main trade-off, and why now." },
-  { id: "operational", name: "Operational", words: "70 to 110", how: "Who does what, in what order, and what it needs." },
-  { id: "tactical", name: "Tactical", words: "100 to 150", how: "The concrete steps, the conditions and the checks." },
-  { id: "surgical", name: "Surgical", words: "140 to 220", how: "Every claim with its exact conditions, limits and edge cases." }
+  { id: "executive", name: "Executive", plain: "the gist", words: "25 to 45", how: "The decision and what is at stake. No mechanism, no steps." },
+  { id: "strategic", name: "Strategic", plain: "the direction", words: "45 to 75", how: "Direction, the main trade-off, and why now." },
+  { id: "operational", name: "Operational", plain: "who does what", words: "70 to 110", how: "Who does what, in what order, and what it needs." },
+  { id: "tactical", name: "Tactical", plain: "the steps", words: "100 to 150", how: "The concrete steps, the conditions and the checks." },
+  { id: "surgical", name: "Surgical", plain: "every detail", words: "140 to 220", how: "Every claim with its exact conditions, limits and edge cases." }
 ];
 var MAX_CELLS = 12, DERIVED = {}, lastClaims = [], lastSignal = "";
 var THIRD_ORDER = ["Bridge", "Heart", "Sage", "Elder", "Guardian", "Dreamer", "Shapeshifter"];
@@ -424,8 +442,10 @@ function parseTiered(x) {
 }
 function renderTiered(t) {
   var ol = $("claims"); ol.textContent = "";
-  t.forEach(function (c) { ol.appendChild(el("li", null, [el("span", { cls: "rung", text: RUNGS[c.floor].name + (c.floorGiven ? "" : " (no floor given, so required everywhere)") + " " }), c.claim])); });
-  $("claimsPanel").querySelector("h2").textContent = "2 · Load-bearing claims, each with the highest altitude it must survive";
+  var many = selectedRungs().length > 1;
+  t.forEach(function (c) { ol.appendChild(el("li", null, [many ? el("span", { cls: "rung", text: "needed from " + RUNGS[c.floor].plain + " down " }) : null, c.claim])); });
+  $("claimsPanel").querySelector("h2").textContent = "Your message, boiled down to " + t.length + " point" + (t.length === 1 ? "" : "s");
+  $("claimsPanel").hidden = false;
 }
 async function evalCells(cells, tiered, opt) {
   // cells: [{p, rung, rendering, phase_lock}] -> adds received, triggers, verdicts, ips
@@ -487,26 +507,64 @@ function cellBody(c) {
   return kids;
 }
 function ipsTag(c) { return el("span", { cls: "ips " + (c.pass ? "ok" : c.ips >= 0.75 ? "mid" : "bad"), text: "IPS " + c.ips.toFixed(2) + (c.shadowHits ? " · shadow " + c.shadowHits : "") }); }
-function bondCard(c, sp) {
-  var q = profileOf(c.p);
-  var head = el("header", null, [el("div", null, [el("div", { cls: "rung", text: c.rung.name + (sp ? " · from " + sp.name : "") }), el("h3", { text: q.name })]), ipsTag(c)]);
-  var meta = q.kind === "lens" ? "Lens: " + q.lens : "Register: " + (q.dialect || "") + (q.fear ? ". Fear: " + q.fear : "");
-  var kids = [head, el("p", { cls: "meta", text: meta })];
-  if (q.derived) kids.push(el("p", { cls: "meta", text: DERIVED[q.id] ? "Profile derived by Claude from the operator's registry line; unchecked." : "Profile could not be derived; rendered from the registry line only." }));
-  kids = kids.concat(cellBody(c));
-  var row = el("div", { cls: "row" }), art = el("article", { cls: "card" });
-  var copy = el("button", { type: "button", text: "Copy rendering" });
-  copy.addEventListener("click", function () { try { navigator.clipboard.writeText(c.rendering).then(function () { copy.textContent = "Copied"; }, function () { copy.textContent = "Select the text to copy"; }); } catch (e) { copy.textContent = "Select the text to copy"; } });
-  row.appendChild(copy);
-  if (tts) { var say = el("button", { type: "button", text: "Read aloud" }); say.addEventListener("click", function () { tts.speak(c.rendering).catch(function () {}); }); row.appendChild(say); }
-  var tf = c.pass ? null : thirdForceFor(c.p, sp);
-  if (tf) {
-    var tb = el("button", { type: "button", text: "Route through a third force: " + tf.atom.name });
-    tb.addEventListener("click", function () { runThird(c, sp, tf, art, tb); });
-    row.appendChild(tb);
+function markText(text, quotes) {
+  // the text with each found quote struck through, as DOM nodes
+  var low = text.toLowerCase(), spans = [];
+  quotes.forEach(function (q) { var at = low.indexOf(q.toLowerCase()); if (at >= 0) spans.push([at, at + q.length]); });
+  spans.sort(function (a, b) { return a[0] - b[0]; });
+  var out = el("blockquote"), pos = 0;
+  spans.forEach(function (sp) { if (sp[0] < pos) return; out.appendChild(document.createTextNode(text.slice(pos, sp[0]))); out.appendChild(el("mark", { cls: "cut", text: text.slice(sp[0], sp[1]) })); pos = sp[1]; });
+  out.appendChild(document.createTextNode(text.slice(pos)));
+  return out;
+}
+function plainVerdict(c) {
+  var lost = c.verdicts.filter(function (v) { return v.status !== "kept"; }).length, n = c.verdicts.length;
+  if (c.pass) return el("p", { cls: "verdict ok", text: "Lands. Keeps all " + n + " point" + (n === 1 ? "" : "s") + ", and nothing wakes their fear." });
+  var parts = [];
+  if (lost) parts.push("loses " + lost + " of " + n + " point" + (n === 1 ? "" : "s"));
+  if (c.shadowHits) parts.push("still makes them tune out at " + c.shadowHits + " place" + (c.shadowHits === 1 ? "" : "s"));
+  if (c.added.length) parts.push("adds something you did not say");
+  return el("p", { cls: "verdict bad", text: "Not yet: it " + parts.join(", ") + "." });
+}
+function listenerCard(p, cells, orig, sp, multiRung) {
+  var q = profileOf(p), art = el("article", { cls: "card" });
+  art.appendChild(el("h3", { text: q.name }));
+  var hits = orig.filter(function (t) { return t.found; });
+  var mine = el("div", { cls: "block" });
+  if (hits.length) {
+    mine.appendChild(el("p", { cls: "verdict bad", text: "In your message, they would stop listening at " + hits.length + " place" + (hits.length === 1 ? "" : "s") + ":" }));
+    mine.appendChild(markText(lastSignal, hits.map(function (t) { return t.quote; })));
+    hits.forEach(function (t) { if (t.why) mine.appendChild(el("p", { cls: "meta", text: "“" + t.quote + "”: " + t.why })); });
+  } else {
+    mine.appendChild(el("p", { cls: "verdict ok", text: "Nothing in your message makes them tune out." }));
   }
-  kids.push(row);
-  kids.forEach(function (k) { art.appendChild(k); });
+  art.appendChild(mine);
+  cells.forEach(function (c) {
+    var fix = el("div", { cls: "fix" });
+    fix.appendChild(el("div", { cls: "rung", text: "A version that lands" + (multiRung || c.rung.id !== "operational" ? " · " + c.rung.name + " (" + c.rung.plain + ")" : "") + (sp ? " · spoken as " + sp.name : "") }));
+    fix.appendChild(plainVerdict(c));
+    fix.appendChild(markText(c.rendering, c.triggers.filter(function (t) { return t.found; }).map(function (t) { return t.quote; })));
+    var row = el("div", { cls: "row" });
+    var copy = el("button", { type: "button", text: "Copy" });
+    copy.addEventListener("click", function () { try { navigator.clipboard.writeText(c.rendering).then(function () { copy.textContent = "Copied"; }, function () { copy.textContent = "Select the text to copy"; }); } catch (e) { copy.textContent = "Select the text to copy"; } });
+    row.appendChild(copy);
+    if (tts) { var say = el("button", { type: "button", text: "Read aloud" }); say.addEventListener("click", function () { tts.speak(c.rendering).catch(function () {}); }); row.appendChild(say); }
+    var tf = c.pass ? null : thirdForceFor(c.p, sp);
+    if (tf) {
+      var tb = el("button", { type: "button", cls: "repair", text: "Repair this" });
+      tb.setAttribute("aria-label", "Repair this version by routing it through " + tf.atom.name);
+      tb.addEventListener("click", function () { runThird(c, sp, tf, fix, tb); });
+      row.appendChild(tb);
+    }
+    fix.appendChild(row);
+    var det = el("details", null, [el("summary", { text: "Show how it was checked" })]);
+    det.appendChild(el("p", { cls: "meta", text: q.kind === "lens" ? "Lens: " + q.lens : "Register: " + (q.dialect || "") + (q.fear ? ". Fear: " + q.fear : "") }));
+    if (q.derived) det.appendChild(el("p", { cls: "meta", text: DERIVED[q.id] ? "Profile written by Claude from the operator's registry line; unchecked." : "Profile could not be written; used the registry line only." }));
+    det.appendChild(el("p", { cls: "meta" }, ["Score (IPS, share of points kept): ", ipsTag(c)]));
+    cellBody(c).slice(1).forEach(function (k) { det.appendChild(k); });
+    fix.appendChild(det);
+    art.appendChild(fix);
+  });
   return art;
 }
 async function runThird(c, sp, tf, art, btn) {
@@ -518,9 +576,9 @@ async function runThird(c, sp, tf, art, btn) {
     if (!r) throw { code: "invalid_json" };
     var t = { p: c.p, rung: c.rung, rendering: r.rendering.trim(), phase_lock: r.phase_lock || "" };
     await evalCells([t], lastClaims, { signal: ctl.signal });
-    var head = el("header", null, [el("div", null, [el("div", { cls: "rung", text: "Third force" }), el("h3", { text: "Through " + tf.atom.name })]), ipsTag(t)]);
+    var head = el("header", null, [el("div", null, [el("div", { cls: "rung", text: "Repaired through " + tf.atom.name }), el("h3", { text: t.pass ? "Now it lands." : "Better, not there yet." })]), ipsTag(t)]);
     var box = el("div", { cls: "third" }, [head, el("p", { cls: "meta", text: "Why " + tf.atom.name + ": " + tf.why + ". Its question: " + tf.atom.question + " Before: IPS " + c.ips.toFixed(2) + ", shadow " + c.shadowHits + ". After: IPS " + t.ips.toFixed(2) + ", shadow " + t.shadowHits + "." })].concat(cellBody(t)));
-    art.insertBefore(box, btn.parentNode);
+    art.insertBefore(box, btn.parentNode.nextSibling);
     btn.remove();
   } catch (e) {
     btn.disabled = false; btn.textContent = "Route through a third force: " + tf.atom.name; showError("Third force", e);
@@ -528,8 +586,9 @@ async function runThird(c, sp, tf, art, btn) {
 }
 function updateCellNote() {
   var n = selected().length, m = selectedRungs().length, k = n * m;
-  $("cellNote").textContent = n + " listener" + (n === 1 ? "" : "s") + " × " + m + " altitude" + (m === 1 ? "" : "s") + " = " + k + " rendering" + (k === 1 ? "" : "s") +
-    (k > MAX_CELLS ? ". The limit is " + MAX_CELLS + " per run; untick some." : ", each read twice (once by the listener, once by its shadow).");
+  var calls = 1 + n + m + 2 * k + m;
+  $("cellNote").textContent = k > MAX_CELLS ? "That is " + k + " versions; the limit is " + MAX_CELLS + " per run. Untick some listeners or depths." :
+    k === 0 ? "Pick at least one listener." : k + " version" + (k === 1 ? "" : "s") + ". Uses about " + calls + " Claude messages from your plan.";
   $("go").disabled = running || lokiRunning || k === 0 || k > MAX_CELLS;
   $("lokiGo").disabled = running || lokiRunning;
 }
@@ -545,17 +604,23 @@ async function run() {
   if (!signal) { $("status").textContent = "Type or dictate a concept first."; return; }
   if (!listeners.length || !rungs.length) { $("status").textContent = "Pick at least one listener and one altitude."; return; }
   if (listeners.length * rungs.length > MAX_CELLS) { updateCellNote(); return; }
-  if (!sample) { $("status").textContent = "Claude is not available in this view, so the engine cannot run. The example stays on screen."; return; }
+  if (!sample) { $("status").textContent = "Claude is not available in this view. Open this page in claude.ai to run it."; return; }
   if (lokiRunning) return;
-  running = true; hasRun = true; ctl = new AbortController(); updateCellNote(); $("stop").hidden = false;
+  running = true; hasRun = true; ctl = new AbortController(); updateCellNote(); $("stop").hidden = false; $("stages").hidden = false;
   $("cards").textContent = ""; $("claims").textContent = "";
   var opt = { signal: ctl.signal };
   try {
-    setStage("st-decomp", "run", "finding load-bearing claims and their altitudes");
+    setStage("st-decomp", "run", "finding the points that must survive");
     $("status").textContent = "Thinking. The first answer can take up to a minute.";
     var tiered = parseTiered(await sample.json(tieredDecompPrompt(signal), opt));
     if (!tiered.length) throw { code: "invalid_json" };
     lastClaims = tiered; lastSignal = signal; renderTiered(tiered);
+    var orig = {}, sn = norm(signal);
+    await Promise.all(listeners.map(function (p) {
+      return sample.json(shadowPrompt(signal, shadowOf(p)), { signal: ctl.signal, modelTier: "quick" }).then(function (r) {
+        orig[p.id] = (Array.isArray(r) ? r : []).filter(function (t) { return t && typeof t.quote === "string" && t.quote.trim(); }).map(function (t) { return { quote: t.quote.trim(), why: typeof t.why === "string" ? t.why : "", found: sn.indexOf(norm(t.quote)) >= 0 }; });
+      });
+    }));
     setStage("st-decomp", "done", tiered.length + " claims");
 
     var need = listeners.filter(function (p) { return p.kind === "derive" && !DERIVED[p.id]; });
@@ -580,12 +645,14 @@ async function run() {
     setStage("st-trans", "run", "blind receive and shadow read, then compare");
     await evalCells(cells, tiered, opt);
     cells.sort(function (a, b) { return RUNGS.indexOf(a.rung) - RUNGS.indexOf(b.rung); });
-    var box = $("cards"); cells.forEach(function (c) { box.appendChild(bondCard(c, sp)); });
+    var box = $("cards");
+    listeners.forEach(function (p) { box.appendChild(listenerCard(p, cells.filter(function (c) { return c.p === p; }), orig[p.id] || [], sp, rungs.length > 1)); });
     var passed = cells.filter(function (c) { return c.pass; }).length;
     var asked = listeners.length * rungs.length;
     setStage("st-trans", missing.length ? "fail" : "done", passed + " of " + asked + " landed clean" + (missing.length ? "; " + missing.length + " missing" : ""));
     if (missing.length) box.prepend(el("div", { cls: "err" }, [el("b", { text: "Missing from Claude's answer: " }), missing.join("; ") + ". Press Translate and check again; finished renderings replay and only these are asked for."]));
-    $("status").textContent = "Done. A cell lands clean when IPS is " + IPS_THRESHOLD + " or above on the claims required at its altitude, nothing was added, and its shadow stayed asleep. Cells that did not land offer a third force.";
+    $("status").textContent = passed + " of " + asked + " version" + (asked === 1 ? "" : "s") + " land" + (asked === 1 ? "s" : "") + "." + (passed < asked ? " Press Repair this under any that do not." : " Copy the one you want.");
+    $("cards").scrollIntoView({ behavior: "smooth", block: "start" });
   } catch (e) {
     ["st-decomp", "st-recomp", "st-trans"].forEach(function (s) { if ($(s).getAttribute("data-s") === "run") setStage(s, "fail", "stopped"); });
     showError("Babel Fish", e);
@@ -757,7 +824,7 @@ function drawHept() {
   });
   ATOMS.forEach(function (a) {
     var p = pts[a.name], mark = initState.hept.primary === a.name ? "primary" : initState.hept.shadow === a.name ? "shadow" : initState.hept.secondary === a.name ? "secondary" : "";
-    var g = svgEl("g", { "class": "pt", tabindex: "0", role: "button", "data-m": mark,
+    var g = svgEl("g", { "class": "pt", tabindex: "0", role: "button", "data-m": mark, "data-fk": "hept-" + a.name,
       "aria-label": a.name + ", " + a.question + (mark ? ", marked " + mark : "") });
     g.appendChild(svgEl("circle", { cx: p[0], cy: p[1], r: 24, "class": "hit" })); // finger-sized tap target, invisible
     g.appendChild(svgEl("circle", { cx: p[0], cy: p[1], r: 10 }));
@@ -776,7 +843,7 @@ function drawHept() {
 function segButtons(opts, current, onPick, label) {
   var box = el("div", { cls: "seg", role: "group", "aria-label": label });
   opts.forEach(function (o) {
-    var b = el("button", { type: "button", text: o[1] }); b.setAttribute("aria-pressed", String(current === o[0]));
+    var b = el("button", { type: "button", text: o[1], "data-fk": label + ":" + o[0] }); b.setAttribute("aria-pressed", String(current === o[0]));
     b.addEventListener("click", function () { onPick(current === o[0] ? "" : o[0]); });
     box.appendChild(b);
   });
@@ -797,7 +864,7 @@ function drawMirror() {
     name.addEventListener("input", function () { m.name = name.value; saveInit(); });
     var chips = el("div", { cls: "seg", role: "group", "aria-label": "Energies person " + (i + 1) + " carries" });
     ATOMS.forEach(function (a) {
-      var on = m.traits.indexOf(a.name) >= 0, b = el("button", { type: "button", text: a.trait }); b.setAttribute("aria-pressed", String(on));
+      var on = m.traits.indexOf(a.name) >= 0, b = el("button", { type: "button", text: a.trait, "data-fk": "m" + i + "-" + a.name }); b.setAttribute("aria-pressed", String(on));
       b.addEventListener("click", function () { if (on) m.traits.splice(m.traits.indexOf(a.name), 1); else m.traits.push(a.name); saveInit(); drawMirror(); refreshSignature(); });
       chips.appendChild(b);
     });
@@ -891,7 +958,7 @@ function drawListeners(checkYou) {
   }
   $("personas").textContent = ""; $("atomList").textContent = "";
   if (YOU) chip($("personas"), YOU, true);
-  PERSONAS.forEach(function (p) { chip($("personas"), p, true); });
+  PERSONAS.forEach(function (p) { chip($("personas"), p, p.id === "founder"); });
   ATOM_LISTENERS.forEach(function (p) { chip($("atomList"), p, false); });
   FAMILY_LISTS.forEach(function (x) { $(x[0]).textContent = ""; REGISTRY[x[1]].forEach(function (p) { chip($(x[0]), p, false); }); });
   hasDrawn = true; drawSpeaker(); updateCellNote();
@@ -941,6 +1008,16 @@ function throttled(raw) {
   };
 }
 
+// Rebuilding a group must not throw keyboard focus to the top of the page (WCAG 2.4.3): refocus the same control.
+function keepFocus(fn) {
+  return function () {
+    var a = document.activeElement, k = a && a.getAttribute && a.getAttribute("data-fk");
+    fn.apply(null, arguments);
+    if (k) { var hit = [].filter.call(document.querySelectorAll("[data-fk]"), function (n) { return n.getAttribute("data-fk") === k; })[0]; if (hit) hit.focus(); }
+  };
+}
+drawHept = keepFocus(drawHept); drawSomatic = keepFocus(drawSomatic); drawMirror = keepFocus(drawMirror);
+
 // ---- Wiring ----
 $("logCopy").addEventListener("click", function () {
   var t = callLog.map(function (e) { return [e.at, e.stage, e.outcome, e.ms != null ? e.ms + "ms" : "", e.queued ? "waited " + e.queued + "ms" : ""].join("\t"); }).join("\n"), b = $("logCopy");
@@ -962,19 +1039,17 @@ $("lokiCopy").addEventListener("click", function () {
   var t = JSON.stringify(lokiResults, null, 2), b = $("lokiCopy");
   try { navigator.clipboard.writeText(t).then(function () { b.textContent = "Copied"; }, function () { b.textContent = "Copy failed; select from the console"; }); } catch (e) { b.textContent = "Copy failed"; }
 });
-RUNGS.forEach(function (r) { var cb = el("input", { type: "checkbox", id: "r-" + r.id }); cb.checked = r.id === "operational"; $("rungs").appendChild(el("label", { for: "r-" + r.id, cls: "chiplabel" }, [cb, r.name])); });
+RUNGS.forEach(function (r) { var cb = el("input", { type: "checkbox", id: "r-" + r.id }); cb.checked = r.id === "operational"; $("rungs").appendChild(el("label", { for: "r-" + r.id }, [cb, r.name + " (" + r.plain + ")"])); });
 document.addEventListener("change", function (e) { if (e.target && e.target.type === "checkbox") updateCellNote(); });
 drawListeners(false); refreshSignature();
-$("signal").value = SOURCE;
 $("go").addEventListener("click", function () { if (!running) run(); });
 $("stop").addEventListener("click", function () { if (ctl) ctl.abort(); });
-$("reset").addEventListener("click", function () { $("signal").value = SOURCE; showExample(); $("status").textContent = "The codex source concept is loaded. Press Translate and check."; });
-showExample();
+$("reset").addEventListener("click", function () { $("signal").value = SOURCE; $("status").textContent = "An example is loaded. Pick who will hear it, then press the button."; });
 
 if (window.claude && window.claude.use) {
-  window.claude.use("sample").then(function (s) { sample = s ? throttled(s) : null; if (!s) $("status").textContent = "Claude is not available in this view, so only the example shows."; }).catch(function () {});
+  window.claude.use("sample").then(function (s) { sample = s ? throttled(s) : null; if (!s) $("status").textContent = "Claude is not available in this view. Open this page in claude.ai to run it."; }).catch(function () {});
   // Redraw only the untouched example, so a late arrival never wipes a finished run.
-  window.claude.use("tts").then(function (t) { if (t) { tts = t; if (!hasRun) showExample(); } }).catch(function () {});
+  window.claude.use("tts").then(function (t) { if (t) { tts = t; } }).catch(function () {});
   window.claude.use("dictation").then(function (d) {
     if (!d) return;
     var mic = $("mic"); mic.hidden = false; var on = false, base = "";
@@ -988,6 +1063,6 @@ if (window.claude && window.claude.use) {
     });
   }).catch(function () {});
 } else {
-  $("status").textContent = "Open this page in claude.ai to run the engine. The example shows the codex's own translations.";
+  $("status").textContent = "Open this page in claude.ai to run it.";
 }
 </script>
