@@ -44,7 +44,12 @@ files out of the repo. Proposed rule: yellow at your p75 turn, red at your p90.
 First read (2026-11-16, 56 turns from the first ~9 minutes of 4 calls): median 12s,
 p75 29s, p90 73s; 40s/60s would light red on about 1 turn in 8.
 
-## Not yet
+## Status: exploratory, parked (2026-11-16)
 
-v1 (density: long AND jargon-heavy = red) waits on the projection-map pilot's P5.
-If P5 is false or can't be told, v0 is the product.
+The projection-map pilot (114 calls, pre-registered, permutation-tested; ledger
+`tools/projection-map/ACCUMULATION.md` on branch `claude/voice-branded-mini-app-1ne11t`)
+found no in-call signal: dense vs plain long turns, no effect (p 0.74, 998 turns);
+the listener cooling before or after a long turn, no effect (p 0.74 and 0.58).
+The one lean (more mid-curve in calls that went nowhere, p about 0.05) is per call,
+not per moment. So v1 is off, and v0 has no evidence it helps. Do not build on it
+further without Zach's go; one real-call trial would be an experiment, not a launch.
