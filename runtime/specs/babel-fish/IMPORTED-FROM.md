@@ -13,6 +13,7 @@
 | File | What it is |
 |---|---|
 | `adaptive-translation-codex.md` | The Adaptive Translation Codex: register-neutral source concept, six synthetic personas, four translation invariants, drift flags, phase-lock signals. |
+| `loki-preregistration.md` | The Loki test's method and pass bar, fixed before any run (90% of dropped or negated claims caught, 80% of added or softened). |
 | `babel-fish-artifact.html` | Source of the private claude.ai artifact (https://claude.ai/artifact/QQFyyZa3xeUhfuhyMtjKz9): decomposition, recomposition, then a blind transceiver that marks each load-bearing claim kept, weakened or dropped. Republish from this file. |
 
 ## Relation to the operators

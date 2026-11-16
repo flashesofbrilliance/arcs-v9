@@ -102,6 +102,19 @@ code { font: 12px var(--mono); color: var(--cyan); }
 
   <section id="cards" aria-live="polite" style="display:grid;gap:14px"></section>
 
+  <section class="panel" aria-label="Loki test">
+    <h2>Loki test &middot; attack the transceiver</h2>
+    <p class="note">The transceiver is the whole lossless claim, so this attacks it. For each of 10 built-in concepts, a clean rendering runs once as a control, then four planted corruptions run through the same blind receive and compare: a claim <b>dropped</b> (sentence deleted mechanically), a fabricated number <b>added</b> (appended mechanically), a claim <b>negated</b> and a claim <b>softened</b> (edited by Claude, checked to have changed). The bar was fixed before any result: see the pre-registration below.</p>
+    <p class="note" id="prereg"></p>
+    <div class="row">
+      <button id="lokiGo" type="button">Run Loki test (about 90 Claude calls)</button>
+      <button id="lokiStop" type="button" hidden>Stop</button>
+      <button id="lokiCopy" type="button" hidden>Copy results as JSON</button>
+    </div>
+    <p class="note" id="lokiStatus">Not run yet.</p>
+    <div id="lokiOut" style="display:grid;gap:10px"></div>
+  </section>
+
   <footer>
     <div>Personas, registers and phase-lock lines come from the ARCS Adaptive Translation Codex. The stage names follow <code>operators/arcs_lte.py</code>. IPS here is semantic (a blind receiver), not the LTE's keyword overlap, and there is no recovery pass that pastes missing claims back on.</div>
     <div>Each run asks Claude 9 times on your own account (1 decomposition, 1 recomposition, 6 blind receives, 1 comparison). Quoted evidence is checked against the rendering on this page; a quote that is not there is flagged.</div>
@@ -310,7 +323,142 @@ async function run() {
   }
 }
 
+// ---- Loki test (hyperstition: IDEA -> APEX needs a survived Loki challenge) ----
+// Pre-registered 2026-11-16, committed to runtime/specs/babel-fish/loki-preregistration.md before any run.
+var LOKI = { prereg: "2026-11-16", passDropNegate: 0.90, passAddSoften: 0.80,
+  fabricated: "In our pilot it cut decision time by 37% within six weeks." };
+var LOKI_CONCEPTS = [
+  "If a decision is reversible, decide fast and learn; if it is irreversible, slow down and write down what would change your mind.",
+  "We should not hire a second engineer until the first customer renews, because payroll would outrun revenue by March.",
+  "Caching cut median latency, but the 99th percentile got worse, so we are rolling it back for the checkout path only.",
+  "Oh great, another dashboard. Nobody reads them; what changes behavior is one number, owned by one person, reviewed weekly.",
+  "The model is not wrong more often than the old rules engine; it is wrong in new places, which is why reviewers keep missing its errors.",
+  "Most of our churn comes from accounts that never connected a data source in week one, not from pricing.",
+  "A receipt is only useful if it was written before the outcome was known; written after, it records the story, not the decision.",
+  "We will keep the free tier, cap it at three projects, and move audit logs to the paid plan starting in the next release.",
+  "Security reviews slow us down only when they happen at the end; done at design time they removed rework on four of five projects.",
+  "None of the three vendors is ready: one lacks SSO, one cannot host in the EU, and one has no export, so we build the minimum ourselves."
+];
+var lokiCtl = null, lokiResults = null;
+function mutatePrompt(rendering, claims, nNeg, nSoft) {
+  return "Make two edited copies of the MESSAGE. Change as little as possible each time.\n" +
+    "NEGATE: change only what is needed so claim " + nNeg + " is asserted as false (the reverse), leaving everything else as it was.\n" +
+    "SOFTEN: change only what is needed so claim " + nSoft + " is hedged or conditional (for example may, sometimes, in some cases) but still present.\n\n" +
+    "CLAIMS:\n" + claims.map(function (c, i) { return (i + 1) + ". " + c; }).join("\n") +
+    "\n\nMESSAGE:\n<message>" + rendering + "</message>\n\nReturn ONLY JSON: {\"negate\": \"<full edited message>\", \"soften\": \"<full edited message>\"}";
+}
+function dropSentence(text, quote) {
+  if (!quote) return null;
+  var sents = text.match(/[^.!?]+[.!?]+["”']?\s*|[^.!?]+$/g) || [text];
+  var q = norm(quote), hit = -1;
+  sents.forEach(function (s, i) { if (hit < 0 && norm(s).indexOf(q) >= 0) hit = i; });
+  if (hit < 0 || sents.length < 2) return null;
+  return sents.filter(function (_, i) { return i !== hit; }).join("").trim();
+}
+async function lokiOne(concept, p, opt) {
+  var claims = asStrings(await sample.json(decompPrompt(concept), opt)).slice(0, 7);
+  if (claims.length < 2) return { concept: concept, persona: p.id, skipped: "fewer than 2 claims" };
+  var rec = await sample.json(recompPrompt(concept, claims, [p]), opt);
+  var r = (Array.isArray(rec) ? rec : []).filter(function (x) { return x && x.id === p.id && typeof x.rendering === "string"; })[0];
+  if (!r) return { concept: concept, persona: p.id, skipped: "no rendering" };
+  var clean = r.rendering.trim();
+  var nNeg = 1, nSoft = Math.min(2, claims.length), nDrop = claims.length;
+  var cleanRecv = asStrings(await sample.json(receivePrompt(clean), { signal: opt.signal, modelTier: "quick" }));
+  var cleanJ = await sample.json(judgePrompt(claims, [{ id: "clean", rendering: clean, received: cleanRecv }]), opt);
+  var cj = (Array.isArray(cleanJ) ? cleanJ : [])[0] || { claims: [], added: [] };
+  var dropQuote = ((cj.claims || []).filter(function (x) { return Number(x.n) === nDrop; })[0] || {}).quote || "";
+  var muts = [];
+  var dropped = dropQuote && norm(clean).indexOf(norm(dropQuote)) >= 0 ? dropSentence(clean, dropQuote) : null;
+  muts.push({ kind: "drop", target: nDrop, text: dropped, valid: !!dropped && norm(dropped) !== norm(clean), why: dropped ? "" : "could not locate the claim's sentence" });
+  muts.push({ kind: "add", target: 0, text: clean + " " + LOKI.fabricated, valid: true, why: "" });
+  var m = await sample.json(mutatePrompt(clean, claims, nNeg, nSoft), { signal: opt.signal, modelTier: "quick" });
+  ["negate", "soften"].forEach(function (k) {
+    var t = m && typeof m[k] === "string" ? m[k].trim() : "";
+    muts.push({ kind: k, target: k === "negate" ? nNeg : nSoft, text: t, valid: !!t && norm(t) !== norm(clean), why: t ? (norm(t) === norm(clean) ? "edit left the text unchanged" : "") : "no edit returned" });
+  });
+  var live = muts.filter(function (x) { return x.valid; });
+  await Promise.all(live.map(function (x) {
+    return sample.json(receivePrompt(x.text), { signal: opt.signal, modelTier: "quick" }).then(function (rv) { x.received = asStrings(rv); });
+  }));
+  var js = live.length ? await sample.json(judgePrompt(claims, live.map(function (x) { return { id: x.kind, rendering: x.text, received: x.received }; })), opt) : [];
+  var byK = {}; (Array.isArray(js) ? js : []).forEach(function (j) { if (j && j.id) byK[j.id] = j; });
+  var cleanKept = (cj.claims || []).filter(function (x) { return x.status === "kept"; }).length;
+  muts.forEach(function (x) {
+    if (!x.valid) { x.caught = null; return; }
+    var j = byK[x.kind] || { claims: [], added: [] };
+    if (x.kind === "add") { x.caught = asStrings(j.added).length > 0; x.detail = asStrings(j.added).join("; "); return; }
+    var v = (j.claims || []).filter(function (c) { return Number(c.n) === x.target; })[0];
+    x.status = v ? v.status : "missing";
+    x.caught = x.status !== "kept";
+    x.detail = "claim " + x.target + " marked " + x.status + ": " + claims[x.target - 1];
+  });
+  return { concept: concept, persona: p.id, claims: claims, clean_false_alarms: claims.length - cleanKept, clean_added: asStrings(cj.added).length,
+    mutations: muts.map(function (x) { return { kind: x.kind, valid: x.valid, why: x.why, caught: x.caught, detail: x.detail || "" }; }) };
+}
+function lokiScore(rows) {
+  var t = { drop: [0, 0], negate: [0, 0], add: [0, 0], soften: [0, 0] }, fa = 0, claimsN = 0, invalid = [];
+  rows.forEach(function (r) {
+    if (r.skipped) return; claimsN += r.claims.length; fa += r.clean_false_alarms;
+    r.mutations.forEach(function (m) { if (!m.valid) { invalid.push(r.persona + "/" + m.kind + ": " + m.why); return; } t[m.kind][1]++; if (m.caught) t[m.kind][0]++; });
+  });
+  var dn = [t.drop[0] + t.negate[0], t.drop[1] + t.negate[1]], as = [t.add[0] + t.soften[0], t.add[1] + t.soften[1]];
+  var rDN = dn[1] ? dn[0] / dn[1] : 0, rAS = as[1] ? as[0] / as[1] : 0;
+  return { by_kind: t, drop_negate: { caught: dn[0], of: dn[1], rate: rDN, bar: LOKI.passDropNegate, pass: dn[1] > 0 && rDN >= LOKI.passDropNegate },
+    add_soften: { caught: as[0], of: as[1], rate: rAS, bar: LOKI.passAddSoften, pass: as[1] > 0 && rAS >= LOKI.passAddSoften },
+    control_false_alarm_rate: claimsN ? fa / claimsN : 0, invalid_mutations: invalid };
+}
+function renderLoki(rows, done) {
+  var out = $("lokiOut"); out.textContent = "";
+  var s = lokiScore(rows);
+  function line(label, x) {
+    return el("div", { cls: "v " + (x.of ? (x.pass ? "kept" : "dropped") : "weakened") }, [el("b", { text: x.of ? (x.pass ? "pass" : "fail") : "n/a" }),
+      el("span", { text: label + ": caught " + x.caught + " of " + x.of + " (" + (x.of ? Math.round(x.rate * 100) : 0) + "%), bar " + Math.round(x.bar * 100) + "%" })]);
+  }
+  var box = el("div", { cls: "verdicts" }, [line("Dropped or negated claims", s.drop_negate), line("Added numbers or softened claims", s.add_soften),
+    el("div", { cls: "v" }, [el("b", { text: "control" }), el("span", { text: "Clean renderings: " + Math.round(s.control_false_alarm_rate * 100) + "% of claims not marked kept (false alarm rate)" })])]);
+  out.appendChild(box);
+  var k = s.by_kind; out.appendChild(el("p", { cls: "note", text: "By kind: drop " + k.drop[0] + "/" + k.drop[1] + ", negate " + k.negate[0] + "/" + k.negate[1] + ", add " + k.add[0] + "/" + k.add[1] + ", soften " + k.soften[0] + "/" + k.soften[1] + "." }));
+  var misses = [];
+  rows.forEach(function (r) { if (r.skipped) misses.push(r.persona + ": skipped, " + r.skipped); else r.mutations.forEach(function (m) { if (m.valid && !m.caught) misses.push(m.kind + " missed for " + r.persona + " (" + r.concept.slice(0, 60) + "...): " + m.detail); }); });
+  if (misses.length || s.invalid_mutations.length) {
+    var seam = el("div", { cls: "seam" }, [el("b", { text: done ? "Failure modes (name these in the receipt)" : "Misses so far" })]);
+    misses.forEach(function (x) { seam.appendChild(el("span", { text: x })); });
+    s.invalid_mutations.forEach(function (x) { seam.appendChild(el("span", { text: "Excluded mutation, " + x })); });
+    out.appendChild(seam);
+  }
+  lokiResults = { prereg: LOKI.prereg, bars: { drop_negate: LOKI.passDropNegate, add_soften: LOKI.passAddSoften }, completed: rows.length, of: LOKI_CONCEPTS.length, score: s, rows: rows };
+}
+async function runLoki() {
+  if (!sample) { $("lokiStatus").textContent = "Claude is not available in this view, so the Loki test cannot run."; return; }
+  lokiCtl = new AbortController(); $("lokiGo").disabled = true; $("go").disabled = true; $("lokiStop").hidden = false; $("lokiCopy").hidden = true;
+  var rows = [];
+  try {
+    for (var i = 0; i < LOKI_CONCEPTS.length; i++) {
+      var p = PERSONAS[i % PERSONAS.length];
+      $("lokiStatus").textContent = "Concept " + (i + 1) + " of " + LOKI_CONCEPTS.length + " (" + p.name + "). Each takes about a minute.";
+      rows.push(await lokiOne(LOKI_CONCEPTS[i], p, { signal: lokiCtl.signal }));
+      renderLoki(rows, false);
+    }
+    renderLoki(rows, true);
+    var s = lokiScore(rows);
+    $("lokiStatus").textContent = (s.drop_negate.pass && s.add_soften.pass ? "Passed the pre-registered bar." : "Did not pass the pre-registered bar.") + " Copy the results and file them in the receipt either way.";
+  } catch (e) {
+    if (rows.length) renderLoki(rows, false);
+    $("lokiStatus").textContent = (e && e.code === "cancelled" ? "Stopped" : "Stopped by an error (" + ((e && e.code) || "error") + ")") + " after " + rows.length + " of " + LOKI_CONCEPTS.length + " concepts. A partial run does not count against the bar.";
+  } finally {
+    $("lokiGo").disabled = false; $("go").disabled = false; $("lokiStop").hidden = true; $("lokiCopy").hidden = !lokiResults;
+  }
+}
+
 // ---- Wiring ----
+$("prereg").textContent = "Pre-registered " + LOKI.prereg + ", before any run: pass only if the transceiver catches at least " + Math.round(LOKI.passDropNegate * 100) +
+  "% of dropped or negated claims and at least " + Math.round(LOKI.passAddSoften * 100) + "% of added numbers or softened claims, over all 10 concepts. Excluded mutations are listed, not counted. A partial run does not count.";
+$("lokiGo").addEventListener("click", function () { runLoki(); });
+$("lokiStop").addEventListener("click", function () { if (lokiCtl) lokiCtl.abort(); });
+$("lokiCopy").addEventListener("click", function () {
+  var t = JSON.stringify(lokiResults, null, 2), b = $("lokiCopy");
+  try { navigator.clipboard.writeText(t).then(function () { b.textContent = "Copied"; }, function () { b.textContent = "Copy failed; select from the console"; }); } catch (e) { b.textContent = "Copy failed"; }
+});
 PERSONAS.forEach(function (p) {
   var cb = el("input", { type: "checkbox", id: "p-" + p.id }); cb.checked = true;
   $("personas").appendChild(el("label", { for: "p-" + p.id }, [cb, p.name]));
