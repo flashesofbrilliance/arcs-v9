@@ -6,6 +6,7 @@ Never hand-type a listener list (AGENTS.md gotcha 16): each family is read from 
   operator   operators/OPERATOR-REGISTRY.json
   primitive  CLAUDE.md "ROM Primitives" list
   advisor    .claude/agents/{chief-*,idea-*,grug,scenario-runner}.md front matter
+  atomic     runtime/specs/babel-fish/book-of-arcs-v2-deep.md (Atomic Family + INIT instruments)
 The six codex personas stay hand-mapped in the page (PERSONAS), from the imported codex.
 No registry of protocols exists; the page says so instead of inventing one.
 
@@ -71,8 +72,56 @@ def advisors():
     return out
 
 
+BOOK = ROOT / "runtime/specs/babel-fish/book-of-arcs-v2-deep.md"
+ATOMIC = ["Dreamer", "Guardian", "Elder", "Shapeshifter", "Bridge", "Heart", "Sage"]
+
+
+def _field(sec, label):
+    m = re.search(r"^%s[^:]*:\s*(.+)$" % label, sec, re.M)
+    return re.sub(r"\[\d\]", "", m.group(1)).strip().strip("“”\"") if m else ""
+
+
+def atomic_family():
+    """The Book's seven archetypes (sections 1.1 to 1.8) and its INIT instruments (2.1 to 2.4)."""
+    text = BOOK.read_text()
+    out = []
+    for name in ATOMIC:
+        line = re.search(r"^- %s \((\w+)\) – (.+?); (.+)$" % name, text, re.M)
+        sec = re.search(r"^### 1\.\d %s \(\w+\) — (.+?)\n(.+?)(?=^### |^## )" % name, text, re.M | re.S)
+        if not (line and sec):
+            raise SystemExit("Atomic Family entry for %s not found in %s" % (name, BOOK.name))
+        body = sec.group(2)
+        shadow = _field(body, "Shadows?")
+        genesis = body.split("Genesis compression:", 1)[1].split("Therapeutic reframe:", 1)[0]
+        out.append({"id": "atom-" + name.lower(), "family": "atomic", "kind": "audience", "name": name,
+                    "code": line.group(1), "image": line.group(2), "roles": line.group(3),
+                    "title": sec.group(1).strip(), "question": _field(body, "Core question"),
+                    "gift": _field(body, "Gift"), "curse": _field(body, "Curse"),
+                    "shadow": [a for a in ATOMIC if a in shadow.split("–")[0]], "shadow_text": shadow,
+                    "genesis": re.sub(r"\[\d\]", "", " ".join(genesis.split())).strip(),
+                    "reframe": _field(body, "Therapeutic reframe"),
+                    "source": "runtime/specs/babel-fish/book-of-arcs-v2-deep.md §1 " + name})
+    s21 = text.split("### 2.1", 1)[1].split("### 2.2", 1)[0]
+    dirs = dict(re.findall(r"(\w+) \((N|NE|S|SE|W|SW|Bottom)\)", s21))
+    s22 = text.split("### 2.2", 1)[1].split("### 2.3", 1)[0]
+    scen = [x.strip() for x in re.search(r"vivid scenario \((.+?)\)", s22).group(1).split(",")]
+    s23 = text.split("### 2.3", 1)[1].split("### 2.4", 1)[0]
+    traits = [x.strip() for x in re.search(r"Mark archetypal traits \((.+?)\)", s23).group(1).split(",")]
+    s24 = text.split("### 2.4", 1)[1].split("### 2.5", 1)[0]
+    leaves = [{"reason": r.strip(), "archetypes": [a.strip() for a in t.split("/")]}
+              for r, t in re.findall(r"^- Leave (.+?) → ([\w/]+)\.", s24, re.M)]
+    if len(dirs) != 7 or len(scen) != 7 or len(traits) != 7 or len(leaves) != 5:
+        raise SystemExit("INIT instruments malformed: %d dirs, %d scenarios, %d traits, %d leave rules"
+                         % (len(dirs), len(scen), len(traits), len(leaves)))
+    for a in out:  # the Book lists scenarios and traits in archetype order (Dreamer first)
+        i = ATOMIC.index(a["name"])
+        a.update({"direction": dirs[a["name"]], "scenario": scen[i], "trait": traits[i]})
+    return out, {"leave_rules": leaves, "source": "runtime/specs/babel-fish/book-of-arcs-v2-deep.md §2"}
+
+
 def block():
-    reg = {"archetype": archetypes(), "advisor": advisors(), "operator": operators(), "primitive": primitives(),
+    atoms, init = atomic_family()
+    reg = {"atomic": atoms, "init": init, "archetype": archetypes(), "advisor": advisors(), "operator": operators(), "primitive": primitives(),
            "gaps": ["protocol: no registry of protocols exists in the repo, so none are loaded"]}
     return BEGIN + "\nvar REGISTRY = " + json.dumps(reg, ensure_ascii=False, separators=(",", ":")) + ";\n" + END
 
