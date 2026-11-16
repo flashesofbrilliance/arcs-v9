@@ -229,6 +229,14 @@ export async function linkedinToAts(r) {
   return null
 }
 
+// ---------- employer candidate-AI policies (runtime/specs/candidate-ai-policies.json) ----------
+// A company whose careers page forbids AI-drafted application material gets no generated resume or cover letter.
+let AIPOL = null
+export function aiPolicyFor(company) {
+  if (!AIPOL) { try { AIPOL = JSON.parse(fs.readFileSync(path.join(HERE, "..", "runtime", "specs", "candidate-ai-policies.json"), "utf8")).policies || [] } catch { AIPOL = [] } }
+  return AIPOL.find((p) => new RegExp(p.company_pattern, "i").test(String(company || ""))) || null
+}
+
 // Rows handed in by an agent from an MCP-only source. id must be stable per posting (e.g. company id + title slug).
 export function importRows(file, src) {
   const list = JSON.parse(fs.readFileSync(file, "utf8"))
@@ -287,6 +295,7 @@ function selftest() {
   const hnKept = hn.filter((r) => locationOk(r.location, false, r.title))
   t("hn drops a header with an off-target city", hn.length === 2 && hnKept.length === 1)
   t("linkedin host never fetched", !fetchAllowed("https://www.linkedin.com/jobs/view/1/") && fetchAllowed("https://jobs.ashbyhq.com/x/1"))
+  t("candidate AI policy: Anthropic blocks generated drafts", aiPolicyFor("Anthropic")?.rule === "candidate-drafts-first" && aiPolicyFor("anthropic") && !aiPolicyFor("Ramp"))
   t("platform app pages never fetched", !fetchAllowed("https://app.jackandjill.ai/jobs/x/post") && !fetchAllowed("https://talent.fonzi.ai/companies/x"))
   t("sameRole: word order and brackets", sameRole("Forward Deployed Engineer (NYC)", "Forward Deployed Engineer - New York"))
   t("sameRole: seniority kept apart", !sameRole("Staff Product Manager", "Product Manager") && !sameRole("Senior Product Manager", "Product Designer"))

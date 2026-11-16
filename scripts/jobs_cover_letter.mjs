@@ -13,6 +13,7 @@
 //   ... --questions q.txt   # also answer application questions (one per line)
 //   ... --waive-gauntlet "<reason>"   # Zach's explicit waiver, recorded in the gate print
 // Env: JOBS_PIPELINE_TOKEN, JOBS_BASE.
+import { aiPolicyFor } from "./jobs_sources.mjs"
 import fs from "node:fs"; import path from "node:path"; import { execSync, spawnSync } from "node:child_process"
 const arg = (k, d) => { const i = process.argv.indexOf(k); return i >= 0 ? (process.argv[i + 1] ?? true) : d }
 const has = (k) => process.argv.includes(k)
@@ -90,7 +91,11 @@ async function main() {
   else if (has("--pursue")) targets = rows.filter((r) => man[r.jobid] && r.band === "PURSUE")
   else { console.error("pass --jobid <id> or --pursue"); process.exit(2) }
   let ok = 0
-  for (const r of targets) { if (await one(r, man)) ok++ }
+  for (const r of targets) {
+    const pol = aiPolicyFor(r.company)
+    if (pol) { console.error(`${r.jobid}: REFUSED, ${r.company} forbids AI-drafted applications (${pol.source}). Zach drafts first; Claude may only refine.`); process.exitCode = 3; continue }
+    if (await one(r, man)) ok++
+  }
   console.log(`\ncovers written: ${ok}/${targets.length}`)
 }
 main().catch((e) => { console.error(e); process.exit(1) })
