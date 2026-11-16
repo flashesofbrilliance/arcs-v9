@@ -43,3 +43,9 @@ Why: crypto developer platform; your Grayscale and developer-tooling record.
 ## 10. Alleviate Health (SF, seed, conversational AI for clinical trial recruitment)
 Why: small team, agents that talk to patients under clinical rules; your health and personalization record.
 > Pre-screening patients by text is a conversational agent problem with real stakes: it has to be accurate, compliant and kind. I build agentic systems with evaluation around every output, and I have worked both sides of health: HIPAA product validation at Twill Health and personalization across marketing, fundraising and clinical teams at the Children's Tumor Foundation. I would enjoy talking about an early product or engineering role.
+
+## Sleeper: OpenRouter (NYC, Series B, remote friendly, unified API and routing across LLMs)
+Found by searching Talentplace for it (not in the first 22 tiles); Talentplace tags it Recommended, Industry fit and Remote friendly. It may be the strongest match on this page: model routing is something you have built and open-sourced.
+> Routing between models is a discipline I practice and have open-sourced: token-savings-bank codifies model-tier routing, batching and context budgeting for AI agents, and ARCS, my agentic platform, decides per step when deterministic context is enough and when model reasoning is worth paying for. I am in New York, and I would like to talk about forward deployed, developer relations or product roles where the job is helping teams pick and route models well.
+
+The same search also surfaced OP Labs (Optimism, NYC, Series B, crypto infrastructure) and HappyRobot (AI-native supply chain OS, Series C, SF) as possible additions.
