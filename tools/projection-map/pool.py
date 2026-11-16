@@ -3,7 +3,7 @@
 import json, statistics as st, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent)); import projection as P
-D = Path(__file__).parent; raw = json.loads((D / "manifest.json").read_text()); UNSURE = set(raw.get("_unsure", []))
+D = Path(__file__).parent / "projection-data"; raw = json.loads((D / "manifest.json").read_text()); UNSURE = set(raw.get("_unsure", []))
 man = {k: v for k, v in raw.items() if not k.startswith("_")}
 import random; random.seed(7)
 EXCL = "--sure-only" in sys.argv

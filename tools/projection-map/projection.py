@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Layer 1 projection metrics from Granola transcripts. Counted, no judgment.
-Usage: python3 projection.py raw/*.txt  -> prints per-call metrics + prediction verdicts, writes metrics.json"""
+Usage: python3 projection.py projection-data/raw_exact/*.txt  -> prints per-call metrics + prediction verdicts, writes metrics.json"""
 import json, re, sys, statistics as st
 from pathlib import Path
 
@@ -99,4 +99,4 @@ if __name__ == "__main__":
     calls = [score(p) for p in sys.argv[1:]]
     for c in calls: print({k: v for k, v in c.items() if k != "rows"})
     for k, v in verdicts(calls).items(): print("TRUE " if v else ("FALSE" if v is False else "CAN'T TELL (n<3 or no data)"), k)
-    Path(Path(sys.argv[0]).parent / "metrics.json").write_text(json.dumps(calls, indent=1))
+    Path(Path(sys.argv[0]).parent / "projection-data" / "metrics.json").write_text(json.dumps(calls, indent=1))

@@ -4,6 +4,9 @@ Counts how Zach projects on calls, from Granola transcripts, with no model judgm
 Private by construction: this folder's `.gitignore` admits only code and docs. Transcripts, manifests,
 titles, labels and results stay local and are never committed.
 
+## Data location
+All private data lives in `projection-data/` beside the scripts (`raw_exact/`, `manifest.json`, `titles.tsv`, results). The folder `.gitignore` keeps it out of git.
+
 ## Pipeline
 1. **Fetch**: a helper calls the Granola `get_meeting_transcript` tool (fetch only, writes nothing).
 2. **Extract**: `python3 -I extract.py <helper-log.jsonl> raw_exact/` pulls the exact tool output from the helper's log

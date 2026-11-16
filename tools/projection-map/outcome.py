@@ -3,7 +3,7 @@
 import json, re, random, statistics as st, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent)); import projection as P
-D = Path(__file__).parent; random.seed(7)
+D = Path(__file__).parent / "projection-data"; random.seed(7)
 raw = json.loads((D / "manifest.json").read_text()); aud = {i[:8]: k for k, v in raw.items() if not k.startswith("_") for i in v}
 GENERIC = set("""zach harris zachary x and with call interview 1-1 one catch up meeting min mins minute minutes check-in intro introductory
 the a of for re to role about new discussion quick review touch base connect part conversation screen screening round panel
