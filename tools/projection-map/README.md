@@ -21,3 +21,5 @@ titles, labels and results stay local and are never committed.
 - Speaker labels: `Microphone` is Zach; `System audio` (optionally `(Name)`) is everyone else; timestamps optional.
   Three parser bugs each flipped a verdict once: audit labels on any dropped call before trusting results.
 - Redact (cards, phones, emails, ID numbers) before any copy leaves the machine; delete raw copies when done.
+
+See `ACCUMULATION.md` for the basin states, the frozen discovery/test line, and the candidate ledger (ADR-081 instance).
