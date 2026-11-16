@@ -138,6 +138,7 @@ _STATE/jtbd-graph/
 _INBOX/pulse.jsonl
 _INBOX/lattice-drift.jsonl
 _INBOX/seedbank-drift.jsonl
+_INBOX/stale-refresh.jsonl
 
 # ADR/DEWY and surface watchers: ledgers hold snippets of local session text; never commit
 _INBOX/adr-dewy-candidates.jsonl
