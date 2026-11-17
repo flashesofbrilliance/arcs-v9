@@ -144,6 +144,10 @@ jobs:
       - name: No host catch-all rewrite swallows one of that host's own pages
         if: always()
         run: python3 scripts/rewrite_shadow_check.py --self-test && python3 scripts/rewrite_shadow_check.py
+      - name: Reading Room renders match their renderers (warn-then-block, 2026-11-11)
+        if: always()
+        continue-on-error: true
+        run: python3 scripts/reading_room_sync.py --self-test && python3 scripts/reading_room_sync.py --check
 
   smoke:
     # arcs-light (2026-11-02 leak audit): smoke starts no server and no Postgres, the only reasons a
