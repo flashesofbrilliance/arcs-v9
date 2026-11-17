@@ -11,8 +11,8 @@ export interface QuoteBlockProps {
 export function QuoteBlock({ children, attribution, accent = T.cyan }: QuoteBlockProps) {
   return (
     <div style={{ padding: '16px 20px', borderRadius: 8, background: T.surface, borderLeft: `4px solid ${accent}` }}>
-      <blockquote style={{ fontFamily: T.sans, fontSize: 16, fontWeight: 500, color: T.fg1, lineHeight: 1.7, fontStyle: 'italic' }}>&quot;{children}&quot;</blockquote>
-      {attribution && <div style={{ fontFamily: T.mono, fontSize: 11, color: T.fg4, marginTop: 10, letterSpacing: '0.06em' }}>— {attribution}</div>}
+      <blockquote style={{ fontFamily: T.sans, fontSize: T.fsBody, fontWeight: 500, color: T.fg1, lineHeight: 1.7, fontStyle: 'italic' }}>&quot;{children}&quot;</blockquote>
+      {attribution && <div style={{ fontFamily: T.mono, fontSize: T.fsLabel, color: T.fg3, marginTop: 10, letterSpacing: '0.06em' }}>{'\u2014'} {attribution}</div>}
     </div>
   )
 }

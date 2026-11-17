@@ -72,9 +72,10 @@
     "compass-anti-distillation-build"
    ],
    "pages": [
-    "_ARTIFACTS/postmortem-manufactured-role.html"
+    "_ARTIFACTS/postmortem-manufactured-role.html",
+    "public/downshift.html"
    ],
-   "reuse": 1,
+   "reuse": 2,
    "near_duplicates": [
     {
      "rule": ".nci-label",
@@ -493,9 +494,10 @@
     "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html",
     "_ARTIFACTS/postmortem-manufactured-role.html",
     "_ARTIFACTS/til-01-warmth-routes-you.html",
+    "public/downshift.html",
     "scripts/counterpart_onepager_build.py"
    ],
-   "reuse": 4,
+   "reuse": 5,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -591,9 +593,10 @@
    ],
    "jobs": [],
    "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html",
     "_ARTIFACTS/postmortem-manufactured-role.html"
    ],
-   "reuse": 1,
+   "reuse": 2,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -952,11 +955,9 @@
    "jobs": [],
    "pages": [
     "_ARTIFACTS/arcs-knowledge-lattice.html",
-    "_ARTIFACTS/phosphor.html",
     "_ARTIFACTS/session-visuals/tao-255-induction-circuit-silkscreen.html",
     "_ARTIFACTS/todd-call-proposal-backup-2026-08-04.html",
     "public/blog-nftt-take-home-trap-dossier.html",
-    "public/dj.html",
     "public/forge-pattern.html",
     "public/good-case-reader-who-remembered.html",
     "public/good-case-six-week-outage.html",
@@ -969,8 +970,15 @@
     "public/prl-status-troubleshooting.html",
     "scripts/case_world_sync.py"
    ],
-   "reuse": 17,
-   "near_duplicates": []
+   "reuse": 15,
+   "near_duplicates": [
+    {
+     "rule": ".sr",
+     "twin": "66-give-get-table",
+     "twin_rule": ".gg .vh",
+     "jaccard": 1.0
+    }
+   ]
   },
   {
    "id": "16-instrument-panel",
@@ -1142,6 +1150,12 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
     }
    ]
   },
@@ -1269,6 +1283,12 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
     }
    ]
   },
@@ -1308,10 +1328,9 @@
    ],
    "jobs": [],
    "pages": [
-    "_ARTIFACTS/raw-capture.html",
-    "public/belief-log.html"
+    "_ARTIFACTS/raw-capture.html"
    ],
-   "reuse": 2,
+   "reuse": 1,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -1390,6 +1409,12 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
     }
    ]
   },
@@ -1535,6 +1560,24 @@
      "rule": ".gates",
      "twin": "36-change",
      "twin_rule": ".sp-list",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".gates",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-pm ul",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".gates",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-floor",
      "jaccard": 0.8
     }
    ]
@@ -1692,6 +1735,18 @@
      "twin": "36-change",
      "twin_rule": ".sp-table thead th",
      "jaccard": 0.83
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".tpl",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-k",
+     "jaccard": 0.83
     }
    ]
   },
@@ -1769,9 +1824,11 @@
    "jobs": [],
    "pages": [
     "_ARTIFACTS/phosphor.html",
-    "public/dj.html"
+    "_ARTIFACTS/recoil-hypercube-explorer.html",
+    "public/dj.html",
+    "scripts/recoil_hypercube_explorer.py"
    ],
-   "reuse": 2,
+   "reuse": 4,
    "near_duplicates": []
   },
   {
@@ -1849,9 +1906,10 @@
     "state-of-union-dashboard-ahmed-impeccable-pass"
    ],
    "pages": [
-    "scripts/counterpart_onepager_build.py"
+    "scripts/counterpart_onepager_build.py",
+    "scripts/recoil_hypercube_explorer.py"
    ],
-   "reuse": 1,
+   "reuse": 2,
    "near_duplicates": [
     {
      "rule": ".seg",
@@ -1932,14 +1990,8 @@
    },
    "templates": [],
    "jobs": [],
-   "pages": [
-    "_ARTIFACTS/forge-monstro-ai-marketing-engineer/battle-card-monstro-ai-marketing-engineer.html",
-    "_ARTIFACTS/phosphor.html",
-    "_ARTIFACTS/resume-blacksmith/tear-sheet-amy.html",
-    "public/dj.html",
-    "public/myally-hub.html"
-   ],
-   "reuse": 5,
+   "pages": [],
+   "reuse": 0,
    "near_duplicates": []
   },
   {
@@ -1972,8 +2024,12 @@
    "jobs": [
     "ui-kit-promote-molecules"
    ],
-   "pages": [],
-   "reuse": 0,
+   "pages": [
+    "scripts/recoil_hypercube_explorer.py",
+    "scripts/recoil_page.py",
+    "scripts/tabbed_brief_build.py"
+   ],
+   "reuse": 3,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2052,6 +2108,12 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
     }
    ]
   },
@@ -2060,7 +2122,7 @@
    "number": "28",
    "name": "Chip",
    "group": "Molecules",
-   "subtitle": "Pill, badge and state chip in the four signal colors",
+   "subtitle": "Badge and status badge in the four signal colors, per the design system",
    "family": "kit",
    "path": "src/ui-kit/recoil-report/28-chip.html",
    "data_shape": [
@@ -2074,7 +2136,8 @@
     "green",
     "red",
     "row",
-    "section-label"
+    "section-label",
+    "status"
    ],
    "prim_blocks": [
     "28-chip"
@@ -2086,59 +2149,32 @@
    },
    "templates": [
     "recoil-report",
-    "recoil-player"
+    "recoil-player",
+    "precall-brief"
    ],
    "jobs": [],
    "pages": [
+    "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html",
     "_ARTIFACTS/2026-09-26-loop-closing-wager/settle-card.html",
-    "_ARTIFACTS/arcs-12d-orbital.html",
-    "_ARTIFACTS/arcs-alexandria.html",
-    "_ARTIFACTS/arcs-knowledge-lattice.html",
-    "_ARTIFACTS/arcs-meta-audit-roadmap.html",
-    "_ARTIFACTS/arcs-tao-alchemist.html",
-    "_ARTIFACTS/arcs-tao-corpus.html",
-    "_ARTIFACTS/atlas/2026-09-08-adr-077-ziggurat.html",
-    "_ARTIFACTS/atlas/atlas.html",
-    "_ARTIFACTS/brooks-audit-onepager.html",
-    "_ARTIFACTS/brooks-pitch-storyboard.html",
-    "_ARTIFACTS/eightfold-scaffold.html",
-    "_ARTIFACTS/forge-aircall-fde/page.html",
-    "_ARTIFACTS/forge-morgan-stanley-devgen/page.html",
-    "_ARTIFACTS/mercury-bundle/pitch.html",
-    "_ARTIFACTS/pitch-us-bundle-ia.html",
-    "_ARTIFACTS/sentilink-bundle/pitch.html",
-    "_ARTIFACTS/sixty-second-read.html",
-    "_ARTIFACTS/sow-scaffold-2026-10-08/primer-view.html",
-    "_ARTIFACTS/sow-scaffold-2026-10-08/proposal-view.html",
-    "_ARTIFACTS/vision-films-hyperstition/hyperstition-atlas.html",
-    "public/blacksmith-observatory.html",
-    "public/blog-nftt-receipts-or-it-didnt-happen.html",
-    "public/blog-nftt-take-home-trap-dossier.html",
-    "public/build.html",
-    "public/chan.html",
-    "public/cia-brief.html",
-    "public/good-instruments.html",
-    "public/good.html",
-    "public/growth-ai-observatory.html",
-    "public/mercury.html",
-    "public/monolith.html",
-    "public/myally-hub.html",
-    "public/myally-primer.html",
-    "public/myally.html",
-    "public/omakase/atom.html",
-    "public/pf-12d-orbital.html",
-    "public/pf-alexandria.html",
-    "public/pf-decision-geometry.html",
-    "public/pf-knowledge-lattice.html",
-    "public/robin-profile.html",
-    "public/scott-cut.html",
-    "public/sentilink.html",
-    "public/status.html",
-    "public/todd-logictree.html",
-    "public/yuri-profile.html",
-    "scripts/counterpart_onepager_build.py"
+    "_ARTIFACTS/ds-backlog-inducer.html",
+    "_ARTIFACTS/era-dial/bits-per-frame.html",
+    "_ARTIFACTS/era-dial/era-dial.html",
+    "_ARTIFACTS/job-search/swipe-board.html",
+    "_ARTIFACTS/tao-print-studio.html",
+    "public/good-audit-check.html",
+    "public/good-copypasta.html",
+    "public/gravity-brief-beliefs.html",
+    "public/gravity-brief-proof.html",
+    "public/gravity-brief.html",
+    "public/rosetta-voice.html",
+    "scripts/counterpart_onepager_build.py",
+    "scripts/kit_primitive_sync.py",
+    "scripts/recoil_hypercube_explorer.py",
+    "scripts/recoil_page.py",
+    "scripts/tabbed_brief_build.py",
+    "scripts/week_plan_build.py"
    ],
-   "reuse": 47,
+   "reuse": 19,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2217,6 +2253,12 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
     }
    ]
   },
@@ -2262,6 +2304,7 @@
     "_ARTIFACTS/brooks-audit-onepager.html",
     "_ARTIFACTS/brooks-pitch-storyboard.html",
     "_ARTIFACTS/docs-reconciliation.html",
+    "_ARTIFACTS/kit-periodic-table.html",
     "public/cia-brief.html",
     "public/good-audit-check.html",
     "public/good-audit-sample.html",
@@ -2270,7 +2313,7 @@
     "scripts/counterpart_onepager_build.py",
     "scripts/kit_pull.py"
    ],
-   "reuse": 12,
+   "reuse": 13,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2349,6 +2392,12 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
     }
    ]
   },
@@ -2382,8 +2431,10 @@
     "recoil-player"
    ],
    "jobs": [],
-   "pages": [],
-   "reuse": 0,
+   "pages": [
+    "scripts/recoil_page.py"
+   ],
+   "reuse": 1,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2462,6 +2513,12 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
     }
    ]
   },
@@ -2498,23 +2555,12 @@
    ],
    "jobs": [],
    "pages": [
-    "_ARTIFACTS/audit-report/cold-1.html",
-    "_ARTIFACTS/audit-report/readme-cold-1.html",
-    "_ARTIFACTS/brooks-audit-onepager.html",
-    "_ARTIFACTS/brooks-pitch-storyboard.html",
-    "public/blog-til-a-draft-is-not-a-verb.html",
-    "public/blog-til-apple-openai.html",
-    "public/blog-til-closing-the-loop.html",
-    "public/blog-til-one-day-99-merges.html",
-    "public/blog-til-zim.html",
-    "public/good-agent-receipts-audit.html",
-    "public/good-audit-sample.html",
-    "public/prl-status-tidio.html",
     "scripts/audit_report_build.py",
     "scripts/counterpart_onepager_build.py",
-    "scripts/kit_pull.py"
+    "scripts/kit_pull.py",
+    "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 15,
+   "reuse": 4,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2593,6 +2639,24 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".callout",
+     "twin": "53-cold-read",
+     "twin_rule": ".callout",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".callout b",
+     "twin": "53-cold-read",
+     "twin_rule": ".callout b",
+     "jaccard": 1.0
     }
    ]
   },
@@ -2630,13 +2694,20 @@
    "pages": [
     "_ARTIFACTS/atlas/concordance.html",
     "_ARTIFACTS/louisville-atlas.html",
+    "_ARTIFACTS/option-board/babel-fish.html",
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "_ARTIFACTS/recoil-hypercube-explorer.html",
     "_ARTIFACTS/terrain-atlas.html",
     "_ARTIFACTS/ticket-zach-north-star-resonance-gradient-field.html",
     "public/cia-brief.html",
+    "public/downshift.html",
     "public/proof.html",
-    "scripts/counterpart_onepager_build.py"
+    "scripts/counterpart_onepager_build.py",
+    "scripts/kit_primitive_sync.py",
+    "scripts/recoil_hypercube_explorer.py",
+    "scripts/recoil_page.py"
    ],
-   "reuse": 7,
+   "reuse": 14,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2715,6 +2786,12 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
     }
    ]
   },
@@ -2758,9 +2835,10 @@
     "public/good-audit-sample.html",
     "scripts/audit_report_build.py",
     "scripts/counterpart_onepager_build.py",
-    "scripts/kit_pull.py"
+    "scripts/kit_pull.py",
+    "scripts/recoil_page.py"
    ],
-   "reuse": 7,
+   "reuse": 8,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2839,6 +2917,12 @@
      "twin": "35-backlog-graph",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
     }
    ]
   },
@@ -3020,6 +3104,18 @@
      "twin": "36-change",
      "twin_rule": ".sp-table thead th",
      "jaccard": 0.83
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".tpl",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-k",
+     "jaccard": 0.83
     }
    ]
   },
@@ -3067,7 +3163,11 @@
    ],
    "jobs": [
     "uikit-recoil-player",
-    "fc-rows-compost-2026-11"
+    "fc-rows-compost-2026-11",
+    "jtbd-orphanage-family-audit",
+    "ready-now-door-decision-split",
+    "backlog-graph-session-overlay",
+    "spec-cognition-vcs-decide"
    ],
    "pages": [
     "scripts/kit_pull.py"
@@ -3163,6 +3263,36 @@
      "twin": "34-manifold",
      "twin_rule": ".btn",
      "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "53-cold-read",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".bg-facts li",
+     "twin": "63-operator-pass",
+     "twin_rule": ".pass code",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".bg-facts li",
+     "twin": "64-kintsugi-seam",
+     "twin_rule": ".seam-rows code",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".bg-facts ul",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-rlist, .st-key, .st-floor",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".bg-facts ul",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tree, .wp-tree ol",
+     "jaccard": 1.0
     }
    ]
   },
@@ -3218,8 +3348,10 @@
     "kit-specimen"
    ],
    "jobs": [],
-   "pages": [],
-   "reuse": 0,
+   "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html"
+   ],
+   "reuse": 1,
    "near_duplicates": [
     {
      "rule": ".sp-list",
@@ -3250,6 +3382,24 @@
      "twin": "34-manifold",
      "twin_rule": ".tpl",
      "jaccard": 0.83
+    },
+    {
+     "rule": ".sp-list",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-pm ul",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".sp-yes h3, .sp-no h3",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tab-n",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".sp-list",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-floor",
+     "jaccard": 1.0
     }
    ]
   },
@@ -3289,9 +3439,15 @@
     "kit-pull-boids"
    ],
    "pages": [
-    "scripts/audit_report_build.py"
+    "scripts/audit_report_build.py",
+    "scripts/braided_lanes_build.py",
+    "scripts/kit_periodic_table.py",
+    "scripts/kit_primitive_sync.py",
+    "scripts/recoil_hypercube_explorer.py",
+    "scripts/recoil_page.py",
+    "scripts/strata_explorer_build.py"
    ],
-   "reuse": 1,
+   "reuse": 7,
    "near_duplicates": []
   },
   {
@@ -3317,20 +3473,25 @@
     "pullable": true,
     "no_raw_signal_hex": true
    },
-   "templates": [],
+   "templates": [
+    "proposal"
+   ],
    "jobs": [],
    "pages": [
-    "_ARTIFACTS/brooks-pitch-storyboard.html",
-    "_ARTIFACTS/sow-scaffold-2026-10-08/primer-view.html",
-    "_ARTIFACTS/sow-scaffold-2026-10-08/proposal-view.html",
-    "public/honest.html",
-    "public/myally-mnda-edits.html",
-    "public/myally-primer.html",
-    "public/myally-proposal.html",
-    "public/myally.html"
+    "scripts/recoil_brief.py",
+    "scripts/rosetta_voice_build.py",
+    "scripts/status_page_build.py",
+    "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 8,
-   "near_duplicates": []
+   "reuse": 4,
+   "near_duplicates": [
+    {
+     "rule": ".wordmark",
+     "twin": "42-shell-nav",
+     "twin_rule": ".wordmark",
+     "jaccard": 1.0
+    }
+   ]
   },
   {
    "id": "39-theme-toggle",
@@ -3361,9 +3522,12 @@
    "jobs": [],
    "pages": [
     "_ARTIFACTS/brooks-audit-onepager.html",
-    "scripts/counterpart_onepager_build.py"
+    "scripts/counterpart_onepager_build.py",
+    "scripts/recoil_brief.py",
+    "scripts/status_page_build.py",
+    "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 2,
+   "reuse": 5,
    "near_duplicates": []
   },
   {
@@ -3371,10 +3535,12 @@
    "number": "40",
    "name": "Token Tuner",
    "group": "Tools",
-   "subtitle": "Internal only. Open with ?tune: sliders bound to :root tokens (measure, spacing, type, line-height), Copy CSS gives one line to paste back.",
+   "subtitle": "Internal only. ?tune: sliders for :root tokens, one per CSS breakpoint, text-wrap selects; Copy CSS gives one line. ?edit: data-src text editable in place; Copy JSON gives one data patch.",
    "family": "kit",
    "path": "src/ui-kit/recoil-report/40-token-tuner.html",
-   "data_shape": [],
+   "data_shape": [
+    "table"
+   ],
    "fidelity": [],
    "classes": [
     "lane"
@@ -3389,7 +3555,13 @@
    },
    "templates": [],
    "jobs": [
-    "token-tuner-kit"
+    "token-tuner-kit",
+    "token-tuner-wysiwyg",
+    "token-tuner-viewports-breadcrumbs",
+    "token-tuner-why-prompt",
+    "token-tuner-global",
+    "token-tuner-plain-view",
+    "composer-dogfood"
    ],
    "pages": [
     "_ARTIFACTS/docs-reconciliation.html",
@@ -3442,13 +3614,2315 @@
     "pullable": true,
     "no_raw_signal_hex": true
    },
+   "templates": [
+    "proposal"
+   ],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/louisville-proposal/source.html",
+    "public/louisville-proposal.html",
+    "public/myally-debrief.html"
+   ],
+   "reuse": 3,
+   "near_duplicates": [
+    {
+     "rule": ".offer",
+     "twin": "49-pinned-card",
+     "twin_rule": ".pcard",
+     "jaccard": 0.8
+    }
+   ]
+  },
+  {
+   "id": "42-shell-nav",
+   "number": "42",
+   "name": "Shell Nav",
+   "group": "Specimens",
+   "subtitle": "Organism 42 · Move a reader between the sections of a framed brief: tabs in the shell bar on wide screens, and a menu button with a dropdown under the bar on narrow ones.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/42-shell-nav.html",
+   "data_shape": [
+    "control",
+    "percent"
+   ],
+   "fidelity": [],
+   "classes": [
+    "is-open",
+    "shnav",
+    "shnav-brand",
+    "shnav-current",
+    "shnav-menu",
+    "shnav-pill",
+    "shnav-tab",
+    "shnav-tabs",
+    "wa",
+    "wf",
+    "wordmark"
+   ],
+   "prim_blocks": [
+    "38-wordmark",
+    "42-shell-nav"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "proposal",
+    "tabbed-brief",
+    "recoil-twin"
+   ],
+   "jobs": [
+    "downshift-kit-number-collision"
+   ],
+   "pages": [
+    "public/gravity-brief-beliefs.html",
+    "public/gravity-brief-eir.html",
+    "public/gravity-brief-hats.html",
+    "public/gravity-brief-proof.html",
+    "public/gravity-brief.html",
+    "public/recoil-ext/2026-10-29-gasmi.html",
+    "scripts/recoil_brief.py",
+    "scripts/tabbed_brief_build.py"
+   ],
+   "reuse": 8,
+   "near_duplicates": [
+    {
+     "rule": ".wordmark",
+     "twin": "38-wordmark",
+     "twin_rule": ".wordmark",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "43-action-menu",
+   "number": "43",
+   "name": "Action Menu",
+   "group": "Specimens",
+   "subtitle": "Molecule 43 · Put every way to get or discuss one document behind a single header button, each item named by format and purpose.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/43-action-menu.html",
+   "data_shape": [
+    "control",
+    "label"
+   ],
+   "fidelity": [],
+   "classes": [
+    "amenu",
+    "amenu-btn",
+    "amenu-cta",
+    "amenu-group",
+    "amenu-h",
+    "amenu-i",
+    "amenu-list"
+   ],
+   "prim_blocks": [
+    "43-action-menu"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
    "templates": [],
    "jobs": [],
    "pages": [
-    "public/myally-debrief.html"
+    "public/recoil-ext/2026-10-29-gasmi.html",
+    "scripts/recoil_brief.py"
+   ],
+   "reuse": 2,
+   "near_duplicates": []
+  },
+  {
+   "id": "44-status-strip",
+   "number": "44",
+   "name": "Status Strip",
+   "group": "Specimens",
+   "subtitle": "Molecule 44 · Say in one line where the work stands: not started and what is next, or which day it is, how many hours are done and what waits on the reader.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/44-status-strip.html",
+   "data_shape": [
+    "state"
+   ],
+   "fidelity": [],
+   "classes": [
+    "is-done",
+    "is-now",
+    "is-top",
+    "sstrip",
+    "sstrip-det",
+    "sstrip-done",
+    "sstrip-line",
+    "sstrip-more",
+    "sstrip-seg",
+    "sstrip-segs"
+   ],
+   "prim_blocks": [
+    "44-status-strip"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html"
    ],
    "reuse": 1,
    "near_duplicates": []
+  },
+  {
+   "id": "45-fact-tile",
+   "number": "45",
+   "name": "Fact Tile",
+   "group": "Specimens",
+   "subtitle": "Molecule 45 · Give one fact a label, a figure and a short caption, with the label outside the box so a row of tiles reads as one aligned band.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/45-fact-tile.html",
+   "data_shape": [
+    "scalar",
+    "table"
+   ],
+   "fidelity": [],
+   "classes": [
+    "ftile",
+    "ftile-cap",
+    "ftile-fig",
+    "ftile-lab",
+    "ftiles",
+    "ftiles-c",
+    "is-4",
+    "is-fit"
+   ],
+   "prim_blocks": [
+    "45-fact-tile"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "tabbed-brief"
+   ],
+   "jobs": [],
+   "pages": [
+    "scripts/tabbed_brief_build.py"
+   ],
+   "reuse": 1,
+   "near_duplicates": [
+    {
+     "rule": ".ftiles",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".ftiles",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".ftile",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile::before",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".ftile::before",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile-lab",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".ftile-lab",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile-fig",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".ftile-fig",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile-cap",
+     "twin": "48-summary-disclosure",
+     "twin_rule": ".ftile-cap",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "46-day-list",
+   "number": "46",
+   "name": "Day List",
+   "group": "Specimens",
+   "subtitle": "Molecule 46 · Tell the reader what happens on each day of a short plan, one plain sentence per day, from Before to After.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/46-day-list.html",
+   "data_shape": [],
+   "fidelity": [],
+   "classes": [
+    "daylist",
+    "daylist-d",
+    "daylist-h",
+    "daylist-t"
+   ],
+   "prim_blocks": [
+    "46-day-list"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": []
+  },
+  {
+   "id": "47-now-note",
+   "number": "47",
+   "name": "Now Note",
+   "group": "Specimens",
+   "subtitle": "Molecule 47 · Tell the reader, in one sentence at the top, what to do now, and let them dismiss it once read; a changed note comes back.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/47-now-note.html",
+   "data_shape": [
+    "delta",
+    "note"
+   ],
+   "fidelity": [],
+   "classes": [
+    "nnote",
+    "nnote-pill",
+    "nnote-x"
+   ],
+   "prim_blocks": [
+    "47-now-note"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": []
+  },
+  {
+   "id": "48-summary-disclosure",
+   "number": "48",
+   "name": "Summary Disclosure",
+   "group": "Specimens",
+   "subtitle": "Molecule 48 · Keep the whole plan one line tall until the reader asks for it: a title and a one-line summary when closed, the fact tiles and a quiet note when open.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/48-summary-disclosure.html",
+   "data_shape": [
+    "note"
+   ],
+   "fidelity": [],
+   "classes": [
+    "ftile",
+    "ftile-cap",
+    "ftile-fig",
+    "ftile-lab",
+    "ftiles",
+    "ftiles-c",
+    "is-4",
+    "is-fit",
+    "sumd",
+    "sumd-chev",
+    "sumd-note",
+    "sumd-s",
+    "sumd-t"
+   ],
+   "prim_blocks": [
+    "45-fact-tile",
+    "48-summary-disclosure"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "tabbed-brief"
+   ],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html"
+   ],
+   "reuse": 1,
+   "near_duplicates": [
+    {
+     "rule": ".ftiles",
+     "twin": "45-fact-tile",
+     "twin_rule": ".ftiles",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile",
+     "twin": "45-fact-tile",
+     "twin_rule": ".ftile",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile::before",
+     "twin": "45-fact-tile",
+     "twin_rule": ".ftile::before",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile-lab",
+     "twin": "45-fact-tile",
+     "twin_rule": ".ftile-lab",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile-fig",
+     "twin": "45-fact-tile",
+     "twin_rule": ".ftile-fig",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ftile-cap",
+     "twin": "45-fact-tile",
+     "twin_rule": ".ftile-cap",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "49-pinned-card",
+   "number": "49",
+   "name": "Pinned Details Card",
+   "group": "Specimens",
+   "subtitle": "Organism 49 · Show the details of the row the reader picked without leaving the full-width grid: a card pinned bottom-right on wide screens, a block below the content on narrow ones.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/49-pinned-card.html",
+   "data_shape": [
+    "state",
+    "table"
+   ],
+   "fidelity": [],
+   "classes": [
+    "is-pinned",
+    "is-static",
+    "on",
+    "pcard",
+    "pcard-b",
+    "pcard-h",
+    "pcard-layout",
+    "pcard-meta",
+    "pcard-s",
+    "pcard-x"
+   ],
+   "prim_blocks": [
+    "49-pinned-card"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [],
+   "reuse": 0,
+   "near_duplicates": [
+    {
+     "rule": ".pcard",
+     "twin": "41-offer-close",
+     "twin_rule": ".offer",
+     "jaccard": 0.8
+    }
+   ]
+  },
+  {
+   "id": "50-term-definition",
+   "number": "50",
+   "name": "Term Definition",
+   "group": "Specimens",
+   "subtitle": "Molecule 50 · Let a reader who does not know a word see its plain meaning in place, on hover, focus or tap, with a link to the full glossary entry.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/50-term-definition.html",
+   "data_shape": [],
+   "fidelity": [],
+   "classes": [
+    "term",
+    "term-b",
+    "term-go",
+    "term-tip",
+    "up"
+   ],
+   "prim_blocks": [
+    "50-term-definition"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html"
+   ],
+   "reuse": 1,
+   "near_duplicates": []
+  },
+  {
+   "id": "51-display-preferences",
+   "number": "51",
+   "name": "Display Preferences",
+   "group": "Specimens",
+   "subtitle": "Molecule 51 · Give every reader the theme switch and the reading options (easy-read font, larger text, roomy spacing) side by side in the header, remembered on their device.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/51-display-preferences.html",
+   "data_shape": [
+    "label"
+   ],
+   "fidelity": [],
+   "classes": [
+    "dprefs",
+    "dprefs-aa",
+    "dprefs-actions",
+    "dprefs-btns",
+    "dprefs-group",
+    "dprefs-label",
+    "dprefs-panel",
+    "dprefs-theme",
+    "dprefs-title",
+    "dprefs-trk",
+    "dprefs-ttl",
+    "is-static"
+   ],
+   "prim_blocks": [
+    "51-display-preferences"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "proposal",
+    "recoil-twin"
+   ],
+   "jobs": [
+    "rosetta-voice-page"
+   ],
+   "pages": [
+    "_ARTIFACTS/louisville-proposal/source.html",
+    "public/case-study.html",
+    "public/germinate.html",
+    "public/good-rfp-engine.html",
+    "public/gravity-brief-beliefs.html",
+    "public/gravity-brief-eir.html",
+    "public/gravity-brief-hats.html",
+    "public/gravity-brief-proof.html",
+    "public/gravity-brief.html",
+    "public/louisville-proposal.html",
+    "public/recoil-ext/2026-10-29-gasmi.html",
+    "public/rosetta-shell.html",
+    "public/rosetta-voice.html",
+    "public/status.html",
+    "scripts/recoil_brief.py",
+    "scripts/rosetta_voice_build.py",
+    "scripts/status_page_build.py",
+    "scripts/tabbed_brief_build.py"
+   ],
+   "reuse": 18,
+   "near_duplicates": [
+    {
+     "rule": ".dprefs-btns button[aria-pressed=\"true\"]",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-mx td.wp-lit",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "52-plan-matrix",
+   "number": "52",
+   "name": "Plan Matrix",
+   "group": "Specimens",
+   "subtitle": "Organism 52 · Lay out a role plan as duties against time marks, every cell a proposal the reader can edit, with how they would know it is working at each mark.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/52-plan-matrix.html",
+   "data_shape": [
+    "timeline"
+   ],
+   "fidelity": [],
+   "classes": [
+    "pm",
+    "pm-k",
+    "pm-khead",
+    "pm-kl",
+    "pm-know",
+    "pm-note",
+    "pm-src",
+    "pm-table"
+   ],
+   "prim_blocks": [
+    "52-plan-matrix"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "tabbed-brief"
+   ],
+   "jobs": [],
+   "pages": [
+    "public/gravity-brief-eir.html",
+    "scripts/tabbed_brief_build.py"
+   ],
+   "reuse": 2,
+   "near_duplicates": [
+    {
+     "rule": ".pm-khead",
+     "twin": "53-cold-read",
+     "twin_rule": ".cr-when",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".pm-k .pm-kl",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-k",
+     "jaccard": 0.86
+    }
+   ]
+  },
+  {
+   "id": "53-cold-read",
+   "number": "53",
+   "name": "Cold Read",
+   "group": "Specimens",
+   "subtitle": "Organism 53 · Give a reader with zero context the whole page in one glance: who, what, where, when and why as labelled slots, how as before, during and after with real timing, and one line on how to read the rest.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/53-cold-read.html",
+   "data_shape": [],
+   "fidelity": [],
+   "classes": [
+    "callout",
+    "cr",
+    "cr-how",
+    "cr-howwrap",
+    "cr-read",
+    "cr-slots",
+    "cr-step",
+    "cr-what",
+    "cr-when",
+    "red",
+    "section-label"
+   ],
+   "prim_blocks": [
+    "27-section-label",
+    "31-callout",
+    "53-cold-read"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-report",
+    "recoil-player",
+    "counterpart-onepager"
+   ],
+   "jobs": [
+    "hud-high-signal-field",
+    "readme-cold-read-to-video",
+    "downshift-kit-number-collision"
+   ],
+   "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html",
+    "public/case-study.html",
+    "public/gravity-brief.html",
+    "scripts/tabbed_brief_build.py"
+   ],
+   "reuse": 4,
+   "near_duplicates": [
+    {
+     "rule": ".section-label",
+     "twin": "16-instrument-panel",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "17-altitude-ladder",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "18-contact-sheet",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "19-gate-ladder",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "20-transport",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "27-section-label",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "28-chip",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "29-tile",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "30-button",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "31-callout",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".callout",
+     "twin": "31-callout",
+     "twin_rule": ".callout",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".callout b",
+     "twin": "31-callout",
+     "twin_rule": ".callout b",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "32-evidence-ref",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "33-led",
+     "twin_rule": ".section-label",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".section-label",
+     "twin": "34-manifold",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".section-label",
+     "twin": "35-backlog-graph",
+     "twin_rule": ".section-label",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".cr-when",
+     "twin": "52-plan-matrix",
+     "twin_rule": ".pm-khead",
+     "jaccard": 0.8
+    }
+   ]
+  },
+  {
+   "id": "54-signal-ledger",
+   "number": "54",
+   "name": "Signal Ledger",
+   "group": "Specimens",
+   "subtitle": "Organism 54 · Lay out a bull and bear read as grouped rows, each naming the signal it rests on and its evidence, with observed rows kept apart from the author&#x27;s judgment.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/54-signal-ledger.html",
+   "data_shape": [
+    "evidence",
+    "state",
+    "table"
+   ],
+   "fidelity": [],
+   "classes": [
+    "chip",
+    "is-judgment",
+    "section-label",
+    "sl",
+    "sl-ev",
+    "sl-gh",
+    "sl-gn",
+    "sl-group",
+    "sl-key",
+    "sl-row",
+    "sl-rows",
+    "sl-sig"
+   ],
+   "prim_blocks": [
+    "54-signal-ledger"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-report",
+    "recoil-player",
+    "precall-brief"
+   ],
+   "jobs": [],
+   "pages": [
+    "public/gravity-brief-beliefs.html",
+    "public/gravity-brief-proof.html",
+    "public/gravity-brief.html",
+    "scripts/tabbed_brief_build.py"
+   ],
+   "reuse": 4,
+   "near_duplicates": []
+  },
+  {
+   "id": "55-sound-bite",
+   "number": "55",
+   "name": "Sound Bite",
+   "group": "Specimens",
+   "subtitle": "Molecule 55 · Put one real quote at a time in the hero, typed out fast, with who said it, so social proof reads in a glance without a wall of testimonials.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/55-sound-bite.html",
+   "data_shape": [
+    "timeline"
+   ],
+   "fidelity": [],
+   "classes": [
+    "is-live",
+    "is-off",
+    "is-typing",
+    "sb",
+    "sb-btn",
+    "sb-by",
+    "sb-ctl",
+    "sb-item",
+    "sb-list",
+    "sb-n",
+    "sb-off",
+    "sb-on",
+    "sb-src",
+    "sb-t"
+   ],
+   "prim_blocks": [
+    "55-sound-bite"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [
+    "public/gravity-brief.html",
+    "scripts/tabbed_brief_build.py"
+   ],
+   "reuse": 2,
+   "near_duplicates": []
+  },
+  {
+   "id": "56-fold",
+   "number": "56",
+   "name": "Fold",
+   "group": "Specimens",
+   "subtitle": "Organism 56 · Hold one section closed by default, with a summary line that states its verdict and a grade chip, so the reader can skim every verdict and open only what they need.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/56-fold.html",
+   "data_shape": [
+    "state"
+   ],
+   "fidelity": [
+    "grain",
+    "moire"
+   ],
+   "classes": [
+    "chip",
+    "fold",
+    "fold-body",
+    "fold-group",
+    "fold-group-name",
+    "fold-group-note",
+    "fold-title",
+    "fold-verdict",
+    "folds"
+   ],
+   "prim_blocks": [
+    "56-fold"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-player",
+    "precall-brief",
+    "recoil-skim"
+   ],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html",
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "_ARTIFACTS/recoil-hypercube-explorer.html",
+    "public/case-study.html",
+    "public/downshift.html",
+    "scripts/recoil_hypercube_explorer.py",
+    "scripts/recoil_page.py",
+    "scripts/week_plan_build.py"
+   ],
+   "reuse": 8,
+   "near_duplicates": [
+    {
+     "rule": ".fold",
+     "twin": "57-ledger-row",
+     "twin_rule": ".ledger",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".fold",
+     "twin": "59-claim-check",
+     "twin_rule": ".claims",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".fold-title",
+     "twin": "59-claim-check",
+     "twin_rule": ".claim-said, .claim-record",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".fold-group",
+     "twin": "61-option",
+     "twin_rule": ".option-head",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".fold-title h2",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-wh",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "57-ledger-row",
+   "number": "57",
+   "name": "Ledger Row",
+   "group": "Specimens",
+   "subtitle": "Molecule 57 · List keyed facts as rows, each with its chips, one line of evidence and its source, and show by fidelity which rows are proven, which are a reading, and which disagree with another record.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/57-ledger-row.html",
+   "data_shape": [
+    "evidence",
+    "fidelity",
+    "state",
+    "table"
+   ],
+   "fidelity": [
+    "grain",
+    "moire"
+   ],
+   "classes": [
+    "ledger",
+    "ledger-row",
+    "lr-body",
+    "lr-chips",
+    "lr-key",
+    "moire"
+   ],
+   "prim_blocks": [
+    "57-ledger-row"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "scan-hud",
+    "recoil-skim"
+   ],
+   "jobs": [
+    "recoil-kit-reconcile"
+   ],
+   "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html",
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "_ARTIFACTS/recoil-hypercube-explorer.html",
+    "scripts/recoil_hypercube_explorer.py",
+    "scripts/recoil_page.py"
+   ],
+   "reuse": 5,
+   "near_duplicates": [
+    {
+     "rule": ".ledger",
+     "twin": "56-fold",
+     "twin_rule": ".fold",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".ledger",
+     "twin": "59-claim-check",
+     "twin_rule": ".claims",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".lr-key",
+     "twin": "59-claim-check",
+     "twin_rule": ".claim-k",
+     "jaccard": 0.83
+    }
+   ]
+  },
+  {
+   "id": "58-toast",
+   "number": "58",
+   "name": "Toast",
+   "group": "Specimens",
+   "subtitle": "Molecule 58 · Keep the one standing guard of a page in view (a stop-loss, a limit) without putting it in the reading order twice, and let the reader dismiss it for the session.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/58-toast.html",
+   "data_shape": [
+    "state"
+   ],
+   "fidelity": [
+    "grain",
+    "moire"
+   ],
+   "classes": [
+    "gold",
+    "red",
+    "toast",
+    "toast-close",
+    "toast-meta",
+    "toast-msg",
+    "toast-title"
+   ],
+   "prim_blocks": [
+    "58-toast"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-skim"
+   ],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "_ARTIFACTS/recoil-hypercube-explorer.html",
+    "scripts/recoil_hypercube_explorer.py",
+    "scripts/recoil_page.py"
+   ],
+   "reuse": 4,
+   "near_duplicates": [
+    {
+     "rule": ".toast-title",
+     "twin": "62-attributed-notes",
+     "twin_rule": ".note-head h3",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".toast-title",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tab-n",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".toast-title",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-rhead",
+     "jaccard": 0.86
+    }
+   ]
+  },
+  {
+   "id": "59-claim-check",
+   "number": "59",
+   "name": "Claim Check",
+   "group": "Specimens",
+   "subtitle": "Molecule 59 · Set what someone said beside what the record shows, with a state chip, so a reader sees at once which claims hold, which drifted, which are unchecked and which slipped.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/59-claim-check.html",
+   "data_shape": [
+    "state"
+   ],
+   "fidelity": [
+    "sharp",
+    "degraded",
+    "grain",
+    "moire"
+   ],
+   "classes": [
+    "chip",
+    "claim",
+    "claim-k",
+    "claim-note",
+    "claim-record",
+    "claim-said",
+    "claim-v",
+    "claims",
+    "degraded",
+    "grain",
+    "sharp",
+    "slip"
+   ],
+   "prim_blocks": [
+    "59-claim-check"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-player",
+    "precall-brief",
+    "recoil-skim"
+   ],
+   "jobs": [
+    "recoil-kit-reconcile"
+   ],
+   "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html",
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "_ARTIFACTS/recoil-hypercube-explorer.html",
+    "public/downshift.html",
+    "public/proof.html",
+    "scripts/recoil_hypercube_explorer.py",
+    "scripts/recoil_page.py"
+   ],
+   "reuse": 7,
+   "near_duplicates": [
+    {
+     "rule": ".claims",
+     "twin": "56-fold",
+     "twin_rule": ".fold",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".claim-said, .claim-record",
+     "twin": "56-fold",
+     "twin_rule": ".fold-title",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".claims",
+     "twin": "57-ledger-row",
+     "twin_rule": ".ledger",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".claim-k",
+     "twin": "57-ledger-row",
+     "twin_rule": ".lr-key",
+     "jaccard": 0.83
+    }
+   ]
+  },
+  {
+   "id": "60-heat-take",
+   "number": "60",
+   "name": "Heat Take",
+   "group": "Specimens",
+   "subtitle": "Molecule 60 · List the author&#x27;s opinions from mild to loco, with the heat shown as a five-pip meter and a word, so the reader can tell a safe take from a provocative one without a colour ladder.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/60-heat-take.html",
+   "data_shape": [
+    "sequence"
+   ],
+   "fidelity": [
+    "grain",
+    "moire"
+   ],
+   "classes": [
+    "heat",
+    "heat-pips",
+    "on",
+    "take",
+    "take-text",
+    "takes"
+   ],
+   "prim_blocks": [
+    "60-heat-take"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-skim"
+   ],
+   "jobs": [
+    "recoil-kit-reconcile"
+   ],
+   "pages": [
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "scripts/kit_primitive_sync.py"
+   ],
+   "reuse": 2,
+   "near_duplicates": []
+  },
+  {
+   "id": "61-option",
+   "number": "61",
+   "name": "Option",
+   "group": "Specimens",
+   "subtitle": "Molecule 61 · Lay out the live options for a next move side by side, each with what to do, its cost in time, and what it does for head, heart and wallet, with the leading option marked.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/61-option.html",
+   "data_shape": [
+    "timeline"
+   ],
+   "fidelity": [
+    "grain",
+    "moire"
+   ],
+   "classes": [
+    "hhw",
+    "lead",
+    "option",
+    "option-cost",
+    "option-head",
+    "option-id",
+    "option-name",
+    "options"
+   ],
+   "prim_blocks": [
+    "61-option"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-skim"
+   ],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/recoil-brian-2026-11-11.html"
+   ],
+   "reuse": 1,
+   "near_duplicates": [
+    {
+     "rule": ".option-head",
+     "twin": "56-fold",
+     "twin_rule": ".fold-group",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".option-head",
+     "twin": "62-attributed-notes",
+     "twin_rule": ".note-head",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".option-id",
+     "twin": "64-kintsugi-seam",
+     "twin_rule": ".seam-rows dt",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".hhw dt",
+     "twin": "64-kintsugi-seam",
+     "twin_rule": ".seam-rows dt",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".option-id",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-flabel",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".option-id",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-rhead",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".hhw dt",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-flabel",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".hhw dt",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-rhead",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".option-id",
+     "twin": "73-braided-lanes",
+     "twin_rule": ".bl-flabel",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".hhw dt",
+     "twin": "73-braided-lanes",
+     "twin_rule": ".bl-flabel",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "62-attributed-notes",
+   "number": "62",
+   "name": "Attributed Notes",
+   "group": "Specimens",
+   "subtitle": "Organism 62 · Record what a counterpart said about themselves in panels, each line timestamped and marked as their words, with unverified figures rendered in grain.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/62-attributed-notes.html",
+   "data_shape": [
+    "fidelity"
+   ],
+   "fidelity": [
+    "sharp",
+    "grain",
+    "moire"
+   ],
+   "classes": [
+    "note-head",
+    "note-list",
+    "note-panel",
+    "note-src",
+    "note-ts",
+    "notes-grid"
+   ],
+   "prim_blocks": [
+    "62-attributed-notes"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-skim"
+   ],
+   "jobs": [
+    "recoil-kit-reconcile"
+   ],
+   "pages": [
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "public/downshift.html",
+    "scripts/recoil_page.py"
+   ],
+   "reuse": 3,
+   "near_duplicates": [
+    {
+     "rule": ".note-head h3",
+     "twin": "58-toast",
+     "twin_rule": ".toast-title",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".note-head",
+     "twin": "61-option",
+     "twin_rule": ".option-head",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".note-head h3",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tab-n",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".note-head h3",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-rhead",
+     "jaccard": 0.86
+    }
+   ]
+  },
+  {
+   "id": "63-operator-pass",
+   "number": "63",
+   "name": "Operator Pass",
+   "group": "Specimens",
+   "subtitle": "Molecule 63 · Record each review pass on a piece of work as a row: the lens and its question, what it found, and the ruling (held, changed or broke).",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/63-operator-pass.html",
+   "data_shape": [
+    "delta",
+    "table"
+   ],
+   "fidelity": [
+    "grain",
+    "moire"
+   ],
+   "classes": [
+    "broke",
+    "changed",
+    "held",
+    "pass",
+    "pass-k",
+    "pass-v",
+    "passes"
+   ],
+   "prim_blocks": [
+    "63-operator-pass"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-skim"
+   ],
+   "jobs": [
+    "recoil-kit-reconcile"
+   ],
+   "pages": [
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "_ARTIFACTS/recoil-hypercube-explorer.html",
+    "scripts/recoil_hypercube_explorer.py"
+   ],
+   "reuse": 3,
+   "near_duplicates": [
+    {
+     "rule": ".pass code",
+     "twin": "35-backlog-graph",
+     "twin_rule": ".bg-facts li",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".pass code",
+     "twin": "64-kintsugi-seam",
+     "twin_rule": ".seam-rows code",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".pass-v",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tab-n",
+     "jaccard": 0.83
+    }
+   ]
+  },
+  {
+   "id": "64-kintsugi-seam",
+   "number": "64",
+   "name": "Kintsugi Seam",
+   "group": "Specimens",
+   "subtitle": "Molecule 64 · Show a break in the work visibly, with what broke, how it was found, the repair and the guard that stops it recurring, joined to the next seam by a gold line.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/64-kintsugi-seam.html",
+   "data_shape": [],
+   "fidelity": [
+    "grain",
+    "moire"
+   ],
+   "classes": [
+    "seam",
+    "seam-k",
+    "seam-rows",
+    "seams"
+   ],
+   "prim_blocks": [
+    "64-kintsugi-seam"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "recoil-skim"
+   ],
+   "jobs": [
+    "recoil-kit-reconcile",
+    "recoil-public-share-gate",
+    "recoil-runner-spend-figure"
+   ],
+   "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html",
+    "_ARTIFACTS/recoil-brian-2026-11-11.html",
+    "public/downshift.html",
+    "scripts/braided_lanes_build.py",
+    "scripts/gate_chain_build.py",
+    "scripts/strata_explorer_build.py"
+   ],
+   "reuse": 6,
+   "near_duplicates": [
+    {
+     "rule": ".seam-rows code",
+     "twin": "35-backlog-graph",
+     "twin_rule": ".bg-facts li",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".seam-rows dt",
+     "twin": "61-option",
+     "twin_rule": ".option-id",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".seam-rows dt",
+     "twin": "61-option",
+     "twin_rule": ".hhw dt",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".seam-rows code",
+     "twin": "63-operator-pass",
+     "twin_rule": ".pass code",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".seam-rows dt",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-flabel",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".seam-rows dt",
+     "twin": "73-braided-lanes",
+     "twin_rule": ".bl-flabel",
+     "jaccard": 0.86
+    }
+   ]
+  },
+  {
+   "id": "65-question-pair",
+   "number": "65",
+   "name": "Question Pair",
+   "group": "Specimens",
+   "subtitle": "Molecule 65 · Set what the reader said beside the question worth asking about it, one row a point, so every question visibly comes from their own words.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/65-question-pair.html",
+   "data_shape": [
+    "table"
+   ],
+   "fidelity": [],
+   "classes": [
+    "ask",
+    "qpair",
+    "qpair-ask",
+    "qpair-head",
+    "qpair-row",
+    "qpair-said"
+   ],
+   "prim_blocks": [
+    "65-question-pair"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "proposal"
+   ],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/louisville-proposal/source.html",
+    "public/louisville-proposal.html"
+   ],
+   "reuse": 2,
+   "near_duplicates": [
+    {
+     "rule": ".qpair",
+     "twin": "66-give-get-table",
+     "twin_rule": ".gg",
+     "jaccard": 0.8
+    }
+   ]
+  },
+  {
+   "id": "66-give-get-table",
+   "number": "66",
+   "name": "Give Get Table",
+   "group": "Specimens",
+   "subtitle": "Molecule 66 · Show a time trade step by step: when, what the reader gives, what they get back, so the cost of their time sits beside its return.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/66-give-get-table.html",
+   "data_shape": [
+    "table",
+    "timeline"
+   ],
+   "fidelity": [],
+   "classes": [
+    "get",
+    "gg",
+    "gg-get",
+    "gg-give",
+    "gg-head",
+    "gg-row",
+    "gg-when",
+    "vh"
+   ],
+   "prim_blocks": [
+    "66-give-get-table"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "proposal"
+   ],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/louisville-proposal/source.html",
+    "public/louisville-proposal.html"
+   ],
+   "reuse": 2,
+   "near_duplicates": [
+    {
+     "rule": ".gg .vh",
+     "twin": "15-case-world",
+     "twin_rule": ".sr",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".gg",
+     "twin": "65-question-pair",
+     "twin_rule": ".qpair",
+     "jaccard": 0.8
+    }
+   ]
+  },
+  {
+   "id": "67-trace-steps",
+   "number": "67",
+   "name": "Trace Steps",
+   "group": "Specimens",
+   "subtitle": "Molecule 67 · Show a method as three to four linked steps, each a key and its mark, over the one stop line agreed before the work starts.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/67-trace-steps.html",
+   "data_shape": [
+    "sequence"
+   ],
+   "fidelity": [],
+   "classes": [
+    "trace",
+    "trace-k",
+    "trace-steps",
+    "trace-stop",
+    "trace-v"
+   ],
+   "prim_blocks": [
+    "67-trace-steps"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "proposal"
+   ],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/louisville-proposal/source.html",
+    "_ARTIFACTS/option-board/babel-fish.html",
+    "public/louisville-proposal.html"
+   ],
+   "reuse": 3,
+   "near_duplicates": []
+  },
+  {
+   "id": "68-spec-rows",
+   "number": "68",
+   "name": "Spec Rows",
+   "group": "Specimens",
+   "subtitle": "Molecule 68 · Name a few labelled choices and what each one covers, as hairline rows in running text or as side-by-side cards (two or three across) when the reader is meant to pick.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/68-spec-rows.html",
+   "data_shape": [
+    "table"
+   ],
+   "fidelity": [],
+   "classes": [
+    "cards",
+    "is-3",
+    "spec",
+    "specrow"
+   ],
+   "prim_blocks": [
+    "68-spec-rows"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [
+    "proposal",
+    "tool-index"
+   ],
+   "jobs": [],
+   "pages": [
+    "_ARTIFACTS/louisville-proposal/source.html",
+    "public/case-study.html",
+    "public/louisville-proposal.html"
+   ],
+   "reuse": 3,
+   "near_duplicates": []
+  },
+  {
+   "id": "69-strata-explorer",
+   "number": "69",
+   "name": "Strata Explorer",
+   "group": "Specimens",
+   "subtitle": "Organism 69 · Walk shipped work since April 2026 as stacked planes: services on top, then milestones, reversed beliefs, the inventions they led to, the posts written up and the proverbs minted, every link cited.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/69-strata-explorer.html",
+   "data_shape": [
+    "evidence",
+    "state"
+   ],
+   "fidelity": [
+    "grain"
+   ],
+   "classes": [
+    "st-bar",
+    "st-btn",
+    "st-ctl",
+    "st-dot",
+    "st-field",
+    "st-flabel",
+    "st-floor",
+    "st-gold",
+    "st-grain",
+    "st-grainband",
+    "st-grainsw",
+    "st-jump",
+    "st-k",
+    "st-key",
+    "st-kseam",
+    "st-l0",
+    "st-l1",
+    "st-l2",
+    "st-l3",
+    "st-l4",
+    "st-l5",
+    "st-lab",
+    "st-meta",
+    "st-n",
+    "st-now",
+    "st-out",
+    "st-plane",
+    "st-read",
+    "st-rhead",
+    "st-rlist",
+    "st-seam",
+    "st-src",
+    "st-svg",
+    "st-sw",
+    "st-t0",
+    "st-t1",
+    "st-t2",
+    "st-t3",
+    "st-t4",
+    "st-t5",
+    "st-tick",
+    "st-tl",
+    "strata"
+   ],
+   "prim_blocks": [
+    "69-strata-explorer"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [
+    "strata-explorer-shipped"
+   ],
+   "pages": [
+    "scripts/braided_lanes_build.py",
+    "scripts/strata_explorer_build.py"
+   ],
+   "reuse": 2,
+   "near_duplicates": [
+    {
+     "rule": ".st-rlist, .st-key, .st-floor",
+     "twin": "35-backlog-graph",
+     "twin_rule": ".bg-facts ul",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".st-flabel",
+     "twin": "61-option",
+     "twin_rule": ".option-id",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".st-rhead",
+     "twin": "61-option",
+     "twin_rule": ".option-id",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".st-flabel",
+     "twin": "61-option",
+     "twin_rule": ".hhw dt",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".st-rhead",
+     "twin": "61-option",
+     "twin_rule": ".hhw dt",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".st-flabel",
+     "twin": "64-kintsugi-seam",
+     "twin_rule": ".seam-rows dt",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".st-lab",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tab-n",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".st-rlist, .st-key, .st-floor",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tree, .wp-tree ol",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".st-flabel",
+     "twin": "73-braided-lanes",
+     "twin_rule": ".bl-flabel",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".st-svg",
+     "twin": "73-braided-lanes",
+     "twin_rule": ".bl-svg",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".st-rhead",
+     "twin": "73-braided-lanes",
+     "twin_rule": ".bl-flabel",
+     "jaccard": 0.86
+    }
+   ]
+  },
+  {
+   "id": "70-week-plan",
+   "number": "70",
+   "name": "Week Plan",
+   "group": "Specimens",
+   "subtitle": "Organism 70 · Lay out a plan week by week: what will be true by the end of each week, how it cascades from executive to surgical, where the kairos forks sit and what must be true at each, and how best, base and worst play out, with keep and kill switches, on-ramps, off-ramps, opportunity cost and stop-losses on one color-coded sparkline.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/70-week-plan.html",
+   "data_shape": [
+    "sequence",
+    "state"
+   ],
+   "fidelity": [
+    "grain"
+   ],
+   "classes": [
+    "is-kill",
+    "wp",
+    "wp-a-executive",
+    "wp-a-operational",
+    "wp-a-strategic",
+    "wp-a-surgical",
+    "wp-a-tactical",
+    "wp-base",
+    "wp-best",
+    "wp-block",
+    "wp-cascade",
+    "wp-cost",
+    "wp-costt",
+    "wp-crow",
+    "wp-crow-tags",
+    "wp-dl",
+    "wp-fals",
+    "wp-fid",
+    "wp-flat",
+    "wp-flatt",
+    "wp-fork",
+    "wp-fork-card",
+    "wp-fork-h",
+    "wp-fork-q",
+    "wp-forkc",
+    "wp-forki",
+    "wp-forkl",
+    "wp-forks",
+    "wp-forkt",
+    "wp-fp",
+    "wp-fspark",
+    "wp-ftag",
+    "wp-hyp",
+    "wp-k",
+    "wp-keep",
+    "wp-key",
+    "wp-keyg",
+    "wp-kill",
+    "wp-lane",
+    "wp-legend",
+    "wp-lit",
+    "wp-live",
+    "wp-methods",
+    "wp-mmeta",
+    "wp-mtags",
+    "wp-mx",
+    "wp-mx-key",
+    "wp-mx-wrap",
+    "wp-n-base",
+    "wp-n-best",
+    "wp-n-worst",
+    "wp-neg",
+    "wp-negt",
+    "wp-none",
+    "wp-note",
+    "wp-note-h",
+    "wp-notes",
+    "wp-off",
+    "wp-offt",
+    "wp-on",
+    "wp-ont",
+    "wp-ontick",
+    "wp-ord",
+    "wp-panel",
+    "wp-pills",
+    "wp-pm",
+    "wp-pmtext",
+    "wp-pos",
+    "wp-post",
+    "wp-prem",
+    "wp-sr",
+    "wp-src",
+    "wp-stop",
+    "wp-stopl",
+    "wp-stopt",
+    "wp-strip",
+    "wp-stripwrap",
+    "wp-sw",
+    "wp-swb",
+    "wp-tab",
+    "wp-tab-n",
+    "wp-tab-s",
+    "wp-tabs",
+    "wp-tree",
+    "wp-tspark",
+    "wp-wh",
+    "wp-worst"
+   ],
+   "prim_blocks": [
+    "70-week-plan"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [
+    "week-plan-organism"
+   ],
+   "pages": [
+    "scripts/week_plan_build.py"
+   ],
+   "reuse": 1,
+   "near_duplicates": [
+    {
+     "rule": ".wp-pm ul",
+     "twin": "19-gate-ladder",
+     "twin_rule": ".gates",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".wp-tree, .wp-tree ol",
+     "twin": "35-backlog-graph",
+     "twin_rule": ".bg-facts ul",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".wp-pm ul",
+     "twin": "36-change",
+     "twin_rule": ".sp-list",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".wp-tab-n",
+     "twin": "36-change",
+     "twin_rule": ".sp-yes h3, .sp-no h3",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".wp-mx td.wp-lit",
+     "twin": "51-display-preferences",
+     "twin_rule": ".dprefs-btns button[aria-pressed=\"true\"]",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".wp-k",
+     "twin": "52-plan-matrix",
+     "twin_rule": ".pm-k .pm-kl",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".wp-wh",
+     "twin": "56-fold",
+     "twin_rule": ".fold-title h2",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".wp-tab-n",
+     "twin": "58-toast",
+     "twin_rule": ".toast-title",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".wp-tab-n",
+     "twin": "62-attributed-notes",
+     "twin_rule": ".note-head h3",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".wp-tab-n",
+     "twin": "63-operator-pass",
+     "twin_rule": ".pass-v",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".wp-tab-n",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-lab",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".wp-tree, .wp-tree ol",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-rlist, .st-key, .st-floor",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".wp-tab-n",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-k",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".wp-pm ul",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-floor",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".wp-sr",
+     "twin": "grammar-chips",
+     "twin_rule": ".g-sr",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".wp-tab-s",
+     "twin": "grammar-chips",
+     "twin_rule": ".g-sr",
+     "jaccard": 0.83
+    }
+   ]
+  },
+  {
+   "id": "71-proof-lockup",
+   "number": "71",
+   "name": "Proof Lockup",
+   "group": "Specimens",
+   "subtitle": "Organism 71 · Greet a cold reader with the two to four proofs behind a claim, each a figure they can check, between one short framing line and the promise it buys them.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/71-proof-lockup.html",
+   "data_shape": [
+    "state"
+   ],
+   "fidelity": [],
+   "classes": [
+    "plk",
+    "plk-cap",
+    "plk-cell",
+    "plk-cells",
+    "plk-close",
+    "plk-fig",
+    "plk-kick",
+    "plk-lab"
+   ],
+   "prim_blocks": [
+    "71-proof-lockup"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [
+    "public/case-study.html",
+    "public/gravity-brief.html"
+   ],
+   "reuse": 2,
+   "near_duplicates": []
+  },
+  {
+   "id": "72-week-strip",
+   "number": "72",
+   "name": "Week Strip",
+   "group": "Specimens",
+   "subtitle": "Organism 72 · Show week by week how many gates entered the always-run path, and tap a week to read each fix that added one as break, repair, gate, every step cited to a commit.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/72-week-strip.html",
+   "data_shape": [
+    "evidence"
+   ],
+   "fidelity": [],
+   "classes": [
+    "md",
+    "ws-cell",
+    "ws-chain",
+    "ws-chip",
+    "ws-d0",
+    "ws-d1",
+    "ws-d2",
+    "ws-dot",
+    "ws-dots",
+    "ws-empty",
+    "ws-floor",
+    "ws-gate",
+    "ws-grid",
+    "ws-k",
+    "ws-key",
+    "ws-meta",
+    "ws-mon",
+    "ws-n",
+    "ws-read",
+    "ws-rhead",
+    "ws-src",
+    "ws-step",
+    "ws-v",
+    "wstrip"
+   ],
+   "prim_blocks": [
+    "72-week-strip"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [
+    "gauntlet-week-strip-chains"
+   ],
+   "pages": [
+    "public/gauntlet-log.html",
+    "scripts/gate_chain_build.py"
+   ],
+   "reuse": 2,
+   "near_duplicates": [
+    {
+     "rule": ".ws-floor",
+     "twin": "19-gate-ladder",
+     "twin_rule": ".gates",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".ws-k",
+     "twin": "20-transport",
+     "twin_rule": ".tpl",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".ws-k",
+     "twin": "34-manifold",
+     "twin_rule": ".tpl",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".ws-floor",
+     "twin": "36-change",
+     "twin_rule": ".sp-list",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ws-rhead",
+     "twin": "58-toast",
+     "twin_rule": ".toast-title",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".ws-rhead",
+     "twin": "62-attributed-notes",
+     "twin_rule": ".note-head h3",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".ws-k",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tab-n",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".ws-floor",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-pm ul",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "73-braided-lanes",
+   "number": "73",
+   "name": "Braided Lanes",
+   "group": "Specimens",
+   "subtitle": "Organism 73 · Read every reversed belief as one flat lane per domain over time, see which reversals repaired others and which hardened into rules, against the weekly pace of work.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/73-braided-lanes.html",
+   "data_shape": [
+    "timeline"
+   ],
+   "fidelity": [
+    "grain"
+   ],
+   "classes": [
+    "bl-arc",
+    "bl-brush",
+    "bl-c-canon",
+    "bl-c-deploy",
+    "bl-c-gauntlet",
+    "bl-c-infra",
+    "bl-c-process",
+    "bl-c-recoil",
+    "bl-c-security",
+    "bl-c-surface",
+    "bl-commits-l",
+    "bl-div",
+    "bl-dot",
+    "bl-ev",
+    "bl-flabel",
+    "bl-floor",
+    "bl-fmeta",
+    "bl-grain",
+    "bl-grainband",
+    "bl-grainfill",
+    "bl-hatch",
+    "bl-hit",
+    "bl-key",
+    "bl-meta",
+    "bl-n",
+    "bl-name",
+    "bl-on",
+    "bl-out",
+    "bl-read",
+    "bl-receipts",
+    "bl-receipts-l",
+    "bl-ring",
+    "bl-rule",
+    "bl-spark",
+    "bl-src",
+    "bl-svg",
+    "bl-thin",
+    "bl-tick",
+    "braid",
+    "css"
+   ],
+   "prim_blocks": [
+    "73-braided-lanes"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [
+    "braided-lanes-beliefs"
+   ],
+   "pages": [
+    "public/belief-log.html",
+    "scripts/braided_lanes_build.py"
+   ],
+   "reuse": 2,
+   "near_duplicates": [
+    {
+     "rule": ".bl-flabel",
+     "twin": "61-option",
+     "twin_rule": ".option-id",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".bl-flabel",
+     "twin": "61-option",
+     "twin_rule": ".hhw dt",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".bl-flabel",
+     "twin": "64-kintsugi-seam",
+     "twin_rule": ".seam-rows dt",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".bl-flabel",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-flabel",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".bl-svg",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-svg",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".bl-flabel",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-rhead",
+     "jaccard": 0.86
+    }
+   ]
   },
   {
    "id": "grammar-chips",
@@ -3504,16 +5978,33 @@
    ],
    "pages": [
     "_ARTIFACTS/job-search/swipe-board.html",
+    "_ARTIFACTS/option-board/babel-fish.html",
+    "public/downshift.html",
+    "public/germinate.html",
     "public/good-rfp-engine.html",
-    "public/honest.html"
+    "public/honest.html",
+    "public/rosetta-shell.html",
+    "public/rosetta-voice.html"
    ],
-   "reuse": 3,
+   "reuse": 8,
    "near_duplicates": [
     {
      "rule": ".row",
      "twin": "12-role-thesis",
      "twin_rule": ".adjacency-row",
      "jaccard": 0.8
+    },
+    {
+     "rule": ".g-sr",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-sr",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".g-sr",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tab-s",
+     "jaccard": 0.83
     }
    ]
   },

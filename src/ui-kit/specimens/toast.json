@@ -1,0 +1,100 @@
+{
+ "number": "58",
+ "name": "Toast",
+ "slug": "toast",
+ "layer": "Molecule",
+ "job": "Keep the one standing guard of a page in view (a stop-loss, a limit) without putting it in the reading order twice, and let the reader dismiss it for the session.",
+ "anatomy": [
+  {
+   "part": "Frame",
+   "role": "Fixed bottom right, elevated surface, border in its one meaning",
+   "token": "`elevated`, `gold` (limit) or `red` (failed check)"
+  },
+  {
+   "part": "Title",
+   "role": "Mono caps at the label step, in the frame's colour",
+   "token": "`gold`, `red`"
+  },
+  {
+   "part": "Close",
+   "role": "A 44px icon button labelled Dismiss; Escape also closes it",
+   "token": "`text-secondary`, hover `cyan`"
+  },
+  {
+   "part": "Message",
+   "role": "The guard itself, one or two sentences",
+   "token": "`text`"
+  },
+  {
+   "part": "Meta",
+   "role": "When it was set and by what",
+   "token": "`text-secondary`"
+  }
+ ],
+ "states": [
+  {
+   "name": "Limit",
+   "args": [
+    "gold"
+   ],
+   "note": "A stop-loss or a budget line: gold, because it is a limit, not a failure."
+  },
+  {
+   "name": "Failed check",
+   "args": [
+    "red"
+   ],
+   "note": "Only when a check has failed and the reader must act."
+  }
+ ],
+ "use_when": [
+  "A page has exactly one guard the reader must not lose while scrolling.",
+  "The guard is already decided; the toast reminds, it does not ask."
+ ],
+ "avoid_when": [
+  "Do not stack toasts; a second guard belongs in the page.",
+  "Do not use red for a limit. Colour has one meaning across the kit (arc weld spec 4.3): red a failed check, gold a limit, green proven, cyan an action or focus, plain (steel) unknown, magenta a paradox.",
+  "Do not put an action that sends or publishes in a toast."
+ ],
+ "data": [
+  {
+   "field": "tone",
+   "type": "gold | red",
+   "required": true,
+   "note": "`gold` for a limit, `red` only for a failed check."
+  },
+  {
+   "field": "title, msg, meta",
+   "type": "string",
+   "required": true,
+   "note": "`meta` names the time and what set the guard."
+  }
+ ],
+ "access": [
+  "`role=\"status\"`, so it is announced once and does not steal focus.",
+  "The close button has an `aria-label`; Escape closes it; the dismissal is kept for the session only, and the page still works with storage blocked.",
+  "Reduced motion drops the slide in. Print places it in the flow at the end of the page."
+ ],
+ "built_from": [
+  {
+   "name": "Kit tokens (atoms)",
+   "href": "_tokens.css"
+  }
+ ],
+ "used_by": [
+  {
+   "name": "Recoil: Zach x Brian, 2026-11-11 (_ARTIFACTS/recoil-brian-2026-11-11.html), template recoil-skim"
+  }
+ ],
+ "gates": [
+  "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+  "`kit_primitive_sync.py --check`: every page that marks this block carries it line for line.",
+  "`artifact_wrap_lint.py` and `page_gate.py` on every page that carries it; sweep 360 to 1440, including 700 to 1000."
+ ],
+ "links": [
+  "_tokens-light.css",
+  "_kit-sr.css"
+ ],
+ "css": ":root { --fs-label: 0.75rem; --fs-body: 0.9375rem; } /* recoil-skim steps: label 12px, body 15px (arc weld spec 4.3); move into _tokens.css with recoil-token-unify */\n/* composed with, from 28-chip, 32-evidence-ref and 37-fidelity-grain */\n.chip { display: inline-flex; align-items: center; gap: 6px; box-sizing: border-box; height: 22px; padding: 0 10px; border-radius: var(--ds-r-badge, 4px); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; line-height: 1; border: 1px solid var(--border); color: var(--text-secondary); background: transparent; }\n.chip.cyan { color: var(--cyan); border-color: color-mix(in srgb, var(--cyan) 35%, transparent); background: color-mix(in srgb, var(--cyan) 13%, transparent); }\n.chip.green { color: var(--green); border-color: color-mix(in srgb, var(--green) 35%, transparent); background: color-mix(in srgb, var(--green) 13%, transparent); }\n.chip.gold { color: var(--gold); border-color: color-mix(in srgb, var(--gold) 35%, transparent); background: color-mix(in srgb, var(--gold) 13%, transparent); }\n.chip.red { color: var(--red); border-color: color-mix(in srgb, var(--red) 35%, transparent); background: color-mix(in srgb, var(--red) 13%, transparent); }\n.chip.status { gap: 5px; height: auto; padding: 2px 8px; border-radius: var(--ds-r-pill); font-weight: 500; letter-spacing: 0; }\n.chip.status::before { content: \"\"; width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex: none; }\n.ref { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--dimmed); }\n.grain { font-weight: 300; letter-spacing: 0.02em; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E\"); }\n.moire { font-weight: 300; letter-spacing: 0.03em; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.02 0.6' numOctaves='1'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E\"); }\n/* @prim:begin 58-toast */\n.toast { position: fixed; right: 20px; bottom: 20px; z-index: 50; width: min(380px, calc(100vw - 32px)); display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px 12px; padding: 12px 12px 16px 16px; background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-sm); animation: toast-in var(--dur-base) var(--ease-out) both; }\n.toast[hidden] { display: none; }\n.toast.gold { border-color: var(--gold); }\n.toast.red { border-color: var(--red); }\n.toast-title { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); }\n.toast.gold .toast-title { color: var(--gold); }\n.toast.red .toast-title { color: var(--red); }\n.toast-close { grid-column: 2; grid-row: 1; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin: -8px -4px -8px 0; border: 0; border-radius: var(--ds-r-xs); background: transparent; color: var(--text-secondary); cursor: pointer; }\n.toast-close:hover { color: var(--cyan); background: var(--surface); }\n.toast-close:focus-visible { outline: 2px solid var(--cyan); outline-offset: 1px; }\n.toast-msg { grid-column: 1 / -1; color: var(--text); line-height: 1.5; }\n.toast-meta { grid-column: 1 / -1; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 600; letter-spacing: 0.02em; color: var(--text-secondary); }\n@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }\n@media (prefers-reduced-motion: reduce) { .toast { animation: none; } }\n@media print { .toast { position: static; width: auto; margin-top: 16px; } }\n/* @prim:end 58-toast */\n",
+ "demo": "function kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar TX='<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" aria-hidden=\"true\"><path d=\"M2 2l8 8M10 2l-8 8\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>';\nfunction kitToast(host,tone,inline){var t=document.createElement('div');t.className='toast '+tone;t.setAttribute('role','status');if(inline){t.style.position='static';t.style.width='auto';}t.innerHTML='<span class=\"toast-title\">'+(tone==='red'?'Check failed':'Stop-loss')+'</span><button class=\"toast-close\" type=\"button\" aria-label=\"Dismiss\">'+TX+'</button><p class=\"toast-msg\">'+(tone==='red'?'The token gate failed on this page; fix it before it ships.':'No new build before the Friday triage. Income first.')+'</p><span class=\"toast-meta\">2026-11-11 · 16:00 ET · set by the recoil</span>';t.querySelector('button').addEventListener('click',function(){t.hidden=true});host.appendChild(t);return t}\nkitToast(kSlot(),'gold',true);\nSTATES.forEach(function(a,i){kitToast(kSlot(i),a[0],true)});"
+}

@@ -1,0 +1,233 @@
+ABOUT THE COMPANY
+
+Valon is the leading AI platform for mortgage servicing, building the AI-native operating system for regulated finance.
+
+
+
+Before providing the system of record that powers the entire industry, we built and ran our own mortgage servicer on it. That gave us a real regulated environment to prove our technology could replace the mainframe systems servicers have used for decades. Carrington acquired that servicer and adopted ValonOS as its core platform, allowing us to focus entirely on scaling our SaaS platform.
+
+
+
+ValonOS is now on track to power 1 in 6 U.S. mortgages across major mortgage servicers like Newrez, Carrington, and ServiceMac. Every process on the platform is structured and programmable, enabling our AI agents to perform core servicing work, like handling payments, escrow, and homeowner questions, directly within the system's controls.
+
+
+
+We recently raised a $150 million Series D at a $2.3 billion valuation by new investor Ribbit Capital, with continued support from existing backer a16z, amongst others.
+
+
+
+
+WHAT THIS ROLE IS
+
+Deployment Strategists own live enterprise deployments of ValonOS: part operator, part product strategist, part data investigator, and part executive translator. You diagnose how a regulated servicing operation works, decide what needs to change, configure the solution, and stay accountable until client operators are live and the business outcome is measurable.
+
+The job is not to make recommendations from the outside. The job is to figure out what is true, make the right call under ambiguity, and drive the work until the outcome exists in the real world.
+
+
+
+
+WHY VALON
+
+How many times in your career are you going to get the chance to deploy an eight- or nine-figure software contract into one of the most regulated industries on the planet?
+
+Not many. That's what we do here.
+
+Valon is the AI-native operating system for mortgage servicing - a $13 trillion industry running on infrastructure built before the iPhone. We did not try to fix it from the outside. We bought our way in: built and operate our own mortgage servicing business managing $110B+ in loans, used that operation to deeply understand every workflow that breaks at scale, and then built the software we wished existed.
+
+The result: a 0% margin business turned 60%+. Our own servicing operation runs at 4x the employee efficiency of the industry. Major enterprise servicers - including Newrez - are now deploying ValonOS across the industry. The contracts we are rolling out are some of the largest and most complex enterprise software deployments anywhere in financial services right now.
+
+Deployment Strategists are the people who make those rollouts actually work.
+
+ 
+
+
+WHY MORTGAGE SERVICING IS THE MOST INTERESTING PROBLEM YOU'VE (PROBABLY) NEVER THOUGHT ABOUT
+
+Every monthly payment from a homeowner triggers a chain reaction: money has to move, accounting entries have to balance, escrow has to disburse to the right counties and insurers, and every step has to satisfy regulators across all 50 states - each with its own foreclosure rules, notice timelines, fee restrictions, and licensing regimes. Get any of it wrong and you have created a CFPB headline.
+
+Now do that for millions of loans, with hundreds of legacy vendors, dozens of capital partners, and operators who have been doing it one way for 30 years.
+
+Mortgage servicing has resisted software automation for decades not because the individual problems are unsolvable, but because the abstractions are so hard to model correctly that no one had done it. We did. It took six years. Now we are deploying it across the industry - and that is where you come in.
+
+ 
+
+
+WHAT YOU WILL DO
+
+A client recently described what we do as "open-heart surgery while the patient is still walking around running their business." That is accurate. You are handed a multi-decade-old operation processing hundreds of thousands of loans, with a reputation, a regulator, and a P&L - and you have to migrate it onto our platform without anything breaking. Under tight timelines. With executives watching.
+
+A Deployment Strategist:
+
+ - Maps a client's current operation, identifies the gaps to ValonOS, sequences the roadmap, and gets sign-off from leaders who have been doing this for 25 years.
+
+ - Spends Tuesday querying the data warehouse to figure out whether a payoff event has actually occurred across our system, the servicer's ops, and a capital partner's books - and then drives a decision the business is willing to bet on.
+
+ - Translates between groups that do not naturally talk to each other: engineering, the client's servicing operations team, capital partners, compliance, product, and executives.
+
+ - Sits onsite watching foreclosure, escrow, loss mitigation, or cash operations specialists work, then comes back and helps rebuild the workflow.
+
+ - Configures and deploys the solution, watches client operators actually use it, and stays accountable for whether the workflow produces the measurable business outcome.
+
+ - Briefs everyone else. The DS does not get briefed. The work starts with raw data, raw code, and raw conversations, and ends in a decision the business commits to.
+
+ 
+
+
+HOW WE WORK
+
+A few things we actually believe, not aspirationally:
+
+ - You own the outcome, not the recommendation. This is the anti-consulting role. You do not hand off a deck and walk away. You configure, deploy, iterate, and measure the result. Our contracts are performance-based, so when your deployment works, Valon wins. Your work shows up in the P&L.
+
+ - You figure it out. There will be incomplete data, undocumented legacy behavior, tense client tradeoffs, and unclear ownership. The job is to create clarity anyway.
+
+ - You build alignment, but you do not hide behind consensus. You synthesize, recommend, commit, and defend the decision with evidence.
+
+ - Code and data beat decks. A working query, a real workflow, a shipped change, or a clear operating decision wins over prettier slides.
+
+ - AI fluency is how the work gets done, not a nice-to-have. Our team uses coding agents, builds custom skills, and develops an internal knowledge layer, DeploymentOS, that you will use and extend. Our highest performers do not just use these tools - they tell our engineers what to build next and ship workflows themselves when waiting would be too slow.
+
+ - You are writing the playbook, not executing one. Every framework we use was built by someone in this seat figuring it out for the first time. The next versions will be written by you.
+
+ 
+
+
+WHAT SUCCESS LOOKS LIKE
+
+You are succeeding here if senior leaders trust you with ambiguous, high-stakes problems and feel the work is in safe hands.
+
+That means:
+
+ - You can walk into a domain you do not understand, build a working model quickly, find the data and people who matter, make a recommendation, and drive it to an operational outcome.
+
+ - You move fast without becoming sloppy. You are energized by incomplete context, not paralyzed by it.
+
+ - You can reason through a regulated operating system from first principles instead of relying on generic frameworks or waiting for a subject-matter expert to hand you the answer.
+
+ - You use SQL, Python, AI tools, conversations, documents, and judgment to answer the question yourself.
+
+ - You can hold a room of senior client leaders and still go low-level enough to debug a workflow, query, data pipeline, or operating edge case.
+
+ - You turn ambiguity into a plan, a decision, and a measurable result.
+
+ - If you manage people, your pod gets sharper because of you: clearer decisions, faster learning loops, better client trust, and stronger ICs.
+
+The strongest people in this role have raw problem-solving horsepower plus ownership maturity. They are high-velocity operators who can grow into safe-hands operating leaders.
+
+ 
+
+
+WHO THRIVES HERE
+
+This role is for people who have repeatedly been handed messy, important problems and found a way through.
+
+We are especially excited by high-horsepower operators, consultants, bankers, investors, Chiefs of Staff, founders, product or business operators, and people from other intense environments who have had to solve ambiguous problems under pressure. The common thread is not pedigree. It is speed of learning, quality of judgment, and willingness to own the outcome.
+
+You may be a fit if:
+
+ - You are restless around ambiguity. You do not need perfect context to start making progress.
+
+ - You have taught yourself new tools because the work demanded it.
+
+ - You are comfortable being both strategic and extremely low-level in the same day.
+
+ - You can communicate clearly with executives, operators, engineers, and clients without changing the substance of your thinking.
+
+ - You care about building something durable, not just being near an interesting problem.
+
+ 
+
+
+WHO MAY STRUGGLE HERE
+
+We are direct about fit because the cost of a mismatch is high, for us and for you.
+
+This is probably not the right role if:
+
+ - You are looking for a predictable implementation lane with clear requirements handed to you.
+
+ - You prefer making recommendations over being accountable for whether the recommendation actually works.
+
+ - You are uncomfortable with technical ambiguity, data messiness, or learning tools like SQL, Python, and AI agents quickly.
+
+ - You want a role where client, product, engineering, and operating problems are neatly separated.
+
+ - You are looking for generic enterprise SaaS deployment work. We are rebuilding the operating system for a complex, regulated industry.
+
+The first six months are intense. That is not because we value intensity for its own sake; it is because the problems are real, the timelines matter, and the work sits close to company strategy.
+
+ 
+
+
+LEVELS
+
+This posting covers multiple levels. We calibrate level during interviews based on scope, operating judgment, leadership evidence, and the size of problem you are ready to own.
+
+ - Deployment Strategist: Own a workstream within an active deployment end-to-end: a domain, product surface, client function, or operational workflow. You are the DRI for outcomes and the bridge to engineering, product, and client leadership.
+
+ - Deployment Strategist Manager: Lead a pod of 3-5 Deployment Strategists across a deployment or set of deployments. You own broader delivery, coach ICs through ambiguous problems, raise the quality bar, and partner directly with senior client leaders and our R&D org.
+
+ - Deployment Lead: Own a major deployment domain or cross-functional outcome with limited scaffolding. You drive strategy, sequence tradeoffs, unblock teams, and become a trusted operator for senior client and Valon leaders.
+
+The work is the same shape across levels; scope and leverage change.
+
+ 
+
+
+WHAT WE LOOK FOR
+
+ - A track record of structured problem solving under pressure: operating roles, strategy consulting, banking, investing, Chief of Staff roles, founding experience, product or business operations, high-stakes customer work, or other environments where you had to figure things out quickly.
+
+ - Strong analytical and quantitative horsepower. You can decompose ambiguous problems and find the levers that matter.
+
+ - Practical comfort with technical tools. You do not need to be a professional engineer, but you should be the kind of person who will use SQL, Python, AI tools, or whatever else is needed to answer the question yourself instead of waiting for someone else to unblock you.
+
+ - Demonstrated AI fluency - not "I've used ChatGPT," but evidence that you have taught yourself to work with coding agents, build small tools, or restructure your own workflows around AI.
+
+ - Clear, calibrated communication with technical and non-technical stakeholders.
+
+ - Ownership maturity: you can move quickly, make decisions with incomplete information, and stay accountable when the answer changes.
+
+Bachelor’s degree required.
+
+Nice to have: Background in financial services, healthcare, government, infrastructure, or another regulated, operationally intense industry. Prior exposure to enterprise software implementation, workflow design, migration projects, or operating teams at scale.
+
+Mortgage servicing knowledge is not required. Curiosity, horsepower, and the ability to learn a regulated system quickly are required.
+
+ 
+
+
+LOCATION AND TRAVEL
+
+We are NYC and SF-centered and use in-person time as a tool for speed, trust, and hard problem-solving. In practice, Deployment Strategists should expect to spend substantial time in the NYC and/or SF office, often 3-5 days per week depending on deployment phase, client work, and team needs.
+
+Travel is real during high-impact deployment phases, typically around 10-20%, and may be higher depending on client needs or where you are based. We do not manage this by rigid attendance rules; we expect people in this role to use judgment about where the work gets done best.
+
+ 
+
+
+BENEFITS
+
+ - Compensation: competitive salary with a meaningful stake in the company via equity, and 401(k) plan. The base salary range reflects multiple levels. We assess level based on a combination of experience and interview performance.
+
+ - Health & well-being: we’ll invest in your physical and mental well-being with comprehensive medical, dental, & vision benefits.
+
+ - Free Food: daily lunch, and dinner provided through Forkable for in-office team members.
+
+ - Commuter benefits: pre-tax deductions for public transit, rideshares, and parking to simplify your daily commute.
+
+ - Grow together: company wide orientation for you to successfully onboard and other learning & development opportunities including regular review cycles that feature 360-degree feedback.
+
+ - Play together: quarterly budgets for team and company outings. Use it for team swag, cooking classes, or team dinners.
+
+ - Generous time off: flexible paid time off with no annual limit, sick days, and 11 company holidays.
+
+ - Baby bonding time: 12 weeks of fully paid leave for both birthing and non-birthing parents, so you can spend uninterrupted time welcoming and caring for your newest family member.
+
+
+
+Throughout the interview process, please remember that emails will only be from valon.com http://valon.com email addresses. We will never ask for any personally identifiable information during the interview process itself. Please reach out to talent@valon.com if you have any requests to verify the authenticity of an outreach.
+
+
+
+Valon is an equal opportunity employer that is committed to diversity and inclusion in the workplace. We prohibit discrimination and harassment of any kind based on race, color, sex, religion, sexual orientation, national origin, disability, genetic information, pregnancy, or any other protected characteristic as outlined by federal, state, or local laws. Valon makes hiring decisions based solely on qualifications, merit, and business needs at the time.

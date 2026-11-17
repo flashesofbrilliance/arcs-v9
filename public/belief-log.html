@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ARCS · Belief-Change Log</title>
-<meta name="description" content="A falsification ledger: every belief we held, the test that overturned it, and what replaced it. Corrections stay on the record." />
+<meta name="description" content="A falsification ledger: every belief I held, the test that overturned it, and what replaced it. Corrections stay on the record." />
 <style>
 /* ARCS Recoil Report — Design Tokens */
 :root {
@@ -47,6 +47,53 @@
   --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
   --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
 }
+
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   the ui-kit compounding sweep note for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-badge: 4px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion durations and easing. Defined in DESIGN.md "Motion and safety" (promoted 2026-10-19). */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+
 
   /* Mirrors the status.arcs.care design system (canonical ARCS tokens + fonts).
      GENERATED — do not hand-edit. Source: scripts/belief_log_public_template.html
@@ -98,54 +145,7 @@
     text-transform: uppercase; color: var(--dimmed); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
   .section-label::after { content: ""; flex: 1; height: 1px; background: var(--border); }
 
-  .ribbon-shell { border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--surface);
-    padding: 22px 20px 14px; margin-bottom: 16px; overflow-x: auto; }
-  .ribbon { position: relative; min-width: 640px; }
-  .grid-overlay { position: absolute; left: 122px; right: 8px; top: 0; bottom: 0; pointer-events: none; }
-  .grid-line { position: absolute; top: 0; bottom: 0; width: 1px; background: #0f1720; }
-  .lane { position: relative; height: 31px; border-top: 1px dashed #0e1622; }
-  .lane:first-child { border-top: none; }
-  .lane-name { position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-    font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: var(--track-wide);
-    text-transform: uppercase; width: 112px; }
-  .lane-track { position: absolute; left: 122px; right: 8px; top: 0; bottom: 0; }
-  .node { position: absolute; top: 50%; width: 11px; height: 11px; border-radius: 50%;
-    transform: translate(-50%,-50%); cursor: default; transition: transform .12s ease;
-    box-shadow: 0 0 0 1px rgba(2,4,8,.9), 0 0 9px currentColor; }
-  .node::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; border: 1px solid transparent; }
-  .node.canon::after { border-color: var(--gold); box-shadow: var(--glow-gold); }
-  .node.recent { animation: pulse 2.4s ease-in-out infinite; }
-  .node:focus { transform: translate(-50%,-50%) scale(1.55); outline: none; z-index: 5; }
-  /* Hover-grow only where hover is real: on touch screens :hover sticks to the last-tapped dot. */
-  @media (hover: hover) { .node:hover { transform: translate(-50%,-50%) scale(1.55); z-index: 5; } }
-  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 1px rgba(2,4,8,.9), 0 0 6px currentColor; }
-    50% { box-shadow: 0 0 0 1px rgba(2,4,8,.9), 0 0 16px currentColor, 0 0 26px currentColor; } }
-  .axis { position: relative; height: 20px; margin: 8px 8px 0 122px; min-width: 510px; }
-  .tick { position: absolute; top: 0; font-family: var(--mono); font-size: 11px; color: var(--faint); transform: translateX(-50%); }
-  .tick::before { content: ""; position: absolute; top: -8px; left: 50%; width: 1px; height: 6px; background: var(--border); }
-
-  .tip { position: fixed; z-index: 40; pointer-events: none; opacity: 0; transition: opacity .1s ease;
-    width: 300px; max-width: calc(100vw - 20px); background: #060b13; border: 1px solid var(--border);
-    border-top: 2px solid var(--tc, var(--border)); border-radius: var(--r-md); padding: 12px 14px 13px;
-    font-family: var(--sans); box-shadow: 0 12px 30px rgba(0,0,0,.6), 0 0 18px -6px var(--tc, transparent); }
-  .tip .thead { display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
-    font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: var(--track-wide); text-transform: uppercase; }
-  .tip .tnum { color: var(--dimmed); font-weight: 500; letter-spacing: 0; text-transform: none; }
-  .tip .tdef { font-size: 13px; color: var(--muted); line-height: 1.45; margin-top: 5px; }
-  .tip .twhat { font-size: 13px; color: var(--text); line-height: 1.45; margin-top: 9px; padding-top: 9px; border-top: 1px solid var(--border); }
-  .tip .tgold { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; line-height: 1.45; color: var(--gold); margin-top: 7px; }
-  .tip .tgold .ring { flex: none; margin-top: 4px; width: 11px; height: 11px; border-radius: 50%; border: 1px solid var(--gold); box-shadow: var(--glow-gold); }
-  .tip .tplain { font-size: 13px; line-height: 1.45; color: var(--dimmed); margin-top: 7px; }
-  .tip .twhen { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 10px;
-    font-family: var(--mono); font-size: 11px; color: var(--dimmed); font-variant-numeric: tabular-nums; }
-  .tip .tnew { font-size: 11px; font-weight: 700; letter-spacing: var(--track-wide); text-transform: uppercase;
-    color: var(--bg); background: var(--tc); border-radius: var(--r-pill); padding: 1px 7px; }
-
-  .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 44px; }
-  .legend .li { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
-  .legend .li .d { width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 7px currentColor; }
-  .legend .li.meta { color: var(--dimmed); }
-  .legend .ring { width: 11px; height: 11px; border-radius: 50%; border: 1px solid var(--gold); box-shadow: var(--glow-gold); }
+  .braid-shell { margin-bottom: 44px; }
 
   .method { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-bottom: 40px; }
   .m-card { border: 1px solid var(--border); border-left: 3px solid var(--cyan); border-radius: var(--r-md);
@@ -163,7 +163,7 @@
     font-family: var(--mono); font-size: 12px; color: var(--dimmed); }
   footer .links { display: flex; gap: 18px; margin-left: auto; }
 
-  @media (prefers-reduced-motion: reduce) { .node.recent { animation: none; } *{ transition: none !important; } }
+  @media (prefers-reduced-motion: reduce) { *{ transition: none !important; } }
 </style>
 <link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
 <style>
@@ -180,21 +180,315 @@
 <body>
 <div class="wrap">
   <div class="eyebrow"><span class="dot"></span>ARCS · BELIEF-CHANGE LOG</div>
-  <h1>Every belief we changed our mind about, <span class="em">on the record</span>.</h1>
-  <p class="lede">A falsification ledger. Each entry is a belief we held, the <b>test</b> that overturned it, and what <b>replaced</b> it. The same discipline that grades a decision after the fact, turned on our own reasoning, and the corrections are kept, not quietly edited out.</p>
-  <p class="honesty">What's public here is the <b>shape</b> of the record: how often we've been wrong, the cadence, which domains, and which reversals hardened into doctrine. The internal specifics of each call stay internal, the discipline is the point, not the disclosure.</p>
+  <h1>Every belief I changed my mind about, <span class="em">on the record</span>.</h1>
+  <p class="lede">A falsification ledger. Each entry is a belief I held, the <b>test</b> that overturned it, and what <b>replaced</b> it. The same discipline that grades a decision after the fact, turned on my own reasoning, and the corrections are kept, not quietly edited out.</p>
+  <p class="honesty">What's public here is the <b>shape</b> of the record: how often I've been wrong, the cadence, which domains, and which reversals hardened into doctrine. The internal specifics of each call stay internal, the discipline is the point, not the disclosure.</p>
 
   <div class="stats" id="stats"></div>
 
   <div class="section-label">The drift. Every reversal, plotted in time</div>
-  <div class="ribbon-shell"><div class="ribbon" id="ribbon"></div><div class="axis" id="axis"></div></div>
-  <div class="legend" id="legend"></div>
+  <div class="braid-shell"><!-- kit organism 73, braided lanes. Generated; do not hand-edit. -->
+<style>
+/* @prim:begin 73-braided-lanes */
+/* label step scoped to the organism: 12px, the same step as kit 69 */
+.braid { --fs-label: 0.75rem; --bl-blue: #5b8def; display: flex; flex-direction: column; gap: 12px; color: var(--text); }
+/* follows the kit light remap (_tokens-light.css); a dark-only page opts out with data-theme="dark" on <html> */
+:root[data-theme="light"] .braid { --bl-blue: #2b56b0; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .braid { --bl-blue: #2b56b0; } }
+.bl-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.bl-name { font-family: var(--ds-font-sans); font-size: var(--fs-label); font-weight: 600; }
+.bl-name.bl-commits-l, .bl-name.bl-receipts-l { fill: var(--text); }
+.bl-meta { font-family: var(--ds-font-mono); font-size: var(--fs-label); fill: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.bl-n { font-family: var(--ds-font-mono); font-size: var(--fs-label); fill: var(--text); font-variant-numeric: tabular-nums; }
+.bl-rule { stroke: var(--border); stroke-dasharray: 2 3; }
+.bl-div { stroke: var(--border); }
+.bl-tick { stroke: var(--border); }
+.bl-spark { fill: none; stroke-width: 1.5; stroke-linejoin: round; }
+.bl-spark { stroke: var(--text-secondary); }
+.bl-spark.bl-receipts { stroke-dasharray: 4 2; }
+.bl-hatch { stroke: var(--border); stroke-width: 2; }
+.bl-grain { fill: var(--text-secondary); }
+.bl-grainband { fill: var(--surface); stroke: var(--border); }
+.bl-grainfill { stroke: none; }
+.bl-arc { fill: none; stroke: var(--text); stroke-width: 1.4; }
+.bl-ring { fill: none; stroke: var(--gold); stroke-width: 1.4; }
+.bl-dot { stroke-width: 0; }
+.bl-hit { fill: transparent; stroke: none; }
+.bl-thin .bl-dot { fill: var(--surface); stroke-width: 1.6; }
+.bl-ev { cursor: default; outline: none; }
+.bl-ev:focus-visible .bl-dot, .bl-ev.bl-on .bl-dot { stroke: var(--text); stroke-width: 2; }
+.bl-c-canon { fill: var(--cyan); stroke: var(--cyan); color: var(--cyan); }
+.bl-c-process { fill: var(--green); stroke: var(--green); color: var(--green); }
+.bl-c-security { fill: var(--red); stroke: var(--red); color: var(--red); }
+.bl-c-recoil { fill: var(--violet); stroke: var(--violet); color: var(--violet); }
+.bl-c-deploy { fill: var(--magenta); stroke: var(--magenta); color: var(--magenta); }
+.bl-c-surface { fill: var(--text-secondary); stroke: var(--text-secondary); color: var(--text-secondary); }
+.bl-c-infra { fill: var(--bl-blue); stroke: var(--bl-blue); color: var(--bl-blue); }
+.bl-c-gauntlet { fill: var(--orange); stroke: var(--orange); color: var(--orange); }
+.bl-brush { display: grid; grid-template-columns: var(--bl-lc, 3rem) minmax(0, 1fr) minmax(0, 1fr); padding-right: var(--bl-nc, 0); align-items: center; gap: 4px 12px; }
+.bl-flabel { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); }
+.bl-brush input[type="range"] { width: 100%; min-height: 44px; accent-color: var(--cyan); }
+.bl-brush input[type="range"]:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.bl-out { grid-column: 2 / 4; font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.bl-key { font-size: var(--fs-label); color: var(--text-secondary); line-height: 1.5; }
+.bl-read { min-height: 3em; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); font-size: var(--fs-body); line-height: 1.5; }
+.bl-read b { font-weight: 600; }
+.bl-src { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text-secondary); line-height: 1.5; }
+.bl-floor { list-style: none; display: flex; flex-direction: column; gap: 4px; font-size: var(--fs-body); }
+.bl-floor .bl-fmeta { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text-secondary); }
+/* @prim:end 73-braided-lanes */
+</style>
+<div class="braid" data-braid><ul class="bl-floor"><li>Infrastructure <span class="bl-fmeta">n=12, 0 changed the rulebook</span></li><li>Rulebook <span class="bl-fmeta">n=11, 11 changed the rulebook</span></li><li>How I work <span class="bl-fmeta">n=11, 2 changed the rulebook</span></li><li>Stress tests <span class="bl-fmeta">n=5, 4 changed the rulebook</span></li><li>Public pages <span class="bl-fmeta">n=5, 0 changed the rulebook</span></li><li>Shipping <span class="bl-fmeta">n=4, 3 changed the rulebook</span></li><li>Security <span class="bl-fmeta">n=2 · grain, 0 changed the rulebook</span></li><li>Client reads <span class="bl-fmeta">n=1 · grain, 0 changed the rulebook</span></li></ul></div>
+<script type="application/json" data-braid-data>{"start":"2026-04-06","weeks":33,"as_of":"2026-11-16","first_receipt_week":20,"default":[8,32],"commits":[1,0,0,0,0,0,2,84,67,48,90,70,277,123,265,170,114,114,106,175,84,204,341,77,281,404,1045,840,455,505,364,730,114],"receipts":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,1,0,36,20,49,176,440,320,199,114,128,170,null],"lanes":[{"key":"infra","label":"Infrastructure","def":"The machinery underneath: servers, databases, and builds.","n":12},{"key":"canon","label":"Rulebook","def":"The written principles the work is built and decided by.","n":11},{"key":"process","label":"How I work","def":"Working habits: reviews, checks, and when something counts as done.","n":11},{"key":"gauntlet","label":"Stress tests","def":"The review panels work goes through, and what they cost to run.","n":5},{"key":"surface","label":"Public pages","def":"The pages anyone can see, including this one.","n":5},{"key":"deploy","label":"Shipping","def":"How a change gets from the desk to the live site.","n":4},{"key":"security","label":"Security","def":"Keeping private things private, and automated access in check.","n":2},{"key":"recoil","label":"Client reads","def":"Judgment calls about real outside engagements.","n":1}],"events":[["F14",0,58,0],["F15",0,58,0],["F16",0,58,0],["F13",0,74,0],["F11",1,75,1],["F23",5,77,1],["F10",1,78,1],["F28",2,79,0],["F31",7,98,0],["F22",5,102,0],["F17",0,104,0],["F27",2,104,0],["F29",6,104,0],["F30",6,104,0],["F24",2,107,0],["F19",0,109,0],["F26",2,109,0],["F20",5,110,1],["F18",0,117,0],["F21",5,117,1],["F25",2,117,0],["F1",3,129,0],["F12",1,129,1],["F2",3,129,1],["F3",3,129,1],["F5",3,129,1],["F6",1,129,1],["F7",1,129,1],["F8",1,129,1],["F9",1,129,1],["F32",2,130,1],["F4",3,131,1],["F33",2,132,0],["F35",1,143,1],["F36",0,144,0],["F37",2,144,1],["F34",1,145,1],["F41",1,173,1],["F38",2,174,0],["F39",0,174,0],["F40",1,174,1],["F42",4,176,0],["F43",4,212,0],["F44",0,212,0],["F45",2,212,0],["F46",4,212,0],["F47",0,212,0],["F48",0,213,0],["F50",4,217,0],["F51",2,217,0],["F49",4,224,0]],"links":[["F33","F34"],["F34","F41"],["F47","F48"]],"source":"Source: the falsification ledger, 51 reversals from 3 Jun 2026 to 16 Nov 2026; 3 repaired-by links, each cited in the ledger. Commits: every commit on main, merges included, to 16 Nov 2026. Receipts: the decision-receipt ledger, snapshot of 13 Nov 2026; it begins the week of 24 Aug 2026."}</script>
+<script>
+/* ARCS kit organism 73 braided-lanes: reversals as one flat lane per scope, time on x, braided by repaired-by arcs.
+   Data: the payload the organism's generator writes from the cited build record.
+     start   ISO Monday of week 0; weeks = number of weeks; as_of = the record's date
+     commits[w]  commits on main in week w; receipts[w]  decision receipts in week w, null where none were recorded
+     lanes[]  {key, label, def, n}; events[] [id, lane index, day since start, gold 0|1]; links[] [from, to]
+   arcsBraid(host, data, {w0, w1}) replaces host's static floor with the live chart. Stdlib DOM, no deps.
+   The window is two native range inputs (arrow keys, Home, End). Each lane is one tab stop; arrow keys move between dots
+   (left/right in a lane, up/down across lanes), and the focused, pointed or tapped dot fills a live readout.
+   A lane with fewer than 3 events in the window renders as grain and prints n. Nothing animates. */
+(function () {
+  var NS = "http://www.w3.org/2000/svg", DAY = 864e5, GRAIN_N = 3;
+  var MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  function el(tag, attrs, parent) {
+    var n = document.createElementNS(NS, tag);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  }
+  function h(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function txt(p, x, y, s, cls, anchor) {
+    var t = el("text", { x: x, y: y, class: cls }, p);
+    if (anchor) t.setAttribute("text-anchor", anchor);
+    t.textContent = s;
+    return t;
+  }
+  function fmtDate(t) { var d = new Date(t); return d.getUTCDate() + " " + MON[d.getUTCMonth()] + " " + d.getUTCFullYear(); }
+  function num(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+
+  window.arcsBraid = function (host, data, opts) {
+    opts = opts || {};
+    var t0 = Date.parse(data.start + "T00:00:00Z"), end = Date.parse(data.as_of + "T00:00:00Z") + DAY;
+    var last = data.weeks - 1, uid = "bl" + Math.random().toString(36).slice(2, 7);
+    var byId = {};
+    data.events.forEach(function (e) { byId[e[0]] = e; });
+    var repairs = {};
+    data.links.forEach(function (l) { (repairs[l[0]] = repairs[l[0]] || []).push(["repaired by", l[1]]); (repairs[l[1]] = repairs[l[1]] || []).push(["repairs", l[0]]); });
+
+    host.textContent = "";
+    host.classList.add("braid");
+    var svg = el("svg", { role: "group", "aria-labelledby": uid + "t", class: "bl-svg" });
+    var title = el("title", { id: uid + "t" }, svg);
+    var defs = el("defs", {}, svg);
+    var pat = el("pattern", { id: uid + "h", width: 6, height: 6, patternUnits: "userSpaceOnUse", patternTransform: "rotate(45)" }, defs);
+    el("line", { x1: 0, y1: 0, x2: 0, y2: 6, class: "bl-hatch" }, pat);
+    var gp = el("pattern", { id: uid + "g", width: 4, height: 4, patternUnits: "userSpaceOnUse" }, defs);
+    el("circle", { cx: 1, cy: 1, r: 0.7, class: "bl-grain" }, gp);
+    el("circle", { cx: 3, cy: 3, r: 0.6, class: "bl-grain" }, gp);
+    var g = el("g", {}, svg);
+    host.appendChild(svg);
+
+    var brush = h("div", "bl-brush");
+    var lab = h("span", "bl-flabel", "Window");
+    lab.id = uid + "wl";
+    brush.appendChild(lab);
+    function range(val, name) {
+      var i = document.createElement("input");
+      i.type = "range"; i.min = 0; i.max = last; i.step = 1; i.value = val;
+      i.setAttribute("aria-label", name);
+      i.setAttribute("aria-describedby", uid + "wo");
+      brush.appendChild(i);
+      return i;
+    }
+    var A = range(opts.w0 == null ? 0 : opts.w0, "Window start, by week");
+    var B = range(opts.w1 == null ? last : opts.w1, "Window end, by week");
+    var out = h("output", "bl-out");
+    out.id = uid + "wo";
+    brush.appendChild(out);
+    host.appendChild(brush);
+
+    var key = h("p", "bl-key", "Gold ring: the fix became a standing rule. Curve: a later reversal repaired an earlier one. Grain: under 3 events in the window, n printed.");
+    host.appendChild(key);
+    var read = h("p", "bl-read");
+    read.setAttribute("aria-live", "polite");
+    host.appendChild(read);
+    var src = h("p", "bl-src", data.source);
+    host.appendChild(src);
+    var idle = "Focus or point at a dot to read it. Tab reaches each lane; arrow keys move between dots.", picked = null;
+
+    function say(e) {
+      picked = e[0];
+      var ln = data.lanes[e[1]], when = fmtDate(t0 + e[2] * DAY);
+      read.textContent = "";
+      var b = h("b", null, ln.label + ", belief " + e[0].replace(/^F/, "#"));
+      read.appendChild(b);
+      var s = ", " + when + ". " + ln.def + " A belief held here met a runnable test and failed it. " +
+        (e[3] ? "It changed the rulebook: the fix is now a standing rule." : "Fixed where it happened; no standing rule changed.");
+      (repairs[e[0]] || []).forEach(function (r) { s += " " + (r[0] === "repairs" ? "It repairs belief " : "Later repaired by belief ") + r[1].replace(/^F/, "#") + "."; });
+      read.appendChild(document.createTextNode(s));
+    }
+
+    function draw() {
+      var a = +A.value, z = +B.value;
+      if (z - a < 2) { if (document.activeElement === A) a = Math.max(0, z - 2); else z = Math.min(last, a + 2); if (z - a < 2) a = z - 2; A.value = a; B.value = z; }
+      var w0 = t0 + a * 7 * DAY, w1 = Math.min(end, t0 + (z + 1) * 7 * DAY);
+      out.textContent = fmtDate(w0) + " to " + fmtDate(w1 - DAY);
+      while (g.firstChild) g.removeChild(g.firstChild);
+      var keep = picked;
+      read.textContent = idle;
+      picked = null;
+
+      var W = Math.max(280, Math.round(host.clientWidth || 640)), narrow = W < 520;
+      var L = narrow ? 0 : 116, NC = narrow ? 8 : 92, X0 = L + 8, X1 = W - NC;
+      var lh = narrow ? 40 : 28, rh = narrow ? 40 : 30;
+      function xs(t) { return X0 + (t - w0) / (w1 - w0) * (X1 - X0); }
+      host.style.setProperty("--bl-lc", (narrow ? 48 : X0) + "px");
+      host.style.setProperty("--bl-nc", (narrow ? 0 : NC) + "px");
+
+      // Activity ribbon: two sparkline rows, each with its own peak for the window.
+      var y = 0;
+      [["Commits / week", data.commits, "bl-commits"], ["Receipts / week", data.receipts, "bl-receipts"]].forEach(function (row) {
+        var vals = row[1], top = y + (narrow ? 16 : 4), hgt = rh - (narrow ? 20 : 8), peak = 0, pts = [], gaps = [];
+        for (var w = a; w <= z; w++) { if (vals[w] != null && vals[w] > peak) peak = vals[w]; }
+        for (w = a; w <= z; w++) {
+          var cx = xs(Math.min(w1, Math.max(w0, t0 + (w + 0.5) * 7 * DAY)));
+          if (vals[w] == null) { gaps.push(w); continue; }
+          pts.push(cx.toFixed(1) + "," + (top + hgt - (peak ? vals[w] / peak * hgt : 0)).toFixed(1));
+        }
+        txt(g, narrow ? X0 : 0, narrow ? y + 11 : y + rh / 2 + 4, row[0], "bl-name " + row[2] + "-l");
+        txt(g, W, narrow ? y + 11 : y + rh / 2 + 4, pts.length ? "peak " + num(peak) : "none", "bl-meta", "end");
+        // Weeks with no recorded count are hatched, never drawn as zero.
+        var run = null;
+        gaps.concat([null]).forEach(function (w2) {
+          if (run && (w2 == null || w2 !== run[1] + 1)) {
+            var gx0 = xs(Math.max(w0, t0 + run[0] * 7 * DAY)), gx1 = xs(Math.min(w1, t0 + (run[1] + 1) * 7 * DAY));
+            el("rect", { x: gx0, y: top, width: Math.max(1, gx1 - gx0), height: hgt, fill: "url(#" + uid + "h)" }, g);
+            if (gx1 - gx0 > 140) txt(g, gx0 + 4, top + hgt - 2, run[1] < data.first_receipt_week ? "no receipt ledger yet" : "not recorded", "bl-meta");
+            run = null;
+          }
+          if (w2 != null) run = run ? [run[0], w2] : [w2, w2];
+        });
+        if (pts.length > 1) el("polyline", { points: pts.join(" "), class: "bl-spark " + row[2] }, g);
+        y += rh;
+      });
+      y += 8;
+
+      // Lanes. Solid lanes (3 or more events in all) first, then a divider and the thin ones.
+      var inWin = data.events.filter(function (e) { var t = t0 + e[2] * DAY; return t >= w0 && t < w1; });
+      var count = data.lanes.map(function () { return 0; });
+      inWin.forEach(function (e) { count[e[1]]++; });
+      var order = data.lanes.map(function (l, i) { return i; });
+      var solid = order.filter(function (i) { return data.lanes[i].n >= GRAIN_N; }), thin = order.filter(function (i) { return data.lanes[i].n < GRAIN_N; });
+      var pos = {}, gridTop = y, ticks = el("g", {}, g), arcs = el("g", {}, g);
+      function lanes(list) {
+        list.forEach(function (i) {
+          var ln = data.lanes[i], cy = y + lh / 2 + (narrow ? 6 : 0), grain = count[i] < GRAIN_N;
+          var lg = el("g", { class: "bl-c-" + ln.key + (grain ? " bl-thin" : "") }, g);
+          if (grain) {
+            el("rect", { x: X0, y: cy - 10, width: X1 - X0, height: 20, rx: 3, class: "bl-grainband" }, lg);
+            el("rect", { x: X0, y: cy - 10, width: X1 - X0, height: 20, rx: 3, class: "bl-grainfill", fill: "url(#" + uid + "g)" }, lg);
+          }
+          el("line", { x1: X0, x2: X1, y1: cy, y2: cy, class: "bl-rule" }, lg);
+          var nm = txt(lg, narrow ? X0 : 0, narrow ? y + 11 : cy + 4, ln.label, "bl-name");
+          nm.setAttribute("fill", "currentColor"); nm.setAttribute("stroke", "none");
+          txt(g, W, narrow ? y + 11 : cy + 4, "n=" + count[i] + (count[i] !== ln.n ? " of " + ln.n : "") + (grain ? " · grain" : ""), grain ? "bl-n" : "bl-meta", "end");
+          var seen = {};
+          inWin.filter(function (e) { return e[1] === i; }).forEach(function (e) {
+            var k = seen[e[2]] = (seen[e[2]] || 0) + 1, off = (k % 2 ? 1 : -1) * Math.floor(k / 2) * 7;
+            var x = xs(t0 + (e[2] + 0.5) * DAY) + off;
+            pos[e[0]] = [x, cy];
+            var eg = el("g", { class: "bl-ev", tabindex: k === 1 && !lg.querySelector(".bl-ev") ? 0 : -1, role: "img",
+              "aria-label": ln.label + ", belief " + e[0].replace(/^F/, "#") + ", " + fmtDate(t0 + e[2] * DAY) + (e[3] ? ", changed the rulebook" : "") }, lg);
+            eg.dataset.id = e[0];
+            el("circle", { cx: x, cy: cy, r: 11, class: "bl-hit" }, eg);
+            if (e[3]) el("circle", { cx: x, cy: cy, r: 7.5, class: "bl-ring" }, eg);
+            el("circle", { cx: x, cy: cy, r: 4.5, class: "bl-dot" }, eg);
+            function on() { var o = g.querySelector(".bl-on"); if (o) o.classList.remove("bl-on"); eg.classList.add("bl-on"); say(e); }
+            eg.addEventListener("focus", on); eg.addEventListener("mouseenter", on); eg.addEventListener("click", on);
+            if (keep === e[0]) { eg.classList.add("bl-on"); say(e); }
+          });
+          y += lh;
+        });
+      }
+      lanes(solid);
+      if (thin.length) {
+        y += 6;
+        el("line", { x1: 0, x2: W, y1: y, y2: y, class: "bl-div" }, g);
+        txt(g, 0, y + 16, "Thin evidence, under " + GRAIN_N + " events in all", "bl-meta");
+        y += 22;
+        lanes(thin);
+      }
+
+      // Repaired-by arcs, drawn over the lanes, only when both ends are in the window.
+      data.links.forEach(function (l) {
+        var p = pos[l[0]], q = pos[l[1]];
+        if (!p || !q) return;
+        var lift = Math.min(p[1], q[1]) - Math.max(14, Math.abs(q[0] - p[0]) * 0.25);
+        var arc = el("path", { d: "M" + p[0] + " " + p[1] + " C" + p[0] + " " + lift + " " + q[0] + " " + lift + " " + q[0] + " " + q[1], class: "bl-arc" }, arcs);
+        el("title", {}, arc).textContent = "Belief " + l[0] + " repaired by belief " + l[1];
+      });
+
+      // Month ticks: lines sit behind the lanes, labels under the last one.
+      y += 6;
+      var c = new Date(w0), m = Date.UTC(c.getUTCFullYear(), c.getUTCMonth() + 1, 1), step = narrow ? 2 : 1, k = 0;
+      for (; m < w1; m = Date.UTC(new Date(m).getUTCFullYear(), new Date(m).getUTCMonth() + 1, 1), k++) {
+        var x = xs(m);
+        el("line", { x1: x, x2: x, y1: gridTop, y2: y, class: "bl-tick" }, ticks);
+        if (k % step === 0) txt(g, x, y + 14, MON[new Date(m).getUTCMonth()], "bl-meta", "middle");
+      }
+      y += 20;
+      svg.setAttribute("viewBox", "0 0 " + W + " " + y);
+      svg.setAttribute("width", W);
+      svg.setAttribute("height", y);
+      title.textContent = inWin.length + " reversals across " + data.lanes.length + " domains, " + out.textContent +
+        ", with weekly commits and decision receipts above. " + inWin.filter(function (e) { return e[3]; }).length + " changed the rulebook.";
+    }
+    svg.addEventListener("keydown", function (ev) {
+      var cur = ev.target.closest && ev.target.closest(".bl-ev");
+      if (!cur || ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].indexOf(ev.key) < 0) return;
+      var lane = cur.parentNode, mine = [].slice.call(lane.querySelectorAll(".bl-ev")), next = null;
+      if (ev.key === "ArrowLeft") next = mine[mine.indexOf(cur) - 1];
+      else if (ev.key === "ArrowRight") next = mine[mine.indexOf(cur) + 1];
+      else if (ev.key === "Home") next = mine[0];
+      else if (ev.key === "End") next = mine[mine.length - 1];
+      else {
+        var lanes = [].slice.call(svg.querySelectorAll("g[class^='bl-c-']")).filter(function (l) { return l.querySelector(".bl-ev"); });
+        var to = lanes[lanes.indexOf(lane) + (ev.key === "ArrowDown" ? 1 : -1)];
+        next = to && to.querySelector(".bl-ev");
+      }
+      if (!next) return;
+      ev.preventDefault();
+      cur.setAttribute("tabindex", -1);
+      [].forEach.call(next.parentNode.querySelectorAll(".bl-ev"), function (n) { n.setAttribute("tabindex", -1); });
+      next.setAttribute("tabindex", 0);
+      next.focus();
+    });
+    A.addEventListener("input", draw);
+    B.addEventListener("input", draw);
+    draw();
+    if (window.ResizeObserver) {
+      var lw = host.clientWidth;
+      new ResizeObserver(function () { if (Math.abs(host.clientWidth - lw) > 4) { lw = host.clientWidth; draw(); } }).observe(host);
+    }
+  };
+})();
+(function(){var h=document.querySelector('[data-braid]'),d=document.querySelector('[data-braid-data]');if(h&&d){var p=JSON.parse(d.textContent);arcsBraid(h,p,{w0:p.default[0],w1:p.default[1]});}})();
+</script>
+</div>
 
   <div class="section-label">How to read this</div>
   <div class="method">
-    <div class="m-card red"><h3>A belief that lost</h3><p>Every dot is a claim we once held that met a concrete, runnable test, and failed it. No dot is a guess we're still defending.</p></div>
+    <div class="m-card red"><h3>A belief that lost</h3><p>Every dot is a claim I once held that met a concrete, runnable test, and failed it. No dot is a guess I'm still defending.</p></div>
     <div class="m-card gold"><h3>The gold seam</h3><p>A gold ring marks a reversal that hardened into doctrine, the break repaired in gold, kept visible rather than sanded over. Kintsugi.</p></div>
-    <div class="m-card"><h3>The shape gains resolution</h3><p>The record only sharpens: each reversal narrows what we believe, and the ledger is one source of truth, never re-summarized into something softer.</p></div>
+    <div class="m-card"><h3>The shape gains resolution</h3><p>The record only sharpens: each reversal narrows what I believe, and the ledger is one source of truth, never re-summarized into something softer.</p></div>
   </div>
 
   <footer>
@@ -207,37 +501,12 @@
   </footer>
 </div>
 
-<div class="tip" id="tip" role="status" aria-live="polite"></div>
 
-<script id="data" type="application/json">[{"id":"F14","scope":"infra","ts":"2026-06-03","canon":false},{"id":"F15","scope":"infra","ts":"2026-06-03","canon":false},{"id":"F16","scope":"infra","ts":"2026-06-03","canon":false},{"id":"F13","scope":"infra","ts":"2026-06-19","canon":false},{"id":"F11","scope":"canon","ts":"2026-06-20","canon":true},{"id":"F23","scope":"deploy","ts":"2026-06-22","canon":true},{"id":"F10","scope":"canon","ts":"2026-06-23","canon":true},{"id":"F28","scope":"process","ts":"2026-06-24","canon":false},{"id":"F31","scope":"recoil","ts":"2026-07-13","canon":false},{"id":"F22","scope":"deploy","ts":"2026-07-17","canon":false},{"id":"F17","scope":"infra","ts":"2026-07-19","canon":false},{"id":"F27","scope":"process","ts":"2026-07-19","canon":false},{"id":"F29","scope":"security","ts":"2026-07-19","canon":false},{"id":"F30","scope":"security","ts":"2026-07-19","canon":false},{"id":"F24","scope":"process","ts":"2026-07-22","canon":false},{"id":"F19","scope":"infra","ts":"2026-07-24","canon":false},{"id":"F26","scope":"process","ts":"2026-07-24","canon":false},{"id":"F20","scope":"deploy","ts":"2026-07-25","canon":true},{"id":"F18","scope":"infra","ts":"2026-08-01","canon":false},{"id":"F21","scope":"deploy","ts":"2026-08-01","canon":true},{"id":"F25","scope":"process","ts":"2026-08-01","canon":false},{"id":"F1","scope":"gauntlet","ts":"2026-08-13","canon":false},{"id":"F12","scope":"canon","ts":"2026-08-13","canon":true},{"id":"F2","scope":"gauntlet","ts":"2026-08-13","canon":true},{"id":"F3","scope":"gauntlet","ts":"2026-08-13","canon":true},{"id":"F5","scope":"gauntlet","ts":"2026-08-13","canon":true},{"id":"F6","scope":"canon","ts":"2026-08-13","canon":true},{"id":"F7","scope":"canon","ts":"2026-08-13","canon":true},{"id":"F8","scope":"canon","ts":"2026-08-13","canon":true},{"id":"F9","scope":"canon","ts":"2026-08-13","canon":true},{"id":"F32","scope":"process","ts":"2026-08-14","canon":true},{"id":"F4","scope":"gauntlet","ts":"2026-08-15","canon":true},{"id":"F33","scope":"process","ts":"2026-08-16","canon":false},{"id":"F35","scope":"canon","ts":"2026-08-27","canon":true},{"id":"F36","scope":"infra","ts":"2026-08-28","canon":false},{"id":"F37","scope":"process","ts":"2026-08-28","canon":true},{"id":"F34","scope":"canon","ts":"2026-08-29","canon":true},{"id":"F41","scope":"canon","ts":"2026-09-26","canon":true},{"id":"F38","scope":"process","ts":"2026-09-27","canon":false},{"id":"F39","scope":"infra","ts":"2026-09-27","canon":false},{"id":"F40","scope":"canon","ts":"2026-09-27","canon":true},{"id":"F42","scope":"surface","ts":"2026-09-29","canon":false},{"id":"F43","scope":"surface","ts":"2026-11-04","canon":false},{"id":"F44","scope":"infra","ts":"2026-11-04","canon":false},{"id":"F45","scope":"process","ts":"2026-11-04","canon":false},{"id":"F46","scope":"surface","ts":"2026-11-04","canon":false},{"id":"F47","scope":"infra","ts":"2026-11-04","canon":false},{"id":"F48","scope":"infra","ts":"2026-11-05","canon":false}]</script>
+<script id="data" type="application/json">[{"id":"F14","scope":"infra","ts":"2026-06-03","canon":false},{"id":"F15","scope":"infra","ts":"2026-06-03","canon":false},{"id":"F16","scope":"infra","ts":"2026-06-03","canon":false},{"id":"F13","scope":"infra","ts":"2026-06-19","canon":false},{"id":"F11","scope":"canon","ts":"2026-06-20","canon":true},{"id":"F23","scope":"deploy","ts":"2026-06-22","canon":true},{"id":"F10","scope":"canon","ts":"2026-06-23","canon":true},{"id":"F28","scope":"process","ts":"2026-06-24","canon":false},{"id":"F31","scope":"recoil","ts":"2026-07-13","canon":false},{"id":"F22","scope":"deploy","ts":"2026-07-17","canon":false},{"id":"F17","scope":"infra","ts":"2026-07-19","canon":false},{"id":"F27","scope":"process","ts":"2026-07-19","canon":false},{"id":"F29","scope":"security","ts":"2026-07-19","canon":false},{"id":"F30","scope":"security","ts":"2026-07-19","canon":false},{"id":"F24","scope":"process","ts":"2026-07-22","canon":false},{"id":"F19","scope":"infra","ts":"2026-07-24","canon":false},{"id":"F26","scope":"process","ts":"2026-07-24","canon":false},{"id":"F20","scope":"deploy","ts":"2026-07-25","canon":true},{"id":"F18","scope":"infra","ts":"2026-08-01","canon":false},{"id":"F21","scope":"deploy","ts":"2026-08-01","canon":true},{"id":"F25","scope":"process","ts":"2026-08-01","canon":false},{"id":"F1","scope":"gauntlet","ts":"2026-08-13","canon":false},{"id":"F12","scope":"canon","ts":"2026-08-13","canon":true},{"id":"F2","scope":"gauntlet","ts":"2026-08-13","canon":true},{"id":"F3","scope":"gauntlet","ts":"2026-08-13","canon":true},{"id":"F5","scope":"gauntlet","ts":"2026-08-13","canon":true},{"id":"F6","scope":"canon","ts":"2026-08-13","canon":true},{"id":"F7","scope":"canon","ts":"2026-08-13","canon":true},{"id":"F8","scope":"canon","ts":"2026-08-13","canon":true},{"id":"F9","scope":"canon","ts":"2026-08-13","canon":true},{"id":"F32","scope":"process","ts":"2026-08-14","canon":true},{"id":"F4","scope":"gauntlet","ts":"2026-08-15","canon":true},{"id":"F33","scope":"process","ts":"2026-08-16","canon":false},{"id":"F35","scope":"canon","ts":"2026-08-27","canon":true},{"id":"F36","scope":"infra","ts":"2026-08-28","canon":false},{"id":"F37","scope":"process","ts":"2026-08-28","canon":true},{"id":"F34","scope":"canon","ts":"2026-08-29","canon":true},{"id":"F41","scope":"canon","ts":"2026-09-26","canon":true},{"id":"F38","scope":"process","ts":"2026-09-27","canon":false},{"id":"F39","scope":"infra","ts":"2026-09-27","canon":false},{"id":"F40","scope":"canon","ts":"2026-09-27","canon":true},{"id":"F42","scope":"surface","ts":"2026-09-29","canon":false},{"id":"F43","scope":"surface","ts":"2026-11-04","canon":false},{"id":"F44","scope":"infra","ts":"2026-11-04","canon":false},{"id":"F45","scope":"process","ts":"2026-11-04","canon":false},{"id":"F46","scope":"surface","ts":"2026-11-04","canon":false},{"id":"F47","scope":"infra","ts":"2026-11-04","canon":false},{"id":"F48","scope":"infra","ts":"2026-11-05","canon":false},{"id":"F50","scope":"surface","ts":"2026-11-09","canon":false},{"id":"F51","scope":"process","ts":"2026-11-09","canon":false},{"id":"F49","scope":"surface","ts":"2026-11-16","canon":false}]</script>
 <script>
   const DATA = JSON.parse(document.getElementById("data").textContent);
-  const SCOPE = { canon:"#00F0FF", gauntlet:"#FFC24B", infra:"#5B8DEF", process:"#00FF9D", deploy:"#FF6EC7", security:"#FF4D6D", recoil:"#A78BFA", surface:"#94A3B8" };
-  // Plain-English meaning of each domain. The public page never carries the belief itself
-  // (see PUBLIC_EMBED_KEYS in belief_log_emit.py); this is what a stranger needs to read a dot.
-  const PLAIN = {
-    canon:    ["Rulebook", "Our written principles: the ideas we build by and decide with."],
-    infra:    ["Infrastructure", "The machinery underneath: servers, databases, and builds."],
-    process:  ["How we work", "Our habits: reviews, checks, and when something counts as done."],
-    gauntlet: ["Stress tests", "The review panels we put work through, and what they cost to run."],
-    deploy:   ["Shipping", "How a change gets from our desk to the live site."],
-    security: ["Security", "Keeping private things private, and automated access in check."],
-    recoil:   ["Client reads", "Our judgment calls about real outside engagements."],
-    surface:  ["Public pages", "The pages anyone can see, including this one."],
-  };
-  const WHEN_FMT = { year:"numeric", month:"short", day:"numeric", timeZone:"UTC" };
-  function ago(ts){
-    const days = Math.floor((Date.now() - asDate(ts)) / 864e5);
-    if (days < 1) return "today"; if (days < 2) return "yesterday";
-    if (days < 14) return days + " days ago";
-    if (days < 70) return Math.round(days/7) + " weeks ago";
-    return Math.round(days/30.4) + " months ago";
-  }
   const asDate = s => new Date(s + "T00:00:00Z");
   const min = asDate(DATA[0].ts), max = asDate(DATA[DATA.length-1].ts);
-  const span = (max - min) || 1;
-  const weekFloor = new Date(max.getTime() - 6*864e5);
-  const isRecent = ts => asDate(ts) >= weekFloor;
   const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
   const byScope = {};
@@ -253,71 +522,6 @@
     [`${fmt(min)}<small> → ${fmt(max)}</small>`, `Span · ~${(DATA.length/monthsSpan).toFixed(1)}/mo`],
   ].map(([v,l]) => `<div class="stat"><div class="stat-val">${v}</div><div class="stat-label">${l}</div></div>`).join("");
 
-  const ribbon = document.getElementById("ribbon");
-  const overlay = document.createElement("div"); overlay.className = "grid-overlay"; ribbon.appendChild(overlay);
-  topScopes.forEach(([scope]) => {
-    const c = SCOPE[scope] || "#94a3b8";
-    const lane = document.createElement("div"); lane.className = "lane";
-    lane.innerHTML = `<span class="lane-name" style="color:${c}">${(PLAIN[scope]||[scope])[0]}</span><div class="lane-track"></div>`;
-    const track = lane.querySelector(".lane-track");
-    DATA.filter(d=>d.scope===scope).forEach(d => {
-      const n = document.createElement("div");
-      n.className = "node" + (d.canon?" canon":"") + (isRecent(d.ts)?" recent":"");
-      n.style.left = (((asDate(d.ts)-min)/span)*100) + "%"; n.style.color = c; n.style.background = c;
-      n.tabIndex = 0; n.setAttribute("role", "img"); n.setAttribute("aria-label", `${(PLAIN[scope]||[scope])[0]}, belief ${d.id}, ${d.ts}${d.canon ? ", changed the rulebook" : ""}`); n.dataset.id = d.id; n.dataset.scope = scope; n.dataset.ts = d.ts;
-      track.appendChild(n);
-    });
-    ribbon.appendChild(lane);
-  });
-  const axis = document.getElementById("axis");
-  let cur = new Date(Date.UTC(min.getUTCFullYear(), min.getUTCMonth(), 1));
-  while (cur <= max) {
-    const p = Math.max(0, Math.min(100, ((cur-min)/span)*100));
-    const t = document.createElement("div"); t.className = "tick"; t.style.left = p + "%";
-    t.textContent = MON[cur.getUTCMonth()] + " " + String(cur.getUTCFullYear()).slice(2);
-    axis.appendChild(t);
-    const g = document.createElement("div"); g.className = "grid-line"; g.style.left = p + "%"; overlay.appendChild(g);
-    cur = new Date(Date.UTC(cur.getUTCFullYear(), cur.getUTCMonth()+1, 1));
-  }
-
-  const tip = document.getElementById("tip");
-  function showTip(e){
-    const el = e.currentTarget, sc = el.dataset.scope, [name, def] = PLAIN[sc] || [sc, ""];
-    const canon = el.classList.contains("canon"), recent = el.classList.contains("recent");
-    tip.style.setProperty("--tc", el.style.color);
-    tip.innerHTML =
-      `<div class="thead"><span style="color:${el.style.color}">${name}</span><span class="tnum">belief ${el.dataset.id.replace(/^F/, "#")}</span></div>` +
-      (def ? `<div class="tdef">${def}</div>` : "") +
-      `<div class="twhat">We believed something here, ran a test, and the test proved us wrong. The correction is logged.</div>` +
-      (canon ? `<div class="tgold"><span class="ring"></span><span>It changed the rulebook: the fix is now a standing rule, not a one-off patch.</span></div>`
-             : `<div class="tplain">Fixed where it happened. No standing rule changed.</div>`) +
-      `<div class="twhen"><span>${asDate(el.dataset.ts).toLocaleDateString("en-US", WHEN_FMT)} · ${ago(el.dataset.ts)}</span>` +
-      (recent ? `<span class="tnew">New this week</span>` : "") + `</div>`;
-    tip.style.opacity = "1";
-    const r = el.getBoundingClientRect(), w = tip.offsetWidth;
-    let x = Math.max(10, Math.min(window.innerWidth - w - 10, r.left + r.width/2 - w/2));
-    let y = r.top - 12 - tip.offsetHeight; if (y < 8) y = r.bottom + 12;
-    tip.style.left = x + "px"; tip.style.top = y + "px";
-  }
-  function hideTip(){ tip.style.opacity = "0"; }
-  ribbon.querySelectorAll(".node").forEach(n => {
-    n.addEventListener("mouseenter", showTip); n.addEventListener("mouseleave", hideTip);
-    n.addEventListener("focus", showTip); n.addEventListener("blur", hideTip);
-  });
-  // Touch screens: iOS keeps hover and focus on the last-tapped dot, so neither mouseleave nor
-  // blur fires when you tap elsewhere. Close on any tap outside a dot, and on Escape.
-  function dismissTip(){
-    hideTip();
-    const a = document.activeElement;
-    if (a && a.classList && a.classList.contains("node")) a.blur();
-  }
-  document.addEventListener("pointerdown", e => { if (!(e.target.closest && e.target.closest(".node"))) dismissTip(); });
-  document.addEventListener("keydown", e => { if (e.key === "Escape") dismissTip(); });
-
-  document.getElementById("legend").innerHTML =
-    topScopes.map(([s,n]) => `<span class="li"><span class="d" style="color:${SCOPE[s]};background:${SCOPE[s]}"></span>${(PLAIN[s]||[s])[0]} · ${n}</span>`).join("") +
-    `<span class="li meta"><span class="ring"></span>gold ring = changed the rulebook</span>` +
-    `<span class="li meta">◦ pulsing = new this week</span>`;
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>

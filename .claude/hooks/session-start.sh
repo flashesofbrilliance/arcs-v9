@@ -32,6 +32,14 @@ export GIT_HTTP_LOW_SPEED_TIME="${GIT_HTTP_LOW_SPEED_TIME:-15}"
 #     both the project dir and the session cwd, since a worktree session's cwd is the worktree.
 for _d in "$CLAUDE_PROJECT_DIR" "$PWD"; do
   [ -x "$_d/scripts/hookspath_arm.sh" ] && "$_d/scripts/hookspath_arm.sh" "$_d" 2>/dev/null || true
+  # (3a) Backlog merge driver (backlog-merge-driver-by-id, 2026-11-12): .gitattributes names
+  #      merge=backlog-by-id for _QUEUE/induced-backlog.jsonl; arm its command the same way, unset -> set,
+  #      a deliberate value left alone. Command lives in the script (DRIVER_CMD) so the self-test arms the same one.
+  if [ -f "$_d/scripts/backlog_merge_by_id.py" ] && [ -z "$(git -C "$_d" config --get merge.backlog-by-id.driver 2>/dev/null)" ]; then
+    _cmd=$(cd "$_d" && python3 -c 'import importlib.util as u;s=u.spec_from_file_location("m","scripts/backlog_merge_by_id.py");m=u.module_from_spec(s);s.loader.exec_module(m);print(m.DRIVER_CMD)' 2>/dev/null)
+    [ -n "$_cmd" ] && git -C "$_d" config merge.backlog-by-id.name "backlog rows by id" 2>/dev/null \
+      && git -C "$_d" config merge.backlog-by-id.driver "$_cmd" 2>/dev/null && echo "hooks: armed merge.backlog-by-id.driver"
+  fi
   # (3b) Project skills/commands load from the MAIN checkout; warn when it drifts from origin/main.
   [ -x "$_d/scripts/project_skills_drift.sh" ] && "$_d/scripts/project_skills_drift.sh" "$_d" 2>/dev/null || true
   [ -f "$_d/scripts/sentries.py" ] && python3 "$_d/scripts/sentries.py" 2>/dev/null | head -12 || true
@@ -68,6 +76,8 @@ fi
 # pickup instead of rotting. Guarded to never fail the hook.
 # scrum master: one line only when the weekly groom is overdue (.claude/skills/scrum/SKILL.md)
 python3 "$CLAUDE_PROJECT_DIR/scripts/scrum.py" nudge 2>/dev/null || true
+# daily boot (2026-11-16): first session of the day gets the ritual, every thread gets the per-thread boot
+python3 "$CLAUDE_PROJECT_DIR/scripts/daily_boot.py" 2>/dev/null || true
 python3 "$CLAUDE_PROJECT_DIR/scripts/pulse.py" check 2>/dev/null || true
 
 # Inchworm auditor — OPEN end (orient / red thread). Check the orphaned knowledge
@@ -86,6 +96,9 @@ python3 "$CLAUDE_PROJECT_DIR/scripts/seedbank_drift_check.py" 2>/dev/null || tru
 # Regeneration and `--refresh` (which pushes to origin/main) stay human-gated. Never fails the hook.
 python3 "$CLAUDE_PROJECT_DIR/scripts/universe_snapshot_drift_check.py" 2>/dev/null || true
 
+# PR briefs: big open PRs with no _PROPOSALS design brief, and briefs whose status contradicts their
+# PR's real state (scripts/pr_brief_check.py). Read-only, one gh list plus one view per linked PR; silent when clean.
+python3 "$CLAUDE_PROJECT_DIR/scripts/pr_brief_check.py" --line 2>/dev/null || true
 # Findings gait — the pace line (ADR-086 part E). Read-only: prints the EXTEND/CONTRACT phase,
 # open findings, displacement and the next aid station from _STATE/findings.jsonl so the
 # detectors above have a place where findings get a fate and a close. Never fails the hook.
@@ -140,7 +153,7 @@ import glob, datetime, os, re
 files = glob.glob(os.path.join('$CLAUDE_PROJECT_DIR', '_STATE/night-moves/*.md'))
 dates = []
 for f in files:
-    m = re.search(r'(\d{4}-\d{2}-\d{2})\.md$', f)
+    m = re.search(r'(\d{4}-\d{2}-\d{2})(?:-catchup)?\.md$', f)  # catch-ups count (missed until 2026-11-16)
     if m:
         try:
             dates.append(datetime.date.fromisoformat(m.group(1)))
@@ -152,7 +165,7 @@ if not dates:
 else:
     last = max(dates)
     days = (datetime.date.today() - last).days
-    if days >= 2:
+    if days >= 8:  # weekly Sunday catch-up digest (2026-11-16); a mid-week gap is expected
         print(f'night-moves: {days} days since last digest ({last}) — run /night-moves?')
 " 2>/dev/null || true
 

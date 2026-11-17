@@ -21,6 +21,12 @@
   warn (ratchet). Machines without the launcher skip cleanly and the seam is caught at the next
   machine that has it.
 
+## 2026-11-14 · a merge of main read main's rosetta-voice page as net-new debt
+- break: merging origin/main into PR 2219 was blocked by the ratchet on `public/rosetta-voice.html`, 23 findings vs 0 at HEAD. The page came in unchanged from main (6794efac, 943ea813); the branch never had it, so the ratchet's HEAD baseline was 0.
+- found by: the merge commit on claude/tabbed-brief-lockup.
+- repair: none to the page here; its 23 findings are open debt on main, owned by whoever next touches rosetta-voice (no live session owns it). The gate is fixed: on a merge commit, a page whose staged blob equals MERGE_HEAD's blob warns instead of blocking.
+- guard: the MERGE_HEAD blob check in `scripts/git-hooks/pre-commit`. A page edited during the merge still scores against HEAD as before. Not done: the 23 findings on rosetta-voice itself.
+
 ## 2026-10-26 · the MyAlly proposal page scored against the ARCS kit (palette waived, file-scoped)
 - break: the kintsugi ratchet blocked the MyAlly proposal page (new file, 14 findings vs 0 at HEAD): colors and corner radii outside DESIGN.md.
 - found by: the myally.arcs.care/proposal commit.
@@ -622,6 +628,8 @@ is deliberately kept out of the family glob to stay honest.
 
 Audited the three residual classes flagged after the low-contrast audit. Each judged on merits:
 
+Ground: commit 99df8d1f; the scoped ignores below live in `.impeccable/config.json` (detector.ignoreFiles and ignoreValues).
+
 - **cramped-padding** (7x on take-home-trap-dossier `.twrap`): FALSE POSITIVE. `.twrap` is a
   horizontal-scroll wrapper around a bordered table; table cells carry `td{padding:11px 14px}`, so
   content is not cramped. The detector reads the table flush to the rounded scroll-wrapper border as
@@ -856,3 +864,94 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - **Root cause:** the template is the Bitfury v19 brief, which set those small sizes by hand and carries a light theme that DESIGN.md (dark only) doesn't define.
 - **Repair:** chips, the NOW badge and the arrow use `var(--fs-label)`; the bar uses `padding: var(--sp-3) 0`. The fix lives in `src/ui-kit/precall-brief/page.tpl`, so every future brief inherits it. `design-system-color` is waived for the example file only (the light theme is part of the specified structure).
 - **Guard:** the ratchet on the example, and `scripts/precall_brief_build.py --check` in pre-commit, which fails when the template moves without a rebuilt example.
+
+## 2026-11-09 · Gravity positioning page on the cia shell (repaired, shell waivers extended)
+
+- **Break:** the ratchet counted 35 findings against 0 at HEAD on `public/gravity-brief.html`: 17 `design-system-font-size`, 10 `design-system-color`, 4 `design-system-radius`, 1 each of `cramped-padding`, `repeating-stripes-gradient`, `codex-grid-background`, and 1 `flat-type-hierarchy`. Separately, in the artifact viewer's dark mode the meta strip values rendered near-black on the dark band, with a light strip at the right edge.
+- **Root cause:** the page is built on the `public/cia-brief.html` / `public/myally-hub.html` shell, whose palette, radii, label sizes and meta strip are already waived for those two files. The type step was real: subheads at 1rem rendered at 14.4px (the shell sets a 14.4px rem) under 16px body text. The dark-mode break came from the shell styling `html` but not `body`: `.shell-meta dd` inherits its colour, and a host that styles `body` (the artifact viewer does) recoloured it.
+- **Repair:** subheads now sit at body size, semibold; section titles step 1.25 above them. `body` carries `background:var(--bg);color:var(--text)` and `.shell-meta dd` sets its own colour. The six shell rules are waived for this file in the existing cia / myally entries (same shell, same reasons). The page enrolls in the new `tabbed-brief` template in `src/ui-kit/templates.json`.
+- **Guard:** the ratchet (the file now scores 0) and `component_source_gate` on the enrolled page. Open debt: `public/cia-brief.html` and `public/myally-hub.html` style only `html`, so they would show the same dark meta strip inside any host that styles `body`; the shell should become one kit `@dsCard` before a third page copies it.
+
+## 2026-11-09 · rfp-engine rebuilt from verbatim kit blocks (waived, four rules, one file)
+
+- **Break:** the ratchet counted 16 findings against 0 at HEAD on `public/good-rfp-engine.html`: 13 `design-system-color` (the light palette from 39 theme-toggle and the grammar-chip generator, which the detector renders because this machine is in light mode), 1 `design-system-font` (chip tags in the kit mono stack), 1 `design-system-font-size` (the 45 fact-tile label, .75rem) and 1 `dark-glow` (the 51 display-preferences pill lift).
+- **Root cause:** every finding comes from a kit block copied verbatim (`kit_primitive_sync --check` proves each one identical) or from the generated chip block. DESIGN.md defines no light world, and the kit README's ARCS brand profile already lists all four rules as brand grammar, not debt. The page's own CSS added no finding.
+- **Repair:** the stale swatch waiver (`rgb(0, 116, 142)`, the retired `#00748e`) became `design-system-color "*"` for this one file, the same light-world scope as the Louisville proposal and the myally pages, plus one-file waivers for the other three rules. Nothing was edited inside a kit block to satisfy the detector, since that would break the sync check.
+- **Guard:** the ratchet (the file now scores 0, any new finding blocks) and `kit_primitive_sync --check`. Open debt: the fact-tile .75rem label belongs on the type ramp in the kit file itself; fix it there and every page that marks block 45 inherits it.
+
+## 2026-11-11 · recoil-skim kit 56 to 64 and the Brian recoil page (repaired at the source, one waiver)
+
+- **Break:** the ratchet counted 8 findings against 0 at HEAD on the new `_ARTIFACTS/recoil-brian-2026-11-11.html`: 2 `all-caps-body` (a 91-character eyebrow and a 33-character sub-label in caps), 3 wide letter spacing on body-length mono text (ledger keys, claim keys, the toast meta), 2 `cramped-padding` (take and pass rows flush on their top border) and 1 `flat-type-hierarchy` (12px labels under 14.8px body, 1.23:1). The nine new specimen pages each scored 6 `design-system-color` from the light chrome.
+- **Root cause:** the nine primitives came from the v3 page, which set caps and wide tracking on labels that grew into sentences, and drew row separators as a border on every row with the first row's border removed. Raising the label step to 12px (spec 4.3) left body at 14.8px, under a 1.25 step.
+- **Repair:** fixed in the kit specs, so every page that marks the blocks inherits it: keys and meta lines in sentence case at 0.02em; separators drawn as `.take + .take` and `.pass + .pass`; the recoil-skim layer sets body to 15px beside the 12px label. The eyebrow is short and the date line moved to an evidence ref. The specimens join the existing one-file `design-system-color` waiver for the kit's light remap (39, 43 to 51, 54, 55).
+- **Guard:** the ratchet (all ten files score 0) and `kit_primitive_sync --check`, which fails a page whose copy of a block drifts from the kit file.
+
+## 2026-11-12 · recoil external twin for the sent Dioptra link (one-file waiver, mold not yet fixed)
+
+- **Break:** the ratchet counted 9 findings against 0 at HEAD on the new `public/recoil-ext/2026-10-29-gasmi.html`: 1 `tiny-text` (11px labels), 1 `all-caps-body` (tab and card labels), 2 `design-system-radius` (12px cards, 2px swatch) and 5 `design-system-font-size` (26, 14, 13.5, 13, 12px).
+- **Root cause:** the page is generated by `scripts/recoil_brief.py --audience external`, whose inline CSS predates the kit type ramp and radius scale. The page's own content added no finding. `public/dioptra-brief.html` scores 0 because it was re-poured onto the kit by hand after generation.
+- **Repair:** none at the source yet. The already-sent link to Doug (app.arcs.care/recoil/2026-10-29-gasmi) had to stop dead-ending in a sign-in wall the same day, so the four rules are waived for this one file only.
+- **Guard:** the ratchet (the file scores 0 with the waiver; any new finding blocks). Open debt: put the recoil_brief.py external CSS on the kit ramp and radius scale, regenerate, drop the waiver.
+
+## 2026-11-12 · recoil external twin joins the kit frame (kit waivers extended to one more file)
+
+- **Break:** after the Gasmi twin moved into the tabbed-brief frame (kit 38, 39, 42, 51 plus `src/ui-kit/tabbed-brief/shell.css`), the ratchet counted 11 findings against 0 at HEAD: 10 `design-system-color` (the kit 39 light remap: #fff, #f7f8fa, #d5dbe3, #1c2430, #566170, #475262, #00606b, #047857, a gold border tint, a 14% black) and 1 `cramped-padding` (`.tb-navwrap`, the edge-to-edge nav bar).
+- **Root cause:** none in this page's own CSS. Both are the frame's by design and are already waived for `public/gravity-brief*.html` and the kit specimens: DESIGN.md defines the dark palette only, and the shell nav bar runs flush to the frame (the MyAlly seam of 2026-10-26).
+- **Repair:** Zach asked for the standard nav, hamburger and reading options on this page (2026-11-12), so the page carries the kit's light palette and frame. The file joins the two existing kit waivers rather than getting new ones.
+- **Guard:** the ratchet (the file scores 0 with the waivers; any new finding blocks) and `component_source_gate`, which now checks the page as template `recoil-twin` (5 of 5 kit signatures). The earlier open debt for this file stands: the generator-origin waivers (tiny-text, all-caps-body, radius, font-size) can be dropped once `scripts/recoil_brief.py`'s base CSS is off the page; the stack layout already sizes in rem on the kit ramp.
+
+## 2026-11-12 · tabbed brief moves to Inter, the design-system reference face (one waiver)
+
+- **Break:** the ratchet counted 4 findings against 0 at HEAD on `public/gravity-brief-beliefs.html`: 3 hairline border with a wide (16px) shadow blur on the new glass pieces, and 1 `overused-font` (primary font Inter).
+- **Root cause:** Zach ruled Inter semibold headlines, Inter loaded first from Google Fonts with SF Pro as fallback, and light glass with some depth (2026-11-12). The kit token stack leads with system-ui only to dodge this detector rule; DESIGN.md and the claude.ai/design reference both name Inter.
+- **Repair:** the lift shadow is cut to a 6px blur at source (`--lift` in `src/ui-kit/tabbed-brief/shell.css`). Inter stays per the ruling; `overused-font` is waived for `public/gravity-brief*.html` only.
+- **Guard:** the ratchet (the pages score 0 with the waiver; any new finding blocks). Open debt: decide whether the kit `_tokens.css` stack should lead with Inter for every page, and drop the per-page waiver then.
+
+## 2026-11-12 · tabbed brief masthead name in SF (one value waiver)
+
+- **Break:** the ratchet counted 1 `design-system-font` finding against 0 at HEAD: the masthead name uses SF Pro Display, which DESIGN.md does not declare.
+- **Root cause:** Zach ruled the masthead name (`.tb-name-main`) be set in the San Francisco system face rather than Inter (2026-11-12). SF is already the fallback in the Inter stack, so this names it first for one element.
+- **Repair:** none needed at source; the value `sf pro display` is waived for `public/gravity-brief*.html` only.
+- **Guard:** the ratchet (pages score 0 with the waiver; any new font finding blocks). Open debt: add SF as a named fallback face in DESIGN.md typography, then drop the waiver.
+
+## 2026-11-13 · kit 71 proof lockup (filed as 69, renumbered: three PRs claimed 69) (one size repaired at the source, specimen joins the kit colour waiver)
+
+- **Break:** the ratchet counted 8 findings against 0 at HEAD on the new `src/ui-kit/recoil-report/71-proof-lockup.html`: 6 `design-system-color` from the specimen's light chrome and 2 `design-system-font-size` (the figure at a literal 1.6rem, the print figure at 1.25rem).
+- **Root cause:** the figure size was copied from the rendered option Zach picked (A, 2026-11-13) as a literal, not as a ramp step. The colours come from the kit 39 light remap that every specimen carries.
+- **Repair:** the figure now reads `max(1.5rem, min(var(--fs-display), Ncqi))` (7cqi stacked, 4cqi 2 by 2, 3cqi four-up), so it never leaves the display step and lands near 1.6rem in the Gravity lane, so the picked look holds on a ramp token; print uses `--fs-headline`. The specimen joins the existing kit-specimen `design-system-color` waiver (39, 43 to 68, now 71), no new waiver.
+- **Guard:** the ratchet (the file scores 0; any new finding blocks) and `kit_primitive_sync --check` for every page that later marks block 71.
+
+## 2026-11-13 · option board for the Gravity glass review (repaired at the source, one value waived)
+
+- **Break:** the ratchet counted 17 findings against 0 at HEAD on the new `_ARTIFACTS/option-board/gravity-glass.html`: 9 `gpt-thin-border-wide-shadow` (the glow options drew a 1px cyan border under a 16px bloom), 3 `tight-leading` (headline variants at 1.25), 1 `all-caps-body` (mono caps labels), 2 `design-system-font-size` (0.85rem and 1.3rem) and 2 `design-system-color` (a literal 50% black shadow and the glass sheen).
+- **Root cause:** the first spec hand-wrote variant CSS without the kit ramp, and drew the glow rim as a border.
+- **Repair:** in the spec and `src/ui-kit/option-board/board.css`: the rim became an inset 1px ring inside the shadow stack, leading 1.3, labels in sentence case at 0.02em, sizes on `--fs-body` and `--fs-headline`, the black drop removed. One value stays: `rgba(255, 255, 255, 0.06)`, the sheen in `--glass-surface` from the ARCS OS Design System artifact, which DESIGN.md does not list yet. It is waived for this one file, since showing that layer is the board's purpose.
+- **Guard:** the ratchet (the file scores 0 with the waiver; any new finding blocks) and the option-board generator self-test (this PR), which fails when the committed board drifts from its spec. Open: DESIGN.md should adopt or reject the glass layer; then drop the waiver.
+
+## 2026-11-13 · kit 73 braided lanes specimen (joins the kit 69 shell waiver)
+
+- **Break:** the ratchet counted 6 findings against 0 at HEAD on the new kit 73 specimen page (73-braided-lanes, added by PR 2266; filed as 72, renumbered 2026-11-15 after the week strip took 72 on main), all `design-system-color`: body, crumb, h1, section rule and the use/avoid headings.
+- **Root cause:** none in the organism. The six hits are the shared `kit_specimen.py` shell under `_tokens-light.css`, the kit's light palette, which DESIGN.md (dark only) does not define; kit 69 carries the same six and is already waived. The organism fragment and its preview score 0 anti-patterns, and public/belief-log.html dropped from 17 findings to 13.
+- **Repair:** the kit 69 shell waiver now names the 73 page too; no new rule or value waived.
+- **Guard:** the ratchet (the file scores 0 with the waiver; any new finding blocks). Open debt stands from kit 69: find why kits 64 and 68 score 0 with the same shell, or add the light palette to DESIGN.md and drop both waivers.
+
+## 2026-11-16 · arcs.care/case-study re-rendered on the kit (two scoped waivers, one page-local repair)
+
+- **Break:** the ratchet counted 5 `design-system-color` findings against 0 at HEAD on `public/case-study.html`, and the design-debt sweep counted 2 `all-caps-body`. The 2026-10-04 page was dark only and hand-styled; the re-render inlines the kit, which brings light mode.
+- **Root cause:** the colours are the kit 39 light remap and the kit 51 reading-options shadow, verbatim; DESIGN.md has no light palette (the open decision from 2026-10-08). The all-caps hits are kit label roles (27 eyebrow, 31 callout label in 53 read tone) that the detector reads as body because they sit in a `p` and a `b`, not a heading.
+- **Repair:** waivers for `design-system-color` and `all-caps-body`, scoped to this one file in `.impeccable/config.json`, added by hand. Brand gate BLOCK repaired on the page: kit 53's read-tone callout used `surface-2`, darker than the light ground (ledger: wells sit lighter than their ground), so the page sets it to `surface`. Page-local because the five gravity-brief pages carry the same block 53 and are held under PR 2283.
+- **Guard:** the ratchet (the page scores 0 with the waivers; any new finding blocks) and `kit_primitive_sync --check`. Open debt: none. Both closed 2026-11-16 at source: kit 53 `cr-read` now takes `surface` (copied into the five gravity-brief pages and the case study), kit 68 gained the `.spec.cards.is-3` three-up variant, and both page-local rules are gone. Kit 71's caption took `fs-body` in the same change, retiring the fifth type step.
+
+## 2026-11-16 · Louisville proposal moved onto kit 65 to 68 (repaired at the source, no waiver)
+
+- **Break:** the ratchet counted 4 `cramped-padding` findings against 0 at HEAD on `_ARTIFACTS/louisville-proposal/source.html`: `qpair`, `gg` and two `specrow` "children flush against border". The rendered page insets every one (16 to 24px on screen), and the kit specimen pages score 0 with the same blocks.
+- **Root cause:** two things together. The detector applies `@media print` rules as if always on, so it merges the screen box border with the print layout's zero side padding. And it does not read the `border: 0` shorthand in the print reset as clearing that border. Bisect: removing either the screen box rule or the print reset cleared each finding; writing the print reset as `border-width: 0` (65, 66) and `border-width: 1px 0 0; border-style: solid` (68 cards) cleared all four.
+- **Repair:** kit specs 65, 66 and 68 now write their print border resets as `border-width` longhands; identical render, PDF unchanged. The same print render found two real kit bugs, fixed in the same change: 65 printed with no column gap, and 68's cards print reset lost to the screen `:last-child` rule and stacked labels.
+- **Guard:** the ratchet (the page scores 0, no waiver) and `kit_primitive_sync --check`. Rule for kit print resets: use `border-width`, never the `border: 0` shorthand, until the detector reads it.
+
+## 2026-11-17 · edit-from-seed resumes: flat type hierarchy (repaired at the source, no waiver)
+
+- **Break:** the ratchet counted 1 `Flat type hierarchy` finding against 0 at HEAD on each of 11 new edit-from-seed resumes (`_ARTIFACTS/forge-*/resume-*.html`): body, h1, h2 and h3 all at 16px.
+- **Root cause:** `scripts/forge_edit_from_seed.mjs` edits the seed's ATS HTML (semantic h1/h2/h3) and swaps in `_PATTERNS/resume-print-base.css`, which styles class names only and has no heading rules, so every heading fell back to one size. The seeds' own PDFs never showed it because they render the class-based HTML.
+- **Repair:** `resume-print-base.css` gained a heading scale (body 12px, h3 14px, h2 17px, h1 24px; each step 1.2:1 or more); the 11 resumes carry the same rule, re-rendered, all still 2 pages, all score 0.
+- **Guard:** the ratchet (every new forge resume is checked at commit) plus the forge's own 2-page QC. Rule: any stylesheet swapped onto ATS HTML must style h1 to h3.

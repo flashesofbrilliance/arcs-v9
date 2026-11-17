@@ -271,6 +271,9 @@ def list_cmd(ctx, unbanked=False, open_only=False, as_json=False, out=sys.stdout
 
 
 def self_test():
+    import os as _os  # a pre-commit hook exports GIT_DIR / GIT_INDEX_FILE; left set, the scratch git below writes to the REAL repo
+    for _k in [k for k in _os.environ if k.startswith("GIT_")]:
+        del _os.environ[_k]
     t0 = time.time()
     real = Path(os.environ.get("BANK_STATE_DIR", "/Users/zharris/arcs-v9/_STATE")) / "bank-events.jsonl"
     before = real.stat().st_mtime if real.exists() else None

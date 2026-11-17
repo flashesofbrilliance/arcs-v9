@@ -1,0 +1,159 @@
+We are looking for a skilled and passionate Senior Technical Product Manager to join our Agent Builder team in our NYC office. Working in a high-growth scale-up, you’ll have the unique opportunity to drive innovation at scale while contributing to a company transforming the world of audit and finance.
+
+ 
+
+
+ABOUT THE ROLE:
+
+Auditors sign their name to every conclusion. An agent can do the heavy lifting, but only if the auditor can see how each conclusion was reached and trace it back to its source.
+
+Agent Builder is where firms turn their own procedures into agents their whole team can run, in Alwin by DataSnipper, our agentic automation platform for audit and finance. Built well, an agent makes quality a property of the procedure, not of who happened to be staffed on the engagement.
+
+You'll own Agent Builder and the agents firms build with it. Your users are the people at firms who build agents, and the methodology and quality teams who approve them for client work.
+
+This is a technical PM role. You'll shape the harness each agent runs in: the context it sees, the tools it uses, and where a person reviews its work. You'll own the feedback loops that improve agents after release. You'll work as a peer to a new engineering team in New York, and with our Agent Runtime and Evals teams in Amsterdam.
+
+ 
+
+
+WHY DATASNIPPER?
+
+ 
+
+The hardest AI problems aren't about getting an answer fast. They're about getting one people can trust.
+
+ 
+
+We believe trust is essential to how society works. Every day, we rely on information that's been independently verified, from financial statements to the products we buy, to the sustainability claims companies make. Behind that trust are audit and finance professionals who examine evidence, verify information and hold organizations accountable.
+
+ 
+
+At DataSnipper, we build AI solutions that empower those professionals. By making evidence easier to trace and verify, we help them focus on the judgment and expertise that make their work so important.
+
+ 
+
+For our product and engineering team, this is where things get exciting. In audit, a plausible answer isn't good enough. Every output has to be explainable and traceable back to its source. We've just launched a brand new agentic platform, Alwin by DataSnipper. AI agents running in the cloud across hundreds of documents at once, reasoning across PDF, Word and Excel, with a full audit trail behind every step. There are lots of greenfield problems ahead, and real room to shape what we build and how we build it.
+
+ 
+
+And we build at scale. More than 600,000 professionals across 3,000+ organizations in 175 countries rely on DataSnipper, including Fortune 500 companies, government agencies and all Big Four audit firms. In 2025 alone, the DataSnipper platform delivered more than $1.4 billion in productivity savings to is customers. Backed by a $100 million Series B led by Index Ventures, at a $1 billion valuation, and as proud members of 1% for the Planet, we care about how we grow, not just how fast.
+
+ 
+
+If you want to build AI that professionals trust with work that really matters, this is your chance to help shape the future of audit and finance and do the best work of your career along the way.
+
+
+
+
+THE PROBLEMS YOU'LL OWN
+
+ - Knowledge and context: how a firm's methodology, guidance, templates and prior work are captured, kept current, permissioned and served to agents at the moment they need them
+
+ - Definition: the authoring experience and the definition model that turn a procedure into a multi-step agent: steps, tools, knowledge sources, thresholds and human-in-the-loop gates
+
+ - Test and publish: how builders evaluate an agent against real cases before it ships, and the review and approval it passes before it reaches the Agent Library
+
+ - Run and observe: tracing what an agent did on a live engagement, which knowledge it used and why
+
+ - Govern, version and retire: permissions, change history, approvals, rolling out new versions without breaking work in progress, and retiring agents and outdated knowledge cleanly
+
+
+WHAT YOU'LL DO:
+
+ - Own the Agent Builder strategy and roadmap, and make the trade-offs explicit
+
+ - Design the harness with engineering: how context is assembled, how tools are defined and called, and where a person must review
+
+ - Decide what builders control and what the platform sets, so agents can encode real methodology and stay consistent
+
+ - Build the feedback loops: turn run traces and reviewer edits into eval cases, regression tests and changes the firm approves
+
+ - Set the quality gates an agent must pass before release, and test every new model or methodology version before it reaches live work
+
+ - Report agent quality with a stated method and sample
+
+ - Prototype in code before you write specs. Then write short specs and decision memos that engineers can build from
+
+ - Spend time with the firms that build and approve agents, and turn what our forward-deployed teams learn into product, not one-off fixes
+
+
+WHAT YOU BRING:
+
+ - A technical background: software, ML or infrastructure engineering, or several years as a technical PM on developer or AI platforms
+
+ - Hands-on experience shipping agent systems in production: context and retrieval, tool calling, orchestration, structured outputs, retries and fallbacks
+
+ - Eval practice: building datasets, calibrating LLM judges against human labels, offline and online evaluation, and regression testing across model versions
+
+ - Observability for LLM systems: traces, cost and latency, and classifying failures so you fix causes, not symptoms
+
+ - System design skills: schemas, versioning, permissions, event logs and APIs. You can read a design doc and challenge it
+
+ - PM experience on a product that other people build on
+
+ - Prototyping in code with AI tools as part of your normal work
+
+ - Clear, short writing
+
+
+WHAT SETS YOU APART
+
+ - Audit or accounting knowledge, from practice or from building products for auditors, finance teams or other experts in regulated fields
+
+ - Document AI: extraction, OCR, grounding and citation
+
+ - You've built an agent harness or framework, eval tooling, or LLM observability
+
+ - You've built review workflows or feedback pipelines that turn user corrections into eval or training data
+
+ - Experience with low-code tools, workflow designers, rule engines or DSLs
+
+ - Design-partner programmes with large enterprise customers
+
+
+WHAT WE OFFER:
+
+ - Be part of one of the fastest-growing, profitable unicorn scale-ups with a global impact
+
+ - Equity (Stock Appreciation Rights) to share the company's success and growth
+
+ - Flexible paid time off
+
+ - Comprehensive medical and dental coverage
+
+ - 401K match
+
+ - Paid parental leave
+
+ - Company-sponsored lunch
+
+ - Hybrid mode of work (at least 3 days onsite in our New York City office)
+
+ - Access to continuous learning and development initiatives to grow your skills
+
+ - Engage with a vibrant international team spread across five global offices
+
+ - Access to the mental health and wellness platform
+
+ - Multiple social activities for team building, including company-wide events like DataSnipper GO, where global teams come together
+
+
+RECRUITMENT PROCESS
+
+ - Recruitment Screen (30 minutes, online)
+
+ - Hiring Manager Interview (30 minutes, online)
+
+ - Panel Presentation (60 minutes, online)
+
+ - Leadership interview (30 minutes, online)
+
+ - Final Interview (30 minutes, online)
+
+At DataSnipper, we believe great ideas come from different perspectives, experiences, and backgrounds. We are committed to building an inclusive workplace and providing every candidate with a fair and equitable hiring experience.
+
+Our hiring decisions are merit-based and grounded in the skills, experience, potential, and capabilities relevant to the role.
+
+We welcome applicants regardless of age, race, ethnicity, nationality, gender, gender identity or expression, sexual orientation, religion, disability, or any other characteristic that makes you, you.
+
+What matters to us is what you can bring to the role, the team, and DataSnipper. 🚀

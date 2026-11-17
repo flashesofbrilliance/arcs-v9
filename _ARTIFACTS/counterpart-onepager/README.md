@@ -62,6 +62,20 @@ space), clip = frames timed to one take, throughline = one claim, arc = order of
 Searched and not a second case: the crumb on public/todd-logictree.html (a sticky nav bar with text separators),
 `.rail` on the observatory and forge pages (no Now/Next/Later shape), `.opt` on todd-logictree (a list item).
 
+
+## Outcome fields (2026-11-09)
+
+The data file may carry an `outcome` block. It is never rendered. It names the backlog job the page serves and maps
+each claim the page makes to the parts and data paths that carry it (`kit:NN-slug`, `candidate:<shape>`, `page:hero`).
+`--check` refuses a block whose job row is missing, whose part or data path does not exist, or that leaves a
+rendered block unclaimed. `--receipt` prints an ex-ante `decision_receipt` template: one unconfirmed line per
+claim, the claim-to-part map in `refs`, and the backlog row's fates as the outcomes to score at close. Judgment
+fields stay `<REQUIRED ...>`, and the script writes nothing. `outcome.supersedes` names the stale ex-ante receipt the next one replaces; the template
+puts it in the `supersedes` column, never treats it as the live bet.
+
+Why: a part's second real case should be a second closed outcome on the same job, not a second page with similar
+CSS. With claims keyed to parts, a close can say which part carried the claim that landed or missed. With only a
+few counterparts so far, any score is a count, not odds.
 ## Gates
 
 Pass: `counterpart_onepager_build.py --check`, `component_source_gate` (one-pager on counterpart-onepager, 8

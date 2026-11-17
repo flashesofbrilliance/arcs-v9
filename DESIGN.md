@@ -44,6 +44,7 @@ typography:
     letterSpacing: "0.14em"
 rounded:
   xs: "3px"
+  badge: "4px"
   sm: "6px"
   md: "10px"
   lg: "16px"
@@ -70,8 +71,8 @@ components:
   chip:
     backgroundColor: "{colors.panel}"
     textColor: "{colors.text-secondary}"
-    rounded: "{rounded.xs}"
-    padding: "3px 8px"
+    rounded: "{rounded.badge}"
+    padding: "0 10px"
   input:
     backgroundColor: "{colors.elevated}"
     textColor: "{colors.text-primary}"
@@ -148,6 +149,10 @@ An obsidian ground carrying a small set of high-chroma signal colors, each of wh
 ### Named Rules
 **The Graded-Legend Rule.** Mono labels use six graded tiers (t1 to t6): as a tier rises, size increases and tracking decreases while weight holds, so a section heading never reads like a field label. Color stays caller-controlled because it is semantic. The lowest tier is 11px; nothing functional renders smaller.
 
+**The One-Run Label Rule (2026-11-12).** A mono label is one run of text in one box. Never a `display:flex` row with loose words interleaved with spans: each text run and each element becomes its own flex item, so "BUILD TELEMETRY · DAY 0 → DAY 217 · AS OF Nov 12" breaks into ragged columns at narrow widths. Make the row a block with inline pieces (a tick is `inline-block`), or wrap the words in one `<span>`; keep dates and day counts `white-space:nowrap`. A label never sets itself below 11px or tracks wider than +0.14em. Gate: `scripts/page_gate.py` check `flex-text` (error on `--matrix full`, warning on quick), fixtures in `scripts/tests/test_page_gate_flex_text.py`.
+
+**The Four-States Rule (2026-11-12).** Every interactive component has hover, focus-visible, pressed and disabled, in dark and light, with 44px targets on coarse pointers. Disabled keeps full-opacity text (see rule 3 below): it is carried by a dashed border and `not-allowed`, not by dimming. A click-to-open surface that is not a button gets `role`, `tabindex` and Enter/Space. The status page builder's self-test (`scripts/status_page_build.py --self-test`) fails when a component loses a state; there is no repo-wide gate for this yet.
+
 **The Three-Voice Rule.** Mono = instrument, Sans = reading, Serif = canon. Never cross them: a proverb never renders in mono, a gauge label never in serif.
 
 ## Layout
@@ -157,6 +162,12 @@ Centered single-column documents on the obsidian ground: `max-width: 960px` for 
 ## Elevation & Depth
 
 Depth is **luminance, not cast shadow.** Surfaces are flat panels on the obsidian ground; separation comes from a one-step tonal lift (bg → panel → elevated) and a hairline border, not from drop shadows. The one exception is the **glow**: an active or locked instrument emits a restrained bloom of its own signal color.
+
+### Camera and light (2026-11-12, Zach approved the draft in _PROPOSALS/2026-11-13-design-world-rules.md)
+
+**The One-Camera Rule.** A surface drawn in 2.5D uses one fixed isometric camera: a tilt about the X axis only, 38 degrees with `perspective(1500px)`, tiles stay clickable. No yaw and no roll. The one sanctioned camera move is descent: a dolly toward the surface that raises resolution and fidelity as altitude falls (the Atlas Bundle Observatory fly-over, `runtime/specs/atlas-bundle-observatory-spec.md`); altitude is a depth axis, never a rotation. Under `prefers-reduced-motion` the camera is flat (0 degrees) and descent is a cut, not a move. One sanctioned second use: a receding floor plane drawn with a `vh`-based perspective (the status page presentation stage); it is a ground, not a camera, and carries its own comment. Gate: `scripts/page_gate.py` check `camera` (warning).
+
+**The Key-Light Rule.** There is one key light, from above, and it is expressed as light, not as cast darkness (it sits inside the Glow-Not-Shadow Rule below): a raised or active surface gains a lighter tone and a top-edge highlight; a recessed well is darker with its shade at the top edge. Signal colour lives in the rim, the glyph, the label and the glow, never as a saturated fill. Blur radii and alphas stay inside the Shadow Vocabulary below; this rule adds a direction, not a new size.
 
 ### Shadow Vocabulary
 - **Signal glow** (`box-shadow: 0 0 34px rgba(0,240,255,.07)` and kin): a present-but-restrained bloom under an active bearing or a locked panel. Alphas ~.07–.28, deliberately dialed down from hotter earlier values.
@@ -183,6 +194,7 @@ Soft-tech corners: `xs 3px` (chips, ghost buttons), `sm 6px` (cards, inputs, mos
 - **Focus:** `outline: 1px solid #00F0FF; outline-offset: -1px`, always visible, never removed.
 
 ### Chips
+- **Shape (Zach, 2026-11-13):** the design-system Badge. 22px outer height, border-box, `0 10px`, the `badge 4px` radius (`--ds-r-badge`), and 11px mono 700 text (`--fs-label`). The design system's Badge text is 10px; chips keep the 11px functional floor (Zach, 2026-11-13).
 - **Style:** panel background, hairline border, mono micro-label (t1/t2). Status chips tint border + text to the signal color (`c-ok` green, `c-part` gold, `c-stale` red) with a ~7% tinted fill.
 
 ### Cards / Panels
@@ -245,6 +257,10 @@ Phosphor (dj.arcs.care) is an Operate and Experience surface: a family audio ins
 **Motion.** The `--mo-*` tokens govern everything. Glitch poses run at 8 a second and never faster; picture effects scale with Picture strength and the Mix limits but never exceed the flash limit, which is measured on the shown frame and holds strength at Soft for three seconds when two flashes occur in a second. Reduced motion removes transitions and keeps every state change visible.
 
 **The hidden attribute always wins** (`[hidden] { display: none !important; }`): a display rule once showed the pad picker and the Sing box to everyone. The hidden check reads what a person sees, not the attribute.
+
+## Zach's rulings
+
+Zach's per-surface stylistic rulings and the standing method (three rendered options per block before building, RCA first) live in `_PATTERNS/zach-style-ledger.md`. Read it before any design work; it is his newer word where it differs from this file, and a difference is logged as a seam, never silently resolved.
 
 ## Do's and Don'ts
 

@@ -28,6 +28,14 @@ RENDER checks (headless Chromium via Playwright; skipped with --static):
                  The one sanctioned exception, text INDEX pages that put the lede on the 680px
                  measure (2026-09-29), opts out explicitly: <p class="lede" data-measure="index">.
 
+  W camera       DESIGN.md "The One-Camera Rule": a rotateX other than 0 or 38 degrees, any rotateY, rotateZ or rotate3d,
+                 or a camera tilt with no prefers-reduced-motion rule. A vh-based perspective floor plane is allowed.
+  E flex-text    a display:flex/inline-flex box with two or more loose text runs interleaved with element
+                 children (full matrix: error; quick: warning). Each text run and each element becomes
+                 its own flex item, so a mono label such as "BUILD TELEMETRY / DAY 0 / AS OF" breaks into
+                 ragged columns at narrow widths (status page era line, 2026-11-12). Wrap the words in one
+                 <span>, or make the row a block with inline pieces. data-flex-text="ok" opts one box out.
+
 PDF checks (poppler: pdfinfo, pdffonts, pdftotext; a .pdf argument gets these instead of the above):
   E pdf-pages    at least one page
   E pdf-title    a real document title (not empty, about:blank, or a file name)
@@ -141,6 +149,24 @@ def pdf_checks(path):
     return errs, warns
 
 
+def camera_warnings(text):
+    """The One-Camera Rule (DESIGN.md): X tilt only, 38 degrees, flat under reduced motion. Advisory: older pages predate it."""
+    import re as _re
+    out = []
+    for m in _re.finditer(r'transform\s*:\s*([^;}]*)', text):
+        v = m.group(1)
+        if _re.search(r'perspective\(\s*[\d.]+vh', v):
+            continue  # receding floor plane, a ground and not a camera
+        for r in _re.finditer(r'rotateX\(\s*(-?[\d.]+)deg', v):
+            if abs(float(r.group(1))) not in (0.0, 38.0):
+                out.append(f"camera: rotateX({r.group(1)}deg) is not the 38 degree camera (DESIGN.md One-Camera Rule)")
+        if _re.search(r'rotate(Y|Z|3d)\(', v) and 'perspective(' in v:
+            out.append("camera: yaw, roll or rotate3d in a camera transform (DESIGN.md One-Camera Rule)")
+        if _re.search(r'rotateX\(\s*38deg', v) and 'prefers-reduced-motion' not in text:
+            out.append("camera: a 38 degree tilt with no prefers-reduced-motion rule that flattens it")
+    return sorted(set(out))
+
+
 def static_checks(path, raw, run_wrap):
     errs, warns = [], []
     src = raw.decode("utf-8", errors="replace")
@@ -154,6 +180,7 @@ def static_checks(path, raw, run_wrap):
                     "the browser guesses the encoding")
     if not re.search(r"<meta[^>]+name\s*=\s*[\"']viewport", src, re.I):
         errs.append("viewport: no <meta name=\"viewport\">; phones render a zoomed-out desktop page")
+    warns.extend(camera_warnings(src))
     bad = [m for m in MOJIBAKE if m in src]
     if bad:
         errs.append(f"mojibake: {', '.join(repr(m) for m in bad)} already in the file "
@@ -269,6 +296,52 @@ async function axeScan(p) {
   }
 }
 
+// Headline clauses that must never wrap mid-phrase (Zach's hero rule): any h1 .hl span, or any element marked
+// data-one-line, that renders on more than one line. Measured per device, so a clause that fits at 1280 but splits
+// at 375 fails (2026-11-16: the Gravity headline split at ~530px while a single 1060px check passed).
+async function oneLine(p) {
+  return await p.evaluate(() => {
+    const out = [];
+    // When a clause's sentences (.hs) stack as blocks (the phone floor), each sentence is the unit. A wrap is allowed
+    // only once the headline type sits at its --hl-floor: below that size the text would undercut the body copy.
+    const units = [];
+    for (const e of document.querySelectorAll('h1 .hl, [data-one-line]')) {
+      const hs = [...e.querySelectorAll('.hs')];
+      if (hs.length && getComputedStyle(hs[0]).display === 'block') units.push(...hs); else units.push(e);
+    }
+    for (const e of units) {
+      if (!e.offsetParent && getComputedStyle(e).position !== 'fixed') continue;
+      const h1 = e.closest('h1');
+      const floor = h1 ? parseFloat(getComputedStyle(h1).getPropertyValue('--hl-floor')) : NaN;
+      if (floor && parseFloat(getComputedStyle(e).fontSize) <= floor + 0.5) continue;
+      const r = document.createRange(); r.selectNodeContents(e);
+      const tops = new Set([...r.getClientRects()].filter(x => x.width > 1).map(x => Math.round(x.top)));
+      if (tops.size > 1) out.push('"' + e.textContent.trim().slice(0, 48) + '" breaks onto ' + tops.size + ' lines');
+    }
+    return out;
+  });
+}
+
+async function flexText(p) {
+  return await p.evaluate(() => {
+    const out = [];
+    for (const e of document.body.querySelectorAll('*')) {
+      if (e.closest('svg') || e.getAttribute('data-flex-text') === 'ok') continue;
+      const d = getComputedStyle(e).display;
+      if (d !== 'flex' && d !== 'inline-flex') continue;
+      if (!e.children.length) continue;
+      // One loose text run beside an icon or dot is one flex item and wraps as a paragraph. The break needs text
+      // INTERLEAVED with elements: two or more loose runs, each its own item (the era line: text, span, text, span, text).
+      const runs = [...e.childNodes].filter(n => n.nodeType === 3 && /[A-Za-z]/.test(n.textContent));
+      if (runs.length >= 2) {
+        const words = runs.map(n => n.textContent.trim()).join(' ').split(/\s+/).slice(0, 5).join(' ');
+        out.push(e.tagName.toLowerCase() + (e.className && typeof e.className === 'string' ? '.' + e.className.trim().split(/\s+/)[0] : '') + ': "' + words + '"');
+      }
+    }
+    return [...new Set(out)].slice(0, 6);
+  });
+}
+
 async function small(p) {
   return await p.evaluate(() => {
     const out = [];
@@ -293,7 +366,7 @@ async function small(p) {
   const servers = {};
   const out = {};
   for (const f of files) {
-    const res = { overflow: {}, lede: null, snap: [], errors: [], small: {}, custom: [], axe: [], axeMissing: false };
+    const res = { overflow: {}, lede: null, snap: [], errors: [], small: {}, custom: [], axe: [], axeMissing: false, flexText: [], oneLine: [] };
     let url = 'file://' + f;
     for (const r of Object.keys(roots)) {
       if (f.startsWith(r + path.sep)) {
@@ -352,6 +425,8 @@ async function small(p) {
         } catch (e) { res.errors.push(key + ' axe threw ' + String(e.message || e).slice(0, 100)); }
         if (scheme === 'light') {
           if (d.touch) res.small[d.name] = await small(p);
+          for (const x of await flexText(p)) if (!res.flexText.includes(x)) res.flexText.push(x);
+          for (const x of await oneLine(p)) res.oneLine.push(d.name + ': ' + x);
           const sn = await snapCheck(p);
           for (const x of sn) res.snap.push(Object.assign({ device: d.name }, x));
           if (smoke) {
@@ -506,6 +581,10 @@ def main():
                     (errs if strict else warns).append("console: " + e_)
                 for m_ in d.get("custom", [])[:12]:
                     errs.append("smoke: " + m_)
+                for x in d.get("oneLine", [])[:8]:
+                    errs.append(f"one-line: {x}; a headline clause must hold its own line at every width (size the type to fit, never wrap mid-phrase)")
+                for x in d.get("flexText", []):
+                    (errs if strict else warns).append(f"flex-text: {x}: loose words in a flex box become ragged columns; wrap them in one <span> or use a block with inline pieces")
                 for dev, items in d.get("small", {}).items():
                     if items:
                         warns.append(f"touch-targets on {dev}: " + "; ".join(items))

@@ -23,6 +23,11 @@ FILES = {
 }
 
 
+import os as _os  # a pre-commit hook exports GIT_DIR / GIT_INDEX_FILE; left set, the scratch git below writes to the REAL repo
+for _k in [k for k in _os.environ if k.startswith("GIT_")]:
+    del _os.environ[_k]
+
+
 def build_repo(root: Path) -> None:
     run = lambda *a: subprocess.run(["git", *a], cwd=root, check=True, capture_output=True)
     run("init", "-q")

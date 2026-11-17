@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zach Harris Resume</title>
+<style>
+  @page { size: letter; margin: 0.5in 0.6in; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 10pt;
+    line-height: 1.3;
+    color: #111;
+    background: #fff;
+    max-width: 7.3in;
+    margin: 0 auto;
+  }
+  .name { font-size: 21pt; line-height: 1.2; font-weight: bold; letter-spacing: 0.01em; }
+  .title { font-size: 10.5pt; font-style: italic; color: #333; margin-top: 1px; }
+  .contact { font-size: 0.94em; color: #333; margin-top: 3px; padding-bottom: 7px; border-bottom: 1px solid #333; margin-bottom: 9px; }
+  h2 {
+    font-size: 10.5pt; font-weight: bold; text-transform: uppercase;
+    letter-spacing: 0.06em; border-bottom: 1px solid #bbb;
+    padding-bottom: 2px; margin: 9px 0 5px;
+  }
+  p.summary { margin-bottom: 2px; }
+  .job { margin-bottom: 6px; }
+  .job-head { display: flex; justify-content: space-between; align-items: baseline; }
+  .job-title { font-weight: bold; }
+  .job-title .co { font-weight: bold; }
+  .job-title .role { font-weight: normal; font-style: italic; }
+  .dates { font-size: 9.4pt; color: #444; white-space: nowrap; padding-left: 12px; }
+  ul { margin: 2px 0 0 17px; }
+  li { margin-bottom: 1px; padding-left: 2px; }
+  .earlier { margin-top: 2px; color: #222; }
+  .skills p, .edu p { margin-bottom: 2px; }
+  b { font-weight: bold; }
+</style>
+</head>
+<body>
+<main>
+  <h1 class="name">Zach Harris</h1>
+  <div class="title">Product Leader and Builder, Applied AI</div>
+  <div class="contact">New York Metro &nbsp;&middot;&nbsp; zach.harris@gmail.com &nbsp;&middot;&nbsp; linkedin.com/in/zharris &nbsp;&middot;&nbsp; github.com/flashesofbrilliance</div>
+
+  <p class="summary">I lead product by building the first version myself. Two decades taking products from zero to production in regulated, high-consequence fields, including a $7B launch at Grayscale under SEC and FINRA controls. Today I build ARCS, an AI decision platform on Claude, where I write the prompt chains, run the evaluations and sit with the people using it, and every decision it produces carries a score that can be checked against what happened later.</p>
+
+  <h2>Experience</h2>
+
+  <div class="job">
+    <div class="job-head"><div class="job-title"><span class="co">ARCS</span>, <span class="role">Founder and Builder</span></div><div class="dates">2025 to Present</div></div>
+    <ul>
+      <li>Designed and built an AI decision platform on Claude: a Model Context Protocol server, multi-step agentic tool use, and a scoring layer that rates each decision for conviction and stability and tracks it against later outcomes.</li>
+      <li>Prototyped in code with real users, kept the parts people used, cut the rest, and put evaluation and approval gates in front of every model output.</li>
+      <li>Built on Next.js, TypeScript, Prisma and Postgres, with a Python (FastAPI) embedding service.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-head"><div class="job-title"><span class="co">Grayscale Investments</span>, <span class="role">Product Lead</span></div><div class="dates">2024 to 2025</div></div>
+    <ul>
+      <li>Took over the investor-facing platform behind ten regulated digital-asset products worth $7B and raised how the team shipped, running four parallel workstreams through legal, compliance and audit controls.</li>
+      <li>Cut spec-to-release cycle time by 35 percent and built role-based access controls and pre-deployment integrity gates so speed did not cost compliance.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-head"><div class="job-title"><span class="co">Ma&ntilde;ana</span>, <span class="role">Embedded Product Partner</span></div><div class="dates">2020 to Present</div></div>
+    <ul>
+      <li>Twill Health (HIPAA): strategy and validation for 3 AI-enabled digital-therapeutics product lines; drove go-forward on two of them.</li>
+      <li>Led discovery and go or no-go calls for Axon, GoPro and Verizon Media across public-safety, consumer and 5G ventures.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-head"><div class="job-title"><span class="co">Squat New York</span>, <span class="role">Head of Product Innovation and Tech Lead</span></div><div class="dates">2019 to 2020</div></div>
+    <ul>
+      <li>Sole product and technology lead for a private-equity portfolio company; rebuilt the platform mobile-first with HIPAA and WCAG 2.0 compliance designed in.</li>
+      <li>Rebuilt lead qualification and location search, lifting qualified leads by 40 percent, booking success by 63 percent and NPS by 23 points.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-head"><div class="job-title"><span class="co">Children's Tumor Foundation</span>, <span class="role">Senior Director, Data and Strategy</span></div><div class="dates">2018 to 2019</div></div>
+    <ul>
+      <li>Built the first data and decision layer (customer data platform, Salesforce, lifecycle segmentation) and grew net-new revenue by 20 percent.</li>
+    </ul>
+  </div>
+
+  <p class="earlier"><b>Earlier:</b> Head of Product and Strategic Partnerships at the Women's Tennis Association, where I built real-time fan scoring that ran in under 120 milliseconds. Co-founder of IBRShop, grown from zero to more than $2M in revenue in 24 months. General Manager at Selectable Media, a video ad network acquired by Meredith, where I grew revenue from $4,500 to more than $1M a month.</p>
+
+  <h2>Skills</h2>
+  <div class="skills">
+    <p><b>Product:</b> AI-native product strategy, discovery with lighthouse customers, rapid prototyping, roadmap and theme setting, inheriting and raising a team's bar.</p>
+    <p><b>Applied AI:</b> Claude and OpenAI APIs, prompt chains, agentic tool use, evaluation frameworks, Model Context Protocol servers, embeddings, human-in-the-loop review.</p>
+    <p><b>Technical:</b> Python (FastAPI), TypeScript, Next.js, SQL and PostgreSQL, Prisma, Supabase, Vercel.</p>
+    <p><b>Regulated domains:</b> SEC and FINRA, HIPAA, GDPR, role-based access control, release and change controls.</p>
+  </div>
+
+  <h2>Education</h2>
+  <div class="edu">
+    <p>Oberlin College, Bachelor of Arts, Studio Art.</p>
+    <p>MIT xPRO, certificates in AI strategy and in building AI products and services. Section4, Certified Product Strategist.</p>
+  </div>
+
+</main>
+</body>
+</html>

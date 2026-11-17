@@ -1,0 +1,92 @@
+{
+ "number": "60",
+ "name": "Heat Take",
+ "slug": "heat-take",
+ "layer": "Molecule",
+ "job": "List the author's opinions from mild to loco, with the heat shown as a five-pip meter and a word, so the reader can tell a safe take from a provocative one without a colour ladder.",
+ "anatomy": [
+  {
+   "part": "Row",
+   "role": "One take a row, hairlines between rows only",
+   "token": "`border`"
+  },
+  {
+   "part": "Heat",
+   "role": "Five pips, filled to the level, then the word (Mild, Medium, Caliente, Fuego, Loco)",
+   "token": "`text`, `text-secondary`"
+  },
+  {
+   "part": "Take",
+   "role": "One or two sentences in the author's voice",
+   "token": "`text`"
+  }
+ ],
+ "states": [
+  {
+   "name": "Mild to loco",
+   "args": [
+    [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "100%"
+   ],
+   "note": "All five levels in one ink: the pip count carries the heat."
+  },
+  {
+   "name": "Phone width",
+   "args": [
+    [
+     3
+    ],
+    "20rem"
+   ],
+   "note": "Below 38rem the meter sits above its take."
+  }
+ ],
+ "use_when": [
+  "The author's own opinions, ranked by how far they push.",
+  "A recap where the reader wants the blunt version after the evidence."
+ ],
+ "avoid_when": [
+  "Do not colour the heat green to red: in ARCS green means proven and red means failed, and a take is neither.",
+  "Do not mix observed facts into takes; facts belong in 57 Ledger row or 59 Claim check."
+ ],
+ "data": [
+  {
+   "field": "takes[]",
+   "type": "{heat: 1..5, text}",
+   "required": true,
+   "note": "1 Mild, 2 Medium, 3 Caliente, 4 Fuego, 5 Loco."
+  }
+ ],
+ "access": [
+  "The word names the level; the pips are `aria-hidden`, so a screen reader hears Caliente, not five dots.",
+  "No colour carries meaning here, so it reads the same in greyscale and in print."
+ ],
+ "built_from": [
+  {
+   "name": "Kit tokens (atoms)",
+   "href": "_tokens.css"
+  }
+ ],
+ "used_by": [
+  {
+   "name": "Recoil: Zach x Brian, 2026-11-11 (_ARTIFACTS/recoil-brian-2026-11-11.html), template recoil-skim"
+  }
+ ],
+ "gates": [
+  "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+  "`kit_primitive_sync.py --check`: every page that marks this block carries it line for line.",
+  "`artifact_wrap_lint.py` and `page_gate.py` on every page that carries it; sweep 360 to 1440, including 700 to 1000."
+ ],
+ "links": [
+  "_tokens-light.css",
+  "_kit-sr.css"
+ ],
+ "css": ":root { --fs-label: 0.75rem; --fs-body: 0.9375rem; } /* recoil-skim steps: label 12px, body 15px (arc weld spec 4.3); move into _tokens.css with recoil-token-unify */\n/* composed with, from 28-chip, 32-evidence-ref and 37-fidelity-grain */\n.chip { display: inline-flex; align-items: center; gap: 6px; box-sizing: border-box; height: 22px; padding: 0 10px; border-radius: var(--ds-r-badge, 4px); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; line-height: 1; border: 1px solid var(--border); color: var(--text-secondary); background: transparent; }\n.chip.cyan { color: var(--cyan); border-color: color-mix(in srgb, var(--cyan) 35%, transparent); background: color-mix(in srgb, var(--cyan) 13%, transparent); }\n.chip.green { color: var(--green); border-color: color-mix(in srgb, var(--green) 35%, transparent); background: color-mix(in srgb, var(--green) 13%, transparent); }\n.chip.gold { color: var(--gold); border-color: color-mix(in srgb, var(--gold) 35%, transparent); background: color-mix(in srgb, var(--gold) 13%, transparent); }\n.chip.red { color: var(--red); border-color: color-mix(in srgb, var(--red) 35%, transparent); background: color-mix(in srgb, var(--red) 13%, transparent); }\n.chip.status { gap: 5px; height: auto; padding: 2px 8px; border-radius: var(--ds-r-pill); font-weight: 500; letter-spacing: 0; }\n.chip.status::before { content: \"\"; width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex: none; }\n.ref { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--dimmed); }\n.grain { font-weight: 300; letter-spacing: 0.02em; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E\"); }\n.moire { font-weight: 300; letter-spacing: 0.03em; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.02 0.6' numOctaves='1'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E\"); }\n/* @prim:begin 60-heat-take */\n.takes { container-type: inline-size; display: flex; flex-direction: column; }\n.take { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px 16px; align-items: baseline; }\n.take + .take { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }\n.heat { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); }\n.heat-pips { display: inline-flex; gap: 3px; }\n.heat-pips b { width: 6px; height: 6px; border-radius: 50%; border: 1px solid var(--text-secondary); }\n.heat-pips b.on { background: var(--text); border-color: var(--text); }\n.take-text { color: var(--text); }\n@container (min-width: 38rem) { .take { grid-template-columns: 9rem minmax(0, 1fr); } }\n/* @prim:end 60-heat-take */\n",
+ "demo": "function kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar HT=['Mild','Medium','Caliente','Fuego','Loco'];var HX=['You owe him one thing, the transcript. Send it.','He asked which tools you use and got the cosmology.','The one-line challenge was right and pointed at the wrong person.','A second user who nearly built your tool is a design partner.','Do not build him a tenant.'];\nfunction kitTake(l){var p='';for(var j=1;j<=5;j++)p+='<b'+(j<=l?' class=\"on\"':'')+'></b>';return '<div class=\"take\"><span class=\"heat\"><span class=\"heat-pips\" aria-hidden=\"true\">'+p+'</span>'+HT[l-1]+'</span><p class=\"take-text\">'+kEsc(HX[l-1])+'</p></div>'}\nfunction kitTakes(host,ls){var w=document.createElement('div');w.className='takes';w.innerHTML=ls.map(kitTake).join('');host.appendChild(w);return w}\nkitTakes(kSlot(),[1,2,3,4,5]);\nSTATES.forEach(function(a,i){var b=document.createElement('div');b.style.maxWidth=a[1];kSlot(i).appendChild(b);kitTakes(b,a[0])});"
+}

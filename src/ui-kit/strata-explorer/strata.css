@@ -1,0 +1,48 @@
+/* @prim:begin 69-strata-explorer */
+/* label step scoped to the organism: 12px, the recoil-skim step (arc weld spec 4.3) */
+.strata { --fs-label: 0.75rem; container-type: inline-size; display: flex; flex-direction: column; gap: 12px; color: var(--text); }
+.st-ctl { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px 20px; }
+.st-field { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); align-items: center; gap: 2px 12px; min-height: 44px; }
+.st-flabel { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); }
+.st-field input[type="range"] { width: 100%; min-height: 44px; accent-color: var(--cyan); }
+.st-field input[type="range"]:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.st-out { grid-column: 2; font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.st-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.st-plane { fill: var(--surface); stroke: var(--border); }
+.st-lab { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; }
+.st-n { font-family: var(--ds-font-mono); font-size: var(--fs-label); fill: var(--text); }
+.st-dot { stroke: none; }
+.st-dot.st-seam { fill: var(--surface); stroke: var(--gold); stroke-width: 2.2; }
+.st-bar { opacity: 1; }
+.st-k { fill: none; stroke: var(--cyan); stroke-width: 0.8; }
+.st-k.st-kseam { stroke: var(--gold); stroke-width: 1.6; }
+.st-now { stroke: var(--cyan); stroke-dasharray: 3 3; }
+.st-grain { fill: var(--text-secondary); }
+.st-grainband { opacity: 0.55; }
+.st-l0 { fill: var(--cyan); background: var(--cyan); } .st-t0 { fill: var(--cyan); }
+.st-l1 { fill: var(--text); background: var(--text); } .st-t1 { fill: var(--text); }
+.st-l2 { fill: var(--red); background: var(--red); } .st-t2 { fill: var(--red); }
+.st-l3 { fill: var(--violet); background: var(--violet); } .st-t3 { fill: var(--violet); }
+.st-l4 { fill: var(--text-secondary); background: var(--text-secondary); } .st-t4 { fill: var(--text-secondary); }
+.st-l5 { fill: var(--magenta); background: var(--magenta); } .st-t5 { fill: var(--magenta); }
+.st-read { min-height: 3rem; }
+.st-rhead { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 6px; }
+.st-rlist, .st-key, .st-floor { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.st-key li, .st-floor li { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.st-rlist li { display: grid; grid-template-columns: 9px minmax(0, 1fr); align-items: baseline; gap: 8px; }
+.st-rlist a, .st-floor a { color: var(--text); text-underline-offset: 3px; }
+.st-rlist a:focus-visible, .st-floor a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.st-meta { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text-secondary); }
+.st-key { flex-direction: row; flex-wrap: wrap; gap: 6px 16px; font-size: var(--fs-label); color: var(--text-secondary); }
+.st-sw { display: inline-block; width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.st-sw.st-gold { box-shadow: 0 0 0 2px var(--gold); }
+.st-grainsw { flex: none; border: 1px solid var(--border); border-radius: var(--ds-r-xs); }
+.st-tick { stroke: var(--border); }
+.st-tl { font-family: var(--ds-font-mono); font-size: var(--fs-label); fill: var(--text-secondary); text-anchor: middle; }
+.st-jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.st-btn { min-height: 44px; padding: 0 12px; font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text); background: transparent; border: 1px solid var(--border); border-radius: var(--ds-r-xs); cursor: pointer; }
+.st-btn:hover { border-color: var(--text-secondary); }
+.st-btn:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.st-src { font-size: var(--fs-body); color: var(--text-secondary); overflow-wrap: anywhere; }
+@container (min-width: 40rem) { .st-ctl { grid-template-columns: repeat(3, minmax(0, 1fr)); } .st-field { grid-template-columns: minmax(0, 1fr); } .st-out { grid-column: 1; } }
+/* @prim:end 69-strata-explorer */

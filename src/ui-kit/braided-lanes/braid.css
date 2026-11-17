@@ -1,0 +1,48 @@
+/* @prim:begin 73-braided-lanes */
+/* label step scoped to the organism: 12px, the same step as kit 69 */
+.braid { --fs-label: 0.75rem; --bl-blue: #5b8def; display: flex; flex-direction: column; gap: 12px; color: var(--text); }
+/* follows the kit light remap (_tokens-light.css); a dark-only page opts out with data-theme="dark" on <html> */
+:root[data-theme="light"] .braid { --bl-blue: #2b56b0; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .braid { --bl-blue: #2b56b0; } }
+.bl-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.bl-name { font-family: var(--ds-font-sans); font-size: var(--fs-label); font-weight: 600; }
+.bl-name.bl-commits-l, .bl-name.bl-receipts-l { fill: var(--text); }
+.bl-meta { font-family: var(--ds-font-mono); font-size: var(--fs-label); fill: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.bl-n { font-family: var(--ds-font-mono); font-size: var(--fs-label); fill: var(--text); font-variant-numeric: tabular-nums; }
+.bl-rule { stroke: var(--border); stroke-dasharray: 2 3; }
+.bl-div { stroke: var(--border); }
+.bl-tick { stroke: var(--border); }
+.bl-spark { fill: none; stroke-width: 1.5; stroke-linejoin: round; }
+.bl-spark { stroke: var(--text-secondary); }
+.bl-spark.bl-receipts { stroke-dasharray: 4 2; }
+.bl-hatch { stroke: var(--border); stroke-width: 2; }
+.bl-grain { fill: var(--text-secondary); }
+.bl-grainband { fill: var(--surface); stroke: var(--border); }
+.bl-grainfill { stroke: none; }
+.bl-arc { fill: none; stroke: var(--text); stroke-width: 1.4; }
+.bl-ring { fill: none; stroke: var(--gold); stroke-width: 1.4; }
+.bl-dot { stroke-width: 0; }
+.bl-hit { fill: transparent; stroke: none; }
+.bl-thin .bl-dot { fill: var(--surface); stroke-width: 1.6; }
+.bl-ev { cursor: default; outline: none; }
+.bl-ev:focus-visible .bl-dot, .bl-ev.bl-on .bl-dot { stroke: var(--text); stroke-width: 2; }
+.bl-c-canon { fill: var(--cyan); stroke: var(--cyan); color: var(--cyan); }
+.bl-c-process { fill: var(--green); stroke: var(--green); color: var(--green); }
+.bl-c-security { fill: var(--red); stroke: var(--red); color: var(--red); }
+.bl-c-recoil { fill: var(--violet); stroke: var(--violet); color: var(--violet); }
+.bl-c-deploy { fill: var(--magenta); stroke: var(--magenta); color: var(--magenta); }
+.bl-c-surface { fill: var(--text-secondary); stroke: var(--text-secondary); color: var(--text-secondary); }
+.bl-c-infra { fill: var(--bl-blue); stroke: var(--bl-blue); color: var(--bl-blue); }
+.bl-c-gauntlet { fill: var(--orange); stroke: var(--orange); color: var(--orange); }
+.bl-brush { display: grid; grid-template-columns: var(--bl-lc, 3rem) minmax(0, 1fr) minmax(0, 1fr); padding-right: var(--bl-nc, 0); align-items: center; gap: 4px 12px; }
+.bl-flabel { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); }
+.bl-brush input[type="range"] { width: 100%; min-height: 44px; accent-color: var(--cyan); }
+.bl-brush input[type="range"]:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.bl-out { grid-column: 2 / 4; font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.bl-key { font-size: var(--fs-label); color: var(--text-secondary); line-height: 1.5; }
+.bl-read { min-height: 3em; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); font-size: var(--fs-body); line-height: 1.5; }
+.bl-read b { font-weight: 600; }
+.bl-src { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text-secondary); line-height: 1.5; }
+.bl-floor { list-style: none; display: flex; flex-direction: column; gap: 4px; font-size: var(--fs-body); }
+.bl-floor .bl-fmeta { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text-secondary); }
+/* @prim:end 73-braided-lanes */

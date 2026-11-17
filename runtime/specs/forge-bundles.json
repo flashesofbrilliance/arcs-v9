@@ -16,6 +16,13 @@
       "resume_pdf": "resume-norm-ai-fde.pdf",
       "resume_txt": "resume-norm-ai-fde-ats.txt"
     },
+    "4290145549": {
+      "dir": "forge-radar-senior-staff-product-engineer",
+      "slug": "radar-senior-staff-product-engineer",
+      "resume": "resume-radar-senior-staff-product-engineer.pdf",
+      "resume_pdf": "resume-radar-senior-staff-product-engineer.pdf",
+      "resume_txt": "resume-radar-senior-staff-product-engineer-ats.txt"
+    },
     "4450095632": {
       "dir": "forge-citi-fde",
       "slug": "citi-fde",
@@ -677,13 +684,6 @@
       "resume_pdf": "resume-recruithaus-staff-product-engineer.pdf",
       "resume_txt": "resume-recruithaus-staff-product-engineer-ats.txt"
     },
-    "4290145549": {
-      "dir": "forge-radar-senior-staff-product-engineer",
-      "slug": "radar-senior-staff-product-engineer",
-      "resume": "resume-radar-senior-staff-product-engineer.pdf",
-      "resume_pdf": "resume-radar-senior-staff-product-engineer.pdf",
-      "resume_txt": "resume-radar-senior-staff-product-engineer-ats.txt"
-    },
     "bridge-betterment-713e3b2f": {
       "dir": "forge-betterment-business-systems-architect-gt",
       "slug": "betterment-business-systems-architect-gt",
@@ -823,6 +823,307 @@
       "resume": "resume-squarespace-gtm-marketing-programs-manag.pdf",
       "resume_pdf": "resume-squarespace-gtm-marketing-programs-manag.pdf",
       "resume_txt": "resume-squarespace-gtm-marketing-programs-manag-ats.txt"
+    },
+    "4415575279": {
+      "dir": "forge-maybern-principal-fde",
+      "slug": "maybern-principal-fde",
+      "resume": "resume-maybern-principal-fde.pdf",
+      "resume_pdf": "resume-maybern-principal-fde.pdf",
+      "resume_txt": "resume-maybern-principal-fde-ats.txt"
+    },
+    "4455527337": {
+      "dir": "forge-sixfold-vp-product",
+      "slug": "sixfold-vp-product",
+      "resume": "resume-sixfold-vp-product.pdf",
+      "resume_pdf": "resume-sixfold-vp-product.pdf",
+      "resume_txt": "resume-sixfold-vp-product-ats.txt"
+    },
+    "4486119309": {
+      "dir": "forge-concurrence-senior-applied-ai-engineer-f",
+      "slug": "concurrence-senior-applied-ai-engineer-f",
+      "resume": "resume-concurrence-senior-applied-ai-engineer-f.pdf",
+      "resume_pdf": "resume-concurrence-senior-applied-ai-engineer-f.pdf",
+      "resume_txt": "resume-concurrence-senior-applied-ai-engineer-f-ats.txt"
+    },
+    "4491296091": {
+      "dir": "forge-solstice-member-of-technical-staff-appli",
+      "slug": "solstice-member-of-technical-staff-appli",
+      "resume": "resume-solstice-member-of-technical-staff-appli.pdf",
+      "resume_pdf": "resume-solstice-member-of-technical-staff-appli.pdf",
+      "resume_txt": "resume-solstice-member-of-technical-staff-appli-ats.txt"
+    },
+    "ashby-valon-de0903c4-f947-47d5-8888-175f5a4fa541": {
+      "dir": "forge-valon-deployment-strategist",
+      "slug": "valon-deployment-strategist",
+      "resume": "resume-valon-deployment-strategist.pdf",
+      "resume_pdf": "resume-valon-deployment-strategist.pdf",
+      "resume_txt": "resume-valon-deployment-strategist-ats.txt"
+    },
+    "4473021095": {
+      "dir": "forge-datasnipper-senior-applied-ai-engineer-a",
+      "slug": "datasnipper-senior-applied-ai-engineer-a",
+      "resume": "resume-datasnipper-senior-applied-ai-engineer-a.pdf",
+      "resume_pdf": "resume-datasnipper-senior-applied-ai-engineer-a.pdf",
+      "resume_txt": "resume-datasnipper-senior-applied-ai-engineer-a-ats.txt"
+    },
+    "hn-50340551": {
+      "dir": "forge-helmsted-founding-ai-engineer",
+      "slug": "helmsted-founding-ai-engineer",
+      "resume": "resume-helmsted-founding-ai-engineer.pdf",
+      "resume_pdf": "resume-helmsted-founding-ai-engineer.pdf",
+      "resume_txt": "resume-helmsted-founding-ai-engineer-ats.txt"
+    },
+    "4488450281": {
+      "dir": "forge-datasnipper-senior-product-manager-agent",
+      "slug": "datasnipper-senior-product-manager-agent",
+      "resume": "resume-datasnipper-senior-product-manager-agent.pdf",
+      "resume_pdf": "resume-datasnipper-senior-product-manager-agent.pdf",
+      "resume_txt": "resume-datasnipper-senior-product-manager-agent-ats.txt"
+    },
+    "hn-50353641": {
+      "dir": "forge-special-forward-deployed-engineer",
+      "slug": "special-forward-deployed-engineer",
+      "resume": "resume-special-forward-deployed-engineer.pdf",
+      "resume_pdf": "resume-special-forward-deployed-engineer.pdf",
+      "resume_txt": "resume-special-forward-deployed-engineer-ats.txt"
+    },
+    "4486421345": {
+      "dir": "forge-flip-staff-product-manager",
+      "slug": "flip-staff-product-manager",
+      "resume": "resume-flip-staff-product-manager.pdf",
+      "resume_pdf": "resume-flip-staff-product-manager.pdf",
+      "resume_txt": "resume-flip-staff-product-manager-ats.txt"
+    },
+    "4489604548": {
+      "dir": "forge-ande-product-manager-ai",
+      "slug": "ande-product-manager-ai",
+      "resume": "resume-ande-product-manager-ai.pdf",
+      "resume_pdf": "resume-ande-product-manager-ai.pdf",
+      "resume_txt": "resume-ande-product-manager-ai-ats.txt"
+    },
+    "ashby-cohere-fe2e2971-e2c0-43fd-9ab1-187571776a5d": {
+      "dir": "forge-cohere-product-manager-inference-platfor",
+      "slug": "cohere-product-manager-inference-platfor",
+      "resume": "resume-cohere-product-manager-inference-platfor.pdf",
+      "resume_pdf": "resume-cohere-product-manager-inference-platfor.pdf",
+      "resume_txt": "resume-cohere-product-manager-inference-platfor-ats.txt"
+    },
+    "ashby-5ef1ec36-3f38-45ff-adff-1bd72d6c0b68": {
+      "dir": "forge-wispr-product-engineer-new-products",
+      "slug": "wispr-product-engineer-new-products",
+      "resume": "resume-wispr-product-engineer-new-products.pdf",
+      "resume_pdf": "resume-wispr-product-engineer-new-products.pdf",
+      "resume_txt": "resume-wispr-product-engineer-new-products-ats.txt"
+    },
+    "jackandjill-sayari-4465984009": {
+      "dir": "forge-sayari-forward-deployed-engineer-ii",
+      "slug": "sayari-forward-deployed-engineer-ii",
+      "resume": "resume-sayari-forward-deployed-engineer-ii.pdf",
+      "resume_pdf": "resume-sayari-forward-deployed-engineer-ii.pdf",
+      "resume_txt": "resume-sayari-forward-deployed-engineer-ii-ats.txt"
+    },
+    "4454774907": {
+      "dir": "forge-9fin-forward-deployed-investor",
+      "slug": "9fin-forward-deployed-investor",
+      "resume": "resume-9fin-forward-deployed-investor.pdf",
+      "resume_pdf": "resume-9fin-forward-deployed-investor.pdf",
+      "resume_txt": "resume-9fin-forward-deployed-investor-ats.txt"
+    },
+    "jackandjill-jj-2eb8b423": {
+      "dir": "forge-brain-co-machine-learning-engineer-appli",
+      "slug": "brain-co-machine-learning-engineer-appli",
+      "resume": "resume-brain-co-machine-learning-engineer-appli.pdf",
+      "resume_pdf": "resume-brain-co-machine-learning-engineer-appli.pdf",
+      "resume_txt": "resume-brain-co-machine-learning-engineer-appli-ats.txt"
+    },
+    "4469331800": {
+      "dir": "forge-crosby-member-of-technical-staff-product",
+      "slug": "crosby-member-of-technical-staff-product",
+      "resume": "resume-crosby-member-of-technical-staff-product.pdf",
+      "resume_pdf": "resume-crosby-member-of-technical-staff-product.pdf",
+      "resume_txt": "resume-crosby-member-of-technical-staff-product-ats.txt"
+    },
+    "ashby-openai-01091aed-427d-4e10-8cdb-fb500cf55bb9": {
+      "dir": "forge-openai-applied-ai-engineer-enterprise",
+      "slug": "openai-applied-ai-engineer-enterprise",
+      "resume": "resume-openai-applied-ai-engineer-enterprise.pdf",
+      "resume_pdf": "resume-openai-applied-ai-engineer-enterprise.pdf",
+      "resume_txt": "resume-openai-applied-ai-engineer-enterprise-ats.txt"
+    },
+    "ashby-hex-0b305b41-f094-4a97-9bbd-7e793227de89": {
+      "dir": "forge-hex-product-manager-agent-governance",
+      "slug": "hex-product-manager-agent-governance",
+      "resume": "resume-hex-product-manager-agent-governance.pdf",
+      "resume_pdf": "resume-hex-product-manager-agent-governance.pdf",
+      "resume_txt": "resume-hex-product-manager-agent-governance-ats.txt"
+    },
+    "4485749522": {
+      "dir": "forge-traba-staff-software-engineer-ai-agents",
+      "slug": "traba-staff-software-engineer-ai-agents",
+      "resume": "resume-traba-staff-software-engineer-ai-agents.pdf",
+      "resume_pdf": "resume-traba-staff-software-engineer-ai-agents.pdf",
+      "resume_txt": "resume-traba-staff-software-engineer-ai-agents-ats.txt"
+    },
+    "yc-118256": {
+      "dir": "forge-finosu-yc-s24-forward-deployed-engineeri",
+      "slug": "finosu-yc-s24-forward-deployed-engineeri",
+      "resume": "resume-finosu-yc-s24-forward-deployed-engineeri.pdf",
+      "resume_pdf": "resume-finosu-yc-s24-forward-deployed-engineeri.pdf",
+      "resume_txt": "resume-finosu-yc-s24-forward-deployed-engineeri-ats.txt"
+    },
+    "greenhouse-gusto-8248374": {
+      "dir": "forge-gusto-forward-deployed-solutions-enginee",
+      "slug": "gusto-forward-deployed-solutions-enginee",
+      "resume": "resume-gusto-forward-deployed-solutions-enginee.pdf",
+      "resume_pdf": "resume-gusto-forward-deployed-solutions-enginee.pdf",
+      "resume_txt": "resume-gusto-forward-deployed-solutions-enginee-ats.txt"
+    },
+    "hn-50340568": {
+      "dir": "forge-sidekick-labs-senior-technical-product-m",
+      "slug": "sidekick-labs-senior-technical-product-m",
+      "resume": "resume-sidekick-labs-senior-technical-product-m.pdf",
+      "resume_pdf": "resume-sidekick-labs-senior-technical-product-m.pdf",
+      "resume_txt": "resume-sidekick-labs-senior-technical-product-m-ats.txt"
+    },
+    "4486504391": {
+      "dir": "forge-citizen-head-of-product-enterprise",
+      "slug": "citizen-head-of-product-enterprise",
+      "resume": "resume-citizen-head-of-product-enterprise.pdf",
+      "resume_pdf": "resume-citizen-head-of-product-enterprise.pdf",
+      "resume_txt": "resume-citizen-head-of-product-enterprise-ats.txt"
+    },
+    "greenhouse-evolutioniq-6242825004": {
+      "dir": "forge-evolutioniq-senior-ai-engineer-ccc-auto",
+      "slug": "evolutioniq-senior-ai-engineer-ccc-auto",
+      "resume": "resume-evolutioniq-senior-ai-engineer-ccc-auto.pdf",
+      "resume_pdf": "resume-evolutioniq-senior-ai-engineer-ccc-auto.pdf",
+      "resume_txt": "resume-evolutioniq-senior-ai-engineer-ccc-auto-ats.txt"
+    },
+    "nextplay-modernrelay-forward-deployed-engineer": {
+      "dir": "forge-modern-relay-forward-deployed-engineer",
+      "slug": "modern-relay-forward-deployed-engineer",
+      "resume": "resume-modern-relay-forward-deployed-engineer.pdf",
+      "resume_pdf": "resume-modern-relay-forward-deployed-engineer.pdf",
+      "resume_txt": "resume-modern-relay-forward-deployed-engineer-ats.txt"
+    },
+    "ashby-cogent-security-e038692d-ca5c-4df4-8ea2-b472c2a6d99b": {
+      "dir": "forge-cogent-security-forward-deployed-agent-e",
+      "slug": "cogent-security-forward-deployed-agent-e",
+      "resume": "resume-cogent-security-forward-deployed-agent-e.pdf",
+      "resume_pdf": "resume-cogent-security-forward-deployed-agent-e.pdf",
+      "resume_txt": "resume-cogent-security-forward-deployed-agent-e-ats.txt"
+    },
+    "ashby-0cb7ff64-7130-43c2-aadc-f49e15d6f6f8": {
+      "dir": "forge-nevis-forward-deployed-engineer",
+      "slug": "nevis-forward-deployed-engineer",
+      "resume": "resume-nevis-forward-deployed-engineer.pdf",
+      "resume_pdf": "resume-nevis-forward-deployed-engineer.pdf",
+      "resume_txt": "resume-nevis-forward-deployed-engineer-ats.txt"
+    },
+    "ashby-elevenlabs-8c068ebf-c79f-4f12-97ef-b4c9a4f7ae5f": {
+      "dir": "forge-elevenlabs-deployment-strategist-north-a",
+      "slug": "elevenlabs-deployment-strategist-north-a",
+      "resume": "resume-elevenlabs-deployment-strategist-north-a.pdf",
+      "resume_pdf": "resume-elevenlabs-deployment-strategist-north-a.pdf",
+      "resume_txt": "resume-elevenlabs-deployment-strategist-north-a-ats.txt"
+    },
+    "4487064337": {
+      "dir": "forge-traversal-ai-engineer-forward-deployed-e",
+      "slug": "traversal-ai-engineer-forward-deployed-e",
+      "resume": "resume-traversal-ai-engineer-forward-deployed-e.pdf",
+      "resume_pdf": "resume-traversal-ai-engineer-forward-deployed-e.pdf",
+      "resume_txt": "resume-traversal-ai-engineer-forward-deployed-e-ats.txt"
+    },
+    "4489160236": {
+      "dir": "forge-writer-ai-deployment-engineer-east",
+      "slug": "writer-ai-deployment-engineer-east",
+      "resume": "resume-writer-ai-deployment-engineer-east.pdf",
+      "resume_pdf": "resume-writer-ai-deployment-engineer-east.pdf",
+      "resume_txt": "resume-writer-ai-deployment-engineer-east-ats.txt"
+    },
+    "ashby-openai-20df76c8-aa7e-40d1-8602-28605ed5431b": {
+      "dir": "forge-openai-applied-ai-delivery-lead-nyc",
+      "slug": "openai-applied-ai-delivery-lead-nyc",
+      "resume": "resume-openai-applied-ai-delivery-lead-nyc.pdf",
+      "resume_pdf": "resume-openai-applied-ai-delivery-lead-nyc.pdf",
+      "resume_txt": "resume-openai-applied-ai-delivery-lead-nyc-ats.txt"
+    },
+    "ashby-openai-71e7252f-abb1-4b74-8e69-318413042357": {
+      "dir": "forge-openai-applied-ai-engineer-startups",
+      "slug": "openai-applied-ai-engineer-startups",
+      "resume": "resume-openai-applied-ai-engineer-startups.pdf",
+      "resume_pdf": "resume-openai-applied-ai-engineer-startups.pdf",
+      "resume_txt": "resume-openai-applied-ai-engineer-startups-ats.txt"
+    },
+    "manual-1794936914960": {
+      "dir": "forge-livekit-forward-deployed-engineer",
+      "slug": "livekit-forward-deployed-engineer",
+      "resume": "resume-livekit-forward-deployed-engineer.pdf",
+      "resume_pdf": "resume-livekit-forward-deployed-engineer.pdf",
+      "resume_txt": "resume-livekit-forward-deployed-engineer-ats.txt"
+    },
+    "manual-1794936917273": {
+      "dir": "forge-truefoundry-senior-ai-ml-engineer-llm-ag",
+      "slug": "truefoundry-senior-ai-ml-engineer-llm-ag",
+      "resume": "resume-truefoundry-senior-ai-ml-engineer-llm-ag.pdf",
+      "resume_pdf": "resume-truefoundry-senior-ai-ml-engineer-llm-ag.pdf",
+      "resume_txt": "resume-truefoundry-senior-ai-ml-engineer-llm-ag-ats.txt"
+    },
+    "ashby-pylon-8a1ad19d-f636-4bd5-8662-d1ed929fb771": {
+      "dir": "forge-pylon-lead-forward-deployed-product-mana",
+      "slug": "pylon-lead-forward-deployed-product-mana",
+      "resume": "resume-pylon-lead-forward-deployed-product-mana.pdf",
+      "resume_pdf": "resume-pylon-lead-forward-deployed-product-mana.pdf",
+      "resume_txt": "resume-pylon-lead-forward-deployed-product-mana-ats.txt"
+    },
+    "ashby-pylon-7fcba195-a756-4674-ad35-3d6a024f07ed": {
+      "dir": "forge-pylon-lead-product-manager-agent-platfor",
+      "slug": "pylon-lead-product-manager-agent-platfor",
+      "resume": "resume-pylon-lead-product-manager-agent-platfor.pdf",
+      "resume_pdf": "resume-pylon-lead-product-manager-agent-platfor.pdf",
+      "resume_txt": "resume-pylon-lead-product-manager-agent-platfor-ats.txt"
+    },
+    "4483696603": {
+      "dir": "forge-horizon3-ai-staff-product-manager-agenti",
+      "slug": "horizon3-ai-staff-product-manager-agenti",
+      "resume": "resume-horizon3-ai-staff-product-manager-agenti.pdf",
+      "resume_pdf": "resume-horizon3-ai-staff-product-manager-agenti.pdf",
+      "resume_txt": "resume-horizon3-ai-staff-product-manager-agenti-ats.txt"
+    },
+    "ashby-geniusai-cc8030fa-e8b4-4592-a6dd-8da066c16f54": {
+      "dir": "forge-geniusai-senior-product-manager-core-ai",
+      "slug": "geniusai-senior-product-manager-core-ai",
+      "resume": "resume-geniusai-senior-product-manager-core-ai.pdf",
+      "resume_pdf": "resume-geniusai-senior-product-manager-core-ai.pdf",
+      "resume_txt": "resume-geniusai-senior-product-manager-core-ai-ats.txt"
+    },
+    "4488055459": {
+      "dir": "forge-probook-member-of-the-technical-staff-pr",
+      "slug": "probook-member-of-the-technical-staff-pr",
+      "resume": "resume-probook-member-of-the-technical-staff-pr.pdf",
+      "resume_pdf": "resume-probook-member-of-the-technical-staff-pr.pdf",
+      "resume_txt": "resume-probook-member-of-the-technical-staff-pr-ats.txt"
+    },
+    "manual-1794946613139": {
+      "dir": "forge-hebbia-forward-deployed-product-manager",
+      "slug": "hebbia-forward-deployed-product-manager",
+      "resume": "resume-hebbia-forward-deployed-product-manager.pdf",
+      "resume_pdf": "resume-hebbia-forward-deployed-product-manager.pdf",
+      "resume_txt": "resume-hebbia-forward-deployed-product-manager-ats.txt"
+    },
+    "yc-119081": {
+      "dir": "forge-closure-yc-w25-forward-deployed-product",
+      "slug": "closure-yc-w25-forward-deployed-product",
+      "resume": "resume-closure-yc-w25-forward-deployed-product.pdf",
+      "resume_pdf": "resume-closure-yc-w25-forward-deployed-product.pdf",
+      "resume_txt": "resume-closure-yc-w25-forward-deployed-product-ats.txt"
+    },
+    "yc-119074": {
+      "dir": "forge-converge-yc-s23-product-engineer",
+      "slug": "converge-yc-s23-product-engineer",
+      "resume": "resume-converge-yc-s23-product-engineer.pdf",
+      "resume_pdf": "resume-converge-yc-s23-product-engineer.pdf",
+      "resume_txt": "resume-converge-yc-s23-product-engineer-ats.txt"
     }
   }
 }

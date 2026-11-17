@@ -171,6 +171,10 @@ details > summary::-webkit-details-marker {{ display: none; }}
 .claims {{ padding: 0 0 18px; display: flex; flex-direction: column; gap: 8px; }}
 .claim {{ border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); }}
 .claim > summary {{ display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; }}
+.claim > summary {{ border-radius: var(--ds-r-sm); }}
+.claim[open] > summary {{ border-bottom-left-radius: 0; border-bottom-right-radius: 0; }}
+/* The summary paints its own hover background; round it on the card's own scale step
+   (--ds-r-sm) so it never pokes past the card's corners. Not overflow: clip, which would cut off the focus ring drawn 3px outside the summary. */
 .claim > summary:hover {{ background: var(--surface-2); }}
 .claim[open] {{ border-color: var(--text-secondary); }}
 .date {{ font-family: var(--ds-font-mono); font-size: var(--fs-meta); color: var(--muted); white-space: nowrap; }}
@@ -242,20 +246,29 @@ footer a {{ display: inline-block; padding: 14px 4px; min-width: 44px; text-deco
 """
 
 
-def main(argv):
+def load():
+    """The claims with every count filled from its own ledger, the falsification ledger by id, and the fill map.
+    Shared with scripts/tabbed_brief_build.py so a page that quotes a claim or a count can never drift from this one."""
     d = json.load(open(SRC, encoding="utf-8"))
-    # counts come from their own ledgers, never typed: {nftt_count} {nftt_first} {nftt_last}
+    ledger = {}
+    for line in open(LEDGER, encoding="utf-8"):
+        if line.strip():
+            r = json.loads(line); ledger[r["id"]] = r
+    # counts come from their own ledgers, never typed: {nftt_count} {nftt_first} {nftt_last} {beliefs_count} {beliefs_rules} {beliefs_last}
     pubs = sorted(v["published_at"][:10] for v in json.load(open(NFTT, encoding="utf-8"))["posts"].values())
-    fill = {"nftt_count": str(len(pubs)), "nftt_first": pubs[0], "nftt_last": pubs[-1]}
+    fill = {"nftt_count": str(len(pubs)), "nftt_first": pubs[0], "nftt_last": pubs[-1],
+            "beliefs_count": str(len(ledger)), "beliefs_rules": str(sum(1 for r in ledger.values() if r.get("canon"))),
+            "beliefs_last": max(r["ts"] for r in ledger.values())}
     for q in d["questions"]:
         for c in q["claims"]:
             for k in ("claim", "evidence", "date"):
                 for name, val in fill.items():
                     c[k] = c[k].replace("{" + name + "}", val)
-    ledger = {}
-    for line in open(LEDGER, encoding="utf-8"):
-        if line.strip():
-            r = json.loads(line); ledger[r["id"]] = r
+    return d, ledger, fill
+
+
+def main(argv):
+    d, ledger, fill = load()
     bad = problems(d, ledger)
     if bad:
         print("proof_emit: claims break the rules:\n  " + "\n  ".join(bad)); return 1

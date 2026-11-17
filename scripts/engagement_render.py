@@ -14,6 +14,9 @@ moved, its old and new value, and every output that cites it. A stale field is f
   python3 scripts/engagement_render.py --dir <slug-dir> # render one
   python3 scripts/engagement_render.py --check         # read-only; exit 1 on stale or invalid
   python3 scripts/engagement_render.py --self-test
+  python3 scripts/engagement_render.py --dir <slug-dir> --tune OUT.html       # internal proposal.html with the live editor
+  python3 scripts/engagement_render.py --dir <slug-dir> --apply EXPORT [...]  # its text edits back to engagement.json, re-render
+  (the client-facing MyAlly hub has its own --tune/--apply in scripts/myally_hub_sync.py, which re-renders through here)
 
 Stdlib only. Nothing here sends, publishes or writes outside the engagement folder.
 """
@@ -30,6 +33,9 @@ import re
 import shutil
 import sys
 import tempfile
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import page_tune as pt  # noqa: E402  the shared --tune / --apply mechanics
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 ENG_GLOB = os.path.join(ROOT, "_ARTIFACTS", "engagements", "*", "engagement.json")
@@ -84,6 +90,7 @@ def validate(rec: dict) -> list[str]:
     for alt in ALTITUDES:
         if alt not in rec.get("altitudes", {}):
             errs.append(f"altitudes: missing {alt}")
+    errs += validate_progress(rec)
     if rec.get("schema") == SCHEMA_V1:
         errs += _validate_v1(rec)
     blob = json.dumps(rec, ensure_ascii=False)
@@ -167,6 +174,141 @@ def _check_source(where, src) -> list[str]:
     if not _is_date(src.get("date")):
         out.append(f"{where}: source.date must be YYYY-MM-DD")
     return out
+
+
+# ---------------------------------------------------------------- progress
+# rec["progress"] is an append-only log of {row, state, date, note}. The newest event per row wins;
+# earlier events stay, so a row that goes from done back to in_progress shows "reopened DATE".
+# Row ids must exist in an exported tree (a block with "rows"). The fold below writes each row's
+# status into the exported JSON, so the Step 1 tab and the progress band read one block.
+# actual_hours (optional, on done entries) is private calibration data for engagement_calibrate.py:
+# the fold never copies it into the export, so it cannot reach a client page.
+
+STATES = ("not_started", "in_progress", "review", "done", "blocked")  # review = ready for the client to review
+COUNTED = {"gate", "task", "ms", "oh"}  # kinds that can be finished; gap, gift, req never "complete"
+NOTE_MAX = 160
+
+
+def tree_rows(rec: dict) -> dict:
+    out = {}
+    for name in rec.get("exports", []):
+        for r in (rec.get(name) or {}).get("rows", []) if isinstance(rec.get(name), dict) else []:
+            out[r["id"]] = (name, r)
+    return out
+
+
+def validate_progress(rec: dict) -> list[str]:
+    errs0 = []
+    rb = rec.get("review_batch")
+    if rb is not None:
+        if not isinstance(rb, dict) or set(rb) - {"pending", "next_call"}:
+            errs0.append("review_batch: keys are pending, next_call")
+        else:
+            if not isinstance(rb.get("pending", 0), int) or isinstance(rb.get("pending"), bool) or rb.get("pending", 0) < 0:
+                errs0.append("review_batch.pending is a whole number of comments")
+            if rb.get("next_call") is not None and not _is_date(rb.get("next_call")):
+                errs0.append("review_batch.next_call must be YYYY-MM-DD or null")
+    ev = rec.get("progress", [])
+    if not isinstance(ev, list):
+        return ["progress must be a list (append-only)"]
+    rows, errs, last = tree_rows(rec), errs0, ""
+    for rid, (_, r) in rows.items():
+        if "file" in r and r.get("unlock") not in rows:
+            errs.append(f"row {rid}: unlock must name a row id")
+    for i, e in enumerate(ev):
+        w = f"progress[{i}]"
+        if not isinstance(e, dict) or set(e) - {"row", "state", "date", "note", "actual_hours"}:
+            errs.append(f"{w}: keys are row, state, date, note, actual_hours")
+            continue
+        if "actual_hours" in e and (e.get("state") != "done" or not isinstance(e["actual_hours"], (int, float))
+                                    or isinstance(e["actual_hours"], bool) or e["actual_hours"] < 0):
+            errs.append(f"{w}: actual_hours is a number of hours on a done entry only")
+        if e.get("row") not in rows:
+            errs.append(f"{w}: unknown row {e.get('row')!r} (not in any exported tree)")
+        if e.get("state") not in STATES:
+            errs.append(f"{w}: state must be one of {list(STATES)}")
+        if not _is_date(e.get("date")):
+            errs.append(f"{w}: date must be YYYY-MM-DD")
+        elif e["date"] < last:
+            errs.append(f"{w}: date {e['date']} is earlier than the entry before it (append in order)")
+        else:
+            last = e["date"]
+        if not isinstance(e.get("note", ""), str) or len(e.get("note", "")) > NOTE_MAX:
+            errs.append(f"{w}: note must be text of at most {NOTE_MAX} characters")
+    return errs
+
+
+def fold_progress(block: dict, events: list, review_batch=None) -> dict:
+    """Return a copy of an exported tree with each row's status and a progress summary."""
+    if not isinstance(block, dict) or "rows" not in block:
+        return block
+    rows = [dict(r) for r in block["rows"]]
+    by = {r["id"]: r for r in rows}
+    hist: dict[str, list] = {}
+    for e in events:
+        if e["row"] in by:
+            hist.setdefault(e["row"], []).append(e)
+    for rid, hs in hist.items():
+        cur = hs[-1]
+        st = {"state": cur["state"], "date": cur["date"], "note": cur.get("note", "")}
+        if cur["state"] != "done" and any(h["state"] == "done" for h in hs[:-1]):
+            st["reopened"] = cur["date"]
+        by[rid]["status"] = st
+    for r in rows:  # phases roll up from their counted children unless they carry their own event
+        if r["kind"] != "phase" or r["id"] in hist:
+            continue
+        kids = [k for k in rows if k["parent"] == r["id"] and k["kind"] in COUNTED]
+        ks = [k.get("status", {}).get("state", "not_started") for k in kids]
+        if not ks or all(s == "not_started" for s in ks):
+            continue
+        state = ("blocked" if "blocked" in ks else "done" if all(s == "done" for s in ks)
+                 else "review" if all(s in ("done", "review") for s in ks) else "in_progress")
+        r["status"] = {"state": state, "date": max(k["status"]["date"] for k in kids if "status" in k), "note": ""}
+    leaves = [r for r in rows if r["kind"] != "phase"]
+    counted = [r for r in rows if r["kind"] in COUNTED]
+    st = lambda r: r.get("status", {}).get("state", "not_started")
+    order = sorted(counted, key=lambda r: (r["start"], rows.index(r)))
+    last = max((e for e in events if e["row"] in by), key=lambda e: e["date"], default=None)
+    hours = lambda rs: round(sum(r.get("hours", 0) for r in rs), 2)
+    out = dict(block)
+    out["rows"] = rows
+    out["progress"] = {
+        "hours_total": hours(leaves),
+        "hours_done": hours([r for r in leaves if st(r) == "done"]),
+        "items_total": len(counted),
+        "items_done": sum(1 for r in counted if st(r) == "done"),
+        "now": [r["id"] for r in order if st(r) == "in_progress"],
+        "blocked": [r["id"] for r in order if st(r) == "blocked"],
+        "review": [r["id"] for r in order if st(r) == "review"],
+        "batched": (review_batch or {}).get("pending", 0),
+        "next_call": (review_batch or {}).get("next_call"),
+        "next": next((r["id"] for r in order if st(r) == "not_started"), None),
+        "last": None if last is None else {"row": last["row"], "date": last["date"], "state": last["state"], "note": last.get("note", "")},
+    }
+    return out
+
+
+GIFT_URL = "/myally-skills/"
+
+
+def apply_unlocks(block, eng_dir: str):
+    """A row with "file" + "unlock" is listed now but delivered later: it gets a "download" URL only once
+    its unlock row is done; until then "locked". The private file path never reaches the export."""
+    if not isinstance(block, dict) or "rows" not in block:
+        return block
+    rows, done = [], {r["id"] for r in block["rows"] if r.get("status", {}).get("state") == "done"}
+    for r in block["rows"]:
+        r = dict(r)
+        f, gate = r.pop("file", None), r.pop("unlock", None)
+        if f:
+            if not os.path.isfile(os.path.join(eng_dir, f)):
+                raise RecordError(f"row {r['id']}: file {f} does not exist")
+            if gate in done:
+                r["download"] = GIFT_URL + os.path.basename(f)
+            else:
+                r["locked"] = True
+        rows.append(r)
+    return dict(block, rows=rows)
 
 
 def resolve(rec: dict) -> dict:
@@ -447,6 +589,7 @@ def build(eng_dir: str) -> dict:
         if name not in rec:
             raise RecordError(f"exports names {name!r}, which the record does not have")
         ctx = Ctx(rec, res)
+        block = apply_unlocks(fold_progress(rec[name], rec.get("progress", []), rec.get("review_batch")), eng_dir)
         def walk(v):
             if isinstance(v, str):
                 return ctx.sub(v)
@@ -455,7 +598,7 @@ def build(eng_dir: str) -> dict:
             if isinstance(v, dict):
                 return {k: walk(x) for k, x in v.items()}
             return v
-        text = json.dumps(walk(rec[name]), indent=1, ensure_ascii=False, sort_keys=True) + "\n"
+        text = json.dumps(walk(block), indent=1, ensure_ascii=False, sort_keys=True) + "\n"
         if "\u2014" in text:
             raise RecordError(f"em-dash in exported {name}.json")
         outs[f"{name}.json"] = (text, cites_digest(rec, res, ctx.cites))
@@ -527,6 +670,7 @@ def self_test() -> int:
     eng = os.path.join(tmp, "eng")
     try:
         shutil.copytree(os.path.join(src, "templates"), os.path.join(eng, "templates"))
+        shutil.copytree(os.path.join(src, "gifts"), os.path.join(eng, "gifts"))
         shutil.copy(os.path.join(src, "engagement.json"), eng)
         recp = os.path.join(eng, "engagement.json")
 
@@ -571,7 +715,58 @@ def self_test() -> int:
         assert _want.strftime("%b ") + str(_want.day) in reply, "deliver_by must follow access_by"
         assert "changed 2026-11-10, was Nov 13" in open(os.path.join(eng, "out", "proposal.html")).read()
 
+        # progress: done adds hours and rolls the phase up; a later non-done event shows the reopen seam
+        def prog(r):
+            r["progress"] = [{"row": "w1a", "state": "done", "date": "2026-11-14", "note": "Read the code"},
+                             {"row": "w1b", "state": "in_progress", "date": "2026-11-15", "note": ""}]
+        edit(prog)
+        write(eng)
+        t = json.load(open(os.path.join(eng, "out", "step1_tree.json"), encoding="utf-8"))
+        rid = {r["id"]: r for r in t["rows"]}
+        assert t["progress"]["hours_done"] == 2 and t["progress"]["now"] == ["w1b"], t["progress"]
+        edit(lambda r: r["progress"][0].update(actual_hours=2.5))
+        write(eng)
+        assert "actual_hours" not in open(os.path.join(eng, "out", "step1_tree.json"), encoding="utf-8").read(), \
+            "actual hours must never reach the export (client page)"
+        t = json.load(open(os.path.join(eng, "out", "step1_tree.json"), encoding="utf-8"))
+        assert rid["w1"]["status"]["state"] == "in_progress" and rid["w1a"]["status"]["state"] == "done"
+        assert check(eng) == [], "fresh render with progress must pass"
+        edit(lambda r: r["progress"].append({"row": "w1a", "state": "in_progress", "date": "2026-11-16", "note": ""}))
+        write(eng)
+        t = json.load(open(os.path.join(eng, "out", "step1_tree.json"), encoding="utf-8"))
+        assert {r["id"]: r for r in t["rows"]}["w1a"]["status"].get("reopened") == "2026-11-16", "reopen seam"
+        assert t["progress"]["hours_done"] == 0
+
+        # review: ready for the client; counts as not done, rolls the phase up to review, lists in the summary
+        edit(lambda r: (r["progress"].append({"row": "w1a", "state": "review", "date": "2026-11-16", "note": ""}),
+                        r.update(review_batch={"pending": 3, "next_call": "2026-11-18"})))
+        write(eng)
+        t = json.load(open(os.path.join(eng, "out", "step1_tree.json"), encoding="utf-8"))
+        assert t["progress"]["review"] == ["w1a"] and t["progress"]["batched"] == 3, t["progress"]
+        assert t["progress"]["next_call"] == "2026-11-18" and t["progress"]["hours_done"] == 0, t["progress"]
+
+        # gifts: listed but locked until the unlock row is done; the private path never reaches the export.
+        # The test plants its own gift row so it never depends on which gifts the live record lists.
+        edit(lambda r: r["step1_tree"]["rows"].append({"id": "w6e", "parent": "w6", "kind": "gift", "label": "test gift",
+                                                         "start": 0, "len": 1, "hours": 0, "get": "", "s2": "", "s3": "",
+                                                         "note": "", "file": "gifts/rca.md", "unlock": "w0a"}))
+        write(eng)
+        t = json.load(open(os.path.join(eng, "out", "step1_tree.json"), encoding="utf-8"))
+        g = {r["id"]: r for r in t["rows"]}["w6e"]
+        assert g.get("locked") and "download" not in g and "file" not in g, g
+        edit(lambda r: r["progress"].append({"row": "w0a", "state": "done", "date": "2026-11-17", "note": ""}))
+        write(eng)
+        t = json.load(open(os.path.join(eng, "out", "step1_tree.json"), encoding="utf-8"))
+        g = {r["id"]: r for r in t["rows"]}["w6e"]
+        assert g.get("download") == "/myally-skills/rca.md" and not g.get("locked"), g
+
         for bad, want in (
+            (lambda r: r.update(progress=[{"row": "zz", "state": "done", "date": "2026-11-14"}]), "unknown row"),
+            (lambda r: r.update(progress=[{"row": "w1a", "state": "finished", "date": "2026-11-14"}]), "state must be"),
+            (lambda r: r.update(progress=[{"row": "w1a", "state": "in_progress", "date": "2026-11-14", "actual_hours": 1}]), "done entry only"),
+            (lambda r: r.update(review_batch={"pending": -1}), "whole number"),
+            (lambda r: r.update(progress=[{"row": "w1a", "state": "done", "date": "2026-11-14"},
+                                          {"row": "w1b", "state": "done", "date": "2026-11-13"}]), "append in order"),
             (lambda r: r["terms"].append({"id": "TX", "title": "x", "body": "{{nope}}"}), "unknown cite"),
             (lambda r: r["fields"]["rate_ff"].pop("source"), "no source"),
             (lambda r: r["assumptions"][0].update(test_that_would_decide=""), "no test"),
@@ -581,7 +776,7 @@ def self_test() -> int:
             edit(bad)
             p = check(eng)
             assert p and want in p[0], (want, p)
-        print("engagement_render self-test: OK (fresh passes, idempotent, stale field named, hand edit caught, seam shown, 4 invalid records refused)")
+        print("engagement_render self-test: OK (fresh passes, idempotent, stale field named, hand edit caught, seam shown, progress folded and reopen seam shown, review state and batch count, gift locked then released, 9 invalid records refused, actual hours kept off the export)")
         return 0
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -592,9 +787,19 @@ def main() -> int:
     ap.add_argument("--dir", help="one engagement folder (default: every _ARTIFACTS/engagements/*)")
     ap.add_argument("--check", action="store_true", help="read-only; exit 1 when any output is stale or the record invalid")
     ap.add_argument("--self-test", action="store_true")
+    pt.add_args(ap)
     args = ap.parse_args()
     if args.self_test:
         return self_test()
+    if args.tune or args.apply:
+        if not args.dir:
+            ap.error("--tune and --apply need --dir")
+        d = os.path.abspath(args.dir)
+        if args.tune:
+            pt.tune_write(build(d)["outputs"]["proposal.html"][0], args.tune)
+            return 0
+        # the page's CSS is this script's own (no tuner tokens at :root), so only text has a sink
+        pt.apply(args.apply, [("json", os.path.join(d, "engagement.json"))], version=args.version, validate=validate)
     dirs = [os.path.abspath(args.dir)] if args.dir else sorted(os.path.dirname(p) for p in glob.glob(ENG_GLOB))
     if args.check:
         probs = [p for d in dirs for p in check(d)]

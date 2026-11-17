@@ -10,7 +10,7 @@
    },
    {
     "lane": "forward deployed",
-    "pattern": "forward[- ]deploy(?:ed|ment)|\\bFDE\\b|deployment strategist|deployed engineer"
+    "pattern": "forward[- ]deploy(?:ed|ment)|\\bFDE\\b|deployment strategist|deployed engineer|\\bai (?:solutions )?strategist\\b|\\bai transformation (?:lead|director|manager|head)\\b"
    },
    {
     "lane": "applied ai",
@@ -24,17 +24,26 @@
   "exclude": "\\bintern(?:ship)?\\b|new grad|\\bjunior\\b|\\bjr\\.?\\b|\\bassociate\\b|apprentice|product marketing|product design(?:er)?\\b|product support|product operations|product analyst|engineering manager|manager, (?:product )?engineering|\\bdirector of engineering|\\bcontract(?:or)?\\b|\\bpart[- ]time\\b|^\\s*(?:senior |sr\\.? )?manager\\b|engagement manager|technical program manager|\\btpm\\b|product sales|strategy (?:&|and) operations|\\bgtm\\b|https?:"
  },
  "location": {
-  "doc": "Split a multi-location string on ; | / 'or'. Keep when any part is NY metro, or remote and not tied to another region, or a US-wide label with no city (United States, US, North America). The title is checked for drop_region too ('(United Kingdom)', 'EMEA'). A bare 'Remote' part counts only when the string names no other region, or also names the US.",
-  "nymetro": "new york|\\bnyc\\b|brooklyn|manhattan|jersey city|hoboken|stamford|greenwich|norwalk|westport|fairfield|bridgeport|new haven|darien|milford|shelton|stratford|trumbull|danbury|connecticut|\\bct\\b",
+  "doc": "nymetro is the onsite or hybrid target list: NY metro, Fairfield County and New Haven CT, and Boston MA (Zach, 2026-11-16); any US-remote role counts too. Split a multi-location string on ; | / 'or'. Keep when any part is NY metro, or remote and not tied to another region, or a US-wide label with no city (United States, US, North America). The title is checked for drop_region too ('(United Kingdom)', 'EMEA'). A bare 'Remote' part counts only when the string names no other region, or also names the US.",
+  "nymetro": "new york|\\bnyc\\b|brooklyn|manhattan|jersey city|hoboken|stamford|greenwich|norwalk|westport|fairfield|bridgeport|new haven|darien|milford|shelton|stratford|trumbull|danbury|connecticut|\\bct\\b|boston|cambridge,? (?:ma|massachusetts)\\b|somerville|massachusetts",
   "remote": "remote|anywhere|distributed|work from home",
   "us_only": "united states|\\busa?\\b|\\bu\\.s\\.|north america|americas",
-  "drop_region": "emea|europe|\\buk\\b|united kingdom|london|canada|toronto|india|apac|latam|brazil|mexico|germany|france|paris|berlin|dublin|ireland|amsterdam|netherlands|spain|poland|singapore|japan|tokyo|sydney|australia|israel|tel aviv|international|middle east|\\buae\\b|abu dhabi|dubai|saudi|riyadh|emea"
+  "drop_region": "emea|europe|\\buk\\b|united kingdom|london|canada|toronto|india|apac|latam|brazil|mexico|germany|france|paris|berlin|dublin|ireland|amsterdam|netherlands|spain|poland|singapore|japan|tokyo|sydney|australia|israel|tel aviv|international|middle east|\\buae\\b|abu dhabi|dubai|saudi|riyadh|emea|pakistan|lahore|karachi|islamabad|philippines|manila|vietnam|argentina|buenos aires|colombia|bogota|chile|nigeria|kenya|south africa|egypt|turkey|istanbul"
  },
  "employer_index": {
   "doc": "Also poll every board in this file whose verify is 'ok' (Greenhouse, Lever, Ashby only). It holds employers from curated best-workplaces lists (GPTW / Fortune Best Workplaces for Parents, Fortune 100 Best, Seramount, Built In NYC, Disability:IN), resolved by scripts/bridge_index_scan.py probe and checked by its verify verb. To add a list: save its names under _STATE/job-search/employer-index/lists/, probe, verify, then merge hits into index.json. Plan: _PROPOSALS/2026-11-03-jobs-sourcing-widen.md.",
   "path": "_STATE/job-search/employer-index/index.json"
  },
  "greenhouse": [
+  "toast",
+  "klaviyo",
+  "formlabs",
+  "pathai",
+  "ginkgobioworks",
+  "simplisafe",
+  "lightmatter",
+  "lilasciences",
+  "attentive",
   "anthropic",
   "figma",
   "airtable",
@@ -77,6 +86,11 @@
   "ro"
  ],
  "ashby": [
+  "whoop",
+  "liquid-ai",
+  "mosaic",
+  "context",
+  "newform",
   "openai",
   "notion",
   "ramp",

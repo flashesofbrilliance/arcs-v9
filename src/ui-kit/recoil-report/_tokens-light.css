@@ -1,0 +1,15 @@
+/* ARCS Recoil Report: Light Remap */
+/* The light palette for kit pages, shared so it lives in one file. Same rules as the 39 theme toggle @prim block,
+   plus magenta, orange, violet and the glows (R6, 2026-11-12; 39 gains them at the next kit release, since every page
+   that copies 39 would change). 39 keeps its inline copy because its consumers inline it.
+   Link it after _tokens.css: the dark kit stays the default; prefers-color-scheme light, data-theme="light" and
+   print switch to these values. Remaps tokens only, plus the .themebtn control styles. Print is always light
+   (spec 2026-11-11-recoil-call-service-arc-weld 8 Q2, Zach 2026-11-12); src/document/tokens.ts TP is generated from
+   the print block below. */
+:root{color-scheme:dark;}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);--magenta:#a21caf;--magenta-bg:rgba(162,28,175,0.08);--orange:#b45309;--orange-bg:rgba(180,83,9,0.08);--violet:#6d28d9;--violet-bg:rgba(109,40,217,0.08);--cyan-glow:transparent;--green-glow:transparent;--red-glow:transparent;color-scheme:light;}}
+:root[data-theme="light"]{--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);--magenta:#a21caf;--magenta-bg:rgba(162,28,175,0.08);--orange:#b45309;--orange-bg:rgba(180,83,9,0.08);--violet:#6d28d9;--violet-bg:rgba(109,40,217,0.08);--cyan-glow:transparent;--green-glow:transparent;--red-glow:transparent;color-scheme:light;}
+.themebtn{display:inline-flex;align-items:center;min-height:44px;padding:0;margin:0 0 8px;font:inherit;font-size:var(--fs-body);color:var(--text-secondary);background:none;border:0;cursor:pointer;text-underline-offset:3px;}
+.themebtn:hover,.themebtn:focus-visible{color:var(--cyan);text-decoration:underline;}
+.themebtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
+@media print{:root{--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);--magenta:#a21caf;--magenta-bg:rgba(162,28,175,0.08);--orange:#b45309;--orange-bg:rgba(180,83,9,0.08);--violet:#6d28d9;--violet-bg:rgba(109,40,217,0.08);--cyan-glow:transparent;--green-glow:transparent;--red-glow:transparent;color-scheme:light;} .themebtn{display:none!important;} body{background:#fff!important;}}

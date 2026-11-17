@@ -24,15 +24,15 @@
   }
  },
  "dimensions": {
-  "corpus": 7,
+  "corpus": 10,
   "canon": 1,
-  "codebase": 3,
-  "files": 22
+  "codebase": 5,
+  "files": 27
  },
  "systems": {
-  "_ARTIFACTS": 6,
+  "_ARTIFACTS": 9,
+  "scripts": 4,
   "runtime": 3,
-  "scripts": 3,
   "tests": 2,
   "tools": 2,
   ".claude": 1,
@@ -40,7 +40,8 @@
   "_DECISIONS": 1,
   "_SPECS": 1,
   "_STATE": 1,
-  "public": 1
+  "public": 1,
+  "src": 1
  },
  "files": [
   ".claude/workflows/counterpart-gauntlet.js",
@@ -49,6 +50,9 @@
   "_ARTIFACTS/blog/nftt-gauntlet-runbook.html",
   "_ARTIFACTS/forge-tenex-senior-forward-deployed-engineer/gauntlet.json",
   "_ARTIFACTS/forge-upside-staff-forward-deployed-engineer-g/gauntlet.json",
+  "_ARTIFACTS/gauntlets/2026-11-11-kyle-libra-gravity/brief.json",
+  "_ARTIFACTS/gauntlets/2026-11-11-kyle-libra-gravity/context.json",
+  "_ARTIFACTS/gauntlets/2026-11-11-kyle-libra-gravity/gauntlet.json",
   "_ARTIFACTS/prl-1-2-close-loop/2026-09-17-adversarial-test-gauntlet.md",
   "_ARTIFACTS/resume-blacksmith/founder-gauntlet.md",
   "_DECISIONS/ADR-060-hypercube-gauntlet-arc-weld.md",
@@ -58,9 +62,11 @@
   "runtime/recoil/generated/prl-lyro/tidio-flows/sem-onramp-template/BUILD-AND-GAUNTLET.md",
   "runtime/warroom/gauntlet.html",
   "runtime/warroom/gauntlet.print.json",
+  "scripts/gauntlet_brief.py",
   "scripts/gauntlet_log_emit.py",
   "scripts/gauntlet_log_public_template.html",
   "scripts/gauntlet_report.py",
+  "src/ui-kit/week-strip/gauntlet-fragment.html",
   "tests/fixtures/teardown-eval/sample-fail.gauntlet.md",
   "tests/fixtures/teardown-eval/sample-pass.gauntlet.md",
   "tools/arcs-verb-eval/sample/gauntlet.json",

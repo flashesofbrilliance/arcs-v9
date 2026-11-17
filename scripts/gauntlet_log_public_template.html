@@ -4,11 +4,14 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ARCS · Pressure Ledger</title>
-<meta name="description" content="The shape of the adversarial gauntlet record: every pre-ship pressure-test, plotted in time. Cadence and scale, never the contents." />
+<meta name="description" content="The shape of the adversarial gauntlet record, every pre-ship pressure-test plotted in time, and the gates added week by week with the mistakes behind them. Cadence, scale and plain-word fixes; never what a run found." />
 <style>
   /* GENERATED, do not hand-edit. PUBLIC projection: only the shape of the gauntlet
      ledger (date / class / agent-count) is embedded, never the subject, finding,
      outcome, or counterpart. Air-gap by construction.
+     The week-strip section (kit 72, scripts/gate_chain_build.py) adds gate names and a
+     reviewed plain-language break and repair per chain (never a raw commit subject), with a
+     reviewed-scope gate that fails the build on a new commit scope.
      Tokens are the shared ARCS kit, inlined verbatim (do not re-author the palette). */
   /* ARCS Recoil Report — Design Tokens */
   :root {
@@ -54,13 +57,16 @@
   /* page-local additions the kit does not define (NO signal hex re-declared here) */
   :root {
     --muted-hi: #94a3b8;   /* a lighter secondary text than kit --muted, for the lede/stats */
-    --faint:    #475569;
+    --faint:    #7a8699;
     --steel:    #7dd3fc;
     --violet:   #a78bfa;
     --magenta:  #FF6EC7;
     --blue:     #5B8DEF;
     --r-pill:   999px;
     --track-wide: 0.04em; --track-wider: 0.08em; --track-widest: 0.14em;
+    /* kit 72 week strip reads kit token names; alias them to this page's copy */
+    --ds-font-mono: var(--font-mono); --ds-r-xs: 3px; --text-secondary: var(--muted-hi);
+    --fs-label: 11px; --fs-body: 14px; --fs-headline: 1.15rem;   /* this page's label and prose steps */
     color-scheme: dark;
   }
   *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -74,7 +80,7 @@
 
   .eyebrow { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: var(--track-widest);
     text-transform: uppercase; color: var(--cyan); display: flex; align-items: center; gap: 9px; margin-bottom: 18px; }
-  .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+  .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); }
   h1 { font-size: clamp(28px, 5vw, 46px); line-height: 1.05; font-weight: 800; letter-spacing: -0.02em;
     text-wrap: balance; margin-bottom: 20px; }
   h1 .em { color: var(--cyan); }
@@ -91,7 +97,7 @@
     font-variant-numeric: tabular-nums; line-height: 1; letter-spacing: -0.01em; }
   .stat-val.accent { color: var(--cyan); }
   .stat-val small { font-size: 14px; color: var(--muted-hi); font-weight: 500; }
-  .stat-label { font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: var(--track-wide);
+  .stat-label { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: var(--track-wide);
     text-transform: uppercase; color: var(--dimmed); margin-top: 9px; line-height: 1.4; }
 
   .section-label { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: var(--track-widest);
@@ -106,7 +112,7 @@
   .lane { position: relative; height: 34px; border-top: 1px dashed #0e1622; }
   .lane:first-child { border-top: none; }
   .lane-name { position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-    font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: var(--track-wide);
+    font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: var(--track-wide);
     text-transform: uppercase; width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .lane-track { position: absolute; left: 150px; right: 8px; top: 0; bottom: 0; }
   .node { position: absolute; top: 50%; border-radius: 50%;
@@ -114,7 +120,7 @@
     box-shadow: 0 0 0 1px rgba(2,4,8,.9), 0 0 9px currentColor; }
   .node:hover, .node:focus { transform: translate(-50%,-50%) scale(1.4); outline: none; z-index: 5; }
   .axis { position: relative; height: 20px; margin: 8px 8px 0 150px; }
-  .tick { position: absolute; top: 0; font-family: var(--font-mono); font-size: 10px; color: var(--faint); transform: translateX(-50%); }
+  .tick { position: absolute; top: 0; font-family: var(--font-mono); font-size: 11px; color: var(--faint); transform: translateX(-50%); }
   .tick::before { content: ""; position: absolute; top: -8px; left: 50%; width: 1px; height: 6px; background: var(--border); }
 
   .tip { position: fixed; z-index: 40; pointer-events: none; opacity: 0; transition: opacity .1s ease;
@@ -163,13 +169,163 @@
   <div class="eyebrow"><span class="dot"></span>ARCS · PRESSURE LEDGER</div>
   <h1>Every artifact, <span class="em">pressure-tested</span> before it ships.</h1>
   <p class="lede">Before an ARCS artifact reaches a counterpart, it runs an adversarial gauntlet: independent agents attack it across many facets at a high burden of proof, and only what survives goes out. This is the shape of that record. How often we pressure-test, the cadence over time, and how many independent agents each run put on the problem.</p>
-  <p class="honesty">What is public here is the <b>shape</b> only: when each run happened, what class of pressure-test it was, and how many agents ran it. What each run found, and about whom, stays internal. The rigor is the point, not the disclosure.</p>
+  <p class="honesty">What is public here: for each run, its <b>shape</b> (when it happened, what class of pressure-test it was, how many agents ran it); for each gate, its name and the fix that added it, in plain words. What each run found, and about whom, stays internal. The rigor is the point, not the disclosure.</p>
 
   <div class="stats" id="stats"></div>
 
   <div class="section-label">The gauntlet record, plotted in time</div>
   <div class="ribbon-shell"><div class="ribbon" id="ribbon"></div><div class="axis" id="axis"></div></div>
   <div class="legend" id="legend"></div>
+
+  <div class="section-label">Gates added week by week, and the mistakes behind them</div>
+  <p class="honesty">The runs above check artifacts; this strip checks the process. Each week shows how many gates joined the checks every commit must pass. Pick a week to read its chains: what broke, the fix, and the gate it added, in plain words with client names removed.</p>
+  <div class="ribbon-shell">
+<!-- week-strip:begin -->
+<!-- kit organism 72, week strip, built from the pre-commit hook history. Inline after the kit tokens. Do not hand-edit. -->
+<style>
+/* @prim:begin 72-week-strip */
+/* labels use the kit's --fs-label step (11px); body copy sits on --fs-body */
+.wstrip { font-size: var(--fs-body); display: flex; flex-direction: column; gap: 16px; color: var(--text); }
+.ws-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+.ws-cell { appearance: none; font: inherit; color: var(--text); text-align: left; cursor: pointer; min-height: 72px; min-width: 0;
+  padding: 8px; border: 1px solid var(--border); border-radius: var(--r-md); display: flex; flex-direction: column; justify-content: space-between; gap: 4px; }
+.ws-cell:hover { border-color: color-mix(in srgb, var(--cyan) 50%, var(--border)); }
+/* focus is a --text ring, not cyan: a cyan ring would merge into the cyan pressed border (DESIGN.md says cyan; seam logged) */
+/* picked: a 2px border with 1px less padding, so the cell keeps its size (no glow shadow) */
+.ws-cell[aria-pressed="true"] { border: 2px solid var(--cyan); padding: 7px; }
+.ws-cell:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.ws-n { font-family: var(--ds-font-mono); font-size: var(--fs-headline); font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.ws-mon { font-family: var(--ds-font-mono); font-size: var(--fs-label); line-height: 1.2; overflow-wrap: anywhere; }
+.ws-dots { display: flex; gap: 4px; min-height: 6px; }
+.ws-dot { width: 6px; height: 6px; border-radius: 50%; flex: none; }
+.ws-d0 { background: var(--cyan); } .ws-d1 { background: var(--gold); } .ws-d2 { background: color-mix(in srgb, var(--violet) 60%, var(--text)); } /* lifted toward text: plain violet fell under 3:1 on the darkest cells */
+.ws-key { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: var(--fs-body); color: var(--text-secondary); }
+.ws-key li { display: inline-flex; align-items: center; gap: 8px; }
+.ws-read { display: flex; flex-direction: column; min-height: 3rem; }
+.ws-rhead { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text); padding-bottom: 8px; }
+.ws-rhead a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; display: inline-block; padding-block: 12px; margin-block: -12px; }
+.ws-rhead a:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.ws-chain { list-style: none; display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 12px 0; border-top: 1px solid var(--border); }
+.ws-step { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); align-items: baseline; gap: 4px 12px; }
+.ws-k { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); }
+.ws-v { min-width: 0; overflow-wrap: anywhere; }
+.ws-chip { box-sizing: border-box; display: inline-flex; align-items: center; height: 22px; padding: 0 10px; margin-right: 8px; vertical-align: 1px;
+  border-radius: var(--ds-r-xs); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em;
+  color: var(--cyan); background: color-mix(in srgb, var(--cyan) 13%, transparent); border: 1px solid color-mix(in srgb, var(--cyan) 35%, transparent); }
+.ws-meta { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text-secondary); }
+/* the gate is the gold seam: kintsugi gold marks the repaired break (ROM primitive 6, kit 64) */
+.ws-gate { font-family: var(--ds-font-mono); color: var(--gold); overflow-wrap: anywhere; }
+.ws-empty { padding: 12px 0; border-top: 1px solid var(--border); color: var(--text-secondary); }
+.ws-floor { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.ws-src { font-size: var(--fs-body); color: var(--text-secondary); }
+/* below 480px six columns fall under the 44px target: four columns, three rows */
+@media (max-width: 480px) { .ws-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .ws-cell { padding: 6px; min-height: 64px; } .ws-cell[aria-pressed="true"] { padding: 5px; } .ws-step { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+/* @prim:end 72-week-strip */
+</style>
+<div class="wstrip" data-wstrip><ul class="ws-floor"><li><span class="ws-meta">2026-09-24 · 595ffd9a</span> <span class="ws-chip">pages</span> Header and footer edges sat a few pixels off the body text on six pages, copied from a shared template. Aligned all six; a lint now fails any page whose header or footer padding differs from its body. <span class="ws-meta">gate</span> <span class="ws-gate">gutter_consistency_lint</span></li><li><span class="ws-meta">2026-09-26 · 06c93e77</span> <span class="ws-chip">compass</span> Saved decisions never recorded their time horizon or review date, so follow-up reminders ran on a blind default. Both save paths store them now, and reminder timing scales with the horizon. <span class="ws-meta">gate</span> <span class="ws-gate">receipt_timing_gate</span></li><li><span class="ws-meta">2026-09-26 · ce2b504b</span> <span class="ws-chip">blog</span> Nine older field-note posts lacked the required title and description tags; the check only ran on files being edited. Fixed all nine and added a check that reads every post at once. <span class="ws-meta">gate</span> <span class="ws-gate">nftt_meta_gate</span></li><li><span class="ws-meta">2026-10-05 · 90743bf5</span> <span class="ws-chip">résumés</span> Generated résumés carried the wrong location line, copied forward from old templates. Pinned the line at the source and corrected 183 lines; a gate checks every résumé. <span class="ws-meta">gate</span> <span class="ws-gate">resume_location_gate</span></li><li><span class="ws-meta">2026-10-05 · 190e662b</span> <span class="ws-chip">cleanup</span> The worktree cleanup tool could back up the wrong branch for a detached or broken worktree. It now proves each target is a real worktree with its own history, and refuses otherwise. <span class="ws-meta">gate</span> <span class="ws-gate">cruft_sweep</span></li><li><span class="ws-meta">2026-10-06 · c1be4cc7</span> <span class="ws-chip">session notes</span> The handoff archiver kept notes by position, so it could archive a newer note and keep an older one. It sorts by version now, and the hook warns when a handoff note is written by hand. <span class="ws-meta">gate</span> <span class="ws-gate">handoff_fold</span></li><li><span class="ws-meta">2026-10-08 · 8ef6dab3</span> <span class="ws-chip">stats</span> A committed snapshot counted commits, so it went stale with every commit by design. The check covers content only; the counts refresh on their own schedule. <span class="ws-meta">gate</span> <span class="ws-gate">universe_snapshot_emit</span></li><li><span class="ws-meta">2026-10-08 · bac67125</span> <span class="ws-chip">design</span> A design-system card printed raw JavaScript template code instead of its values. Rebuilt the card as static markup; a lint blocks template code left in any page. <span class="ws-meta">gate</span> <span class="ws-gate">template_leak_lint</span></li><li><span class="ws-meta">2026-10-08 · a01afc10</span> <span class="ws-chip">design</span> Two retired grey text colors, too faint to read, were still hardcoded across served pages. Swapped them out and recorded design debt per page; the count may only go down. <span class="ws-meta">gate</span> <span class="ws-gate">design_debt_sweep</span></li><li><span class="ws-meta">2026-10-17 · bbed234a</span> <span class="ws-chip">pages</span> The zoom buttons in a DJ tool did nothing, because two elements shared one id. Fixed the ids and added a static review of the tool&#x27;s sources. <span class="ws-meta">gate</span> <span class="ws-gate">phosphor_static_review</span></li><li><span class="ws-meta">2026-10-30 · 2e616122</span> <span class="ws-chip">interface</span> A review found status chips could drift from the shared colors and fall under the contrast floor. The chip generator&#x27;s check now fails on either, on every commit. <span class="ws-meta">gate</span> <span class="ws-gate">grammar_chips_emit</span></li><li><span class="ws-meta">2026-11-08 · 1d101fee</span> <span class="ws-chip">client work</span> On a client&#x27;s project page, clicking a workstream collapsed it and the day columns left a blank strip. Fixed both, and added a test that clicks through the page. <span class="ws-meta">gate</span> <span class="ws-gate">client_hub_crawl</span></li><li><span class="ws-meta">2026-11-12 · 12822415</span> <span class="ws-chip">sharing</span> Share buttons on sign-in-only pages copied the page&#x27;s own link, so the person it was sent to hit a 404. The buttons create a share link now; the same bug had come back three times before. <span class="ws-meta">gate</span> <span class="ws-gate">share_control_gate</span></li><li><span class="ws-meta">2026-11-12 · b3b8dda8</span> <span class="ws-chip">call reports</span> A public share link showed more of an internal page than intended: lines were removed from a list, not allowed in. Public views are an allow-list now, and a gate checks the signed-out page. <span class="ws-meta">gate</span> <span class="ws-gate">recoil_public_share_gate, recoil_public_share_render</span></li><li><span class="ws-meta">2026-11-12 · a715c92e</span> <span class="ws-chip">tooling</span> Self-tests run from a commit hook wrote into the real repository&#x27;s settings, so commits went out under a test identity. All 17 self-tests drop git&#x27;s environment first, and a gate checks for it. <span class="ws-meta">gate</span> <span class="ws-gate">scratch_git_leak_gate</span></li><li><span class="ws-meta">2026-11-16 · 1fb74fe4</span> <span class="ws-chip">claims</span> Résumés and pages called a launch figure assets under management, a claim the record does not support. Corrected 391 files to say what was launched; a gate blocks the old phrasing on every commit. <span class="ws-meta">gate</span> <span class="ws-gate">aum_claim_gate</span></li><li><span class="ws-meta">2026-11-17 · 38cc17ce</span> <span class="ws-chip">résumés</span> Older résumé bundles still carried claims that had since been corrected, in their pages and PDFs. Cleared 119 bundles and re-rendered the PDFs; a gate now reads every résumé, PDFs included, on each commit. <span class="ws-meta">gate</span> <span class="ws-gate">resume_claim_gate</span></li></ul><p class="ws-src">Source: git history of the pre-commit hook, 24 Aug 2026 to 17 Nov 2026: 98 gates wired, 18 of them by a fix commit (1 not shown here), each cited by commit and described in plain words, with client names removed. Reversals from the belief log.</p></div>
+<script type="application/json" data-wstrip-data>{"weeks":[["2026-W35","24 Aug 2026",3,[],["F34","F35","F36","F37"],0],["2026-W36","31 Aug 2026",1,[],[],0],["2026-W37","7 Sep 2026",2,[],[],0],["2026-W38","14 Sep 2026",0,[],[],0],["2026-W39","21 Sep 2026",19,[["2026-09-24","595ffd9a","pages","Header and footer edges sat a few pixels off the body text on six pages, copied from a shared template.","Aligned all six; a lint now fails any page whose header or footer padding differs from its body.","gutter_consistency_lint"],["2026-09-26","06c93e77","compass","Saved decisions never recorded their time horizon or review date, so follow-up reminders ran on a blind default.","Both save paths store them now, and reminder timing scales with the horizon.","receipt_timing_gate"],["2026-09-26","ce2b504b","blog","Nine older field-note posts lacked the required title and description tags; the check only ran on files being edited.","Fixed all nine and added a check that reads every post at once.","nftt_meta_gate"]],["F38","F39","F40","F41"],0],["2026-W40","28 Sep 2026",12,[],["F42"],1],["2026-W41","5 Oct 2026",16,[["2026-10-05","90743bf5","résumés","Generated résumés carried the wrong location line, copied forward from old templates.","Pinned the line at the source and corrected 183 lines; a gate checks every résumé.","resume_location_gate"],["2026-10-05","190e662b","cleanup","The worktree cleanup tool could back up the wrong branch for a detached or broken worktree.","It now proves each target is a real worktree with its own history, and refuses otherwise.","cruft_sweep"],["2026-10-06","c1be4cc7","session notes","The handoff archiver kept notes by position, so it could archive a newer note and keep an older one.","It sorts by version now, and the hook warns when a handoff note is written by hand.","handoff_fold"],["2026-10-08","8ef6dab3","stats","A committed snapshot counted commits, so it went stale with every commit by design.","The check covers content only; the counts refresh on their own schedule.","universe_snapshot_emit"],["2026-10-08","bac67125","design","A design-system card printed raw JavaScript template code instead of its values.","Rebuilt the card as static markup; a lint blocks template code left in any page.","template_leak_lint"],["2026-10-08","a01afc10","design","Two retired grey text colors, too faint to read, were still hardcoded across served pages.","Swapped them out and recorded design debt per page; the count may only go down.","design_debt_sweep"]],[],0],["2026-W42","12 Oct 2026",12,[["2026-10-17","bbed234a","pages","The zoom buttons in a DJ tool did nothing, because two elements shared one id.","Fixed the ids and added a static review of the tool's sources.","phosphor_static_review"]],[],0],["2026-W43","19 Oct 2026",1,[],[],0],["2026-W44","26 Oct 2026",9,[["2026-10-30","2e616122","interface","A review found status chips could drift from the shared colors and fall under the contrast floor.","The chip generator's check now fails on either, on every commit.","grammar_chips_emit"]],[],0],["2026-W45","2 Nov 2026",8,[["2026-11-08","1d101fee","client work","On a client's project page, clicking a workstream collapsed it and the day columns left a blank strip.","Fixed both, and added a test that clicks through the page.","client_hub_crawl"]],["F43","F44","F45","F46","F47","F48"],0],["2026-W46","9 Nov 2026",12,[["2026-11-12","12822415","sharing","Share buttons on sign-in-only pages copied the page's own link, so the person it was sent to hit a 404.","The buttons create a share link now; the same bug had come back three times before.","share_control_gate"],["2026-11-12","b3b8dda8","call reports","A public share link showed more of an internal page than intended: lines were removed from a list, not allowed in.","Public views are an allow-list now, and a gate checks the signed-out page.","recoil_public_share_gate, recoil_public_share_render"],["2026-11-12","a715c92e","tooling","Self-tests run from a commit hook wrote into the real repository's settings, so commits went out under a test identity.","All 17 self-tests drop git's environment first, and a gate checks for it.","scratch_git_leak_gate"]],["F50","F51"],0],["2026-W47","16 Nov 2026",3,[["2026-11-16","1fb74fe4","claims","Résumés and pages called a launch figure assets under management, a claim the record does not support.","Corrected 391 files to say what was launched; a gate blocks the old phrasing on every commit.","aum_claim_gate"],["2026-11-17","38cc17ce","résumés","Older résumé bundles still carried claims that had since been corrected, in their pages and PDFs.","Cleared 119 bundles and re-rendered the PDFs; a gate now reads every résumé, PDFs included, on each commit.","resume_claim_gate"]],["F49"],0]],"max":19,"beliefs":"https://status.arcs.care/beliefs","source":"Source: git history of the pre-commit hook, 24 Aug 2026 to 17 Nov 2026: 98 gates wired, 18 of them by a fix commit (1 not shown here), each cited by commit and described in plain words, with client names removed. Reversals from the belief log."}</script>
+<script>
+/* Kit organism 72, week strip and chains. arcsWeekStrip(host, data, {pick}) replaces host's content.
+   data: {weeks: [[week, monday, gates, chains[[date, sha, scope, break, repair, gate]], reversals[id], withheld]], max, beliefs, source}.
+   Shading strength 0.75x (Zach's pick, 2026-11-13). Vanilla DOM, no dependencies. */
+function arcsWeekStrip(host, data, opts) {
+  var SHADE = 0.75, W = data.weeks, pick = opts && opts.pick !== undefined ? opts.pick : W.length - 1;
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+  function cols() { return getComputedStyle(grid).gridTemplateColumns.split(' ').length; }
+  function plural(n, one, many) { return n + " " + (n === 1 ? one : many); }
+  function counts(w) {
+    var s = plural(w[2], "gate", "gates") + " wired, " + plural(w[3].length + w[5], "chain", "chains");
+    return w[5] ? s + " (" + w[5] + " not shown)" : s;
+  }
+  host.textContent = "";
+  var grid = el("div", "ws-grid"), read = el("div", "ws-read"), head = el("div", "ws-rhead"), body = el("div"), cells = [];
+  head.setAttribute("aria-live", "polite");
+  read.appendChild(head);
+  read.appendChild(body);
+  grid.setAttribute("role", "group");
+  grid.setAttribute("aria-label", "Weeks, oldest first");
+  W.forEach(function (w, i) {
+    var b = el("button", "ws-cell"), dots = el("span", "ws-dots");
+    b.type = "button";
+    b.tabIndex = -1;
+    b.setAttribute("aria-label", w[2] + " " + w[1].replace(/ \d{4}$/, "") + ", week of " + w[1] + ": " + counts(w) + ", " + plural(w[4].length, "belief", "beliefs") + " reversed");
+    b.style.background = "color-mix(in srgb, var(--cyan) " + Math.round(SHADE * (6 + 44 * w[2] / data.max)) + "%, var(--surface))";
+    b.appendChild(el("span", "ws-n", String(w[2])));
+    b.appendChild(document.createTextNode(" "));
+    b.appendChild(el("span", "ws-mon", w[1].replace(/ \d{4}$/, "")));
+    dots.setAttribute("aria-hidden", "true");
+    [w[2], w[3].length + w[5], w[4].length].forEach(function (n, k) { if (n) dots.appendChild(el("span", "ws-dot ws-d" + k)); });
+    b.appendChild(dots);
+    b.addEventListener("click", function () { show(i); });
+    b.addEventListener("keydown", function (e) {
+      var j = { ArrowRight: i + 1, ArrowLeft: i - 1, ArrowDown: i + cols(), ArrowUp: i - cols(), Home: 0, End: W.length - 1 }[e.key];
+      if (j === undefined) return;
+      e.preventDefault();
+      j = Math.max(0, Math.min(W.length - 1, j));
+      show(j);
+      cells[j].focus();
+    });
+    cells.push(b);
+    grid.appendChild(b);
+  });
+  var key = el("ul", "ws-key");
+  ["gates wired", "chains: a fix that added a gate", "beliefs reversed"].forEach(function (t, k) {
+    var li = el("li");
+    li.appendChild(el("span", "ws-dot ws-d" + k));
+    li.appendChild(document.createTextNode(t));
+    key.appendChild(li);
+  });
+  function step(k, v) {
+    var s = el("div", "ws-step");
+    s.appendChild(el("span", "ws-k", k));
+    s.appendChild(v);
+    return s;
+  }
+  function show(i) {
+    var w = W[i];
+    cells.forEach(function (c, j) { c.setAttribute("aria-pressed", String(j === i)); c.tabIndex = j === i ? 0 : -1; });
+    head.textContent = "Week of " + w[1] + " · " + counts(w);
+    body.textContent = "";
+    if (w[4].length) {
+      head.appendChild(document.createTextNode(" · "));
+      var a = el("a", "", plural(w[4].length, "belief", "beliefs") + " reversed");
+      a.title = w[4].join(", ");
+      a.href = data.beliefs;
+      head.appendChild(a);
+    }
+    if (!w[3].length) { body.appendChild(el("p", "ws-empty", w[5] ? "This week's chain is not shown on the public page." : "No fix commit added a gate this week.")); return; }
+    var list = el("ul");
+    list.style.listStyle = "none";
+    w[3].forEach(function (c) {
+      var li = el("li", "ws-chain"), brk = el("span", "ws-v");
+      brk.appendChild(el("span", "ws-chip", c[2]));
+      brk.appendChild(document.createTextNode(c[3]));
+      li.appendChild(step("1 Break", brk));
+      var fix = el("span", "ws-v", c[4] + " ");
+      fix.appendChild(el("span", "ws-meta", c[1] + " · " + c[0]));
+      li.appendChild(step("2 Repair", fix));
+      li.appendChild(step("3 Gate", el("span", "ws-v ws-gate", c[5])));
+      list.appendChild(li);
+    });
+    body.appendChild(list);
+  }
+  host.appendChild(grid);
+  host.appendChild(key);
+  host.appendChild(read);
+  host.appendChild(el("p", "ws-src", data.source));
+  show(pick);
+}
+(function(){var h=document.querySelector('[data-wstrip]'),d=document.querySelector('[data-wstrip-data]');if(h&&d)arcsWeekStrip(h,JSON.parse(d.textContent));})();
+</script>
+<!-- week-strip:end -->
+  </div>
 
   <div class="section-label">How to read this</div>
   <div class="method">

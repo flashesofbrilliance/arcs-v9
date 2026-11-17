@@ -1,0 +1,15 @@
+{
+  "omit": {
+    "Louisville and the My Ally hub are routed to their source for you": "the routing is a convenience, not needed to learn the route; the My Ally hub is a client surface and stays out of the video by brief; stated in README, route 2",
+    "Re-drag it after token-tuner.js changes": "maintenance note for a second use, not needed to learn the route; stated in README, route 2",
+    "on builders with no data breakpoint, a moved media width": "card 6 carries the container case only, for time; the media-width case stays in README, guards",
+    "The 1024px one is the stack breakpoint (stack_below in the data, default 1024)": "tabbed-brief detail; card 3 names breakpoints as a slider group",
+    "Container queries (kit 54 signal ledger at 38rem and 58rem, kit 55 sound bite) get their own sliders": "kit detail; the reported-not-written rule is carried on card 6",
+    "Enter is blocked: one string, one line; bold and links survive": "editing detail; double-click editing is carried on card 3",
+    "Text and stack_below go to the data file, edited in place so a one-field change is a one-line diff": "landing detail; card 4 carries the per-builder landing at the level of the table",
+    "Export versions (the latest breadcrumb, or --version N)": "--version N is an option detail; Export versions is carried on card 3",
+    "myally_hub_sync.py, engagement_render.py, counterpart_onepager_build.py, precall_brief_build.py, research_render.py, milestone_render.py rows": "card 4 states the landing rule by kind of part, not by page; the per-builder rows name client surfaces; stated in the README table",
+    "Builders with no data source (hand-written pages served straight from public/) take scripts/token_tuner_inline.py --apply-text": "third path for hand pages; out of scope for the two routes",
+    "Pass --force-built to write the built file anyway": "an override, deliberately not taught in a first walkthrough; stated in scripts/tune_serve.py"
+  }
+}

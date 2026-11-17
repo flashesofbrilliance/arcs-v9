@@ -140,12 +140,13 @@ export function EyebrowToast() {
   // Render a placeholder spacer always to avoid layout shift; zero-height when dismissed
   return (
     <>
-      <div style={{ height: dismissed ? 0 : TOAST_H, flexShrink: 0 }} />
+      <div data-print="hide" style={{ height: dismissed ? 0 : TOAST_H, flexShrink: 0 }} />
 
       {!dismissed && (
         <>
           {/* ── Toast bar ── */}
           <div
+            data-print="hide"
             style={{
               position: 'fixed', top: 0, left: 0, right: 0, zIndex: 110,
               height: TOAST_H,

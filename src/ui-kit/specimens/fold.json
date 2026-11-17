@@ -1,0 +1,125 @@
+{
+ "number": "56",
+ "name": "Fold",
+ "slug": "fold",
+ "layer": "Organism",
+ "job": "Hold one section closed by default, with a summary line that states its verdict and a grade chip, so the reader can skim every verdict and open only what they need.",
+ "anatomy": [
+  {
+   "part": "Group header",
+   "role": "Mono caps group name (Decide, Evidence, System, Method) and a one-line note on what the group holds",
+   "token": "`text`, `text-secondary`"
+  },
+  {
+   "part": "Fold",
+   "role": "A native `details` on the surface, one hairline border; closed by default",
+   "token": "`surface`, `border`"
+  },
+  {
+   "part": "Title",
+   "role": "h2 in mono caps at the label step, inside the summary",
+   "token": "`text-secondary`, `--fs-label`"
+  },
+  {
+   "part": "Verdict",
+   "role": "Body text: the fold's answer in one line, so a closed fold still says what it found",
+   "token": "`text`"
+  },
+  {
+   "part": "Grade chip",
+   "role": "28 Chip naming the grade or the count it rests on, in its one colour meaning",
+   "token": "plain, `cyan`, `green`, `gold`, `red`"
+  },
+  {
+   "part": "Chevron",
+   "role": "A drawn caret that turns a quarter on open; hidden in print",
+   "token": "`text-secondary`, hover `cyan`"
+  },
+  {
+   "part": "Body",
+   "role": "The evidence: any kit organism or molecule, stacked with a 12px gap",
+   "token": "none"
+  }
+ ],
+ "states": [
+  {
+   "name": "Closed",
+   "args": [
+    false,
+    "100%"
+   ],
+   "note": "The default: title, verdict and chip on one line from a 38rem container."
+  },
+  {
+   "name": "Open",
+   "args": [
+    true,
+    "100%"
+   ],
+   "note": "The summary gains a hairline under it and the chevron turns."
+  },
+  {
+   "name": "Phone width",
+   "args": [
+    false,
+    "20rem"
+   ],
+   "note": "Below 38rem the chip drops under the verdict, left aligned, so the verdict keeps the full line."
+  }
+ ],
+ "use_when": [
+  "A section has a verdict a reader can act on without opening it.",
+  "A page has more than three sections and the reader comes to decide, not to read every word."
+ ],
+ "avoid_when": [
+  "Do not hide the next move in a fold: the first screen must carry it.",
+  "Do not write a summary that only names the section (Signal); it must state the verdict (He was about to build your tool).",
+  "Do not colour the chip for decoration. Colour has one meaning across the kit (arc weld spec 4.3): red a failed check, gold a limit, green proven, cyan an action or focus, plain (steel) unknown, magenta a paradox."
+ ],
+ "data": [
+  {
+   "field": "groups[]",
+   "type": "{name, note, folds[]}",
+   "required": false,
+   "note": "Optional grouping; the recoil-skim order is Decide, Evidence, System, Method."
+  },
+  {
+   "field": "folds[]",
+   "type": "{id, title, verdict, chip, tone, body}",
+   "required": true,
+   "note": "`id` is the anchor a skim row links to; `tone` is the chip colour by its one meaning."
+  }
+ ],
+ "access": [
+  "A native `details` and `summary`: Enter and Space open it, and screen readers announce expanded or collapsed.",
+  "A link to a fold's `id` opens it (the page script sets `open` on hash change).",
+  "The verdict is text, so the fold reads without colour; the chip names its grade in words.",
+  "Print opens every fold (the page script sets `open` before printing); the chevron is hidden in print."
+ ],
+ "built_from": [
+  {
+   "name": "Kit tokens (atoms)",
+   "href": "_tokens.css"
+  },
+  {
+   "name": "28 Chip",
+   "href": "28-chip.html"
+  }
+ ],
+ "used_by": [
+  {
+   "name": "Recoil: Zach x Brian, 2026-11-11 (_ARTIFACTS/recoil-brian-2026-11-11.html), template recoil-skim"
+  }
+ ],
+ "gates": [
+  "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+  "`kit_primitive_sync.py --check`: every page that marks this block carries it line for line.",
+  "`artifact_wrap_lint.py` and `page_gate.py` on every page that carries it; sweep 360 to 1440, including 700 to 1000."
+ ],
+ "links": [
+  "_tokens-light.css",
+  "_kit-sr.css"
+ ],
+ "css": ":root { --fs-label: 0.75rem; --fs-body: 0.9375rem; } /* recoil-skim steps: label 12px, body 15px (arc weld spec 4.3); move into _tokens.css with recoil-token-unify */\n/* composed with, from 28-chip, 32-evidence-ref and 37-fidelity-grain */\n.chip { display: inline-flex; align-items: center; gap: 6px; box-sizing: border-box; height: 22px; padding: 0 10px; border-radius: var(--ds-r-badge, 4px); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; line-height: 1; border: 1px solid var(--border); color: var(--text-secondary); background: transparent; }\n.chip.cyan { color: var(--cyan); border-color: color-mix(in srgb, var(--cyan) 35%, transparent); background: color-mix(in srgb, var(--cyan) 13%, transparent); }\n.chip.green { color: var(--green); border-color: color-mix(in srgb, var(--green) 35%, transparent); background: color-mix(in srgb, var(--green) 13%, transparent); }\n.chip.gold { color: var(--gold); border-color: color-mix(in srgb, var(--gold) 35%, transparent); background: color-mix(in srgb, var(--gold) 13%, transparent); }\n.chip.red { color: var(--red); border-color: color-mix(in srgb, var(--red) 35%, transparent); background: color-mix(in srgb, var(--red) 13%, transparent); }\n.chip.status { gap: 5px; height: auto; padding: 2px 8px; border-radius: var(--ds-r-pill); font-weight: 500; letter-spacing: 0; }\n.chip.status::before { content: \"\"; width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex: none; }\n.ref { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--dimmed); }\n.grain { font-weight: 300; letter-spacing: 0.02em; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E\"); }\n.moire { font-weight: 300; letter-spacing: 0.03em; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.02 0.6' numOctaves='1'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E\"); }\n/* @prim:begin 56-fold */\n.folds { display: flex; flex-direction: column; gap: 8px; }\n.fold-group { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 16px 0 4px; }\n.fold-group:first-child { margin-top: 0; }\n.fold-group-name { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); }\n.fold-group-note { color: var(--text-secondary); }\n.fold { container-type: inline-size; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-sm); }\n.fold > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) 16px; gap: 8px 16px; align-items: center; padding: 16px; }\n.fold > summary::-webkit-details-marker { display: none; }\n.fold > summary::after { content: \"\"; grid-column: 2; grid-row: 1; justify-self: end; width: 8px; height: 8px; border-right: 1.5px solid var(--text-secondary); border-bottom: 1.5px solid var(--text-secondary); transform: rotate(-45deg); transition: transform var(--dur-base) var(--ease-out); }\n.fold[open] > summary::after { transform: rotate(45deg); }\n.fold > summary:hover::after { border-color: var(--cyan); }\n.fold > summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: var(--ds-r-sm); }\n.fold[open] > summary { border-bottom: 1px solid var(--border); }\n.fold-title { display: flex; flex-direction: column; gap: 4px; min-width: 0; }\n.fold-title h2 { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-secondary); }\n.fold-verdict { color: var(--text); }\n.fold > summary .chip { grid-column: 1; grid-row: 2; justify-self: start; }\n@container (min-width: 38rem) { .fold > summary { grid-template-columns: minmax(0, 1fr) auto 16px; } .fold > summary::after { grid-column: 3; } .fold > summary .chip { grid-column: 2; grid-row: 1; justify-self: end; } }\n.fold-body { padding: 16px 16px 20px; display: flex; flex-direction: column; gap: 12px; }\n@media print { .fold > summary::after { display: none; } }\n@media (prefers-reduced-motion: reduce) { .fold > summary::after { transition: none; } }\n/* @prim:end 56-fold */\n",
+ "demo": "function kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar FD={title:'Signal',verdict:'He was about to build your tool',chip:'Grade A',tone:'green',body:'At [80:52] he said he almost built something very similar.'};\nfunction kitFold(host,d,open){var x=document.createElement('details');x.className='fold';if(open)x.open=true;x.innerHTML='<summary><div class=\"fold-title\"><h2>'+kEsc(d.title)+'</h2><span class=\"fold-verdict\">'+kEsc(d.verdict)+'</span></div><span class=\"chip'+(d.tone?' '+d.tone:'')+'\">'+kEsc(d.chip)+'</span></summary><div class=\"fold-body\"><p>'+kEsc(d.body)+'</p></div>';host.appendChild(x);return x}\nvar st=document.createElement('div');st.className='folds';st.innerHTML='<div class=\"fold-group\"><span class=\"fold-group-name\">Evidence</span><span class=\"fold-group-note\">what the decision rests on</span></div>';kSlot().appendChild(st);kitFold(st,FD,false);kitFold(st,{title:'Commitments ledger',verdict:'The ball is with him on times',chip:'7 rows',tone:'',body:'Seven commitments, each with an owner and a source.'},false);\nSTATES.forEach(function(a,i){var b=document.createElement('div');b.style.maxWidth=a[1];kSlot(i).appendChild(b);kitFold(b,FD,a[0])});"
+}

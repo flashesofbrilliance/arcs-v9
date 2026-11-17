@@ -138,6 +138,7 @@ _STATE/jtbd-graph/
 _INBOX/pulse.jsonl
 _INBOX/lattice-drift.jsonl
 _INBOX/seedbank-drift.jsonl
+_INBOX/stale-refresh.jsonl
 
 # ADR/DEWY and surface watchers: ledgers hold snippets of local session text; never commit
 _INBOX/adr-dewy-candidates.jsonl
@@ -149,3 +150,6 @@ _STATE/orphanage-scan.json
 
 # Real pre-call briefs name real people: data and built pages stay local (precall-brief template, 2026-11-06)
 _ARTIFACTS/precall-brief/private/
+
+# recoil_service.py run folders: prints, renders and receipt drafts hold counterpart content (spec N3)
+runtime/recoil/runs/

@@ -64,7 +64,7 @@
         "walkthrough_minutes": 45,
         "work_days": 4
       },
-      "sha256": "0f66a608c139bcefd52085a5a942883aad8c338820f23ef4018cbd78ee4c5d95"
+      "sha256": "80f326960fc2c3a4fe524d8d87db74b6e3069e16e9556195777e1114236669c0"
     },
     "reply.md": {
       "cites": {
@@ -82,7 +82,6 @@
     },
     "step1_tree.json": {
       "cites": {
-        "access_by": "2026-11-09",
         "block_hours": 2,
         "changes_days": 7,
         "fee_step1": 1500,
@@ -93,7 +92,7 @@
         "rate_ff": 125,
         "walkthrough_minutes": 45
       },
-      "sha256": "386979956b0f14525b60b803a13c6c74a2835c621826e4844d2ac5bb79cde458"
+      "sha256": "0692c70ee1f9905d6490856ea9320f71dec07c6cbfe0273b876f8bff0ea1c026"
     }
   },
   "record": "myally-ld-step1"

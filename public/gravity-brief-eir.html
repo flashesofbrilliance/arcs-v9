@@ -1,0 +1,892 @@
+<!doctype html>
+<!-- @arcs-template: tabbed-brief -->
+<!-- @arcs-mode: persuade -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Entrepreneur in Residence · Zach Harris for Gravity Labs</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Newsreader:ital,wght@1,400&display=swap">
+<script>(function(){var d=document.documentElement,s={};try{var r=localStorage.getItem('gravityTheme')||'';s=r.charAt(0)==='{'?JSON.parse(r):(r?{theme:r}:{})}catch(e){}d.setAttribute('data-theme',(s.theme||'light')==='dark'?'dark':'light');var A={font:'data-font',size:'data-size',space:'data-space'};for(var k in A){if(s[k]&&s[k]!=='std')d.setAttribute(A[k],s[k])}})();</script>
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   the ui-kit compounding sweep note for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-badge: 4px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion durations and easing. Defined in DESIGN.md "Motion and safety" (promoted 2026-10-19). */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+
+/* @prim:begin 27-section-label */
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+/* @prim:end 27-section-label */
+/* @prim:begin 28-chip */
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; box-sizing: border-box; height: 22px; padding: 0 10px; border-radius: var(--ds-r-badge, 4px); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; line-height: 1; border: 1px solid var(--border); color: var(--text-secondary); background: transparent; }
+.chip.cyan { color: var(--cyan); border-color: color-mix(in srgb, var(--cyan) 35%, transparent); background: color-mix(in srgb, var(--cyan) 13%, transparent); }
+.chip.green { color: var(--green); border-color: color-mix(in srgb, var(--green) 35%, transparent); background: color-mix(in srgb, var(--green) 13%, transparent); }
+.chip.gold { color: var(--gold); border-color: color-mix(in srgb, var(--gold) 35%, transparent); background: color-mix(in srgb, var(--gold) 13%, transparent); }
+.chip.red { color: var(--red); border-color: color-mix(in srgb, var(--red) 35%, transparent); background: color-mix(in srgb, var(--red) 13%, transparent); }
+.chip.status { gap: 5px; height: auto; padding: 2px 8px; border-radius: var(--ds-r-pill); font-weight: 500; letter-spacing: 0; }
+.chip.status::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex: none; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; }
+/* @prim:end 28-chip */
+/* @prim:begin 31-callout */
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.callout { max-width: var(--measure, 640px); background: var(--gold-bg); border: 1px solid var(--gold); border-radius: var(--ds-r-sm); padding: 12px 16px; color: var(--text-secondary); }
+.callout.red { background: var(--red-bg); border-color: var(--red); }
+.callout b { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-right: 6px; }
+.callout.red b { color: var(--red); }
+/* @prim:end 31-callout */
+/* @prim:begin 45-fact-tile */
+.ftiles-c{container-type:inline-size;min-width:0}
+.ftiles{display:grid;grid-template-columns:minmax(0,1fr);gap:14px 8px;margin:0;padding:0;list-style:none}
+@container (min-width:28rem){.ftiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@container (min-width:54rem){.ftiles.is-4{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.ftiles.is-fit{grid-template-columns:repeat(auto-fit,minmax(min(100%,13.75rem),1fr))}
+.ftile{position:relative;display:grid;grid-row:span 3;grid-template-rows:subgrid;row-gap:0;min-width:0;isolation:isolate}
+.ftile::before{content:"";grid-row:2/4;grid-column:1;border:1px solid var(--border);border-radius:var(--ds-r-sm);background:var(--surface);z-index:-1}
+.ftile-lab{grid-row:1;grid-column:1;padding:0 2px 4px;font-size:.75rem;font-weight:700;line-height:1.2;letter-spacing:.06em;text-transform:uppercase;color:var(--cyan)}
+.ftile-fig{grid-row:2;grid-column:1;padding:12px 14px 0;font-size:var(--fs-headline);font-weight:700;line-height:1.25;font-variant-numeric:tabular-nums;color:var(--text)}
+.ftile-cap{grid-row:3;grid-column:1;padding:6px 14px 12px;color:var(--text-secondary);font-size:.9rem;line-height:1.45;text-wrap:pretty}
+/* @prim:end 45-fact-tile */
+/* @prim:begin 54-signal-ledger */
+.sl{container-type:inline-size;min-width:0;display:flex;flex-direction:column;gap:28px}
+.sl > *{margin:0}
+.sl-group{min-width:0}
+.sl-gh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:0 0 10px;border-bottom:1px solid var(--border)}
+.sl-gh .section-label{margin:0}
+.sl-gn{font-family:var(--ds-font-mono);font-size:var(--fs-label);letter-spacing:.08em;color:var(--text-secondary)}
+.sl-rows{list-style:none;margin:0;padding:0}
+.sl-group.is-judgment .sl-rows{border-left:2px solid var(--gold);padding-left:14px}
+.sl-row{display:grid;grid-template-columns:minmax(0,1fr);gap:6px 20px;align-items:start;padding:14px 0;border-bottom:1px solid var(--border)}
+.sl-row:last-child{border-bottom:0}
+.sl-key{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0}
+.sl-key .chip{flex:none;white-space:nowrap}
+.sl-sig{font-family:var(--ds-font-mono);font-size:var(--fs-body);font-weight:600;letter-spacing:.02em;line-height:1.45;color:var(--text-secondary);min-width:0}
+.sl-ev{margin:0;min-width:0;line-height:1.55;color:var(--text);text-wrap:pretty}
+@container (min-width:38rem){.sl-row{grid-template-columns:minmax(10rem,14rem) minmax(0,1fr)}.sl-key{flex-direction:column;align-items:flex-start}}
+@container (min-width:58rem){.sl-row{grid-template-columns:10rem minmax(9rem,13rem) minmax(0,1fr)}.sl-key{display:contents}.sl-key .chip{justify-self:start}}
+/* @prim:end 54-signal-ledger */
+/* @prim:begin 55-sound-bite */
+.sb{margin:0;padding:2px 0 2px 16px;border-left:2px solid var(--cyan);display:flex;flex-direction:column;gap:12px;min-width:0}
+.sb-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:20px}
+.sb-item{margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+.sb-t{margin:0;font-family:var(--ds-font-display);font-size:var(--fs-headline);line-height:1.4;color:var(--text);text-wrap:pretty}
+.sb-off{color:transparent}
+.sb-t.is-typing .sb-on::after{content:"";display:inline-block;width:.45ch;height:1em;margin-left:1px;vertical-align:-.14em;background:var(--cyan)}
+.sb-by{margin:0;display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;font-family:var(--ds-font-mono);font-size:var(--fs-body);letter-spacing:.02em;color:var(--text-secondary)}
+.sb-by b{color:var(--text);font-weight:700}
+.sb-ctl{display:none;flex-wrap:wrap;align-items:center;gap:8px}
+.sb-src{margin-left:auto;font-family:var(--ds-font-mono);font-size:var(--fs-label);letter-spacing:.06em;color:var(--text-secondary)}
+.sb-btn{min-width:44px;min-height:44px;padding:0 12px;border:1px solid var(--border);border-radius:var(--ds-r-sm);background:var(--surface);color:var(--text);font-family:var(--ds-font-mono);font-size:var(--fs-label);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.sb-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.sb-n{font-family:var(--ds-font-mono);font-size:var(--fs-label);color:var(--text-secondary);min-width:5ch;text-align:center}
+.sb.is-live .sb-ctl{display:flex}
+.sb.is-live .sb-list{display:grid}
+.sb.is-live .sb-item{grid-area:1/1}
+.sb.is-live .sb-item.is-off{visibility:hidden}
+/* @prim:end 55-sound-bite */
+/* @prim:begin 38-wordmark */
+.wordmark { font-family: var(--ds-font-mono); text-transform: uppercase; display: inline-flex; gap: 0.45em; align-items: baseline; max-width: none; }
+.wordmark .wa { color: var(--cyan); font-weight: 800; letter-spacing: 0.22em; }
+.wordmark .wf { color: var(--text-secondary); font-weight: 400; letter-spacing: 0.14em; }
+/* @prim:end 38-wordmark */
+/* @prim:begin 39-theme-toggle */
+:root{color-scheme:dark;}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);color-scheme:light;}}
+:root[data-theme="light"]{--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);color-scheme:light;}
+.themebtn{display:inline-flex;align-items:center;min-height:44px;padding:0;margin:0 0 8px;font:inherit;font-size:var(--fs-body);color:var(--text-secondary);background:none;border:0;cursor:pointer;text-underline-offset:3px;}
+.themebtn:hover,.themebtn:focus-visible{color:var(--cyan);text-decoration:underline;}
+.themebtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
+@media print{:root{--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);color-scheme:light;} .themebtn{display:none!important;} body{background:#fff!important;}}
+/* @prim:end 39-theme-toggle */
+/* @prim:begin 42-shell-nav */
+.shnav { position: relative; display: flex; align-items: center; gap: 24px; min-height: 52px; padding: 0 20px; }
+.shnav-brand { flex: none; font-size: var(--fs-label); }
+.shnav-current { display: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--ds-font-sans); font-size: var(--fs-body); font-weight: 600; color: var(--cyan); }
+.shnav { min-width: 0; }
+.shnav-tabs { display: flex; align-items: stretch; gap: 4px; flex: 1 1 auto; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.shnav-tabs::-webkit-scrollbar { display: none; }
+.shnav-tab { font: inherit; font-family: var(--ds-font-sans); font-size: var(--fs-body); font-weight: 600; color: var(--text-secondary); background: none; border: 0; border-bottom: 3px solid transparent; border-radius: 0; padding: 12px 12px 10px; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; text-decoration: none; cursor: pointer; }
+.shnav-tab:hover { color: var(--text); }
+.shnav-tab[aria-selected="true"], .shnav-tab[aria-current="page"] { color: var(--cyan); border-bottom-color: var(--cyan); }
+.shnav-tab:focus-visible { outline: 2px solid var(--cyan); outline-offset: -2px; border-radius: var(--ds-r-xs); }
+.shnav-pill { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.02em; line-height: 1.4; padding: 2px 8px; border-radius: var(--ds-r-pill); background: var(--surface-2); border: 1px solid var(--border); color: var(--text-secondary); }
+.shnav-menu { display: none; flex: none; margin-left: auto; width: 44px; height: 44px; place-items: center; padding: 0; border: 0; border-radius: var(--ds-r-sm); background: none; color: var(--text); cursor: pointer; }
+.shnav-menu span, .shnav-menu span::before, .shnav-menu span::after { display: block; width: 20px; height: 2px; border-radius: var(--ds-r-xs); background: currentColor; position: relative; transition: transform var(--dur-fast) var(--ease-out); }
+.shnav-menu span::before, .shnav-menu span::after { content: ""; position: absolute; left: 0; }
+.shnav-menu span::before { top: -6px; }
+.shnav-menu span::after { top: 6px; }
+.shnav-menu[aria-expanded="true"] span { background: transparent; }
+.shnav-menu[aria-expanded="true"] span::before { transform: translateY(6px) rotate(45deg); }
+.shnav-menu[aria-expanded="true"] span::after { transform: translateY(-6px) rotate(-45deg); }
+.shnav-menu:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.shnav[data-mode="menu"] { justify-content: space-between; padding: 0 16px; }
+.shnav[data-mode="menu"] .shnav-menu { display: inline-grid; margin-right: -8px; }
+.shnav[data-mode="menu"] .shnav-brand { display: none; }
+.shnav[data-mode="menu"] .shnav-current { display: block; }
+.shnav[data-mode="menu"] .shnav-tabs { display: none; overflow: visible; position: absolute; top: 100%; left: 0; right: 0; z-index: 30; flex-direction: column; align-items: stretch; gap: 0; margin: 0; padding: 6px 0; background: var(--surface); border-bottom: 1px solid var(--border); box-shadow: 0 4px 12px rgba(2, 4, 8, 0.14); }
+.shnav[data-mode="menu"].is-open .shnav-tabs { display: flex; animation: shnav-in var(--dur-fast) var(--ease-out); }
+.shnav[data-mode="menu"] .shnav-tab { justify-content: flex-start; text-align: left; border-bottom: 0; border-radius: 0; padding: 12px 16px; color: var(--text-secondary); }
+.shnav[data-mode="menu"] .shnav-tab:hover { color: var(--text); background: var(--surface-2); }
+.shnav[data-mode="menu"] .shnav-tab[aria-current="true"], .shnav[data-mode="menu"] .shnav-tab[aria-current="page"] { color: var(--cyan); box-shadow: inset 3px 0 0 var(--cyan); }
+.shnav[data-mode="menu"] .shnav-tab:focus-visible { outline-offset: -4px; border-radius: var(--ds-r-sm); }
+@media (min-width: 600px) { .shnav[data-mode="menu"] .shnav-tabs { left: auto; width: 50%; border-left: 1px solid var(--border); border-bottom-left-radius: var(--ds-r-md); } }
+@keyframes shnav-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .shnav-menu span, .shnav-menu span::before, .shnav-menu span::after { transition: none; } .shnav[data-mode="menu"].is-open .shnav-tabs { animation: none; } }
+@media print { .shnav-menu, .shnav-tabs { display: none !important; } }
+/* @prim:end 42-shell-nav */
+/* @prim:begin 51-display-preferences */
+:root[data-font="easy"]{--ds-font-sans:Verdana,Tahoma,"Trebuchet MS",Arial,sans-serif;--ds-font-display:Verdana,Tahoma,"Trebuchet MS",Arial,sans-serif}
+:root[data-font="easy"] *{font-style:normal!important}
+:root[data-size="l"]{font-size:112.5%}
+:root[data-size="xl"]{font-size:125%}
+[data-space="roomy"] :is(p,li,dd,dt,button,summary){letter-spacing:.04em;word-spacing:.14em}
+[data-space="roomy"] :is(p,li,dd,dt){line-height:1.8}
+.dprefs{display:flex;align-items:center;gap:8px;flex:none;margin-left:auto}
+.dprefs-theme{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 16px;font:inherit;font-size:var(--fs-body);font-weight:600;color:var(--text-secondary);border:1px solid var(--border);border-radius:var(--ds-r-pill);background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.14);cursor:pointer}
+.dprefs-theme svg{width:18px;height:18px;flex:none}
+.dprefs-theme[aria-pressed="true"] .dprefs-ttl{color:var(--cyan)}
+.dprefs-trk{position:relative;width:34px;height:20px;border-radius:var(--ds-r-pill);background:var(--border);transition:background var(--dur-base)}
+.dprefs-trk::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform var(--dur-base) var(--ease-out)}
+.dprefs-theme[aria-pressed="true"] .dprefs-trk{background:var(--cyan)}
+.dprefs-theme[aria-pressed="true"] .dprefs-trk::after{transform:translateX(14px)}
+.dprefs-aa{flex:none;width:48px;height:48px;border-radius:var(--ds-r-pill);border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.dprefs-aa:hover,.dprefs-theme:hover{border-color:var(--cyan);color:var(--cyan)}
+.dprefs-aa:focus-visible,.dprefs-theme:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.dprefs-panel{position:fixed;z-index:30;width:min(360px,calc(100vw - 32px));max-height:calc(100dvh - 100px);overflow:auto;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:var(--ds-r-md);padding:16px;box-shadow:0 4px 12px rgba(0,0,0,.14)}
+.dprefs-panel.is-static{position:static;width:auto;max-height:none}
+.dprefs-panel[hidden]{display:none}
+.dprefs-title{margin:0 0 10px;font-weight:700}
+.dprefs-group{margin:0 0 12px}
+.dprefs-label{display:block;color:var(--text-secondary);margin:0 0 4px}
+.dprefs-btns{display:flex;flex-wrap:wrap;gap:6px}
+.dprefs-btns button,.dprefs-actions button{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-sm);padding:0 14px;min-height:44px;cursor:pointer}
+.dprefs-btns button[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-bg);font-weight:700}
+.dprefs-btns button:focus-visible,.dprefs-actions button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.dprefs-actions{display:flex;gap:8px;justify-content:flex-end}
+@media (max-width:520px){.dprefs-ttl{display:none}.dprefs-theme{padding:0 12px}}
+@media (prefers-reduced-motion:reduce){.dprefs-trk,.dprefs-trk::after{transition:none}}
+@media print{.dprefs,.dprefs-panel{display:none!important}}
+/* @prim:end 51-display-preferences */
+/* @prim:begin 52-plan-matrix */
+.pm { display: flex; flex-direction: column; gap: 12px; }
+.pm > * { margin: 0; }
+.pm-src, .pm-note { font-size: var(--fs-body); line-height: 1.55; color: var(--text-secondary); }
+.pm-table { width: 100%; border-collapse: collapse; font-size: var(--fs-body); }
+.pm-table th { text-align: left; font-size: var(--fs-body); font-weight: 600; color: var(--text-secondary); padding: 0 12px 8px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.pm-table td { text-align: left; vertical-align: top; padding: 12px; line-height: 1.5; color: var(--text); border-bottom: 1px solid var(--border); }
+.pm-table td:first-child { font-weight: 600; width: 28%; }
+.pm-table tr:last-child td { border-bottom: 0; }
+.pm-khead { font-size: var(--fs-body); font-weight: 600; line-height: 1.4; color: var(--text); margin-top: 4px; }
+.pm-know { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.pm-k { border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); padding: 12px 14px; }
+.pm-k p { margin: 0; font-size: var(--fs-body); line-height: 1.5; color: var(--text); }
+.pm-k .pm-kl { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 4px; }
+@media (max-width: 599px) { .pm-table thead { display: none; } .pm-table tr { display: block; padding: 12px 0; border-bottom: 1px solid var(--border); } .pm-table tr:last-child { border-bottom: 0; } .pm-table td { display: block; width: auto; padding: 2px 0; border: 0; } .pm-table td:first-child { width: auto; margin-bottom: 4px; } .pm-table td[data-label]:not(:first-child)::before { content: attr(data-label); display: block; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); } }
+/* @prim:end 52-plan-matrix */
+/* @prim:begin 53-cold-read */
+.cr { display: flex; flex-direction: column; gap: 20px; }
+.cr > * { margin: 0; }
+.cr > .callout { max-width: none; }
+.cr > .callout.cr-read { background: var(--surface); border-color: var(--border); }
+.cr > .callout.cr-read b { color: var(--text-secondary); }
+.cr-slots { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 0; }
+.cr-slots dt, .cr-slots dd { margin: 0; padding: 12px 0; border-top: 1px solid var(--border); }
+.cr-slots dt:first-of-type, .cr-slots dt:first-of-type + dd { border-top: 0; padding-top: 0; }
+.cr-slots dt.section-label { margin: 0; padding-right: 28px; line-height: 1.6rem; }
+.cr-slots dd { font-size: var(--fs-body); line-height: 1.6; color: var(--text); }
+.cr-howwrap { border-top: 1px solid var(--border); padding-top: 12px; }
+.cr-how { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+.cr-step { position: relative; display: flex; flex-direction: column; gap: 8px; padding: 16px; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); }
+.cr-step > * { margin: 0; }
+.cr-step .section-label { margin: 0; }
+.cr-when { font-size: var(--fs-body); font-weight: 600; line-height: 1.4; color: var(--text); }
+.cr-what { font-size: var(--fs-body); line-height: 1.5; color: var(--text); }
+@media (max-width: 599px) { .cr-slots { grid-template-columns: minmax(0, 1fr); } .cr-slots dd { border-top: 0; padding-top: 2px; } .cr-slots dt { padding-right: 0; padding-bottom: 0; line-height: 1.4; } .cr-how { grid-template-columns: minmax(0, 1fr); } }
+/* @prim:end 53-cold-read */
+/* tabbed-brief template layer (2026-11-09). Composes kit parts; owns only the frame and the page organisms.
+   Tokens: src/ui-kit/recoil-report/_tokens.css (inlined first) and the kit 39 light remap. No literal colours here.
+   Type ramp, five steps: label 0.6875rem (labels only, never prose) · small 0.875rem · body 1rem · section 1.25rem · display (serif).
+   Breakpoints, two: 600px (phone) and 1024px (tabs). The builder replaces every (min-width: 901px) here and kit 42 data-menu-below with the data's stack_below. */
+html { font-size: 100%; }
+/* hand-tuning tokens (the ?tune sliders move these): body line-height, section rhythm, card gap, letter-spacing */
+:root { --lh: 1.6; --sp-4: 24px; --gap: 12px; --ls: 0em;
+  /* template scales (2026-11-12 polish): line height has three steps, spacing sits on a 4px grid, weight has three steps */
+  --lh-display: 1.2; --lh-head: 1.35; --lh-text: 1.55;
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px;
+  --fw-text: 400; --fw-strong: 600; --fw-bold: 700;
+  --key: 12rem; /* the keyline: one key-column width shared by every two-column molecule (ledger, cold read, tables) */ }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: var(--lh); letter-spacing: var(--ls);
+  padding-block: 32px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  -webkit-font-smoothing: antialiased; }
+a { color: var(--cyan); text-decoration: underline; text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: var(--ds-r-xs); }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+[hidden] { display: none !important; }
+
+/* frame */
+.tb { max-width: 1008px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+.tb-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.dprefs-ttl { display: none; } /* as on MyAlly: icon and track only; aria-label keeps the name */
+.tb-brand { font-size: var(--fs-body); margin-right: auto; }
+.tb-top p { margin: 0; flex: 1 1 320px; font-size: var(--fs-body); color: var(--text-secondary); }
+/* masthead: the author's name, large, at the right end of the tab row */
+.shnav .tb-name { margin: 0 0 0 auto; flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-family: var(--ds-font-mono); white-space: nowrap; color: var(--text); }
+.tb-name-main { font-size: var(--fs-headline); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; line-height: var(--lh-display); }
+.tb-name-sub { font-size: var(--fs-label); font-weight: 600; letter-spacing: 0.04em; color: var(--text-secondary); }
+.tb-name-sub a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.tb-name-sub a:hover { color: var(--cyan); }
+@media (max-width: 599px) { .tb-name-main { font-size: var(--fs-body); letter-spacing: 0.1em; } .tb-name-sub { display: none; } }
+.shnav .tb-name + .shnav-menu { margin-left: 0; }
+.tb-frame { border: 1px solid var(--border); border-radius: var(--ds-r-md); background: var(--bg); }
+.tb-head { position: sticky; top: 0; z-index: 20; border-radius: var(--ds-r-md) var(--ds-r-md) 0 0; }
+.tb-meta { margin: 0; display: flex; flex-wrap: wrap; gap: 2px 22px; padding: 8px 20px; background: var(--surface-2); border-bottom: 1px solid var(--border);
+  border-radius: var(--ds-r-md) var(--ds-r-md) 0 0; }
+.tb-meta div { display: flex; gap: 6px; align-items: baseline; }
+.tb-meta dt { font-size: var(--fs-label); color: var(--text-secondary); }
+.tb-meta dd { margin: 0; font-size: var(--fs-label); font-weight: 600; color: var(--text); }
+.tb-navwrap { background: var(--surface); box-shadow: 0 1px 0 var(--border); }
+.tb-body { padding: var(--s-5) 20px var(--s-6); }
+.tb-pane { display: flex; flex-direction: column; gap: var(--sp-4); }
+.tb-pane > * { margin: 0; }
+
+/* hero */
+.tb-h1 { margin: 0; font-family: var(--ds-font-display); font-weight: 500; font-size: var(--fs-display); line-height: var(--lh-display); letter-spacing: -0.01em; color: var(--text); }
+.tb-h1 .hl { display: block; text-wrap: balance; }
+/* Each headline clause holds one line at every width (Zach's pick B, 2026-11-16): the builder stamps --hl-ch, the
+   longest clause in characters, and the type shrinks with the container so that clause fits. 0.5em per character is
+   Inter 700 at -0.02em tracking (measured 0.45) plus margin. page_gate's one-line check fails if a clause still wraps. */
+.tb-h1[style*="--hl-ch"] { font-size: min(var(--fs-display), calc(100cqi / (var(--hl-ch) * 0.5))); }
+.tb-h1[style*="--hl-ch"] .hl { white-space: nowrap; }
+/* Phone floor (Zach, 2026-11-16): below a 600px lane the shrink would undercut the body text, so each sentence takes
+   its own line and the type stops at --hl-floor. Only at the floor may a sentence wrap (balanced); page_gate's
+   one-line check reads --hl-floor and allows a wrap only there. */
+.tb-h1 { --hl-floor: 24px; }
+@container (max-width: 600px) {
+  .tb-h1[style*="--hs-ch"] { font-size: max(var(--hl-floor), min(var(--fs-display), calc(100cqi / (var(--hs-ch) * 0.5)))); }
+  .tb-h1[style*="--hs-ch"] .hl { white-space: normal; }
+  .tb-h1[style*="--hs-ch"] .hs { display: block; text-wrap: balance; }
+}
+.tb-sub { margin: 0; font-size: var(--fs-headline); font-weight: var(--fw-bold); line-height: var(--lh-head); color: var(--text); text-wrap: balance; }
+.cr-howwrap > .section-label { margin: 0 0 12px; }
+.tb-lede .ln { display: block; }
+.tb-lede .ln + .ln { margin-top: var(--s-2); }
+.tb-lede { margin: 0; font-size: var(--fs-headline); line-height: var(--lh); color: var(--text); text-wrap: pretty; }
+.tb-next { margin: 0; font-size: var(--fs-body); color: var(--text); }
+.tb-next strong { font-weight: 600; }
+/* the call to action: one loud block, mono at display size, inside a heavy ink border */
+.tb-go { display: flex; flex-direction: column; gap: 16px; padding: var(--s-2) 0 var(--s-5); }
+.tb-go > * { margin: 0; }
+.tb-go-h { font-family: var(--ds-font-mono); font-weight: var(--fw-bold); font-size: var(--fs-display); line-height: var(--lh-display); letter-spacing: -0.02em; color: var(--text); }
+.tb-go-t { font-size: var(--fs-body); line-height: var(--lh-text); color: var(--text-secondary); text-wrap: pretty; } /* caption under the actions */
+.tb-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.tb-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 14px; border-radius: var(--ds-r-sm);
+  border: 1px solid var(--border); background: var(--surface); color: var(--cyan); font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; }
+.tb-btn:hover { border-color: var(--cyan); }
+.tb-btn.primary { background: var(--cyan); border-color: var(--cyan); color: var(--surface); }
+.tb-note { margin: 0; flex-basis: 100%; font-size: var(--fs-body); color: var(--text-secondary); }
+.tb-expand { display: flex; justify-content: flex-end; }
+@media (min-width: 901px) { .tb-expand.solo { display: none; } } /* one fold and no stacked seats: nothing to expand */
+
+/* fold sections: a heading that holds a button (the ARIA accordion pattern), a one-line tagline, a body */
+.tb-folds { display: flex; flex-direction: column; }
+.tb-fold { border-top: 1px solid var(--border); padding: var(--s-4) 0; }
+.tb-fold:last-child { border-bottom: 1px solid var(--border); }
+.tb-coldread { display: flex; flex-direction: column; gap: 16px; }
+.tb-coldread > * { margin: 0; }
+.tb-h2 { margin: 0; font-size: var(--fs-headline); font-weight: var(--fw-strong); line-height: var(--lh-head); }
+.tb-fold-btn { width: 100%; display: flex; align-items: flex-start; justify-content: flex-start; gap: 12px; padding: 0; border: 0; background: none;
+  color: var(--text); font: inherit; text-align: left; cursor: pointer; }
+/* chevron as on MyAlly: left of the title, points right when closed, down when open */
+.tb-fold-btn::before { content: ""; flex: none; width: 8px; height: 8px; margin-top: 9px; border-right: 1.5px solid var(--cyan); border-bottom: 1.5px solid var(--cyan);
+  transform: rotate(-45deg); transition: transform var(--dur-base) var(--ease-out); }
+.tb-fold-btn[aria-expanded="true"]::before { transform: rotate(45deg); }
+.tb-fold-btn > span { display: flex; flex-direction: column; }
+.tb-fold-t { display: block; }
+.tb-tag { display: block; margin: 2px 0 0; font-size: var(--fs-body); font-weight: 400; color: var(--text-secondary); }
+.tb-scroll { overflow-x: auto; }
+.tb-scroll:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.tb-fold-body { padding-top: 16px; display: flex; flex-direction: column; gap: 16px; }
+.tb-fold-body > * { margin: 0; }
+
+/* role tab: one head, then units separated by hairline spacers */
+.seat-head { display: flex; flex-direction: column; gap: 12px; padding-bottom: 12px; }
+.seat-h { margin: 0; font-family: var(--ds-font-display); font-weight: 500; font-size: var(--fs-display); line-height: var(--lh-display); }
+.seat-btn { display: flex; align-items: flex-start; justify-content: flex-start; gap: 12px; width: 100%; padding: 0; border: 0; background: none; color: var(--text);
+  font: inherit; text-align: left; cursor: default; }
+.seat-eyebrow { display: none; }
+.seat-name { margin: 0; } /* the seat name above a role page headline (pages mode) */
+.seat-title { font: inherit; text-wrap: balance; }
+.seat-lede { margin: 0 0 var(--sp-4); font-size: var(--fs-headline); line-height: var(--lh); color: var(--text); text-wrap: pretty; }
+.unit { display: flex; flex-direction: column; gap: 12px; padding: var(--sp-4) 0; border-top: 1px solid var(--border); }
+.unit > * { margin: 0; }
+.tb-h3 { margin: 0; font-size: var(--fs-headline); font-weight: var(--fw-strong); line-height: var(--lh-head); color: var(--text); }
+.seat-callouts { display: flex; flex-direction: column; gap: 12px; padding-top: 4px; }
+.seat-callouts .callout { max-width: none; margin: 0; }
+/* below 1024px the tabs fold into the kit 42 menu, every pane shows, and each role becomes a collapsible section */
+.stacked .tb-pane + .tb-pane { margin-top: 0; }
+.stacked .tb-pane.seat { border-top: 1px solid var(--border); padding-top: var(--s-5); margin-top: var(--s-5); }
+.stacked .seat-btn { cursor: pointer; }
+.stacked .seat-btn::before { content: ""; flex: none; width: 8px; height: 8px; margin-top: 11px; border-right: 1.5px solid var(--text-secondary); border-bottom: 1.5px solid var(--text-secondary);
+  transform: rotate(-45deg); transition: transform var(--dur-base) var(--ease-out); }
+.stacked .seat-btn[aria-expanded="true"]::before { transform: rotate(45deg); }
+.stacked .seat-eyebrow { display: flex; align-items: center; gap: 8px; font-size: var(--fs-headline); font-weight: 600; color: var(--text); margin-bottom: var(--s-2); }
+.stacked .seat-h { font-family: var(--ds-font-sans); font-size: var(--fs-headline); font-weight: 600; }
+.stacked .seat-title { display: block; font-size: var(--fs-body); font-weight: 400; color: var(--text-secondary); }
+.stacked .seat-btn > span:first-child { display: flex; flex-direction: column; }
+
+/* tables (prose facts) */
+.tb-table { width: 100%; border-collapse: collapse; font-size: var(--fs-body); }
+.tb-table th { text-align: left; font-size: var(--fs-body); font-weight: 600; color: var(--text-secondary); padding: 0 12px 8px; border-bottom: 1px solid var(--border); }
+.tb-table td { text-align: left; vertical-align: top; padding: 12px; line-height: var(--lh-text); color: var(--text); border-bottom: 1px solid var(--border); }
+.tb-table td:first-child { font-weight: 600; width: 32%; }
+.tb-table tr:last-child td { border-bottom: 0; }
+
+/* cards */
+.tb-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap); } /* one column until tabs show; no orphaned third card */
+@media (min-width: 901px) { .tb-cards { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); } }
+.tb-card { border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); padding: var(--s-4); display: flex; flex-direction: column; gap: var(--s-2); }
+.tb-card > * { margin: 0; }
+.tb-card-t { font-size: var(--fs-body); font-weight: var(--fw-strong); line-height: var(--lh-head); color: var(--text); }
+.tb-card-ref { font-size: var(--fs-body); line-height: var(--lh-text); color: var(--text-secondary); }
+.tb-card p:last-child { font-size: var(--fs-body); line-height: var(--lh-text); color: var(--text); }
+.tb-list { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 8px; }
+.tb-p { margin: 0; font-size: var(--fs-body); line-height: var(--lh); color: var(--text); }
+
+@media (max-width: 599px) {
+  body { padding-block: 16px 48px; }
+  .tb-meta { padding: var(--s-2) var(--s-4); gap: 2px var(--s-4); }
+  .tb-body { padding: var(--s-4) var(--s-4) var(--s-6); }
+  .tb-table thead { display: none; }
+  .tb-table tr { display: block; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .tb-table tr:last-child { border-bottom: 0; }
+  .tb-table td { display: block; width: auto; padding: 2px 0; border: 0; }
+  .tb-table td:first-child { width: auto; margin-bottom: 4px; }
+  .tb-table td[data-label]::before { content: attr(data-label); display: block; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); }
+  .tb-top p { order: 3; flex-basis: 100%; }
+  }
+/* fact tiles as instrument readouts (Field OS): mono figures in signal cyan, tracked mono labels */
+.ftile-fig { font-family: var(--ds-font-mono); color: var(--cyan); letter-spacing: -0.01em; }
+.ftile-lab { font-family: var(--ds-font-mono); letter-spacing: 0.1em; color: var(--text-secondary); }
+/* byline: the author's name under the claim, so the page reads as a person, not a vendor */
+.tb-byline { margin: var(--s-1) 0 var(--s-5); font-family: var(--ds-font-mono); font-size: var(--fs-body); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); }
+/* four fact tiles sit 2x2 on a phone so the first screen reaches the ledger */
+@container (min-width: 18rem) { .ftiles.is-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container (min-width: 54rem) { .ftiles.is-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* the Limit callout fills its lane like its siblings (card_gutter_check) */
+.tb-fold-body .callout { max-width: none; margin: 0; }
+/* callouts inside a tab's units fill the lane too (they stopped at the 640px kit measure, short of their sibling tables and ledgers) */
+.unit .callout { max-width: none; }
+/* seam (2026-11-10): this file ended in a truncated '@media (prefers-reduced-motion) { @media print {' since it was created, which swallowed any rule added after it. Closed here as the reduced-motion rule it was meant to be. */
+@media (prefers-reduced-motion: reduce) { .tb-fold-btn::before, .stacked .seat-btn::before { transition: none; } }
+
+/* the "More recommendations" link clears the 24px touch-target floor (page_gate phone warning) */
+.sb-src a { display: inline-block; padding: var(--s-2) 0; }
+
+/* receipt card (2026-11-12): the page's proof object, one real dated call above the tiles.
+   Judgment, so gold; a dashed rule reads as a perforated ticket, not decoration. */
+.rcpt { margin: var(--s-2) 0 var(--s-3); padding: var(--s-5); border: 1px solid var(--gold); border-radius: var(--ds-r-sm); background: var(--gold-bg); }
+.rcpt-meta { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-4); margin: 0 0 var(--s-3); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; color: var(--text-secondary); }
+.rcpt-meta span:first-child { color: var(--gold); }
+.rcpt-claim { margin: 0; font-size: var(--fs-headline); line-height: var(--lh-head); font-weight: 500; color: var(--text); }
+.rcpt-odds { display: block; margin-bottom: 4px; font-size: var(--fs-display); line-height: var(--lh-display); font-weight: var(--fw-strong); color: var(--text); }
+.rcpt-rows { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 8px; margin: var(--s-4) 0 0; padding-top: var(--s-3); border-top: 1px dashed var(--gold); font-size: var(--fs-body); }
+.rcpt-rows dt { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; color: var(--gold); padding-top: 3px; }
+.rcpt-rows dd { margin: 0; color: var(--text); }
+.rcpt-ask { margin: 0 0 12px; font-size: var(--fs-headline); line-height: var(--lh-text); color: var(--text); }
+.rcpt-mail { display: inline-block; padding: 4px 0; font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--cyan); }
+@media (max-width: 520px) { .rcpt { padding: 16px; } .rcpt-rows dd { margin-bottom: 8px; } }
+
+/* ---- polish layer (2026-11-12): one state set for every control, light and dark, from kit tokens ----
+   Fact-tile type steps: kit 45 ships .75rem and .9rem; the template pins them to the ramp (label, body). */
+.ftile-lab { font-size: var(--fs-label); line-height: var(--lh-display); }
+.ftile-cap { font-size: var(--fs-body); line-height: var(--lh-text); }
+.ftile-fig { line-height: var(--lh-display); }
+/* links: hover and pressed */
+a:hover { text-decoration-thickness: 2px; }
+a:active { color: var(--text); }
+/* buttons: hover, pressed, disabled */
+.tb-btn { transition: border-color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+.tb-btn:hover { background: var(--cyan-bg); }
+.tb-btn.primary:hover { background: var(--cyan); filter: brightness(1.08); }
+.tb-btn:active, .tb-btn[aria-pressed="true"] { background: var(--surface-2); border-color: var(--cyan); }
+.tb-btn.primary:active { background: var(--cyan); filter: brightness(0.92); }
+.tb-btn:disabled, .tb-btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+/* folds and seat heads */
+.tb-fold-btn { border-radius: var(--ds-r-xs); }
+.tb-fold-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.stacked .seat-btn:hover { color: var(--cyan); }
+.stacked .seat-btn:active { color: var(--text-secondary); }
+.seat-btn[aria-disabled="true"] { cursor: default; }
+/* tab bar, menu button, sound-bite and reading-option controls: add the pressed and disabled states kit 42, 55 and 51 do not carry */
+.shnav-tab:active { background: var(--surface-2); }
+.shnav-tab[aria-disabled="true"], .shnav-tab:disabled { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+.shnav-menu:hover { background: var(--surface-2); }
+.shnav-menu:active { background: var(--border); }
+.sb-btn:active { background: var(--surface-2); border-color: var(--cyan); }
+.sb-btn:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.sb-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.dprefs-aa:active, .dprefs-theme:active { background: var(--surface-2); box-shadow: none; }
+.dprefs-aa:disabled, .dprefs-theme:disabled { opacity: 0.45; cursor: not-allowed; }
+.dprefs-btns button:hover, .dprefs-actions button:hover { border-color: var(--cyan); color: var(--cyan); }
+.dprefs-btns button:active, .dprefs-actions button:active { background: var(--surface-2); }
+.dprefs-btns button:disabled, .dprefs-actions button:disabled { opacity: 0.45; cursor: not-allowed; }
+/* ledger rows and tables are read-only: no hover tint, so nothing implies a click. Kit 54 spacing (14px, 6px, 20px) pinned to the 4px grid. */
+.sl-row { padding: var(--s-3) 0; gap: var(--s-2) var(--s-5); }
+@media (prefers-reduced-motion: reduce) { .tb-btn, .tb-fold-btn { transition: none; } }
+
+/* ---- lockup layer (2026-11-12): construction rules for molecules and organisms ----
+   R1 Lane: every organism spans the content lane edge to edge; nothing ends short of its siblings.
+   R2 Keyline: two-column molecules share one key column (--key) and one gutter (--s-5), so every evidence column
+      on a page starts on the same vertical line, and every key starts flush on the lane's left edge (no cell inset).
+   R3 Molecule lockup: a key is one unit (chip over its signal, tight --s-1); the evidence sits beside it, top-aligned.
+      On a phone the key runs inline (chip, then signal) above the evidence.
+   R4 Organism header: label and count share one baseline; no rule under it, because dividers sit between rows only.
+   R5 Rhythm: inside a molecule --s-1/--s-2, between molecules a hairline plus --s-3, between groups --s-6.
+   R6 Tiles: label, figure and caption sit inside one box. */
+/* R2 + R3: signal ledger, two columns at every width above a phone (the kit's third column split the key and left the chip column empty) */
+.sl { gap: var(--s-6); }
+.sl-key { gap: var(--s-1); }
+@container (min-width:58rem) { .sl-key { display: flex; } }
+@container (max-width:37.99rem) { .sl-key { flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: var(--s-2); } }
+/* R4 */
+.sl-gh { padding: 0 0 var(--s-1); border-bottom: 0; }
+/* R2: tables start keys on the lane edge and share the keyline */
+.tb-table th:first-child, .tb-table td:first-child { padding-left: 0; }
+.tb-table th:last-child, .tb-table td:last-child { padding-right: 0; }
+.tb-table td:first-child { width: var(--key); padding-right: var(--s-5); } /* content box is the key; the gutter is its right padding */
+.pm-table th:first-child, .pm-table td:first-child { padding-left: 0; }
+.pm-table th:last-child, .pm-table td:last-child { padding-right: 0; }
+/* R2: cold-read slots on the keyline */
+/* R1: the How steps fill the lane instead of leaving an empty third column */
+.cr-how { grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+/* R6: fact tile, one box for label, figure and caption */
+.ftile::before { grid-row: 1 / 4; }
+.ftile-lab { padding: var(--s-3) var(--s-4) 0; }
+.ftile-fig { padding: var(--s-1) var(--s-4) 0; }
+.ftile-cap { padding: var(--s-1) var(--s-4) var(--s-3); }
+.ftiles { gap: var(--s-2); }
+@media (max-width: 599px) {
+  .tb-table td:first-child { width: auto; }
+}
+
+/* ---- Week One as one organism (2026-11-12): one hairline section like every fold (no nested card), three bands ----
+   Band 1 the strip: gap, do, get read left to right as three columns split by hairlines (one row of evidence).
+   Band 2 the track: the How steps sit on one timeline rule with cyan nodes, not in boxes.
+   Band 3 the footer: how-to-read closes the panel on a hairline, not as a separate grey callout.
+   On a phone the strip stacks and the track turns vertical with the rule on the left. */
+.tb-coldread { gap: 0; padding: var(--s-5) 0 0; border-top: 1px solid var(--border); }
+.tb-coldread > .tb-h2 { margin: 0 0 var(--s-4); }
+.tb-coldread .cr { gap: 0; }
+/* band 1 */
+.tb-coldread .cr-slots { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto; grid-auto-flow: column; column-gap: 0; }
+.tb-coldread .cr-slots dt, .tb-coldread .cr-slots dd { border-top: 0; padding: 0 var(--s-5); }
+.tb-coldread .cr-slots dt.section-label { padding: 0 var(--s-5) var(--s-2); line-height: var(--lh-display); }
+.tb-coldread .cr-slots dd { padding-bottom: 0; line-height: var(--lh-text); text-wrap: pretty; }
+.tb-coldread .cr-slots dt:first-of-type, .tb-coldread .cr-slots dt:first-of-type + dd { padding-left: 0; }
+.tb-coldread .cr-slots dt:not(:first-of-type), .tb-coldread .cr-slots dt:not(:first-of-type) + dd { border-left: 1px solid var(--border); }
+.tb-coldread .cr-slots dt:last-of-type, .tb-coldread .cr-slots dt:last-of-type + dd { padding-right: 0; }
+/* band 2 */
+.tb-coldread .cr-howwrap { margin-top: var(--s-5); padding-top: var(--s-4); border-top: 1px solid var(--border); }
+.tb-coldread .cr-howwrap > .section-label { margin: 0 0 var(--s-3); }
+.tb-coldread .cr-how { position: relative; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: var(--s-5); }
+.tb-coldread .cr-how::before { content: ""; position: absolute; left: 0; right: 0; top: 5px; border-top: 1px solid var(--border); }
+.tb-coldread .cr-step { padding: var(--s-5) 0 0; border: 0; border-radius: 0; background: none; gap: var(--s-1); }
+.tb-coldread .cr-step::before { content: ""; position: absolute; left: 0; top: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 0 3px var(--bg); }
+/* band 3 */
+.tb-coldread .cr > .callout.cr-read { margin-top: var(--s-5); padding: var(--s-4) 0 0; border: 0; border-top: 1px solid var(--border); border-radius: 0; background: none; color: var(--text-secondary); line-height: var(--lh-text); }
+.tb-coldread .cr > .callout.cr-read b { display: block; margin: 0 0 var(--s-1); color: var(--text-secondary); }
+@media (max-width: 599px) {
+  .tb-coldread { padding: var(--s-4) 0 0; }
+  .tb-coldread .cr-slots { grid-template-columns: minmax(0, 1fr); grid-auto-flow: row; }
+  .tb-coldread .cr-slots dt, .tb-coldread .cr-slots dd, .tb-coldread .cr-slots dt.section-label { padding-left: 0; padding-right: 0; border-left: 0; }
+  .tb-coldread .cr-slots dt:not(:first-of-type) { padding-top: var(--s-3); margin-top: var(--s-3); border-top: 1px solid var(--border); }
+  .tb-coldread .cr-how::before { left: 5px; right: auto; top: 0; bottom: 0; border-top: 0; border-left: 1px solid var(--border); }
+  .tb-coldread .cr-step { padding: 0 0 0 var(--s-5); }
+}
+
+/* ---- cohesion pass (2026-11-12, brand-line-producer + impeccable finish review + Zach's fold and quote asks) ----
+   Atoms: ONE label style (mono, label size, uppercase, tracked, secondary); cyan only on links, figures, nodes and active state.
+   Molecules: keys in sans strong, tabular figures; no side stripes; tiles step up in scale.
+   Organisms: folds hang their chevron in the gutter so title, table and ledger edges lock on both sides of the lane.
+   Template: one rhythm, --s-6 body gutter on tablet and up, headline to lede the same on every page. */
+/* atom: label */
+.tb-table th, .pm-table th { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: var(--fw-bold); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); }
+.sl-gn { text-transform: uppercase; letter-spacing: 0.1em; }
+/* molecule: keys */
+.sl-sig { font-family: var(--ds-font-sans); font-size: var(--fs-body); font-weight: var(--fw-strong); letter-spacing: 0; line-height: var(--lh-head); color: var(--text); font-variant-numeric: tabular-nums; }
+.tb-table td:first-child { font-variant-numeric: tabular-nums; }
+/* molecule: no side stripes (the gold chip still marks judgment) */
+.sl-group.is-judgment .sl-rows { border-left: 0; padding-left: 0; }
+/* molecule: fact tile figure steps up a size where the grid has room */
+@media (min-width: 600px) { .ftile-fig { font-size: calc(var(--fs-headline) * 1.5); } }
+/* organism: folds. Chevron hangs in the gutter; title, body, tables share the lane edges left and right */
+@media (min-width: 600px) { .tb-body, .tb-meta { padding-inline: var(--s-6); } }
+.tb-fold-btn, .stacked .seat-btn { margin-inline-start: calc(-8px - var(--s-3)); width: calc(100% + 8px + var(--s-3)); }
+@media (max-width: 599px) { .tb-body { padding-inline: var(--s-5); } .tb-fold-btn, .stacked .seat-btn { gap: var(--s-2); margin-inline-start: calc(-8px - var(--s-2)); width: calc(100% + 8px + var(--s-2)); } }
+.tb-fold { padding: var(--s-5) 0 var(--s-4); }
+.tb-expand .tb-btn { border-color: transparent; background: none; padding-inline: 0; }
+.tb-expand .tb-btn:hover { background: none; text-decoration: underline; text-underline-offset: 3px; }
+/* template: rhythm */
+.seat-head { padding-bottom: 0; }
+/* organism: sound bite. No stripe; display-serif italic quote marks (typographic glyphs in a DESIGN.md face, not drawn icons); quote bigger and bolder; room below */
+.sb { border-left: 0; padding: 0 0 var(--s-5); }
+.sb-t { position: relative; font-size: calc(var(--fs-headline) * 1.3); font-weight: var(--fw-strong); line-height: var(--lh-head); }
+.sb-t::before, .sb-t::after { font-family: var(--ds-font-display); font-style: italic; font-weight: 700; font-size: 2.4em; line-height: 0; color: var(--cyan); vertical-align: -0.42em; }
+.sb-t::before { content: "\201C"; margin-right: 0.08em; }
+.sb-t::after { content: "\201D"; margin-left: 0.04em; }
+.sb-item { gap: var(--s-3); }
+
+/* ---- design-system rulings (Zach, 2026-11-12) ----
+   1. Headlines in Inter semibold, the reference's voice (was the display serif). The quote follows.
+   2. Inter loads from Google Fonts first; SF Pro / system-ui is the fallback.
+   3. Glass with a little dimensionality in both themes: a soft top-lit gradient, a hairline rim, an inset top highlight
+      and a short offset shadow on raised pieces (frame, tiles, cards, controls); chips sit as shallow wells. Tokens only. */
+:root { --ds-font-sans: 'Inter', -apple-system, 'SF Pro Text', system-ui, sans-serif; --ds-font-display: var(--ds-font-sans);
+  --glass: linear-gradient(180deg, var(--surface), color-mix(in srgb, var(--surface) 94%, var(--text)) 56px);
+  --bevel: inset 0 1px 0 color-mix(in srgb, white 70%, transparent), inset 0 -1px 0 color-mix(in srgb, var(--text) 5%, transparent);
+  --lift: 0 1px 2px color-mix(in srgb, var(--text) 7%, transparent), 0 3px 6px -3px color-mix(in srgb, var(--text) 12%, transparent);
+  --well: inset 0 1px 2px color-mix(in srgb, var(--text) 10%, transparent); }
+:root[data-theme="dark"] { --glass: linear-gradient(180deg, color-mix(in srgb, var(--surface) 88%, white), var(--surface) 56px); /* sheen pinned to 56px so tall and short panels match */
+  --bevel: inset 0 1px 0 color-mix(in srgb, white 6%, transparent), inset 0 -1px 0 color-mix(in srgb, black 40%, transparent);
+  --lift: 0 1px 2px color-mix(in srgb, black 40%, transparent), 0 3px 6px -3px color-mix(in srgb, black 55%, transparent);
+  --well: inset 0 1px 3px color-mix(in srgb, black 50%, transparent); }
+.tb-h1, .seat-h { font-family: var(--ds-font-sans); font-weight: var(--fw-strong); letter-spacing: -0.02em; }
+.sb-t { font-family: var(--ds-font-sans); letter-spacing: -0.01em; }
+.sb-t::before, .sb-t::after { font-family: var(--ds-font-sans); font-style: normal; font-weight: var(--fw-bold); }
+/* raised */
+.tb-frame { background: var(--glass); box-shadow: var(--bevel), var(--lift); }
+.tb-frame .tb-body { background: transparent; }
+/* sticky head (myAlly pattern): solid, never see-through; a shadow only once it is stuck */
+.tb-frame .tb-navwrap { background: var(--surface); }
+.tb-head.is-stuck { box-shadow: 0 1px 0 var(--border), 0 6px 12px -8px color-mix(in srgb, black 35%, transparent); }
+.ftile::before { background: var(--glass); box-shadow: var(--bevel), var(--lift); }
+.tb-card { background: var(--glass); } /* inside the raised frame: tinted, not lifted (no card inside a card) */
+.tb-btn, .dprefs-theme, .dprefs-aa, .sb-btn { background: var(--glass); box-shadow: var(--bevel), var(--lift); }
+.tb-btn:active, .dprefs-theme:active, .dprefs-aa:active, .sb-btn:active { box-shadow: var(--well); transform: translateY(1px); }
+.tb-expand .tb-btn { background: none; box-shadow: none; }
+/* wells */
+@media (prefers-reduced-motion: reduce) { .tb-btn:active, .dprefs-theme:active, .dprefs-aa:active, .sb-btn:active { transform: none; } }
+
+/* ---- folds as organisms (2026-11-12, Zach: the folds were weaker than the top half) ----
+   Each fold is a raised glass panel built like the fact tile (surface on a ::before, so it is one box, not a card in a card):
+   hairline rim, radius sm, bevel and lift, chevron header inside. Folds stack with one gap. Inside: ledger groups read as
+   sub-sections, no row counters; dated releases sit on the stepper track; cards inside a fold are flat sections. */
+.tb-folds { gap: var(--s-3); }
+.tb-fold, .tb-fold:last-child { position: relative; isolation: isolate; border: 0; padding: var(--s-4) var(--s-5); }
+.tb-fold::before { content: ""; position: absolute; inset: 0; z-index: -1; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--glass); box-shadow: var(--bevel), var(--lift); }
+.tb-fold-btn, .stacked .seat-btn { margin-inline-start: 0; width: 100%; }
+@media (max-width: 599px) { .tb-fold-btn, .stacked .seat-btn { margin-inline-start: 0; width: 100%; } .tb-fold, .tb-fold:last-child { padding: var(--s-3) var(--s-4); } }
+.tb-fold-body { padding-top: var(--s-4); margin-top: var(--s-4); border-top: 1px solid var(--border); }
+.tb-fold:has(.tb-fold-btn[aria-expanded="false"]) .tb-fold-body { margin-top: 0; }
+.tb-fold .tb-card { background: none; border: 0; border-radius: 0; padding: 0; }
+.tb-fold .tb-card + .tb-card { border-top: 1px solid var(--border); padding-top: var(--s-3); } /* stacked: rules between cards only */
+@media (min-width: 901px) { .tb-fold .tb-card + .tb-card { border-top: 0; padding-top: 0; } } /* side by side: no rule (breakpoint follows stack_below) */
+.tb-fold .sl-group + .sl-group { padding-top: var(--s-4); border-top: 1px solid var(--border); }
+/* timeline molecule: date label over the release, cyan nodes on one rule (the Week One stepper, vertical) */
+.tb-tl { position: relative; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--s-4); }
+.tb-tl::before { content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; border-left: 1px solid var(--border); }
+.tb-tl-i { position: relative; display: flex; flex-direction: column; gap: var(--s-1); }
+.tb-tl-i::before { content: ""; position: absolute; left: 0; top: 2px; width: 11px; height: 11px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 0 3px var(--surface); }
+.tb-tl-d { margin: 0; font-variant-numeric: tabular-nums; }
+.tb-tl-t { margin: 0; line-height: var(--lh-text); text-wrap: pretty; }
+
+.tb-fold-body { container-type: inline-size; }
+/* masthead name in the San Francisco system face (Zach, 2026-11-12); size, weight, caps and tracking unchanged; non-Apple falls back to system-ui */
+.tb-name-main { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif; }
+/* fold header states (2026-11-12): the title keeps --text in every state, so nothing changes colour on toggle or sticks after a tap.
+   Hover tints only the chevron, on fine pointers; focus-visible keeps its outline. */
+.tb-fold-btn::before { transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur-base) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .tb-fold-btn:hover::before { border-color: var(--text); } }
+
+/* quotes back in the kit serif (Zach, 2026-11-13: it stood out more) */
+.sb-t { font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif; }
+.sb-t::before, .sb-t::after { font-family: inherit; }
+
+/* ---- glass picks, second set (Zach, 2026-11-13, option board PR 2227): Header C glow, Stats B glass, Week One C deboss,
+   Folds B glass, Evidence rows A flat. Glass strength 0.75x: every glass alpha below is the 1x value times --k-glass.
+   Stats B and Folds B are the raised glass already set above (tile and fold ::before); evidence rows stay flat. ---- */
+:root { --k-glass: 0.75;
+  --glass: linear-gradient(180deg, var(--surface), color-mix(in srgb, var(--surface) calc(100% - 6% * var(--k-glass)), var(--text)) 56px);
+  --bevel: inset 0 1px 0 color-mix(in srgb, white calc(70% * var(--k-glass)), transparent), inset 0 -1px 0 color-mix(in srgb, var(--text) calc(5% * var(--k-glass)), transparent);
+  --lift: 0 1px 2px color-mix(in srgb, var(--text) calc(7% * var(--k-glass)), transparent), 0 3px 6px -3px color-mix(in srgb, var(--text) calc(12% * var(--k-glass)), transparent);
+  --well: inset 0 1px 2px color-mix(in srgb, var(--text) calc(10% * var(--k-glass)), transparent);
+  --deboss-fill: color-mix(in srgb, var(--surface) 40%, white); /* light: a well sits lighter than its ground (Zach, no exception); the inset shadow carries the sink */
+  --deboss: inset 0 2px 4px color-mix(in srgb, var(--text) calc(14% * var(--k-glass)), transparent), inset 0 -1px 0 color-mix(in srgb, white calc(60% * var(--k-glass)), transparent); }
+:root[data-theme="dark"] {
+  --glass: linear-gradient(180deg, color-mix(in srgb, var(--surface) calc(100% - 12% * var(--k-glass)), white), var(--surface) 56px);
+  --bevel: inset 0 1px 0 color-mix(in srgb, white calc(6% * var(--k-glass)), transparent), inset 0 -1px 0 color-mix(in srgb, black calc(40% * var(--k-glass)), transparent);
+  --lift: 0 1px 2px color-mix(in srgb, black calc(40% * var(--k-glass)), transparent), 0 3px 6px -3px color-mix(in srgb, black calc(55% * var(--k-glass)), transparent);
+  --well: inset 0 1px 3px color-mix(in srgb, black calc(50% * var(--k-glass)), transparent);
+  --deboss-fill: var(--bg);
+  --deboss: inset 0 2px 4px color-mix(in srgb, black calc(60% * var(--k-glass)), transparent), inset 0 -1px 0 color-mix(in srgb, white calc(6% * var(--k-glass)), transparent); }
+
+/* Header: no rim glow (Zach, 2026-11-13: "kill that for dark and light"); the head is solid, divider and stuck shadow only */
+
+/* Week One C: the whole cold-read sits pressed into one well (surface on a ::before, so it is one box, not a card in the frame) */
+.tb-coldread .cr { position: relative; isolation: isolate; padding: var(--s-4) var(--s-5); }
+.tb-coldread .cr::before { content: ""; position: absolute; inset: 0; z-index: -1; border: 1px solid var(--border); border-radius: var(--ds-r-md); background: var(--deboss-fill); box-shadow: var(--deboss); }
+.tb-coldread .cr-step::before { box-shadow: 0 0 0 3px var(--deboss-fill); }
+@media (max-width: 599px) { .tb-coldread .cr { padding: var(--s-3) var(--s-4); } }
+/* stuck at the top of the viewport the head goes square, so no page shows through its corner notches */
+.tb-head.is-stuck, .tb-head.is-stuck .tb-meta { border-radius: 0; }
+/* pull quote attribution sits right, the pull-quote convention (Zach, 2026-11-13) */
+.sb-by { justify-content: flex-end; text-align: right; }
+/* quote under the headline: no extra room below (the pane gap spaces it); on a phone it stays smaller than the headline */
+.sb { padding-bottom: 0; }
+@media (max-width: 599px) { .sb-t { font-size: var(--fs-headline); } }
+
+/* ---- R2 lockup primitive (2026-11-13, root cause of drifting content edges) ----
+   ONE rule lays out every two-column molecule: a key column (--key) and one gutter (--s-5), stacked below a 38rem container.
+   Molecules never write their own column template. A molecule that needs a full-width rule draws it on the row,
+   never by changing the column math. Gate: scripts/keyline_check.mjs (npm test). */
+.tb-body { container-type: inline-size; }
+.tb-tl-d { padding-left: var(--s-5); } /* the dot track lives inside the key column */
+@container (min-width: 38rem) {
+  .sl-row, .cr-slots, .rcpt-rows, .tb-tl-i { display: grid; grid-template-columns: var(--key) minmax(0, 1fr); column-gap: var(--s-5); }
+  .tb-tl-i { align-items: baseline; }
+  .cr-slots dt { position: relative; }
+  .cr-slots dt:not(:first-of-type)::after { content: ""; position: absolute; top: -1px; left: 100%; width: var(--s-5); border-top: 1px solid var(--border); } /* the row rule runs through the gutter */
+}
+@container (max-width: 37.99rem) { .cr-slots { display: grid; grid-template-columns: minmax(0, 1fr); } .tb-tl-i { padding-left: var(--s-5); } .tb-tl-d { padding-left: 0; } }
+.tb-coldread .cr-slots dt::after { content: none; } /* Week One is three bands, not a lockup: no gutter bridge */
+/* Header option B (Zach, 2026-11-13): the quote leads, italic serif in secondary text, then a hairline rule (the pane gap, --sp-4, sets the space above and below), then the headline at 700.
+   The attribution runs at 85% of body size. Secondary text is the AA token, not opacity, so the words stay at full strength. */
+.sb.is-top { padding: 0; }
+.sb.is-top .sb-t { font-family: 'Newsreader', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif; font-style: italic; font-weight: 400; color: var(--text-secondary); }
+.sb.is-top .sb-t::before, .sb.is-top .sb-t::after { font-weight: 400; font-size: 1.8em; vertical-align: -0.32em; } /* lighter marks so they do not outweigh the quote */
+.sb.is-top .sb-by { font-size: calc(var(--fs-body) * 0.85); margin-top: var(--s-2); } /* 0.85x body, about 12.6px, per the style ledger (Zach 2026-11-13); clears the 12px reading floor */
+.tb-hd-rule { border: 0; border-top: 1px solid var(--border); margin: 0; } /* the pane gap (--sp-4, 24px at the default ?tune setting) is the space above and below */
+.tb-hd-rule + .tb-h1 { font-weight: 700; } /* only under bites_at "top"; seam: overrides the 2026-11-12 "Inter semibold" headline ruling for this header, by Zach's option B pick */
+/* @prim:begin 71-proof-lockup */
+.plk { container-type: inline-size; display: grid; gap: var(--sp-2, 16px); margin: 0; min-width: 0; }
+.plk-kick { margin: 0; font-family: 'Newsreader', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif; font-size: var(--fs-body); font-style: italic; font-weight: 400; line-height: 1.5; color: var(--text); text-wrap: pretty; }
+.plk-cells { display: grid; grid-template-columns: minmax(0, 1fr); margin: 0; padding: 0; list-style: none; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--glass, var(--surface)); box-shadow: var(--bevel, 0 0 0 transparent), var(--lift, 0 0 0 transparent); }
+.plk-cell { display: grid; grid-row: span 3; grid-template-rows: subgrid; align-content: start; row-gap: 4px; min-width: 0; padding: 14px 16px; }
+.plk-cell + .plk-cell { border-top: 1px solid var(--border); }
+.plk-lab { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; line-height: 1.2; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); align-self: end; }
+.plk-fig { font-family: var(--ds-font-mono); font-size: var(--fs-headline); font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; color: var(--text); overflow-wrap: anywhere; }
+.plk-cap { font-size: var(--fs-body); line-height: 1.4; color: var(--text-secondary); text-wrap: pretty; }
+.plk-close { margin: 0; font-size: var(--fs-body); font-weight: 600; line-height: 1.5; color: var(--text); text-wrap: pretty; }
+@container (min-width: 30rem) { .plk-cells { grid-template-columns: repeat(2, minmax(0, 1fr)); } .plk-cell + .plk-cell { border-top: 0; } .plk-cell:nth-child(2n) { border-left: 1px solid var(--border); } .plk-cell:nth-child(n+3) { border-top: 1px solid var(--border); } }
+@container (min-width: 48rem) { .plk-cells { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); } .plk-cell:nth-child(n) { border-top: 0; } .plk-cell + .plk-cell { border-left: 1px solid var(--border); } }
+@media print { .plk { break-inside: avoid; } .plk-cells { background: none; box-shadow: none; } }
+/* @prim:end 71-proof-lockup */
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<main class="tb" data-store="gravityTheme" data-default-theme="light" data-pages="1">
+<header class="tb-top"><span class="wordmark tb-brand"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></span><div class="dprefs"><button type="button" class="dprefs-theme" aria-pressed="false" aria-label="Dark mode"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></svg><span class="dprefs-ttl">Dark mode</span><span class="dprefs-trk" aria-hidden="true"></span></button><button type="button" class="dprefs-aa" aria-expanded="false" aria-controls="dprefs" aria-label="Reading options"><span aria-hidden="true">Aa</span></button></div></header>
+<section id="dprefs" class="dprefs-panel" role="dialog" aria-modal="false" aria-labelledby="dprefs-h" hidden><p id="dprefs-h" class="dprefs-title">Reading options</p><div class="dprefs-group" role="group" aria-labelledby="dprefs-font"><span id="dprefs-font" class="dprefs-label">Font</span><span class="dprefs-btns"><button type="button" data-k="font" data-v="std" aria-pressed="true">Standard</button><button type="button" data-k="font" data-v="easy" aria-pressed="false">Easy-read</button></span></div><div class="dprefs-group" role="group" aria-labelledby="dprefs-size"><span id="dprefs-size" class="dprefs-label">Text size</span><span class="dprefs-btns"><button type="button" data-k="size" data-v="std" aria-pressed="true">Standard</button><button type="button" data-k="size" data-v="l" aria-pressed="false">Larger</button><button type="button" data-k="size" data-v="xl" aria-pressed="false">Largest</button></span></div><div class="dprefs-group" role="group" aria-labelledby="dprefs-space"><span id="dprefs-space" class="dprefs-label">Spacing</span><span class="dprefs-btns"><button type="button" data-k="space" data-v="std" aria-pressed="true">Standard</button><button type="button" data-k="space" data-v="roomy" aria-pressed="false">Roomy</button></span></div><div class="dprefs-actions"><button type="button" data-reset>Reset</button><button type="button" data-close>Close</button></div></section>
+<section class="tb-frame" aria-label="Zach Harris for Gravity Labs">
+<div class="tb-head"><dl class="tb-meta"><div class="opt"><dt>Prepared for</dt><dd>The Gravity Labs team</dd></div></dl>
+<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Pages" data-menu-below="901"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs"><a class="shnav-tab" href="/" data-target="pane-ov" aria-current="false">Overview</a><a class="shnav-tab" href="/eir" data-target="pane-eir" aria-current="page">EIR</a><a class="shnav-tab" href="/hats" data-target="pane-hats" aria-current="false">Hats</a><a class="shnav-tab" href="/proof" data-target="pane-proof" aria-current="false">Proof</a><a class="shnav-tab" href="/beliefs" data-target="pane-beliefs" aria-current="false">Beliefs</a></div><p class="tb-name"><span class="tb-name-main">Zach Harris</span><span class="tb-name-sub"><a href="https://app.ens.domains/zachharris.eth">zachharris.eth</a> · <a href="https://zach.md">zach.md</a> · <a href="mailto:zach.harris@gmail.com">zach.harris@gmail.com</a></span></p><button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Go to a page"><span></span></button></nav></div></div>
+<div class="tb-body">
+<div id="pane-eir" class="tb-pane seat">
+<div class="seat-head"><p class="section-label seat-name">Entrepreneur in Residence</p><h1 class="seat-h">One wedge, not a category.</h1></div>
+<div class="seat-body" id="seat-eir-body"><p class="seat-lede">The seat, per your posting: six months to source hatches in DeFi, stablecoins, infrastructure and prediction markets, and find one worth founding.</p>
+<div class="tb-expand"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>
+<div class="tb-folds"><section class="tb-fold" id="eir-30-90-180"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="true" aria-controls="eir-30-90-180-body"><span><span class="tb-fold-t">30 / 90 / 180</span></span></button></h2><div class="tb-fold-body" id="eir-30-90-180-body"><div class="pm"><p class="pm-src">Rows paraphrase the &quot;What You&#x27;ll Do&quot; list on <a href="https://gravity-labs.xyz/jobs-entrepreneur-in-residence.html">your EIR page</a>.</p><table class="pm-table"><thead><tr><th>Your page asks me to</th><th>By day 30</th><th>By day 90</th><th>By day 180</th></tr></thead><tbody><tr><td>Generate and source hatches across crypto: DeFi, stablecoins, infra, prediction markets</td><td data-label="By day 30">30 one-line theses, kill criteria written first</td><td data-label="By day 90">5 one-pagers, at least one in a sector new to the portfolio</td><td data-label="By day 180">The full pass record handed over, rechecked as the market moves</td></tr><tr><td>Take the best ideas from a few sentences to one-pager, memo and IC pitch</td><td data-label="By day 30">A first one-pager</td><td data-label="By day 90">A first memo and committee pitch</td><td data-label="By day 180">The hatch I would found, pitched with its founding plan</td></tr><tr><td>Use the team and advisors as a sounding board, but drive the work</td><td data-label="By day 30">A short weekly written update</td><td data-label="By day 90">Advisor reviews on the top two hatches</td><td data-label="By day 180">A written found-or-walk decision, with reasons</td></tr><tr><td>Spend time with the team and portfolio without being embedded</td><td data-label="By day 30">One working session with each live portfolio company</td><td data-label="By day 90">Help on one question for each, where asked</td><td data-label="By day 180">Not planned</td></tr><tr><td>By month six, one idea worth founding</td><td data-label="By day 30">The top five candidates named</td><td data-label="By day 90">The top two, each with a design partner in conversation</td><td data-label="By day 180">One idea I would found, or a written walk with every kill handed over</td></tr></tbody></table></div></div></section>
+<section class="tb-fold" id="eir-you-ask-i-bring"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="false" aria-controls="eir-you-ask-i-bring-body"><span><span class="tb-fold-t">You Ask, I Bring</span></span></button></h2><div class="tb-fold-body" id="eir-you-ask-i-bring-body" hidden><div class="tb-scroll" tabindex="0" role="region" aria-label="Table 3: You ask for, What I bring"><table class="tb-table"><thead><tr><th>You ask for</th><th>What I bring</th></tr></thead><tbody><tr><td>A senior operator from a strong crypto company</td><td data-label="What I bring">Grayscale, 2024 to 2025: ran 10 SEC and FINRA regulated products, a $7B portfolio.</td></tr><tr><td>A notable swing and miss</td><td data-label="What I bring">ARCS, my live swing: built since 2025, this codebase since 2026-04-09, no revenue yet. If no one pays by 2027-03-31, it stops as a product and stays my working tool.</td></tr><tr><td>Intellectual honesty</td><td data-label="What I bring">My <a href="https://zach.md/proof">proof page</a> lists 37 claims; 28 link to the record, and it names the ones that do not.</td></tr></tbody></table></div></div></section>
+<section class="tb-fold" id="eir-the-wedge"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="false" aria-controls="eir-the-wedge-body"><span><span class="tb-fold-t">The Wedge</span></span></button></h2><div class="tb-fold-body" id="eir-the-wedge-body" hidden><div class="tb-cards"><div class="tb-card"><h3 class="tb-card-t">Receipts for agent spend</h3><p class="tb-card-ref">A hypothesis, not a pitch.</p><p>A stablecoin send has no chargeback, and stablecoin issuers freeze on legal process, not on a customer&#x27;s complaint. Spend rules record what the agent was allowed to do. Nothing records what it expected or whether that came true. That second half is the wedge.</p></div><div class="tb-card"><h3 class="tb-card-t">First user, and why it is not built</h3><p>Treasury or compliance leads at fintechs piloting agent payments. ARCS, the tool I keep calls in, records decisions and flags irreversible ones, but has no payment rails or design partner. Adjacent, and closer to institutions: a decision that has to answer to the firm&#x27;s own policies and data, not only a vendor&#x27;s feed. The record of why a call was allowed is the part I already build. Your stealth agentic payments company may already own this; I would ask first.</p></div><div class="tb-card"><h3 class="tb-card-t">Kill it if</h3><p class="tb-card-ref">Kill rule, written before any calls.</p><p>Fewer than 3 of 15 teams piloting agent payments say that not knowing what the agent expected, checked against what happened, blocks going live.</p></div></div></div></section>
+<section class="tb-fold" id="eir-commit-or-walk"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="false" aria-controls="eir-commit-or-walk-body"><span><span class="tb-fold-t">Commit or Walk</span></span></button></h2><div class="tb-fold-body" id="eir-commit-or-walk-body" hidden><p class="tb-p">I commit when an idea passes the kill criteria I wrote in week one and a named design partner agrees to pilot. If nothing survives by month six, you get the written kills; at your roughly 1 in 30, a written walk is data too.</p></div></section>
+<section class="tb-fold" id="eir-how-this-breaks"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="false" aria-controls="eir-how-this-breaks-body"><span><span class="tb-fold-t">How This Breaks</span></span></button></h2><div class="tb-fold-body" id="eir-how-this-breaks-body" hidden><div class="tb-scroll" tabindex="0" role="region" aria-label="Table 4: Risk, Early signal, What I would do"><table class="tb-table"><thead><tr><th>Risk</th><th>Early signal</th><th>What I would do</th></tr></thead><tbody><tr><td>I spread across too many sectors.</td><td data-label="Early signal">By day 30, no one-pager names a real first user.</td><td data-label="What I would do">Narrow to the two strongest ideas for the rest of the contract.</td></tr><tr><td>My best idea overlaps a stealth company you run.</td><td data-label="Early signal">You flag it at my first one-pager.</td><td data-label="What I would do">Check for overlap before deep work; move on if it collides.</td></tr><tr><td>Month six arrives with nothing I would found.</td><td data-label="Early signal">By day 90, no customer agrees to a pilot conversation.</td><td data-label="What I would do">Say so in writing, hand over every kill and why, and step away.</td></tr></tbody></table></div></div></section></div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<script>function shnavInit(nav, o){o=o||{};var menu=nav.querySelector('.shnav-menu'),list=nav.querySelector('.shnav-tabs'),items=[].slice.call(list.querySelectorAll('.shnav-tab'));var below=+(nav.getAttribute('data-menu-below')||0),mq=below&&window.matchMedia?matchMedia('(max-width:'+(below-1)+'px)'):null;function setCur(b){var c=nav.querySelector('.shnav-current');if(c&&b)c.textContent=(b.childNodes[0]&&b.childNodes[0].textContent||b.textContent).trim()}function isMenu(){return nav.getAttribute('data-mode')==='menu'}function close(f){nav.classList.remove('is-open');menu.setAttribute('aria-expanded','false');if(f)menu.focus()}function open(){nav.classList.add('is-open');menu.setAttribute('aria-expanded','true');(items.filter(function(b){var v=b.getAttribute('aria-current');return v==='true'||v==='page'})[0]||items[0]).focus()}function mode(){var m=o.forceMode||(mq&&mq.matches?'menu':'tabs');nav.setAttribute('data-mode',m);if(o.links){if(m!=='menu')close()}else if(m==='menu'){list.removeAttribute('role');items.forEach(function(b){if(b.hasAttribute('aria-selected'))b.setAttribute('data-sel',b.getAttribute('aria-selected'));b.removeAttribute('aria-selected');b.removeAttribute('role');b.tabIndex=0})}else{close();list.setAttribute('role','tablist');items.forEach(function(b){var s=b.getAttribute('data-sel')||b.getAttribute('aria-selected')||'false';b.setAttribute('role','tab');b.setAttribute('aria-selected',s);b.tabIndex=s==='true'?0:-1})}if(o.onMode)o.onMode(m)}menu.addEventListener('click',function(e){e.stopPropagation();nav.classList.contains('is-open')?close():open()});document.addEventListener('click',function(e){if(isMenu()&&!nav.contains(e.target))close()});nav.addEventListener('keydown',function(e){if(e.key==='Escape'&&nav.classList.contains('is-open')){close(true);return}if(o.links||isMenu()||['ArrowRight','ArrowLeft','Home','End'].indexOf(e.key)<0)return;var i=items.indexOf(document.activeElement);if(i<0)return;e.preventDefault();var n=e.key==='Home'?items[0]:e.key==='End'?items[items.length-1]:items[(i+(e.key==='ArrowRight'?1:items.length-1))%items.length];n.focus();n.click()});items.forEach(function(b){b.addEventListener('click',function(){if(o.links){close();return}if(isMenu()){items.forEach(function(x){x.setAttribute('aria-current',x===b?'true':'false');x.setAttribute('data-sel',x===b?'true':'false')});close()}else{items.forEach(function(x){var on=x===b;x.setAttribute('aria-selected',String(on));x.setAttribute('data-sel',String(on));x.setAttribute('aria-current',String(on));x.tabIndex=on?0:-1})}setCur(b);if(o.onPick)o.onPick(b.getAttribute('data-target'),isMenu())})});if(mq&&mq.addEventListener)mq.addEventListener('change',mode);setCur(items.filter(function(b){var v=b.getAttribute('aria-current');return v==='true'||v==='page'||b.getAttribute('aria-selected')==='true'})[0]||items[0]);mode();return{mode:mode,close:close,setCur:setCur}}</script>
+<script>/* tabbed-brief template behaviour (2026-11-09). Needs kit 42 shnavInit loaded first. Interaction rules: src/ui-kit/tabbed-brief/README.md */
+(function () {
+  var doc = document.documentElement, root = document.querySelector('.tb'), KEY = (root && root.getAttribute('data-store')) || 'tbTheme';
+  var DEF = (root && root.getAttribute('data-default-theme')) === 'dark' ? 'dark' : 'light';
+  var reduce = function () { return matchMedia('(prefers-reduced-motion: reduce)').matches; };
+
+  /* header controls (kit 51): theme switch + reading options, one saved object per page, the page's default theme until the reader picks one */
+  var st = {}; try { var raw = localStorage.getItem(KEY) || ''; st = raw.charAt(0) === '{' ? JSON.parse(raw) : (raw ? { theme: raw } : {}); } catch (e) {}
+  var ATTR = { font: 'data-font', size: 'data-size', space: 'data-space' };
+  var tg = document.querySelector('.dprefs-theme'), aa = document.querySelector('.dprefs-aa'), panel = aa && document.getElementById(aa.getAttribute('aria-controls'));
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
+  function applyPrefs() {
+    var th = st.theme || DEF; doc.setAttribute('data-theme', th === 'dark' ? 'dark' : 'light');
+    for (var k in ATTR) { var v = st[k]; if (v && v !== 'std') doc.setAttribute(ATTR[k], v); else doc.removeAttribute(ATTR[k]); }
+    if (tg) tg.setAttribute('aria-pressed', String(th === 'dark'));
+    if (panel) [].forEach.call(panel.querySelectorAll('button[data-k]'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === (st[b.getAttribute('data-k')] || 'std'))); });
+  }
+  function place() { var r = aa.getBoundingClientRect(), vw = doc.clientWidth; panel.style.top = Math.round(r.bottom + 8) + 'px'; panel.style.right = Math.max(16, Math.min(Math.round(vw - r.right), vw - panel.offsetWidth - 16)) + 'px'; }
+  function openPrefs(o) { panel.hidden = !o; aa.setAttribute('aria-expanded', String(o)); if (o) { place(); (panel.querySelector('button[aria-pressed="true"]') || panel.querySelector('button')).focus(); } else aa.focus(); }
+  if (tg) tg.addEventListener('click', function () { st.theme = (st.theme || DEF) === 'dark' ? 'light' : 'dark'; save(); applyPrefs(); });
+  if (aa && panel) {
+    aa.addEventListener('click', function () { openPrefs(panel.hidden); });
+    panel.addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      if (b.hasAttribute('data-close')) openPrefs(false);
+      else if (b.hasAttribute('data-reset')) { st = {}; save(); applyPrefs(); }
+      else if (b.getAttribute('data-k')) { st[b.getAttribute('data-k')] = b.getAttribute('data-v'); save(); applyPrefs(); }
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) openPrefs(false); });
+    addEventListener('resize', function () { if (!panel.hidden) place(); });
+    addEventListener('scroll', function () { if (!panel.hidden) place(); }, { passive: true });
+  }
+  applyPrefs();
+
+  /* fold sections: button inside the heading toggles its body */
+  function setFold(btn, open) { btn.setAttribute('aria-expanded', String(open)); var b = document.getElementById(btn.getAttribute('aria-controls')); if (b) b.hidden = !open; syncExpand(); }
+  var folds = [].slice.call(document.querySelectorAll('.tb-fold-btn'));
+  folds.forEach(function (b) { b.addEventListener('click', function () { setFold(b, b.getAttribute('aria-expanded') !== 'true'); }); });
+
+  /* role sections: on wide screens a tab shows one; below the breakpoint each role is a fold */
+  var seats = [].slice.call(document.querySelectorAll('.seat-btn'));
+  var stacked = false;
+  function setSeat(btn, open) { btn.setAttribute('aria-expanded', String(open)); var b = document.getElementById(btn.getAttribute('aria-controls')); if (b) b.hidden = !open; syncExpand(); }
+  seats.forEach(function (b) { b.addEventListener('click', function () { if (stacked) setSeat(b, b.getAttribute('aria-expanded') !== 'true'); }); });
+
+  /* expand all: every fold, plus the role sections while they are folds */
+  var ex = document.getElementById('tb-expand');
+  function group() { return folds.concat(stacked ? seats : []); }
+  function syncExpand() { if (!ex) return; var all = group().every(function (b) { return b.getAttribute('aria-expanded') === 'true'; });
+    ex.textContent = all ? 'Collapse all' : 'Expand all'; ex.setAttribute('aria-pressed', String(all)); }
+  if (ex) ex.addEventListener('click', function () { var all = ex.getAttribute('aria-pressed') === 'true';
+    group().forEach(function (b) { (seats.indexOf(b) > -1 ? setSeat : setFold)(b, !all); }); });
+
+  /* jumps: clear the sticky head (meta strip and nav) by 12px; respect reduced motion */
+  var nav = document.querySelector('.tb-head') || document.querySelector('.tb-navwrap');
+  if (nav && window.IntersectionObserver) { var sent = document.createElement('div'); sent.setAttribute('aria-hidden', 'true'); nav.parentNode.insertBefore(sent, nav);
+    new IntersectionObserver(function (es) { nav.classList.toggle('is-stuck', !es[0].isIntersecting); }).observe(sent); }
+  function cover() { return nav ? nav.getBoundingClientRect().height : 0; }
+  function jumpTo(el, how) { if (!el) return; var y = el.getBoundingClientRect().top + scrollY - cover() - 12; scrollTo({ top: Math.max(0, y), behavior: how || (reduce() ? 'auto' : 'smooth') }); }
+  var booting = true; addEventListener('load', function () { setTimeout(function () { booting = false; }, 0); });
+  function setHash(h) { if (booting) return; try { history.replaceState(null, '', h ? '#' + h : location.pathname + location.search); } catch (e) {} }
+
+  /* panes and the kit 42 nav */
+  var panes = [].slice.call(document.querySelectorAll('.tb-pane'));
+  var first = panes[0] ? panes[0].id : '';
+  var cur = first; var h0 = location.hash.slice(1);
+  if (h0 && document.getElementById('pane-' + h0)) cur = 'pane-' + h0;
+  function show(id) { cur = id; panes.forEach(function (p) { p.hidden = p.id !== id; }); }
+  var shnav = document.getElementById('shnav');
+  var pagesMode = !!(root && root.getAttribute('data-pages') === '1'); /* one pane per page: the nav is links, roles never fold */
+  var api = window.shnavInit && shnavInit(shnav, {
+    links: pagesMode,
+    onMode: function (m) {
+      stacked = m === 'menu' && !pagesMode; doc.classList.toggle('stacked', stacked);
+      seats.forEach(function (b) { if (stacked) { b.removeAttribute('aria-disabled'); b.tabIndex = 0; setSeat(b, b.getAttribute('aria-expanded') !== 'false'); }
+        else { b.setAttribute('aria-disabled', 'true'); b.tabIndex = -1; setSeat(b, true); } });
+      if (stacked) panes.forEach(function (p) { p.hidden = false; });
+      else if (!pagesMode) { show(cur); var t = shnav.querySelector('[data-target="' + cur + '"]'); if (t) t.click(); } /* in pages mode a click is a navigation: never synthesize one */
+      syncExpand();
+    },
+    onPick: function (t, isMenu) {
+      if (pagesMode) return;
+      setHash(t === first ? '' : t.replace(/^pane-/, ''));
+      if (!isMenu) { show(t); var body = document.querySelector('.tb-body'); if (body && body.getBoundingClientRect().top < cover()) jumpTo(body, 'auto'); return; }
+      if (t === first) { scrollTo({ top: 0, behavior: reduce() ? 'auto' : 'smooth' }); return; }
+      var p = document.getElementById(t), b = p && p.querySelector('.seat-btn');
+      if (b) setSeat(b, true); jumpTo(p); if (b) b.focus({ preventScroll: true });
+    }
+  });
+
+  /* actions: a tab target or a section target, from data */
+  function openSection(id, how) { var s = document.getElementById(id); if (!s) return; var b = s.querySelector('.tb-fold-btn'); if (b) setFold(b, true); setHash(id); jumpTo(s, how); }
+  [].forEach.call(document.querySelectorAll('[data-go-tab]'), function (a) { a.addEventListener('click', function (e) { e.preventDefault();
+    var t = shnav.querySelector('[data-target="pane-' + a.getAttribute('data-go-tab') + '"]'); if (t) t.click(); }); });
+  [].forEach.call(document.querySelectorAll('[data-go-section]'), function (a) { a.addEventListener('click', function (e) { e.preventDefault(); openSection(a.getAttribute('data-go-section')); }); });
+
+  /* a hash on load: a section, or a role on narrow screens (wide screens already showed the tab) */
+  addEventListener('load', function () { var h = location.hash.slice(1); if (!h) return;
+    if (document.getElementById(h) && document.getElementById(h).classList.contains('tb-fold')) { openSection(h, 'auto'); return; }
+    var p = document.getElementById('pane-' + h); if (p && stacked) { var b = p.querySelector('.seat-btn'); if (b) setSeat(b, true); jumpTo(p, 'auto'); } });
+  addEventListener('beforeprint', function () { panes.forEach(function (p) { p.hidden = false; }); group().forEach(function (b) { (seats.indexOf(b) > -1 ? setSeat : setFold)(b, true); }); });
+  syncExpand();
+})();
+</script>
+</body>
+</html>

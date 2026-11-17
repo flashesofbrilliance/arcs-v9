@@ -232,7 +232,53 @@
       "mcp__Claude_Browser__preview_logs",
       "Bash(python3 scripts/proof_emit.py --check)",
       "Bash(node scripts/resume_static_emit.mjs --check)",
-      "Bash(python3 scripts/belief_blame.py *)"
+      "Bash(python3 scripts/belief_blame.py *)",
+      "Bash(/Users/zharris/.claude/skills/impeccable/scripts/impeccable detect *)",
+      "Bash(/Users/zharris/.claude/skills/impeccable/scripts/impeccable context *)",
+      "Bash(python3 scripts/engagement_render.py --check)",
+      "Bash(python3 scripts/engagement_render.py --self-test)",
+      "Bash(python3 scripts/myally_hub_crawl.py)",
+      "Bash(python3 scripts/myally_hub_crawl.py --unit)",
+      "Bash(python3 scripts/myally_hub_sync.py --check)",
+      "Bash(python3 scripts/myally_primer_terms.py --check)",
+      "mcp__4d6d56fb-d727-457a-833d-2b8bf136e475__search_meetings",
+      "mcp__2b0178fa-6784-466d-8362-2fdd16318cb3__search_events",
+      "mcp__2b0178fa-6784-466d-8362-2fdd16318cb3__list_events",
+      "mcp__1a59c906-04da-521d-bda7-7f71b9f9e01c__read",
+      "mcp__ccd_session_mgmt__get_usage",
+      "Bash(docker info)",
+      "Bash(vercel ls *)",
+      "Bash(mdls *)",
+      "Bash($HOME/.claude/skills/impeccable/scripts/impeccable detect *)",
+      "mcp__perplexity__search",
+      "Bash(python3 scripts/counterpart_onepager_build.py --check)",
+      "Bash(python3 scripts/counterpart_onepager_build.py --check *)",
+      "Bash(python3 scripts/tabbed_brief_build.py --check)",
+      "Bash(python3 scripts/tabbed_brief_build.py --check *)",
+      "Bash(python3 scripts/proposal_build.py --louisville --check)",
+      "Bash(python3 scripts/myally_hub_crawl.py *)",
+      "Bash(python3 scripts/tabbed_brief_build.py --self-test)",
+      "Bash(bash scripts/leak_check.sh)",
+      "Bash(scripts/leak_check.sh)",
+      "Bash(python3 scripts/proposal_lint.py --self-test)",
+      "mcp__ccd_turn__update_plan",
+      "mcp__ccd_turn__wrap_up",
+      "Bash(vercel whoami)",
+      "Bash(vercel domains ls)",
+      "Bash(vercel domains ls *)",
+      "mcp__Claude_Browser__tabs_create",
+      "mcp__Claude_Browser__tabs_select",
+      "mcp__ccd_session__mark_chapter",
+      "mcp__supabase__query_logs",
+      "mcp__19ba8754-b4f4-48bf-af48-1a5034789808__list_projects",
+      "mcp__8545a323-d874-4ccc-9a66-88dcd8fb9f9d__search_files",
+      "mcp__1545da2a-932c-4354-b0b7-941748b30996__list_meetings",
+      "mcp__1545da2a-932c-4354-b0b7-941748b30996__search_meetings",
+      "mcp__e094d483-0653-4524-83a8-d5efbad9e61c__stripe_api_read",
+      "mcp__elevenlabs__creative_get_flow_run_status",
+      "Bash(~/.claude/skills/impeccable/scripts/impeccable context *)",
+      "mcp__Read_and_Write_Apple_Notes__list_notes",
+      "mcp__Read_and_Write_Apple_Notes__get_note_content"
     ],
     "ask": [
       "Bash(git push:*)"
@@ -284,6 +330,35 @@
             "type": "command",
             "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/canon-write-guard.py\"",
             "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/bash32-shape-guard.py\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__Claude_Browser__navigate|mcp__Claude_Browser__browser_batch|mcp__Claude_Browser__preview_start",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/browser-file-url-guard.py\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__claude-in-chrome__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/chrome-tab-guard.py\""
           }
         ]
       }

@@ -1,0 +1,134 @@
+{
+ "number": "52",
+ "name": "Plan Matrix",
+ "slug": "plan-matrix",
+ "layer": "Organism",
+ "job": "Lay out a role plan as duties against time marks, every cell a proposal the reader can edit, with how they would know it is working at each mark.",
+ "anatomy": [
+  {
+   "part": "Source line",
+   "role": "Small, secondary: where the rows come from and that every cell is a proposal",
+   "token": "`text-secondary`"
+  },
+  {
+   "part": "Note",
+   "role": "Optional, small, secondary: one caveat that changes how to read the plan",
+   "token": "`text-secondary`"
+  },
+  {
+   "part": "Table",
+   "role": "Duty column semibold (28%), one column per horizon; body 0.9375rem; hairline rows",
+   "token": "`text`, `border`"
+  },
+  {
+   "part": "Horizon headers",
+   "role": "By day N, one per horizon, from data (any count, any values)",
+   "token": "`text-secondary`"
+  },
+  {
+   "part": "Know strip",
+   "role": "One cell per horizon: a mono label and one sentence on how the reader would know it is working",
+   "token": "`surface`, `border`, label `cyan`"
+  },
+  {
+   "part": "Phone rows",
+   "role": "Below 600px each row stacks: the duty, then each mark with its horizon as a label",
+   "token": "`text-secondary` labels"
+  }
+ ],
+ "states": [
+  {
+   "name": "Three horizons",
+   "args": [
+    [
+     30,
+     90,
+     180
+    ],
+    2
+   ],
+   "note": "The default for a six-month seat."
+  },
+  {
+   "name": "Twelve-month engagement",
+   "args": [
+    [
+     90,
+     180,
+     360
+    ],
+    2
+   ],
+   "note": "Horizons are data, so a longer engagement needs no template change."
+  },
+  {
+   "name": "One duty",
+   "args": [
+    [
+     30,
+     90,
+     180
+    ],
+    1
+   ],
+   "note": "A short plan still reads as a matrix."
+  }
+ ],
+ "use_when": [
+  "A page proposes what someone will do by when, and the reader should be able to edit it.",
+  "The rows come from the reader’s own document (a job page, an RFP, a statement of work)."
+ ],
+ "avoid_when": [
+  "A schedule with dependencies or dates; use a timeline.",
+  "More than five horizons; the columns stop reading on a laptop."
+ ],
+ "data": [
+  {
+   "field": "horizons[]",
+   "type": "numbers",
+   "required": true,
+   "note": "Day marks, one column each, for example 30, 90, 180."
+  },
+  {
+   "field": "rows[][]",
+   "type": "strings",
+   "required": true,
+   "note": "Each row: the duty, then one cell per horizon."
+  },
+  {
+   "field": "know[]",
+   "type": "strings",
+   "required": true,
+   "note": "One sentence per horizon."
+  },
+  {
+   "field": "source, note",
+   "type": "strings",
+   "required": false,
+   "note": "Where the rows come from; one caveat."
+  }
+ ],
+ "access": [
+  "A real `<table>` with `<th>` column headers; screen readers read each cell with its horizon.",
+  "On phones the header row hides and each mark carries its horizon as visible text (`data-label`), so nothing depends on position.",
+  "Static: no interaction, nothing hidden, prints whole."
+ ],
+ "built_from": [
+  {
+   "name": "Kit tokens (atoms)",
+   "href": "_tokens.css"
+  }
+ ],
+ "used_by": [
+  {
+   "name": "tabbed-brief template: public/gravity-brief.html"
+  }
+ ],
+ "gates": [
+  "`scripts/kit_primitive_sync.py --check`: every page that marks this block carries it unchanged.",
+  "`scripts/kit_specimen.py --check`: this page matches its spec.",
+  "`scripts/page_gate.py`, `scripts/token_source_gate.py`, and the Impeccable detector at 0 findings."
+ ],
+ "css": "/* @prim:begin 52-plan-matrix */\n.pm { display: flex; flex-direction: column; gap: 12px; }\n.pm > * { margin: 0; }\n.pm-src, .pm-note { font-size: var(--fs-body); line-height: 1.55; color: var(--text-secondary); }\n.pm-table { width: 100%; border-collapse: collapse; font-size: var(--fs-body); }\n.pm-table th { text-align: left; font-size: var(--fs-body); font-weight: 600; color: var(--text-secondary); padding: 0 12px 8px; border-bottom: 1px solid var(--border); white-space: nowrap; }\n.pm-table td { text-align: left; vertical-align: top; padding: 12px; line-height: 1.5; color: var(--text); border-bottom: 1px solid var(--border); }\n.pm-table td:first-child { font-weight: 600; width: 28%; }\n.pm-table tr:last-child td { border-bottom: 0; }\n.pm-khead { font-size: var(--fs-body); font-weight: 600; line-height: 1.4; color: var(--text); margin-top: 4px; }\n.pm-know { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }\n.pm-k { border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); padding: 12px 14px; }\n.pm-k p { margin: 0; font-size: var(--fs-body); line-height: 1.5; color: var(--text); }\n.pm-k .pm-kl { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 4px; }\n@media (max-width: 599px) { .pm-table thead { display: none; } .pm-table tr { display: block; padding: 12px 0; border-bottom: 1px solid var(--border); } .pm-table tr:last-child { border-bottom: 0; } .pm-table td { display: block; width: auto; padding: 2px 0; border: 0; } .pm-table td:first-child { width: auto; margin-bottom: 4px; } .pm-table td[data-label]:not(:first-child)::before { content: attr(data-label); display: block; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); } }\n/* @prim:end 52-plan-matrix */\n[data-stage], [data-state] { overflow-x: auto; }\n",
+ "demo": "function pm(h,rows,know){var w=document.createElement('div');w.className='pm';var t='<p class=\"pm-src\">Rows paraphrase the duties on the role page. Every cell is a proposal to edit.</p><table class=\"pm-table\"><thead><tr><th>Your page asks me to</th>'+h.map(function(d){return '<th>By day '+d+'</th>'}).join('')+'</tr></thead><tbody>'+rows.map(function(r){return '<tr>'+r.map(function(c,i){return '<td'+(i?' data-label=\"By day '+h[i-1]+'\"':'')+'>'+c+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table><p class=\"pm-khead\">How you would know it is working</p><div class=\"pm-know\">'+know.map(function(k,i){return '<div class=\"pm-k\"><p class=\"pm-kl\">Day '+h[i]+'</p><p>'+k+'</p></div>'}).join('')+'</div>';w.innerHTML=t;return w}\nvar R=[['Generate and validate ideas','30 theses, kill criteria first','5 one-pagers','A steady weekly flow'],['Pitch the committee','A hatch chosen','A hatch pitched','A second pitched']];\nvar K=['Theses you have read.','A hatch in front of the committee.','A founder signed.'];\ndocument.querySelector('[data-stage]').appendChild(pm([30,90,180],R,K));\ndocument.querySelectorAll('[data-state]').forEach(function(el,i){var a=STATES[i];el.appendChild(pm(a[0],R.slice(0,a[1]),K))});"
+}

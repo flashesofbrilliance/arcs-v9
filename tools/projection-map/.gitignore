@@ -1,0 +1,7 @@
+# Private data never enters git: transcripts, manifests, titles, labels, results.
+*
+!.gitignore
+!README.md
+!ACCUMULATION.md
+!PREREGISTRATION-TEMPLATE.md
+!*.py

@@ -28,7 +28,7 @@ Grades: **documented** (public/checkable or verbatim in the record) · **self-re
 |---|---|---|
 | ARCS: MCP server + agentic orchestration on Claude, in production, 2025 to present | documented | record ROLES.arcs; app.arcs.care live, repo private |
 | Grayscale: Product Lead, GTM, 10 SEC/FINRA-regulated products, 2024 to 2025 | documented (title, dates, count) | record ROLES.grayscale |
-| $7B AUM | self-reported | record metric "$7B AUM · regulated product suite" |
+| $7B launched | self-reported | record metric "$7B launched · regulated product suite" |
 | Squat: sole technology partner, seven-figure embedded engagement, $350M ARR client, 2019 to 2020 | self-reported | record CONSULTING_CLIENTS.squat |
 | Twill: 3 AI-enabled lines, go-forward on 2 of 3, 2021 to 2023 | self-reported | record CONSULTING_CLIENTS.twill |
 | Axon: MVP definition for a first-responder OTT platform, 2023 | self-reported | record CONSULTING_CLIENTS.axon |
@@ -46,7 +46,7 @@ Grades: **documented** (public/checkable or verbatim in the record) · **self-re
 
 **Defend (kept):**
 1. "AI-native builder, forward-deployed with clients" headline. Never held the title "Lead, AI Engineering" or any "AI Engineer" title. Answer if asked: the archetype is proven by ARCS (built, shipped, running) and by the embedded engagements, not by a job title.
-2. $7B AUM. Answer: the suite of 10 products the GTM covered; Grayscale's public AUM figure for the period, not a personal P&L.
+2. $7B launched. Answer: the suite of 10 products the GTM covered; capital taken to private and public markets, not AUM, not a personal P&L.
 3. $850K+ and <120ms (WTA), 20% net-new (CTF). Answer: internal figures from those builds, consistent with the role and era, not externally auditable.
 4. Skills not in the record (R, Tableau, Redshift, BigQuery, Salesforce CDP). Answer: used in the CTF/WTA data-layer work; drop any one the moment it cannot be discussed fluently.
 5. "Tool use and function calling" phrasing on the skills line. Answer: this describes what the MCP/agentic orchestration layer does mechanically; if pressed on a specific framework (LangChain, LangGraph, a particular function-calling API), the honest answer is "built directly against Claude's tool-use API, no third-party orchestration framework."

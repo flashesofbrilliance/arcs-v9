@@ -1,0 +1,117 @@
+CCC Intelligent Solutions Inc. (CCC) is a leading cloud platform for the multi-trillion-dollar insurance economy , creating intelligent experiences for insurers, repairers, automakers, part suppliers, and more. At CCC, we’re making life just work by empowering more than 35,000 businesses with industry-leading technology to get drivers back on the road and to health quickly and seamlessly. We’re pushing boundaries with innovative AI solutions that simplify and enhance the claims and repair journey. Through purposeful innovation and the strength of its connections, CCC technologies empower the people and industry relied upon to keep lives moving forward when it matters most. Learn more about CCC at www.cccis.com .
+
+ The Role 
+
+ As a Senior AI Engineer you will own LLM-powered systems and agentic workflows for our customers. These systems automate the routine parts of a claim and guide customers on the rest, so they have to earn that trust with a measured accuracy you can defend as models change and usage grows. Agents run as steps inside deterministic workflows, and privacy and security are design baselines, not review gates. Agentic coding tools are how you move fast. What you add is what they are worst at: system architecture, code quality, security, and the debugging nobody else gets to the bottom of. You own a product area end to end and define the eval bar it ships against.
+
+Salary range is:
+$180,000 - 225,000
+This position is bonus eligible.
+
+ Key Responsibilities: 
+
+ Own the delivery of LLM-powered systems in Python and TypeScript, from an ambiguous customer problem, scoped with product managers and data scientists, through production operation.
+
+ Set the evals and guardrails strategy for your area: what gates a release, what production signals the team watches, and how a change is simulated against historical claims before it ships.
+
+ Raise the bar for how the team works with agentic coding tools: sharpen the specifications, instruction files, hooks, and permission policies they run under, and hold generated code to the same review standard before it merges.
+
+ Design the NLP pipelines that turn unstructured claim data into structured data customers can act on, choosing where semantic search, classical NLP, or an LLM fits.
+
+ Build and operate durable, event-driven, multi-tenant systems in which agents run as steps inside deterministic workflows, designing their failure modes, replay semantics, and cost profile before they show up under load.
+
+ Own tracing and audit for your area: every model call and agent step recorded, so any recommendation can be reconstructed and cited back to its sources by on-call and auditors alike.
+
+ Set the privacy and security baseline every system in your area starts from: tenant isolation, least-privilege access for agents and their tools, redaction, retention, and what data may reach a model provider.
+
+ Author the design documents for complex systems to get feedback and buy-in, review other engineers' designs and code with the same care, and mentor the engineers in your area.
+
+ Take part in a shared on-call rotation for the systems you own.
+
+ Requirements: 
+
+ 6+ years of professional software engineering experience, including an LLM-powered system you architected, shipped to external customers, and carried through at least one model or prompt migration.
+
+ Python and TypeScript at the level of setting a team's conventions: the async model, typing strictness, and test strategy for a shared codebase, plus a performance problem you profiled and fixed.
+
+ An evals and guardrails strategy you set for a product area others built in: where human approval was required, and how production corrections re-entered the evals.
+
+ A clear account of how you constrain an agentic coding tool's context and verify its output, from daily use of Claude Code, Cursor, GitHub Copilot, or similar on production work, plus changes you turned back, and why.
+
+ Pipelines you designed that blend LLMs, semantic search, and classical NLP, including a retrieval design you can defend and a case where a classical technique beat an LLM on cost, latency, or reliability.
+
+ Durable, event-driven systems you designed with deterministic orchestration around non-deterministic model steps: compensating actions, idempotency, backpressure, and event-sourced replay.
+
+ Data modeling and development across relational, document, and graph databases such as PostgreSQL, MongoDB, and Neo4j, including when each type fits and the partition-key, consistency, and tenant-isolation calls you made.
+
+ Systems architected and operated on Azure or AWS, with CI/CD and infrastructure as code, and hands-on time with a durable workflow engine such as Temporal or the Durable Task Scheduler.
+
+ Technical design documents you have authored for systems that span more than one team, used to get feedback and buy-in before building, and that those teams then built to.
+
+ Clear writing and discussion for technical and non-technical audiences: drawing out a customer's real problem and explaining the trade-offs back to them.
+
+ Even Better if You Have: 
+
+ React and TypeScript experience, so you can deliver a full-stack feature end to end, especially chat, streaming, and citation-heavy AI experiences.
+
+ Experience with agent frameworks, LangGraph, PydanticAI, and the Microsoft Agent Framework among them, and with the ways agents reach their tools: the Model Context Protocol (MCP), the Agent2Agent (A2A) protocol, command-line tools, and microservices.
+
+ Experience with LLM observability and evaluation tooling such as LangSmith, Arize, or Braintrust, and with OpenTelemetry-based tracing.
+
+ Experience designing A/B tests for AI features.
+
+ Exposure to the insurance, claims, or automotive repair domains.
+
+ What Success Looks Like: 
+
+ In your first six months, every model change in your area is gated by evals you designed, regressions are caught before a customer sees them, and you can show the accuracy number held or moved.
+
+ You are trusted with the high-stakes, ambiguous problems, and you turn them into a roadmap, a shipped system, and a number you can put in front of a customer.
+
+ You are energized by what agentic coding tools make possible. Your team ships more than its headcount suggests, and your specifications and reviews are why the output survives production.
+
+ You have a passion for systems that last: the ones you design have their failure modes understood in advance, and when one fails anyway, the trace says exactly where.
+
+ Privacy and security reviews of systems in your area find nothing that was not already designed in.
+
+ Standards you set for evals, reviews, and design documents outlive the project they started on.
+
+ Engineers you mentor ship LLM-powered features with evals and guardrails in place without your direct involvement.
+
+ You enjoy getting a product manager, a data scientist, and a customer's team into one room and coming out with a single agreed scope, and you can argue a position without needing to win it.
+
+ You embrace our ambitious, collaborative, and empathetic values, and you like problems where the answer has to be measured rather than argued. 
+
+ Interview Policy &amp; Privacy Notice: 
+
+ A video interview is required for this position. Video interviews are transcribed. Transcriptions are retained and may be reviewed by CCC and our recruiters. Candidates are not permitted to use generative AI or automated assistance during the interviews unless explicitly allowed by the interview team for a specific exercise. Our Job Applicant Privacy Notice is available HERE . 
+
+ About CCC's Commitment to Employees: 
+
+ CCC Intelligent Solutions understands that our employees play an integral role in our vision to shape a world where life just works. Our team is defined by our values of Integrity, Customer-Focus, Innovation, Inclusion &amp; Diversity, Tenacity, and Connection. Through diverse perspectives, purposeful innovation, and the strength of connections, our technologies empower the people and industry relied upon to keep lives moving forward when it matters most.
+
+ At CCC, together everyone can thrive as we innovate and collaborate, creating employee experiences that just work. We are committed to providing opportunities for our people to make real-life impacts, advance in their careers, and contribute to CCC’s success.
+
+ CCC offers competitive compensation and benefits to support you and your families, including:
+
+ 401K Match
+
+ Paid time off
+
+ Annual Incentive Plan Performance Bonus
+
+ Comprehensive health insurance
+
+ Adoption Assistance
+
+ Tuition Reimbursement
+
+ Wellness Programs
+
+ Stock Purchase Plan options
+
+ Employee Resource Groups
+
+ For more information about our benefits, please check out our careers site .
+
+ Here, you belong. You are seen, valued, and respected. We celebrate you for who you are and all you bring. Every voice is heard and is important to our success. You can hear what employees have to say about our culture here

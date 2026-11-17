@@ -1,0 +1,18 @@
+# Evidence ledger. vetted-master = _ARTIFACTS/resume-vico/resume-vico-product-engineer.html; linkedin = Positions.csv export 2025-11-11; skill = resume-tailor-zach overrides.
+{"pattern": "\\$7B", "source": "vetted-master:resume-vico-product-engineer.html:106,139"}
+{"pattern": "35\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html:142 + linkedin:Grayscale"}
+{"pattern": "20\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html:157"}
+{"pattern": "40\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html (Squat +40% qualified leads)"}
+{"pattern": "63\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html (Squat +63% booking success)"}
+{"pattern": "23 points", "source": "vetted-master:resume-vico-product-engineer.html (Squat +23 NPS)"}
+{"pattern": "120\\s?(?:ms|milliseconds)", "source": "vetted-master:resume-vico-product-engineer.html:165"}
+{"pattern": "\\$2M", "source": "vetted-master:resume-vico-product-engineer.html:173"}
+{"pattern": "24 months", "source": "vetted-master:resume-vico-product-engineer.html:173"}
+{"pattern": "\\$4,500\\s?", "source": "vetted-master:resume-vico-product-engineer.html:180"}
+{"pattern": "\\$1M", "source": "vetted-master:resume-vico-product-engineer.html:180"}
+{"pattern": "ten regulated", "source": "vetted-master:10-product regulated launch + linkedin:Grayscale (7 private placements + 3 ETPs)"}
+{"pattern": "four (?:time zones|parallel)", "source": "vetted-master:4 time zones + linkedin:Grayscale four parallel sprints"}
+{"pattern": "three AI-enabled", "source": "vetted-master:Twill 3 lines, go-forward on two"}
+{"pattern": "WCAG 2\\.0", "source": "vetted-master:Squat ADA/WCAG 2.0 + HIPAA"}
+{"pattern": "144A", "source": "linkedin:Grayscale Reg D/Reg S/144A"}
+{"pattern": "2025|2024|2020|2019|2018|2016|2012|2010", "source": "linkedin:Positions.csv dates; Grayscale end and Manana ongoing per skill overrides"}

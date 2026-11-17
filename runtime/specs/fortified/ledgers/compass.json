@@ -1,0 +1,527 @@
+{
+ "spec": "/Users/zharris/Downloads/ARCS_Question_Compass_Signal_Receipts_Spec.md",
+ "lines": 680,
+ "read_fully": true,
+ "claims": [
+  {
+   "id": "C1",
+   "line": 3,
+   "quote": "S-tier Design Spec / PRD / Implementation Plan",
+   "kind": "SELF-GRADE",
+   "verdict": "UNSOURCED-SELF-GRADE",
+   "evidence": "No rubric or grade basis given.",
+   "fix": "Drop the tier label or cite a rubric."
+  },
+  {
+   "id": "C2",
+   "line": 11,
+   "quote": "current implementation ... lacks ... first-class receipt layer",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Receipt model prisma/schema.prisma:75-215 (DEWY, Y gate, lineage, Outcome 443-455); POST /api/compass persists via prisma.receipt.create; /receipt/[receiptId] page; /history.",
+   "fix": "Describe the state of the build at the date checked, not a past build."
+  },
+  {
+   "id": "C3",
+   "line": 39,
+   "quote": "user ... does not receive a visible, structured answer on the same surface",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Not on the same surface by design: dashboard/page.tsx:200-225 router.push to /receipt/<id> (or eph_ id for anonymous). Answer is visible and structured but on /receipt. Commit 730e332d 'kill the receipt preview carousel' removed the inline preview on purpose (dashboard comment lines 187-190).",
+   "fix": "State the actual trade: answer lives on /receipt, one navigation away."
+  },
+  {
+   "id": "C4",
+   "line": 43,
+   "quote": "keyboard shortcut-only behavior breaks the primary action path on mobile",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "src/organisms/CompassForm.tsx:80 has a visible full-width submit Button 'Get True North'; no keyboard shortcut exists at all.",
+   "fix": null
+  },
+  {
+   "id": "C5",
+   "line": 195,
+   "quote": "support keyboard submission through Cmd/Ctrl + Enter",
+   "kind": "DESIGN",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Requirement. Build: no metaKey/ctrlKey handler in CompassForm.tsx or ui/Field.tsx (grep). Enter in textarea inserts a newline; only the button submits. Gap, not a contradiction.",
+   "fix": null
+  },
+  {
+   "id": "C6",
+   "line": 197,
+   "quote": "CTA must be disabled when required input is absent",
+   "kind": "DESIGN",
+   "verdict": "VERIFIED",
+   "evidence": "CompassForm.tsx:80 disabled={running || !question.trim()}",
+   "fix": null
+  },
+  {
+   "id": "C7",
+   "line": 241,
+   "quote": "feel?: clear|murky|stuck|torn ; reversibility?: easy|effort|not_really",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Build intake has only horizon + stakes (dashboard/page.tsx:77-78, HorizonStakesRow.tsx). feel and reversibility are not intake fields. Reversibility is derived: doorClass() route.ts:52-56 and bar.reversibility in model JSON (route.ts:125).",
+   "fix": "Say reversibility is inferred, not asked, unless a chip is re-added."
+  },
+  {
+   "id": "C8",
+   "line": 243,
+   "quote": "horizon: today|this_week|this_quarter|one_to_three_years",
+   "kind": "REPO",
+   "verdict": "VERIFIED",
+   "evidence": "HorizonStakesRow.tsx:12-17 same four values (UPPER_SNAKE); stakes LOW/MEDIUM/HIGH at 19-23 match 244.",
+   "fix": null
+  },
+  {
+   "id": "C9",
+   "line": 256,
+   "quote": "mode: QUICK_MOVE | PLAN | COURT",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Build enum is QUICKMOVE|PLAN|COURT (schema.prisma:122, route.ts:36). Also decision_receipt CHECK uses QUICKMOVE.",
+   "fix": "Use QUICKMOVE."
+  },
+  {
+   "id": "C10",
+   "line": 260,
+   "quote": "CompassResponse: weightedFactors, guardrailStatus, suggestedNextActions, deepenOptions, relatedReceipts",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "src/lib/compass-response.ts is 18 lines (failure helper only). Real response is the receipt JSON: true_north, why, tributaries[3], nci, y_state, reasoning.paths/court (route.ts SYSTEM prompt 80-160). No weightedFactors, deepenOptions or relatedReceipts keys.",
+   "fix": "Name the real contract (route.ts SYSTEM schema) instead."
+  },
+  {
+   "id": "C11",
+   "line": 288,
+   "quote": "status: OPEN | ACTED | REVIEWED | SUPERSEDED",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Build: OPEN | LOGGED | EXPIRED (schema.prisma:202) plus Outcome row (matched, regretScore).",
+   "fix": "Use the build enum or justify the extra states."
+  },
+  {
+   "id": "C12",
+   "line": 299,
+   "quote": "POST /api/question-compass",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Route does not exist (ls src/app/api/question-compass: no such dir). The endpoint is POST /api/compass (src/app/api/compass/route.ts).",
+   "fix": "Rename."
+  },
+  {
+   "id": "C13",
+   "line": 312,
+   "quote": "clarityMode: SIMPLE",
+   "kind": "REPO",
+   "verdict": "VERIFIED",
+   "evidence": "route.ts:193 clarityMode = 'SIMPLE' default; schema.prisma:112.",
+   "fix": null
+  },
+  {
+   "id": "C14",
+   "line": 351,
+   "quote": "/api/receipts GET list, /api/receipts/:id GET",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "src/app/api/receipts has only [receiptId]/outcome, [receiptId]/provenance, ripe, save, studio. Listing is /api/history; detail is /receipt page + /api/brief/[id].",
+   "fix": null
+  },
+  {
+   "id": "C15",
+   "line": 353,
+   "quote": "/api/receipts/:receiptId/outcome POST",
+   "kind": "REPO",
+   "verdict": "VERIFIED",
+   "evidence": "src/app/api/receipts/[receiptId]/outcome/route.ts exists; UI at src/app/debrief/[receiptId].",
+   "fix": null
+  },
+  {
+   "id": "C16",
+   "line": 354,
+   "quote": "/api/question-compass/deepen POST",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "No deepen route. Depth is auto-selected by mode (route.ts:36-41) and by following tributaries (?parent=&tributary= to /dashboard, dashboard/page.tsx:73-85) and /brief.",
+   "fix": null
+  },
+  {
+   "id": "C17",
+   "line": 379,
+   "quote": "QUICK_MOVE: short horizon + low/medium stakes; COURT: high stakes, low reversibility",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "Build route.ts:36-41: HIGH stakes -> COURT; THIS_QUARTER or longer -> COURT; TODAY+LOW -> QUICKMOVE; else PLAN. Long horizon forces COURT regardless of stakes; spec says medium horizon -> PLAN. Heuristic differs from spec.",
+   "fix": "Document the real selectMode."
+  },
+  {
+   "id": "C18",
+   "line": 388,
+   "quote": "IDLE -> TYPING -> QUALIFYING -> READY ... explicit finite states",
+   "kind": "DESIGN",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Build has no state-machine.ts; state is useState booleans (loading, error) in dashboard/page.tsx:67-68. Loading/error/retry exist; EDITING/DEEPENING/RESETTING do not as states.",
+   "fix": null
+  },
+  {
+   "id": "C19",
+   "line": 190,
+   "quote": "placeholder rotation when empty and unfocused",
+   "kind": "DESIGN",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Build uses one static placeholder (CompassForm.tsx:73) plus clickable example tiles shown while empty (lines 98-107). No rotation.",
+   "fix": null
+  },
+  {
+   "id": "C20",
+   "line": 522,
+   "quote": "Loading is visually explicit within 100ms of submit",
+   "kind": "DESIGN",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Build: PipelineTakeover role=status aria-live=polite rendered on running (CompassForm.tsx:95, PipelineTakeover.tsx:21-22). 100ms not measured here.",
+   "fix": null
+  },
+  {
+   "id": "C21",
+   "line": 221,
+   "quote": "ARIA attributes for chip pressed states",
+   "kind": "DESIGN",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Build has no chips; stakes use SegmentedSlider, horizon a Picker. grep aria- in ui/Picker.tsx and ui/SegmentedSlider.tsx returned nothing. Gap to check with page_gate/axe.",
+   "fix": null
+  },
+  {
+   "id": "C22",
+   "line": 138,
+   "quote": "DriftSentinelNotice detects repeated unproductive refinement",
+   "kind": "REPO",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "Spec lists it as a new component (L138) but Phase 5 L585 defers it; the build already computes it: ygate.ts:134-137 session v5+ YELLOW condition, ygate.ts:190-195 driftState, TribunePanel.tsx:127 shows DRIFT. WORLD.md says Drift Sentinel after 5 turns. No landing-action UI on dashboard or receipt page found.",
+   "fix": null
+  },
+  {
+   "id": "C23",
+   "line": 174,
+   "quote": "not three opaque, equal-weight pages ... Zoetrope secondary",
+   "kind": "DESIGN",
+   "verdict": "CONTRADICTED-INTERNALLY",
+   "evidence": "L59 says three surfaces; L176-181 lists four nav items incl. Zoetrope; L96 puts expert surfaces out of MVP scope. Build has no Zoetrope surface in src/app (grep Zoetrope: only token files).",
+   "fix": null
+  },
+  {
+   "id": "C24",
+   "line": 6,
+   "quote": "ARCS local-hosted brief",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "arcs-v9 is Vercel-hosted (AGENTS.md Intent: serves arcs.care, app.arcs.care).",
+   "fix": null
+  },
+  {
+   "id": "C25",
+   "line": 638,
+   "quote": "/apps/arcs-web/src/pages, /services, /types",
+   "kind": "REPO",
+   "verdict": "FALSE",
+   "evidence": "/apps does not exist; repo is Next.js App Router under src/app; orchestration is inline in api/compass/route.ts (699 lines), not nine services.",
+   "fix": null
+  },
+  {
+   "id": "C26",
+   "line": 5,
+   "quote": "[cite:3][cite:23][cite:4][cite:21] source tags",
+   "kind": "EMPIRICAL",
+   "verdict": "UNVERIFIABLE",
+   "evidence": "Citation tags appear on nearly every line (~150) with no bibliography in the file. Cannot resolve [cite:N] to any document. No named papers, statistics or library claims exist, so no web search was warranted.",
+   "fix": "Replace tags with file paths or ADR ids."
+  },
+  {
+   "id": "C27",
+   "line": 27,
+   "quote": "turn a messy decision into one trustworthy next move in under two minutes",
+   "kind": "SELF-GRADE",
+   "verdict": "UNSOURCED-SELF-GRADE",
+   "evidence": "No timing evidence. Build mean runtime: COURT median 17s (route.ts:339 comment) plus user typing; not measured end to end.",
+   "fix": null
+  },
+  {
+   "id": "C28",
+   "line": 426,
+   "quote": "Decision Receipts ... ex-ante accountability, later calibration",
+   "kind": "REPO",
+   "verdict": "VERIFIED",
+   "evidence": "Receipt (schema.prisma:75), Outcome (443), reminderDate/debriefSentAt (203,213), ripe route, debrief page, route.ts:517-520 reminder scheduling.",
+   "fix": null
+  }
+ ],
+ "facets": [
+  {
+   "facet": "Free-text decision question intake",
+   "line": 9,
+   "verdict": "PRESENT",
+   "evidence": "CompassForm.tsx:70-73 textarea 'Decision'; ?q= prefill dashboard/page.tsx:63",
+   "still_earns_place": "yes: core"
+  },
+  {
+   "facet": "Qualifier: stakes",
+   "line": 244,
+   "verdict": "PRESENT",
+   "evidence": "HorizonStakesRow.tsx SegmentedSlider LOW/MEDIUM/HIGH (spec LOW/MED/HIGH match)",
+   "still_earns_place": "yes"
+  },
+  {
+   "facet": "Qualifier: horizon",
+   "line": 243,
+   "verdict": "PRESENT",
+   "evidence": "HorizonStakesRow.tsx Picker, four values match spec",
+   "still_earns_place": "yes"
+  },
+  {
+   "facet": "Qualifier: reversibility (easy/effort/not_really)",
+   "line": 242,
+   "verdict": "BETTER-IN-BUILD",
+   "evidence": "Not asked; inferred as doorClass ONE_WAY/TWO_WAY (route.ts:52-56) and bar.reversibility (schema.prisma:123, route.ts:125). Fewer fields on the front door, and the spec's own 'simple by default' (L75) favours inference.",
+   "still_earns_place": "no: inference serves 'one question, few qualifiers'"
+  },
+  {
+   "facet": "Qualifier: feel (clear/murky/stuck/torn)",
+   "line": 241,
+   "verdict": "MISSING",
+   "evidence": "No feel field in dashboard, CompassForm, route.ts body parse (route.ts:186-199) or schema. Closest: Y-gate conviction inferred by ygate.ts, and PrepSession 'how certain you already are' (/prep).",
+   "still_earns_place": "unsure: the 'how does this feel' signal is cheap to add and feeds conviction, but prep already collects certainty; test before adding"
+  },
+  {
+   "facet": "Qualifiers wrapped as one decision object",
+   "line": 127,
+   "verdict": "PRESENT",
+   "evidence": "dashboard/page.tsx:187-198 single POST body {question,horizon,stakes,sessionId,prepId,parent}; Receipt is the normalized object",
+   "still_earns_place": "yes"
+  },
+  {
+   "facet": "Placeholder rotation (stops on focus)",
+   "line": 190,
+   "verdict": "BETTER-IN-BUILD",
+   "evidence": "Static placeholder plus tappable example tiles and a Meta tributary tile when empty (CompassForm.tsx:98-107); tiles do the teaching job and survive focus.",
+   "still_earns_place": "no"
+  },
+  {
+   "facet": "Visible mobile-safe submit CTA",
+   "line": 195,
+   "verdict": "PRESENT",
+   "evidence": "CompassForm.tsx:80 full-width Button, disabled when empty; useVw responsive",
+   "still_earns_place": "yes"
+  },
+  {
+   "facet": "Cmd/Ctrl+Enter submit",
+   "line": 195,
+   "verdict": "MISSING",
+   "evidence": "No key handler in CompassForm/Field (only ReflectLayer.tsx:1049 has one for annotations).",
+   "still_earns_place": "yes: one-line keydown for desktop speed; low risk"
+  },
+  {
+   "facet": "Loading / thinking state",
+   "line": 199,
+   "verdict": "PRESENT",
+   "evidence": "PipelineTakeover (role=status aria-live=polite) CompassForm.tsx:95; button text 'Reading the terrain...'",
+   "still_earns_place": "yes"
+  },
+  {
+   "facet": "Inputs disabled while loading",
+   "line": 201,
+   "verdict": "MISSING",
+   "evidence": "Only the button is disabled (CompassForm.tsx:80); textarea, picker and slider stay editable while running.",
+   "still_earns_place": "unsure: harmless since run reads state at submit, but edits mid-run mislead"
+  },
+  {
+   "facet": "Inline answer on same page",
+   "line": 203,
+   "verdict": "DROPPED-ON-PURPOSE",
+   "evidence": "Dashboard routes to /receipt/<id> (dashboard/page.tsx:187-190 comment: Zach toolbar feedback, receipt page is canonical). Commit 730e332d 'kill the receipt preview carousel' (reverts 3d03cc46).",
+   "still_earns_place": "no: Zach decided"
+  },
+  {
+   "facet": "Answer structure: move / why / signal / mode / receipt",
+   "line": 113,
+   "verdict": "BETTER-IN-BUILD",
+   "evidence": "True North + why bullets + tributaries[3] + Loki + BAR + NCI + Y state + path cards (ResultView.tsx, TerrainPaths), rendered at earned fidelity by Y state (WORLD.md render scale).",
+   "still_earns_place": "no"
+  },
+  {
+   "facet": "Signal as separate surface (weighted factors)",
+   "line": 134,
+   "verdict": "BETTER-IN-BUILD",
+   "evidence": "Spec's weightedFactors replaced by Y gate 12-condition list (ygate.ts yConditions) and NCI by five lenses (schema nciByLens 91). Factors shown as conditions with severity, not three-level weights.",
+   "still_earns_place": "no"
+  },
+  {
+   "facet": "Mode selection QUICK_MOVE/PLAN/COURT and badge",
+   "line": 365,
+   "verdict": "PRESENT",
+   "evidence": "selectMode route.ts:36-41, mode on Receipt schema.prisma:122, model routing per mode route.ts:340-345. Heuristic differs (C17).",
+   "still_earns_place": "yes"
+  },
+  {
+   "facet": "Guardrail status with plain-language reason",
+   "line": 367,
+   "verdict": "PRESENT",
+   "evidence": "Court checks PASS/TENSION/BLOCK with verdict (route.ts:84, 131-135, ResultView.tsx:112-138), Y gate RED/FORK, fidelityHeader; override fields yOverride* in schema:171-173 (not exposed in UI by grep of dashboard/receipt)",
+   "still_earns_place": "yes"
+  },
+  {
+   "facet": "User override path when guardrail triggers",
+   "line": 79,
+   "verdict": "MISSING",
+   "evidence": "yOverride/yOverrideAt/yOverrideNote exist in schema.prisma:171-173 and are only defaulted in ygate.ts:51; no route or UI writes them (grep).",
+   "still_earns_place": "yes: WORLD.md and ROM Write-Lock make declared override load-bearing; wire or drop the columns"
+  },
+  {
+   "facet": "Automatic receipt on every successful run",
+   "line": 207,
+   "verdict": "PRESENT",
+   "evidence": "prisma.receipt.create in route.ts; anonymous runs deliberately ephemeral (route.ts:447, /trust)",
+   "still_earns_place": "yes"
+  },
+  {
+   "facet": "Receipt ID, timestamp, mode, status shown on result",
+   "line": 430,
+   "verdict": "PRESENT",
+   "evidence": "ARCS-ORIENT-<iso>-<hash> receiptId (schema:87), createdAt, mode, status OPEN; receipt page /receipt/[receiptId]",
+   "still_earns_place": "yes"
+  },
+  {
+   "facet": "Receipt list / history",
+   "line": 548,
+   "verdict": "PRESENT",
+   "evidence": "src/app/history/page.tsx, GET /api/history; lineage children rendered (history:210)",
+   "still_earns_place": "yes"
+  },
+  {
+   "facet": "Receipt detail reopenable without session",
+   "line": 557,
+   "verdict": "PRESENT",
+   "evidence": "/receipt/[receiptId]/page.tsx loads by id; brief /brief/[id]; ephemeral eph_ ids stay browser-local by trust contract",
+   "still_earns_place": "yes"
+  },
+  {
+   "facet": "Outcome capture after the fact",
+   "line": 229,
+   "verdict": "PRESENT",
+   "evidence": "Outcome model (schema:443), POST /api/receipts/[id]/outcome, /debrief/[id], reminder email scheduling route.ts:517, ripe nudge on dashboard (dogfood-gated, dashboard:119-129). Backlog row outcome-capture-rate-keel-gap DONE.",
+   "still_earns_place": "yes"
+  },
+  {
+   "facet": "Status states OPEN/ACTED/REVIEWED/SUPERSEDED",
+   "line": 288,
+   "verdict": "BETTER-IN-BUILD",
+   "evidence": "OPEN/LOGGED/EXPIRED plus Outcome.matched and regretScore give a calibration signal the spec lacks; lineage version/parentId supersedes via follow-up.",
+   "still_earns_place": "no"
+  },
+  {
+   "facet": "Estimated vs actual reflection loop",
+   "line": 444,
+   "verdict": "PRESENT",
+   "evidence": "Outcome.matched + regretScore + learning; Accountant cohorts per AGENTS.md; debrief card molecule",
+   "still_earns_place": "yes"
+  },
+  {
+   "facet": "Related / prior receipts surfaced (ReceiptLinker)",
+   "line": 371,
+   "verdict": "MISSING",
+   "evidence": "Only structural lineage (parentId/children, sessionId). No topical similarity link, no 'compare with prior' action. grep relatedReceipts: none.",
+   "still_earns_place": "unsure: valuable once receipt count grows; lineage covers follow-ups only"
+  },
+  {
+   "facet": "Receipt clustering by domain/pattern",
+   "line": 445,
+   "verdict": "MISSING",
+   "evidence": "Observatory and atlas read receipts, but no cluster/pattern grouping in compass, history or receipt pages (not checked beyond these).",
+   "still_earns_place": "unsure: out of the compass scope; belongs to observatory"
+  },
+  {
+   "facet": "Refine / edit and resubmit keeping context",
+   "line": 211,
+   "verdict": "BETTER-IN-BUILD",
+   "evidence": "Tributary follow-up: ?parent=<id>&tributary=<0|1|2> re-runs with lineage, session thread kept (dashboard:73-85, route.ts parent handling, schema parentTributaryIndex). Plain edit-in-place on the result is not offered.",
+   "still_earns_place": "no"
+  },
+  {
+   "facet": "Deepen path (go deeper, alternatives, Court view)",
+   "line": 215,
+   "verdict": "BETTER-IN-BUILD",
+   "evidence": "Depth auto-scales by mode (COURT on Sonnet 5.5, route.ts:340-345), Court/paths tabs on result, Brief generation (/api/brief), Guide (/api/guide), prep calibration button 'Add context' (CompassForm:84-91). No explicit 'run Court' button.",
+   "still_earns_place": "no: auto-escalation is the spec's own principle at L76"
+  },
+  {
+   "facet": "Drift Sentinel notice with landing action",
+   "line": 138,
+   "verdict": "PRESENT",
+   "evidence": "ygate.ts:134-137,190-195 flags v5+ with 'land the plane or keep exploring?'; TribunePanel shows DRIFT. Landing-action UI on the result not found.",
+   "still_earns_place": "yes: surface the v5 prompt where the user is, not only in the Tribune panel"
+  },
+  {
+   "facet": "Error state with retry",
+   "line": 399,
+   "verdict": "PRESENT",
+   "evidence": "CompassError(message,onRetry) dashboard:207; compassFailure() compass-response.ts; 429 rate limit route.ts:166-170; 409 session_reassigned retry dashboard:158; 'Your fork is held. Nothing was lost.' copy",
+   "still_earns_place": "yes"
+  },
+  {
+   "facet": "Empty state / first-run guidance",
+   "line": 103,
+   "verdict": "PRESENT",
+   "evidence": "Example tiles when question empty (CompassForm.tsx:98); anonymous bearings explained on /receipt (receipt page:70)",
+   "still_earns_place": "yes"
+  },
+  {
+   "facet": "Persistence and transport-failure recovery",
+   "line": 229,
+   "verdict": "BETTER-IN-BUILD",
+   "evidence": "pollForRecoveredReceipt over /api/history (dashboard:28-52, proven in prod 2026-09-24) plus truncation/garble guards (route.ts:390-418); spec has no recovery story.",
+   "still_earns_place": "no"
+  },
+  {
+   "facet": "Accessibility: keyboard, focus, ARIA, touch targets",
+   "line": 221,
+   "verdict": "MISSING",
+   "evidence": "Only role=status on loader and role=alert on sign-in error; no aria-pressed/radio semantics found in Picker or SegmentedSlider by grep; not audited with axe here. page_gate matrix exists as a repo gate.",
+   "still_earns_place": "yes: run page_gate --matrix on /dashboard before assuming"
+  },
+  {
+   "facet": "Responsive 375/768/1280",
+   "line": 225,
+   "verdict": "PRESENT",
+   "evidence": "useVw hook and container-query clamp in CompassForm.tsx; repo gate page_gate checks widths. Not re-measured in this pass.",
+   "still_earns_place": "yes"
+  },
+  {
+   "facet": "Zoetrope deep-simulation nav",
+   "line": 181,
+   "verdict": "DROPPED-ON-PURPOSE",
+   "evidence": "Spec itself marks it secondary/out of MVP (L95-96). No Zoetrope surface in src/app; Observatory (WORLD.md) occupies the slot.",
+   "still_earns_place": "no"
+  },
+  {
+   "facet": "Persona/metrics instrumentation (success metrics)",
+   "line": 527,
+   "verdict": "MISSING",
+   "evidence": "Spec states no KPI beyond <2min and 100ms; build has track('compass_run', {campaign}) only when utm_campaign set (dashboard:131) and Vercel analytics. No time-to-answer metric.",
+   "still_earns_place": "unsure: the spec names the JTBD <2 minutes yet nothing measures it; one event pair would do"
+  }
+ ],
+ "weak_joints": [
+  "Endpoint and schema names (L299, L256, L288, L351-354, L638) describe a system that was never built under those names; building from them would fork the contract.",
+  "The 'no inline answer / no receipt layer' premise (L11, L39) is stale: receipts, outcomes, history and lineage exist; the real gap is a declared override path and a visible drift landing action.",
+  "All 150 [cite:N] tags have no bibliography, so no line is traceable to a source."
+ ],
+ "summary": {
+  "VERIFIED": 5,
+  "FALSE": 13,
+  "UNVERIFIABLE": 6,
+  "CONTRADICTED-INTERNALLY": 2,
+  "UNSOURCED-SELF-GRADE": 2,
+  "DESIGN": 0,
+  "note": "28 claims logged, 0 skipped of the load-bearing set; DESIGN items are verdicted individually above. Zero EMPIRICAL claims beyond opaque [cite:N] tags, so no web checks. Grading against the build was NOT the goal (Zach: build has moved past spec); FALSE means the spec statement does not match the repo today. Spec is also committed at runtime/specs/ARCS_Question_Compass_Signal_Receipts_Spec.md, byte-identical (7b3dc358)."
+ }
+}

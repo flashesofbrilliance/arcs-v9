@@ -1,7 +1,7 @@
 {
   "_about": "Source of truth for resume.arcs.care/proof and /proof/claims.json. Rendered by scripts/proof_emit.py; never edit public/proof.html or public/proof-claims.json by hand. Every claim carries a status: shown (a public record anyone can open), on-request (a real record that is private: employer data or the private repo; references available), not-yet (no record yet). A claim with status shown must carry a url. Falsification entries are read by id from _STATE/falsification-ledger.jsonl.",
   "subject": "Zach Harris",
-  "as_of": "2026-11-03",
+  "as_of": "2026-11-16",
   "profile": "https://zach.md",
   "same_as": [
     "https://www.linkedin.com/in/zharris",
@@ -31,16 +31,16 @@
         },
         {
           "id": "commits",
-          "claim": "5,700+ commits on main since April 2026, counted live.",
+          "claim": "7,100+ commits on main since April 2026, counted live.",
           "status": "shown",
-          "evidence": "Live pulse JSON from the production app: commitsTotal 5,713 at 05:10 UTC.",
-          "date": "2026-10-30",
+          "evidence": "Live pulse JSON from the production app: commitsTotal 7,133 at 18:11 UTC on 2026-11-16.",
+          "date": "2026-11-16",
           "url": "https://app.arcs.care/api/pulse",
           "label": "app.arcs.care/api/pulse"
         },
         {
           "id": "ninety-nine",
-          "claim": "99 pull requests merged in one day, a human approving every one.",
+          "claim": "99 pull requests merged in one day.",
           "status": "shown",
           "evidence": "Release notes for the day: what shipped, what broke, and an honest human-time estimate.",
           "date": "2026-10-20",
@@ -49,10 +49,10 @@
         },
         {
           "id": "prs",
-          "claim": "1,580+ pull requests merged, each approved by a human and receipted.",
+          "claim": "1,990+ pull requests merged, each through gated checks and then my review of the diff; merges leave receipts in an append-only ledger.",
           "status": "on-request",
-          "evidence": "GitHub merged-PR count, 1,581 on 2026-10-29. The repository is private.",
-          "date": "2026-10-29"
+          "evidence": "GitHub merged-PR count, 1,993 on 2026-11-16. The repository is private.",
+          "date": "2026-11-16"
         },
         {
           "id": "open-tools",
@@ -103,6 +103,15 @@
           "label": "NFTT Post 4"
         },
         {
+          "id": "mistakes-to-gates",
+          "claim": "Logged 79 mistakes in five days building the RFP engine, and turned each into a check the next change had to pass.",
+          "status": "shown",
+          "evidence": "Five days, 327 commits and 79 logged mistakes, with the four loops that turned each into a check.",
+          "date": "2026-11-02",
+          "url": "https://good.arcs.care/blog/nftt/every-mistake-became-a-gate",
+          "label": "Every Mistake Became a Gate"
+        },
+        {
           "id": "take-home-trap",
           "claim": "Spotted a state-sponsored fake-recruiter malware lure, dissected it for defenders, and built a scanner from it.",
           "status": "shown",
@@ -138,10 +147,10 @@
       "claims": [
         {
           "id": "beliefs",
-          "claim": "42 beliefs logged as overturned, each with the test that overturned it.",
+          "claim": "51 beliefs overturned since June, all on a public timeline by date and area; 20 became standing rules. The belief and test behind each are on request.",
           "status": "shown",
-          "evidence": "A public falsification ledger. Three of the entries:",
-          "date": "2026-09-29",
+          "evidence": "Three shown in full:",
+          "date": "2026-11-16",
           "url": "https://status.arcs.care/beliefs",
           "label": "status.arcs.care/beliefs",
           "ledger": [
@@ -236,10 +245,10 @@
       "claims": [
         {
           "id": "nftt",
-          "claim": "35 Notes from the Trenches posts since 2026-08-18: what building ARCS taught him, with the receipts.",
+          "claim": "36 Notes from the Trenches posts since 2026-08-18: lessons from building ARCS, with the receipts.",
           "status": "shown",
           "evidence": "Every post carries a frozen publish timestamp taken from the commit that routed it.",
-          "date": "2026-11-02",
+          "date": "2026-11-11",
           "url": "https://good.arcs.care/blog/nftt",
           "label": "Notes from the Trenches"
         },
@@ -260,6 +269,24 @@
           "date": "2026-10-30",
           "url": "https://status.arcs.care",
           "label": "status.arcs.care"
+        },
+        {
+          "id": "rfp-source",
+          "claim": "Published the RFP engine's source, with a self-check anyone can run without an API key.",
+          "status": "shown",
+          "evidence": "Public repository. The mock-model check runs in one command and compares the MCP server with the engine called directly. The repository has no license file as of 2026-11-09.",
+          "date": "2026-11-02",
+          "url": "https://github.com/flashesofbrilliance/rfp-engine",
+          "label": "github.com/flashesofbrilliance/rfp-engine"
+        },
+        {
+          "id": "agent-indexes",
+          "claim": "Publishes llms.txt indexes and an AGENTS.md so agents can read and quote his public sites without guessing.",
+          "status": "shown",
+          "evidence": "llms.txt on arcs.care, resume.arcs.care, status.arcs.care and good.arcs.care, plus per-series indexes for NFTT and TIL and an AGENTS.md with quoting rules.",
+          "date": "2026-10-30",
+          "url": "https://good.arcs.care/llms.txt",
+          "label": "good.arcs.care/llms.txt"
         }
       ]
     },
@@ -304,6 +331,24 @@
           "date": "2026-09-26",
           "url": "https://good.arcs.care/audit",
           "label": "Agent Receipts Audit"
+        },
+        {
+          "id": "audit-check",
+          "claim": "Built a free in-browser check that scores how many of a public repo's last 30 commits carry their own reason.",
+          "status": "shown",
+          "evidence": "Runs in the browser against GitHub; nothing is stored. It reads commit messages only, and the page says what it cannot see.",
+          "date": "2026-10-31",
+          "url": "https://good.arcs.care/audit/check",
+          "label": "good.arcs.care/audit/check"
+        },
+        {
+          "id": "audit-sample",
+          "claim": "Ran the audit on his own build first and published the report, gaps included.",
+          "status": "shown",
+          "evidence": "17 of 19 commits and artifacts rebuilt from repo history alone; 8 gaps found, 1 control described but not shown, 5 fixes ranked.",
+          "date": "2026-11-01",
+          "url": "https://good.arcs.care/audit/sample",
+          "label": "Audit report: The Rogue Operator"
         }
       ]
     },
@@ -356,5 +401,5 @@
       ]
     }
   ],
-  "claims_total": 32
+  "claims_total": 37
 }

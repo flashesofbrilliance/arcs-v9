@@ -7,13 +7,13 @@
   ],
   [
    "Time",
-   "A few working days",
-   "The week of Mon Nov 9"
+   "Five working days",
+   "From the working day after the start items are in"
   ],
   [
    "Your side",
    "About 10 minutes",
-   "A Lovable invite and your recent bills. Nothing new to write"
+   "A copy of your Lovable project and your recent bills. Nothing new to write"
   ],
   [
    "Office hours",
@@ -21,6 +21,56 @@
    "At no charge, in 30-minute slots, booked through my calendar link"
   ]
  ],
+ "plan": {
+  "call": {
+   "href": "https://calendar.app.google/cTQkE1W2D8EPo8q59",
+   "label": "Book a quick call"
+  },
+  "doc": {
+   "href": "https://docs.google.com/document/d/1ynXK6zf9_Y575-owW9OmXcTUN4cRj-NCBVh-_ccNO4A/edit",
+   "label": "Comment in the shared doc"
+  },
+  "note": "Steps 2 and 3 also include, at no charge: research design, Alyce's first prompts and project admin, plus a $1,500 credit toward a later build.",
+  "pdf": {
+   "docx": "/myally-step1-agreement.docx",
+   "docx_label": "Word version for redlines",
+   "href": "/myally-step1-agreement.pdf",
+   "label": "Download the Step 1 agreement (PDF)",
+   "note": "For your counsel's review. Once they're happy, I send a clean copy to sign."
+  },
+  "rows": [
+   [
+    "Steps 2 and 3",
+    "About three weeks",
+    "Customer journey and design system, then a working prototype, $1,500 each. Each starts only with your written yes."
+   ],
+   [
+    "Target",
+    "Mid-December",
+    "Handoff before the end of the year, counted from the day Step 1 starts."
+   ],
+   [
+    "After Step 3",
+    "While you demo",
+    "Office hours continue as offered. Maintenance is optional, quoted when you want it."
+   ]
+  ],
+  "summary": "Step 1 now, then Steps 2 and 3 in about three weeks, with handoff by mid-December.",
+  "title": "The whole plan"
+ },
+ "progress": {
+  "batched": 0,
+  "blocked": [],
+  "hours_done": 0,
+  "hours_total": 12.0,
+  "items_done": 0,
+  "items_total": 24,
+  "last": null,
+  "next": "w0a",
+  "next_call": null,
+  "now": [],
+  "review": []
+ },
  "rows": [
   {
    "get": "",
@@ -29,7 +79,7 @@
    "kind": "phase",
    "label": "Before we start",
    "len": 1,
-   "note": "About 10 minutes on your side. The sprint starts the day after all three are in. If any land later, the dates move by the same amount.",
+   "note": "About 10 minutes on your side. The work starts on the working day after the last of these is in. If any land later, the dates move by the same amount.",
    "parent": null,
    "s2": "",
    "s3": "",
@@ -42,7 +92,7 @@
    "kind": "gate",
    "label": "Agreement signed and the $1,500 invoice paid",
    "len": 1,
-   "note": "I send the invoice when you sign. It is due before the sprint starts.",
+   "note": "I send the invoice when you sign. It is due before the work starts.",
    "parent": "w0",
    "s2": "",
    "s3": "",
@@ -53,9 +103,9 @@
    "hours": 0,
    "id": "w0b",
    "kind": "gate",
-   "label": "An invite for zach.harris@gmail.com to your Lovable workspace, as a member",
+   "label": "An invite for zach.harris@gmail.com to a copy (a remix) of your Lovable project, with no real family information in it",
    "len": 1,
-   "note": "I read the code there, so no GitHub setup is needed for this step.",
+   "note": "I read the code there, read-only, so no GitHub setup is needed for this step. Working on a copy keeps my promise to work only from made-up data.",
    "parent": "w0",
    "s2": "",
    "s3": "",
@@ -120,7 +170,7 @@
    "kind": "phase",
    "label": "Code review",
    "len": 2,
-   "note": "What is built, and is it safe to build on?",
+   "note": "What is built, and what to fix first?",
    "parent": null,
    "s2": "",
    "s3": "",
@@ -274,7 +324,7 @@
    "hours": 1,
    "id": "w3b",
    "kind": "task",
-   "label": "Find the lightest no-code or low-code way to meet each one, and what to buy or rent instead of build",
+   "label": "Find options for each one, with the questions to confirm with your counsel, and what to buy or rent instead of build",
    "len": 1,
    "note": "",
    "parent": "w3",
@@ -297,7 +347,7 @@
   },
   {
    "get": "",
-   "hours": 1.25,
+   "hours": 1,
    "id": "w4",
    "kind": "phase",
    "label": "Rough ranges",
@@ -315,7 +365,7 @@
   },
   {
    "get": "",
-   "hours": 1.25,
+   "hours": 1,
    "id": "w4a",
    "kind": "task",
    "label": "Build the ranges from your bills, usage screens and cost analysis",
@@ -432,25 +482,25 @@
   },
   {
    "get": "",
-   "hours": 0.25,
+   "hours": 0.5,
    "id": "w7",
    "kind": "phase",
    "label": "Along the way",
    "len": 4,
-   "note": "",
+   "note": "Each item on this list is marked ready for review as it lands, and you hear about it through the channel you choose: this tab, email, or a shared Slack channel if you use one.",
    "parent": null,
    "s2": "",
    "s3": "",
    "start": 1
   },
   {
-   "get": "",
-   "hours": 0.25,
+   "get": "Comment whenever suits you on anything marked ready, in one place. I collect the comments and we go through them together, so your time stays free in between.",
+   "hours": 0.5,
    "id": "w7a",
    "kind": "ms",
-   "label": "Midweek, a short written note on what I'm seeing and anything I need from you",
+   "label": "Midweek, a 30-minute review call on your batched comments",
    "len": 0,
-   "note": "",
+   "note": "Review calls are part of Step 1 and don't use your office hours.",
    "parent": "w7",
    "s2": "",
    "s3": "",
@@ -502,7 +552,7 @@
    "kind": "gate",
    "label": "Your choice of next step",
    "len": 1,
-   "note": "More detail on open questions: 2-hour blocks at $125 an hour, each started only after your written OK, billed on their own and not credited toward later steps. Or Step 2: a new fixed scope and price, quoted after the readout, which starts only with your written yes.",
+   "note": "More detail on open questions: 2-hour blocks at $125 an hour, each started only after your written OK, billed on their own and not credited toward later steps. Or Step 2: $1,500 for up to 12 hours, as offered on October 29. A different scope or price applies only with your written yes, and Step 2 starts only with your written yes.",
    "parent": "w6",
    "s2": "",
    "s3": "",
@@ -537,8 +587,59 @@
  ],
  "s2": "Step 2",
  "s3": "Step 3",
- "summary": "Step 1 of 3: $1,500 fixed, for up to 12 hours of work, done in a few working days once we start. Step 2 is quoted after the readout.",
- "title": "Step 1: light audit and code review",
+ "summary": "Step 1 of 3: $1,500 fixed, for up to 12 hours of work, done in five working days once we start. Step 2 is $1,500 for up to 12 hours, as offered on October 29; a different scope needs your written yes.",
+ "title": "Step 1: light audit & MVP scoping",
+ "week": [
+  {
+   "day": 0,
+   "ids": [
+    "w0a",
+    "w0b",
+    "w0c"
+   ],
+   "text": "You send 3 things (about 10 minutes)"
+  },
+  {
+   "day": 1,
+   "ids": [
+    "w1a"
+   ],
+   "text": "I read the code and your spec"
+  },
+  {
+   "day": 2,
+   "ids": [
+    "w2a",
+    "w1c",
+    "w7a"
+   ],
+   "text": "Data check; code sorted into 3 piles; 30-minute review call"
+  },
+  {
+   "day": 3,
+   "ids": [
+    "w3c",
+    "w4a"
+   ],
+   "text": "Governance plan; rough ranges"
+  },
+  {
+   "day": 4,
+   "ids": [
+    "w5d",
+    "w6r"
+   ],
+   "text": "Go or stop memo; 45-minute readout"
+  },
+  {
+   "day": 5,
+   "ids": [
+    "w6s",
+    "w6t"
+   ],
+   "text": "One round of changes, then you choose"
+  }
+ ],
  "weeks": [
   "Before",
   "Day 1",

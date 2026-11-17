@@ -185,9 +185,9 @@
         <p class="txt">Ninety-nine merges is not the point. The point is that each one makes the next one cheaper and safer, while the human keeps the decisions. The harness sequences and checks the work; it never decides. That is <b>NOTOMATION</b>: scaffold the cognition, never replace the judgment.</p>
         <ol class="loop">
           <li><b>Reuse before rebuild.</b> Agents ask the graph for an existing tool before building one, so fewer duplicates get built and fewer need review.</li>
-          <li><b>Every merge leaves a labelled receipt.</b> Job and tool ids on each receipt feed outcome weights back into the graph, so the tools that worked rank higher next time.</li>
+          <li><b>Merges leave labelled receipts.</b> Job and tool ids on each receipt feed outcome weights back into the graph, so the tools that worked rank higher next time.</li>
           <li><b>Machines refuse the mechanical failures.</b> A moved head, a pending check, a whole bug class: the gates catch these, so human review goes to judgment calls, not checklists.</li>
-          <li><b>The record stays honest.</b> An append-only ledger means the history the weights learn from cannot be edited after the fact.</li>
+          <li><b>The record stays honest.</b> The ledger is append-only: a database trigger refuses edits and deletes, so a correction is a new row and the history the weights learn from stays as it was written.</li>
         </ol>
         <blockquote>What compounds is not the code. It is a person's judgment, spent only where it is needed.</blockquote>
       </div>
@@ -219,7 +219,7 @@
         <a href="https://resume.arcs.care">Resume</a>
         <a href="/blog/til">More Today-I-Learned</a>
       </div>
-      <div class="fine">Counts from GitHub merge records for 2026-10-20 (UTC) and the repo's git history. Every merge carries a decision receipt in an append-only ledger. The repository is private; the live, recomputed figures are published on the status page.</div>
+      <div class="fine">Counts from GitHub merge records for 2026-10-20 (UTC) and the repo's git history. 96 of the 99 merges carry a decision receipt in an append-only ledger. The repository is private; the live, recomputed figures are published on the status page.</div>
     </footer>
   </div>
 </body>

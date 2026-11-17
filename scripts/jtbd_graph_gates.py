@@ -455,6 +455,21 @@ def apply_triage(new, triage, today, rows=None):
     return out, triaged, problems
 
 
+TRIAGE_DUE_SOON_DAYS = 3
+
+
+def triage_due_soon(triaged, today, days=TRIAGE_DUE_SOON_DAYS):
+    """Non-failing warning lines for holds within `days` of resolve_by, so a dated hold never expires
+    silently and turns CI red on every branch (2026-11-14 incident; dreaming pass 13 T1). -> [str]"""
+    import datetime as _dt
+    out = []
+    for r, i, due in triaged:
+        left = (_dt.date.fromisoformat(due) - today).days
+        if 0 <= left <= days:
+            out.append(f"TRIAGE-DUE-SOON {r} {i}: resolve_by {due} is {left} day(s) away; give it a job row or re-date it")
+    return out
+
+
 def self_test(verbose=True, missed=None):
     ok = True
     fixdir = os.path.join(REPO, FIX)
@@ -506,6 +521,11 @@ def self_test(verbose=True, missed=None):
     if verbose:
         print(f"triage holds (dated hold passes; expired, rowless, too long and stale all fail): {'ok' if tri else 'WRONG'}")
     ok &= tri
+    soon = (bool(triage_due_soon([("ORPHAN-TOOL", tid, "2026-10-22")], d0)) and not triage_due_soon([("ORPHAN-TOOL", tid, "2026-10-27")], d0)
+            and not triage_due_soon([("ORPHAN-TOOL", tid, "2026-10-19")], d0))
+    if verbose:
+        print(f"triage due-soon (2 days out warns; 7 days out and past do not): {'ok' if soon else 'WRONG'}")
+    ok &= soon
     m = mcp_self_test()
     if verbose:
         print(f"mcp index (unused index tool not orphan; receipt on file attaches; forged receipt does not): {'ok' if m else 'WRONG'}")

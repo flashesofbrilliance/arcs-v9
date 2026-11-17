@@ -1,0 +1,95 @@
+{
+ "number": "66",
+ "name": "Give Get Table",
+ "slug": "give-get-table",
+ "layer": "Molecule",
+ "job": "Show a time trade step by step: when, what the reader gives, what they get back, so the cost of their time sits beside its return.",
+ "anatomy": [
+  {
+   "part": "Frame",
+   "role": "Surface card, hairline border, rows split by hairlines",
+   "token": "`surface`, `border`, `ds-r-md`"
+  },
+  {
+   "part": "Head row",
+   "role": "Mono uppercase label step on a tinted bar; the get column head in cyan; the when head is visually hidden",
+   "token": "`surface-2`, `muted`, `cyan`"
+  },
+  {
+   "part": "When",
+   "role": "Step name, semibold",
+   "token": "`text`"
+  },
+  {
+   "part": "Give",
+   "role": "What it costs them, secondary; several items stack as lines",
+   "token": "`text-secondary`"
+  },
+  {
+   "part": "Get",
+   "role": "What they receive, primary",
+   "token": "`text`"
+  }
+ ],
+ "states": [
+  {
+   "name": "Three steps",
+   "args": [
+    3,
+    "100%"
+   ],
+   "note": "Before, during, after."
+  },
+  {
+   "name": "Phone width",
+   "args": [
+    2,
+    "20rem"
+   ],
+   "note": "Below 640px each row stacks; give and get carry text leads."
+  }
+ ],
+ "use_when": [
+  "A proposal or plan where the reader's time is the real price and should be stated per step.",
+  "Each step has both a cost and a return; if one side is empty, it is a list, not this part."
+ ],
+ "avoid_when": [
+  "Do not put money here; price belongs in 41 Offer Close.",
+  "Do not exceed about five rows; past that it is a plan matrix (52)."
+ ],
+ "data": [
+  {
+   "field": "rows[]",
+   "type": "{when, give[], get}",
+   "required": true,
+   "note": "`give[]` is one or more short lines."
+  }
+ ],
+ "access": [
+  "Marked up with `role=table`, `row`, `rowheader`, `cell` and `columnheader`, so a screen reader announces the columns.",
+  "On a phone the give and get cells carry visible text leads; the meaning never rests on colour or position.",
+  "Columns use `minmax(0, 1fr)`; text wraps inside the cell."
+ ],
+ "built_from": [
+  {
+   "name": "Kit tokens (atoms)",
+   "href": "_tokens.css"
+  }
+ ],
+ "used_by": [
+  {
+   "name": "Louisville proposal (louisville.arcs.care/proposal), page-local today; swap in after the send"
+  }
+ ],
+ "gates": [
+  "`kit_specimen.py --check` (in scripts): this page matches its spec.",
+  "`kit_primitive_sync.py --check`: every page that marks this block carries it line for line.",
+  "`artifact_wrap_lint.py` and `page_gate.py` on every page that carries it; sweep 360 to 1440, including 700 to 1000."
+ ],
+ "links": [
+  "_tokens-light.css",
+  "_kit-sr.css"
+ ],
+ "css": "/* @prim:begin 66-give-get-table */\n.gg { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); overflow: hidden; }\n.gg-row { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--sp-3, 24px); padding: var(--sp-2, 16px) var(--sp-3, 24px); border-top: 1px solid var(--border); }\n.gg-head { padding: var(--sp-1, 8px) var(--sp-3, 24px); background: var(--surface-2); border-top: 0; border-bottom: 1px solid var(--border); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }\n.gg-head .get { color: var(--cyan); }\n.gg-head + .gg-row { border-top: 0; }\n.gg-when { font-weight: 600; color: var(--text); }\n.gg-give { color: var(--text-secondary); text-wrap: pretty; }\n.gg-give > span { display: block; }\n.gg-give > span + span { margin-top: 4px; }\n.gg-get { color: var(--text); text-wrap: pretty; }\n.gg .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }\n@media (max-width: 640px) { .gg-row { grid-template-columns: minmax(0, 1fr); row-gap: 6px; } .gg-head { display: none; } .gg > .gg-row:nth-child(2) { border-top: 0; } .gg-give::before { content: \"You give: \"; font-weight: 600; color: var(--text); } .gg-get::before { content: \"You get: \"; font-weight: 600; color: var(--cyan); } }\n@container (max-width: 40rem) { .gg-row { grid-template-columns: minmax(0, 1fr); row-gap: 6px; } .gg-head { display: none; } .gg > .gg-row:nth-child(2) { border-top: 0; } .gg-give::before { content: \"You give: \"; font-weight: 600; color: var(--text); } .gg-get::before { content: \"You get: \"; font-weight: 600; color: var(--cyan); } }\n@media print { .gg { background: none; border-width: 0; border-radius: 0; break-inside: avoid; } .gg-head { background: none; padding: 0 0 6px; border-bottom: 1.5px solid var(--text); } .gg-row { grid-template-columns: 4.5rem minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--sp-2, 16px); padding: 8px 0; line-height: 1.38; } }\n/* @prim:end 66-give-get-table */\n",
+ "demo": "function kEsc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\nfunction kSlot(i){return i===undefined?document.querySelector('[data-stage]'):document.querySelector('[data-state=\"'+i+'\"]');}\nvar GG=[['Before',['Mutual NDA; total figures only.'],'Customer-level data stays with you.'],['Week 1',['Kickoff, 60 min.','Screen-share with your data lead, 90 min.'],'Both decisions written up.'],['Week 2',['Readout, 60 min, and your pushback.'],'The rest, with your pushback on the page.']];\nfunction kitGG(host,n){var w=document.createElement('div');w.className='gg';w.setAttribute('role','table');w.setAttribute('aria-label','What you give and what you get');w.innerHTML='<div class=\"gg-row gg-head\" role=\"row\"><span role=\"columnheader\"><span class=\"vh\">When</span></span><span role=\"columnheader\">What you give</span><span role=\"columnheader\" class=\"get\">What you get</span></div>'+GG.slice(0,n).map(function(r){return '<div class=\"gg-row\" role=\"row\"><span class=\"gg-when\" role=\"rowheader\">'+kEsc(r[0])+'</span><span class=\"gg-give\" role=\"cell\">'+(r[1].length>1?r[1].map(function(x){return '<span>'+kEsc(x)+'</span>'}).join(''):kEsc(r[1][0]))+'</span><span class=\"gg-get\" role=\"cell\">'+kEsc(r[2])+'</span></div>'}).join('');host.appendChild(w);return w}\nkitGG(kSlot(),3);\nSTATES.forEach(function(a,i){var b=document.createElement('div');b.style.maxWidth=a[1];if(a[1]!=='100%')b.style.containerType='inline-size';kSlot(i).appendChild(b);kitGG(b,a[0])});"
+}
