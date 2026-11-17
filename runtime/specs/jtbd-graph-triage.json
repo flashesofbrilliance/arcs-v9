@@ -3,14 +3,6 @@
  "holds": [
   {
    "rule": "ORPHAN-TOOL",
-   "id": "tool:script:proposal_construction.py",
-   "reason": "Landed on main (bf8c0627, kit proposal molecules) without a backlog row; surfaced when the option-board PR 2227 regenerated the stale tool catalog to register scripts/option_board.py. Owner: the session that added it.",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-11-13",
-   "resolve_by": "2026-11-20"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
    "id": "tool:agent:ciso-review",
    "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
@@ -276,10 +268,10 @@
   {
    "rule": "ORPHAN-JOB",
    "id": "job:backlog:prl-phase-1-2",
-   "reason": "row minted 2026-11-05 from receipts; its work ran in Zapier and Tidio, which have no tool atom",
+   "reason": "row minted 2026-11-05 from receipts; its work ran in Zapier and Tidio, which have no tool atom; row DONE 2026-11-17 (Zach), hold renewed (14-day cap) as cover",
    "row": "prl-phase-1-2",
-   "added": "2026-11-05",
-   "resolve_by": "2026-11-19"
+   "added": "2026-11-17",
+   "resolve_by": "2026-12-01"
   },
   {
    "rule": "ORPHAN-JOB",
