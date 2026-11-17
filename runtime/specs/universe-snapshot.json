@@ -30,13 +30,13 @@
   ]
  },
  "dimensions": {
-  "corpus": 2584,
+  "corpus": 3011,
   "canon": {
    "files": 126,
    "tao_proverbs": 287,
    "adrs": 88
   },
-  "codebase": 988,
+  "codebase": 998,
   "conviction": {
    "signal": null,
    "why": "Y-gate spread lives in the prod Receipt table; not read by this script"
@@ -46,7 +46,7 @@
    "nodes": 81,
    "shore_open": 37,
    "files_mapped": 349,
-   "files_fog": 3349
+   "files_fog": 3786
   },
   "coherence": {
    "diamonds": 3,
@@ -1409,7 +1409,7 @@
     "corpus": 35,
     "canon": 4,
     "codebase": 115,
-    "files": 342
+    "files": 345
    }
   },
   {
@@ -3331,13 +3331,13 @@
   {
    "path": "_SEEDS/index.jsonl",
    "kind": "index",
-   "rows": 75,
+   "rows": 77,
    "private": false
   },
   {
    "path": "_SEEDS/ledger.jsonl",
    "kind": "ledger",
-   "rows": 121,
+   "rows": 123,
    "private": false
   },
   {
@@ -3361,7 +3361,7 @@
   {
    "path": "_STATE/falsification-ledger.jsonl",
    "kind": "ledger",
-   "rows": 48,
+   "rows": 51,
    "private": false
   },
   {
@@ -3379,7 +3379,7 @@
   {
    "path": "_STATE/job-search/forge-cost-ledger.jsonl",
    "kind": "ledger",
-   "rows": 101,
+   "rows": 142,
    "private": true
   },
   {
@@ -3397,7 +3397,7 @@
   {
    "path": "_STATE/scrum/ledger.jsonl",
    "kind": "ledger",
-   "rows": 2,
+   "rows": 3,
    "private": false
   },
   {
@@ -3499,7 +3499,7 @@
   {
    "path": "runtime/specs/tool-catalog.json",
    "kind": "catalog",
-   "rows": 459,
+   "rows": 467,
    "private": false
   },
   {
