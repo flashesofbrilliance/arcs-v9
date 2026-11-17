@@ -32,3 +32,9 @@ Unverified: whether either pattern caused rows in KINTSUGI.md. That ledger lives
 
 ## False-positive shapes to drop from the scan
 - `ls: scripts/<name>: No such file or directory` when the file exists on origin/main (a stale checkout, not a missing tool).
+
+## Ruling (Zach, 2026-11-17)
+- U1: accepted, with a guard. Memory edits applied locally (not in git): `browser-pane-protocol.md` description widened to Claude in Chrome and rule 5 added; MEMORY.md line 182 hook now reads `(tabs_context / tabs_context_mcp first, ...)` and " (Frustration Gate)" was cut to pay for it (MEMORY.md 24,570 bytes, budget 24,576). Guard in this PR: `.claude/hooks/chrome-tab-guard.py`, a PreToolUse hook on `mcp__claude-in-chrome__.*` that denies Chrome tools until `tabs_context_mcp` has run in the session (fail-open; `--self-test` passes).
+- U2: accepted. One line added to `job-search-swipe-board.md` (local memory, not in git).
+- rm safety-check refusals: stay on watch.
+- PR 2336 closed in favour of this PR, which carries the pass 14 file to main.
