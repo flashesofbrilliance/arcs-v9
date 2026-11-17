@@ -7,22 +7,30 @@
   "hook": 3,
   "operator": 46,
   "package": 5,
-  "script": 332,
+  "script": 334,
   "skill": 28,
   "workflow": 2
  },
- "total": 465,
+ "total": 467,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 629,
+   "WIRED": 630,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 2,
+   "INSTALLED-UNUSED": 3,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
   "gaps": [
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "repo",
+    "kind": "script",
+    "name": "project_mirror.sh",
+    "why": "no hook/command/task/CI/doc references it",
+    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
+   },
    {
     "state": "INSTALLED-UNUSED",
     "surface": "user",
@@ -2420,6 +2428,14 @@
   },
   {
    "kind": "script",
+   "name": "project_mirror.sh",
+   "path": "scripts/project_mirror.sh",
+   "jtbd": "project_mirror.sh: copy the context Claude Code loads in arcs-v9 (CLAUDE.md with the live handoff,",
+   "invoke": "scripts/project_mirror.sh",
+   "state": "INSTALLED-UNUSED"
+  },
+  {
+   "kind": "script",
    "name": "project_skills_drift.sh",
    "path": "scripts/project_skills_drift.sh",
    "jtbd": "project_skills_drift.sh — warn when the skills/commands this session LOADED differ from origin/main.",
@@ -2568,6 +2584,14 @@
    "path": "scripts/readiness_packet.py",
    "jtbd": "readiness_packet.py: the tier-4 readiness card for one induced-backlog row. Read-only, stdlib.",
    "invoke": "python3 scripts/readiness_packet.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "reading_room_sync.py",
+   "path": "scripts/reading_room_sync.py",
+   "jtbd": "reading_room_sync.py: one command that keeps app.arcs.care/reading-room and /warroom/surfaces in",
+   "invoke": "python3 scripts/reading_room_sync.py",
    "state": "WIRED"
   },
   {
