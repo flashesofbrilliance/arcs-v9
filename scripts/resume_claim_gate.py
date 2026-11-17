@@ -43,6 +43,15 @@ RULES: list[tuple[re.Pattern[str], str]] = [
      "Twill: unvetted; use the vetted master line"),
     (re.compile(r"developer-facing\s+(?:product lines|integrations)", re.I),
      "Twill: unvetted; use the vetted master line"),
+    # Round 2 (Zach, 2026-11-17): the unflagged Twill variants are normalized too. Clause-scoped
+    # ([^.;:]) so a fit-row label that echoes the posting ("SQL-driven data foundation and
+    # instrumentation:") does not trip it; only the claim after the colon is judged.
+    (re.compile(r"KPI frameworks informed", re.I),
+     'Twill: "strategy and validation for 3 AI-enabled digital-therapeutics product lines; drove go-forward on two of them"'),
+    (re.compile(r"(?:evaluation frameworks|quality loops|KPI frameworks|HIPAA-compliant)[^.;:]{0,90}\bat Twill\b", re.I),
+     "Twill: unvetted build claim; say \"ran strategy and validation for 3 AI-enabled digital-therapeutics product lines at Twill Health\""),
+    (re.compile(r"Twill Health\s*\([^)]*\):[^.;]{0,160}(?:KPI|instrumentation|framework|stopped the third|no-go on the third)", re.I),
+     "Twill: the experience bullet is the vetted master line only"),
     (re.compile(r"7\s?(?:B|billion)\s+(?:in\s+)?" + "A" + "UM", re.I),
      'Grayscale: "$7B, 10-product regulated launch", never AUM'),
 ]
@@ -95,6 +104,9 @@ def self_test() -> int:
         "drove go-forward on 2 of 3 and killed the third before it consumed further engineering time",
         "defined API instrumentation and success metrics for developer-facing integrations",
         "Grayscale ($7B " + "AUM)",
+        "Twill Health (HIPAA digital health, 2021 to 2023): market-viability testing for 3 product lines; the KPI frameworks informed go-forward decisions on 2 of 3.",
+        "built evaluation frameworks and quality loops for 3 AI-enabled product lines at Twill Health",
+        "Twill Health (HIPAA): researched three lines, recommended two, and stopped the third before it consumed engineering time.",
     ]
     good = [
         '<li>Squat New York (behavioral health, <span class="metric">$350M annual revenue</span>, post-PE)</li>',
@@ -102,6 +114,8 @@ def self_test() -> int:
         "<li>Twill Health (HIPAA digital health, 2021 to 2023): strategy and validation for 3 AI-enabled "
         "digital-therapeutics product lines; drove go-forward on two of them.</li>",
         "the same motion as building APIs and developer-facing interfaces",
+        "SQL-driven data foundation and instrumentation: ran strategy and validation for 3 AI-enabled digital-therapeutics product lines at Twill Health",
+        "built evaluation frameworks and outcome-capture loops for AI-enabled product lines at ARCS",
         "Grayscale ($7B launched); $7B, 10-product regulated launch",
     ]
     misses = [b for b in bad if not hits_in(b)]
