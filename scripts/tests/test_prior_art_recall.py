@@ -21,7 +21,9 @@ TOP = 5
 FIXTURES = [
     ("2026-11-11", "reading room sync refresh renders", "chronicle_render", "control: passes 2026-11-11"),
     ("2026-11-11", "master audit synthesis of all artifacts modularity", "meta-audit",
-     "miss 2026-11-11: /meta-audit absent from top 5 (KINTSUGI G56)"),
+     "miss 2026-11-11: /meta-audit absent from top 5 (KINTSUGI G56); fixed 2026-11-17 in the skill description"),
+    ("2026-11-17", "merge a pull request safely", "safe_merge",
+     "miss 2026-11-17: safe_merge.sh absent from top 5; its line said PR, never pull request or safely"),
 ]
 
 
