@@ -4,7 +4,7 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
 import {
-  assertPublicSafe, riskStates, shapeGates, shapeTempo, summarizeDebt, weekStarts,
+  assertPublicSafe, PUBLIC_ITEMS, publicItems, riskStates, shapeGates, shapeTempo, summarizeDebt, weekStarts,
   type DebtIssue,
 } from "../../src/lib/pulse.ts"
 
@@ -91,4 +91,30 @@ test("public-safety check catches every leak class (fail-on-bad)", () => {
   for (const [name, mut] of leaks) {
     assert.ok(assertPublicSafe(mut(samplePayload())).length > 0, `${name} must be caught`)
   }
+})
+
+test("publicItems: curated labels land on the card for the issue's LIVE status", () => {
+  const items = publicItems(ISSUES)
+  assert.deepEqual(items, {
+    decision: [PUBLIC_ITEMS[1000], PUBLIC_ITEMS[1019]],
+    open: [],
+    "in-progress": [PUBLIC_ITEMS[973]],
+    done: [],
+  })
+  const closed = publicItems([issue(1000, "CLOSED", "status:decision")])
+  assert.deepEqual(closed?.done, [PUBLIC_ITEMS[1000]]) // closed wins over a stale label
+})
+
+test("publicItems: a failed or unmapped read is null, never empty groups", () => {
+  assert.equal(publicItems(null), null)
+  assert.equal(publicItems([]), null)
+  assert.equal(publicItems([issue(424242, "OPEN", "status:open")]), null)
+})
+
+test("publicItems: every public label passes the public-safety check and none is a tracker title", () => {
+  const all = Object.values(PUBLIC_ITEMS)
+  assert.equal(new Set(all).size, all.length)
+  assert.deepEqual(assertPublicSafe({ items: { open: all } }), [])
+  assert.ok(assertPublicSafe({ items: { open: ["see src/lib/pulse.ts"] } }).length > 0)
+  assert.ok(assertPublicSafe({ items: { title: ["x"] } }).length > 0)
 })

@@ -35,7 +35,7 @@ Grades: **documented** (public and checkable, or verbatim in the record of recor
 |---|---|---|
 | ARCS: MCP server + agentic orchestration on Claude, in production, 2025 to present | documented | record ROLES.arcs; app.arcs.care live, repo private |
 | Grayscale: Product Lead, GTM, 10 SEC/FINRA-regulated products, 2024 to 2025 | documented (title, dates, count) | record ROLES.grayscale |
-| $7B AUM | self-reported | record metric "$7B AUM · regulated product suite" |
+| $7B launched | self-reported | record metric "$7B launched · regulated product suite" |
 | ARCS: experimentation/outcome-capture framework recalibrates scoring weights | self-reported | record ROLES.arcs bullet |
 | Twill: 3 AI-enabled lines under HIPAA, go-forward on 2 of 3, 2021 to 2023 | self-reported | record CONSULTING_CLIENTS.twill |
 | Squat: sole technology partner, seven-figure embedded engagement, $350M ARR client, 2019 to 2020 | self-reported | record CONSULTING_CLIENTS.squat |
@@ -50,7 +50,7 @@ Grades: **documented** (public and checkable, or verbatim in the record of recor
 
 **Defend (kept):**
 1. ARCS as the one production engineering build. Answer: MCP server, agentic orchestration, private repo, commit history on request; it is real but it is one build, not eight years of engineering leadership.
-2. $7B AUM. Answer: the public figure for the 10-product suite the GTM covered at Grayscale, not a personal P&L or an engineering-owned metric.
+2. $7B launched. Answer: the public figure for the 10-product suite the GTM covered at Grayscale, not a personal P&L or an engineering-owned metric.
 3. Grayscale regulated fluency mapped to "financial services + auditability." Answer: this was product/GTM inside SEC/FINRA release gates, translating regulation into requirements — not building the audit/compliance tooling itself. If pressed on "did you build the compliance guardrails," the honest answer is no.
 4. "Two decades" framing next to a role that wants "5-8+ years engineering experience." Answer: the two decades are technical/product/data-strategy ownership across five industries, not eight years of software-engineering seniority; the page does not claim years of engineering experience, it claims years of technical ownership.
 5. Twill and Squat HIPAA/regulated-domain claims. Answer: product-viability and embedded-delivery work inside regulated constraints, not the AI-model-validation engineering itself.

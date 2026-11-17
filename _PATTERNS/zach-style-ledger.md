@@ -14,7 +14,7 @@ Written 2026-11-13 by the session that relays Zach's picks. This is the one plac
 - Light mode: wells sit lighter than their ground, no exception.
 - Dark mode: no banding in fold gradients (sheen pinned to 56px).
 - Quotes: serif, swash quote marks drawn as SVG.
-- Chips: the design-system Badge (22px outer height, border-box, 0 10px, radius-xs, mono 700 at 0.1em, 13% fill, 35% border); StatusBadge is .chip.status. Gold chips only on limit rows ("How I could read it wrong").
+- Chips: the design-system Badge (22px outer height, border-box, 0 10px, the 4px badge radius --ds-r-badge, 11px mono 700 text --fs-label at 0.1em, 13% fill, 35% border; the 4px radius picked 2026-11-13; the design system's 10px text was tried and kept at 11px after the legibility check blocked it on counterpart pages); StatusBadge is .chip.status. Gold chips only on limit rows ("How I could read it wrong").
 - Grid: the R2 keyline lockup primitive; every two-column molecule starts its content column on the same keyline (the keyline check that PR 2219 adds).
 - Measure: one shared px --measure for body text; ledes span full lane width matching their heading. Em-dashes 0.
 - Header (picked option B, 2026-11-13): the quote comes first, in italic Newsreader serif in --text-secondary (a token, never opacity). The attribution is right-aligned at 0.85x body size. A hairline rule follows, with the pane gap (24px) above and below it. Then the headline at weight 700.
@@ -22,3 +22,15 @@ Written 2026-11-13 by the session that relays Zach's picks. This is the one plac
   - Attribution size (Zach, 2026-11-13): 0.85x body (about 12.6px), kept off the four-step type ramp on purpose. Closed; do not snap it to --fs-label.
   - Quote marks (Zach, 2026-11-13, "Let's go with your suggestion"): the header keeps lighter font-glyph quote marks, not SVG swashes. This overrides the Quotes ruling for the header only.
 - Overview: the oversized text block was too big and overpowering. It becomes the four-up proof lockup (kit 71, PR 2240).
+- Folds: one rule per boundary; cards inside a fold take no top rule side by side, and rules between stacked cards only (Zach, 2026-11-15, "Wedge rules: A").
+
+## Rulings (belief log, status.arcs.care/beliefs, 2026-11-13 to 2026-11-15)
+- Braided lanes (kit 73, PR 2266; filed as 72, renumbered 2026-11-15 when the week strip took 72 on main): layout C picked 2026-11-13 (ledger lanes, thin evidence set apart under a divider, two-slider week window).
+- Lane colours (Zach, 2026-11-15, "Keep coloured lanes"): each belief domain keeps its own colour (Rulebook cyan, How I work green, Security red, Client reads violet, Shipping magenta, Stress tests orange, Infrastructure blue, Public pages grey). The brand gate's objection, that signal colours do category work here (green on disproven beliefs), is ruled on: colour names the domain on this chart, the gold ring stays the only rule signal. Closed; do not neutralise the dots.
+- Voice (Zach, 2026-11-15, "the royal we is the wrong thing... it seems like I am speaking about myself in the third person"): the belief log speaks in first person singular ("Every belief I changed my mind about", lane "How I work"). One author, so no "we". Closed.
+
+## Rulings (case study, arcs.care/case-study, 2026-11-16, PR 2286)
+- Picks: header B, numbers A (kit 71 proof lockup), levers B (kit 68 spec cards, three up), why B (kit 31 callout in kit 53 read tone), detail A (kit 56 folds, first open).
+- Voice (Zach, 2026-11-16, "keep we"): the case study keeps "we" where the work was a team's (the Squat team rebuilt the journey), marked data-voice="joint" for the voice gate. This is the joint-we exception, not a reversal of the first person singular rule.
+- Global header (Zach, 2026-11-16, "Use the wordmark"): rule 13b holds on the case study too. Kit 38 wordmark top-left, kit 51 display preferences right; the eyebrow from pick B moves under the top row, above the headline. Closed; no one-page exception.
+- Lane (Zach, 2026-11-16, "this page has that fixed width bug too"): the case study moves from a fixed 720px column to the house lane, 1008px (the tabbed-brief shell's .tb frame); a 720 column kept the kit 71 panel two by two and squeezed three-up cards to about 25 characters a line. Whether every standalone page takes the 1008 lane is not yet ruled.

@@ -81,17 +81,22 @@ def boxsize_check(kb):
     """A rule with a fixed px height and a border must be border-box, or the border adds 2px to the
     height on every page that inlines it (no page, _tokens.css or part sets a global box-sizing).
     2026-11-13: the 22px design-system chip measured 24px on the Gravity pages for exactly this reason."""
-    # Known debt (2026-11-13), allowed so the gate fails only on new cases: these render 2px over their stated
-    # size today on every page that inlines them. Fixing them changes live pages (incl. counterpart-facing), so it
-    # waits on Zach. Remove a selector here in the same change that makes it border-box.
-    KNOWN = {("42-shell-nav", ".shnav-menu"), ("51-display-preferences", ".dprefs-aa"), ("51-display-preferences", ".dprefs-theme"),
-             ("58-toast", ".toast-close"), ("60-heat-take", ".heat-pips b")}
+    # Known debt (2026-11-13), allowed so the gate fails only on new cases: renders 2px over its stated size on every
+    # page that inlines it. Remove a selector here in the same change that makes it border-box. (The first list also
+    # held .shnav-menu, .dprefs-aa, .dprefs-theme and .toast-close: all are <button>s, which browsers already size
+    # border-box, measured 48x48 and 44x44 in Chrome on 2026-11-13; two also have border: 0. They were false flags.)
+    KNOWN = {("60-heat-take", ".heat-pips b")}
+    UA_BORDER_BOX = {"button", "input", "select", "textarea"}
     bad = 0
     for n, (f, body, _) in kb.items():
+        markup = open(os.path.join(KIT, f), encoding="utf-8").read()
         for l in body.split("\n"):
             if "{" not in l or (n, l.split("{")[0].strip()) in KNOWN: continue
-            d = l.split("{", 1)[1]
-            if re.search(r'(^|[;{\s])height:\s*\d+px', d) and re.search(r'(^|[;{\s])border(-width)?:\s*(?!none|0)', d) and "box-sizing: border-box" not in d:
+            sel, d = l.split("{", 1)
+            cls = re.findall(r'\.([\w-]+)', sel.split(",")[0].split()[-1]) if sel.strip() else []
+            tags = {t.lower() for c in cls[:1] for t in re.findall(r'<(\w+)[^>]*class="[^"]*\b' + re.escape(c) + r'\b', markup)}
+            if tags and tags <= UA_BORDER_BOX: continue  # browsers size these border-box already
+            if re.search(r'(^|[;{\s])height:\s*\d+px', d) and re.search(r'(^|[;{\s])border(-width)?:(?!\s*(none|0)\b)', d) and "box-sizing: border-box" not in d:
                 bad += 1; print(f"✖ {n} ({f}): fixed height with a border but no box-sizing: border-box, so it renders 2px taller: {l.strip()[:80]}")
     return bad
 

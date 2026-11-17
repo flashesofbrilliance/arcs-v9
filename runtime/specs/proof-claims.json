@@ -1,7 +1,7 @@
 {
   "_about": "Source of truth for resume.arcs.care/proof and /proof/claims.json. Rendered by scripts/proof_emit.py; never edit public/proof.html or public/proof-claims.json by hand. Every claim carries a status: shown (a public record anyone can open), on-request (a real record that is private: employer data or the private repo; references available), not-yet (no record yet). A claim with status shown must carry a url. Falsification entries are read by id from _STATE/falsification-ledger.jsonl.",
   "subject": "Zach Harris",
-  "as_of": "2026-11-12",
+  "as_of": "2026-11-16",
   "profile": "https://zach.md",
   "same_as": [
     "https://www.linkedin.com/in/zharris",
@@ -31,16 +31,16 @@
         },
         {
           "id": "commits",
-          "claim": "6,800+ commits on main since April 2026, counted live.",
+          "claim": "7,100+ commits on main since April 2026, counted live.",
           "status": "shown",
-          "evidence": "Live pulse JSON from the production app: commitsTotal 6,809 at 23:28 UTC on 2026-11-12.",
-          "date": "2026-11-12",
+          "evidence": "Live pulse JSON from the production app: commitsTotal 7,133 at 18:11 UTC on 2026-11-16.",
+          "date": "2026-11-16",
           "url": "https://app.arcs.care/api/pulse",
           "label": "app.arcs.care/api/pulse"
         },
         {
           "id": "ninety-nine",
-          "claim": "99 pull requests merged in one day, a human approving every one.",
+          "claim": "99 pull requests merged in one day.",
           "status": "shown",
           "evidence": "Release notes for the day: what shipped, what broke, and an honest human-time estimate.",
           "date": "2026-10-20",
@@ -49,10 +49,10 @@
         },
         {
           "id": "prs",
-          "claim": "1,900+ pull requests merged, each approved by a human; merges leave receipts in an append-only ledger.",
+          "claim": "1,990+ pull requests merged, each through gated checks and then my review of the diff; merges leave receipts in an append-only ledger.",
           "status": "on-request",
-          "evidence": "GitHub merged-PR count, 1,911 on 2026-11-12. The repository is private.",
-          "date": "2026-11-12"
+          "evidence": "GitHub merged-PR count, 1,993 on 2026-11-16. The repository is private.",
+          "date": "2026-11-16"
         },
         {
           "id": "open-tools",
@@ -147,9 +147,9 @@
       "claims": [
         {
           "id": "beliefs",
-          "claim": "{beliefs_count} beliefs logged as overturned, each with the test that overturned it; {beliefs_rules} became standing rules.",
+          "claim": "{beliefs_count} beliefs overturned since June, all on a public timeline by date and area; {beliefs_rules} became standing rules. The belief and test behind each are on request.",
           "status": "shown",
-          "evidence": "A public falsification ledger. Three of the entries:",
+          "evidence": "Three shown in full:",
           "date": "{beliefs_last}",
           "url": "https://status.arcs.care/beliefs",
           "label": "status.arcs.care/beliefs",

@@ -6,6 +6,7 @@ import { prisma } from "@/lib/db"
 import { callerFor } from "@/lib/jobs"
 import { MODELS, modelError } from "@/lib/claude-models"
 import { extractCultureCues, applyCultureGuard, cultureNote, mergeJdHits, type CultureCues, type CultureHits } from "@/lib/culture-cues"
+import { compScreen, COMP_GATE } from "@/lib/comp-screen"
 
 // POST /api/jobs/score - the JD-read + score worker's model half. LinkedIn JD
 // fetches are blocked from datacenter IPs, so the CALLER fetches each JD as text
@@ -115,6 +116,9 @@ export async function POST(req: NextRequest) {
     // gate_rules (spec opt-in): a model gate stands only if its title/JD regex matches; mechanical_gates add
     // title-driven gates the model never sees. Free-text gate judgment misfired twice in a row (2026-09-13).
     const gates: string[] = applyGateRules(s.rubric, modelGates, r.title, r.jd || "")
+    // Pay screen (Zach, 2026-11-16): judged on the TOP of the posted range against rubric.comp_floor_usd.
+    const floor = Number(s.rubric.comp_floor_usd) || 0
+    if (floor && compScreen(r.salary ?? p.comp ?? null, floor).below && !gates.includes(COMP_GATE)) gates.push(COMP_GATE)
     const gated = gates.length > 0
     const band = gated ? "PASS" : composite >= B.pursue ? "PURSUE" : composite >= B.consider ? "CONSIDER" : "PASS"
     const dimsJson = JSON.stringify(p.dims), gatesJson = JSON.stringify(gates)

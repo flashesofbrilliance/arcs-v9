@@ -593,9 +593,10 @@
    ],
    "jobs": [],
    "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html",
     "_ARTIFACTS/postmortem-manufactured-role.html"
    ],
-   "reuse": 1,
+   "reuse": 2,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -1327,10 +1328,9 @@
    ],
    "jobs": [],
    "pages": [
-    "_ARTIFACTS/raw-capture.html",
-    "public/belief-log.html"
+    "_ARTIFACTS/raw-capture.html"
    ],
-   "reuse": 2,
+   "reuse": 1,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -1573,6 +1573,12 @@
      "twin": "70-week-plan",
      "twin_rule": ".wp-pm ul",
      "jaccard": 0.8
+    },
+    {
+     "rule": ".gates",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-floor",
+     "jaccard": 0.8
     }
    ]
   },
@@ -1735,6 +1741,12 @@
      "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".tpl",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-k",
+     "jaccard": 0.83
     }
    ]
   },
@@ -2151,6 +2163,10 @@
     "_ARTIFACTS/tao-print-studio.html",
     "public/good-audit-check.html",
     "public/good-copypasta.html",
+    "public/gravity-brief-beliefs.html",
+    "public/gravity-brief-proof.html",
+    "public/gravity-brief.html",
+    "public/rosetta-voice.html",
     "scripts/counterpart_onepager_build.py",
     "scripts/kit_primitive_sync.py",
     "scripts/recoil_hypercube_explorer.py",
@@ -2158,7 +2174,7 @@
     "scripts/tabbed_brief_build.py",
     "scripts/week_plan_build.py"
    ],
-   "reuse": 15,
+   "reuse": 19,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -2678,6 +2694,7 @@
    "pages": [
     "_ARTIFACTS/atlas/concordance.html",
     "_ARTIFACTS/louisville-atlas.html",
+    "_ARTIFACTS/option-board/babel-fish.html",
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
     "_ARTIFACTS/recoil-hypercube-explorer.html",
     "_ARTIFACTS/terrain-atlas.html",
@@ -2690,7 +2707,7 @@
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py"
    ],
-   "reuse": 13,
+   "reuse": 14,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -3093,6 +3110,12 @@
      "twin": "53-cold-read",
      "twin_rule": ".section-label",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".tpl",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-k",
+     "jaccard": 0.83
     }
    ]
   },
@@ -3325,8 +3348,10 @@
     "kit-specimen"
    ],
    "jobs": [],
-   "pages": [],
-   "reuse": 0,
+   "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html"
+   ],
+   "reuse": 1,
    "near_duplicates": [
     {
      "rule": ".sp-list",
@@ -3369,6 +3394,12 @@
      "twin": "70-week-plan",
      "twin_rule": ".wp-tab-n",
      "jaccard": 0.83
+    },
+    {
+     "rule": ".sp-list",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-floor",
+     "jaccard": 1.0
     }
    ]
   },
@@ -3409,13 +3440,14 @@
    ],
    "pages": [
     "scripts/audit_report_build.py",
+    "scripts/braided_lanes_build.py",
     "scripts/kit_periodic_table.py",
     "scripts/kit_primitive_sync.py",
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py",
     "scripts/strata_explorer_build.py"
    ],
-   "reuse": 6,
+   "reuse": 7,
    "near_duplicates": []
   },
   {
@@ -3447,9 +3479,11 @@
    "jobs": [],
    "pages": [
     "scripts/recoil_brief.py",
+    "scripts/rosetta_voice_build.py",
+    "scripts/status_page_build.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 2,
+   "reuse": 4,
    "near_duplicates": [
     {
      "rule": ".wordmark",
@@ -3490,9 +3524,10 @@
     "_ARTIFACTS/brooks-audit-onepager.html",
     "scripts/counterpart_onepager_build.py",
     "scripts/recoil_brief.py",
+    "scripts/status_page_build.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 4,
+   "reuse": 5,
    "near_duplicates": []
   },
   {
@@ -3638,7 +3673,9 @@
     "tabbed-brief",
     "recoil-twin"
    ],
-   "jobs": [],
+   "jobs": [
+    "downshift-kit-number-collision"
+   ],
    "pages": [
     "public/gravity-brief-beliefs.html",
     "public/gravity-brief-eir.html",
@@ -3646,11 +3683,10 @@
     "public/gravity-brief-proof.html",
     "public/gravity-brief.html",
     "public/recoil-ext/2026-10-29-gasmi.html",
-    "scripts/kit_primitive_sync.py",
     "scripts/recoil_brief.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 9,
+   "reuse": 8,
    "near_duplicates": [
     {
      "rule": ".wordmark",
@@ -3733,8 +3769,10 @@
    },
    "templates": [],
    "jobs": [],
-   "pages": [],
-   "reuse": 0,
+   "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html"
+   ],
+   "reuse": 1,
    "near_duplicates": []
   },
   {
@@ -3917,8 +3955,10 @@
     "tabbed-brief"
    ],
    "jobs": [],
-   "pages": [],
-   "reuse": 0,
+   "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html"
+   ],
+   "reuse": 1,
    "near_duplicates": [
     {
      "rule": ".ftiles",
@@ -4031,8 +4071,10 @@
    },
    "templates": [],
    "jobs": [],
-   "pages": [],
-   "reuse": 0,
+   "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html"
+   ],
+   "reuse": 1,
    "near_duplicates": []
   },
   {
@@ -4073,9 +4115,13 @@
     "proposal",
     "recoil-twin"
    ],
-   "jobs": [],
+   "jobs": [
+    "rosetta-voice-page"
+   ],
    "pages": [
     "_ARTIFACTS/louisville-proposal/source.html",
+    "public/case-study.html",
+    "public/germinate.html",
     "public/good-rfp-engine.html",
     "public/gravity-brief-beliefs.html",
     "public/gravity-brief-eir.html",
@@ -4084,11 +4130,15 @@
     "public/gravity-brief.html",
     "public/louisville-proposal.html",
     "public/recoil-ext/2026-10-29-gasmi.html",
-    "scripts/kit_primitive_sync.py",
+    "public/rosetta-shell.html",
+    "public/rosetta-voice.html",
+    "public/status.html",
     "scripts/recoil_brief.py",
+    "scripts/rosetta_voice_build.py",
+    "scripts/status_page_build.py",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 12,
+   "reuse": 18,
    "near_duplicates": [
     {
      "rule": ".dprefs-btns button[aria-pressed=\"true\"]",
@@ -4192,13 +4242,16 @@
    ],
    "jobs": [
     "hud-high-signal-field",
-    "readme-cold-read-to-video"
+    "readme-cold-read-to-video",
+    "downshift-kit-number-collision"
    ],
    "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html",
+    "public/case-study.html",
     "public/gravity-brief.html",
     "scripts/tabbed_brief_build.py"
    ],
-   "reuse": 2,
+   "reuse": 4,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -4441,14 +4494,16 @@
    ],
    "jobs": [],
    "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html",
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
     "_ARTIFACTS/recoil-hypercube-explorer.html",
+    "public/case-study.html",
     "public/downshift.html",
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py",
     "scripts/week_plan_build.py"
    ],
-   "reuse": 6,
+   "reuse": 8,
    "near_duplicates": [
     {
      "rule": ".fold",
@@ -4524,12 +4579,13 @@
     "recoil-kit-reconcile"
    ],
    "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html",
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
     "_ARTIFACTS/recoil-hypercube-explorer.html",
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py"
    ],
-   "reuse": 4,
+   "reuse": 5,
    "near_duplicates": [
     {
      "rule": ".ledger",
@@ -4590,11 +4646,10 @@
    "pages": [
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
     "_ARTIFACTS/recoil-hypercube-explorer.html",
-    "scripts/kit_primitive_sync.py",
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py"
    ],
-   "reuse": 5,
+   "reuse": 4,
    "near_duplicates": [
     {
      "rule": ".toast-title",
@@ -4607,6 +4662,12 @@
      "twin": "70-week-plan",
      "twin_rule": ".wp-tab-n",
      "jaccard": 0.83
+    },
+    {
+     "rule": ".toast-title",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-rhead",
+     "jaccard": 0.86
     }
    ]
   },
@@ -4658,6 +4719,7 @@
     "recoil-kit-reconcile"
    ],
    "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html",
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
     "_ARTIFACTS/recoil-hypercube-explorer.html",
     "public/downshift.html",
@@ -4665,7 +4727,7 @@
     "scripts/recoil_hypercube_explorer.py",
     "scripts/recoil_page.py"
    ],
-   "reuse": 6,
+   "reuse": 7,
    "near_duplicates": [
     {
      "rule": ".claims",
@@ -4826,6 +4888,18 @@
      "twin": "69-strata-explorer",
      "twin_rule": ".st-rhead",
      "jaccard": 0.86
+    },
+    {
+     "rule": ".option-id",
+     "twin": "73-braided-lanes",
+     "twin_rule": ".bl-flabel",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".hhw dt",
+     "twin": "73-braided-lanes",
+     "twin_rule": ".bl-flabel",
+     "jaccard": 1.0
     }
    ]
   },
@@ -4891,6 +4965,12 @@
      "twin": "70-week-plan",
      "twin_rule": ".wp-tab-n",
      "jaccard": 0.83
+    },
+    {
+     "rule": ".note-head h3",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-rhead",
+     "jaccard": 0.86
     }
    ]
   },
@@ -4996,11 +5076,14 @@
     "recoil-runner-spend-figure"
    ],
    "pages": [
+    "_ARTIFACTS/option-board/babel-fish.html",
     "_ARTIFACTS/recoil-brian-2026-11-11.html",
     "public/downshift.html",
+    "scripts/braided_lanes_build.py",
+    "scripts/gate_chain_build.py",
     "scripts/strata_explorer_build.py"
    ],
-   "reuse": 3,
+   "reuse": 6,
    "near_duplicates": [
     {
      "rule": ".seam-rows code",
@@ -5030,6 +5113,12 @@
      "rule": ".seam-rows dt",
      "twin": "69-strata-explorer",
      "twin_rule": ".st-flabel",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".seam-rows dt",
+     "twin": "73-braided-lanes",
+     "twin_rule": ".bl-flabel",
      "jaccard": 0.86
     }
    ]
@@ -5066,14 +5155,17 @@
     "proposal"
    ],
    "jobs": [],
-   "pages": [],
-   "reuse": 0,
+   "pages": [
+    "_ARTIFACTS/louisville-proposal/source.html",
+    "public/louisville-proposal.html"
+   ],
+   "reuse": 2,
    "near_duplicates": [
     {
      "rule": ".qpair",
      "twin": "66-give-get-table",
      "twin_rule": ".gg",
-     "jaccard": 1.0
+     "jaccard": 0.8
     }
    ]
   },
@@ -5128,7 +5220,7 @@
      "rule": ".gg",
      "twin": "65-question-pair",
      "twin_rule": ".qpair",
-     "jaccard": 1.0
+     "jaccard": 0.8
     }
    ]
   },
@@ -5165,9 +5257,10 @@
    "jobs": [],
    "pages": [
     "_ARTIFACTS/louisville-proposal/source.html",
+    "_ARTIFACTS/option-board/babel-fish.html",
     "public/louisville-proposal.html"
    ],
-   "reuse": 2,
+   "reuse": 3,
    "near_duplicates": []
   },
   {
@@ -5175,7 +5268,7 @@
    "number": "68",
    "name": "Spec Rows",
    "group": "Specimens",
-   "subtitle": "Molecule 68 · Name a few labelled choices and what each one covers, as hairline rows in running text or as side-by-side cards when the reader is meant to pick.",
+   "subtitle": "Molecule 68 · Name a few labelled choices and what each one covers, as hairline rows in running text or as side-by-side cards (two or three across) when the reader is meant to pick.",
    "family": "kit",
    "path": "src/ui-kit/recoil-report/68-spec-rows.html",
    "data_shape": [
@@ -5184,6 +5277,7 @@
    "fidelity": [],
    "classes": [
     "cards",
+    "is-3",
     "spec",
     "specrow"
    ],
@@ -5202,9 +5296,10 @@
    "jobs": [],
    "pages": [
     "_ARTIFACTS/louisville-proposal/source.html",
+    "public/case-study.html",
     "public/louisville-proposal.html"
    ],
-   "reuse": 2,
+   "reuse": 3,
    "near_duplicates": []
   },
   {
@@ -5280,9 +5375,10 @@
     "strata-explorer-shipped"
    ],
    "pages": [
+    "scripts/braided_lanes_build.py",
     "scripts/strata_explorer_build.py"
    ],
-   "reuse": 1,
+   "reuse": 2,
    "near_duplicates": [
     {
      "rule": ".st-rlist, .st-key, .st-floor",
@@ -5331,6 +5427,24 @@
      "twin": "70-week-plan",
      "twin_rule": ".wp-tree, .wp-tree ol",
      "jaccard": 1.0
+    },
+    {
+     "rule": ".st-flabel",
+     "twin": "73-braided-lanes",
+     "twin_rule": ".bl-flabel",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".st-svg",
+     "twin": "73-braided-lanes",
+     "twin_rule": ".bl-svg",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".st-rhead",
+     "twin": "73-braided-lanes",
+     "twin_rule": ".bl-flabel",
+     "jaccard": 0.86
     }
    ]
   },
@@ -5447,7 +5561,9 @@
     "no_raw_signal_hex": true
    },
    "templates": [],
-   "jobs": [],
+   "jobs": [
+    "week-plan-organism"
+   ],
    "pages": [
     "scripts/week_plan_build.py"
    ],
@@ -5526,6 +5642,18 @@
      "jaccard": 1.0
     },
     {
+     "rule": ".wp-tab-n",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-k",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".wp-pm ul",
+     "twin": "72-week-strip",
+     "twin_rule": ".ws-floor",
+     "jaccard": 1.0
+    },
+    {
      "rule": ".wp-sr",
      "twin": "grammar-chips",
      "twin_rule": ".g-sr",
@@ -5536,6 +5664,263 @@
      "twin": "grammar-chips",
      "twin_rule": ".g-sr",
      "jaccard": 0.83
+    }
+   ]
+  },
+  {
+   "id": "71-proof-lockup",
+   "number": "71",
+   "name": "Proof Lockup",
+   "group": "Specimens",
+   "subtitle": "Organism 71 · Greet a cold reader with the two to four proofs behind a claim, each a figure they can check, between one short framing line and the promise it buys them.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/71-proof-lockup.html",
+   "data_shape": [
+    "state"
+   ],
+   "fidelity": [],
+   "classes": [
+    "plk",
+    "plk-cap",
+    "plk-cell",
+    "plk-cells",
+    "plk-close",
+    "plk-fig",
+    "plk-kick",
+    "plk-lab"
+   ],
+   "prim_blocks": [
+    "71-proof-lockup"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [],
+   "pages": [
+    "public/case-study.html",
+    "public/gravity-brief.html"
+   ],
+   "reuse": 2,
+   "near_duplicates": []
+  },
+  {
+   "id": "72-week-strip",
+   "number": "72",
+   "name": "Week Strip",
+   "group": "Specimens",
+   "subtitle": "Organism 72 · Show week by week how many gates entered the always-run path, and tap a week to read each fix that added one as break, repair, gate, every step cited to a commit.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/72-week-strip.html",
+   "data_shape": [
+    "evidence"
+   ],
+   "fidelity": [],
+   "classes": [
+    "md",
+    "ws-cell",
+    "ws-chain",
+    "ws-chip",
+    "ws-d0",
+    "ws-d1",
+    "ws-d2",
+    "ws-dot",
+    "ws-dots",
+    "ws-empty",
+    "ws-floor",
+    "ws-gate",
+    "ws-grid",
+    "ws-k",
+    "ws-key",
+    "ws-meta",
+    "ws-mon",
+    "ws-n",
+    "ws-read",
+    "ws-rhead",
+    "ws-src",
+    "ws-step",
+    "ws-v",
+    "wstrip"
+   ],
+   "prim_blocks": [
+    "72-week-strip"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [
+    "gauntlet-week-strip-chains"
+   ],
+   "pages": [
+    "public/gauntlet-log.html",
+    "scripts/gate_chain_build.py"
+   ],
+   "reuse": 2,
+   "near_duplicates": [
+    {
+     "rule": ".ws-floor",
+     "twin": "19-gate-ladder",
+     "twin_rule": ".gates",
+     "jaccard": 0.8
+    },
+    {
+     "rule": ".ws-k",
+     "twin": "20-transport",
+     "twin_rule": ".tpl",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".ws-k",
+     "twin": "34-manifold",
+     "twin_rule": ".tpl",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".ws-floor",
+     "twin": "36-change",
+     "twin_rule": ".sp-list",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".ws-rhead",
+     "twin": "58-toast",
+     "twin_rule": ".toast-title",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".ws-rhead",
+     "twin": "62-attributed-notes",
+     "twin_rule": ".note-head h3",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".ws-k",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-tab-n",
+     "jaccard": 0.83
+    },
+    {
+     "rule": ".ws-floor",
+     "twin": "70-week-plan",
+     "twin_rule": ".wp-pm ul",
+     "jaccard": 1.0
+    }
+   ]
+  },
+  {
+   "id": "73-braided-lanes",
+   "number": "73",
+   "name": "Braided Lanes",
+   "group": "Specimens",
+   "subtitle": "Organism 73 · Read every reversed belief as one flat lane per domain over time, see which reversals repaired others and which hardened into rules, against the weekly pace of work.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/73-braided-lanes.html",
+   "data_shape": [
+    "timeline"
+   ],
+   "fidelity": [
+    "grain"
+   ],
+   "classes": [
+    "bl-arc",
+    "bl-brush",
+    "bl-c-canon",
+    "bl-c-deploy",
+    "bl-c-gauntlet",
+    "bl-c-infra",
+    "bl-c-process",
+    "bl-c-recoil",
+    "bl-c-security",
+    "bl-c-surface",
+    "bl-commits-l",
+    "bl-div",
+    "bl-dot",
+    "bl-ev",
+    "bl-flabel",
+    "bl-floor",
+    "bl-fmeta",
+    "bl-grain",
+    "bl-grainband",
+    "bl-grainfill",
+    "bl-hatch",
+    "bl-hit",
+    "bl-key",
+    "bl-meta",
+    "bl-n",
+    "bl-name",
+    "bl-on",
+    "bl-out",
+    "bl-read",
+    "bl-receipts",
+    "bl-receipts-l",
+    "bl-ring",
+    "bl-rule",
+    "bl-spark",
+    "bl-src",
+    "bl-svg",
+    "bl-thin",
+    "bl-tick",
+    "braid",
+    "css"
+   ],
+   "prim_blocks": [
+    "73-braided-lanes"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [
+    "braided-lanes-beliefs"
+   ],
+   "pages": [
+    "public/belief-log.html",
+    "scripts/braided_lanes_build.py"
+   ],
+   "reuse": 2,
+   "near_duplicates": [
+    {
+     "rule": ".bl-flabel",
+     "twin": "61-option",
+     "twin_rule": ".option-id",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".bl-flabel",
+     "twin": "61-option",
+     "twin_rule": ".hhw dt",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".bl-flabel",
+     "twin": "64-kintsugi-seam",
+     "twin_rule": ".seam-rows dt",
+     "jaccard": 0.86
+    },
+    {
+     "rule": ".bl-flabel",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-flabel",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".bl-svg",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-svg",
+     "jaccard": 1.0
+    },
+    {
+     "rule": ".bl-flabel",
+     "twin": "69-strata-explorer",
+     "twin_rule": ".st-rhead",
+     "jaccard": 0.86
     }
    ]
   },
@@ -5593,13 +5978,15 @@
    ],
    "pages": [
     "_ARTIFACTS/job-search/swipe-board.html",
+    "_ARTIFACTS/option-board/babel-fish.html",
     "public/downshift.html",
     "public/germinate.html",
     "public/good-rfp-engine.html",
     "public/honest.html",
-    "public/rosetta-shell.html"
+    "public/rosetta-shell.html",
+    "public/rosetta-voice.html"
    ],
-   "reuse": 6,
+   "reuse": 8,
    "near_duplicates": [
     {
      "rule": ".row",

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# safe_merge.sh: the one way a session merges a PR in arcs-v9.
+# safe_merge.sh: the one way a session merges a pull request (PR) safely in arcs-v9.
 #
 # Tuition (2026-10-20, one day of parallel sessions): a parent merged a child's PR before the
 # child's last push; a wait loop exited early and merged while Vercel was still PENDING (PR 1722);
@@ -186,7 +186,7 @@ sys.exit(0 if any(re.match(r"(src/ui-kit/|src/ui/|scripts/kit_(pull|periodic_tab
     behind="$(git rev-list --count "refs/safe-merge/pr-$PR..origin/main" -- $KIT_PATHS)"
     git update-ref -d "refs/safe-merge/pr-$PR"
   fi
-  [ "$behind" -eq 0 ] || die "PR $PR touches kit inputs and main has $behind kit-input commit(s) it lacks. On the branch (owner only): rebase onto main, run python3 scripts/kit_pull.py manifest and python3 scripts/kit_periodic_table.py, commit, push, then re-run with the new head."
+  [ "$behind" -eq 0 ] || die "PR $PR touches kit inputs and main has $behind kit-input commit(s) it lacks. On the branch (owner only): run scripts/kit_sync_refresh.sh (merges main, regenerates the kit files, commits, pushes, prints the new head), then re-run with that head."
 }
 
 # GitHub health probe (jtbd-graph dep:service:github, runtime/specs/jtbd-graph-probes.json): refuse before any read or merge.

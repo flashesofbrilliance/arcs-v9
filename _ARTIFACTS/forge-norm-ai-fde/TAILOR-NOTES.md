@@ -36,7 +36,7 @@ FDE archetype: lead differentiator #2 (embed) then #1 (build). Squat NY is the h
 | ARCS runs on Claude with a custom MCP server and agentic pipelines | documented | live app; master résumé; public OSS |
 | Next.js/TypeScript on Postgres (Prisma), Python operator library, CI gates | self-reported | repo is private; stack is real but not inspectable from outside |
 | 60% decision-noise reduction | self-reported, labeled as such on the page | internal measurement of own product |
-| Grayscale: 10 SEC/FINRA-regulated products, $7B AUM | documented (AUM is public), role self-reported | master résumé |
+| Grayscale: 10 SEC/FINRA-regulated products, $7B launched | documented (launch figure is public), role self-reported | master résumé |
 | Squat NY: seven-figure engagement, $350M ARR client | self-reported | master résumé |
 | CTF: 20% net-new revenue lift | self-reported | master résumé |
 | WTA: <120ms scoring, $850K+ year one | self-reported | master résumé |

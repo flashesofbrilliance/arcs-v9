@@ -11,7 +11,7 @@
   "BOUND": 77,
   "UNBOUND": 28,
   "reads_backlog": 1,
-  "edges": 525
+  "edges": 580
  },
  "seats": [
   {
@@ -80,10 +80,10 @@
    "status": "BOUND",
    "reads_backlog": false,
    "counts": {
-    "mentioned_by_row": 5,
+    "mentioned_by_row": 7,
     "cited_by_tool": 3,
     "cites_tool": 4,
-    "serves_surface": 0,
+    "serves_surface": 8,
     "invokes_primitive": 0
    },
    "active_rows": 1,
@@ -152,6 +152,28 @@
      }
     },
     {
+     "target": "job:backlog:braided-lanes-beliefs",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 575,
+      "row_id": "braided-lanes-beliefs",
+      "needle": "(?<![\\w/-])brand\\-line\\-producer(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:gauntlet-week-strip-chains",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 571,
+      "row_id": "gauntlet-week-strip-chains",
+      "needle": "(?<![\\w/-])brand\\-line\\-producer(?![\\w-])"
+     }
+    },
+    {
      "target": "job:backlog:page-editor-walkthrough-video",
      "kind": "mentioned_by_row",
      "row_state": "DONE",
@@ -205,6 +227,78 @@
       "row_id": "rfp-ship-landing-merge",
       "needle": "(?<![\\w/-])brand\\-line\\-producer(?![\\w-])"
      }
+    },
+    {
+     "target": "tool:surface:gravity.arcs.care/",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/gravity-brief.html",
+      "line": 594,
+      "needle": "(?<![\\w/-])brand\\-line\\-producer(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:surface:gravity.arcs.care/beliefs",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/gravity-brief-beliefs.html",
+      "line": 594,
+      "needle": "(?<![\\w/-])brand\\-line\\-producer(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:surface:gravity.arcs.care/eir",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/gravity-brief-eir.html",
+      "line": 594,
+      "needle": "(?<![\\w/-])brand\\-line\\-producer(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:surface:gravity.arcs.care/founder",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/gravity-brief-hats.html",
+      "line": 594,
+      "needle": "(?<![\\w/-])brand\\-line\\-producer(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:surface:gravity.arcs.care/hats",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/gravity-brief-hats.html",
+      "line": 594,
+      "needle": "(?<![\\w/-])brand\\-line\\-producer(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:surface:gravity.arcs.care/open",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/gravity-brief-eir.html",
+      "line": 594,
+      "needle": "(?<![\\w/-])brand\\-line\\-producer(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:surface:gravity.arcs.care/principal",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/gravity-brief-hats.html",
+      "line": 594,
+      "needle": "(?<![\\w/-])brand\\-line\\-producer(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:surface:gravity.arcs.care/proof",
+     "kind": "serves_surface",
+     "evidence": {
+      "file": "public/gravity-brief-proof.html",
+      "line": 594,
+      "needle": "(?<![\\w/-])brand\\-line\\-producer(?![\\w-])"
+     }
     }
    ]
   },
@@ -217,13 +311,22 @@
    "reads_backlog": false,
    "counts": {
     "mentioned_by_row": 0,
-    "cited_by_tool": 0,
+    "cited_by_tool": 1,
     "cites_tool": 1,
     "serves_surface": 0,
     "invokes_primitive": 0
    },
    "active_rows": 0,
    "edges": [
+    {
+     "target": "tool:skill:scrum",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/skills/scrum/SKILL.md",
+      "line": 56,
+      "needle": "(?<![\\w/-])chief\\-bayesian(?![\\w-])"
+     }
+    },
     {
      "target": "tool:script:agent_seed_gate.py",
      "kind": "cites_tool",
@@ -244,13 +347,22 @@
    "reads_backlog": false,
    "counts": {
     "mentioned_by_row": 0,
-    "cited_by_tool": 0,
+    "cited_by_tool": 1,
     "cites_tool": 1,
     "serves_surface": 0,
     "invokes_primitive": 0
    },
    "active_rows": 0,
    "edges": [
+    {
+     "target": "tool:skill:scrum",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/skills/scrum/SKILL.md",
+      "line": 57,
+      "needle": "(?<![\\w/-])chief\\-conductor(?![\\w-])"
+     }
+    },
     {
      "target": "tool:script:agent_seed_gate.py",
      "kind": "cites_tool",
@@ -270,8 +382,8 @@
    "status": "BOUND",
    "reads_backlog": false,
    "counts": {
-    "mentioned_by_row": 7,
-    "cited_by_tool": 3,
+    "mentioned_by_row": 9,
+    "cited_by_tool": 4,
     "cites_tool": 1,
     "serves_surface": 0,
     "invokes_primitive": 0
@@ -306,6 +418,15 @@
      }
     },
     {
+     "target": "tool:skill:scrum",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/skills/scrum/SKILL.md",
+      "line": 56,
+      "needle": "(?<![\\w/-])chief\\-loki(?![\\w-])"
+     }
+    },
+    {
      "target": "tool:script:agent_seed_gate.py",
      "kind": "cites_tool",
      "evidence": {
@@ -322,6 +443,17 @@
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 389,
       "row_id": "fc-derisk-gate-falsifier-set",
+      "needle": "(?<![\\w/-])chief\\-loki(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:grug-simplicity-check",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 566,
+      "row_id": "grug-simplicity-check",
       "needle": "(?<![\\w/-])chief\\-loki(?![\\w-])"
      }
     },
@@ -383,11 +515,22 @@
     {
      "target": "job:backlog:jtbd-graph-s5-feedback",
      "kind": "mentioned_by_row",
-     "row_state": "HOLDING",
+     "row_state": "READY",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 302,
       "row_id": "jtbd-graph-s5-feedback",
+      "needle": "(?<![\\w/-])chief\\-loki(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:seed-induced-render-engine",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 559,
+      "row_id": "seed-induced-render-engine",
       "needle": "(?<![\\w/-])chief\\-loki(?![\\w-])"
      }
     }
@@ -420,13 +563,22 @@
    "reads_backlog": false,
    "counts": {
     "mentioned_by_row": 0,
-    "cited_by_tool": 0,
+    "cited_by_tool": 1,
     "cites_tool": 5,
     "serves_surface": 0,
     "invokes_primitive": 0
    },
    "active_rows": 0,
    "edges": [
+    {
+     "target": "tool:skill:scrum",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/skills/scrum/SKILL.md",
+      "line": 57,
+      "needle": "(?<![\\w/-])claim\\-index\\-sme(?![\\w-])"
+     }
+    },
     {
      "target": "tool:script:canon_claims_report.py",
      "kind": "cites_tool",
@@ -639,7 +791,7 @@
     {
      "target": "job:backlog:jtbd-graph-s5-feedback",
      "kind": "mentioned_by_row",
-     "row_state": "HOLDING",
+     "row_state": "READY",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 302,
@@ -741,21 +893,30 @@
    "status": "BOUND",
    "reads_backlog": false,
    "counts": {
-    "mentioned_by_row": 1,
-    "cited_by_tool": 1,
+    "mentioned_by_row": 16,
+    "cited_by_tool": 2,
     "cites_tool": 11,
     "serves_surface": 0,
     "invokes_primitive": 2
    },
-   "active_rows": 0,
+   "active_rows": 14,
    "edges": [
     {
      "target": "tool:hook:pre-commit",
      "kind": "cited_by_tool",
      "evidence": {
       "file": "scripts/git-hooks/pre-commit",
-      "line": 264,
+      "line": 298,
       "needle": "agents/cruise\\-control\\.md"
+     }
+    },
+    {
+     "target": "tool:script:daily_boot.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/daily_boot.py",
+      "line": 5,
+      "needle": "(?<![\\w/-])cruise\\-control(?![\\w-])"
      }
     },
     {
@@ -876,6 +1037,61 @@
      }
     },
     {
+     "target": "job:backlog:accountant-weekly-first-unattended",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 107,
+      "row_id": "accountant-weekly-first-unattended",
+      "needle": "(?<![\\w/-])cruise\\-control(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:backlog-tiebreak-rule",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 475,
+      "row_id": "backlog-tiebreak-rule",
+      "needle": "(?<![\\w/-])cruise\\-control(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:card-catalog-q4-rerun-with-receipts",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 443,
+      "row_id": "card-catalog-q4-rerun-with-receipts",
+      "needle": "(?<![\\w/-])cruise\\-control(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:daily-boot-sequence",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 596,
+      "row_id": "daily-boot-sequence",
+      "needle": "(?<![\\w/-])cruise\\-control(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:doc-gate-false-positive-cleanup",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 99,
+      "row_id": "doc-gate-false-positive-cleanup",
+      "needle": "(?<![\\w/-])cruise\\-control(?![\\w-])"
+     }
+    },
+    {
      "target": "job:backlog:harness-flight-manual-cruise-control",
      "kind": "mentioned_by_row",
      "row_state": "DONE",
@@ -883,6 +1099,116 @@
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 435,
       "row_id": "harness-flight-manual-cruise-control",
+      "needle": "(?<![\\w/-])cruise\\-control(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:issue-sync-native-blocked-by",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 464,
+      "row_id": "issue-sync-native-blocked-by",
+      "needle": "(?<![\\w/-])cruise\\-control(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:librarian-apex-spine-tier-class",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 442,
+      "row_id": "librarian-apex-spine-tier-class",
+      "needle": "(?<![\\w/-])cruise\\-control(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:line-triage-reads-gates-one-way",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 445,
+      "row_id": "line-triage-reads-gates-one-way",
+      "needle": "(?<![\\w/-])cruise\\-control(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:open-loops-ssot-drift-line",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 544,
+      "row_id": "open-loops-ssot-drift-line",
+      "needle": "(?<![\\w/-])cruise\\-control(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:readiness-card-decision-test",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 466,
+      "row_id": "readiness-card-decision-test",
+      "needle": "(?<![\\w/-])cruise\\-control(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:ready-now-door-decision-split",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 462,
+      "row_id": "ready-now-door-decision-split",
+      "needle": "(?<![\\w/-])cruise\\-control(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:receipt-coverage-resolved-split",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 463,
+      "row_id": "receipt-coverage-resolved-split",
+      "needle": "(?<![\\w/-])cruise\\-control(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:recoil-skills-on-runner",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 519,
+      "row_id": "recoil-skills-on-runner",
+      "needle": "(?<![\\w/-])cruise\\-control(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:session-overlay-recurring",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 516,
+      "row_id": "session-overlay-recurring",
+      "needle": "(?<![\\w/-])cruise\\-control(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:token-tuner-why-prompt",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 493,
+      "row_id": "token-tuner-why-prompt",
       "needle": "(?<![\\w/-])cruise\\-control(?![\\w-])"
      }
     }
@@ -932,8 +1258,8 @@
    "status": "BOUND",
    "reads_backlog": false,
    "counts": {
-    "mentioned_by_row": 3,
-    "cited_by_tool": 2,
+    "mentioned_by_row": 5,
+    "cited_by_tool": 3,
     "cites_tool": 0,
     "serves_surface": 0,
     "invokes_primitive": 0
@@ -955,6 +1281,26 @@
      "evidence": {
       "file": "scripts/audit_report_build.py",
       "line": 252,
+      "needle": "(?<![\\w/-])grug(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:script:babel_fish_listeners.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/babel_fish_listeners.py",
+      "line": 8,
+      "needle": "(?<![\\w/-])grug(?![\\w-])"
+     }
+    },
+    {
+     "target": "job:backlog:arcs-mode-session-settings",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 567,
+      "row_id": "arcs-mode-session-settings",
       "needle": "(?<![\\w/-])grug(?![\\w-])"
      }
     },
@@ -981,6 +1327,17 @@
      }
     },
     {
+     "target": "job:backlog:grug-simplicity-check",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 566,
+      "row_id": "grug-simplicity-check",
+      "needle": "agents/grug\\.md"
+     }
+    },
+    {
      "target": "job:backlog:readme-cold-read-to-video",
      "kind": "mentioned_by_row",
      "row_state": "DONE",
@@ -1001,8 +1358,8 @@
    "status": "BOUND",
    "reads_backlog": false,
    "counts": {
-    "mentioned_by_row": 0,
-    "cited_by_tool": 0,
+    "mentioned_by_row": 1,
+    "cited_by_tool": 1,
     "cites_tool": 1,
     "serves_surface": 0,
     "invokes_primitive": 0
@@ -1010,12 +1367,32 @@
    "active_rows": 0,
    "edges": [
     {
+     "target": "tool:skill:scrum",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/skills/scrum/SKILL.md",
+      "line": 54,
+      "needle": "(?<![\\w/-])idea\\-alchemist(?![\\w-])"
+     }
+    },
+    {
      "target": "tool:script:agent_seed_gate.py",
      "kind": "cites_tool",
      "evidence": {
       "file": ".claude/agents/idea-alchemist.md",
       "line": 11,
       "needle": "scripts/agent_seed_gate\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:seed-induced-render-engine",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 559,
+      "row_id": "seed-induced-render-engine",
+      "needle": "(?<![\\w/-])idea\\-alchemist(?![\\w-])"
      }
     }
    ]
@@ -1028,14 +1405,23 @@
    "status": "BOUND",
    "reads_backlog": false,
    "counts": {
-    "mentioned_by_row": 0,
-    "cited_by_tool": 0,
+    "mentioned_by_row": 1,
+    "cited_by_tool": 1,
     "cites_tool": 2,
     "serves_surface": 0,
     "invokes_primitive": 0
    },
    "active_rows": 0,
    "edges": [
+    {
+     "target": "tool:skill:scrum",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/skills/scrum/SKILL.md",
+      "line": 55,
+      "needle": "(?<![\\w/-])idea\\-curator(?![\\w-])"
+     }
+    },
     {
      "target": "tool:operator:arcs_operators_curator.py",
      "kind": "cites_tool",
@@ -1053,6 +1439,17 @@
       "line": 11,
       "needle": "scripts/agent_seed_gate\\.py"
      }
+    },
+    {
+     "target": "job:backlog:seed-induced-render-engine",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 559,
+      "row_id": "seed-induced-render-engine",
+      "needle": "(?<![\\w/-])idea\\-curator(?![\\w-])"
+     }
     }
    ]
   },
@@ -1064,8 +1461,8 @@
    "status": "BOUND",
    "reads_backlog": false,
    "counts": {
-    "mentioned_by_row": 0,
-    "cited_by_tool": 0,
+    "mentioned_by_row": 1,
+    "cited_by_tool": 1,
     "cites_tool": 1,
     "serves_surface": 0,
     "invokes_primitive": 0
@@ -1073,12 +1470,32 @@
    "active_rows": 0,
    "edges": [
     {
+     "target": "tool:skill:scrum",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/skills/scrum/SKILL.md",
+      "line": 55,
+      "needle": "(?<![\\w/-])idea\\-detective(?![\\w-])"
+     }
+    },
+    {
      "target": "tool:script:agent_seed_gate.py",
      "kind": "cites_tool",
      "evidence": {
       "file": ".claude/agents/idea-detective.md",
       "line": 11,
       "needle": "scripts/agent_seed_gate\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:seed-induced-render-engine",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 559,
+      "row_id": "seed-induced-render-engine",
+      "needle": "(?<![\\w/-])idea\\-detective(?![\\w-])"
      }
     }
    ]
@@ -1091,14 +1508,23 @@
    "status": "BOUND",
    "reads_backlog": false,
    "counts": {
-    "mentioned_by_row": 0,
-    "cited_by_tool": 0,
+    "mentioned_by_row": 1,
+    "cited_by_tool": 1,
     "cites_tool": 2,
     "serves_surface": 0,
     "invokes_primitive": 0
    },
    "active_rows": 0,
    "edges": [
+    {
+     "target": "tool:skill:scrum",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/skills/scrum/SKILL.md",
+      "line": 54,
+      "needle": "(?<![\\w/-])idea\\-librarian(?![\\w-])"
+     }
+    },
     {
      "target": "tool:script:agent_seed_gate.py",
      "kind": "cites_tool",
@@ -1115,6 +1541,17 @@
       "file": ".claude/agents/idea-librarian.md",
       "line": 7,
       "needle": "scripts/prior_art\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:seed-induced-render-engine",
+     "kind": "mentioned_by_row",
+     "row_state": "DONE",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 559,
+      "row_id": "seed-induced-render-engine",
+      "needle": "(?<![\\w/-])idea\\-librarian(?![\\w-])"
      }
     }
    ]
@@ -1334,13 +1771,22 @@
    "reads_backlog": false,
    "counts": {
     "mentioned_by_row": 1,
-    "cited_by_tool": 0,
+    "cited_by_tool": 1,
     "cites_tool": 0,
     "serves_surface": 0,
     "invokes_primitive": 0
    },
    "active_rows": 1,
    "edges": [
+    {
+     "target": "tool:skill:scrum",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/skills/scrum/SKILL.md",
+      "line": 58,
+      "needle": "(?<![\\w/-])prospect\\-scout(?![\\w-])"
+     }
+    },
     {
      "target": "job:backlog:jtbd-standing-tools",
      "kind": "mentioned_by_row",
@@ -1491,13 +1937,31 @@
    "reads_backlog": false,
    "counts": {
     "mentioned_by_row": 1,
-    "cited_by_tool": 0,
+    "cited_by_tool": 2,
     "cites_tool": 1,
     "serves_surface": 0,
     "invokes_primitive": 0
    },
    "active_rows": 1,
    "edges": [
+    {
+     "target": "tool:script:babel_fish_listeners.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/babel_fish_listeners.py",
+      "line": 8,
+      "needle": "(?<![\\w/-])scenario\\-runner(?![\\w-])"
+     }
+    },
+    {
+     "target": "tool:skill:scrum",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": ".claude/skills/scrum/SKILL.md",
+      "line": 56,
+      "needle": "(?<![\\w/-])scenario\\-runner(?![\\w-])"
+     }
+    },
     {
      "target": "tool:script:agent_seed_gate.py",
      "kind": "cites_tool",
@@ -1711,7 +2175,7 @@
     "serves_surface": 0,
     "invokes_primitive": 1
    },
-   "active_rows": 1,
+   "active_rows": 0,
    "edges": [
     {
      "target": "tool:operator:arcs_pipeline_v1.py",
@@ -1763,7 +2227,7 @@
     {
      "target": "job:backlog:hypothesis-generator-plg-surface",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 53,
@@ -1847,14 +2311,14 @@
     "serves_surface": 3,
     "invokes_primitive": 0
    },
-   "active_rows": 3,
+   "active_rows": 2,
    "edges": [
     {
      "target": "tool:hook:pre-commit",
      "kind": "cited_by_tool",
      "evidence": {
       "file": "scripts/git-hooks/pre-commit",
-      "line": 974,
+      "line": 1071,
       "needle": "arcs_primitives\\.py"
      }
     },
@@ -1939,7 +2403,7 @@
     {
      "target": "job:backlog:svc-sage-should-it-exist-decision",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 44,
@@ -2094,7 +2558,7 @@
     "serves_surface": 0,
     "invokes_primitive": 1
    },
-   "active_rows": 1,
+   "active_rows": 0,
    "edges": [
     {
      "target": "tool:operator:arcs_mcp_bridge.py",
@@ -2211,7 +2675,7 @@
     {
      "target": "job:backlog:hypothesis-generator-plg-surface",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 53,
@@ -2320,7 +2784,7 @@
     "serves_surface": 4,
     "invokes_primitive": 0
    },
-   "active_rows": 8,
+   "active_rows": 3,
    "edges": [
     {
      "target": "tool:operator:arcs_mcp_bridge.py",
@@ -2460,7 +2924,7 @@
     {
      "target": "job:backlog:accountant-calibration-curve",
      "kind": "mentioned_by_row",
-     "row_state": "HOLDING",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 77,
@@ -2471,7 +2935,7 @@
     {
      "target": "job:backlog:accountant-external-cohort-nonzero",
      "kind": "mentioned_by_row",
-     "row_state": "HOLDING",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 76,
@@ -2482,7 +2946,7 @@
     {
      "target": "job:backlog:accountant-real-cohort-calibration",
      "kind": "mentioned_by_row",
-     "row_state": "HOLDING",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 104,
@@ -2504,7 +2968,7 @@
     {
      "target": "job:backlog:debrief-vox-capture",
      "kind": "mentioned_by_row",
-     "row_state": "OPEN",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 273,
@@ -2614,7 +3078,7 @@
     {
      "target": "job:backlog:taxonomy-conflict-ledger-and-atlas-edges",
      "kind": "mentioned_by_row",
-     "row_state": "OPEN",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 272,
@@ -2654,7 +3118,7 @@
      "kind": "serves_surface",
      "evidence": {
       "file": "public/status.html",
-      "line": 1502,
+      "line": 1706,
       "needle": "\\b[Oo]p(?:erator)?[ -]?19\\b"
      }
     }
@@ -2712,7 +3176,7 @@
     "serves_surface": 7,
     "invokes_primitive": 0
    },
-   "active_rows": 6,
+   "active_rows": 3,
    "edges": [
     {
      "target": "tool:operator:arcs_api.py",
@@ -2856,7 +3320,7 @@
     {
      "target": "job:backlog:moral-to-gate-alchemy-pipeline",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 51,
@@ -2911,7 +3375,7 @@
     {
      "target": "job:backlog:svc-sage-should-it-exist-decision",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 44,
@@ -2922,7 +3386,7 @@
     {
      "target": "job:backlog:taxonomy-conflict-ledger-and-atlas-edges",
      "kind": "mentioned_by_row",
-     "row_state": "OPEN",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 272,
@@ -3021,14 +3485,14 @@
     "serves_surface": 3,
     "invokes_primitive": 0
    },
-   "active_rows": 9,
+   "active_rows": 5,
    "edges": [
     {
      "target": "tool:hook:pre-commit",
      "kind": "cited_by_tool",
      "evidence": {
       "file": "scripts/git-hooks/pre-commit",
-      "line": 973,
+      "line": 1070,
       "needle": "\\bLibrarian\\b"
      }
     },
@@ -3237,7 +3701,7 @@
     {
      "target": "job:backlog:librarian-apex-spine-tier-class",
      "kind": "mentioned_by_row",
-     "row_state": "OPEN",
+     "row_state": "READY",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 442,
@@ -3259,7 +3723,7 @@
     {
      "target": "job:backlog:memory-seven-axis-scorecard",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 88,
@@ -3270,7 +3734,7 @@
     {
      "target": "job:backlog:moral-to-gate-alchemy-pipeline",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 51,
@@ -3292,7 +3756,7 @@
     {
      "target": "job:backlog:operator21-gaussian-process-posterior-then-rt-core",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 39,
@@ -3336,7 +3800,7 @@
     {
      "target": "job:backlog:taxonomy-conflict-ledger-and-atlas-edges",
      "kind": "mentioned_by_row",
-     "row_state": "OPEN",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 272,
@@ -3411,7 +3875,7 @@
      "kind": "serves_surface",
      "evidence": {
       "file": "public/status.html",
-      "line": 1516,
+      "line": 1720,
       "needle": "\\b[Oo]p(?:erator)?[ -]?21\\b"
      }
     }
@@ -3426,13 +3890,13 @@
    "status": "BOUND",
    "reads_backlog": false,
    "counts": {
-    "mentioned_by_row": 5,
+    "mentioned_by_row": 7,
     "cited_by_tool": 5,
     "cites_tool": 0,
     "serves_surface": 7,
     "invokes_primitive": 1
    },
-   "active_rows": 4,
+   "active_rows": 5,
    "edges": [
     {
      "target": "tool:agent:chief-conductor",
@@ -3489,9 +3953,20 @@
      }
     },
     {
+     "target": "job:backlog:m-and-a-arbitrage-scored-backtest",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 293,
+      "row_id": "m-and-a-arbitrage-scored-backtest",
+      "needle": "receipt_evaluator\\.py"
+     }
+    },
+    {
      "target": "job:backlog:moral-to-gate-alchemy-pipeline",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 51,
@@ -3519,6 +3994,17 @@
       "line": 52,
       "row_id": "pond-etch-protocol-serialize-molt-test",
       "needle": "\\b[Oo]p(?:erator)?[ -]?22\\b"
+     }
+    },
+    {
+     "target": "job:backlog:recoil-brian-ssot",
+     "kind": "mentioned_by_row",
+     "row_state": "READY",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 517,
+      "row_id": "recoil-brian-ssot",
+      "needle": "\\bConductor\\b"
      }
     },
     {
@@ -3602,7 +4088,7 @@
      "kind": "serves_surface",
      "evidence": {
       "file": "public/status.html",
-      "line": 1596,
+      "line": 1800,
       "needle": "\\bConductor\\b"
      }
     }
@@ -3617,13 +4103,13 @@
    "status": "BOUND",
    "reads_backlog": false,
    "counts": {
-    "mentioned_by_row": 6,
+    "mentioned_by_row": 7,
     "cited_by_tool": 23,
     "cites_tool": 0,
     "serves_surface": 13,
     "invokes_primitive": 0
    },
-   "active_rows": 3,
+   "active_rows": 4,
    "edges": [
     {
      "target": "tool:agent:chief-loki",
@@ -3844,6 +4330,17 @@
      }
     },
     {
+     "target": "job:backlog:babel-fish-transceiver",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 574,
+      "row_id": "babel-fish-transceiver",
+      "needle": "\\bLoki\\b"
+     }
+    },
+    {
      "target": "job:backlog:backlog-merge-driver-by-id",
      "kind": "mentioned_by_row",
      "row_state": "DONE",
@@ -3930,7 +4427,7 @@
      "kind": "serves_surface",
      "evidence": {
       "file": "public/downshift.html",
-      "line": 997,
+      "line": 999,
       "needle": "\\bLoki\\b"
      }
     },
@@ -4324,7 +4821,7 @@
     "serves_surface": 0,
     "invokes_primitive": 0
    },
-   "active_rows": 3,
+   "active_rows": 2,
    "edges": [
     {
      "target": "tool:agent:platform-standards-auditor",
@@ -4347,7 +4844,7 @@
     {
      "target": "job:backlog:memory-seven-axis-scorecard",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 88,
@@ -4700,7 +5197,7 @@
     "serves_surface": 0,
     "invokes_primitive": 0
    },
-   "active_rows": 4,
+   "active_rows": 1,
    "edges": [
     {
      "target": "tool:script:accountant_weekly.py",
@@ -4759,7 +5256,7 @@
     {
      "target": "job:backlog:accountant-calibration-curve",
      "kind": "mentioned_by_row",
-     "row_state": "HOLDING",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 77,
@@ -4770,7 +5267,7 @@
     {
      "target": "job:backlog:accountant-external-cohort-nonzero",
      "kind": "mentioned_by_row",
-     "row_state": "HOLDING",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 76,
@@ -4781,7 +5278,7 @@
     {
      "target": "job:backlog:accountant-real-cohort-calibration",
      "kind": "mentioned_by_row",
-     "row_state": "HOLDING",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 104,
@@ -4816,7 +5313,7 @@
     "serves_surface": 0,
     "invokes_primitive": 2
    },
-   "active_rows": 4,
+   "active_rows": 3,
    "edges": [
     {
      "target": "tool:operator:arcs_echo_embedding.py",
@@ -4912,7 +5409,7 @@
     {
      "target": "job:backlog:svc-sage-should-it-exist-decision",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 44,
@@ -5138,7 +5635,7 @@
     "serves_surface": 0,
     "invokes_primitive": 0
    },
-   "active_rows": 1,
+   "active_rows": 0,
    "edges": [
     {
      "target": "tool:operator:arcs_cis.py",
@@ -5161,7 +5658,7 @@
     {
      "target": "job:backlog:svc-sage-should-it-exist-decision",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 44,
@@ -5463,7 +5960,7 @@
     {
      "target": "job:backlog:card-catalog-q4-rerun-with-receipts",
      "kind": "mentioned_by_row",
-     "row_state": "OPEN",
+     "row_state": "READY",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 443,
@@ -5507,7 +6004,7 @@
     {
      "target": "job:backlog:librarian-apex-spine-tier-class",
      "kind": "mentioned_by_row",
-     "row_state": "OPEN",
+     "row_state": "READY",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 442,
@@ -5558,14 +6055,23 @@
    "status": "BOUND",
    "reads_backlog": false,
    "counts": {
-    "mentioned_by_row": 1,
-    "cited_by_tool": 1,
+    "mentioned_by_row": 2,
+    "cited_by_tool": 3,
     "cites_tool": 0,
     "serves_surface": 0,
     "invokes_primitive": 1
    },
-   "active_rows": 1,
+   "active_rows": 2,
    "edges": [
+    {
+     "target": "tool:hook:pre-commit",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/git-hooks/pre-commit",
+      "line": 200,
+      "needle": "arcs_lte\\.py"
+     }
+    },
     {
      "target": "tool:operator:arcs_cis.py",
      "kind": "cited_by_tool",
@@ -5576,12 +6082,32 @@
      }
     },
     {
+     "target": "tool:script:babel_fish_listeners.py",
+     "kind": "cited_by_tool",
+     "evidence": {
+      "file": "scripts/babel_fish_listeners.py",
+      "line": 5,
+      "needle": "arcs_lte\\.py"
+     }
+    },
+    {
      "target": "rom:kintsugi-immune-system",
      "kind": "invokes_primitive",
      "evidence": {
       "file": "operators/arcs_lte.py",
       "line": 732,
       "needle": "(?i)\\bkintsugi\\b"
+     }
+    },
+    {
+     "target": "job:backlog:babel-fish-transceiver",
+     "kind": "mentioned_by_row",
+     "row_state": "HELD",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 574,
+      "row_id": "babel-fish-transceiver",
+      "needle": "arcs_lte\\.py"
      }
     },
     {
@@ -5722,7 +6248,7 @@
     "serves_surface": 0,
     "invokes_primitive": 0
    },
-   "active_rows": 1,
+   "active_rows": 0,
    "edges": [
     {
      "target": "tool:script:essay_atlas.py",
@@ -5754,7 +6280,7 @@
     {
      "target": "job:backlog:moral-to-gate-alchemy-pipeline",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 51,
@@ -5778,12 +6304,12 @@
     "serves_surface": 0,
     "invokes_primitive": 0
    },
-   "active_rows": 2,
+   "active_rows": 0,
    "edges": [
     {
      "target": "job:backlog:moral-to-gate-alchemy-pipeline",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 51,
@@ -5794,7 +6320,7 @@
     {
      "target": "job:backlog:operator21-gaussian-process-posterior-then-rt-core",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 39,
@@ -5974,7 +6500,7 @@
     "serves_surface": 0,
     "invokes_primitive": 1
    },
-   "active_rows": 1,
+   "active_rows": 0,
    "edges": [
     {
      "target": "tool:operator:arcs_pipeline_v1.py",
@@ -6006,7 +6532,7 @@
     {
      "target": "job:backlog:hypothesis-generator-plg-surface",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 53,
@@ -6122,14 +6648,14 @@
     "serves_surface": 3,
     "invokes_primitive": 0
    },
-   "active_rows": 3,
+   "active_rows": 2,
    "edges": [
     {
      "target": "tool:hook:pre-commit",
      "kind": "cited_by_tool",
      "evidence": {
       "file": "scripts/git-hooks/pre-commit",
-      "line": 974,
+      "line": 1071,
       "needle": "arcs_primitives\\.py"
      }
     },
@@ -6203,7 +6729,7 @@
     {
      "target": "job:backlog:svc-sage-should-it-exist-decision",
      "kind": "mentioned_by_row",
-     "row_state": "HELD",
+     "row_state": "COMPOSTED",
      "evidence": {
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 44,
@@ -6636,13 +7162,13 @@
    "status": "BOUND",
    "reads_backlog": true,
    "counts": {
-    "mentioned_by_row": 5,
+    "mentioned_by_row": 7,
     "cited_by_tool": 3,
     "cites_tool": 2,
     "serves_surface": 0,
     "invokes_primitive": 0
    },
-   "active_rows": 3,
+   "active_rows": 5,
    "edges": [
     {
      "target": "tool:command:catalog",
@@ -6730,6 +7256,28 @@
       "file": "_QUEUE/induced-backlog.jsonl",
       "line": 343,
       "row_id": "jtbd-magnetize-stage",
+      "needle": "jtbd_query\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:s5w-blind-judge-score",
+     "kind": "mentioned_by_row",
+     "row_state": "HOLDING",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 579,
+      "row_id": "s5w-blind-judge-score",
+      "needle": "jtbd_query\\.py"
+     }
+    },
+    {
+     "target": "job:backlog:s5w-sample-and-seal",
+     "kind": "mentioned_by_row",
+     "row_state": "HOLDING",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 578,
+      "row_id": "s5w-sample-and-seal",
       "needle": "jtbd_query\\.py"
      }
     },
@@ -6967,13 +7515,13 @@
    "status": "BOUND",
    "reads_backlog": false,
    "counts": {
-    "mentioned_by_row": 0,
+    "mentioned_by_row": 1,
     "cited_by_tool": 1,
     "cites_tool": 0,
     "serves_surface": 0,
     "invokes_primitive": 1
    },
-   "active_rows": 0,
+   "active_rows": 1,
    "edges": [
     {
      "target": "tool:script:operator_registry_emit.py",
@@ -6991,6 +7539,17 @@
       "file": "operators/receipt_evaluator.py",
       "line": 3,
       "needle": "(?i)\\bkintsugi\\b"
+     }
+    },
+    {
+     "target": "job:backlog:m-and-a-arbitrage-scored-backtest",
+     "kind": "mentioned_by_row",
+     "row_state": "OPEN",
+     "evidence": {
+      "file": "_QUEUE/induced-backlog.jsonl",
+      "line": 293,
+      "row_id": "m-and-a-arbitrage-scored-backtest",
+      "needle": "receipt_evaluator\\.py"
      }
     }
    ]

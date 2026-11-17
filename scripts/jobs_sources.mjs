@@ -16,6 +16,7 @@
 //   node scripts/jobs_sources.mjs --import rows.json --source fonzi [--dry-run]
 //        rows an agent read from an MCP-only source (Fonzi search_companies): [{id,title,company,location,url,salary?}].
 //        Same title/location filter, dedupe and post as the adapters; read-only on Fonzi, never save interest.
+//        --source jackandjill: matches read from Jack & Jill emails in Gmail (the app is never driven); url = the ATS twin when found.
 // Env: JOBS_PIPELINE_TOKEN (falls back to ~/.arcs/jobs-pipeline.env), JOBS_BASE.
 
 import fs from "node:fs"
@@ -26,7 +27,7 @@ import { fileURLToPath } from "node:url"
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 export const SPEC = JSON.parse(fs.readFileSync(path.join(HERE, "..", "runtime", "specs", "job-sources.json"), "utf8"))
 const UA = { "user-agent": "arcs-jobs-sources/1.0 (+https://jobs.arcs.care)", accept: "application/json" }
-const SOURCE_KEY = { greenhouse: "greenhouse_board", lever: "lever_board", ashby: "ashby_board", yc: "yc_jobs", hn: "hn_whoishiring", fonzi: "fonzi" }
+const SOURCE_KEY = { greenhouse: "greenhouse_board", lever: "lever_board", ashby: "ashby_board", yc: "yc_jobs", hn: "hn_whoishiring", fonzi: "fonzi", jackandjill: "jackandjill_match" }
 
 // ---------- filters (pure) ----------
 const rx = (p) => new RegExp(p, "i")
@@ -174,6 +175,104 @@ export async function atsJD(r) {
   return null
 }
 
+// ---------- LinkedIn rows: never fetched (robots.txt "User-agent: * / Disallow: /", checked 2026-11-16) ----------
+// A LinkedIn alert row carries title, company and location from the email only. Its JD is read from the SAME role on
+// the company's own public ATS board (Greenhouse / Ashby / Lever JSON APIs), found through the employer index or a
+// slug probe. No match = the row stays UNSCORED with a reason (human-paste path); a LinkedIn page is never requested.
+// app.jackandjill.ai and talent.fonzi.ai are signed-in app pages, never a JD: fetching them would score page chrome.
+export const NO_FETCH_HOST = /(^|\.)linkedin\.com$|^app\.jackandjill\.ai$|^talent\.fonzi\.ai$/i
+export function fetchAllowed(url) { try { return !NO_FETCH_HOST.test(new URL(url).hostname) } catch { return false } }
+// Words inside brackets count (WRITER "AI deployment engineer (East)" is not "(Central)", 2026-11-16). City names are
+// normalized, not dropped: "(NYC)", "- New York" and "NY" are one token and "SF" / "San Francisco" another, so
+// OpenAI "FDE - NYC" never matches "FDE - SF". Work-mode words carry no role meaning and are stop words.
+const STOP = new Set(["the", "a", "an", "and", "or", "of", "for", "to", "in", "at", "with", "us", "usa", "remote", "hybrid", "onsite", "on", "site", "sr", "senior"])
+const cities = (s) => String(s).replace(/new york city|new york|\bnyc\b|\bny\b/gi, " cityNYC ").replace(/san francisco|\bsf\b|bay area/gi, " citySF ")
+const toks = (s) => norm(cities(s)).split(" ").filter((w) => w && !STOP.has(w))
+// Same-role score: Jaccard overlap of distinctive title words (order-free), 0 when seniority differs.
+// A twin must clear 0.7 AND be the best-scoring posting on the board, so "AI Builder - Research (Global)"
+// never stands in for "AI Builder - FDE, Research, & Product (NYC)" when the exact posting exists (2026-11-16).
+export function roleScore(a, b) {
+  const A = new Set(toks(a)), B = new Set(toks(b))
+  if (!A.size || !B.size) return 0
+  const sen = (s) => (/\b(staff|principal|lead|head|director|vp|chief|founding)\b/i.exec(s) || [""])[0].toLowerCase()
+  if (sen(a) !== sen(b)) return 0
+  let hit = 0; for (const w of A) if (B.has(w)) hit++
+  const small = Math.min(A.size, B.size)
+  if (hit < small || small < Math.min(2, Math.max(A.size, B.size))) return 0
+  return hit / (A.size + B.size - hit)
+}
+export const sameRole = (a, b) => roleScore(a, b) >= 0.7
+const slugGuesses = (company) => {
+  const base = norm(company).replace(/\b(inc|llc|ltd|corp|co|technologies|technology|labs|ai|hq|group)\b/g, " ").trim()
+  const full = norm(company)
+  return [...new Set([full.replace(/ /g, ""), base.replace(/ /g, ""), full.replace(/ /g, "-"), base.replace(/ /g, "-")].filter((x) => x.length > 1))]
+}
+const boardCache = new Map()
+async function boardRows(ats, slug) {
+  const k = `${ats}:${slug}`
+  if (!boardCache.has(k)) {
+    let rows = null
+    try { const a = ADAPTERS[ats]; rows = a.normalize(await getJSON(a.url(slug)), slug) } catch { rows = null }
+    boardCache.set(k, rows)
+  }
+  return boardCache.get(k)
+}
+// -> { jobid, url, jd, board } for the ATS twin of a LinkedIn row, else null.
+export async function linkedinToAts(r) {
+  const idx = employerIndex()
+  const hit = Object.entries(idx).find(([k, m]) => m && m.verify === "ok" && (norm(k) === norm(r.company) || norm(m.display) === norm(r.company)))
+  const cands = hit ? [[hit[1].ats, hit[1].slug]] : slugGuesses(r.company).flatMap((s) => [["greenhouse", s], ["ashby", s], ["lever", s]])
+  for (const [ats, slug] of cands) {
+    const rows = await boardRows(ats, slug)
+    if (!rows || !rows.length) continue
+    // Ties (a city-less title against "FDE - NYC" and "FDE - SF") go to the posting whose location matches the row's.
+    const city = (l) => (/new york|nyc|\bny\b/i.test(l || "") ? "nyc" : /san francisco|\bsf\b/i.test(l || "") ? "sf" : "")
+    const here = city(r.location)
+    const twin = rows.map((x) => [roleScore(r.title, x.title) + (here && city(x.location) === here ? 0.001 : 0), x]).filter(([sc]) => sc >= 0.7).sort((p, q) => q[0] - p[0])[0]?.[1]
+    if (!twin) { if (hit) return null; continue }
+    const jd = await atsJD(twin)
+    if (jd && jd.length > 200) return { jobid: twin.jobid, url: twin.url, jd, board: `${ats}:${slug}` }
+  }
+  return null
+}
+
+// ---------- employer candidate-AI policies (runtime/specs/candidate-ai-policies.json) ----------
+// A company whose careers page forbids AI-drafted application material gets no generated resume or cover letter.
+let AIPOL = null
+export function aiPolicyFor(company) {
+  if (!AIPOL) { try { AIPOL = JSON.parse(fs.readFileSync(path.join(HERE, "..", "runtime", "specs", "candidate-ai-policies.json"), "utf8")).policies || [] } catch { AIPOL = [] } }
+  return AIPOL.find((p) => new RegExp(p.company_pattern, "i").test(String(company || ""))) || null
+}
+
+// ---------- prior applications (runtime/specs/prior-applications.json, harvested from Gmail) ----------
+// Before a role is drafted, the board checks whether Zach already went through a process at that company.
+// block: the same role (or one that scores as the same) was rejected or is still live inside the cooldown.
+// warn: any other process at the company inside the cooldown, or any live process there. Neither is ever silent.
+export const companyKey = (c) => norm(c).replace(/\b(inc|llc|ltd|corp|co|company|technologies|technology|labs|ai|hq|group|the|io|app)\b/g, " ").replace(/\s+/g, "")
+let PRIOR = null
+export function priorSpec() {
+  if (!PRIOR) { try { PRIOR = JSON.parse(fs.readFileSync(path.join(HERE, "..", "runtime", "specs", "prior-applications.json"), "utf8")) } catch { PRIOR = { cooldown_days: 180, applications: [] } } }
+  return PRIOR
+}
+export function priorApplications(company, spec = priorSpec()) {
+  const k = companyKey(company); if (!k) return []
+  return (spec.applications || []).filter((a) => companyKey(a.company) === k)
+}
+export function priorVerdict(company, title, spec = priorSpec(), today = new Date()) {
+  const apps = priorApplications(company, spec); if (!apps.length) return null
+  const days = (d) => (d ? (today - new Date(d)) / 864e5 : Infinity)
+  const cool = spec.cooldown_days ?? 180
+  const live = (a) => a.outcome === "applied" || a.outcome === "interviewing"
+  const recent = (a) => days(a.outcome_date || a.applied) <= cool
+  const same = apps.filter((a) => a.role && title && roleScore(title, a.role) >= 0.7)
+  const pick = (a) => `${a.role || "a role"}: ${a.outcome}${a.outcome_date ? " " + a.outcome_date : a.applied ? " (applied " + a.applied + ")" : ""}`
+  const b = same.find((a) => (a.outcome === "rejected" && recent(a)) || live(a))
+  if (b) return { level: "block", reason: `same role already in a process or declined: ${pick(b)}`, apps }
+  const w = apps.find((a) => live(a) || recent(a))
+  if (w) return { level: "warn", reason: `earlier process at ${company}: ${pick(w)}`, apps }
+  return { level: "info", reason: `older process at ${company}: ${pick(apps[0])}`, apps }
+}
+
 // Rows handed in by an agent from an MCP-only source. id must be stable per posting (e.g. company id + title slug).
 export function importRows(file, src) {
   const list = JSON.parse(fs.readFileSync(file, "utf8"))
@@ -231,6 +330,31 @@ function selftest() {
   t("employer index: verified boards for one ats only", JSON.stringify(indexSlugs(idx, "ashby")) === '["acme"]' && indexSlugs(null, "lever").length === 0)
   const hnKept = hn.filter((r) => locationOk(r.location, false, r.title))
   t("hn drops a header with an off-target city", hn.length === 2 && hnKept.length === 1)
+  t("location: Lahore and Manila dropped", !locationOk("Pakistan; Lahore, Pakistan") && !locationOk("Manila, Philippines"))
+  t("location: Boston and US remote kept, Cambridge UK and SF dropped", locationOk("Boston, MA") && locationOk("Cambridge, MA") && locationOk("Remote - US") && !locationOk("Cambridge, United Kingdom") && !locationOk("San Francisco, CA"))
+  t("linkedin host never fetched", !fetchAllowed("https://www.linkedin.com/jobs/view/1/") && fetchAllowed("https://jobs.ashbyhq.com/x/1"))
+  {
+    const spec = { cooldown_days: 180, applications: [
+      { company: "AssemblyAI", role: "Applied AI Engineer", applied: "2026-06-19", outcome: "rejected", outcome_date: "2026-07-21" },
+      { company: "Justworks", role: "Senior Product Manager, Expansion & Growth", applied: "2025-08-19", outcome: "rejected", outcome_date: "2025-09-17" },
+      { company: "Obin AI", role: "Forward Deployed AI Engineer", applied: "2026-11-16", outcome: "applied", outcome_date: null } ] }
+    const now = new Date("2026-11-16")
+    t("prior: company names match across suffixes", priorApplications("assemblyai", spec).length === 1 && priorApplications("Obin", spec).length === 1)
+    t("prior: same role declined inside cooldown blocks", priorVerdict("AssemblyAI", "Applied AI Engineer", { ...spec, cooldown_days: 200 }, now)?.level === "block")
+    t("prior: other role at a recently declining company warns", priorVerdict("AssemblyAI", "Forward Deployed Engineer, Triage", spec, now)?.level === "warn")
+    t("prior: same role still live blocks a duplicate", priorVerdict("Obin AI", "Forward Deployed AI Engineer", spec, now)?.level === "block")
+    t("prior: old decline on a different role is info only", priorVerdict("Justworks", "Senior AI Engineer, People", spec, now)?.level === "info")
+    t("prior: unknown company is clear", priorVerdict("ClarityPay", "Forward Deployed Engineer, AI", spec, now) === null)
+  }
+  t("candidate AI policy: Anthropic blocks generated drafts", aiPolicyFor("Anthropic")?.rule === "candidate-drafts-first" && aiPolicyFor("anthropic") && !aiPolicyFor("Ramp"))
+  t("platform app pages never fetched", !fetchAllowed("https://app.jackandjill.ai/jobs/x/post") && !fetchAllowed("https://talent.fonzi.ai/companies/x"))
+  t("sameRole: word order and brackets", sameRole("Forward Deployed Engineer (NYC)", "Forward Deployed Engineer - New York"))
+  t("sameRole: seniority kept apart", !sameRole("Staff Product Manager", "Product Manager") && !sameRole("Senior Product Manager", "Product Designer"))
+  t("sameRole: extra qualifier on one side ok", sameRole("Applied AI Engineer", "Applied AI Engineer, Agents"))
+  t("cities normalize, never drop", !sameRole("Forward Deployed Engineer (FDE) - NYC", "Forward Deployed Engineer (FDE) - SF") && sameRole("Forward Deployed Engineer (NYC)", "Forward Deployed Engineer - New York"))
+  t("bracketed region qualifiers stay distinct", !sameRole("AI deployment engineer (East)", "AI deployment engineer (Central)") && sameRole("AI deployment engineer (East)", "AI deployment engineer (East)"))
+  t("twin picks the closest title, not the first subset", roleScore("AI Builder - FDE, Research, & Product (NYC)", "AI Builder - FDE, Research, & Product (NYC)") > roleScore("AI Builder - FDE, Research, & Product (NYC)", "AI Builder - Research (Global)"))
+  t("a thin subset is not a twin", !sameRole("AI Builder - FDE, Research, & Product (NYC)", "AI Builder - Research (Global)"))
   t("hn normalize keeps only lane matches", hnKept[0].title === "Senior Product Engineer" && hnKept[0].location === "New York, NY" && hnKept[0].jd.includes("agents"))
 }
 

@@ -170,6 +170,40 @@ if [ -n "$gen_good" ] && [ -f scripts/connector_render.py ] && command -v python
     exit 1
   fi
 fi
+# External-surface leak check (2026-11-15): CI's gates job runs scripts/leak_check.sh, but only after a
+# push. On 2026-11-14 an internal build-script path in public/rosetta-voice.html passed every local
+# hook and was caught only by CI. Fires when a public page or the allow list is staged; ~2s; main
+# is kept clean by CI, so a failure here is this commit's. Fix: remove the internal text, or add a
+# narrow regex to scripts/.leakignore for a genuine false positive.
+leak_pub=$(git diff --cached --name-only --diff-filter=AM -- 'public/*.html' 'public/**/*.html' scripts/.leakignore 2>/dev/null || true)
+if [ -n "$leak_pub" ] && [ -f scripts/leak_check.sh ]; then
+  if ! bash scripts/leak_check.sh >/dev/null 2>&1; then
+    bash scripts/leak_check.sh 2>&1 | grep -A3 "LEAK" >&2
+    echo "✖ commit blocked: internal text on a public page (scripts/leak_check.sh)." >&2
+    exit 1
+  fi
+fi
+# Rewrite shadow check (2026-11-15): rewrites chain, so a host catch-all can re-rewrite one of that host's
+# own pages (rosetta-shell /voice served the landing page, live, 2026-11-14). Fires when next.config.ts
+# is staged. Fix: add the destination file to the catch-all's negative lookahead.
+rw_cfg=$(git diff --cached --name-only -- next.config.ts scripts/rewrite_shadow_check.py 2>/dev/null || true)
+if [ -n "$rw_cfg" ] && [ -f scripts/rewrite_shadow_check.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/rewrite_shadow_check.py >/dev/null 2>&1; then
+    python3 scripts/rewrite_shadow_check.py 2>&1 | grep "✖" >&2
+    echo "✖ commit blocked: a host catch-all rewrite swallows one of that host's pages (scripts/rewrite_shadow_check.py)." >&2
+    exit 1
+  fi
+fi
+# Babel Fish listener registry (2026-11-16): the artifact page embeds a registry generated from the
+# operator registry, the LTE archetypes, CLAUDE.md's ROM primitives, the advisor agents and the imported
+# Book of ARCS. Fires when any of them is staged. Fix: python3 scripts/babel_fish_listeners.py, re-stage.
+bf_in=$(git diff --cached --name-only -- operators/OPERATOR-REGISTRY.json operators/arcs_lte.py CLAUDE.md '.claude/agents/*.md' runtime/specs/babel-fish/ scripts/babel_fish_listeners.py 2>/dev/null || true)
+if [ -n "$bf_in" ] && [ -f scripts/babel_fish_listeners.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/babel_fish_listeners.py --check >/dev/null 2>&1; then
+    echo "✖ commit blocked: Babel Fish's listener registry is stale. Run python3 scripts/babel_fish_listeners.py and re-stage." >&2
+    exit 1
+  fi
+fi
 # Engagement records (2026-11-06): the reply, agreement, Exhibit A and five-altitude page under
 # _ARTIFACTS/engagements/<slug>/out/ render from one engagement.json. --check fails when a cited
 # value moved and its outputs were not regenerated (names the field and every output citing it),
@@ -730,6 +764,14 @@ if [ -f scripts/kit_primitive_sync.py ] && command -v python3 >/dev/null 2>&1; t
   fi
 fi
 
+# Kit job-coverage ratchet (2026-11-13): parts naming a backlog job may rise, never fall.
+if [ -f scripts/kit_job_ratchet.py ] && git diff --cached --name-only -- 'src/ui-kit/kit-manifest.json' 'runtime/specs/kit-job-coverage-floor.json' 'scripts/kit_job_ratchet.py' | grep -q .; then
+  if ! python3 scripts/kit_job_ratchet.py; then
+    echo "✖ commit blocked: kit job coverage fell below its floor (see above)." >&2
+    exit 1
+  fi
+fi
+
 # Kit-internal sync + design-system parity (2026-11-13): when any kit part changes, every "composed with"
 # copy must match its source part and every part in ds-parity.json must keep its design-system values.
 if [ -f scripts/kit_primitive_sync.py ] && command -v python3 >/dev/null 2>&1; then
@@ -831,6 +873,21 @@ if [ -f scripts/kit_pull.py ] && git diff --cached --name-only -- 'src/ui-kit/*'
   fi
 fi
 
+# Gate chains (2026-11-13): the week strip on status.arcs.care/gauntlets (kit 72) is rebuilt from the hook's own git
+# history, pinned at the hook commit recorded in runtime/specs/gate-chains.json. Block a stale or hand-edited output;
+# when this hook changes, warn (only) that the strip is pinned behind it until scripts/gate_chain_build.py runs.
+if [ -f scripts/gate_chain_build.py ] && command -v python3 >/dev/null 2>&1; then
+  if git diff --cached --name-only | grep -qE '^(scripts/gate_chain_build\.py|src/ui-kit/week-strip/|runtime/specs/gate-chains\.json|scripts/gauntlet_log_public_template\.html|public/gauntlet-log\.html|_STATE/falsification-ledger\.jsonl)'; then
+    if ! python3 scripts/gate_chain_build.py --check; then
+      echo "✖ commit blocked: the gate-chain week strip is stale. Run python3 scripts/gate_chain_build.py." >&2
+      exit 1
+    fi
+  fi
+  if git diff --cached --name-only | grep -qx 'scripts/git-hooks/pre-commit'; then
+    echo "⚠ the pre-commit hook changed: the gauntlet week strip stays pinned to the last hook commit until you run python3 scripts/gate_chain_build.py after this commit." >&2
+  fi
+fi
+
 # Kit periodic table (2026-11-13): _ARTIFACTS/kit-periodic-table.html is generated from the manifest, templates,
 # specimens and the append-only catalyst ledger src/ui-kit/kit-catalysts.jsonl. sentries.py flags an unsynced ledger.
 if [ -f scripts/kit_periodic_table.py ] && git diff --cached --name-only -- 'src/ui-kit/*' 'scripts/kit_periodic_table.py' '_ARTIFACTS/kit-periodic-table.html' | grep -q .; then
@@ -871,6 +928,14 @@ except Exception: print("ERR")' 2>/dev/null || echo ERR)
         continue
       fi
       [ "${n:-0}" -eq 0 ] && continue
+      # Merge commits (seam 2026-11-14, PR 2219): a page that arrives unchanged from the
+      # branch being merged in is that branch's debt, already on it; HEAD lacking the file
+      # made it read as net-new. Skip when the staged blob equals MERGE_HEAD's blob.
+      if [ -f "$(git rev-parse --git-path MERGE_HEAD)" ] && \
+         [ "$(git rev-parse -q --verify "MERGE_HEAD:$f" 2>/dev/null)" = "$(git rev-parse -q --verify ":$f" 2>/dev/null)" ]; then
+        echo "⚠ pre-commit(kintsugi): $f carries $n design finding(s), unchanged from the merged branch. Not blocking (its debt, not this merge's)." >&2
+        continue
+      fi
       hn=0
       if git cat-file -e "HEAD:$f" 2>/dev/null; then
         # Score HEAD's blob under the SAME rule set as the working file. The detector applies
@@ -1196,7 +1261,7 @@ for s in nftt_series nftt_published lattice_drift_check seedbank_drift_check tao
          connector_render lore legend fates canon_propagation_check assumptions unfold token_kaizen \
          provenance_lint librarian_hook canon_claims_report case_world_sync nftt_contrast_ratchet backlog_issue_sync milestone_render cold_molt_lint export_apollo blog_render \
          bridge_index_scan research_render probe_tally video_cut blog_provenance gen_recoil_artifact gravity_well_fork_scan \
-         linkedin_cut linkedin_render concordance_render essay_atlas gauntlet_report warroom_board sync_family_roster decision_receipt_to_accountant risk_underwriter backlog_append; do
+         linkedin_cut linkedin_render concordance_render reading_room_sync essay_atlas gauntlet_report warroom_board sync_family_roster decision_receipt_to_accountant risk_underwriter backlog_append; do
   if git diff --cached --name-only -- "scripts/$s.py" 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
     if ! python3 "scripts/$s.py" --self-test >/dev/null 2>&1; then
       python3 "scripts/$s.py" --self-test >&2 || true
@@ -1398,6 +1463,26 @@ if [ -n "$ps" ] && [ -f scripts/recoil_public_share_gate.py ] && command -v pyth
   if ! command -v node >/dev/null 2>&1 || ! python3 scripts/recoil_public_share_gate.py --staged || ! python3 scripts/recoil_public_share_gate.py --self-test >/dev/null; then
     echo "✖ commit blocked: a public recoil share fails its signed-out render check (python3 scripts/recoil_public_share_gate.py --staged)." >&2
     echo "  a strip list is not a gate: tag the SSOT audience \"both\" and cite the gauntlet run on the entry." >&2
+    exit 1
+  fi
+fi
+
+# Grayscale launch-figure gate (2026-11-16, Frustration Gate): the $7B is capital launched across 10
+# regulated products, never assets under management. Blocks the old phrasing in any staged file outside
+# _ARCHIVE/. See scripts/aum_claim_gate.py (--self-test proves fail-on-bad, pass-on-good).
+if [ -f scripts/aum_claim_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/aum_claim_gate.py --staged; then
+    echo "✖ commit blocked: the Grayscale \$7B is a launch figure, not AUM (python3 scripts/aum_claim_gate.py --staged)." >&2
+    exit 1
+  fi
+fi
+
+# Corrected resume claims gate (2026-11-17, Frustration Gate): Squat "$350M ARR" is annual revenue, the
+# unvetted Twill wording, and the $7B-as-assets-under-management line must not come back into forge resume bundles
+# (_ARTIFACTS/forge-*/resume-*.html|txt). See scripts/resume_claim_gate.py (--self-test proves it).
+if [ -f scripts/resume_claim_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/resume_claim_gate.py --staged; then
+    echo "✖ commit blocked: a corrected resume claim is staged (python3 scripts/resume_claim_gate.py --staged)." >&2
     exit 1
   fi
 fi

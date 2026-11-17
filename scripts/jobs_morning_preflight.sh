@@ -33,4 +33,13 @@ else
   else echo "FAIL (d) model-health $mcode: $mjson"; echo "MODEL_GATE=$(printf '%s' "$mjson" | sed -n 's/.*"code":"\([^"]*\)".*/\1/p' | head -1)"; fi
 fi
 echo "CHECK (c) Gmail connector: the agent must confirm search_threads is present"
+# Informational board hygiene; never changes the exit code (2026-11-16).
+# (e) prior applications: stamp roles Zach already applied to or was declined for (runtime/specs/prior-applications.json).
+# (f) send-queue liveness: mark posting-closed only where the employer's ATS answers that the posting is gone.
+if [ "$fail" = "0" ] && [ -n "${JOBS_PIPELINE_TOKEN:-}" ]; then
+  prior=$(cd "$WT" && node scripts/jobs_prior_check.mjs --mark 2>&1 | grep -E '^(prior-application check|marked)' | tr '\n' ' ')
+  echo "INFO (e) ${prior:-prior-application check did not run}"
+  live=$(cd "$WT" && node scripts/jobs_posting_liveness.mjs --queue --write 2>&1 | tail -n 1)
+  echo "INFO (f) liveness ${live:-did not run}"
+fi
 exit $fail

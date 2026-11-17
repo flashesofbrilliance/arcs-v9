@@ -1,3 +1,284 @@
+# Handoff — v3.150.0 (2026-11-17)
+
+## Goal / true north
+Clear the 2026-11-17 repo fix queue: merge only what Zach approved, park the rest as reviewable PRs, keep main's gates green.
+
+## What changed
+- PR #2340 merged (44e26e57): 11-16 night-moves digest; receipt 2026-11-17--night-moves-digest-pr2340--ZH.
+- PR #2341 merged (41126776): reading_room_sync on main, stale-refresh wiring, project_mirror.sh; gate chain public words for 1fb74fe4 and 38cc17ce (Zach's Pair A each), claims scope reviewed; receipt 2026-11-17--reading-room-sync-pr2341--ZH.
+- PR #2342 opened (ready): meta-audit and safe_merge descriptions carry the user's words; recall fixtures 3/3 incl. a new safe_merge one; DONE row project-mirror-nightly fixes main's ORPHAN-TOOL failure.
+- PR #2343 opened (draft): triage cliffs fated on Zach's answers; row triage-cliffs-2026-11-19-20 DONE inside it.
+- PR #2323 rebased onto main; description now explains why #2293's merge commit is not on main (2293 retargeted onto 2290's branch 14 min after 2290 merged, then merged there).
+- PR #2272: commented @dependabot rebase; its gauntlet-log axe failure was already fixed on main in de2ad62a.
+- G53 applied: branch.autoSetupMerge removed from .git/config (global true now governs). git worktree prune cleared six dead entries (night-moves 11-13, 11-14 and four scratchpad ones). ~/Claude/wt-reading-room-sync removed.
+
+## Current state
+- main fails universe_jtbd_adapter --check (ORPHAN-TOOL project_mirror.sh) until #2342 merges; #2343's CI depends on that.
+- Step 4 needed no PR: all 19 jobs-pipeline commits (incl. the board defaults, Boston/NYC boards and job-search records) are already in #2335.
+- #2335 is the agreed first-lander over #2338, but neither has merge approval; #2338 rebases and regenerates the forge ledger and bundles after #2335 lands.
+- prl-phase-1-2 ORPHAN-JOB hold renewed to 2026-12-01 (Zach asked 2027-02-01; the gate caps holds at 14 days).
+
+## Decisions made
+- Zach, 2026-11-17: merge #2341 and #2340 only; #2335 lands before #2338; keep the stripe plugin; apply G53; leave sharp-turing parked.
+- Zach, 2026-11-17: good-agent-files, agent-readable-arcs-hosts, prl-phase-1-2 DONE; nftt-every-mistake-became-a-gate and paid-brief-first-dollar re-dated 12-01; proposal_construction.py gets a DONE row.
+
+## Open decisions (waiting on Zach)
+1. Zach: merge #2342 (restores main's jtbd-graph gate), then #2343.
+2. Zach: merge go for #2335, then #2338 rebase plus regenerate.
+3. Zach: review #2323; watch #2272 after Dependabot's rebase.
+
+## Open (other)
+1. prl-phase-1-2 hold falls due 2026-12-01 again; a tool atom for the Zapier/Tidio work would end the renewals.
+
+## Next action
+Merge #2342 with scripts/safe_merge.sh so main's jtbd-graph gate is green again.
+
+## Cold-start recipe
+- gh pr list --state open
+- python3 scripts/universe_jtbd_adapter.py --check
+- python3 scripts/backlog_graph.py --top 15
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261117T214513Z--claude-handoff-2026-11-17-fix-queue.md` (branch `claude/handoff-2026-11-17-fix-queue`, head `41126776`).
+
+---
+
+# Handoff — v3.149.0 (2026-11-16)
+
+> The same day as v3.148.0, the second half of the paperwork pass. The 11-17 CI cliff is defused (32 triage holds and one blocker re-dated, PR 2318). Zach's dreaming picks are built (due-soon warning, kit_sync_refresh, bash 3.2 and file:// guard hooks, ship_docs title, PR 2319) and the five draft PRs are closed. The main checkout is on the new main, so the hooks run, and both were seen denying live. Every thread now starts with a boot block from scripts/daily_boot.py. The open edge is the next dated cliff (11-19 and 11-20), filed as a READY row, and Zach's small decision queue.
+
+## Goal / true north
+Keep the merge queue and the backlog honest, and give every thread the same boot so cadence does not depend on memory.
+
+## What changed
+- PR #2318 merged (e4a5e36b): 32 JTBD triage holds and the anthropic-spend-monitor blocker re-dated from 11-16/11-17 to 11-30; receipt 2026-11-16--triage-holds-redate-pr2318--ZH.
+- PR #2319 merged (ae6976c3): TRIAGE-DUE-SOON warning, scripts/kit_sync_refresh.sh, bash 3.2 and file:// guard hooks, ship_docs title default; receipt 2026-11-16--dreaming-picks-build-pr2319--ZH.
+- Draft PRs #2221, #2260, #2267, #2276 (dreaming passes 10 to 13) and #2247 (night-moves 11-12) closed on Zach's ruling, picks applied.
+- Main checkout moved to origin/main (ae6976c3); both new hooks seen denying live.
+- Daily boot: scripts/daily_boot.py, called by the session-start hook (this PR).
+- Memories banked: ripe-is-not-done-read-each-loop-tag, git-rev-parse-short-takes-one-rev, plus notes on the axe-upgrade and long-inline-shell memories.
+
+## Current state
+- Every session now starts with a boot block: the first session of the day is told to run /scrum then the cruise-control sweep; every session gets today's one thing (now recoil-brian-ssot), and the claim-a-row, flip-DONE-in-the-feature-PR, archive-on-merge and 4-session rules.
+- Patent-filing chain composted (23 rows); backlog depth 6 waves.
+- Open PRs: 2312 status milestones, 2272 Dependabot (needs @dependabot rebase; its red fe-smoke predates the gauntlet-log fix), 2248 (one generated-file conflict; scripts/kit_sync_refresh.sh fixes it), 2214 (five real conflicts, owner resolves), 2222 (fe-smoke red), 2073 and 2068 drafts.
+
+## Decisions made
+- Zach, 2026-11-16: compost the patent-filing chain.
+- Zach, 2026-11-16: build the dreaming picks (T1b, T2, F1, N1, N2, L2); close the five drafts; L1 and Q1 not picked.
+- Zach, 2026-11-16: a daily boot sequence on every thread.
+
+## Open decisions (waiting on Zach)
+1. Zach: row triage-cliffs-2026-11-19-20 (READY, trigger 2026-11-18): the prl-phase-1-2 hold expires 11-19 and five blocker dates fall due by 11-20.
+2. Zach: My Ally unpaid discovery over its 10 h cap: bill, box or stop.
+3. Zach: @dependabot rebase on 2272; retarget 2068 to main before review.
+4. Zach: confirm week 1 of the Gravity week plan; settle the Gravity date seams.
+
+## Open (other)
+1. Candidate agents: graduate cruise-control, chief-loki, scrum-master; compost or fold chief-bayesian, chief-conductor, claim-index-sme and the four idea-* seats (0 uses since 10-20).
+2. The 35 unaudited operators: adopt them as the first audit step of the core engine work.
+
+## Next action
+Next session: follow the boot block, then work triage-cliffs-2026-11-19-20 before 11-19.
+
+## Cold-start recipe
+- Read the boot block the session-start hook prints.
+- gh pr list --state open; python3 scripts/approvals_ledger.py
+- python3 scripts/backlog_graph.py --top 15
+- python3 scripts/universe_jtbd_adapter.py --check (TRIAGE-DUE-SOON lines)
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261116T191053Z--claude-daily-boot.md` (branch `claude/daily-boot`, head `ae6976c3`).
+
+---
+
+# Handoff — v3.148.0 (2026-11-16)
+
+> Two weeks of very high throughput (about 300 merged PRs, 2026-11-02 to 11-16) across the UI kit (parts 41 to 73, the kit wire advisors, token tuner, option board, design-candidate lane), the recoil call service waves 1 and 2, Gravity and Louisville sends, Rosetta Voice and status.arcs.care. This molt closes a paperwork pass: PR 2311 merged with a receipt, 23 backlog rows trued up (two stale RUNNING claims closed, then the whole patent-filing chain composted on Zach's ruling (23 rows; graph depth 12 to 6 waves), 14 ripe rows readied), the kit catalyst ledger synced, and cruise control run for the first time. The open edge is a decision queue for Zach, led by JTBD triage holds that expire 2026-11-17.
+
+## Goal / true north
+Keep the merge queue and the backlog honest: paperwork matches what merged, rankings lead with work Zach is actually doing, and the harness reports stay fresh.
+
+## What changed
+- PR #2311 merged (0baa2968, jobs intake unstall, two seed resumes); receipt 2026-11-16--jobs-intake-unstall-pr2311--ZH.
+- 300 PRs merged 2026-11-02 to 11-16 (53 in the last 24h); release notes and status report given in session status-release-notes-91254f.
+- Backlog sweep, 23 rows: pr-design-brief-habit and gauntlet-brief-polyform RUNNING to DONE (PRs #2148, #2141 merged 11-12); the 7 READY filing-* rows to HELD, then all 23 open filing-* rows COMPOSTED on Zach's follow-up ruling; 14 ripe OPEN rows to READY (dependencies done or date trigger passed).
+- Kit catalyst ledger synced (31 derived events appended), kit-periodic-table.html regenerated.
+
+## Current state
+- Open PRs: 2312 status milestones (checks were pending); 2272 Dependabot axe 4.14 (fe-smoke red on a stale 11-15 run, only failure is gauntlet-log.html, fixed on main by #2288; needs a rebase); 2248 (one conflict in the generated kit-periodic-table.html, regenerate); 2214 (five real conflicts incl. scripts/safe_merge.sh and AGENTS.md, owner should resolve); 2222 (fe-smoke red, build not run); 2073 and 2068 drafts (2068 is based on the merged feat/myally-step1-checklist branch, retarget to main before review); dreaming passes 10 to 13 (2221, 2260, 2267, 2276) and night-moves 11-12 (2247) drafts, ruled through a one-form picker in this session.
+- Backlog: OPEN 56, READY 33, HOLDING 54, HELD 137, RUNNING 3, BLOCKED 11, DONE 177.
+- Cruise-control agent ran for the first time (read-only morning sweep). Approvals ledger: no PR carries a traced approval.
+- Sessions: 3 running, about 12 idle with merged PRs not archived.
+- Session kind-perlman-3d4858 has an unmerged stale-refresh runner on branch claude/kind-perlman-3d4858 (lattice countables, universe emit, night-moves age as receipts), schedule not installed, row stale-snapshot-refresh-loop HOLDING on Zach.
+
+## Decisions made
+- Zach, 2026-11-16: merge PR 2311.
+- Zach, 2026-11-16: the patent-filing chain is premature; compost it (not yet ready to patent, core engine and later phases come first).
+- Zach, 2026-11-16: sweep merged-PR paperwork and ripe rows in one pass.
+
+## Open decisions (waiting on Zach)
+1. Zach: T1 from dreaming pass 13 is urgent: 32 JTBD triage holds expire 2026-11-17 and CI gates then fail on every branch. Re-date or give them job rows.
+2. Zach: rule the dreaming picker (safe_merge L1/Q1/T2 as one change, bash 3.2 F1, N1, N2, L2) and the fate of the five draft PRs.
+3. Zach: My Ally unpaid discovery is 33.6 to 47.4 h against a 10 h cap: bill, box or stop.
+4. Zach: comment @dependabot rebase on 2272 so fe-smoke reruns on current main.
+5. Zach: confirm week 1 of _ARTIFACTS/week-plan/gravity.json; settle the Gravity date seams (RFP-O-Matic 10-30 vs 11-02, NFTT 09-02 vs 08-18).
+
+## Open (other)
+1. Findings gait: no finding closed in 7 beats; give the oldest open finding a fate.
+2. Correction (kintsugi): the status report said 41 rows were already done. Only 2 cited merged PRs (gates-class-prevent-leak-and-render-drift, compounding-model-prereg) and both notes name remaining work, so they stay open; the other 39 were ripe, not done.
+3. Doors left OPEN on purpose in the sweep: cia-technical-screen-prep, cia-recoil-close-michael-intro, rfp-ship-resume-tailor-rebase, rfp-ship-public-leak-gate, rfp-ship-packages-publish, myally-step1-audit.
+
+## Next action
+Zach rules T1 (triage holds expiring 2026-11-17) before end of day; everything else can wait for the next batch merge.
+
+## Cold-start recipe
+- gh pr list --state open; python3 scripts/approvals_ledger.py
+- python3 scripts/backlog_graph.py --top 15
+- python3 scripts/open_loops.py --summary
+- _PROPOSALS/2026-11-16-dreaming-pass-13.md (T1)
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261116T182925Z--claude-status-release-notes-91254f.md` (branch `claude/status-release-notes-91254f`, head `0baa2968`).
+
+---
+
+# Handoff — v3.147.0 (2026-11-15)
+
+> Three days (2026-11-12 to 11-15) across about fifteen sessions, folded from the shared progress ledger because no session left a fragment. The design-system kit grew from a pile of one-off pages into numbered organisms with a trial lane: option board (2227), atomic composer seed (2225), operator and chiefs roster (2229), chip true-up (2230), design-candidate lane (2232), strata explorer 69 (2238), week-plan 70 and proof lockup 71 (2239, 2240, 2270), hardening week strip (2261). Gravity overview work ran as one orchestrated family under harrison-dogfood. An axe 4.14 bump exposed a latent wordmark a11y defect, fixed on main (2262). Recoil wave 2 advanced in parallel: recoil-epic-tool-catalog, backlog-merge-driver-by-id, recoil-runner-beats and recoil-real-model-run are DONE on main.
+
+## Goal / true north
+Land the open kit and Gravity PRs on Zach's word, prove the axe 4.14 bump green, and finish recoil wave 2 (two READY rows, then the kairos test and Brian acceptance).
+
+## What changed
+- PR 2232 merged (2fe62730): design-candidate lane (scripts/design_candidates.py, runtime/specs/design-candidates.json, read by token_source_gate, motion_policy_gate and component_source_gate, plus pre-commit). PR 2235 merged (ec7b02ed): backlog row design-candidate-lane and tool catalog.
+- PR 2227 merged (8a7d3919), receipt 2026-11-13--option-board-pr2227--ZH. PR 2244 closed unmerged as superseded by PR 2243 (866de431).
+- PR 2218 merged with receipt (status page rebuild).
+- PR 2262 merged (73b3042a, by the busy-kirch session, receipt filed there): the ARCS Field OS wordmark takes its name from visible text on blacksmith, growth-ai, mercury-operator and sentilink-operator, which clears axe 4.14 rule label-content-name-mismatch.
+- My Ally receipts: closeloop (call moved to next week, 7-day sign NO) and ex-ante sign-before-kickoff (review 2026-11-19).
+- Memory banked 2026-11-15: axe-upgrade-flags-old-defect-fix-on-main-then-rebase, fe-smoke-single-runner-fixed-ports, and a bash 3.2 guard section in long-inline-shell-goes-in-a-script-file.
+
+## Current state
+- Merged since v3.146.0 (receipts filed by the merging session unless noted): 2218, 2225, 2226, 2227, 2228, 2229, 2230, 2231, 2232, 2235, 2238, 2239, 2240, 2243, 2251, 2261, 2262, 2265, 2270, 2271. Two receipts may exist for 2227 (see Open).
+- Open PRs: 2273 rosetta /voice link and leak gates; 2272 Dependabot minor-and-patch incl. axe-core 4.14 (replaces closed 2224); 2266 kit 73 braided lanes on status.arcs.care/beliefs; 2259 chip radius; 2248 kit-periodic-table rows; 2247 night-moves 11-12; 2222 Reading Room sixth room; 2221, 2260, 2267 dreaming passes 10 to 12; 2219 tabbed-brief lockup; 2214 Hermes review gate; 2073 Harrison recoil close; 2068 My Ally three-things rule.
+- Kit numbering settled: 69 strata, 70 week-plan, 71 proof lockup, 73 braided lanes.
+- fe-smoke is single-runner by construction (fixed container and ports on one Mac).
+- Recoil wave 2 on main: DONE recoil-epic-tool-catalog, backlog-merge-driver-by-id, recoil-runner-beats, recoil-real-model-run; READY recoil-brian-ssot, recoil-hardstop-amend; HOLDING recoil-kairos-7s-test and R12 recoil-brian-acceptance.
+- MEMORY.md index at 24,402 bytes of the 24,576 cap.
+
+## Decisions made
+- Zach, 2026-11-14: fix the wordmark on main rather than raise the a11y baseline.
+
+## Open decisions (waiting on Zach)
+1. Zach: PR 2219 (tabbed-brief lockup). Owner local_44360349 is blocked by the kintsugi gate on public/rosetta-voice.html (23 findings from main): fix the page on main, or book a seam.
+2. Zach: confirm week 1 of _ARTIFACTS/week-plan/gravity.json before weeks 2 to 7 are drafted.
+3. Zach: the Gravity date seams, RFP-O-Matic (10-30 vs 11-02) and NFTT (09-02 vs 08-18), raised by local_44360349.
+4. Zach: PR 2218's status-page grammar choices (gain seam, open interval, pressure gauge, canonical altitude ladder) and whether to start the wire and audit sessions.
+5. Zach: rule on dreaming pass 5 F1 (bash 3.2 harness refusal, 57 hits in 34 sessions in 4 days); the lesson is banked in memory, the formal ruling and any hook are not.
+6. Zach: the visual-grammar run waits on the composer-dogfood first round and his go.
+
+## Open (other)
+1. proposal_construction.py ORPHAN-TOOL hold in jtbd-graph-triage.json resolves by 2026-11-20 (owner: the session that added it).
+2. Production deploy after the kit merges not checked.
+3. Carried from v3.146.0: PR 2180 Gasmi twin, spec §8 Q4 item 3, cold-reader check on 3 Gasmi J4 cells, the groom decision packet, the main-checkout move (main checkout at 4afdce16, behind origin/main; project skills load stale).
+
+## Next action
+Zach clears the merge queue in one pass (2272 after green fe-smoke, then 2266, 2219, 2073); then start recoil-brian-ssot as the next wave-2 session card.
+
+## Cold-start recipe
+- gh pr list --state open
+- cat _STATE/handoff-progress.md (the per-session deltas this block folds)
+- python3 scripts/backlog_graph.py --top 30; filter epic recoil-call-service-wave2
+- Merge: scripts/safe_merge.sh <pr> <head>, one receipt per merge.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261115T191024Z--claude-myally-email-access-concerns-5dd89f.md` (branch `claude/myally-email-access-concerns-5dd89f`, head `3f9b9f90`).
+
+---
+
+# Handoff — v3.146.0 (2026-11-12)
+
+> One arc across five sessions: the recoil call service's wave 1 closed (R1 to R11 merged), wave 2 was induced, and the first real model run (Gasmi, J1 to J4) passed its pre-set bar except the cold-reader check. Fragment items written before later merges are superseded by the State and Open below; the What changed list keeps them raw.
+
+## Goal / true north
+The recoil call service, wave 2: ground truth on real calls (real model run, Brian acceptance), reuse the shipped player and induction tools instead of rebuilding them, and end the backlog-file conflict class.
+
+## What changed
+- Draft index runtime/specs/backlog-index.json (17 clusters over 310 active rows, 9 bundles, 15-row ruin watch list) and page _PROPOSALS/rendered/2026-11-12-backlog-index.html, both uncommitted on claude/backlog-groom-panel-3f737b.
+- Panel binding: Librarian Op 21 and Folksonomist Op 20 and Accountant Op 19 BOUND but none reads backlog rows (no row adapter; Op 21 recommend returns only ADR-086 for backlog queries). Auditor Op 28 UNBUILT, UNBOUND. Sage UNBOUND (SAGE is a pipeline archetype; op25-sage-naming-ruling is open). Scholar UNBOUND (nothing by that name). Sentry = scripts/sentries.py, assumed reading of "sentury". Skeptic, Alchemist, brand-line-producer, impeccable BOUND.
+- Skeptic found 6 false claims in the draft, all corrected; 1 objection rejected with evidence. Alchemist wrote 17 falsifiable claims; 4 polarity readings changed. Accountant, Sentry, Librarian, Folksonomist objections held open.
+- #2166 merged as 101eeb1c (by the sweep session local_393c66c5 on Zach's "lets merge those"; receipt filed by that session, id not checked here): `scripts/recoil_stage_j4.py` (J4 as a stage plugin), `scripts/recoil_hypercube_explorer.py` generating `_ARTIFACTS/recoil-hypercube-explorer.html` (kit blocks, template recoil-skim; 2D slice plus filled-cell list; empty data renders grain n=0), and a `PLUGINS` list in `scripts/recoil_service.py`. Rows recoil-decompose-verbs and forecast-base-rates set DONE; recoil-hypercube-index DONE on main.
+- #2177 open, head b0772883, not merged: J4 operator becomes a judged axis. The ruling-to-operator table (GROUNDED LAB, INFERENCE KKL, STRUCK FUNHOUSE) is dropped; operator glosses are bound to the periodic table and registry (LAB op 17 Detective, COURT op 18 Immune, KKL Kai force; BAR and FUNHOUSE from ADR-060 section 4) with a drift self-test. J4 version 1 to 2. Zach's go relayed from local_dfd22ff0: "go ahead". Handed to the recoil orchestrator local_6d106b64 to merge.
+- Child session local_61d373e9 "Gasmi twin page: match the war-room look" is running, no PR yet: make `public/recoil-ext/2026-10-29-gasmi.html` (counterpart-safe twin, redirect added by PR 2168 ad288444) look like the war-room page Zach sent Doug on 2026-11-11. It confirms the target with Zach by screenshot first; no merge or deploy without his go.
+- #2180 open, not merged: `scripts/recoil_brief.py` gains layout "stack" (header card, then numbered sections in one scroll, CSS scoped under .stack, main landmark); the Gasmi SSOT sets it through `meta.external_sets` (`page.layout=stack`); twin regenerated with `scripts/recoil_ext_build.sh`. One hood line reworded ("tab" to "Sections 2 to 5 are the method..."). No receipt yet (nothing merged).
+- Screenshots for the PR live on side branch `pr-assets/gasmi-twin-warroom-look` (not for merge).
+- PR 2170 merged (adb4f8d4): recoil sweep, backlog true-up, spec §9, molt v3.145.0; receipt 2026-11-12--recoil-sweep-molt-v3145-pr2170--ZH.
+- PR 2175 merged (c1e9fc0f): R6 recoil print target, light print palette, folds open; receipt 2026-11-12--recoil-print-target-pr2175--ZH. Merged here on Zach's "go ahead", after PR 2173.
+- PR 2173 (R11 HUD flight) merged at 16fa869c by the recoil orchestrator session on Zach's direct go there; its receipt and row are that session's.
+- Backlog row recoil-print-target set DONE in this fragment's PR.
+- PR 2172 merged (28eff75b): wave-2 backlog induction (epic recoil-call-service-wave2, 7 rows) and spec §10; receipt 2026-11-12--recoil-wave2-backlog-pr2172--ZH.
+- PR 2173 merged (16fa869c): R11 HUD atlas v2 flight; receipt 2026-11-12--hud-atlas-v2-flight-pr2173--ZH (Zach, "Yes, merge 2173").
+- PR 2179 merged (485a304d): first real model run on Gasmi recorded in spec §10.4, hud-atlas-v2-flight DONE; receipt 2026-11-12--recoil-first-real-run-pr2179--ZH.
+- PR 2177 merged (402847e6): R8 J4 judged operator axis; receipt 2026-11-12--recoil-j4-operator-judged-pr2177--ZH (Zach, "Yes, both").
+- Real run, Zach's "go ahead" on the spend: J1 to J4 PASS on Gasmi, 9 cells of 3,125, 0 invented, rerun UNCHANGED; J4 v2 rerun after 2177, also 9 cells, operators now judged (COURT appears).
+- Spec §8 answered: Q1 360 orbit plus time scrub (reported by R11), Q2 light for print (reported by R6), Q3 same component set with audience filter plus a per-artifact light or dark default, Q5 keep on the private Brian page UBr7UHAo, the link-shared page RUNuc7zk has no email.
+
+## Current state
+- Epic recoil-call-service: R1 to R11 DONE on main (2175 at c1e9fc0f, 2173 at 16fa869c, 2177 at 402847e6). R12 recoil-brian-acceptance stays HOLDING by design: wave 2 added recoil-real-model-run and recoil-kairos-7s-test as its dependencies.
+- Wave 2 READY: recoil-epic-tool-catalog, backlog-merge-driver-by-id, recoil-brian-ssot, recoil-hardstop-amend, recoil-runner-beats. uikit-recoil-player (PR 1826, 9cfc8c3f) and recoil-backlog-induction-tool-snap (recoil_induce.py, 9779524d) set DONE on Zach's "Yes, do both".
+- Spec §8: all five answered (Q1 360 orbit plus time scrub; Q2 light for print; Q3 same component set, audience filter, per-artifact light or dark default; Q4 item by item, see spec; Q5 keep on private UBr7UHAo, the shared RUNuc7zk has no email).
+- Recoil queue: only PR 2180 (Gasmi twin page) open; counterpart-facing.
+
+## Decisions made
+- Zach: drop the ruling-to-operator mapping (operator is judgment).
+- Zach: target is the 11-11 war-room look, not today's fold layout; drop the Y, NCI, topology and req-reality chips on the external page.
+- One merge queue: the recoil-wave2 session merges recoil PRs; the merge-train lane keeps non-recoil PRs. Merges only on Zach's word in the merging session; peer relays are not approval.
+- recoil-real-model-run re-pointed from Brian to Gasmi (Gasmi's SSOT is on main).
+- Loki: GitHub ignores local merge drivers, so the backlog driver removes the hand resolution, not the CONFLICTING round trip; union merge stays rejected.
+
+## Open decisions (waiting on Zach)
+1. Zach: merge PR 2180 (deploys the page Doug can open; run the PII and gauntlet check first; it changes the Gasmi SSOT the real run used).
+2. Zach: confirm spec §8 Q4 item 3 reading (paid call past the budget: no change).
+3. Zach: the cold-reader check on 3 sampled Gasmi J4 cells.
+4. Zach: archive the idle recoil child sessions or keep them.
+5. Zach: the groom's decision packet (18 proposed fates), "sentury" means Sentry, op25-sage-naming-ruling and the Scholar seat.
+6. Zach: ideas not acted on: a standing merge policy for green two-way-door recoil PRs (conflicts with the approved merge hard stop unless amended), cruise control on a daily schedule, the scrum agent across both lanes.
+7. Zach: move the main checkout (d4d064cc, behind origin/main, skills load stale) after a backup branch; then PR 2149.
+
+## Open (other)
+1. handoff-molt-guard blocks merge commits that bring a molt from main; skip when CLAUDE.md equals the merged parent.
+2. backlog_status_check.py crashes on a date-only claimed_at.
+3. Delete branch pr-assets/gasmi-twin-warroom-look after 2180 merges.
+4. Unexplained one-line overwrite of _QUEUE/induced-backlog.jsonl in the recoil-wave2 worktree (restored from HEAD, nothing committed).
+
+## Next action
+Zach decides PR 2180; then start up to three wave-2 READY rows as session cards (recoil-epic-tool-catalog, backlog-merge-driver-by-id, recoil-runner-beats) within the 4-session cap.
+
+## Cold-start recipe
+- _PROPOSALS/2026-11-11-recoil-call-service-arc-weld.md §8 to §10.
+- python3 scripts/backlog_graph.py --top 30; filter epic recoil-call-service-wave2.
+- Real run: python3 scripts/recoil_service.py run --call runtime/recoil/generated/2026-10-29-gasmi.json --until J4 --budget-usd 1.00 (key from .env.local; spend needs Zach's go).
+- Merge: scripts/safe_merge.sh <pr> <head>, one receipt per merge.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: lead of 20261112T155620Z--claude-backlog-groom-panel-3f737b.md
+> backlog-groom-panel (branch claude/backlog-groom-panel-3f737b): clustered the global induced backlog with the named panel. Mid-flight: index and page drafted, not committed, no backlog row changed.
+
+### Notes: lead of 20261112T160140Z--claude-handoff-r8-hypercube.md
+# R8 recoil hypercube index (J4) and its follow-ups, 2026-11-12
+
+### Notes: lead of 20261112T160943Z--claude-handoff-frag-gasmi-twin.md
+# Gasmi counterpart twin matches the war-room look Doug's link showed, 2026-11-12
+
+> Molted from `_HANDOFFS/fragments/20261112T155620Z--claude-backlog-groom-panel-3f737b.md` (branch `claude/backlog-groom-panel-3f737b`, head `ec9f1ea5`); `_HANDOFFS/fragments/20261112T160140Z--claude-handoff-r8-hypercube.md` (branch `claude/handoff-r8-hypercube`, head `f43a3f0d`); `_HANDOFFS/fragments/20261112T160943Z--claude-handoff-frag-gasmi-twin.md` (branch `claude/handoff-frag-gasmi-twin`, head `80e9827b`); `_HANDOFFS/fragments/20261112T161200Z--claude-recoil-sweep-molt-ee9c62.md` (branch `claude/recoil-sweep-molt-ee9c62`, head `737e810c`); `_HANDOFFS/fragments/20261112T161610Z--claude-recoil-wave2-f55f64.md` (branch `claude/recoil-wave2-f55f64`).
+
+---
+
 # Handoff — v3.145.0 (2026-11-12)
 
 ## Goal / true north

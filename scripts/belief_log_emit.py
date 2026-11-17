@@ -2,7 +2,7 @@
 """belief_log_emit.py — render the consolidated ARCS belief-change log.
 
 Reads the append-only falsification ledger (_STATE/falsification-ledger.jsonl)
-and emits two distilled views of the corpus record of every belief we held, the
+and emits two distilled views of the corpus record of every belief I held, the
 test that overturned it, and what replaced it — newest first, trailing-week
 spotlighted:
   - _STATE/belief-log.md    — the readable markdown view
@@ -28,6 +28,8 @@ import argparse
 import datetime as dt
 import json
 import pathlib
+import re
+import sys
 
 import projection_factory as pf  # the reusable public-projection base (load + inject)
 
@@ -88,8 +90,20 @@ def render_html(rows: list[dict]) -> str:
     return _inject(TEMPLATE, rows, EMBED_KEYS)
 
 
+KIT_TOKENS = ROOT / "src" / "ui-kit" / "recoil-report" / "_tokens.css"
+# Kit organism 73 (braided lanes), written by scripts/braided_lanes_build.py from runtime/specs/shipped-record.json.
+BRAID_FRAGMENT = ROOT / "src" / "ui-kit" / "braided-lanes" / "belief-fragment.html"
+
+
 def render_public(rows: list[dict]) -> str:
-    return _inject(PUBLIC_TEMPLATE, rows, PUBLIC_EMBED_KEYS)
+    page = _inject(PUBLIC_TEMPLATE, rows, PUBLIC_EMBED_KEYS)
+    frag = BRAID_FRAGMENT.read_text(encoding="utf-8")
+    m = re.search(r"<script type=\"application/json\" data-braid-data>(.*?)</script>", frag, re.S)
+    n = len(json.loads(m.group(1))["events"]) if m else -1
+    if n != len(rows):  # the chart and the stats above it must count the same ledger
+        sys.exit(f"AUDIT FAIL: braided lanes show {n} reversals, the ledger has {len(rows)}. "
+                 "fix: python3 scripts/shipped_record_emit.py && python3 scripts/braided_lanes_build.py")
+    return page.replace("/*KIT_TOKENS*/", KIT_TOKENS.read_text(encoding="utf-8"), 1).replace("<!--BRAID_FRAGMENT-->", frag, 1)
 
 
 def render_audit_stamp(rows: list[dict]) -> str:
@@ -98,7 +112,7 @@ def render_audit_stamp(rows: list[dict]) -> str:
     whose verdict is FALSIFIED (a future HELD fate must not inflate it)."""
     n, latest = audit_stamp_facts(rows)
     noun = "belief" if n == 1 else "beliefs"
-    return (f'<p><b>{n}</b> {noun} we held and later falsified are on the record, '
+    return (f'<p><b>{n}</b> {noun} I held and later falsified are on the record, '
             f'the most recent on <b style="white-space:nowrap">{latest}</b>.</p>')
 
 
@@ -115,9 +129,9 @@ def render_audit_evidence(rows: list[dict]) -> str:
     n, latest = audit_stamp_facts(rows)
     md_line = render_md(rows).splitlines()[6]  # the "**N beliefs overturned** · ..." line
     row = {
-        "pattern": rf"{n}\s+beliefs we held|most recent on {latest}",
+        "pattern": rf"{n}\s+beliefs I held|most recent on {latest}",
         "kind": "fact",
-        "page": f"{n} beliefs we held and later falsified are on the record, the most recent on {latest}",
+        "page": f"{n} beliefs I held and later falsified are on the record, the most recent on {latest}",
         "source": OUT.relative_to(ROOT).as_posix(),
         "quote": md_line.lstrip("*"),
         "note": "count = ledger rows with verdict FALSIFIED; date = the latest of them. Stamped, not typed.",
@@ -162,7 +176,7 @@ def render_md(rows: list[dict]) -> str:
     L: list[str] = []
     L.append("# ARCS — Belief-Change Log")
     L.append("")
-    L.append("> The corpus record of what we believed, the test that overturned it, and what replaced it.")
+    L.append("> The corpus record of what I believed, the test that overturned it, and what replaced it.")
     L.append("> One field, one SSOT: **generated from `_STATE/falsification-ledger.jsonl`** by")
     L.append("> `scripts/belief_log_emit.py`. Do not hand-edit — append to the ledger and regenerate.")
     L.append("")

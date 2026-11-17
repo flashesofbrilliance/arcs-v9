@@ -76,6 +76,8 @@ fi
 # pickup instead of rotting. Guarded to never fail the hook.
 # scrum master: one line only when the weekly groom is overdue (.claude/skills/scrum/SKILL.md)
 python3 "$CLAUDE_PROJECT_DIR/scripts/scrum.py" nudge 2>/dev/null || true
+# daily boot (2026-11-16): first session of the day gets the ritual, every thread gets the per-thread boot
+python3 "$CLAUDE_PROJECT_DIR/scripts/daily_boot.py" 2>/dev/null || true
 python3 "$CLAUDE_PROJECT_DIR/scripts/pulse.py" check 2>/dev/null || true
 
 # Inchworm auditor — OPEN end (orient / red thread). Check the orphaned knowledge
@@ -151,7 +153,7 @@ import glob, datetime, os, re
 files = glob.glob(os.path.join('$CLAUDE_PROJECT_DIR', '_STATE/night-moves/*.md'))
 dates = []
 for f in files:
-    m = re.search(r'(\d{4}-\d{2}-\d{2})\.md$', f)
+    m = re.search(r'(\d{4}-\d{2}-\d{2})(?:-catchup)?\.md$', f)  # catch-ups count (missed until 2026-11-16)
     if m:
         try:
             dates.append(datetime.date.fromisoformat(m.group(1)))
@@ -163,7 +165,7 @@ if not dates:
 else:
     last = max(dates)
     days = (datetime.date.today() - last).days
-    if days >= 2:
+    if days >= 8:  # weekly Sunday catch-up digest (2026-11-16); a mid-week gap is expected
         print(f'night-moves: {days} days since last digest ({last}) — run /night-moves?')
 " 2>/dev/null || true
 

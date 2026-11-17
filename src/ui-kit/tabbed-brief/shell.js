@@ -53,6 +53,8 @@
 
   /* jumps: clear the sticky head (meta strip and nav) by 12px; respect reduced motion */
   var nav = document.querySelector('.tb-head') || document.querySelector('.tb-navwrap');
+  if (nav && window.IntersectionObserver) { var sent = document.createElement('div'); sent.setAttribute('aria-hidden', 'true'); nav.parentNode.insertBefore(sent, nav);
+    new IntersectionObserver(function (es) { nav.classList.toggle('is-stuck', !es[0].isIntersecting); }).observe(sent); }
   function cover() { return nav ? nav.getBoundingClientRect().height : 0; }
   function jumpTo(el, how) { if (!el) return; var y = el.getBoundingClientRect().top + scrollY - cover() - 12; scrollTo({ top: Math.max(0, y), behavior: how || (reduce() ? 'auto' : 'smooth') }); }
   var booting = true; addEventListener('load', function () { setTimeout(function () { booting = false; }, 0); });

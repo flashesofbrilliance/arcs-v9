@@ -171,6 +171,10 @@ details > summary::-webkit-details-marker {{ display: none; }}
 .claims {{ padding: 0 0 18px; display: flex; flex-direction: column; gap: 8px; }}
 .claim {{ border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); }}
 .claim > summary {{ display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; }}
+.claim > summary {{ border-radius: var(--ds-r-sm); }}
+.claim[open] > summary {{ border-bottom-left-radius: 0; border-bottom-right-radius: 0; }}
+/* The summary paints its own hover background; round it on the card's own scale step
+   (--ds-r-sm) so it never pokes past the card's corners. Not overflow: clip, which would cut off the focus ring drawn 3px outside the summary. */
 .claim > summary:hover {{ background: var(--surface-2); }}
 .claim[open] {{ border-color: var(--text-secondary); }}
 .date {{ font-family: var(--ds-font-mono); font-size: var(--fs-meta); color: var(--muted); white-space: nowrap; }}

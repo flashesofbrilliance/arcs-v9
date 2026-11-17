@@ -245,12 +245,52 @@ def _count_placeholders(v) -> int:
     return 0
 
 
-def validate(doc: dict, schema: dict | None = None) -> Report:
+TURN_LINE = re.compile(r"^\[(\d{1,3}:\d{2}(?::\d{2})?)\]\s*[^:\[\]]{1,60}:\s*(.+)$")
+
+
+def grounding(doc: dict, rep: Report, root: str) -> None:
+    """Atoms against their source. Each utterance must sit verbatim in a transcript turn at its own t;
+    each child atom (number, promise, ...) must sit verbatim in its parent. Without this a made-up atom
+    passes, since the other checks only compare quotes with atom text (seat council 2026-11-16)."""
+    call = doc.get("call") or {}
+    atoms = call.get("atoms") or []
+    by_id = {a.get("id"): a for a in atoms}
+    for i, a in enumerate(atoms):
+        par = by_id.get(a.get("parent"))
+        if par is not None and a.get("text", "") not in par.get("text", ""):
+            rep.err(f"call.atoms[{i}].text", f"not verbatim in its parent {a['parent']}")
+    tpath = (call.get("source") or {}).get("transcript")
+    if not tpath:
+        if any(a.get("kind") == "utterance" for a in atoms):
+            rep.warn("call.source", "no transcript cited; utterance atoms are not grounded")
+        return
+    full = os.path.join(root, tpath)
+    if not os.path.isfile(full):
+        rep.err("call.source.transcript", f"cited transcript not found: {tpath}")
+        return
+    turns: dict[str, list[str]] = {}
+    for ln in open(full, encoding="utf-8", errors="replace").read().splitlines():
+        m = TURN_LINE.match(ln.strip())
+        if m:
+            turns.setdefault(m.group(1), []).append(m.group(2).strip())
+    for i, a in enumerate(atoms):
+        if a.get("kind") != "utterance":
+            continue
+        text, at = a.get("text", ""), turns.get(str(a.get("t")), [])
+        if not at:
+            rep.err(f"call.atoms[{i}].t", f"{a.get('id')}: no transcript turn at {a.get('t')}")
+        elif not any(text in turn for turn in at):
+            rep.err(f"call.atoms[{i}].text", f"{a.get('id')}: not verbatim in the transcript turn at {a.get('t')}")
+
+
+def validate(doc: dict, schema: dict | None = None, root: str | None = None) -> Report:
     schema = schema or load_schema()
     rep = Report()
     check(doc, schema, schema, rep)
     if isinstance(doc, dict):
         semantic(doc, rep)
+        if root is not None:
+            grounding(doc, rep, root)
     return rep
 
 
@@ -506,6 +546,28 @@ def self_test() -> int:
     expect("audience off-enum", mut(lambda d: d["page"]["blocks"][0].update(audience="public")), "not in")
     expect("belief confidence out of 0..1", mut(lambda d: d["beliefs"][0].update(confidence=[0.4, 1.7])), "maximum")
 
+    # grounding: atoms against the transcript they cite, children against their parent
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        open(os.path.join(td, "t.txt"), "w").write(
+            "[Granola x]\n\n[0:12] Test Person: We ship weekly and hire two PMs.\n[1:05] Me: I will send the sample Friday.\n")
+
+        def ground(name: str, fn, needle: str | None) -> None:
+            nonlocal fails
+            d = _good_v2()
+            d["call"]["source"]["transcript"] = "t.txt"
+            fn(d)
+            rep = validate(d, schema, root=td)
+            good = not rep.errors if needle is None else any(needle in e for e in rep.errors)
+            print(f"{'ok  ' if good else 'FAIL'} {name}" + ("" if good else f"  errors={rep.errors}"))
+            fails += 0 if good else 1
+
+        ground("grounded atoms pass", lambda d: None, None)
+        ground("made-up utterance fails", lambda d: d["call"]["atoms"][0].update(text="We ship daily."), "not verbatim in the transcript")
+        ground("utterance at a time with no turn fails", lambda d: d["call"]["atoms"][0].update(t="0:13"), "no transcript turn at 0:13")
+        ground("child not in its parent fails", lambda d: d["call"]["atoms"][1].update(text="ten PMs"), "not verbatim in its parent")
+        ground("missing transcript file fails", lambda d: d["call"]["source"].update(transcript="gone.txt"), "not found")
+
     # fidelity is set by code
     table = [("A", None, "SHARP"), ("B", "YELLOW", "SHARP"), ("C", None, "DEGRADED"), ("D", None, "GRAIN"),
              ("E", None, "GRAIN"), ("NS", None, "GRAIN"), (None, None, "GRAIN"), ("A", "PARADOX", "MOIRE")]
@@ -607,7 +669,7 @@ def main(argv: list[str]) -> int:
                 print(f"FAIL {path}: {ex}")
                 bad += 1
                 continue
-            rep = validate(doc, schema)
+            rep = validate(doc, schema, root=os.getcwd())
             print(f"{'FAIL' if rep.errors else 'PASS'} {path} ({len(rep.errors)} error(s), {len(rep.warnings)} warning(s))")
             for x in rep.errors:
                 print(f"  error: {x}")

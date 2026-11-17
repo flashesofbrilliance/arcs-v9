@@ -38,7 +38,7 @@ be shown).
 | ARCS: MCP server + agentic orchestration on Claude, in production, 2025 to present | documented | record ROLES.arcs; live app app.arcs.care; arcs-v9 is PRIVATE (gh api verified 2026-10-14), history shown on request |
 | TypeScript/JavaScript, Next.js on ARCS | self-reported, checkable on request (private repo, not in record's own SKILLS list) | inferred from the repo, not from record text, see defend-or-drop |
 | Grayscale: Product Lead, GTM, 10 SEC/FINRA-regulated products, 2024 to 2025 | documented (title, dates, count) | record ROLES.grayscale |
-| $7B AUM | self-reported | record metric "$7B AUM · regulated product suite" |
+| $7B launched | self-reported | record metric "$7B launched · regulated product suite" |
 | Squat: sole technology partner, seven-figure embedded engagement, $350M ARR client, 2019 to 2020 | self-reported | record CONSULTING_CLIENTS.squat |
 | Twill: 3 AI-enabled lines, go-forward on 2 of 3, 2021 to 2023 | self-reported | record CONSULTING_CLIENTS.twill |
 | Axon: MVP definition for a first-responder OTT platform, 2023 | self-reported | record CONSULTING_CLIENTS.axon |
@@ -60,8 +60,7 @@ be shown).
    platform is built and shipped in TypeScript/Next.js in a private repo; offer a code walkthrough, do not
    claim deep React or Node.js authorship beyond what the repo shows. This is the single claim most
    likely to be probed technically (see red-team #1).
-3. $7B AUM. Answer: the suite of 10 products the GTM covered; Grayscale's public AUM figure for the
-   period, not a personal P&L.
+3. $7B launched. Answer: the suite of 10 products the GTM covered; capital taken to private and public markets, not AUM, not a personal P&L.
 4. $850K+ and <120ms (WTA); 20% net-new revenue (CTF). Answer: internal figures from the 2016-2019
    builds, consistent with the roles, not externally auditable.
 5. "In production, not experiments" for ARCS. Answer: live MCP server, live app (app.arcs.care), commit history and traces on request (repo is private).

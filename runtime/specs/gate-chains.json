@@ -1,0 +1,943 @@
+{
+ "through": "bde67c8d",
+ "through_date": "2026-11-17",
+ "hook": "scripts/git-hooks/pre-commit",
+ "gate_count": 98,
+ "chain_count": 18,
+ "weeks": [
+  {
+   "week": "2026-W35",
+   "monday": "2026-08-24",
+   "gates": [
+    [
+     "2026-08-28",
+     "3ce06ec9",
+     "oracle.py"
+    ],
+    [
+     "2026-08-29",
+     "2c99533e",
+     "artifact_wrap_lint.py"
+    ],
+    [
+     "2026-08-29",
+     "6b6ae039",
+     "belief_log_emit.py"
+    ]
+   ],
+   "chains": [],
+   "reversals": [
+    [
+     "F34",
+     "canon"
+    ],
+    [
+     "F35",
+     "canon"
+    ],
+    [
+     "F36",
+     "infra"
+    ],
+    [
+     "F37",
+     "process"
+    ]
+   ]
+  },
+  {
+   "week": "2026-W36",
+   "monday": "2026-08-31",
+   "gates": [
+    [
+     "2026-09-05",
+     "1eb67058",
+     "integrity_gate.py"
+    ]
+   ],
+   "chains": [],
+   "reversals": []
+  },
+  {
+   "week": "2026-W37",
+   "monday": "2026-09-07",
+   "gates": [
+    [
+     "2026-09-11",
+     "1586a7ab",
+     "token_source_gate.py"
+    ],
+    [
+     "2026-09-11",
+     "d8596569",
+     "req_reality_gate.py"
+    ]
+   ],
+   "chains": [],
+   "reversals": []
+  },
+  {
+   "week": "2026-W38",
+   "monday": "2026-09-14",
+   "gates": [],
+   "chains": [],
+   "reversals": []
+  },
+  {
+   "week": "2026-W39",
+   "monday": "2026-09-21",
+   "gates": [
+    [
+     "2026-09-23",
+     "6bd191f3",
+     "html_div_balance_lint.py"
+    ],
+    [
+     "2026-09-23",
+     "7a5b7237",
+     "tooltip_link_lint.py"
+    ],
+    [
+     "2026-09-24",
+     "595ffd9a",
+     "gutter_consistency_lint.py"
+    ],
+    [
+     "2026-09-26",
+     "06c93e77",
+     "receipt_timing_gate.py"
+    ],
+    [
+     "2026-09-26",
+     "098b20e7",
+     "provenance_lint.py"
+    ],
+    [
+     "2026-09-26",
+     "098b20e7",
+     "slop_lint.py"
+    ],
+    [
+     "2026-09-26",
+     "274de016",
+     "case_world_sync.py"
+    ],
+    [
+     "2026-09-26",
+     "707a59ee",
+     "case_evidence_lint.py"
+    ],
+    [
+     "2026-09-26",
+     "806296b0",
+     "analytics_coverage_gate.py"
+    ],
+    [
+     "2026-09-26",
+     "8595ed3e",
+     "component_source_gate.py"
+    ],
+    [
+     "2026-09-26",
+     "ce2b504b",
+     "nftt_meta_gate.py"
+    ],
+    [
+     "2026-09-27",
+     "17ea0d36",
+     "legend.py"
+    ],
+    [
+     "2026-09-27",
+     "373fc292",
+     "operator_registry_emit.py"
+    ],
+    [
+     "2026-09-27",
+     "5629c8dc",
+     "source_trust_emit.py"
+    ],
+    [
+     "2026-09-27",
+     "5a471eba",
+     "assumptions.py"
+    ],
+    [
+     "2026-09-27",
+     "604a2694",
+     "fates.py"
+    ],
+    [
+     "2026-09-27",
+     "69fc180c",
+     "lore.py"
+    ],
+    [
+     "2026-09-27",
+     "ef65e1e3",
+     "tao_coverage_check.py"
+    ],
+    [
+     "2026-09-27",
+     "fe962170",
+     "altitude_canary.py"
+    ]
+   ],
+   "chains": [
+    {
+     "date": "2026-09-24",
+     "sha": "595ffd9a",
+     "scope": "pages",
+     "subject": "fix(pages): align header/footer gutter to body .pad on 6 counterpart pages + bank gutter lint",
+     "public": [
+      "Header and footer edges sat a few pixels off the body text on six pages, copied from a shared template.",
+      "Aligned all six; a lint now fails any page whose header or footer padding differs from its body."
+     ],
+     "gates": [
+      "gutter_consistency_lint"
+     ],
+     "cite": "git show 595ffd9a -- scripts/git-hooks/pre-commit"
+    },
+    {
+     "date": "2026-09-26",
+     "sha": "06c93e77",
+     "scope": "compass",
+     "subject": "fix(compass): persist horizon+reviewDate, horizon-scale debrief timing",
+     "public": [
+      "Saved decisions never recorded their time horizon or review date, so follow-up reminders ran on a blind default.",
+      "Both save paths store them now, and reminder timing scales with the horizon."
+     ],
+     "gates": [
+      "receipt_timing_gate"
+     ],
+     "cite": "git show 06c93e77 -- scripts/git-hooks/pre-commit"
+    },
+    {
+     "date": "2026-09-26",
+     "sha": "ce2b504b",
+     "scope": "nftt",
+     "subject": "fix(nftt): conform all NFTT posts to the head-meta gate + add batch Frustration Gate",
+     "public": [
+      "Nine older field-note posts lacked the required title and description tags; the check only ran on files being edited.",
+      "Fixed all nine and added a check that reads every post at once."
+     ],
+     "gates": [
+      "nftt_meta_gate"
+     ],
+     "cite": "git show ce2b504b -- scripts/git-hooks/pre-commit"
+    }
+   ],
+   "reversals": [
+    [
+     "F38",
+     "process"
+    ],
+    [
+     "F39",
+     "infra"
+    ],
+    [
+     "F40",
+     "canon"
+    ],
+    [
+     "F41",
+     "canon"
+    ]
+   ]
+  },
+  {
+   "week": "2026-W40",
+   "monday": "2026-09-28",
+   "gates": [
+    [
+     "2026-09-28",
+     "e5c602cc",
+     "tao_project.py"
+    ],
+    [
+     "2026-09-28",
+     "e88ca1da",
+     "migration_rls_lint.py"
+    ],
+    [
+     "2026-09-29",
+     "1bdbce03",
+     "status_floor_emit.py"
+    ],
+    [
+     "2026-10-03",
+     "58e96443",
+     "page_gate.py"
+    ],
+    [
+     "2026-10-03",
+     "d9599cd3",
+     "connector_render.py"
+    ],
+    [
+     "2026-10-03",
+     "d9599cd3",
+     "nftt_index_build.mjs"
+    ],
+    [
+     "2026-10-03",
+     "d9599cd3",
+     "nftt_index_layout.js"
+    ],
+    [
+     "2026-10-04",
+     "56e9b542",
+     "leak_check.sh"
+    ],
+    [
+     "2026-10-04",
+     "933a21d1",
+     "open_loops.py"
+    ],
+    [
+     "2026-10-04",
+     "d606f62d",
+     "nftt_series.py"
+    ],
+    [
+     "2026-10-04",
+     "d9b44329",
+     "backlog_freshness.py"
+    ],
+    [
+     "2026-10-04",
+     "e6b54862",
+     "nftt_published.py"
+    ]
+   ],
+   "chains": [
+    {
+     "date": "2026-09-28",
+     "sha": "e88ca1da",
+     "scope": "db",
+     "subject": "fix(db): enable RLS on Tribune + _prisma_migrations, gate new tables",
+     "public": null,
+     "gates": [
+      "migration_rls_lint"
+     ],
+     "cite": "git show e88ca1da -- scripts/git-hooks/pre-commit"
+    }
+   ],
+   "reversals": [
+    [
+     "F42",
+     "surface"
+    ]
+   ]
+  },
+  {
+   "week": "2026-W41",
+   "monday": "2026-10-05",
+   "gates": [
+    [
+     "2026-10-05",
+     "190e662b",
+     "cruft_sweep.py"
+    ],
+    [
+     "2026-10-05",
+     "90743bf5",
+     "resume_location_gate.py"
+    ],
+    [
+     "2026-10-05",
+     "9f84b7c3",
+     "null_userid_gate.py"
+    ],
+    [
+     "2026-10-05",
+     "afa2ca5c",
+     "arcs_models.py"
+    ],
+    [
+     "2026-10-05",
+     "afa2ca5c",
+     "model_id_gate.py"
+    ],
+    [
+     "2026-10-06",
+     "436720a9",
+     "resume_ats_render.py"
+    ],
+    [
+     "2026-10-06",
+     "4c4cfbd4",
+     "backlog_ripeness.py"
+    ],
+    [
+     "2026-10-06",
+     "c1be4cc7",
+     "handoff_fold.py"
+    ],
+    [
+     "2026-10-06",
+     "d1c1d6dd",
+     "card_gutter_check.mjs"
+    ],
+    [
+     "2026-10-06",
+     "dc97fff3",
+     "integrity_baseline.js"
+    ],
+    [
+     "2026-10-07",
+     "93b35eeb",
+     "surface_catalog_emit.py"
+    ],
+    [
+     "2026-10-08",
+     "8ef6dab3",
+     "universe_snapshot_emit.py"
+    ],
+    [
+     "2026-10-08",
+     "a01afc10",
+     "design_debt_sweep.py"
+    ],
+    [
+     "2026-10-08",
+     "bac67125",
+     "template_leak_lint.py"
+    ],
+    [
+     "2026-10-09",
+     "883b9325",
+     "held_exceptions.py"
+    ],
+    [
+     "2026-10-10",
+     "ccdc4043",
+     "backlog_status_check.py"
+    ]
+   ],
+   "chains": [
+    {
+     "date": "2026-10-05",
+     "sha": "90743bf5",
+     "scope": "forge",
+     "subject": "fix(forge): resume location line is \"New York Metro\" at source + gate",
+     "public": [
+      "Generated résumés carried the wrong location line, copied forward from old templates.",
+      "Pinned the line at the source and corrected 183 lines; a gate checks every résumé."
+     ],
+     "gates": [
+      "resume_location_gate"
+     ],
+     "cite": "git show 90743bf5 -- scripts/git-hooks/pre-commit"
+    },
+    {
+     "date": "2026-10-05",
+     "sha": "190e662b",
+     "scope": "cruft-sweep",
+     "subject": "fix(cruft-sweep): prune bundles each worktree's own HEAD, refuses otherwise",
+     "public": [
+      "The worktree cleanup tool could back up the wrong branch for a detached or broken worktree.",
+      "It now proves each target is a real worktree with its own history, and refuses otherwise."
+     ],
+     "gates": [
+      "cruft_sweep"
+     ],
+     "cite": "git show 190e662b -- scripts/git-hooks/pre-commit"
+    },
+    {
+     "date": "2026-10-06",
+     "sha": "c1be4cc7",
+     "scope": "handoff",
+     "subject": "fix(handoff): fold archives oldest by semver, warn on hand-written blocks",
+     "public": [
+      "The handoff archiver kept notes by position, so it could archive a newer note and keep an older one.",
+      "It sorts by version now, and the hook warns when a handoff note is written by hand."
+     ],
+     "gates": [
+      "handoff_fold"
+     ],
+     "cite": "git show c1be4cc7 -- scripts/git-hooks/pre-commit"
+    },
+    {
+     "date": "2026-10-08",
+     "sha": "8ef6dab3",
+     "scope": "universe",
+     "subject": "fix(universe): gate content only; history refreshed under the oracle",
+     "public": [
+      "A committed snapshot counted commits, so it went stale with every commit by design.",
+      "The check covers content only; the counts refresh on their own schedule."
+     ],
+     "gates": [
+      "universe_snapshot_emit"
+     ],
+     "cite": "git show 8ef6dab3 -- scripts/git-hooks/pre-commit"
+    },
+    {
+     "date": "2026-10-08",
+     "sha": "bac67125",
+     "scope": "design-system",
+     "subject": "fix(design-system): repair the Instrument Panel card phone first; guard template leaks",
+     "public": [
+      "A design-system card printed raw JavaScript template code instead of its values.",
+      "Rebuilt the card as static markup; a lint blocks template code left in any page."
+     ],
+     "gates": [
+      "template_leak_lint"
+     ],
+     "cite": "git show bac67125 -- scripts/git-hooks/pre-commit"
+    },
+    {
+     "date": "2026-10-08",
+     "sha": "a01afc10",
+     "scope": "design",
+     "subject": "fix(design): swap retired greys on served pages; baseline and ratchet the design debt",
+     "public": [
+      "Two retired grey text colors, too faint to read, were still hardcoded across served pages.",
+      "Swapped them out and recorded design debt per page; the count may only go down."
+     ],
+     "gates": [
+      "design_debt_sweep"
+     ],
+     "cite": "git show a01afc10 -- scripts/git-hooks/pre-commit"
+    }
+   ],
+   "reversals": []
+  },
+  {
+   "week": "2026-W42",
+   "monday": "2026-10-12",
+   "gates": [
+    [
+     "2026-10-15",
+     "566ee8e2",
+     "agent_seed_gate.py"
+    ],
+    [
+     "2026-10-16",
+     "1fbb6295",
+     "kit_primitive_sync.py"
+    ],
+    [
+     "2026-10-16",
+     "2317eb74",
+     "inline_token_sync.py"
+    ],
+    [
+     "2026-10-16",
+     "9cd40581",
+     "ripple_ledger.py"
+    ],
+    [
+     "2026-10-16",
+     "b256edc0",
+     "motion_policy_gate.py"
+    ],
+    [
+     "2026-10-17",
+     "0ace9a60",
+     "librarian_hook.py"
+    ],
+    [
+     "2026-10-17",
+     "1651dd6c",
+     "seed_lineage_check.py"
+    ],
+    [
+     "2026-10-17",
+     "47849d9b",
+     "public_claim_gate.py"
+    ],
+    [
+     "2026-10-17",
+     "71cb3d85",
+     "phosphor_build.py"
+    ],
+    [
+     "2026-10-17",
+     "bbed234a",
+     "phosphor_static_review.py"
+    ],
+    [
+     "2026-10-17",
+     "e567cd70",
+     "seed_ledger_gate.py"
+    ],
+    [
+     "2026-10-18",
+     "f905adbd",
+     "archive_move_gate.py"
+    ]
+   ],
+   "chains": [
+    {
+     "date": "2026-10-17",
+     "sha": "bbed234a",
+     "scope": "artifacts",
+     "subject": "fix(artifacts): Phosphor strip zoom buttons were dead (duplicate ids); static review of the sources; journey and hardening plan",
+     "public": [
+      "The zoom buttons in a DJ tool did nothing, because two elements shared one id.",
+      "Fixed the ids and added a static review of the tool's sources."
+     ],
+     "gates": [
+      "phosphor_static_review"
+     ],
+     "cite": "git show bbed234a -- scripts/git-hooks/pre-commit"
+    }
+   ],
+   "reversals": []
+  },
+  {
+   "week": "2026-W43",
+   "monday": "2026-10-19",
+   "gates": [
+    [
+     "2026-10-19",
+     "b59b255f",
+     "universe_jtbd_adapter.py"
+    ]
+   ],
+   "chains": [],
+   "reversals": []
+  },
+  {
+   "week": "2026-W44",
+   "monday": "2026-10-26",
+   "gates": [
+    [
+     "2026-10-27",
+     "82733978",
+     "delta_encoding_gate.py"
+    ],
+    [
+     "2026-10-28",
+     "8ed567ea",
+     "kit_specimen.py"
+    ],
+    [
+     "2026-10-30",
+     "2e616122",
+     "grammar_chips_emit.py"
+    ],
+    [
+     "2026-10-30",
+     "6d602f21",
+     "good_agent_files_emit.py"
+    ],
+    [
+     "2026-10-30",
+     "e66ec453",
+     "proof_emit.py"
+    ],
+    [
+     "2026-10-31",
+     "0ffc7113",
+     "kit_pull.py"
+    ],
+    [
+     "2026-11-01",
+     "8ccdfeac",
+     "approvals_ledger.py"
+    ],
+    [
+     "2026-11-01",
+     "d3243b0b",
+     "hud_widget_isolation_gate.py"
+    ],
+    [
+     "2026-11-01",
+     "fc344596",
+     "hud_widget_registry_emit.py"
+    ]
+   ],
+   "chains": [
+    {
+     "date": "2026-10-30",
+     "sha": "2e616122",
+     "scope": "ui",
+     "subject": "fix(ui): chip grammar gauntlet fixes 2-4: gate in pre-commit, HUD restraint, JSX texture",
+     "public": [
+      "A review found status chips could drift from the shared colors and fall under the contrast floor.",
+      "The chip generator's check now fails on either, on every commit."
+     ],
+     "gates": [
+      "grammar_chips_emit"
+     ],
+     "cite": "git show 2e616122 -- scripts/git-hooks/pre-commit"
+    }
+   ],
+   "reversals": []
+  },
+  {
+   "week": "2026-W45",
+   "monday": "2026-11-02",
+   "gates": [
+    [
+     "2026-11-04",
+     "81dc7d47",
+     "counterpart_onepager_build.py"
+    ],
+    [
+     "2026-11-06",
+     "008666fd",
+     "engagement_render.py"
+    ],
+    [
+     "2026-11-06",
+     "2609e239",
+     "precall_brief_build.py"
+    ],
+    [
+     "2026-11-06",
+     "9dfaaab8",
+     "proposal_build.py"
+    ],
+    [
+     "2026-11-08",
+     "0c8c58af",
+     "proposal_lint.py"
+    ],
+    [
+     "2026-11-08",
+     "1d101fee",
+     "myally_hub_crawl.py"
+    ],
+    [
+     "2026-11-08",
+     "d83877d8",
+     "myally_hub_sync.py"
+    ],
+    [
+     "2026-11-08",
+     "fba8adda",
+     "myally_primer_terms.py"
+    ]
+   ],
+   "chains": [
+    {
+     "date": "2026-11-08",
+     "sha": "1d101fee",
+     "scope": "client",
+     "subject": "fix(myally): hub polish and an interaction crawl test",
+     "public": [
+      "On a client's project page, clicking a workstream collapsed it and the day columns left a blank strip.",
+      "Fixed both, and added a test that clicks through the page."
+     ],
+     "gates": [
+      "client_hub_crawl"
+     ],
+     "cite": "git show 1d101fee -- scripts/git-hooks/pre-commit"
+    }
+   ],
+   "reversals": [
+    [
+     "F43",
+     "surface"
+    ],
+    [
+     "F44",
+     "infra"
+    ],
+    [
+     "F45",
+     "process"
+    ],
+    [
+     "F46",
+     "surface"
+    ],
+    [
+     "F47",
+     "infra"
+    ],
+    [
+     "F48",
+     "infra"
+    ]
+   ]
+  },
+  {
+   "week": "2026-W46",
+   "monday": "2026-11-09",
+   "gates": [
+    [
+     "2026-11-09",
+     "c8464a4c",
+     "tabbed_brief_build.py"
+    ],
+    [
+     "2026-11-12",
+     "12822415",
+     "share_control_gate.py"
+    ],
+    [
+     "2026-11-12",
+     "13dfde30",
+     "backlog_merge_by_id.py"
+    ],
+    [
+     "2026-11-12",
+     "a715c92e",
+     "scratch_git_leak_gate.py"
+    ],
+    [
+     "2026-11-12",
+     "b3b8dda8",
+     "recoil_public_share_gate.py"
+    ],
+    [
+     "2026-11-12",
+     "b3b8dda8",
+     "recoil_public_share_render.mjs"
+    ],
+    [
+     "2026-11-13",
+     "30f08f55",
+     "kit_periodic_table.py"
+    ],
+    [
+     "2026-11-13",
+     "bcf02d56",
+     "operator_binding_emit.py"
+    ],
+    [
+     "2026-11-13",
+     "df3cc420",
+     "design_candidates.py"
+    ],
+    [
+     "2026-11-13",
+     "efd7ab45",
+     "kit_job_ratchet.py"
+    ],
+    [
+     "2026-11-14",
+     "71cbaad4",
+     "gate_chain_build.py"
+    ],
+    [
+     "2026-11-15",
+     "1200ab58",
+     "rewrite_shadow_check.py"
+    ]
+   ],
+   "chains": [
+    {
+     "date": "2026-11-12",
+     "sha": "12822415",
+     "scope": "share",
+     "subject": "fix(share): share buttons on gated pages mint a share path",
+     "public": [
+      "Share buttons on sign-in-only pages copied the page's own link, so the person it was sent to hit a 404.",
+      "The buttons create a share link now; the same bug had come back three times before."
+     ],
+     "gates": [
+      "share_control_gate"
+     ],
+     "cite": "git show 12822415 -- scripts/git-hooks/pre-commit"
+    },
+    {
+     "date": "2026-11-12",
+     "sha": "b3b8dda8",
+     "scope": "recoil",
+     "subject": "fix(recoil): gate public shares on their signed-out render",
+     "public": [
+      "A public share link showed more of an internal page than intended: lines were removed from a list, not allowed in.",
+      "Public views are an allow-list now, and a gate checks the signed-out page."
+     ],
+     "gates": [
+      "recoil_public_share_gate",
+      "recoil_public_share_render"
+     ],
+     "cite": "git show b3b8dda8 -- scripts/git-hooks/pre-commit"
+    },
+    {
+     "date": "2026-11-12",
+     "sha": "a715c92e",
+     "scope": "scripts",
+     "subject": "fix(scripts): scratch-git self-tests drop GIT_* so a hook cannot rewrite the real repo",
+     "public": [
+      "Self-tests run from a commit hook wrote into the real repository's settings, so commits went out under a test identity.",
+      "All 17 self-tests drop git's environment first, and a gate checks for it."
+     ],
+     "gates": [
+      "scratch_git_leak_gate"
+     ],
+     "cite": "git show a715c92e -- scripts/git-hooks/pre-commit"
+    }
+   ],
+   "reversals": [
+    [
+     "F50",
+     "surface"
+    ],
+    [
+     "F51",
+     "process"
+    ]
+   ]
+  },
+  {
+   "week": "2026-W47",
+   "monday": "2026-11-16",
+   "gates": [
+    [
+     "2026-11-16",
+     "113fa1c6",
+     "babel_fish_listeners.py"
+    ],
+    [
+     "2026-11-16",
+     "1fb74fe4",
+     "aum_claim_gate.py"
+    ],
+    [
+     "2026-11-17",
+     "38cc17ce",
+     "resume_claim_gate.py"
+    ]
+   ],
+   "chains": [
+    {
+     "date": "2026-11-16",
+     "sha": "1fb74fe4",
+     "scope": "claims",
+     "subject": "fix(claims): Grayscale $7B is a launch figure, never AUM, plus gate",
+     "public": [
+      "Résumés and pages called a launch figure assets under management, a claim the record does not support.",
+      "Corrected 391 files to say what was launched; a gate blocks the old phrasing on every commit."
+     ],
+     "gates": [
+      "aum_claim_gate"
+     ],
+     "cite": "git show 1fb74fe4 -- scripts/git-hooks/pre-commit"
+    },
+    {
+     "date": "2026-11-17",
+     "sha": "38cc17ce",
+     "scope": "forge",
+     "subject": "fix(forge): clear corrected resume claims from 119 older bundles, gate them",
+     "public": [
+      "Older résumé bundles still carried claims that had since been corrected, in their pages and PDFs.",
+      "Cleared 119 bundles and re-rendered the PDFs; a gate now reads every résumé, PDFs included, on each commit."
+     ],
+     "gates": [
+      "resume_claim_gate"
+     ],
+     "cite": "git show 38cc17ce -- scripts/git-hooks/pre-commit"
+    }
+   ],
+   "reversals": [
+    [
+     "F49",
+     "surface"
+    ]
+   ]
+  }
+ ],
+ "cites": {
+  "gates": "git log -p bde67c8d -- scripts/git-hooks/pre-commit (first commit whose added line names the script)",
+  "chains": "a fix(...) commit among those that first wired a script",
+  "reversals": "_STATE/falsification-ledger.jsonl ts, id and scope only"
+ }
+}

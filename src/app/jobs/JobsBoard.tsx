@@ -25,7 +25,7 @@ type Row = {
   firstSeen: string; trust?: { count: number; ids: string[] } | null; scoredAt?: string | null; seenCount: number; salary: string | null; composite: number | null; band: string
   dims: string | null; gates: string | null; assessment: string | null; atsClass: string | null; atsName: string | null
   companyType: string | null; compBand: string | null; hmKind: string | null; hmText: string | null
-  contactType: string | null; contactDetail: string | null; contactUrl: string | null; nextStep: string | null; unscoredWhy: string | null
+  contactType: string | null; contactDetail: string | null; contactUrl: string | null; nextStep: string | null; unscoredWhy: string | null; laneStatus?: string | null
   swipe: Swipe | null; forge: Forge | null
 }
 type Spec = {
@@ -148,6 +148,12 @@ function Progress({ pct, indeterminate, done }: { pct: number; indeterminate?: b
   )
 }
 
+const FRESH_DAYS = 14
+function defaultFilters() {
+  const from = new Date(Date.now() - FRESH_DAYS * 864e5).toISOString().slice(0, 10)
+  return { tier: "all", swipe: "all", ats: "all", arch: "all", co: "all", tag: "all", q: "", from, to: "" }
+}
+
 export function JobsBoard() {
   const vw = useVw()
   const phone = vw < 640
@@ -155,8 +161,10 @@ export function JobsBoard() {
   const tablet = vw < 1280
   const [data, setData] = useState<Payload | null>(null)
   const [err, setErr] = useState<string | null>(null)
-  const [f, setF] = useState({ tier: "all", swipe: "all", ats: "all", arch: "all", co: "all", tag: "all", q: "", from: "", to: "" })
-  const [sort, setSort] = useState<{ key: "score" | "company" | "leverage" | "date"; dir: "asc" | "desc" }>({ key: "score", dir: "desc" })
+  // Default view (Zach, 2026-11-16): newest first by firstSeen, roles first seen in the last FRESH_DAYS only.
+  // Clear the "Seen from" date to see older rows. Rows stamped posting-closed never show.
+  const [f, setF] = useState(defaultFilters)
+  const [sort, setSort] = useState<{ key: "score" | "company" | "leverage" | "date"; dir: "asc" | "desc" }>({ key: "date", dir: "desc" })
   const [open, setOpen] = useState<Record<string, boolean>>({})
   const [adding, setAdding] = useState(false)
   const [weights, setWeights] = useState<Record<string, number> | null>(null)
@@ -223,6 +231,7 @@ export function JobsBoard() {
     const q = f.q.trim().toLowerCase()
     return scored.filter((r) => {
       if (stateOf(r) === "not_reviewed") return false
+      if (r.laneStatus === "posting-closed") return false
       const t = tierOf(r.composite, spec)
       const sw = r.swipe?.direction ?? "none"
       if (f.tier !== "all" && t !== Number(f.tier)) return false
@@ -374,7 +383,7 @@ export function JobsBoard() {
           <label style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: font.ramp.label, color: fg3, flexBasis: phone ? "100%" : undefined, minWidth: 0 }}>Seen <input type="date" aria-label="Seen from" value={f.from} onChange={(e) => setF({ ...f, from: e.target.value })} style={{ ...ctl, padding: "0 8px", colorScheme: "dark", minWidth: 0, flex: phone ? "1 1 0" : undefined }} /> to <input type="date" aria-label="Seen to" value={f.to} onChange={(e) => setF({ ...f, to: e.target.value })} style={{ ...ctl, padding: "0 8px", colorScheme: "dark", minWidth: 0, flex: phone ? "1 1 0" : undefined }} /></label>
           <span style={{ flex: 1 }} />
           <span style={{ fontSize: font.ramp.label, color: fg3, whiteSpace: "nowrap" }}>{visible.length} of {scored.length}</span>
-          <button onClick={() => setF({ tier: "all", swipe: "all", ats: "all", arch: "all", co: "all", tag: "all", q: "", from: "", to: "" })} style={{ background: "none", border: 0, color: signal.cyan, cursor: "pointer", fontSize: font.ramp.label }}>Reset</button>
+          <button onClick={() => setF(defaultFilters())} style={{ background: "none", border: 0, color: signal.cyan, cursor: "pointer", fontSize: font.ramp.label }}>Reset</button>
           <Button variant="ghost" size="sm" onClick={() => { setLabOpen((o) => { const n = !o; if (n && !weights) setWeights(Object.fromEntries(DIMS.map((d) => [d.key, d.weight]))); return n }) }} aria-expanded={labOpen}>{labOpen ? "Close lab" : weights ? "Weight lab ●" : "Weight lab"}</Button>
           <Button variant="ghost" size="sm" onClick={() => setAdding((a) => !a)} aria-expanded={adding}>{adding ? "Close" : "+ Add a row"}</Button>
         </div>

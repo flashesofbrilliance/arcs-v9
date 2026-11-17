@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- @arcs-template: candidate-brief -->
+<!-- @arcs-template: proposal -->
 <!-- @arcs-mode: persuade -->
 <html lang="en">
 <head>
@@ -108,59 +108,12 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:va
 section{display:flex;flex-direction:column;gap:var(--sp-2);}
 p,li{max-width:none;text-wrap:pretty;}
 /* kit primitives, verbatim */
-/* @prim:begin 28-chip */
-.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-.chip { display: inline-flex; align-items: center; gap: 6px; box-sizing: border-box; height: 22px; padding: 0 10px; border-radius: var(--ds-r-xs); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; line-height: 1; border: 1px solid var(--border); color: var(--text-secondary); background: transparent; }
-.chip.cyan { color: var(--cyan); border-color: color-mix(in srgb, var(--cyan) 35%, transparent); background: color-mix(in srgb, var(--cyan) 13%, transparent); }
-.chip.green { color: var(--green); border-color: color-mix(in srgb, var(--green) 35%, transparent); background: color-mix(in srgb, var(--green) 13%, transparent); }
-.chip.gold { color: var(--gold); border-color: color-mix(in srgb, var(--gold) 35%, transparent); background: color-mix(in srgb, var(--gold) 13%, transparent); }
-.chip.red { color: var(--red); border-color: color-mix(in srgb, var(--red) 35%, transparent); background: color-mix(in srgb, var(--red) 13%, transparent); }
-.chip.status { gap: 5px; height: auto; padding: 2px 8px; border-radius: var(--ds-r-pill); font-weight: 500; letter-spacing: 0; }
-.chip.status::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex: none; }
-.row { display: flex; flex-wrap: wrap; gap: 8px; }
-/* @prim:end 28-chip */
-/* @prim:begin 29-tile */
-.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
-.tile { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); padding: 14px 16px; }
-.tile .v { font-family: var(--ds-font-mono); font-size: var(--fs-display); font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
-.tile .v.cyan { color: var(--cyan); }
-.tile .k { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
-/* @prim:end 29-tile */
-/* @prim:begin 31-callout */
-.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-.callout { max-width: var(--measure, 640px); background: var(--gold-bg); border: 1px solid var(--gold); border-radius: var(--ds-r-sm); padding: 12px 16px; color: var(--text-secondary); }
-.callout.red { background: var(--red-bg); border-color: var(--red); }
-.callout b { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-right: 6px; }
-.callout.red b { color: var(--red); }
-/* @prim:end 31-callout */
-/* @prim:begin 32-evidence-ref */
-.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-.ref { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--dimmed); }
-.ref a { color: var(--cyan); text-decoration: none; }
-.ref a:hover, .ref a:focus-visible { text-decoration: underline; }
-/* @prim:end 32-evidence-ref */
-/* @prim:begin 33-led */
-.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-.led { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); }
-.led::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
-.led.on::before { background: var(--green); }
-.led.alert::before { background: var(--red); }
-.row { display: flex; flex-wrap: wrap; gap: 16px; }
-/* @prim:end 33-led */
 /* page roles (DESIGN.md: display, headline, title, body, label) */
 h1{font-family:var(--sans);font-size:var(--fs-display);font-weight:700;letter-spacing:-0.02em;line-height:1.2;text-wrap:balance;}
 .verdict{font-family:var(--serif);font-size:var(--fs-step);font-weight:500;line-height:1.45;color:var(--text);margin-top:var(--sp-3);}
 .aside{color:var(--secondary);margin-top:var(--sp-2);}
 .slabel{font-family:var(--sans);font-size:var(--fs-step);font-weight:600;letter-spacing:-0.01em;line-height:1.25;color:var(--text);text-wrap:balance;}
-.hgrid{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--sp-4);}
-.hhead{margin:0;font-family:var(--sans);font-size:var(--fs-body);font-weight:600;line-height:1.6;color:var(--text);padding-bottom:var(--sp-1);}
-.hhead.c{color:var(--cyan);}
-/* screen: block 01 opens like block 02, a rule under the deck, then H3 column heads set like the spec labels */
 
-.hrow{display:contents;}
-.hrow > div{padding:var(--sp-2) 0;border-top:1px solid var(--border);}
-.hrow .ref{display:block;margin-top:6px;}
 .lockup{display:flex;flex-direction:column;gap:var(--sp-1);}
 .lockup .deck{color:var(--secondary);text-wrap:pretty;}
 .proof{display:flex;flex-direction:column;gap:6px;}
@@ -169,34 +122,24 @@ footer a{color:inherit;text-underline-offset:2px;}
 .forline{margin-top:var(--sp-1);}
 /* Light mode (the myally.arcs.care pattern): follows the OS unless the reader picks; kit tokens remap, kit primitives stay verbatim. */
 :root{color-scheme:dark;}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}}
-:root[data-theme="light"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--secondary:#475262;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);color-scheme:light;}}
+:root[data-theme="light"]{--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--secondary:#475262;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);color-scheme:light;}
 header{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:var(--sp-2);align-items:start;}
 header > *{grid-column:1 / -1;}
 header > .tools{grid-row:1;justify-self:end;display:flex;align-items:center;gap:0;margin-right:-12px;margin-bottom:var(--sp-2);}
 .pdfbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:44px;width:44px;padding:0;color:var(--secondary);border:0;border-radius:var(--ds-r-sm);text-decoration:none;font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;}
 .pdfbtn:hover,.pdfbtn:focus-visible{color:var(--cyan);}
 .pdfbtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
-@media print{:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;} .themebtn,.tools{display:none!important;} body{background:#fff!important;padding:0!important;} .page{gap:var(--sp-3);max-width:none;} body{font-size:10.5pt;line-height:1.5;} h1{font-size:22pt;} .verdict{font-size:13pt;margin-top:var(--sp-2);} .slabel{font-size:13pt;} .hrow > div{padding:10px 0;} section{gap:var(--sp-1);} .lockup,.hrow > div{break-inside:avoid;} .lockup{break-after:avoid;}}
+@media print{:root{--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--secondary:#475262;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);color-scheme:light;} .themebtn,.tools{display:none!important;} body{background:#fff!important;padding:0!important;} .page{gap:var(--sp-3);max-width:none;} body{font-size:10.5pt;line-height:1.5;} h1{font-size:22pt;} .verdict{font-size:13pt;margin-top:var(--sp-2);} .slabel{font-size:13pt;} .qpair-row > div{padding:10px 0;} section{gap:var(--sp-1);} .lockup,.qpair-row > div{break-inside:avoid;} .lockup{break-after:avoid;}}
 @page{size:Letter;margin:0.5in 0.6in;}
 
 @media (max-width:640px){
   body{padding-top:var(--sp-4);}
   .page{gap:var(--sp-4);}
-  .hgrid{grid-template-columns:1fr;}
-  .hhead.c{display:none;}
-  .hrow > .hc{border-top:none;padding-top:0;}
-  .hrow > .hc::before{content:"Worth asking: ";font-weight:600;color:var(--cyan);}
 }
 /* gift-then-offer 2026-11-05: one labeled-row component for the decision rows and the terms */
 .sublabel{font-family:var(--sans);font-size:var(--fs-body);font-weight:600;color:var(--text);margin-top:var(--sp-3);}
-.spec{display:flex;flex-direction:column;}
-.specrow{display:grid;grid-template-columns:9.5rem minmax(0,1fr);column-gap:var(--sp-3);padding:var(--sp-2) 0;border-top:1px solid var(--border);}
-.specrow:last-child{border-bottom:1px solid var(--border);}
-.specrow dt{font-weight:600;color:var(--text);}
-.specrow dd{margin:0;color:var(--text-secondary);text-wrap:pretty;}
 .spec + .offer{margin-top:var(--sp-3);}
-@media (max-width:640px){.specrow{grid-template-columns:minmax(0,1fr);row-gap:4px;}}
 /* cover + punchlist 2026-11-05 */
 .cover{display:none;}
 .punch{display:flex;flex-direction:column;}
@@ -257,7 +200,7 @@ details.blk.sub > .bd{padding-top:var(--sp-1);}
 :root{--fs-title:var(--fs-body);}
 .forline{font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-top:var(--sp-2);}
 footer p{text-align:left;}
-@media print{:root{--fs-body:0.875rem;--fs-step:1.125rem;--fs-display:2.25rem;} body{font-size:var(--fs-body);} h1{font-size:var(--fs-display);} .verdict,.slabel{font-size:var(--fs-step);} .verdict{line-height:1.4;} .aside{margin-top:var(--sp-1);} .page{gap:var(--sp-2);} .lockup{gap:2px;} .hhead{padding-bottom:4px;} .hrow > div{padding:8px 0;} .hgrid{break-inside:avoid;} .specrow{break-inside:avoid;padding:6px 0;} .sublabel{margin-top:var(--sp-1);} .spec + .offer{margin-top:var(--sp-2);} footer{break-before:avoid;}}
+@media print{:root{--fs-body:0.875rem;--fs-step:1.125rem;--fs-display:2.25rem;} body{font-size:var(--fs-body);} h1{font-size:var(--fs-display);} .verdict,.slabel{font-size:var(--fs-step);} .verdict{line-height:1.4;} .aside{margin-top:var(--sp-1);} .page{gap:var(--sp-2);} .lockup{gap:2px;} .qpair-head{padding-bottom:4px;} .qpair-row > div{padding:8px 0;} .specrow{break-inside:avoid;padding:6px 0;} .sublabel{margin-top:var(--sp-1);} .spec + .offer{margin-top:var(--sp-2);} footer{break-before:avoid;}}
 /* @prim:begin 41-offer-close */
 .offer { border: 1px solid var(--border); border-radius: var(--ds-r-md); background: var(--surface); overflow: hidden; }
 .offer > * { padding: var(--sp-3, 24px); }
@@ -275,37 +218,18 @@ footer p{text-align:left;}
 @media print { .offer { break-inside: avoid; background: none; } .offer-proof { background: none; } .offer > * { padding: 12px 16px; } .offer-link { min-height: 0; } }
 /* @prim:end 41-offer-close */
 /* give/get grid 2026-11-08: the time trade, built on the questions grid (hhead + hairline rows) */
-.gg{display:flex;flex-direction:column;margin-top:var(--sp-2);}
-.gg-row{display:grid;grid-template-columns:5.5rem minmax(0,1fr) minmax(0,1fr);column-gap:var(--sp-3);padding:var(--sp-2) 0;border-top:1px solid var(--border);}
-.gg-head{font-family:var(--sans);font-size:var(--fs-title);font-weight:600;color:var(--secondary);border-top:0;padding:0 0 var(--sp-1);}
-.gg-head .c{color:var(--cyan);}
-.gg-when{font-weight:600;color:var(--text);}
-.gg-give{color:var(--text-secondary);text-wrap:pretty;}
-.gg-get{color:var(--text);text-wrap:pretty;}
-.gg-row:last-child{border-bottom:1px solid var(--border);}
-.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
 .gg + .offer{margin-top:var(--sp-3);}
-@media (max-width:640px){
-  .gg-row{grid-template-columns:minmax(0,1fr);row-gap:6px;}
-  .gg-head{display:none;}
-  .gg-give::before{content:"You give: ";font-weight:600;color:var(--text);}
-  .gg-get::before{content:"You get: ";font-weight:600;color:var(--cyan);}
-}
 @media print{
   .gg{margin-left:2.25rem;break-inside:avoid;}
-  .gg-head{font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);padding-bottom:6px;border-bottom:1.5px solid var(--text);}
-  .gg-head .c{color:var(--cyan);}
-  .gg-row{padding:5px 0;line-height:1.38;grid-template-columns:4.5rem minmax(0,1.5fr) minmax(0,1fr);column-gap:var(--sp-2);}
-  .gg-head + .gg-row{border-top:0;}
   .gg + .offer{margin-top:var(--sp-2);}
 }
 /* print design pass 2026-11-08: the PDF as a document, built from the page's own parts (forline label, mono numerals, hairline grids, offer card). Print only; the screen page is unchanged. */
 @page{size:Letter;margin:0.8in 0.8in 0.75in;
-  @top-left{content:"ARCS";font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;font-size:7pt;font-weight:700;letter-spacing:0.32em;color:#00606b;vertical-align:bottom;padding-bottom:14pt;}
+  @top-left{content:"ARCS";font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;font-size:7pt;font-weight:700;letter-spacing:0.32em;color:#025f93;vertical-align:bottom;padding-bottom:14pt;}
   @top-right{content:"AI build checkup  \00B7  Louisville Brands";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#566170;vertical-align:bottom;padding-bottom:14pt;}
   @bottom-left{content:"Zach Harris  \00B7  zach.harris@gmail.com";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;color:#566170;vertical-align:top;padding-top:14pt;}
   @bottom-center{content:"Confidential";font-family:system-ui,-apple-system,"Inter",sans-serif;font-size:7pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#566170;vertical-align:top;padding-top:14pt;}
-  @bottom-right{content:counter(page) " / " counter(pages);font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;font-size:7pt;font-weight:700;color:#1c2430;vertical-align:top;padding-top:14pt;}
+  @bottom-right{content:counter(page) " / " counter(pages);font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;font-size:7pt;font-weight:700;color:#0f172a;vertical-align:top;padding-top:14pt;}
 }
 @page :first{margin:0.8in 0.8in 0.75in;@top-left{content:none;}@top-right{content:none;}}
 @media print{
@@ -338,20 +262,11 @@ footer p{text-align:left;}
   details.blk > summary > .slabel,details.blk.sub > summary > .sublabel{display:block;border-top:1.5px solid var(--text);padding-top:var(--sp-1);font-size:var(--fs-step);font-weight:600;letter-spacing:-0.01em;}
   details.blk > summary > .slabel::before,details.blk.sub > summary > .sublabel::before{counter-increment:sec;content:counter(sec,decimal-leading-zero);display:inline-block;width:2.25rem;vertical-align:2px;font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;color:var(--cyan);}
   details.blk > summary{display:block;break-after:avoid;}
-  .spec{break-inside:avoid;}
   details.blk.sub{margin-top:var(--sp-1);}
   .offerwrap > .lockup{margin-top:var(--sp-1);}
   .offerwrap > .lockup .slabel{font-size:var(--fs-step);}
-  /* questions grid: table-style column heads */
-  .hhead{font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);padding-bottom:6px;border-bottom:1.5px solid var(--text);}
-  .hhead.c{color:var(--cyan);border-bottom-color:var(--cyan);}
-  .hrow:nth-child(2) > div{border-top:0;}
-  .hrow > .hh{color:var(--text-secondary);}
-  .hrow > .hc{color:var(--text);}
-  .hrow > div{padding:5px 0;}
   /* cases and deliverables */
-  .specrow{grid-template-columns:8rem minmax(0,1fr);padding:7px 0;}
-  .spec,.plist,.hgrid,.pnote{margin-left:2.25rem;}
+  .spec,.plist,.qpair,.pnote{margin-left:2.25rem;}
   .plist li{padding:4px 0;}
   .offerwrap .specrow{padding:9px 0;}
   .pnote{margin-top:var(--sp-2);}
@@ -389,23 +304,12 @@ footer p{text-align:left;}
 /* Molecules on screen (kit: Signal Delta Table for block 01, Entity Cards for block 02), matching the
    bordered offer card in block 03. Print keeps its own plain table and rows. */
 @media screen{
-  .hgrid{column-gap:0;margin-top:var(--sp-1);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);overflow:hidden;}
-  .hhead{padding:var(--sp-1) var(--sp-3);background:var(--surface-2);border-bottom:1px solid var(--border);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);}
-  .hhead.c{color:var(--cyan);border-left:1px solid var(--border);}
-  .hrow > div{padding:var(--sp-2) var(--sp-3);}
-  .hhead.c + .hrow > div{border-top:0;}
-  .hrow > .hh{color:var(--text-secondary);}
-  .hrow > .hc{color:var(--text);border-left:1px solid var(--border);}
-  .offerwrap .bd > .spec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-2);margin-top:var(--sp-1);}
-  .offerwrap .bd > .spec > .specrow,.offerwrap .bd > .spec > .specrow:last-child{grid-template-columns:minmax(0,1fr);align-content:start;row-gap:var(--sp-1);padding:var(--sp-2) var(--sp-3);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);}
-  .offerwrap .bd > .spec > .specrow dt{display:flex;align-items:center;gap:var(--sp-1);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);}
-  .offerwrap .bd > .spec > .specrow dt::before{content:"";width:8px;height:8px;border-radius:var(--ds-r-pill);background:currentColor;flex-shrink:0;}
+  .qpair{margin-top:var(--sp-1);}
+  .offerwrap .bd > .spec{margin-top:var(--sp-1);}
 }
 @media screen and (max-width:640px){
   /* first phone screen: the opening paragraph at a reading size, so section 01 starts within the first screen */
   .verdict{font-size:var(--fs-headline);line-height:1.5;}
-  .hrow > .hc{border-left:0;padding-top:0;}
-  .offerwrap .bd > .spec{grid-template-columns:minmax(0,1fr);}
 }
 /* The bridge into the offer ("If you want the checkup") is not a section: on screen it reads as a
    second verdict, the same serif statement as the opening, with no rule above it. */
@@ -432,34 +336,15 @@ footer p{text-align:left;}
    Line   "Decision Pair"   bridge eyebrow + serif statement + the two decision cards (27, 03 without its strip)
    Sinker "Terms and Close" deliverables, the give/get card, the kit 41-offer-close card */
 @media screen{
-  .hgrid .hhead,.gg .gg-head > span,.offerwrap > .lockup .slabel,.offerwrap details.pbreak + .offer-eyebrow{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;}
+  .offerwrap > .lockup .slabel,.offerwrap details.pbreak + .offer-eyebrow{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;}
   .offerwrap > .lockup .slabel{color:var(--muted);}
   .offerwrap > .lockup{gap:var(--sp-2);}
   .offerwrap > .lockup + details.blk.sub{border-top:0;margin-top:var(--sp-3);}
-  .gg{margin-top:var(--sp-2);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);overflow:hidden;}
-  .gg-row{padding:var(--sp-2) var(--sp-3);}
-  .gg-row:last-child{border-bottom:0;}
-  .gg-head{padding:var(--sp-1) var(--sp-3);background:var(--surface-2);border-bottom:1px solid var(--border);color:var(--muted);}
-  .gg-head + .gg-row{border-top:0;}
-}
-@media screen and (max-width:640px){
-  .gg-head + .gg-row{border-top:0;}
-  .gg > .gg-row:nth-child(2){border-top:0;}
+  .gg{margin-top:var(--sp-2);}
 }
 /* Trace diagram (the method in one row): inputs, decision, outcome, each with its mark, over the stop line.
    HTML, not SVG, so it reflows to a column on phones and inherits the theme. */
-.trace{margin:var(--sp-1) 0 0;}
-.trace-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-3);}
-.trace-steps li{position:relative;display:flex;flex-direction:column;gap:4px;padding:var(--sp-2);background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);}
-.trace-steps li + li::before{content:"\2192";position:absolute;left:calc(-1*var(--sp-3));width:var(--sp-3);top:50%;transform:translateY(-50%);text-align:center;color:var(--muted);}
-.trace-k{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);}
-.trace-v{color:var(--text);}
-.trace-stop{margin:var(--sp-2) 0 0;padding-top:var(--sp-1);border-top:1px dashed var(--muted);color:var(--secondary);font-size:var(--fs-label);font-family:var(--mono);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;text-align:center;}
-@media (max-width:640px){
-  .trace-steps{grid-template-columns:minmax(0,1fr);gap:var(--sp-3);}
-  .trace-steps li + li::before{content:"\2193";left:0;right:0;width:auto;top:calc(-1*var(--sp-3));transform:none;height:var(--sp-3);line-height:var(--sp-3);}
-}
-@media print{.trace{display:none;}} /* screen only: the sentence above it says the same thing on paper */
+.offerwrap .trace{margin-top:var(--sp-1);}
 /* Print fit after deliverable 06 and the field-guide line (2026-11-09): 03 flows on from page 2 instead of
    forcing a page break, and the close card keeps itself whole. */
 @media print{
@@ -469,7 +354,6 @@ footer p{text-align:left;}
   .pnote{margin-top:var(--sp-1);}
   .gg + .offer,.pnote + .offer{margin-top:var(--sp-1);}
   .offer > *{padding:6px 14px;}
-  .gg-row{grid-template-columns:4.5rem minmax(0,1fr) minmax(0,1fr);}
   .offer-ask,.pnote{font-size:var(--fs-headline);line-height:1.4;}
   .offer-price{font-size:var(--fs-body);}
   .offer-proof{display:none;}
@@ -535,6 +419,64 @@ footer p{text-align:left;}
 @media (prefers-reduced-motion:reduce){.dprefs-trk,.dprefs-trk::after{transition:none}}
 @media print{.dprefs,.dprefs-panel{display:none!important}}
 /* @prim:end 51-display-preferences */
+/* @prim:begin 65-question-pair */
+.qpair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); overflow: hidden; }
+.qpair-head { margin: 0; padding: var(--sp-1, 8px) var(--sp-3, 24px); background: var(--surface-2); border-bottom: 1px solid var(--border); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.6; color: var(--muted); }
+.qpair-head.ask { color: var(--cyan); border-left: 1px solid var(--border); }
+.qpair-row { display: contents; }
+.qpair-row > div { padding: var(--sp-2, 16px) var(--sp-3, 24px); border-top: 1px solid var(--border); text-wrap: pretty; }
+.qpair-head.ask + .qpair-row > div { border-top: 0; }
+.qpair-said { color: var(--text-secondary); }
+.qpair-ask { color: var(--text); border-left: 1px solid var(--border); }
+@media (max-width: 640px) { .qpair { grid-template-columns: minmax(0, 1fr); } .qpair-head.ask { display: none; } .qpair-row > .qpair-ask { border-top: 0; border-left: 0; padding-top: 0; } .qpair-row > .qpair-ask::before { content: attr(data-lead) " "; font-weight: 600; color: var(--cyan); } }
+@container (max-width: 40rem) { .qpair { grid-template-columns: minmax(0, 1fr); } .qpair-head.ask { display: none; } .qpair-row > .qpair-ask { border-top: 0; border-left: 0; padding-top: 0; } .qpair-row > .qpair-ask::before { content: attr(data-lead) " "; font-weight: 600; color: var(--cyan); } }
+@media print { .qpair { column-gap: var(--sp-3, 24px); background: none; border-width: 0; border-radius: 0; break-inside: avoid; } .qpair-head { background: none; padding: 0 0 6px; border-bottom: 1.5px solid var(--text); } .qpair-head.ask { border-left: 0; border-bottom-color: var(--cyan); } .qpair-row > div { padding: 5px 0; break-inside: avoid; } .qpair-ask { border-left: 0; } }
+/* @prim:end 65-question-pair */
+/* @prim:begin 66-give-get-table */
+.gg { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); overflow: hidden; }
+.gg-row { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--sp-3, 24px); padding: var(--sp-2, 16px) var(--sp-3, 24px); border-top: 1px solid var(--border); }
+.gg-head { padding: var(--sp-1, 8px) var(--sp-3, 24px); background: var(--surface-2); border-top: 0; border-bottom: 1px solid var(--border); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.gg-head .get { color: var(--cyan); }
+.gg-head + .gg-row { border-top: 0; }
+.gg-when { font-weight: 600; color: var(--text); }
+.gg-give { color: var(--text-secondary); text-wrap: pretty; }
+.gg-give > span { display: block; }
+.gg-give > span + span { margin-top: 4px; }
+.gg-get { color: var(--text); text-wrap: pretty; }
+.gg .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (max-width: 640px) { .gg-row { grid-template-columns: minmax(0, 1fr); row-gap: 6px; } .gg-head { display: none; } .gg > .gg-row:nth-child(2) { border-top: 0; } .gg-give::before { content: "You give: "; font-weight: 600; color: var(--text); } .gg-get::before { content: "You get: "; font-weight: 600; color: var(--cyan); } }
+@container (max-width: 40rem) { .gg-row { grid-template-columns: minmax(0, 1fr); row-gap: 6px; } .gg-head { display: none; } .gg > .gg-row:nth-child(2) { border-top: 0; } .gg-give::before { content: "You give: "; font-weight: 600; color: var(--text); } .gg-get::before { content: "You get: "; font-weight: 600; color: var(--cyan); } }
+@media print { .gg { background: none; border-width: 0; border-radius: 0; break-inside: avoid; } .gg-head { background: none; padding: 0 0 6px; border-bottom: 1.5px solid var(--text); } .gg-row { grid-template-columns: 4.5rem minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--sp-2, 16px); padding: 8px 0; line-height: 1.38; } }
+/* @prim:end 66-give-get-table */
+/* @prim:begin 67-trace-steps */
+.trace { margin: 0; }
+.trace-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: var(--sp-3, 24px); }
+.trace-steps li { position: relative; display: flex; flex-direction: column; gap: 4px; padding: var(--sp-2, 16px); background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); }
+.trace-steps li + li::before { content: "\2192"; position: absolute; left: calc(-1 * var(--sp-3, 24px)); width: var(--sp-3, 24px); top: 50%; transform: translateY(-50%); text-align: center; color: var(--muted); }
+.trace-k { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); }
+.trace-v { color: var(--text); }
+.trace-stop { margin: var(--sp-2, 16px) 0 0; padding-top: var(--sp-1, 8px); border-top: 1px dashed var(--muted); text-align: center; color: var(--text-secondary); }
+.trace-stop strong { color: var(--text); font-weight: 600; }
+@media (max-width: 640px) { .trace-steps { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: minmax(0, 1fr); } .trace-steps li + li::before { content: "\2193"; left: 0; right: 0; width: auto; top: calc(-1 * var(--sp-3, 24px)); transform: none; height: var(--sp-3, 24px); line-height: var(--sp-3, 24px); } }
+@container (max-width: 40rem) { .trace-steps { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: minmax(0, 1fr); } .trace-steps li + li::before { content: "\2193"; left: 0; right: 0; width: auto; top: calc(-1 * var(--sp-3, 24px)); transform: none; height: var(--sp-3, 24px); line-height: var(--sp-3, 24px); } }
+@media print { .trace { display: none; } }
+/* @prim:end 67-trace-steps */
+/* @prim:begin 68-spec-rows */
+.spec { display: flex; flex-direction: column; margin: 0; }
+.specrow { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); column-gap: var(--sp-3, 24px); padding: var(--sp-2, 16px) 0; border-top: 1px solid var(--border); }
+.specrow:last-child { border-bottom: 1px solid var(--border); }
+.specrow dt { font-weight: 600; color: var(--text); }
+.specrow dd { margin: 0; color: var(--text-secondary); text-wrap: pretty; }
+.spec.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-2, 16px); }
+.spec.cards > .specrow, .spec.cards > .specrow:last-child { grid-template-columns: minmax(0, 1fr); align-content: start; row-gap: var(--sp-1, 8px); padding: var(--sp-2, 16px) var(--sp-3, 24px); background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); }
+.spec.cards > .specrow dt { display: flex; align-items: center; gap: var(--sp-1, 8px); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); }
+.spec.cards > .specrow dt::before { content: ""; width: 8px; height: 8px; border-radius: var(--ds-r-pill); background: currentColor; flex-shrink: 0; }
+.spec.cards.is-3 { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 760px) { .spec.cards.is-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .spec.cards.is-3 > .specrow, .spec.cards.is-3 > .specrow:last-child { padding: var(--sp-2, 16px); } .spec.cards.is-3 > .specrow dt { text-wrap: balance; } }
+@media (max-width: 640px) { .specrow { grid-template-columns: minmax(0, 1fr); row-gap: 4px; } .spec.cards { grid-template-columns: minmax(0, 1fr); } }
+@container (max-width: 40rem) { .specrow { grid-template-columns: minmax(0, 1fr); row-gap: 4px; } .spec.cards { grid-template-columns: minmax(0, 1fr); } .spec.cards.is-3 { grid-template-columns: minmax(0, 1fr); } }
+@media print { .spec { break-inside: avoid; } .specrow { grid-template-columns: 8rem minmax(0, 1fr); padding: 7px 0; break-inside: avoid; } .spec.cards { display: flex; gap: 0; } .spec.cards > .specrow, .spec.cards > .specrow:last-child { grid-template-columns: 8rem minmax(0, 1fr); row-gap: 0; background: none; border-width: 1px 0 0; border-style: solid; border-color: var(--border); border-radius: 0; padding: 7px 0; } .spec.cards > .specrow:last-child { border-bottom: 1px solid var(--border); } .spec.cards > .specrow dt { display: block; font-family: inherit; font-size: inherit; letter-spacing: 0; text-transform: none; color: var(--text); } .spec.cards > .specrow dt::before { display: none; } }
+/* @prim:end 68-spec-rows */
 /* Masthead with the kit header: wordmark and prepared-for at left; PDF, theme and reading options at right.
    The PDF pill borrows the theme pill's shape so the three controls read as one set. */
 .mast .pdfbtn{display:inline-flex;align-items:center;gap:8px;width:auto;height:48px;padding:0 16px;font:inherit;font-size:var(--fs-body);font-weight:600;color:var(--text-secondary);border:1px solid var(--border);border-radius:var(--ds-r-pill);background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.14);text-decoration:none;}
@@ -620,8 +562,6 @@ footer p{text-align:left;}
 .named-v{position:relative;}
 .named-x{top:50%;transform:translateY(-50%);}
 /* The stop line reads as a sentence, not a cryptic label: "call" was ambiguous (phone call or decision). */
-.trace-stop{font-family:var(--sans);font-size:var(--fs-body);font-weight:400;letter-spacing:0;text-transform:none;color:var(--text-secondary);}
-.trace-stop strong{color:var(--text);font-weight:600;}
 /* Why toast under the Field OS row, above the page box: a "Why" pill, the line, a close button. Same width as
    the top row and the page box. Screen only: the PDF keeps its cover. */
 @media screen{
@@ -651,7 +591,7 @@ footer p{text-align:left;}
   .pbody > header > .verdict{display:inline;font-size:var(--fs-headline);line-height:1.5;margin:0;}
   .pbody > header > .verdict + .verdict::before{content:" ";}
   .pbody > header{padding-bottom:var(--sp-3);}
-  .hrow > div{padding:10px 0;}
+  .qpair-row > div{padding:10px 0;}
   section.offerwrap{margin-top:var(--sp-3);}
   .offerwrap > .lockup{gap:6px;}
   .offerwrap > .lockup + details.blk.sub{margin-top:var(--sp-3);}
@@ -660,8 +600,6 @@ footer p{text-align:left;}
   .plist li{padding:4px 0;}
   .pnote{margin-top:var(--sp-3);line-height:1.35;}
   .gg{margin-top:var(--sp-2);}
-  .gg-row{padding-top:8px;padding-bottom:8px;}
-  .gg > .gg-row:last-child{border-bottom-width:0;}
   .offerwrap > .offer{margin-top:var(--sp-4);}
   .offer > *{padding:10px 16px;}
   .offerwrap details.pbreak + .offer-eyebrow{margin-top:var(--sp-3);}
@@ -676,8 +614,6 @@ footer p{text-align:left;}
 }
 .offerwrap .deck{text-wrap:pretty;}
 .pnote{text-wrap:balance;}
-.gg-give > span{display:block;}
-.gg-give > span + span{margin-top:4px;}
 </style>
 </head>
 <body>
@@ -720,12 +656,12 @@ footer p{text-align:left;}
   <details class="blk" open>
     <summary><h2 class="slabel">Questions worth putting to your team</h2><span class="tk" data-voice="joint">Useful whether or not I'm involved. Each comes from something you raised.</span></summary>
     <div class="bd">
-  <div class="hgrid">
-    <h3 class="hhead">What you raised</h3><h3 class="hhead c">Worth asking</h3>
-    <div class="hrow"><div class="hh">Volume indicators can miss a rising signal; every day without a call costs time to market.</div><div class="hc">How often was your criteria's peaked-or-rising read right, and what would have flagged it wrong before the MOQ?</div></div>
-    <div class="hrow"><div class="hh">You've built partner-risk alarms by hand; analysis before signing is critical.</div><div class="hc">Before the next collab, what runs on the partner, and would it catch trouble early?</div></div>
-    <div class="hrow"><div class="hh">A missed simulation means bad data or a wrong hypothesis.</div><div class="hc">For the last miss, which was it, and can your setup tell next time?</div></div>
-    <div class="hrow"><div class="hh">No 20,000-bag MOQ without an early indicator.</div><div class="hc">Which flavor calls carry a number that says stop, agreed before the order?</div></div>
+  <div class="qpair">
+    <h3 class="qpair-head">What you raised</h3><h3 class="qpair-head ask">Worth asking</h3>
+    <div class="qpair-row"><div class="qpair-said">Volume indicators can miss a rising signal; every day without a call costs time to market.</div><div class="qpair-ask" data-lead="Worth asking:">How often was your criteria's peaked-or-rising read right, and what would have flagged it wrong before the MOQ?</div></div>
+    <div class="qpair-row"><div class="qpair-said">You've built partner-risk alarms by hand; analysis before signing is critical.</div><div class="qpair-ask" data-lead="Worth asking:">Before the next collab, what runs on the partner, and would it catch trouble early?</div></div>
+    <div class="qpair-row"><div class="qpair-said">A missed simulation means bad data or a wrong hypothesis.</div><div class="qpair-ask" data-lead="Worth asking:">For the last miss, which was it, and can your setup tell next time?</div></div>
+    <div class="qpair-row"><div class="qpair-said">No 20,000-bag MOQ without an early indicator.</div><div class="qpair-ask" data-lead="Worth asking:">Which flavor calls carry a number that says stop, agreed before the order?</div></div>
   </div>
     </div>
   </details>
@@ -744,7 +680,7 @@ footer p{text-align:left;}
   <details class="blk sub fixed" open>
     <summary><h2 class="slabel">The two decisions</h2><span class="tk">You pick. My suggestions:</span></summary>
     <div class="bd">
-  <dl class="spec">
+  <dl class="spec cards">
     <div class="specrow"><dt>Technical</dt><dd>How the build works, such as how the warehouse and MCP feed your criteria, or what stays on-prem. Followed from the data in to the answer out: Where it held, slowed or broke.</dd></div>
     <div class="specrow"><dt>Business</dt><dd>A call the build informed, such as Filipino Adobo, a partner check before a collab, or the number that says stop before an MOQ.</dd></div>
   </dl>
@@ -757,7 +693,7 @@ footer p{text-align:left;}
     <ol class="plist">
       <li><span class="pn">01</span><span>Each decision written up with its three marks and the number that would tell you to stop, agreed up front. If one has played out, it sits beside the result.</span></li>
       <li><span class="pn">02</span><span>One page: Where the build stands, what's least efficient, which hypotheses aren't holding.</span></li>
-      <li><span class="pn">03</span><span>A read against the five things you said matter: Accuracy, efficiency, speed, cost on your own on-prem setup, one source of truth without bloat or tech debt.</span></li>
+      <li><span class="pn">03</span><span>A read against the six things you said matter, in your order: Accuracy, efficiency, speed, cost savings, on-prem, no data bloat.</span></li>
       <li><span class="pn">04</span><span>Next steps with dates, each with a number that shows it worked.</span></li>
       <li><span class="pn">05</span><span>Honest marks: What's unchecked, what's unsure, and your pushback, all on the page.</span></li>
       <li><span class="pn">06</span><span>A one-page field guide so your team can rerun the checks.</span></li>
@@ -765,7 +701,7 @@ footer p{text-align:left;}
   </div>
   <p class="pnote">Two weeks. About 3.5 hours of your team's time, a little over 4 with the optional session.</p>
   <div class="gg" role="table" aria-label="What you give and what you get">
-    <div class="gg-row gg-head" role="row"><span role="columnheader"><span class="vh">When</span></span><span role="columnheader">What you give</span><span role="columnheader" class="c">What you get</span></div>
+    <div class="gg-row gg-head" role="row"><span role="columnheader"><span class="vh">When</span></span><span role="columnheader">What you give</span><span role="columnheader" class="get">What you get</span></div>
     <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Before</span><span class="gg-give" role="cell">Mutual NDA; total sales figures only, nothing at customer level.</span><span class="gg-get" role="cell">Customer-level data stays with you.</span></div>
     <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 1</span><span class="gg-give" role="cell"><span>Kickoff with you, 60 min.</span><span>Screen-share with your warehouse and MCP lead: Where data lives, who can reach it, 90 min.</span><span>Optional: 45 min with whoever owns where the data goes next.</span></span><span class="gg-get" role="cell">Both decisions written up.</span></div>
     <div class="gg-row" role="row"><span class="gg-when" role="rowheader">Week 2</span><span class="gg-give" role="cell">Readout, 60 min, and your pushback.</span><span class="gg-get" role="cell">The rest of the list above, with your pushback on the page.</span></div>

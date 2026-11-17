@@ -9,7 +9,7 @@ Reads only real sources and writes runtime/specs/shipped-record.json:
   tao         _CANON/tao-proverbs.jsonl, grouped by (mint date, source)
   nftt        public/blog-nftt-*.html (dated by first commit), titles from <title>
   services    a short list of live product surfaces, each dated by its page's first commit
-  tempo       weekly commits on origin/main (git) and weekly decision receipts (snapshot file)
+  tempo       weekly commits on origin/main (git) and weekly decision receipts (snapshot file), each with its as-of date
 
 Every link carries a `cite` naming the file and key it was read from. A link that cannot be
 cited is never emitted; known-but-uncited candidates go to `unconfirmed`.
@@ -70,9 +70,15 @@ def day_to_date(label: str) -> str:
 
 def read_milestones() -> list[dict]:
     s = (ROOT / "public/status.html").read_text()
-    script = re.findall(r"<script[^>]*>(.*?)</script>", s, re.S)[0]
-    body = script[script.find("var MILESTONES"):]
+    # The page is generated (status_page_build.py) and MILESTONES is not in the first <script>
+    # since 2026-11-12; take the block that holds it, and fail loudly if none does.
+    scripts = [x for x in re.findall(r"<script[^>]*>(.*?)</script>", s, re.S) if "var MILESTONES" in x]
+    if not scripts:
+        raise SystemExit("shipped_record_emit: no var MILESTONES in public/status.html")
+    body = scripts[0][scripts[0].find("var MILESTONES"):]
     hits = list(re.finditer(r'date:\s*"([^"]+)",\s*title:\s*"([^"]+)",\s*rank:\s*(\d)', body))
+    if not hits:
+        raise SystemExit("shipped_record_emit: MILESTONES found but no entries parsed")
     rows = []
     for i, m in enumerate(hits):
         seg = body[m.end(): hits[i + 1].start() if i + 1 < len(hits) else len(body)]
@@ -244,7 +250,10 @@ def build() -> dict:
         "links": links,
         "unconfirmed": unconfirmed,
         "tempo": {"commits": weekly_commits(), "commits_cite": "git log origin/main --since=%s-01-01, by ISO week" % YEAR,
-                  "receipts": receipts.get("weeks", []), "receipts_cite": receipts.get("cite", "missing")},
+                  "commits_as_of": git("log", "-1", "--format=%as", "origin/main"),
+                  "receipts": receipts.get("weeks", []), "receipts_cite": receipts.get("cite", "missing"),
+                  # Weeks after the snapshot date were never counted; a reader must not see them as zero.
+                  "receipts_as_of": receipts.get("as_of")},
         "counts": dict(Counter(e["lane"] for e in events)),
     }
 
@@ -256,6 +265,7 @@ def self_test() -> int:
     assert all(e.get("cite") for e in d["events"]), "uncited event"
     assert all(e["date"].startswith(YEAR) for e in d["events"])
     assert not any("claim" in e for e in d["events"]), "belief claim text leaked"
+    assert d["tempo"]["commits_as_of"] and d["tempo"]["receipts_as_of"], "tempo without its as-of dates"
     assert day_to_date("DAY 98 · JUL 16") == "2026-07-16", "day arithmetic off"
     # Rename-following once dated a November post by an older sibling template (2026-11-13).
     nf = {e["slug"]: e["date"] for e in d["events"] if e["lane"] == "nftt"}

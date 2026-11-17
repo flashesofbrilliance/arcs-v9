@@ -18,7 +18,7 @@ JD: `jd-full.txt` (pre-staged, LinkedIn jobid 4441363533). Resume cut: `resume-d
 | Prototype and pressure-test with AI tools, kill weak ideas before engineering time | ARCS bullet added directly for this hook: "Prototype and pressure-test ideas directly with AI tools before committing engineering time; discard the weak ones early." Twill: killed 1 of 3 lines via KPI results. | ARCS, Twill | Yes |
 | 5+ years PM experience, owned an AI or complex-workflow product end to end as the owner (not a contributor) | ARCS (Founder, 2025-present), Grayscale (Product Lead, 2024-2025), WTA (Head of Product, 2016-2018) all carry explicit product-ownership titles; CTF (2018-2019) is a data/strategy title, not product. | Experience | Yes; CTF kept for the data-layer proof, not counted toward the "PM title" claim |
 | Shipped LLM-powered product, hardest problem + what you changed (evals, tool design, retrieval, prompting) | ARCS is the only LLM-powered product in the record. The resume claims the evaluation/outcome-capture loop and agentic orchestration; it does not claim a specific retrieval or prompting fix, because the record has no such granular detail. | ARCS | Yes; left at the altitude the record supports, not invented down to the mechanism |
-| Financial workflows, Excel-native products, data-heavy tools ("strong plus") | Grayscale: 10 SEC/FINRA-regulated digital-asset investment products, $7B AUM. This is finance and regulated-product depth, not equity research, modeling, comps, or Excel-native tooling. | Grayscale | Yes, and the gap is named explicitly, matching the scorer's own note ("financial workflows are adjacent") |
+| Financial workflows, Excel-native products, data-heavy tools ("strong plus") | Grayscale: 10 SEC/FINRA-regulated digital-asset investment products, $7B launched. This is finance and regulated-product depth, not equity research, modeling, comps, or Excel-native tooling. | Grayscale | Yes, and the gap is named explicitly, matching the scorer's own note ("financial workflows are adjacent") |
 | Comfortable with expert users, changing roadmap from what you heard | Twill: killed 1 of 3 lines from KPI/discovery signal. Squat: embedded, cross-functional realignment. | Twill, Squat | Yes |
 | Startup / early-stage, no support structure | ARCS (solo founder, full stack). Embedded engagements (sole technology partner). | ARCS, Squat | Yes |
 | Already use AI tools in daily work, can show it | ARCS: Claude, MCP servers, agentic pipelines, commit history on request. | Summary, skills | Yes |
@@ -32,7 +32,7 @@ Grades: **documented** (public and checkable, or verbatim in the record of recor
 |---|---|---|
 | ARCS: Founder, agentic pipeline on Claude, evaluation/outcome-capture framework, in production, 2025 to present | documented (role/title/dates); the "recalibrates scoring weights from prior decisions" mechanism is documented in the record's own ARCS bullet | record ROLES.arcs; app.arcs.care live, repo private |
 | Grayscale: Product Lead, GTM, 10 SEC/FINRA-regulated products, 2024 to 2025 | documented (title, dates, count) | record ROLES.grayscale |
-| $7B AUM | self-reported | record metric "$7B AUM · regulated product suite" |
+| $7B launched | self-reported | record metric "$7B launched · regulated product suite" |
 | Squat: sole technology partner, seven-figure embedded engagement, $350M ARR client, 2019 to 2020 | self-reported | record CONSULTING_CLIENTS.squat |
 | Twill: 3 AI-enabled lines, evaluation frameworks, go-forward on 2 of 3 | self-reported | record CONSULTING_CLIENTS.twill |
 | Axon: MVP definition for a first-responder OTT platform, 2023 | self-reported | record CONSULTING_CLIENTS.axon |
@@ -50,7 +50,7 @@ Grades: **documented** (public and checkable, or verbatim in the record of recor
 **Defend (kept):**
 1. Financial-workflow claim is scoped to "regulated digital-asset investment products," never to equity research, comps, or Excel-native tooling. If pressed on direct analyst-workflow exposure: answer honestly that Grayscale is finance-adjacent (regulated product GTM), not the analyst desk itself; the KPI-and-evaluation muscle (Twill, ARCS) is the transferable part.
 2. WTA "<120ms... tuned to a live, cyclical usage window" as an analogy to Scout's earnings-cycle cadence. Answer: this is a framing choice on the page, not a claim of prior fintech-cadence work; the underlying fact (<120ms real-time scoring, 2016-2018) is unchanged from the record.
-3. $7B AUM. Answer: Grayscale's public AUM figure for the product suite covered by the GTM role, not a personal P&L.
+3. $7B launched. Answer: capital launched to private and public markets across the 10-product suite covered by the GTM role, not a personal P&L.
 4. Twill "killed 1 of 3 lines" framing. Answer: record says "the KPI frameworks informed go-forward decisions on 2 of 3"; the resume states the same fact from the other direction (1 of 3 did not go forward). No new fact added.
 5. Skills not in the record (R, Tableau, Redshift, BigQuery, Salesforce CDP). Answer: used in the CTF and WTA data-layer work; drop any one of them the moment it cannot be discussed fluently.
 6. "In production, not experiments" for ARCS. Answer: live MCP server, live app (app.arcs.care), commit history on request. No user-count or retention figure is claimed for ARCS, on purpose — the record does not have one.

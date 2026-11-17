@@ -3,315 +3,283 @@
  "holds": [
   {
    "rule": "ORPHAN-TOOL",
-   "id": "tool:script:proposal_construction.py",
-   "reason": "Landed on main (bf8c0627, kit proposal molecules) without a backlog row; surfaced when the option-board PR 2227 regenerated the stale tool catalog to register scripts/option_board.py. Owner: the session that added it.",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-11-13",
-   "resolve_by": "2026-11-20"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:agent:grug",
-   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-10-31",
-   "resolve_by": "2026-11-14"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:command:arcs-mode",
-   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-10-31",
-   "resolve_by": "2026-11-14"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:script:drift_fp_sample.py",
-   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-10-31",
-   "resolve_by": "2026-11-14"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:script:phosphor_buildlog_video.py",
-   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-10-31",
-   "resolve_by": "2026-11-14"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:script:surface_watch.py",
-   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-10-31",
-   "resolve_by": "2026-11-14"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
    "id": "tool:agent:ciso-review",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
+   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:sre-review",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
+   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:privacy-review",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
+   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:platform-standards-auditor",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
+   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:claude-code-config-auditor",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
+   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:recoil-reason",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
+   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:recoil-gather-web",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
+   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:recoil-gather-git",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
+   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:dream-scout",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
+   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:script:orphanage.py",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
+   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:script:ship_status.py",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
+   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:script:dream_mine.py",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
+   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:script:cold_reader_gate.py",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
+   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:script:pre_prep_gate.py",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
+   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:script:jobs_morning_preflight.sh",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row",
-   "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:skill:dream",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row; wrapper skill over the script",
+   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row; wrapper skill over the script (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:skill:ship-status",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row; wrapper skill over the script",
+   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row; wrapper skill over the script (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:impeccable-asset-producer",
-   "reason": "dispatched by the impeccable skill (reference/new-work.md, reference/live.md); 0 direct uses because those modes have not run; skill-dispatch edge missing",
+   "reason": "dispatched by the impeccable skill (reference/new-work.md, reference/live.md); 0 direct uses because those modes have not run; skill-dispatch edge missing (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:impeccable-documenter",
-   "reason": "dispatched by the impeccable skill (reference/new-work.md, reference/live.md); 0 direct uses because those modes have not run; skill-dispatch edge missing",
+   "reason": "dispatched by the impeccable skill (reference/new-work.md, reference/live.md); 0 direct uses because those modes have not run; skill-dispatch edge missing (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:impeccable-manual-edit-applier",
-   "reason": "dispatched by the impeccable skill (reference/new-work.md, reference/live.md); 0 direct uses because those modes have not run; skill-dispatch edge missing",
+   "reason": "dispatched by the impeccable skill (reference/new-work.md, reference/live.md); 0 direct uses because those modes have not run; skill-dispatch edge missing (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:scenario-runner",
-   "reason": "candidate seed agent under trial; its job is the seed-ledger trial (runtime/specs/agent-seed-ledger.jsonl), fate set by its kill line",
+   "reason": "candidate seed agent under trial; its job is the seed-ledger trial (runtime/specs/agent-seed-ledger.jsonl), fate set by its kill line (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:prospect-scout",
-   "reason": "candidate seed agent under trial; its job is the seed-ledger trial (runtime/specs/agent-seed-ledger.jsonl), fate set by its kill line",
+   "reason": "candidate seed agent under trial; its job is the seed-ledger trial (runtime/specs/agent-seed-ledger.jsonl), fate set by its kill line (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:chief-loki",
-   "reason": "candidate seed agent under trial; its job is the seed-ledger trial (runtime/specs/agent-seed-ledger.jsonl), fate set by its kill line",
+   "reason": "candidate seed agent under trial; its job is the seed-ledger trial (runtime/specs/agent-seed-ledger.jsonl), fate set by its kill line (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:chief-bayesian",
-   "reason": "candidate seed agent under trial; its job is the seed-ledger trial (runtime/specs/agent-seed-ledger.jsonl), fate set by its kill line",
+   "reason": "candidate seed agent under trial; its job is the seed-ledger trial (runtime/specs/agent-seed-ledger.jsonl), fate set by its kill line (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:chief-conductor",
-   "reason": "candidate seed agent under trial; its job is the seed-ledger trial (runtime/specs/agent-seed-ledger.jsonl), fate set by its kill line",
+   "reason": "candidate seed agent under trial; its job is the seed-ledger trial (runtime/specs/agent-seed-ledger.jsonl), fate set by its kill line (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:idea-alchemist",
-   "reason": "candidate seed agent under trial; its job is the seed-ledger trial (runtime/specs/agent-seed-ledger.jsonl), fate set by its kill line",
+   "reason": "candidate seed agent under trial; its job is the seed-ledger trial (runtime/specs/agent-seed-ledger.jsonl), fate set by its kill line (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:idea-curator",
-   "reason": "candidate seed agent under trial; its job is the seed-ledger trial (runtime/specs/agent-seed-ledger.jsonl), fate set by its kill line",
+   "reason": "candidate seed agent under trial; its job is the seed-ledger trial (runtime/specs/agent-seed-ledger.jsonl), fate set by its kill line (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:agent:idea-detective",
-   "reason": "candidate seed agent under trial; its job is the seed-ledger trial (runtime/specs/agent-seed-ledger.jsonl), fate set by its kill line",
+   "reason": "candidate seed agent under trial; its job is the seed-ledger trial (runtime/specs/agent-seed-ledger.jsonl), fate set by its kill line (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:surface:prl.arcs.care/checkpoint",
-   "reason": "client-facing page with no live row serving it (all PRL rows HELD); fate is Zach's call",
+   "reason": "client-facing page with no live row serving it (all PRL rows HELD); fate is Zach's call (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-TOOL",
    "id": "tool:surface:prl.arcs.care/checkpoint.pdf",
-   "reason": "client-facing page with no live row serving it (all PRL rows HELD); fate is Zach's call",
+   "reason": "client-facing page with no live row serving it (all PRL rows HELD); fate is Zach's call (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
+  },
+  {
+   "rule": "ORPHAN-JOB",
+   "id": "job:backlog:dcpd-prereg-labels",
+   "reason": "child of drift-classifier-productive-destructive split by the 2026-11-16 work-graph pass; no tool exists until dcpd-classifier-script builds it, the same gap its parent is held for",
+   "row": "backlog-work-graph-2026-11-16",
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
+  },
+  {
+   "rule": "ORPHAN-JOB",
+   "id": "job:backlog:dcpd-classifier-script",
+   "reason": "child of drift-classifier-productive-destructive split by the 2026-11-16 work-graph pass; no tool exists until dcpd-classifier-script builds it, the same gap its parent is held for",
+   "row": "backlog-work-graph-2026-11-16",
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
+  },
+  {
+   "rule": "ORPHAN-JOB",
+   "id": "job:backlog:dcpd-wire-deceipt-sweep",
+   "reason": "child of drift-classifier-productive-destructive split by the 2026-11-16 work-graph pass; no tool exists until dcpd-classifier-script builds it, the same gap its parent is held for",
+   "row": "backlog-work-graph-2026-11-16",
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-JOB",
    "id": "job:backlog:drift-classifier-productive-destructive",
-   "reason": "kept by Zach 2026-11-03 as seed candidate for the receipt -> deceipt sweep; no tool yet, so the job stays orphaned until the sweep or classifier is built",
+   "reason": "kept by Zach 2026-11-03 as seed candidate for the receipt -> deceipt sweep; no tool yet, so the job stays orphaned until the sweep or classifier is built (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   },
   {
    "rule": "ORPHAN-JOB",
    "id": "job:backlog:prl-phase-1-2",
-   "reason": "row minted 2026-11-05 from receipts; its work ran in Zapier and Tidio, which have no tool atom",
+   "reason": "row minted 2026-11-05 from receipts; its work ran in Zapier and Tidio, which have no tool atom; row DONE 2026-11-17 (Zach), hold renewed (14-day cap) as cover",
    "row": "prl-phase-1-2",
-   "added": "2026-11-05",
-   "resolve_by": "2026-11-19"
+   "added": "2026-11-17",
+   "resolve_by": "2026-12-01"
   },
   {
    "rule": "ORPHAN-JOB",
    "id": "job:backlog:recoil-player-template",
-   "reason": "row minted 2026-11-05 from the PR 1826 receipt; the template is demo data, not a catalogued tool",
+   "reason": "row minted 2026-11-05 from the PR 1826 receipt; the template is demo data, not a catalogued tool (renewed 2026-11-16 on Zach's go; first added 2026-11-05)",
    "row": "uikit-recoil-player",
-   "added": "2026-11-05",
-   "resolve_by": "2026-11-17"
+   "added": "2026-11-16",
+   "resolve_by": "2026-11-30"
   }
  ]
 }

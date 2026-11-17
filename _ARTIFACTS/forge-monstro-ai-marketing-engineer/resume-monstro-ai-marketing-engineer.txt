@@ -1,54 +1,158 @@
+Zach Harris · Resume · AI Builder / GTM · Monstro
+
 Zach Harris
-Marketing as a system · AI as infrastructure
-Target · AI Marketing Engineer
-New York Metro
+
+Agentic AI builder, prototype to production
+
+Target · AI Builder / GTM · Monstro
+
+      New York Metro
+
 zach.harris@gmail.com
-linkedin.com/in/zharris
-github.com/flashesofbrilliance
-I approach marketing the way an engineer approaches a system: I build the machine, not the campaign, and I use AI as infrastructure, not a writing assistant. Two decades across growth, product, and data in regulated finance, health, sports, and consumer. Most recently I built ARCS from scratch: an AI-native system on Claude with an MCP server and agentic orchestration that keeps a canonical knowledge source of truth, turns one input into multiple approved market assets, and closes the loop by measuring stated claims against outcomes. Before that I ran go-to-market for 10 SEC/FINRA-regulated financial products at Grayscale ($7B AUM), and built the growth-data layer, CDP, lifecycle segmentation, and attribution, that drove 20% net-new revenue at CTF and $850K in first-year platform partnerships at WTA.
 
-What I bring to this role · mapped to the posting
-AI-native knowledge and content systems: built a canonical source of truth with drift and conflict detection, and a pipeline that turns one input (a talk, a transcript) into multiple approved assets, with a human-approval gate. · primary
-Growth and GTM engineering in regulated finance: GTM for a $7B AUM regulated product suite; CDP, lifecycle segmentation, and attribution driving 20% net-new revenue and seven-figure platform partnerships. · primary
-Discoverability and distribution: publish answer-engine-first for citation across AI search surfaces; MCP-led distribution and a listening digest that surfaces the highest-value market conversations for human action. · strong
-Measurement as a feedback loop: built the outcome-capture and recalibration loop that decides whether output holds up, plus the KPI frameworks that drove go/no-go on AI-enabled product lines. · strong
+      linkedin.com/in/
+zharris
 
-Experience · newest first
-ARCS · AI-native decision & content systems
+github.com/
+flashesofbrilliance
+
+I ship real things: find the problem, build end to end, measure honestly, and kill what didn't move.
+ Two decades across tech, data, and commercial operations in finance, health, sports, and consumer. Most recently I built ARCS from scratch: an AI-native decision-intelligence platform on Claude, with an MCP server, agentic orchestration, and a structured evidence taxonomy that turns unstructured input into decisions with a scored outcome. I am dangerous across the stack: product taste, prototype capability, and hands-on experience with agent harnesses, RAG pipelines, and evals. Before that I led go-to-market for 10 SEC/FINRA-regulated products at Grayscale, and ran market-viability testing for three AI-enabled product lines inside a HIPAA-regulated health company. I pick the target, ship the thing, and own the outcome.
+
+What I bring to this role
+
+mapped to Monstro's AI and regulated-fintech priorities
+
+Shipped something real
+: designed and built ARCS from scratch, an AI-native decision-intelligence platform with an MCP server and agentic orchestration, running in production, not a lab demo. Found the problem, built end to end, own the outcome.
+
+primary
+
+Dangerous across the stack
+: built the evidence taxonomy, gating architecture, and MCP server at ARCS alone; product taste and prototype capability in the same person. Hands-on with agent harnesses, RAG pipelines, and agentic orchestration on Claude.
+
+primary
+
+High ownership, cross-functional execution
+: operate the full stack at ARCS as a single founder; five prior engagements leading product, engineering, data, and GTM across regulated financial-services and health environments end to end.
+
+strong
+
+Move fast, measure honestly, kill what didn't move
+: built the measurement frameworks that drove go/no-go calls on AI product lines, 5G ventures, and a healthcare CDP; defined instrumentation and success metrics for new product bets, then acted on the results. Fintech fluency (SEC/FINRA regulated products at Grayscale) directly relevant to Monstro's regulated financial AI surface.
+
+strong
+
+Experience
+
+newest first
+
+ARCS 
+· Decision Intelligence Platform
+
 Founder · 2025 to present
-Built an AI-native system from scratch on Claude: an MCP server and agentic orchestration layer, a canonical knowledge base, and compounding feedback loops, published in the open.
-- Built a knowledge source of truth with oracle-governed canon and a live drift and claims-verification layer that flags stale or conflicting claims automatically.
-- Built an AI-native content machine: one input (a recording, a transcript) becomes multiple approved, register-tuned assets through a human-approval gate, published answer-engine-first for AI-search visibility.
-- Built the distribution and listening digest and the measurement loop: stated claims are scored against outcomes, recalibrating what to change next; a feedback loop, not activity reporting.
-Grayscale Investments · Digital Currency Group · SEC/FINRA
-Product Lead, Go-To-Market · 2024 to 2025
-Led go-to-market for 10 SEC/FINRA-regulated financial products ($7B AUM): positioning, segmentation, and adoption inside regulated controls and governance.
-- Owned messaging and market positioning for a regulated financial suite, coordinating product, legal, risk, and compliance through release gates.
-- Translated regulatory requirements into go-to-market and content that survived compliance review, the exact gate Monstro's market-facing work runs through.
-Embedded and advisory engagements · health, consumer, telecom, gov
-Embedded Product & Growth Lead · 2019 to 2024
-- Twill Health (HIPAA digital health, 2021 to 2023): market-viability testing for 3 AI-enabled product lines; KPI and evaluation frameworks informed go-forward decisions on 2 of 3.
-- GoPro (consumer, 2020 to 2021): growth analytics and attribution framework for EMEA/APAC; navigated GDPR data-sovereignty across collection, activation, and attribution.
-- Verizon Media (5G ventures, 2021) and Axon (GovTech, 2023): opportunity sizing, MVP definition, and success-metric instrumentation for new product lines.
-Children's Tumor Foundation
-Sr. Director, Data & Strategy · 2018 to 2019
-- Built the growth-data layer end to end (CDP evaluation, Salesforce modernization, lifecycle segmentation, event taxonomy) across marketing, fundraising, and operations in 3 business units.
-- Drove a 20% increase in net-new revenue through data-driven personalization and behavioral segmentation.
-Women's Tennis Association
-Head of Product & Strategic Partnerships · 2016 to 2018
-- Led CDP evaluation and selection for a global consumer platform; built real-time behavioral scoring at <120ms serving personalized offers during live events.
-- Designed the first commercial partnerships with Twitter and Facebook (behavioral data flows, attribution, event-driven revenue): $850K+ in year one.
 
-Skills · what I use, not what I have heard of
-AI and automation systems
-Claude · MCP servers · agentic AI pipelines and orchestration · prompt and workflow design · agent-driven automation · GitHub
-Growth and marketing systems
-CDP architecture · lifecycle segmentation · attribution modeling · A/B and multivariate experimentation · event taxonomy · SEO / AEO fundamentals
+Built a decision-intelligence platform from scratch: structured pre- and post-decision capture, an 
+AI-native analysis pipeline on Claude
+, and compounding feedback loops.
+
+Built the 
+MCP server and agentic orchestration layer
+ that runs pre- and post-decision capture automatically; AI-native in production, not experiments.
+
+Designed a structured evidence taxonomy and gating architecture that converts unstructured input into scored, actionable output.
+
+Designed the experimentation and outcome-capture framework: models recalibrate scoring weights from prior decisions, compounding institutional memory.
+
+Operate the full stack alone: product development, go-to-market, growth motion, and commercial strategy; every product decision is founder-facing because there is one founder.
+
+Grayscale Investments 
+· Digital Currency Group · SEC/FINRA
+
+Product Lead, Go-To-Market · 2024 to 2025
+
+Led go-to-market for 
+10 SEC/FINRA-regulated digital-asset investment products
+ (
+$7B launched
+): positioning, segmentation, and adoption inside regulated controls and governance.
+
+Coordinated product, engineering, legal, risk, and compliance through regulated release gates.
+
+Translated regulatory requirements into product and go-to-market requirements the teams could build against.
+
+Embedded and advisory engagements 
+· health, gov, consumer, telecom
+
+Embedded Product   Solution Lead · 2019 to 2024
+
+Twill Health
+ (HIPAA digital health, 2021 to 2023): strategy and validation for 3 AI-enabled digital-therapeutics product lines; drove go-forward on two of them.
+
+Squat New York
+ (behavioral health, 
+$350M annual revenue
+, post-PE acquisition, 2019 to 2020): sole technology partner on a 
+seven-figure embedded engagement
+ from discovery through QA and handoff. Owned roadmap, backlog, and sprint planning; retooled a headless CMS; time-to-interaction as the primary conversion KPI.
+
+Axon Enterprise
+ (GovTech, 2023): discovery and business-model validation for a first-responder OTT network; defined MVP features, instrumentation, and success metrics for a secure video-first platform.
+
+Verizon Media
+ (5G ventures, 2021): quantitative opportunity assessments for five 5G products; market sizing, competitive analysis, go/no-go recommendations.
+
+GoPro
+ (consumer tech, 2020 to 2021): analytics framework for EMEA/APAC growth; navigated GDPR data-sovereignty requirements for collection, activation, and attribution.
+
+Children's Tumor Foundation
+
+Sr. Director, Data   Strategy · 2018 to 2019
+
+Built the enterprise data layer end to end (CDP evaluation, Salesforce Lightning modernization, lifecycle segmentation) across marketing, fundraising, and clinical operations in 3 business units; the first intelligence layer those teams had.
+
+Drove a 
+20%
+ increase in net-new revenue through data-driven personalization and behavioral segmentation.
+
+Women's Tennis Association
+
+Head of Product   Strategic Partnerships · 2016 to 2018
+
+Led CDP evaluation and selection for a global consumer sports platform; built real-time fan-behavior scoring at 
+ 120ms
+ serving personalized offers during live events.
+
+Designed the first commercial partnerships with Twitter and Facebook (behavioral data flows, attribution, event-driven revenue): 
+$850K+
+ in year one.
+
+Skills
+
+what I use, not what I have heard of
+
+AI and agent systems
+
+Claude · MCP servers · agentic AI pipelines and orchestration · prompt engineering · Glean · GitHub
+
+Analytics and modeling
+
+SQL · Python · R · Tableau · forecasting · data modeling · A/B and multivariate experimentation · attribution modeling
+
 Data systems
-SQL · Python · Snowflake · Segment / mParticle · data modeling · data governance
-Distribution and measurement
-answer-engine-first content · digital publishing and CMS · KPI and evaluation-framework design · funnel and visibility instrumentation
+
+Snowflake · Redshift · BigQuery · Segment / mParticle · Salesforce CDP · distributed query systems · data governance
+
+Product and delivery
+
+Discovery and business-model validation · MVP definition · KPI and instrumentation design · event taxonomy and telemetry · rapid experimentation and iteration
 
 Education
-Oberlin College · BA, Studio Art 2002 to 2006
-Zach Harris · github.com/flashesofbrillianceTailored · AI Marketing Engineer · 2026
+
+Oberlin College
+ · BA, Studio Art 
+2002 to 2006
+
+Zach Harris · github.com/flashesofbrilliance
+
+Tailored · AI Builder / GTM · Monstro · 2026

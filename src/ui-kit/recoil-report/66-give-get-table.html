@@ -60,7 +60,7 @@ main { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; 
 .gg .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 @media (max-width: 640px) { .gg-row { grid-template-columns: minmax(0, 1fr); row-gap: 6px; } .gg-head { display: none; } .gg > .gg-row:nth-child(2) { border-top: 0; } .gg-give::before { content: "You give: "; font-weight: 600; color: var(--text); } .gg-get::before { content: "You get: "; font-weight: 600; color: var(--cyan); } }
 @container (max-width: 40rem) { .gg-row { grid-template-columns: minmax(0, 1fr); row-gap: 6px; } .gg-head { display: none; } .gg > .gg-row:nth-child(2) { border-top: 0; } .gg-give::before { content: "You give: "; font-weight: 600; color: var(--text); } .gg-get::before { content: "You get: "; font-weight: 600; color: var(--cyan); } }
-@media print { .gg { background: none; border: 0; border-radius: 0; break-inside: avoid; } .gg-head { background: none; padding: 0 0 6px; border-bottom: 1.5px solid var(--text); } .gg-row { grid-template-columns: 4.5rem minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--sp-2, 16px); padding: 8px 0; line-height: 1.38; } }
+@media print { .gg { background: none; border-width: 0; border-radius: 0; break-inside: avoid; } .gg-head { background: none; padding: 0 0 6px; border-bottom: 1.5px solid var(--text); } .gg-row { grid-template-columns: 4.5rem minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--sp-2, 16px); padding: 8px 0; line-height: 1.38; } }
 /* @prim:end 66-give-get-table */
 </style>
 </head>

@@ -1,0 +1,40 @@
+/* @prim:begin 72-week-strip */
+/* labels use the kit's --fs-label step (11px); body copy sits on --fs-body */
+.wstrip { font-size: var(--fs-body); display: flex; flex-direction: column; gap: 16px; color: var(--text); }
+.ws-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+.ws-cell { appearance: none; font: inherit; color: var(--text); text-align: left; cursor: pointer; min-height: 72px; min-width: 0;
+  padding: 8px; border: 1px solid var(--border); border-radius: var(--r-md); display: flex; flex-direction: column; justify-content: space-between; gap: 4px; }
+.ws-cell:hover { border-color: color-mix(in srgb, var(--cyan) 50%, var(--border)); }
+/* focus is a --text ring, not cyan: a cyan ring would merge into the cyan pressed border (DESIGN.md says cyan; seam logged) */
+/* picked: a 2px border with 1px less padding, so the cell keeps its size (no glow shadow) */
+.ws-cell[aria-pressed="true"] { border: 2px solid var(--cyan); padding: 7px; }
+.ws-cell:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.ws-n { font-family: var(--ds-font-mono); font-size: var(--fs-headline); font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.ws-mon { font-family: var(--ds-font-mono); font-size: var(--fs-label); line-height: 1.2; overflow-wrap: anywhere; }
+.ws-dots { display: flex; gap: 4px; min-height: 6px; }
+.ws-dot { width: 6px; height: 6px; border-radius: 50%; flex: none; }
+.ws-d0 { background: var(--cyan); } .ws-d1 { background: var(--gold); } .ws-d2 { background: color-mix(in srgb, var(--violet) 60%, var(--text)); } /* lifted toward text: plain violet fell under 3:1 on the darkest cells */
+.ws-key { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: var(--fs-body); color: var(--text-secondary); }
+.ws-key li { display: inline-flex; align-items: center; gap: 8px; }
+.ws-read { display: flex; flex-direction: column; min-height: 3rem; }
+.ws-rhead { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text); padding-bottom: 8px; }
+.ws-rhead a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; display: inline-block; padding-block: 12px; margin-block: -12px; }
+.ws-rhead a:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.ws-chain { list-style: none; display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 12px 0; border-top: 1px solid var(--border); }
+.ws-step { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); align-items: baseline; gap: 4px 12px; }
+.ws-k { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); }
+.ws-v { min-width: 0; overflow-wrap: anywhere; }
+.ws-chip { box-sizing: border-box; display: inline-flex; align-items: center; height: 22px; padding: 0 10px; margin-right: 8px; vertical-align: 1px;
+  border-radius: var(--ds-r-xs); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em;
+  color: var(--cyan); background: color-mix(in srgb, var(--cyan) 13%, transparent); border: 1px solid color-mix(in srgb, var(--cyan) 35%, transparent); }
+.ws-meta { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text-secondary); }
+/* the gate is the gold seam: kintsugi gold marks the repaired break (ROM primitive 6, kit 64) */
+.ws-gate { font-family: var(--ds-font-mono); color: var(--gold); overflow-wrap: anywhere; }
+.ws-empty { padding: 12px 0; border-top: 1px solid var(--border); color: var(--text-secondary); }
+.ws-floor { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.ws-src { font-size: var(--fs-body); color: var(--text-secondary); }
+/* below 480px six columns fall under the 44px target: four columns, three rows */
+@media (max-width: 480px) { .ws-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .ws-cell { padding: 6px; min-height: 64px; } .ws-cell[aria-pressed="true"] { padding: 5px; } .ws-step { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+/* @prim:end 72-week-strip */

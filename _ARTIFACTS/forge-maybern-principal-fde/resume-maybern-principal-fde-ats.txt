@@ -1,0 +1,51 @@
+Zach Harris
+Technical Solutions Lead, Applied AI
+New York Metro · zach.harris@gmail.com · linkedin.com/in/zharris · github.com/flashesofbrilliance
+
+I sit with senior, non-technical decision makers, turn a loosely stated problem into a written plan with scope and
+deliverables, and then build the system myself. Two decades of client-facing product and technology leadership,
+including a $7B regulated launch at Grayscale under SEC and FINRA controls. Today I build ARCS, an agentic decision
+platform on Claude, in Python and TypeScript, with evaluation and approval gates around every model output.
+
+EXPERIENCE
+ARCS, Founder and Builder                                                                                 2025 to Present
+  Built an agentic decision platform on Claude end to end: a Model Context Protocol server, multi-step tool use, and a
+  scoring layer that rates each decision for conviction and stability so it can be checked against what happened later.
+  Run every output through evaluation and approval gates before it ships, and keep a written record of how each
+  answer was reached, so a reviewer can trace a result back to its inputs.
+Grayscale Investments, Product Lead                                                                     2024 to 2025
+  Owned the investor-facing platform behind ten regulated digital-asset products worth $7B, working with legal,
+  compliance, security and audit on Reg D, Reg S and 144A release controls.
+  Built role-based access controls and pre-deployment integrity gates so unapproved content could not ship, and ran
+  the release train across four time zones.
+  Cut spec-to-release cycle time by 35 percent while keeping every regulatory change control in place.
+Mañana, Embedded Product and Technology Partner                                                         2020 to Present
+  Lead discovery and scoping engagements for clients including Axon, GoPro, Verizon Media and Twill Health, from
+  the first interview with leadership through a written recommendation.
+  Twill Health (HIPAA): strategy and validation for 3 AI-enabled digital-therapeutics product lines; drove go-forward
+  on two of them.
+Squat New York, Head of Product Innovation and Tech Lead                                                 2019 to 2020
+  Sole product and technology partner on a seven-figure embedded engagement for a private-equity portfolio
+  company, from discovery through a full platform rebuild with HIPAA and WCAG 2.0 compliance designed in.
+  Reworked lead qualification and location search: qualified leads up 40 percent, booking success up 63 percent.
+Children's Tumor Foundation, Senior Director, Data and Strategy                                              2018 to 2019
+  Built the organization's first data and decision layer (customer data platform, Salesforce, lifecycle segmentation)
+  and grew net-new revenue by 20 percent.
+Earlier: Head of Product and Strategic Partnerships at the Women's Tennis Association, where I built real-time fan
+scoring that ran in under 120 milliseconds. Co-founder of IBRShop, grown from zero to more than $2M in revenue in
+24 months. General Manager at Selectable Media, a video ad network acquired by Meredith, where I grew revenue
+from $4,500 to more than $1M a month and recruited the first CTO.
+
+SKILLS
+Engineering: Python (FastAPI), TypeScript, Next.js, Node.js, SQL and PostgreSQL, Prisma, Supabase, Vercel, Git
+and CI with pre-commit gates.
+Applied AI: Claude and OpenAI APIs, agentic workflows and tool use, Model Context Protocol servers, evaluation
+frameworks, embeddings and pgvector, human-in-the-loop review.
+Client delivery: discovery with executives, written proposals and scoping, engagement and release management,
+stakeholder management across legal, compliance and engineering.
+Regulated domains: SEC and FINRA (Reg D, Reg S, 144A), HIPAA, GDPR, role-based access control.
+
+EDUCATION
+Oberlin College, Bachelor of Arts, Studio Art.
+MIT xPRO, certificates in AI strategy and in building AI products and services. Section4, Certified Product Strategist.
+

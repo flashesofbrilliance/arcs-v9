@@ -6,19 +6,19 @@
   "command": 18,
   "hook": 3,
   "operator": 46,
-  "package": 4,
-  "script": 310,
+  "package": 5,
+  "script": 334,
   "skill": 28,
   "workflow": 2
  },
- "total": 442,
+ "total": 467,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 601,
+   "WIRED": 630,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 2,
+   "INSTALLED-UNUSED": 3,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
@@ -27,7 +27,7 @@
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
     "kind": "script",
-    "name": "jobs_posting_liveness.mjs",
+    "name": "project_mirror.sh",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -37,6 +37,14 @@
     "kind": "plugin",
     "name": "frontend-design@claude-plugins-official",
     "why": "project-scoped to /Users/zharris/arcs only",
+    "fix": "claude plugin uninstall frontend-design@claude-plugins-official"
+   },
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "user",
+    "kind": "plugin",
+    "name": "frontend-design@claude-plugins-official",
+    "why": "project-scoped to /Users/zharris/Claude/wt-reading-room-sync only",
     "fix": "claude plugin uninstall frontend-design@claude-plugins-official"
    },
    {
@@ -158,7 +166,7 @@
    "kind": "skill",
    "name": "meta-audit",
    "path": ".claude/skills/meta-audit/SKILL.md",
-   "jtbd": "Run one epoch of the ARCS Meta-Audit (the Drift Sentry) over the full corpus and the live code — Recoil passes, a code-verified parity matrix, the BAR/COURT/LAB/KKL/FUN-HOUSE gauntlets, Chi/Ma/Wuwei, a stack-ranked next-move list, and an ap",
+   "jtbd": "The master audit of all artifacts, modules and live code - a synthesis and recapitulation of where ARCS stands. Runs one epoch of the ARCS Meta-Audit (the Drift Sentry) over the full corpus and the live code — Recoil passes, a code-verified",
    "invoke": "/meta-audit",
    "state": "WIRED"
   },
@@ -510,7 +518,7 @@
    "kind": "agent",
    "name": "chief-loki",
    "path": ".claude/agents/chief-loki.md",
-   "jtbd": "[CANDIDATE] Staff of Chiefs, Loki: attack with the cheapest thing that breaks the claim.",
+   "jtbd": "Staff of Chiefs, Loki: attack with the cheapest thing that breaks the claim.",
    "invoke": "Agent subagent_type=chief-loki",
    "state": "WIRED"
   },
@@ -574,7 +582,7 @@
    "kind": "agent",
    "name": "idea-alchemist",
    "path": ".claude/agents/idea-alchemist.md",
-   "jtbd": "[CANDIDATE] Sharpen a fuzzy premise into ONE falsifiable claim with labelled parts.",
+   "jtbd": "Sharpen a fuzzy premise into ONE falsifiable claim with labelled parts.",
    "invoke": "Agent subagent_type=idea-alchemist",
    "state": "WIRED"
   },
@@ -702,7 +710,7 @@
    "kind": "agent",
    "name": "scenario-runner",
    "path": ".claude/agents/scenario-runner.md",
-   "jtbd": "[CANDIDATE] Run ONE case (best, base or worst) with a pre-mortem, post-mortem and probability graph.",
+   "jtbd": "Run ONE case (best, base or worst) with a pre-mortem, post-mortem and probability graph.",
    "invoke": "Agent subagent_type=scenario-runner",
    "state": "WIRED"
   },
@@ -884,6 +892,22 @@
   },
   {
    "kind": "script",
+   "name": "aum_claim_gate.py",
+   "path": "scripts/aum_claim_gate.py",
+   "jtbd": "aum_claim_gate: block the Grayscale \"$7B as assets under management\" phrasing from coming back.",
+   "invoke": "python3 scripts/aum_claim_gate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "babel_fish_listeners.py",
+   "path": "scripts/babel_fish_listeners.py",
+   "jtbd": "Write Babel Fish's listener registry into its artifact page, from the repo's own registries.",
+   "invoke": "python3 scripts/babel_fish_listeners.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "backlog_append.py",
    "path": "scripts/backlog_append.py",
    "jtbd": "backlog_append.py: add rows to _QUEUE/induced-backlog.jsonl without rewriting the file. Stdlib, no model calls.",
@@ -1008,6 +1032,14 @@
    "path": "scripts/blog_render.py",
    "jtbd": "blog_render — render a Notes-from-the-Trenches markdown post to a FieldOS-styled static HTML page.",
    "invoke": "python3 scripts/blog_render.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "braided_lanes_build.py",
+   "path": "scripts/braided_lanes_build.py",
+   "jtbd": "braided_lanes_build: kit organism 73 (braided lanes) and the fragment status.arcs.care/beliefs inlines.",
+   "invoke": "python3 scripts/braided_lanes_build.py",
    "state": "WIRED"
   },
   {
@@ -1236,6 +1268,14 @@
   },
   {
    "kind": "script",
+   "name": "daily_boot.py",
+   "path": "scripts/daily_boot.py",
+   "jtbd": "daily_boot.py: the boot sequence every arcs-v9 thread starts with (Zach, 2026-11-16).",
+   "invoke": "python3 scripts/daily_boot.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "decision_geometry_ret.py",
    "path": "scripts/decision_geometry_ret.py",
    "jtbd": "decision_geometry_ret.py: score the RET take-home DECISIONS.md on the 5x5 decision geometry.",
@@ -1336,6 +1376,14 @@
    "path": "scripts/drift_fp_sample.py",
    "jtbd": "drift_fp_sample: how many \"broken path\" findings in the docs are real? Measure, draw a seeded sample, score labels.",
    "invoke": "python3 scripts/drift_fp_sample.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "ds_artifact_sync.py",
+   "path": "scripts/ds_artifact_sync.py",
+   "jtbd": "Project the UI kit's specimens into the ARCS OS Design System artifact.",
+   "invoke": "python3 scripts/ds_artifact_sync.py",
    "state": "WIRED"
   },
   {
@@ -1520,6 +1568,14 @@
    "path": "scripts/fork_lineage_check.sh",
    "jtbd": "Fork Lineage drift check (J17) — conditional action.",
    "invoke": "scripts/fork_lineage_check.sh",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "gate_chain_build.py",
+   "path": "scripts/gate_chain_build.py",
+   "jtbd": "gate_chain_build: kit organism 72 (week strip and chains) and the hardening section of status.arcs.care/gauntlets.",
+   "invoke": "python3 scripts/gate_chain_build.py",
    "state": "WIRED"
   },
   {
@@ -1732,6 +1788,14 @@
   },
   {
    "kind": "script",
+   "name": "jobs_board_mcp.py",
+   "path": "scripts/jobs_board_mcp.py",
+   "jtbd": "jobs_board_mcp.py: a local stdio MCP server over the jobs.arcs.care board API.",
+   "invoke": "python3 scripts/jobs_board_mcp.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "jobs_morning_preflight.sh",
    "path": "scripts/jobs_morning_preflight.sh",
    "jtbd": "jobs_morning_preflight.sh: the morning jobs loop's worktree setup + preflight",
@@ -1812,6 +1876,46 @@
   },
   {
    "kind": "script",
+   "name": "kit_attract.py",
+   "path": "scripts/kit_attract.py",
+   "jtbd": "kit_attract.py: advisory lookup, which kit parts a job attracts. Read-only; never edits a page.",
+   "invoke": "python3 scripts/kit_attract.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "kit_gate_results.py",
+   "path": "scripts/kit_gate_results.py",
+   "jtbd": "kit_gate_results.py: store, per kit part and per page, whether the pages that use the part pass page_gate.",
+   "invoke": "python3 scripts/kit_gate_results.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "kit_job_ratchet.py",
+   "path": "scripts/kit_job_ratchet.py",
+   "jtbd": "kit_job_ratchet.py: the count of kit parts that name a backlog job may rise, never fall.",
+   "invoke": "python3 scripts/kit_job_ratchet.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "kit_optionboard.py",
+   "path": "scripts/kit_optionboard.py",
+   "jtbd": "kit_optionboard.py: build the internal kit option board from kit_rank.py output. Advisory page; edits nothing else.",
+   "invoke": "python3 scripts/kit_optionboard.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "kit_periodic_table.py",
+   "path": "scripts/kit_periodic_table.py",
+   "jtbd": "kit_periodic_table: the visual periodic table of the ARCS ui-kit parts, plus its catalyst ledger.",
+   "invoke": "python3 scripts/kit_periodic_table.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "kit_primitive_sync.py",
    "path": "scripts/kit_primitive_sync.py",
    "jtbd": "kit_primitive_sync: the Instrument Lab primitives promoted from Phosphor stay identical to the page.",
@@ -1828,10 +1932,26 @@
   },
   {
    "kind": "script",
+   "name": "kit_rank.py",
+   "path": "scripts/kit_rank.py",
+   "jtbd": "kit_rank.py: three kit-assembly options for a job, as JSON. Advisory; never edits a page.",
+   "invoke": "python3 scripts/kit_rank.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "kit_specimen.py",
    "path": "scripts/kit_specimen.py",
    "jtbd": "kit_specimen: one standard page for every ui-kit building block (atom, molecule, organism, lockup, template).",
    "invoke": "python3 scripts/kit_specimen.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "kit_sync_refresh.sh",
+   "path": "scripts/kit_sync_refresh.sh",
+   "jtbd": "kit_sync_refresh.sh: the recipe safe_merge.sh rule 3b names, as one command.",
+   "invoke": "scripts/kit_sync_refresh.sh",
    "state": "WIRED"
   },
   {
@@ -2308,6 +2428,14 @@
   },
   {
    "kind": "script",
+   "name": "project_mirror.sh",
+   "path": "scripts/project_mirror.sh",
+   "jtbd": "project_mirror.sh: copy the context Claude Code loads in arcs-v9 (CLAUDE.md with the live handoff,",
+   "invoke": "scripts/project_mirror.sh",
+   "state": "INSTALLED-UNUSED"
+  },
+  {
+   "kind": "script",
    "name": "project_skills_drift.sh",
    "path": "scripts/project_skills_drift.sh",
    "jtbd": "project_skills_drift.sh — warn when the skills/commands this session LOADED differ from origin/main.",
@@ -2456,6 +2584,14 @@
    "path": "scripts/readiness_packet.py",
    "jtbd": "readiness_packet.py: the tier-4 readiness card for one induced-backlog row. Read-only, stdlib.",
    "invoke": "python3 scripts/readiness_packet.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "reading_room_sync.py",
+   "path": "scripts/reading_room_sync.py",
+   "jtbd": "reading_room_sync.py: one command that keeps app.arcs.care/reading-room and /warroom/surfaces in",
+   "invoke": "python3 scripts/reading_room_sync.py",
    "state": "WIRED"
   },
   {
@@ -2644,10 +2780,26 @@
   },
   {
    "kind": "script",
+   "name": "resume_claim_gate.py",
+   "path": "scripts/resume_claim_gate.py",
+   "jtbd": "resume_claim_gate: block resume claims Zach has corrected from coming back into forge resume bundles.",
+   "invoke": "python3 scripts/resume_claim_gate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "resume_location_gate.py",
    "path": "scripts/resume_location_gate.py",
    "jtbd": "resume_location_gate.py: every resume / cover letter / ATS artifact's location line reads exactly",
    "invoke": "python3 scripts/resume_location_gate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "rewrite_shadow_check.py",
+   "path": "scripts/rewrite_shadow_check.py",
+   "jtbd": "rewrite_shadow_check: fail when a host's catch-all rewrite would swallow one of that host's own pages.",
+   "invoke": "python3 scripts/rewrite_shadow_check.py",
    "state": "WIRED"
   },
   {
@@ -2676,9 +2828,17 @@
   },
   {
    "kind": "script",
+   "name": "rosetta_voice_build.py",
+   "path": "scripts/rosetta_voice_build.py",
+   "jtbd": "Build public/rosetta-voice.html (served at rosetta-shell.arcs.care/voice).",
+   "invoke": "python3 scripts/rosetta_voice_build.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "safe_merge.sh",
    "path": "scripts/safe_merge.sh",
-   "jtbd": "safe_merge.sh: the one way a session merges a PR in arcs-v9.",
+   "jtbd": "safe_merge.sh: the one way a session merges a pull request (PR) safely in arcs-v9.",
    "invoke": "scripts/safe_merge.sh",
    "state": "WIRED"
   },
@@ -2812,6 +2972,14 @@
   },
   {
    "kind": "script",
+   "name": "shipped_record_emit.py",
+   "path": "scripts/shipped_record_emit.py",
+   "jtbd": "shipped_record_emit: one evidence-backed event table for \"what shipped this year\".",
+   "invoke": "python3 scripts/shipped_record_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "slop_eval.py",
    "path": "scripts/slop_eval.py",
    "jtbd": "slop_eval: the JUDGMENT tier of the slop-free system (companion to the mechanical slop_lint).",
@@ -2852,6 +3020,14 @@
   },
   {
    "kind": "script",
+   "name": "stale_refresh.py",
+   "path": "scripts/stale_refresh.py",
+   "jtbd": "stale_refresh.py: run the snapshot regenerators the session-start hook reports stale, in one pass.",
+   "invoke": "python3 scripts/stale_refresh.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "state_sync_check.py",
    "path": "scripts/state_sync_check.py",
    "jtbd": "State-sync drift check — advisory only, never fails the build.",
@@ -2872,6 +3048,22 @@
    "path": "scripts/status_floor_emit.py",
    "jtbd": "status_floor_emit: stamp the no-JS static floor on public/status.html from the repo.",
    "invoke": "python3 scripts/status_floor_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "status_page_build.py",
+   "path": "scripts/status_page_build.py",
+   "jtbd": "status_page_build: generate public/status.html (status.arcs.care) from a data file plus kit parts. Never hand-edit the page.",
+   "invoke": "python3 scripts/status_page_build.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "strata_explorer_build.py",
+   "path": "scripts/strata_explorer_build.py",
+   "jtbd": "strata_explorer_build: kit organism 69 (strata explorer) and its embeddable fragment, from the event table.",
+   "invoke": "python3 scripts/strata_explorer_build.py",
    "state": "WIRED"
   },
   {
@@ -3212,6 +3404,14 @@
   },
   {
    "kind": "script",
+   "name": "week_plan_build.py",
+   "path": "scripts/week_plan_build.py",
+   "jtbd": "week_plan_build: render a week plan (runtime/specs/week-plan.schema.json) as kit organism 70 Week Plan.",
+   "invoke": "python3 scripts/week_plan_build.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "witness_backfill_scout.py",
    "path": "scripts/witness_backfill_scout.py",
    "jtbd": "witness_backfill_scout.py — find witness-shaped moments in past session transcripts.",
@@ -3240,6 +3440,14 @@
    "path": "tools/cold-recon/README.md",
    "jtbd": "A self-contained, parameterized CLI for the ARCS **cold-reconstruction** post-mortem method:",
    "invoke": "tools/cold-recon/cold-recon",
+   "state": "UNAUDITED"
+  },
+  {
+   "kind": "package",
+   "name": "projection-map",
+   "path": "tools/projection-map/README.md",
+   "jtbd": "Counts how Zach projects on calls, from Granola transcripts, with no model judgment in the scoring.",
+   "invoke": "see tools/projection-map/README.md",
    "state": "UNAUDITED"
   },
   {

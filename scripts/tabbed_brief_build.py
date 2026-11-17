@@ -63,7 +63,7 @@ def claim_row(c):
     ev = c["evidence"].rstrip(": ")
     ev += "" if ev.endswith(".") else "."
     rec = (" Record: [%s](%s)." % (c.get("label") or "link", c["url"])) if c.get("url") else ""
-    return {"chip": pe.STATUS_LABEL[c["status"]], "tone": STATUS_TONE[c["status"]], "signal": c["date"], "text": "**%s** %s%s" % (c["claim"], ev, rec)}
+    return {"chip": pe.STATUS_LABEL[c["status"]], "tone": STATUS_TONE[c["status"]], "status": True, "signal": c["date"], "text": "**%s** %s%s" % (c["claim"], ev, rec)}
 
 
 def claim_ref(c):
@@ -230,13 +230,13 @@ def r_ledger(b, p, hlevel):
     gs = []
     for gi, g in enumerate(b["groups"]):
         gp = "%s/groups/%d" % (p, gi)
-        rows = "".join('<li class="sl-row"><div class="sl-key"><span class="chip%s">%s</span><span class="sl-sig">%s</span></div><p class="sl-ev">%s</p></li>' % (
-            "" if r.get("tone", "plain") == "plain" else " " + r["tone"], md(r["chip"], "%s/rows/%d/chip" % (gp, ri)),
+        rows = "".join('<li class="sl-row is-%s"><div class="sl-key"><span class="chip%s">%s</span><span class="sl-sig">%s</span></div><p class="sl-ev">%s</p></li>' % (
+            re.sub(r"[^a-z0-9]+", "-", r["chip"].lower()).strip("-"), ("" if r.get("tone", "plain") == "plain" else " " + r["tone"]) + (" status" if r.get("status") else ""), md(r["chip"], "%s/rows/%d/chip" % (gp, ri)),
             md(r["signal"], "%s/rows/%d/signal" % (gp, ri)), md(r["text"], "%s/rows/%d/text" % (gp, ri))) for ri, r in enumerate(g["rows"]))
         gid = "sl-%s-%d" % (re.sub(r"[^a-z0-9]+", "-", p.lower()).strip("-"), gi)
         n = len(g["rows"])
-        gs.append('<section class="sl-group%s" aria-labelledby="%s"><div class="sl-gh"><h%d class="section-label" id="%s">%s</h%d><span class="sl-gn">%d %s</span></div><ul class="sl-rows">%s</ul></section>' % (
-            " is-judgment" if g.get("judgment") else "", gid, hlevel, gid, md(g["label"], gp + "/label"), hlevel, n, "row" if n == 1 else "rows", rows))
+        gs.append('<section class="sl-group%s" aria-labelledby="%s"><div class="sl-gh"><h%d class="section-label" id="%s">%s</h%d></div><ul class="sl-rows">%s</ul></section>' % (
+            " is-judgment" if g.get("judgment") else "", gid, hlevel, gid, md(g["label"], gp + "/label"), hlevel, rows))
     return '<div class="sl">%s</div>' % "".join(gs)
 
 
@@ -280,6 +280,9 @@ def r_blocks(bl, horizons, hlevel, base="", paths=None):
             out.append('<div class="cr"><dl class="cr-slots">%s</dl>%s%s</div>' % (slots, how, read))
         elif t == "ledger":
             out.append(r_ledger(b, p, hlevel))
+        elif t == "timeline":  # dated releases on one track: the Week One stepper molecule, vertical
+            out.append('<ol class="tb-tl">%s</ol>' % "".join('<li class="tb-tl-i"><p class="section-label tb-tl-d">%s</p><p class="tb-tl-t">%s</p></li>' % (
+                md(d, "%s/rows/%d/0" % (p, i)), md(x, "%s/rows/%d/1" % (p, i))) for i, (d, x) in enumerate(b["rows"])))
         elif t == "callout":
             out.append('<p class="callout"><b>%s</b>%s</p>' % (md(b["lead"], p + "/lead"), md(b["text"], p + "/text")))
         elif t == "list":
@@ -295,14 +298,25 @@ def r_fold(s, horizons, p=""):
     sid = s["id"]
     op = "true" if s.get("open") else "false"
     hid = "" if s.get("open") else " hidden"
+    tag = '<span class="tb-tag">%s</span>' % md(s["tagline"], p + "/tagline") if s.get("tagline") else ""
     return ('<section class="tb-fold" id="%s"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="%s" aria-controls="%s-body">'
-            '<span><span class="tb-fold-t">%s</span><span class="tb-tag">%s</span></span></button></h2>'
-            '<div class="tb-fold-body" id="%s-body"%s>%s</div></section>') % (sid, op, sid, md(s["title"], p + "/title"), md(s["tagline"], p + "/tagline"), sid, hid, r_blocks(s["blocks"], horizons, 3, p + "/blocks"))
+            '<span><span class="tb-fold-t">%s</span>%s</span></button></h2>'
+            '<div class="tb-fold-body" id="%s-body"%s>%s</div></section>') % (sid, op, sid, md(s["title"], p + "/title"), tag, sid, hid, r_blocks(s["blocks"], horizons, 3, p + "/blocks"))
 
 
 def r_overview(d):
     o = d["overview"]
-    h = "".join('<span class="hl">%s</span>' % md(nbh(x), "/overview/headline/%d" % i) for i, x in enumerate(o["headline"]))
+    def _hl(x, i):
+        # Each sentence in a clause gets its own span, so below the phone floor the shell can give every sentence a
+        # line (Zach, 2026-11-16: "Yes, add the floor"). Split only plain rendered text; a clause holding markup stays whole.
+        r = md(nbh(x), "/overview/headline/%d" % i)
+        parts = re.split(r"(?<=[.!?])\s+", r) if "<" not in r else [r]
+        return '<span class="hl">%s</span>' % " ".join('<span class="hs">%s</span>' % y for y in parts)
+    h = "".join(_hl(x, i) for i, x in enumerate(o["headline"]))
+    # Longest clause in characters, links and markup stripped: the shell sizes the type so that clause fits one
+    # line at every width (Zach's pick B, 2026-11-16). page_gate's one-line check fails if any clause still wraps.
+    hl_ch = max(len(re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", str(x))) for x in o["headline"])
+    hs_ch = max(len(y) for x in o["headline"] for y in re.split(r"(?<=[.!?])\s+", re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", str(x))))
     acts = []
     for a in o.get("actions", []):
         cls = "tb-btn primary" if a.get("primary") else "tb-btn"
@@ -324,12 +338,21 @@ def r_overview(d):
     note = ('<p class="tb-note">%s</p>' % md(o["action_note"], "/overview/action_note")) if o.get("action_note") else ""
     acts_html = ('<div class="tb-actions">%s</div>' % "".join(acts)) if acts else ""
     go = ('<div class="tb-go">%s%s%s%s</div>\n' % (lead, acts_html, cap, note)) if (lead or acts_html or cap or note) else ""
-    out = ('<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">\n<h1 class="tb-h1">%s</h1>\n%s%s%s'
-            '<div class="ftiles-c"><ul class="ftiles is-4" aria-label="At a glance">%s</ul></div>\n'
+    lk = o.get("lockup")
+    if lk:  # kit 71 proof lockup: kicker, one panel of proofs, closer; replaces the lede and the fact tiles
+        cells = "".join('<li class="plk-cell"><span class="plk-lab">%s</span> <span class="plk-fig">%s</span> <span class="plk-cap">%s</span></li>' % (
+            md(t["k"], "/overview/tiles/%d/k" % i), md(t["v"], "/overview/tiles/%d/v" % i), md(t["note"], "/overview/tiles/%d/note" % i)) for i, t in enumerate(o["tiles"]))
+        proof = '<div class="plk">%s<ul class="plk-cells" aria-label="At a glance">%s</ul>%s</div>' % (
+            ('<p class="plk-kick">%s</p>' % md(lk["kicker"], "/overview/lockup/kicker")) if lk.get("kicker") else "", cells,
+            ('<p class="plk-close">%s</p>' % md(lk["closer"], "/overview/lockup/closer")) if lk.get("closer") else "")
+    else:
+        proof = '<div class="ftiles-c"><ul class="ftiles is-4" aria-label="At a glance">%s</ul></div>' % tiles
+    out = ('<div id="pane-ov" class="tb-pane" role="tabpanel" aria-labelledby="t-ov">\n<h1 class="tb-h1" style="--hl-ch: %d; --hs-ch: %d">%s</h1>\n%s%s%s'
+            '%s\n'
             '%s'
             '%s<div class="tb-expand%s"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>\n'
-            '<div class="tb-folds">%s</div>\n</div>') % (h, (('<p class="tb-byline">%s</p>\n' % md(o["byline"], "/overview/byline")) if o.get("byline") else "") + ("" if o.get("bites_at") == "end" else r_bites(o)), ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"], "/overview/subhead")) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(nbh(x), "/overview/lede/%d" % i) for i, x in enumerate(o["lede"]))) if o.get("lede") else "",
-         tiles, go, cr,
+            '<div class="tb-folds">%s</div>\n</div>') % (hl_ch, hs_ch, h, (('<p class="tb-byline">%s</p>\n' % md(o["byline"], "/overview/byline")) if o.get("byline") else "") + ("" if o.get("bites_at") in ("end", "top") else r_bites(o)), ('<h2 class="tb-sub">%s</h2>\n' % md(o["subhead"], "/overview/subhead")) if o.get("subhead") else "", ('<p class="tb-lede">%s</p>\n' % "".join('<span class="ln">%s</span>' % md(nbh(x), "/overview/lede/%d" % i) for i, x in enumerate(o["lede"]))) if o.get("lede") else "",
+         proof, go, cr,
          " solo" if len(o["sections"]) < 2 else "", folds)
     if o.get("receipt"):  # the proof object: one real dated call, above the tiles
         r = o["receipt"]
@@ -343,8 +366,12 @@ def r_overview(d):
             ('<span class="rcpt-odds">%s</span> ' % md(r["odds"], "/overview/receipt/odds")) if r.get("odds") else "",
             md(r["claim"], "/overview/receipt/claim"), md(r["kill"], "/overview/receipt/kill"), md(r["status"], "/overview/receipt/status"),
             ('<dt>Last resolved</dt><dd>%s</dd>' % md(r["last"], "/overview/receipt/last")) if r.get("last") else "", "")
-        assert '<div class="ftiles-c">' in out
-        out = out.replace('<div class="ftiles-c">', card + '<div class="ftiles-c">', 1)
+        assert proof in out
+        out = out.replace(proof, card + proof, 1)
+    if o.get("bites_at") == "top" and o.get("bites"):  # quote first, a rule, then the headline (Zach, header option B, 2026-11-13)
+        h1 = '<h1 class="tb-h1" style="--hl-ch: %d; --hs-ch: %d">' % (hl_ch, hs_ch)
+        assert out.count(h1) == 1
+        out = out.replace(h1, r_bites(o).replace('class="sb', 'class="sb is-top', 1) + '<hr class="tb-hd-rule">\n' + h1, 1)
     if o.get("bites_at") == "end" and o.get("bites"):  # evidence first, then what colleagues say
         assert out.endswith("</div>\n</div>")
         out = out[:-len("</div>")] + r_bites(o) + "</div>"
@@ -361,7 +388,13 @@ def r_tab(t, horizons, i, page=False, p=""):
     op = "true" if i == 0 else "false"
     if page:
         # a role on its own page: no fold, the seat name shows as the eyebrow; headings step h1, h2, h3
-        units = "\n".join('<section class="unit"><h2 class="tb-h3">%s</h2>%s</section>' % (md(u["title"], "%s/units/%d/title" % (p, k)), r_blocks(u["blocks"], horizons, 3, "%s/units/%d/blocks" % (p, k))) for k, u in enumerate(t["units"]))
+        # each unit is a fold, the overview's pattern: first open unless the data says otherwise; Expand all once there are two or more
+        def unit_fold(k, u):
+            sid = "%s-%s" % (tid, re.sub(r"[^a-z0-9]+", "-", u["title"].lower()).strip("-"))
+            return r_fold(dict(u, id=sid, open=u.get("open", k == 0)), horizons, "%s/units/%d" % (p, k))
+        units = "\n".join(unit_fold(k, u) for k, u in enumerate(t["units"]))
+        exp = '<div class="tb-expand"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>\n' if len(t["units"]) > 1 else ""
+        units = '%s<div class="tb-folds">%s</div>' % (exp, units)
         return ('<div id="pane-%s" class="tb-pane seat">\n<div class="seat-head"><p class="section-label seat-name">%s</p><h1 class="seat-h">%s</h1></div>\n'
                 '<div class="seat-body" id="seat-%s-body"><p class="seat-lede">%s</p>\n%s\n%s</div>\n</div>') % (
             tid, md(t["name"], p + "/name"), md(t["headline"], p + "/headline"), tid, md(t["lede"], p + "/lede"), units, calls)
@@ -425,8 +458,8 @@ def r_name(d):
 
 
 def stack_below(d):
-    """Width below which the tabs fold into the menu and the roles stack (shell.css writes 1024; data may move it)."""
-    return int(d.get("stack_below", 1024))
+    """Width below which the tabs fold into the menu and the roles stack (burger at 900px and down, the myAlly breakpoint; data may move it)."""
+    return int(d.get("stack_below", 901))
 
 
 def date_long(iso):
@@ -472,7 +505,10 @@ def render(d, artifact=False, page=None):
                                                            open(os.path.join(TDIR, "shell.js"), encoding="utf-8").read(),
                                                            ("\n" + bite_js()[:-len("</script>")] + ";[].forEach.call(document.querySelectorAll('.sb'),function(f){sbInit(f,%s)});</script>" % ("{still:true}" if d["overview"].get("bites_still") else "{}")) if 'class="sb"' in body else "")
     marks = "<!-- @arcs-template: tabbed-brief -->\n<!-- @arcs-mode: persuade -->\n"
-    head = ('<title>%s</title>\n<meta name="robots" content="noindex, nofollow">\n%s\n<style>\n%s</style>\n') % (e(title), head_js, css)
+    # Inter and JetBrains Mono from Google Fonts, the design-system reference faces (Zach, 2026-11-12); SF Pro / system-ui is the fallback
+    fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
+             '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700%s&display=swap">\n') % ("&family=Newsreader:ital,wght@1,400" if d.get("overview", {}).get("bites_at") == "top" else "")
+    head = ('<title>%s</title>\n<meta name="robots" content="noindex, nofollow">\n%s%s\n<style>\n%s</style>\n') % (e(title), fonts, head_js, css)
     if artifact and page in (None, "ov"):
         return marks + '<meta name="claude:viewport-fit-sides" content="cover">\n' + head + main + "\n"
     # a full document: the site page, or an Artifact subpage (served without the host's wrapper, so it brings its own head)
@@ -546,7 +582,7 @@ def tune_build(path, out):
 def apply_patch(data_path, patch_paths, version=None):
     """The tuner's exports back to source: text and the breakpoint to the data file, tokens and wrapping to shell.css."""
     return pt.apply(patch_paths if isinstance(patch_paths, list) else [patch_paths], [("json", data_path)],
-                    style=("block", os.path.join(TDIR, "shell.css")), bp_ptr="/stack_below", bp_default=1024, version=version, validate=validate)
+                    style=("block", os.path.join(TDIR, "shell.css")), bp_ptr="/stack_below", bp_default=901, version=version, validate=validate)
 
 
 def check():

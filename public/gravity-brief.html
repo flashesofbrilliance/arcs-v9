@@ -8,6 +8,9 @@
 <meta name="color-scheme" content="light dark">
 <title>Zach Harris for Gravity Labs</title>
 <meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Newsreader:ital,wght@1,400&display=swap">
 <script>(function(){var d=document.documentElement,s={};try{var r=localStorage.getItem('gravityTheme')||'';s=r.charAt(0)==='{'?JSON.parse(r):(r?{theme:r}:{})}catch(e){}d.setAttribute('data-theme',(s.theme||'light')==='dark'?'dark':'light');var A={font:'data-font',size:'data-size',space:'data-space'};for(var k in A){if(s[k]&&s[k]!=='std')d.setAttribute(A[k],s[k])}})();</script>
 <style>
 /* ARCS Recoil Report — Design Tokens */
@@ -69,7 +72,7 @@
   --magenta-bg:     rgba(232, 121, 249, 0.07);
 
   /* DESIGN.md rounded scale */
-  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+  --ds-r-xs: 3px; --ds-r-badge: 4px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
 
   /* DESIGN.md type ramp: four steps */
   --fs-label:    0.6875rem;
@@ -103,7 +106,7 @@
 /* @prim:end 27-section-label */
 /* @prim:begin 28-chip */
 .section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-.chip { display: inline-flex; align-items: center; gap: 6px; box-sizing: border-box; height: 22px; padding: 0 10px; border-radius: var(--ds-r-xs); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; line-height: 1; border: 1px solid var(--border); color: var(--text-secondary); background: transparent; }
+.chip { display: inline-flex; align-items: center; gap: 6px; box-sizing: border-box; height: 22px; padding: 0 10px; border-radius: var(--ds-r-badge, 4px); font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; line-height: 1; border: 1px solid var(--border); color: var(--text-secondary); background: transparent; }
 .chip.cyan { color: var(--cyan); border-color: color-mix(in srgb, var(--cyan) 35%, transparent); background: color-mix(in srgb, var(--cyan) 13%, transparent); }
 .chip.green { color: var(--green); border-color: color-mix(in srgb, var(--green) 35%, transparent); background: color-mix(in srgb, var(--green) 13%, transparent); }
 .chip.gold { color: var(--gold); border-color: color-mix(in srgb, var(--gold) 35%, transparent); background: color-mix(in srgb, var(--gold) 13%, transparent); }
@@ -175,12 +178,12 @@
 /* @prim:end 38-wordmark */
 /* @prim:begin 39-theme-toggle */
 :root{color-scheme:dark;}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}}
-:root[data-theme="light"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);color-scheme:light;}}
+:root[data-theme="light"]{--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);color-scheme:light;}
 .themebtn{display:inline-flex;align-items:center;min-height:44px;padding:0;margin:0 0 8px;font:inherit;font-size:var(--fs-body);color:var(--text-secondary);background:none;border:0;cursor:pointer;text-underline-offset:3px;}
 .themebtn:hover,.themebtn:focus-visible{color:var(--cyan);text-decoration:underline;}
 .themebtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
-@media print{:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;} .themebtn{display:none!important;} body{background:#fff!important;}}
+@media print{:root{--bg:#f3f5f9;--surface:#ffffff;--surface-2:#e9edf4;--elevated:#e9edf4;--border:#cfd7e3;--text:#0f172a;--text-secondary:#334155;--muted:#46566b;--dimmed:#52627a;--cyan:#025f93;--cyan-bg:rgba(2,95,147,0.09);--green:#0b6b53;--green-bg:rgba(11,107,83,0.09);--gold:#8a5508;--gold-bg:rgba(138,85,8,0.10);--red:#be123c;--red-bg:rgba(190,18,60,0.08);color-scheme:light;} .themebtn{display:none!important;} body{background:#fff!important;}}
 /* @prim:end 39-theme-toggle */
 /* @prim:begin 42-shell-nav */
 .shnav { position: relative; display: flex; align-items: center; gap: 24px; min-height: 52px; padding: 0 20px; }
@@ -271,7 +274,7 @@
 .cr { display: flex; flex-direction: column; gap: 20px; }
 .cr > * { margin: 0; }
 .cr > .callout { max-width: none; }
-.cr > .callout.cr-read { background: var(--surface-2); border-color: var(--border); }
+.cr > .callout.cr-read { background: var(--surface); border-color: var(--border); }
 .cr > .callout.cr-read b { color: var(--text-secondary); }
 .cr-slots { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 0; }
 .cr-slots dt, .cr-slots dd { margin: 0; padding: 12px 0; border-top: 1px solid var(--border); }
@@ -290,14 +293,15 @@
 /* tabbed-brief template layer (2026-11-09). Composes kit parts; owns only the frame and the page organisms.
    Tokens: src/ui-kit/recoil-report/_tokens.css (inlined first) and the kit 39 light remap. No literal colours here.
    Type ramp, five steps: label 0.6875rem (labels only, never prose) · small 0.875rem · body 1rem · section 1.25rem · display (serif).
-   Breakpoints, two: 600px (phone) and 1024px (tabs). The builder replaces every (min-width: 1024px) here and kit 42 data-menu-below with the data's stack_below. */
+   Breakpoints, two: 600px (phone) and 1024px (tabs). The builder replaces every (min-width: 901px) here and kit 42 data-menu-below with the data's stack_below. */
 html { font-size: 100%; }
 /* hand-tuning tokens (the ?tune sliders move these): body line-height, section rhythm, card gap, letter-spacing */
 :root { --lh: 1.6; --sp-4: 24px; --gap: 12px; --ls: 0em;
   /* template scales (2026-11-12 polish): line height has three steps, spacing sits on a 4px grid, weight has three steps */
   --lh-display: 1.2; --lh-head: 1.35; --lh-text: 1.55;
   --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px;
-  --fw-text: 400; --fw-strong: 600; --fw-bold: 700; }
+  --fw-text: 400; --fw-strong: 600; --fw-bold: 700;
+  --key: 12rem; /* the keyline: one key-column width shared by every two-column molecule (ledger, cold read, tables) */ }
 body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: var(--lh); letter-spacing: var(--ls);
   padding-block: 32px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
   -webkit-font-smoothing: antialiased; }
@@ -335,6 +339,20 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 /* hero */
 .tb-h1 { margin: 0; font-family: var(--ds-font-display); font-weight: 500; font-size: var(--fs-display); line-height: var(--lh-display); letter-spacing: -0.01em; color: var(--text); }
 .tb-h1 .hl { display: block; text-wrap: balance; }
+/* Each headline clause holds one line at every width (Zach's pick B, 2026-11-16): the builder stamps --hl-ch, the
+   longest clause in characters, and the type shrinks with the container so that clause fits. 0.5em per character is
+   Inter 700 at -0.02em tracking (measured 0.45) plus margin. page_gate's one-line check fails if a clause still wraps. */
+.tb-h1[style*="--hl-ch"] { font-size: min(var(--fs-display), calc(100cqi / (var(--hl-ch) * 0.5))); }
+.tb-h1[style*="--hl-ch"] .hl { white-space: nowrap; }
+/* Phone floor (Zach, 2026-11-16): below a 600px lane the shrink would undercut the body text, so each sentence takes
+   its own line and the type stops at --hl-floor. Only at the floor may a sentence wrap (balanced); page_gate's
+   one-line check reads --hl-floor and allows a wrap only there. */
+.tb-h1 { --hl-floor: 24px; }
+@container (max-width: 600px) {
+  .tb-h1[style*="--hs-ch"] { font-size: max(var(--hl-floor), min(var(--fs-display), calc(100cqi / (var(--hs-ch) * 0.5)))); }
+  .tb-h1[style*="--hs-ch"] .hl { white-space: normal; }
+  .tb-h1[style*="--hs-ch"] .hs { display: block; text-wrap: balance; }
+}
 .tb-sub { margin: 0; font-size: var(--fs-headline); font-weight: var(--fw-bold); line-height: var(--lh-head); color: var(--text); text-wrap: balance; }
 .cr-howwrap > .section-label { margin: 0 0 12px; }
 .tb-lede .ln { display: block; }
@@ -354,7 +372,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-btn.primary { background: var(--cyan); border-color: var(--cyan); color: var(--surface); }
 .tb-note { margin: 0; flex-basis: 100%; font-size: var(--fs-body); color: var(--text-secondary); }
 .tb-expand { display: flex; justify-content: flex-end; }
-@media (min-width: 1024px) { .tb-expand.solo { display: none; } } /* one fold and no stacked seats: nothing to expand */
+@media (min-width: 901px) { .tb-expand.solo { display: none; } } /* one fold and no stacked seats: nothing to expand */
 
 /* fold sections: a heading that holds a button (the ARIA accordion pattern), a one-line tagline, a body */
 .tb-folds { display: flex; flex-direction: column; }
@@ -365,7 +383,6 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-h2 { margin: 0; font-size: var(--fs-headline); font-weight: var(--fw-strong); line-height: var(--lh-head); }
 .tb-fold-btn { width: 100%; display: flex; align-items: flex-start; justify-content: flex-start; gap: 12px; padding: 0; border: 0; background: none;
   color: var(--text); font: inherit; text-align: left; cursor: pointer; }
-.tb-fold-btn:hover { color: var(--cyan); }
 /* chevron as on MyAlly: left of the title, points right when closed, down when open */
 .tb-fold-btn::before { content: ""; flex: none; width: 8px; height: 8px; margin-top: 9px; border-right: 1.5px solid var(--cyan); border-bottom: 1.5px solid var(--cyan);
   transform: rotate(-45deg); transition: transform var(--dur-base) var(--ease-out); }
@@ -410,11 +427,10 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .tb-table td { text-align: left; vertical-align: top; padding: 12px; line-height: var(--lh-text); color: var(--text); border-bottom: 1px solid var(--border); }
 .tb-table td:first-child { font-weight: 600; width: 32%; }
 .tb-table tr:last-child td { border-bottom: 0; }
-.tb-table td:has(> .chip) { width: 1%; white-space: nowrap; } /* ledger rows: the chip names the side, the column fits it */
 
 /* cards */
 .tb-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap); } /* one column until tabs show; no orphaned third card */
-@media (min-width: 1024px) { .tb-cards { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); } }
+@media (min-width: 901px) { .tb-cards { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); } }
 .tb-card { border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); padding: var(--s-4); display: flex; flex-direction: column; gap: var(--s-2); }
 .tb-card > * { margin: 0; }
 .tb-card-t { font-size: var(--fs-body); font-weight: var(--fw-strong); line-height: var(--lh-head); color: var(--text); }
@@ -460,12 +476,12 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-
 .rcpt-meta span:first-child { color: var(--gold); }
 .rcpt-claim { margin: 0; font-size: var(--fs-headline); line-height: var(--lh-head); font-weight: 500; color: var(--text); }
 .rcpt-odds { display: block; margin-bottom: 4px; font-size: var(--fs-display); line-height: var(--lh-display); font-weight: var(--fw-strong); color: var(--text); }
-.rcpt-rows { display: grid; grid-template-columns: max-content 1fr; gap: 8px 16px; margin: var(--s-4) 0 0; padding-top: var(--s-3); border-top: 1px dashed var(--gold); font-size: var(--fs-body); }
+.rcpt-rows { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 8px; margin: var(--s-4) 0 0; padding-top: var(--s-3); border-top: 1px dashed var(--gold); font-size: var(--fs-body); }
 .rcpt-rows dt { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; color: var(--gold); padding-top: 3px; }
 .rcpt-rows dd { margin: 0; color: var(--text); }
 .rcpt-ask { margin: 0 0 12px; font-size: var(--fs-headline); line-height: var(--lh-text); color: var(--text); }
 .rcpt-mail { display: inline-block; padding: 4px 0; font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--cyan); }
-@media (max-width: 520px) { .rcpt { padding: 16px; } .rcpt-rows { grid-template-columns: 1fr; gap: 2px; } .rcpt-rows dd { margin-bottom: 8px; } }
+@media (max-width: 520px) { .rcpt { padding: 16px; } .rcpt-rows dd { margin-bottom: 8px; } }
 
 /* ---- polish layer (2026-11-12): one state set for every control, light and dark, from kit tokens ----
    Fact-tile type steps: kit 45 ships .75rem and .9rem; the template pins them to the ramp (label, body). */
@@ -483,8 +499,7 @@ a:active { color: var(--text); }
 .tb-btn.primary:active { background: var(--cyan); filter: brightness(0.92); }
 .tb-btn:disabled, .tb-btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
 /* folds and seat heads */
-.tb-fold-btn { border-radius: var(--ds-r-xs); transition: color var(--dur-fast) var(--ease-out); }
-.tb-fold-btn:active { color: var(--text-secondary); }
+.tb-fold-btn { border-radius: var(--ds-r-xs); }
 .tb-fold-btn:disabled { opacity: 0.45; cursor: not-allowed; }
 .stacked .seat-btn:hover { color: var(--cyan); }
 .stacked .seat-btn:active { color: var(--text-secondary); }
@@ -504,8 +519,245 @@ a:active { color: var(--text); }
 .dprefs-btns button:disabled, .dprefs-actions button:disabled { opacity: 0.45; cursor: not-allowed; }
 /* ledger rows and tables are read-only: no hover tint, so nothing implies a click. Kit 54 spacing (14px, 6px, 20px) pinned to the 4px grid. */
 .sl-row { padding: var(--s-3) 0; gap: var(--s-2) var(--s-5); }
-.sl-group.is-judgment .sl-rows { padding-left: var(--s-4); }
 @media (prefers-reduced-motion: reduce) { .tb-btn, .tb-fold-btn { transition: none; } }
+
+/* ---- lockup layer (2026-11-12): construction rules for molecules and organisms ----
+   R1 Lane: every organism spans the content lane edge to edge; nothing ends short of its siblings.
+   R2 Keyline: two-column molecules share one key column (--key) and one gutter (--s-5), so every evidence column
+      on a page starts on the same vertical line, and every key starts flush on the lane's left edge (no cell inset).
+   R3 Molecule lockup: a key is one unit (chip over its signal, tight --s-1); the evidence sits beside it, top-aligned.
+      On a phone the key runs inline (chip, then signal) above the evidence.
+   R4 Organism header: label and count share one baseline; no rule under it, because dividers sit between rows only.
+   R5 Rhythm: inside a molecule --s-1/--s-2, between molecules a hairline plus --s-3, between groups --s-6.
+   R6 Tiles: label, figure and caption sit inside one box. */
+/* R2 + R3: signal ledger, two columns at every width above a phone (the kit's third column split the key and left the chip column empty) */
+.sl { gap: var(--s-6); }
+.sl-key { gap: var(--s-1); }
+@container (min-width:58rem) { .sl-key { display: flex; } }
+@container (max-width:37.99rem) { .sl-key { flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: var(--s-2); } }
+/* R4 */
+.sl-gh { padding: 0 0 var(--s-1); border-bottom: 0; }
+/* R2: tables start keys on the lane edge and share the keyline */
+.tb-table th:first-child, .tb-table td:first-child { padding-left: 0; }
+.tb-table th:last-child, .tb-table td:last-child { padding-right: 0; }
+.tb-table td:first-child { width: var(--key); padding-right: var(--s-5); } /* content box is the key; the gutter is its right padding */
+.pm-table th:first-child, .pm-table td:first-child { padding-left: 0; }
+.pm-table th:last-child, .pm-table td:last-child { padding-right: 0; }
+/* R2: cold-read slots on the keyline */
+/* R1: the How steps fill the lane instead of leaving an empty third column */
+.cr-how { grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+/* R6: fact tile, one box for label, figure and caption */
+.ftile::before { grid-row: 1 / 4; }
+.ftile-lab { padding: var(--s-3) var(--s-4) 0; }
+.ftile-fig { padding: var(--s-1) var(--s-4) 0; }
+.ftile-cap { padding: var(--s-1) var(--s-4) var(--s-3); }
+.ftiles { gap: var(--s-2); }
+@media (max-width: 599px) {
+  .tb-table td:first-child { width: auto; }
+}
+
+/* ---- Week One as one organism (2026-11-12): one hairline section like every fold (no nested card), three bands ----
+   Band 1 the strip: gap, do, get read left to right as three columns split by hairlines (one row of evidence).
+   Band 2 the track: the How steps sit on one timeline rule with cyan nodes, not in boxes.
+   Band 3 the footer: how-to-read closes the panel on a hairline, not as a separate grey callout.
+   On a phone the strip stacks and the track turns vertical with the rule on the left. */
+.tb-coldread { gap: 0; padding: var(--s-5) 0 0; border-top: 1px solid var(--border); }
+.tb-coldread > .tb-h2 { margin: 0 0 var(--s-4); }
+.tb-coldread .cr { gap: 0; }
+/* band 1 */
+.tb-coldread .cr-slots { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto; grid-auto-flow: column; column-gap: 0; }
+.tb-coldread .cr-slots dt, .tb-coldread .cr-slots dd { border-top: 0; padding: 0 var(--s-5); }
+.tb-coldread .cr-slots dt.section-label { padding: 0 var(--s-5) var(--s-2); line-height: var(--lh-display); }
+.tb-coldread .cr-slots dd { padding-bottom: 0; line-height: var(--lh-text); text-wrap: pretty; }
+.tb-coldread .cr-slots dt:first-of-type, .tb-coldread .cr-slots dt:first-of-type + dd { padding-left: 0; }
+.tb-coldread .cr-slots dt:not(:first-of-type), .tb-coldread .cr-slots dt:not(:first-of-type) + dd { border-left: 1px solid var(--border); }
+.tb-coldread .cr-slots dt:last-of-type, .tb-coldread .cr-slots dt:last-of-type + dd { padding-right: 0; }
+/* band 2 */
+.tb-coldread .cr-howwrap { margin-top: var(--s-5); padding-top: var(--s-4); border-top: 1px solid var(--border); }
+.tb-coldread .cr-howwrap > .section-label { margin: 0 0 var(--s-3); }
+.tb-coldread .cr-how { position: relative; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: var(--s-5); }
+.tb-coldread .cr-how::before { content: ""; position: absolute; left: 0; right: 0; top: 5px; border-top: 1px solid var(--border); }
+.tb-coldread .cr-step { padding: var(--s-5) 0 0; border: 0; border-radius: 0; background: none; gap: var(--s-1); }
+.tb-coldread .cr-step::before { content: ""; position: absolute; left: 0; top: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 0 3px var(--bg); }
+/* band 3 */
+.tb-coldread .cr > .callout.cr-read { margin-top: var(--s-5); padding: var(--s-4) 0 0; border: 0; border-top: 1px solid var(--border); border-radius: 0; background: none; color: var(--text-secondary); line-height: var(--lh-text); }
+.tb-coldread .cr > .callout.cr-read b { display: block; margin: 0 0 var(--s-1); color: var(--text-secondary); }
+@media (max-width: 599px) {
+  .tb-coldread { padding: var(--s-4) 0 0; }
+  .tb-coldread .cr-slots { grid-template-columns: minmax(0, 1fr); grid-auto-flow: row; }
+  .tb-coldread .cr-slots dt, .tb-coldread .cr-slots dd, .tb-coldread .cr-slots dt.section-label { padding-left: 0; padding-right: 0; border-left: 0; }
+  .tb-coldread .cr-slots dt:not(:first-of-type) { padding-top: var(--s-3); margin-top: var(--s-3); border-top: 1px solid var(--border); }
+  .tb-coldread .cr-how::before { left: 5px; right: auto; top: 0; bottom: 0; border-top: 0; border-left: 1px solid var(--border); }
+  .tb-coldread .cr-step { padding: 0 0 0 var(--s-5); }
+}
+
+/* ---- cohesion pass (2026-11-12, brand-line-producer + impeccable finish review + Zach's fold and quote asks) ----
+   Atoms: ONE label style (mono, label size, uppercase, tracked, secondary); cyan only on links, figures, nodes and active state.
+   Molecules: keys in sans strong, tabular figures; no side stripes; tiles step up in scale.
+   Organisms: folds hang their chevron in the gutter so title, table and ledger edges lock on both sides of the lane.
+   Template: one rhythm, --s-6 body gutter on tablet and up, headline to lede the same on every page. */
+/* atom: label */
+.tb-table th, .pm-table th { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: var(--fw-bold); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); }
+.sl-gn { text-transform: uppercase; letter-spacing: 0.1em; }
+/* molecule: keys */
+.sl-sig { font-family: var(--ds-font-sans); font-size: var(--fs-body); font-weight: var(--fw-strong); letter-spacing: 0; line-height: var(--lh-head); color: var(--text); font-variant-numeric: tabular-nums; }
+.tb-table td:first-child { font-variant-numeric: tabular-nums; }
+/* molecule: no side stripes (the gold chip still marks judgment) */
+.sl-group.is-judgment .sl-rows { border-left: 0; padding-left: 0; }
+/* molecule: fact tile figure steps up a size where the grid has room */
+@media (min-width: 600px) { .ftile-fig { font-size: calc(var(--fs-headline) * 1.5); } }
+/* organism: folds. Chevron hangs in the gutter; title, body, tables share the lane edges left and right */
+@media (min-width: 600px) { .tb-body, .tb-meta { padding-inline: var(--s-6); } }
+.tb-fold-btn, .stacked .seat-btn { margin-inline-start: calc(-8px - var(--s-3)); width: calc(100% + 8px + var(--s-3)); }
+@media (max-width: 599px) { .tb-body { padding-inline: var(--s-5); } .tb-fold-btn, .stacked .seat-btn { gap: var(--s-2); margin-inline-start: calc(-8px - var(--s-2)); width: calc(100% + 8px + var(--s-2)); } }
+.tb-fold { padding: var(--s-5) 0 var(--s-4); }
+.tb-expand .tb-btn { border-color: transparent; background: none; padding-inline: 0; }
+.tb-expand .tb-btn:hover { background: none; text-decoration: underline; text-underline-offset: 3px; }
+/* template: rhythm */
+.seat-head { padding-bottom: 0; }
+/* organism: sound bite. No stripe; display-serif italic quote marks (typographic glyphs in a DESIGN.md face, not drawn icons); quote bigger and bolder; room below */
+.sb { border-left: 0; padding: 0 0 var(--s-5); }
+.sb-t { position: relative; font-size: calc(var(--fs-headline) * 1.3); font-weight: var(--fw-strong); line-height: var(--lh-head); }
+.sb-t::before, .sb-t::after { font-family: var(--ds-font-display); font-style: italic; font-weight: 700; font-size: 2.4em; line-height: 0; color: var(--cyan); vertical-align: -0.42em; }
+.sb-t::before { content: "\201C"; margin-right: 0.08em; }
+.sb-t::after { content: "\201D"; margin-left: 0.04em; }
+.sb-item { gap: var(--s-3); }
+
+/* ---- design-system rulings (Zach, 2026-11-12) ----
+   1. Headlines in Inter semibold, the reference's voice (was the display serif). The quote follows.
+   2. Inter loads from Google Fonts first; SF Pro / system-ui is the fallback.
+   3. Glass with a little dimensionality in both themes: a soft top-lit gradient, a hairline rim, an inset top highlight
+      and a short offset shadow on raised pieces (frame, tiles, cards, controls); chips sit as shallow wells. Tokens only. */
+:root { --ds-font-sans: 'Inter', -apple-system, 'SF Pro Text', system-ui, sans-serif; --ds-font-display: var(--ds-font-sans);
+  --glass: linear-gradient(180deg, var(--surface), color-mix(in srgb, var(--surface) 94%, var(--text)) 56px);
+  --bevel: inset 0 1px 0 color-mix(in srgb, white 70%, transparent), inset 0 -1px 0 color-mix(in srgb, var(--text) 5%, transparent);
+  --lift: 0 1px 2px color-mix(in srgb, var(--text) 7%, transparent), 0 3px 6px -3px color-mix(in srgb, var(--text) 12%, transparent);
+  --well: inset 0 1px 2px color-mix(in srgb, var(--text) 10%, transparent); }
+:root[data-theme="dark"] { --glass: linear-gradient(180deg, color-mix(in srgb, var(--surface) 88%, white), var(--surface) 56px); /* sheen pinned to 56px so tall and short panels match */
+  --bevel: inset 0 1px 0 color-mix(in srgb, white 6%, transparent), inset 0 -1px 0 color-mix(in srgb, black 40%, transparent);
+  --lift: 0 1px 2px color-mix(in srgb, black 40%, transparent), 0 3px 6px -3px color-mix(in srgb, black 55%, transparent);
+  --well: inset 0 1px 3px color-mix(in srgb, black 50%, transparent); }
+.tb-h1, .seat-h { font-family: var(--ds-font-sans); font-weight: var(--fw-strong); letter-spacing: -0.02em; }
+.sb-t { font-family: var(--ds-font-sans); letter-spacing: -0.01em; }
+.sb-t::before, .sb-t::after { font-family: var(--ds-font-sans); font-style: normal; font-weight: var(--fw-bold); }
+/* raised */
+.tb-frame { background: var(--glass); box-shadow: var(--bevel), var(--lift); }
+.tb-frame .tb-body { background: transparent; }
+/* sticky head (myAlly pattern): solid, never see-through; a shadow only once it is stuck */
+.tb-frame .tb-navwrap { background: var(--surface); }
+.tb-head.is-stuck { box-shadow: 0 1px 0 var(--border), 0 6px 12px -8px color-mix(in srgb, black 35%, transparent); }
+.ftile::before { background: var(--glass); box-shadow: var(--bevel), var(--lift); }
+.tb-card { background: var(--glass); } /* inside the raised frame: tinted, not lifted (no card inside a card) */
+.tb-btn, .dprefs-theme, .dprefs-aa, .sb-btn { background: var(--glass); box-shadow: var(--bevel), var(--lift); }
+.tb-btn:active, .dprefs-theme:active, .dprefs-aa:active, .sb-btn:active { box-shadow: var(--well); transform: translateY(1px); }
+.tb-expand .tb-btn { background: none; box-shadow: none; }
+/* wells */
+@media (prefers-reduced-motion: reduce) { .tb-btn:active, .dprefs-theme:active, .dprefs-aa:active, .sb-btn:active { transform: none; } }
+
+/* ---- folds as organisms (2026-11-12, Zach: the folds were weaker than the top half) ----
+   Each fold is a raised glass panel built like the fact tile (surface on a ::before, so it is one box, not a card in a card):
+   hairline rim, radius sm, bevel and lift, chevron header inside. Folds stack with one gap. Inside: ledger groups read as
+   sub-sections, no row counters; dated releases sit on the stepper track; cards inside a fold are flat sections. */
+.tb-folds { gap: var(--s-3); }
+.tb-fold, .tb-fold:last-child { position: relative; isolation: isolate; border: 0; padding: var(--s-4) var(--s-5); }
+.tb-fold::before { content: ""; position: absolute; inset: 0; z-index: -1; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--glass); box-shadow: var(--bevel), var(--lift); }
+.tb-fold-btn, .stacked .seat-btn { margin-inline-start: 0; width: 100%; }
+@media (max-width: 599px) { .tb-fold-btn, .stacked .seat-btn { margin-inline-start: 0; width: 100%; } .tb-fold, .tb-fold:last-child { padding: var(--s-3) var(--s-4); } }
+.tb-fold-body { padding-top: var(--s-4); margin-top: var(--s-4); border-top: 1px solid var(--border); }
+.tb-fold:has(.tb-fold-btn[aria-expanded="false"]) .tb-fold-body { margin-top: 0; }
+.tb-fold .tb-card { background: none; border: 0; border-radius: 0; padding: 0; }
+.tb-fold .tb-card + .tb-card { border-top: 1px solid var(--border); padding-top: var(--s-3); } /* stacked: rules between cards only */
+@media (min-width: 901px) { .tb-fold .tb-card + .tb-card { border-top: 0; padding-top: 0; } } /* side by side: no rule (breakpoint follows stack_below) */
+.tb-fold .sl-group + .sl-group { padding-top: var(--s-4); border-top: 1px solid var(--border); }
+/* timeline molecule: date label over the release, cyan nodes on one rule (the Week One stepper, vertical) */
+.tb-tl { position: relative; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--s-4); }
+.tb-tl::before { content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; border-left: 1px solid var(--border); }
+.tb-tl-i { position: relative; display: flex; flex-direction: column; gap: var(--s-1); }
+.tb-tl-i::before { content: ""; position: absolute; left: 0; top: 2px; width: 11px; height: 11px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 0 3px var(--surface); }
+.tb-tl-d { margin: 0; font-variant-numeric: tabular-nums; }
+.tb-tl-t { margin: 0; line-height: var(--lh-text); text-wrap: pretty; }
+
+.tb-fold-body { container-type: inline-size; }
+/* masthead name in the San Francisco system face (Zach, 2026-11-12); size, weight, caps and tracking unchanged; non-Apple falls back to system-ui */
+.tb-name-main { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif; }
+/* fold header states (2026-11-12): the title keeps --text in every state, so nothing changes colour on toggle or sticks after a tap.
+   Hover tints only the chevron, on fine pointers; focus-visible keeps its outline. */
+.tb-fold-btn::before { transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur-base) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .tb-fold-btn:hover::before { border-color: var(--text); } }
+
+/* quotes back in the kit serif (Zach, 2026-11-13: it stood out more) */
+.sb-t { font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif; }
+.sb-t::before, .sb-t::after { font-family: inherit; }
+
+/* ---- glass picks, second set (Zach, 2026-11-13, option board PR 2227): Header C glow, Stats B glass, Week One C deboss,
+   Folds B glass, Evidence rows A flat. Glass strength 0.75x: every glass alpha below is the 1x value times --k-glass.
+   Stats B and Folds B are the raised glass already set above (tile and fold ::before); evidence rows stay flat. ---- */
+:root { --k-glass: 0.75;
+  --glass: linear-gradient(180deg, var(--surface), color-mix(in srgb, var(--surface) calc(100% - 6% * var(--k-glass)), var(--text)) 56px);
+  --bevel: inset 0 1px 0 color-mix(in srgb, white calc(70% * var(--k-glass)), transparent), inset 0 -1px 0 color-mix(in srgb, var(--text) calc(5% * var(--k-glass)), transparent);
+  --lift: 0 1px 2px color-mix(in srgb, var(--text) calc(7% * var(--k-glass)), transparent), 0 3px 6px -3px color-mix(in srgb, var(--text) calc(12% * var(--k-glass)), transparent);
+  --well: inset 0 1px 2px color-mix(in srgb, var(--text) calc(10% * var(--k-glass)), transparent);
+  --deboss-fill: color-mix(in srgb, var(--surface) 40%, white); /* light: a well sits lighter than its ground (Zach, no exception); the inset shadow carries the sink */
+  --deboss: inset 0 2px 4px color-mix(in srgb, var(--text) calc(14% * var(--k-glass)), transparent), inset 0 -1px 0 color-mix(in srgb, white calc(60% * var(--k-glass)), transparent); }
+:root[data-theme="dark"] {
+  --glass: linear-gradient(180deg, color-mix(in srgb, var(--surface) calc(100% - 12% * var(--k-glass)), white), var(--surface) 56px);
+  --bevel: inset 0 1px 0 color-mix(in srgb, white calc(6% * var(--k-glass)), transparent), inset 0 -1px 0 color-mix(in srgb, black calc(40% * var(--k-glass)), transparent);
+  --lift: 0 1px 2px color-mix(in srgb, black calc(40% * var(--k-glass)), transparent), 0 3px 6px -3px color-mix(in srgb, black calc(55% * var(--k-glass)), transparent);
+  --well: inset 0 1px 3px color-mix(in srgb, black calc(50% * var(--k-glass)), transparent);
+  --deboss-fill: var(--bg);
+  --deboss: inset 0 2px 4px color-mix(in srgb, black calc(60% * var(--k-glass)), transparent), inset 0 -1px 0 color-mix(in srgb, white calc(6% * var(--k-glass)), transparent); }
+
+/* Header: no rim glow (Zach, 2026-11-13: "kill that for dark and light"); the head is solid, divider and stuck shadow only */
+
+/* Week One C: the whole cold-read sits pressed into one well (surface on a ::before, so it is one box, not a card in the frame) */
+.tb-coldread .cr { position: relative; isolation: isolate; padding: var(--s-4) var(--s-5); }
+.tb-coldread .cr::before { content: ""; position: absolute; inset: 0; z-index: -1; border: 1px solid var(--border); border-radius: var(--ds-r-md); background: var(--deboss-fill); box-shadow: var(--deboss); }
+.tb-coldread .cr-step::before { box-shadow: 0 0 0 3px var(--deboss-fill); }
+@media (max-width: 599px) { .tb-coldread .cr { padding: var(--s-3) var(--s-4); } }
+/* stuck at the top of the viewport the head goes square, so no page shows through its corner notches */
+.tb-head.is-stuck, .tb-head.is-stuck .tb-meta { border-radius: 0; }
+/* pull quote attribution sits right, the pull-quote convention (Zach, 2026-11-13) */
+.sb-by { justify-content: flex-end; text-align: right; }
+/* quote under the headline: no extra room below (the pane gap spaces it); on a phone it stays smaller than the headline */
+.sb { padding-bottom: 0; }
+@media (max-width: 599px) { .sb-t { font-size: var(--fs-headline); } }
+
+/* ---- R2 lockup primitive (2026-11-13, root cause of drifting content edges) ----
+   ONE rule lays out every two-column molecule: a key column (--key) and one gutter (--s-5), stacked below a 38rem container.
+   Molecules never write their own column template. A molecule that needs a full-width rule draws it on the row,
+   never by changing the column math. Gate: scripts/keyline_check.mjs (npm test). */
+.tb-body { container-type: inline-size; }
+.tb-tl-d { padding-left: var(--s-5); } /* the dot track lives inside the key column */
+@container (min-width: 38rem) {
+  .sl-row, .cr-slots, .rcpt-rows, .tb-tl-i { display: grid; grid-template-columns: var(--key) minmax(0, 1fr); column-gap: var(--s-5); }
+  .tb-tl-i { align-items: baseline; }
+  .cr-slots dt { position: relative; }
+  .cr-slots dt:not(:first-of-type)::after { content: ""; position: absolute; top: -1px; left: 100%; width: var(--s-5); border-top: 1px solid var(--border); } /* the row rule runs through the gutter */
+}
+@container (max-width: 37.99rem) { .cr-slots { display: grid; grid-template-columns: minmax(0, 1fr); } .tb-tl-i { padding-left: var(--s-5); } .tb-tl-d { padding-left: 0; } }
+.tb-coldread .cr-slots dt::after { content: none; } /* Week One is three bands, not a lockup: no gutter bridge */
+/* Header option B (Zach, 2026-11-13): the quote leads, italic serif in secondary text, then a hairline rule (the pane gap, --sp-4, sets the space above and below), then the headline at 700.
+   The attribution runs at 85% of body size. Secondary text is the AA token, not opacity, so the words stay at full strength. */
+.sb.is-top { padding: 0; }
+.sb.is-top .sb-t { font-family: 'Newsreader', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif; font-style: italic; font-weight: 400; color: var(--text-secondary); }
+.sb.is-top .sb-t::before, .sb.is-top .sb-t::after { font-weight: 400; font-size: 1.8em; vertical-align: -0.32em; } /* lighter marks so they do not outweigh the quote */
+.sb.is-top .sb-by { font-size: calc(var(--fs-body) * 0.85); margin-top: var(--s-2); } /* 0.85x body, about 12.6px, per the style ledger (Zach 2026-11-13); clears the 12px reading floor */
+.tb-hd-rule { border: 0; border-top: 1px solid var(--border); margin: 0; } /* the pane gap (--sp-4, 24px at the default ?tune setting) is the space above and below */
+.tb-hd-rule + .tb-h1 { font-weight: 700; } /* only under bites_at "top"; seam: overrides the 2026-11-12 "Inter semibold" headline ruling for this header, by Zach's option B pick */
+/* @prim:begin 71-proof-lockup */
+.plk { container-type: inline-size; display: grid; gap: var(--sp-2, 16px); margin: 0; min-width: 0; }
+.plk-kick { margin: 0; font-family: 'Newsreader', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif; font-size: var(--fs-body); font-style: italic; font-weight: 400; line-height: 1.5; color: var(--text); text-wrap: pretty; }
+.plk-cells { display: grid; grid-template-columns: minmax(0, 1fr); margin: 0; padding: 0; list-style: none; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--glass, var(--surface)); box-shadow: var(--bevel, 0 0 0 transparent), var(--lift, 0 0 0 transparent); }
+.plk-cell { display: grid; grid-row: span 3; grid-template-rows: subgrid; align-content: start; row-gap: 4px; min-width: 0; padding: 14px 16px; }
+.plk-cell + .plk-cell { border-top: 1px solid var(--border); }
+.plk-lab { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; line-height: 1.2; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); align-self: end; }
+.plk-fig { font-family: var(--ds-font-mono); font-size: var(--fs-headline); font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; color: var(--text); overflow-wrap: anywhere; }
+.plk-cap { font-size: var(--fs-body); line-height: 1.4; color: var(--text-secondary); text-wrap: pretty; }
+.plk-close { margin: 0; font-size: var(--fs-body); font-weight: 600; line-height: 1.5; color: var(--text); text-wrap: pretty; }
+@container (min-width: 30rem) { .plk-cells { grid-template-columns: repeat(2, minmax(0, 1fr)); } .plk-cell + .plk-cell { border-top: 0; } .plk-cell:nth-child(2n) { border-left: 1px solid var(--border); } .plk-cell:nth-child(n+3) { border-top: 1px solid var(--border); } }
+@container (min-width: 48rem) { .plk-cells { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); } .plk-cell:nth-child(n) { border-top: 0; } .plk-cell + .plk-cell { border-left: 1px solid var(--border); } }
+@media print { .plk { break-inside: avoid; } .plk-cells { background: none; box-shadow: none; } }
+/* @prim:end 71-proof-lockup */
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -515,19 +767,19 @@ a:active { color: var(--text); }
 <section id="dprefs" class="dprefs-panel" role="dialog" aria-modal="false" aria-labelledby="dprefs-h" hidden><p id="dprefs-h" class="dprefs-title">Reading options</p><div class="dprefs-group" role="group" aria-labelledby="dprefs-font"><span id="dprefs-font" class="dprefs-label">Font</span><span class="dprefs-btns"><button type="button" data-k="font" data-v="std" aria-pressed="true">Standard</button><button type="button" data-k="font" data-v="easy" aria-pressed="false">Easy-read</button></span></div><div class="dprefs-group" role="group" aria-labelledby="dprefs-size"><span id="dprefs-size" class="dprefs-label">Text size</span><span class="dprefs-btns"><button type="button" data-k="size" data-v="std" aria-pressed="true">Standard</button><button type="button" data-k="size" data-v="l" aria-pressed="false">Larger</button><button type="button" data-k="size" data-v="xl" aria-pressed="false">Largest</button></span></div><div class="dprefs-group" role="group" aria-labelledby="dprefs-space"><span id="dprefs-space" class="dprefs-label">Spacing</span><span class="dprefs-btns"><button type="button" data-k="space" data-v="std" aria-pressed="true">Standard</button><button type="button" data-k="space" data-v="roomy" aria-pressed="false">Roomy</button></span></div><div class="dprefs-actions"><button type="button" data-reset>Reset</button><button type="button" data-close>Close</button></div></section>
 <section class="tb-frame" aria-label="Zach Harris for Gravity Labs">
 <div class="tb-head"><dl class="tb-meta"><div class="opt"><dt>Prepared for</dt><dd>The Gravity Labs team</dd></div></dl>
-<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Pages" data-menu-below="1024"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs"><a class="shnav-tab" href="/" data-target="pane-ov" aria-current="page">Overview</a><a class="shnav-tab" href="/eir" data-target="pane-eir" aria-current="false">EIR</a><a class="shnav-tab" href="/hats" data-target="pane-hats" aria-current="false">Hats</a><a class="shnav-tab" href="/proof" data-target="pane-proof" aria-current="false">Proof</a><a class="shnav-tab" href="/beliefs" data-target="pane-beliefs" aria-current="false">Beliefs</a></div><p class="tb-name"><span class="tb-name-main">Zach Harris</span><span class="tb-name-sub"><a href="https://app.ens.domains/zachharris.eth">zachharris.eth</a> · <a href="https://zach.md">zach.md</a></span></p><button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Go to a page"><span></span></button></nav></div></div>
+<div class="tb-navwrap"><nav class="shnav" id="shnav" aria-label="Pages" data-menu-below="901"><span class="shnav-current" aria-hidden="true"></span><div class="shnav-tabs" id="viewtabs"><a class="shnav-tab" href="/" data-target="pane-ov" aria-current="page">Overview</a><a class="shnav-tab" href="/eir" data-target="pane-eir" aria-current="false">EIR</a><a class="shnav-tab" href="/hats" data-target="pane-hats" aria-current="false">Hats</a><a class="shnav-tab" href="/proof" data-target="pane-proof" aria-current="false">Proof</a><a class="shnav-tab" href="/beliefs" data-target="pane-beliefs" aria-current="false">Beliefs</a></div><p class="tb-name"><span class="tb-name-main">Zach Harris</span><span class="tb-name-sub"><a href="https://app.ens.domains/zachharris.eth">zachharris.eth</a> · <a href="https://zach.md">zach.md</a> · <a href="mailto:zach.harris@gmail.com">zach.harris@gmail.com</a></span></p><button type="button" class="shnav-menu" aria-expanded="false" aria-controls="viewtabs" aria-label="Go to a page"><span></span></button></nav></div></div>
 <div class="tb-body">
 <div id="pane-ov" class="tb-pane">
-<h1 class="tb-h1"><span class="hl">Gravity&#x27;s agents made ideas cheap.</span><span class="hl">Judgment is still expensive. I want that job.</span></h1>
-<p class="tb-lede"><span class="ln">Kyle wrote that “significance” is in the eye of the beholder, and AI “is not particularly good at assessing it.” I am, and I keep the receipts. At Grayscale I owned the investor platform 10 regulated digital‑asset products ran on, about $7B. I co‑founded a company that went from $0 to $2M+, profitable in 24 months. Since June I have killed 48 of my own beliefs with runnable tests. When I tell you no on a hatch, you get the test that would reopen it.</span><span class="ln">Harrison can set up 20 minutes, or write to me: <a href="mailto:zach.harris@gmail.com">zach.harris@gmail.com</a></span></p>
-<div class="ftiles-c"><ul class="ftiles is-4" aria-label="At a glance"><li class="ftile"><span class="ftile-lab">Regulated products</span><span class="ftile-fig">10</span><span class="ftile-cap">Digital-asset investment products at Grayscale, ~$7B</span></li><li class="ftile"><span class="ftile-lab">Zero to one</span><span class="ftile-fig">$0 → $2M+</span><span class="ftile-cap">Co-founded; profitable in 24 months. Earlier, GM of a video ad network</span></li><li class="ftile"><span class="ftile-lab">Claims, public record</span><span class="ftile-fig">28 of 37</span><span class="ftile-cap">37 claims, each linked to its record: 8 on request, 1 not yet shown</span></li><li class="ftile"><span class="ftile-lab">Beliefs killed</span><span class="ftile-fig">48</span><span class="ftile-cap">By a runnable test since June; 20 became rules I now work by</span></li></ul></div>
+<figure class="sb is-top" aria-label="What colleagues say"><ul class="sb-list"><li class="sb-item"><blockquote class="sb-q" style="margin:0"><p class="sb-t">Zach is a ball of livewire energy who gets projects done with great velocity, humor and craft. He’s a great Swiss army knife to have in the team.</p></blockquote><p class="sb-by"><b>Gareth Kay</b><span>Vice President, Brand · Coinbase</span></p></li></ul><div class="sb-ctl"><button type="button" class="sb-btn" data-sb-prev aria-label="Previous quote">Prev</button><span class="sb-n" aria-live="polite"></span><button type="button" class="sb-btn" data-sb-next aria-label="Next quote">Next</button><button type="button" class="sb-btn" data-sb-pause aria-pressed="false">Pause</button></div></figure>
+<hr class="tb-hd-rule">
+<h1 class="tb-h1" style="--hl-ch: 45; --hs-ch: 34"><span class="hl"><span class="hs">Gravity’s agents made ideas cheap.</span></span><span class="hl"><span class="hs">Judgment is still expensive.</span> <span class="hs">I want that job.</span></span></h1>
+<div class="plk"><p class="plk-kick"><a href="https://kylelibra.substack.com/p/last-week-in-crypto-oct-2">Kyle wrote</a> that significance is in the eye of the beholder, and that AI is not particularly good at assessing it. I keep the record of which calls held up.</p><ul class="plk-cells" aria-label="At a glance"><li class="plk-cell"><span class="plk-lab">Regulated products</span> <span class="plk-fig">10</span> <span class="plk-cap">SEC and FINRA regulated, at Grayscale: a $7B portfolio</span></li><li class="plk-cell"><span class="plk-lab">Zero to one</span> <span class="plk-fig">$0 → $2M+</span> <span class="plk-cap">Co-founded; profitable in 24 months. Earlier, GM of a video ad network</span></li><li class="plk-cell"><span class="plk-lab">Claims, public record</span> <span class="plk-fig">28 of 37</span> <span class="plk-cap">37 claims: 28 link to a public record, 8 on request, 1 named but not shown yet</span></li><li class="plk-cell"><span class="plk-lab">Beliefs killed</span> <span class="plk-fig">51</span> <span class="plk-cap">By a runnable test since June; 20 became rules I now work by</span></li></ul><p class="plk-close">When I tell you no on a hatch, you get the test that would reopen it.</p></div>
 <section class="tb-coldread" id="week-one" aria-labelledby="week-one-h"><h2 class="tb-h2" id="week-one-h">Week One</h2><div class="cr"><dl class="cr-slots"><dt class="section-label">The gap</dt><dd><a href="https://kylelibra.substack.com/p/how-to-find-startup-ideas">Kyle&#x27;s Idea Engine post</a>: good memos 6x faster. I work one step later: did each call hold up?</dd><dt class="section-label">What I do</dt><dd>Give every pass a dated note of what would reopen it, so a recheck is a test, not a reread.</dd><dt class="section-label">What you get</dt><dd>Two things you can check by Friday, each dated, each with what would reopen it.</dd></dl><div class="cr-howwrap"><p class="section-label" id="cr-how-l">How</p><ol class="cr-how" aria-labelledby="cr-how-l"><li class="cr-step"><p class="section-label">Day 1</p><p class="cr-when">Your pass list</p><p class="cr-what">Each &quot;no right now&quot; gets the signal that would reopen it.</p></li><li class="cr-step"><p class="section-label">Day 5</p><p class="cr-when">Agent payments</p><p class="cr-what">A one-page wedge memo: no chargeback, freeze on legal process, nothing records what the agent expected.</p></li></ol></div><p class="callout cr-read"><b>How to read</b>Each day ends in something dated you can check. The seat tabs carry 30, 90 and 180 days. Send me one idea you passed on; one line is enough, no names. In two weeks you get it back: keep, kill or not yet, what has to become true, and the dated test that settles it.</p></div></section>
 <div class="tb-expand"><button type="button" class="tb-btn" id="tb-expand" aria-pressed="false">Expand all</button></div>
-<div class="tb-folds"><section class="tb-fold" id="shipped"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="true" aria-controls="shipped-body"><span><span class="tb-fold-t">Shipped this year</span><span class="tb-tag">Dated, with links.</span></span></button></h2><div class="tb-fold-body" id="shipped-body"><div class="tb-scroll" tabindex="0" role="region" aria-label="Table 1: When, What"><table class="tb-table"><thead><tr><th>When</th><th>What</th></tr></thead><tbody><tr><td>2026-04-09</td><td data-label="What"><a href="https://app.arcs.care">ARCS</a>, with its <a href="https://status.arcs.care">build history</a> and <a href="https://status.arcs.care/beliefs">beliefs ledger</a>: question in, dated record out. The one I am most excited about.</td></tr><tr><td>2026-08-18</td><td data-label="What"><a href="https://good.arcs.care/blog/nftt">Notes from the Trenches</a>: 36 field notes since the first one.</td></tr><tr><td>2026-10-17</td><td data-label="What"><a href="https://dj.arcs.care">Phosphor</a>: music drawn as light, in the browser; your song stays on your computer.</td></tr><tr><td>2026-10-31</td><td data-label="What"><a href="https://good.arcs.care/audit/check">A free repo check</a> for agent-built codebases.</td></tr><tr><td>2026-11-02</td><td data-label="What"><a href="https://good.arcs.care/rfp-engine">RFP-O-Matic</a>: cites the clause or says the document is silent. <a href="https://github.com/flashesofbrilliance/rfp-engine">Source</a>.</td></tr></tbody></table></div></div></section>
+<div class="tb-folds"><section class="tb-fold" id="shipped"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="true" aria-controls="shipped-body"><span><span class="tb-fold-t">Shipped this year</span><span class="tb-tag">Dated, with links.</span></span></button></h2><div class="tb-fold-body" id="shipped-body"><ol class="tb-tl"><li class="tb-tl-i"><p class="section-label tb-tl-d">2026-04-09</p><p class="tb-tl-t"><a href="https://app.arcs.care">ARCS</a>, with its <a href="https://status.arcs.care">build history</a> and <a href="https://status.arcs.care/beliefs">beliefs ledger</a>: question in, dated record out.</p></li><li class="tb-tl-i"><p class="section-label tb-tl-d">2026-08-18</p><p class="tb-tl-t"><a href="https://good.arcs.care/blog/nftt">Notes from the Trenches</a>: 36 field notes since the first one.</p></li><li class="tb-tl-i"><p class="section-label tb-tl-d">2026-10-17</p><p class="tb-tl-t"><a href="https://dj.arcs.care">Phosphor</a>: music drawn as light, in the browser; your song stays on your computer.</p></li><li class="tb-tl-i"><p class="section-label tb-tl-d">2026-10-31</p><p class="tb-tl-t"><a href="https://good.arcs.care/audit/check">A free repo check</a> for agent-built codebases.</p></li><li class="tb-tl-i"><p class="section-label tb-tl-d">2026-11-02</p><p class="tb-tl-t"><a href="https://good.arcs.care/rfp-engine">RFP-O-Matic</a>: cites the clause or says the document is silent. <a href="https://github.com/flashesofbrilliance/rfp-engine">Source</a>.</p></li></ol></div></section>
 <section class="tb-fold" id="bull-bear"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="false" aria-controls="bull-bear-body"><span><span class="tb-fold-t">Bull vs Bear</span><span class="tb-tag">Activity over size, applied to agent payments: counts say yes, filtered volume says not yet.</span></span></button></h2><div class="tb-fold-body" id="bull-bear-body" hidden><p class="tb-p">Crypto theses pick a side. I name which signal each side rests on, and what would settle it.</p>
-<div class="sl"><section class="sl-group" aria-labelledby="sl-overview-sections-1-blocks-1-0"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-1-blocks-1-0">Observed</h3><span class="sl-gn">5 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip">Bull</span><span class="sl-sig">Transaction counts (leading, noisy)</span></div><p class="sl-ev"><a href="https://www.rzlt.io/blog/agentic-payments-2026-x402-explainer">x402 reported</a> over 165M agent transactions by April 2026, about half tests. Re-read due.</p></li><li class="sl-row"><div class="sl-key"><span class="chip">Bull</span><span class="sl-sig">Chain fee per payment (leading, partial)</span></div><p class="sl-ev">The <a href="https://www.growthepie.com/answers/are-ethereum-l2-fees-getting-cheaper">median L2 fee</a> fell from 20¢ in February 2024 to 0.06¢ in April 2026, cheap enough for machine-sized payments. Ramps are not counted; an agent&#x27;s float must get on-chain first.</p></li><li class="sl-row"><div class="sl-key"><span class="chip">Bear</span><span class="sl-sig">Volume with tests and wash trades removed</span></div><p class="sl-ev"><a href="https://nevermined.ai/blog/stablecoin-payments-ai-agents-statistics">Allium, via Nevermined</a>: about $1.6M a month of agent volume on the strictest filter. Re-read due.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">Rules</span><span class="sl-sig">Regulatory calendar</span></div><p class="sl-ev">The <a href="https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-92.html">OCC stablecoin rule</a> takes effect 2027-01-18. A <a href="https://www.americanbanker.com/news/crypto-market-structure-bill-fails-in-senate-vote-49-50">procedural vote</a> on the market-structure bill failed 49 to 50 on 2026-09-15.</p></li><li class="sl-row"><div class="sl-key"><span class="chip">Rules</span><span class="sl-sig">Who owns distribution</span></div><p class="sl-ev">My read: the liability rule gets written where the loss lands. On cards that is Visa and Mastercard&#x27;s rulebook, pushed by issuers who eat the fraud. On-chain there is no rulebook yet. The call below counts only cards, because I can check them.</p></li></ul></section><section class="sl-group is-judgment" aria-labelledby="sl-overview-sections-1-blocks-1-1"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-1-blocks-1-1">My judgment</h3><span class="sl-gn">3 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip gold">Trigger</span><span class="sl-sig">Who pays when an agent exceeds its mandate</span></div><p class="sl-ev"><a href="https://kylelibra.substack.com/p/a-lot-of-what-people-think-about">Footnote 25 of Kyle&#x27;s stablecoin post</a>: crypto payments will have to address chargebacks and fraud liability &quot;to some extent to be viable.&quot; For agents, I think that starts with a record of what the user told the agent. It is <a href="https://worldpay.com/en/insights/articles/agentic-commerce-liability-is-still-being-written">unsettled</a> today; the first network rule requiring an intent record decides it.</p></li><li class="sl-row"><div class="sl-key"><span class="chip gold">My call</span><span class="sl-sig">Enter small, before the rule</span></div><p class="sl-ev">Volume is the lagging bet; the liability rule is the leading one. My read: 1 in 3 that Visa, Mastercard or a top-10 US card issuer has a rule in effect by 2027-06-30 requiring a record of what the user told the agent. Announcements without an effective date do not count. I will post the outcome either way.</p></li><li class="sl-row"><div class="sl-key"><span class="chip gold">If I&#x27;m wrong</span><span class="sl-sig">The other 2 in 3</span></div><p class="sl-ev">No network rule by mid-2027, and about three weeks spent. ARCS records human decisions this way today; it does not yet do signed agent mandates.</p></li></ul></section><section class="sl-group is-judgment" aria-labelledby="sl-overview-sections-1-blocks-1-2"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-1-blocks-1-2">How I tested the call, 2026-11-10</h3><span class="sl-gn">2 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip gold">Wording</span><span class="sl-sig">The odds moved with the wording</span></div><p class="sl-ev">My estimate swung from about 1 in 4 to about 3 in 5 depending on the rule&#x27;s wording, so I wrote the resolution rule above before picking a number. The inputs were my judgment, not data; the simulation is on request. The base rate of a network rule drives most of the remaining spread; I re-mark at each Visa and Mastercard rules release.</p></li><li class="sl-row"><div class="sl-key"><span class="chip gold">Conflict</span><span class="sl-sig">I build the thing that would benefit</span></div><p class="sl-ev">So I wrote the kill rule so the rulebooks settle it, not me; anyone can check, Gravity included.</p></li></ul></section><section class="sl-group is-judgment" aria-labelledby="sl-overview-sections-1-blocks-1-3"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-1-blocks-1-3">How I could read it wrong</h3><span class="sl-gn">4 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip gold">False positive</span><span class="sl-sig">Counts read as adoption</span></div><p class="sl-ev">Tests and self-dealing loops inflate the count; I discount the half that is tests.</p></li><li class="sl-row"><div class="sl-key"><span class="chip gold">False negative</span><span class="sl-sig">Agent commerce on card rails</span></div><p class="sl-ev">Visa and Mastercard run agent payments on tokenized cards (<a href="https://www.pymnts.com/credit-cards/2026/cards-make-their-case-in-an-agentic-world/">PYMNTS</a>). None of it shows on-chain, so on-chain volume undercounts agent demand.</p></li><li class="sl-row"><div class="sl-key"><span class="chip gold">Undercount</span><span class="sl-sig">Untested</span></div><p class="sl-ev">An operator&#x27;s agents paying its own services look like wash trades, so the strict filter may drop real use. Not tested.</p></li><li class="sl-row"><div class="sl-key"><span class="chip gold">Overtaken</span><span class="sl-sig">Someone else closes the gap</span></div><p class="sl-ev">If spend-rule vendors start logging what the agent expected next to what happened, the gap closes without me.</p></li></ul></section></div></div></section>
-<section class="tb-fold" id="receipts"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="true" aria-controls="receipts-body"><span><span class="tb-fold-t">Receipts</span><span class="tb-tag">Running work, open to check.</span></span></button></h2><div class="tb-fold-body" id="receipts-body"><div class="sl"><section class="sl-group" aria-labelledby="sl-overview-sections-2-blocks-0-0"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-2-blocks-0-0">In the trenches</h3><span class="sl-gn">3 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip cyan">Running</span><span class="sl-sig">Commit history</span></div><p class="sl-ev"><a href="https://status.arcs.care">Day 0 to day 210</a>: 6,195 commits by Nov 5, built solo and run in production. Every number is read from the repository.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">Running</span><span class="sl-sig">RFP-O-Matic</span></div><p class="sl-ev">Cites the clause or says the document is silent. <a href="https://good.arcs.care/rfp-engine">Four short videos</a> and <a href="https://github.com/flashesofbrilliance/rfp-engine">source</a>.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">Running</span><span class="sl-sig">ARCS</span></div><p class="sl-ev"><a href="https://app.arcs.care">The tool these records come from</a>: you ask a question; it writes a dated record. <a href="https://status.arcs.care">11 saved decisions from outside users, 0 outcomes closed</a>; 5 people behind them, from a production read on request.</p></li></ul></section><section class="sl-group" aria-labelledby="sl-overview-sections-2-blocks-0-1"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-2-blocks-0-1">In public</h3><span class="sl-gn">4 rows</span></div><ul class="sl-rows"><li class="sl-row"><div class="sl-key"><span class="chip cyan">Kills</span><span class="sl-sig">My own kill rate</span></div><p class="sl-ev"><a href="https://status.arcs.care/beliefs">48 beliefs overturned since June</a>, about 10 a month, dated on a public timeline; the belief and test behind each on request. For example, &quot;a green production build means the database works&quot;, killed 2026-06-03 by the first real query against prod. 20 changed the rulebook.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">Proof</span><span class="sl-sig">Don&#x27;t trust, verify</span></div><p class="sl-ev"><a href="https://zach.md/proof">37 claims about my work</a>, each linked to its record: 28 public, 8 on request, and the 1 I cannot show yet, named.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">Essays</span><span class="sl-sig">Notes from the Trenches</span></div><p class="sl-ev"><a href="https://good.arcs.care/blog/nftt">36 field notes</a>, each written from a dated record, failures included.</p></li><li class="sl-row"><div class="sl-key"><span class="chip cyan">Calls</span><span class="sl-sig">Falsifiable predictions, scored</span></div><p class="sl-ev">From 20 calls in my LinkedIn articles since January (ledger on request): 9 resolved (2 hit, one weak; 1 partly; 6 missed), 9 open, 2 unverified. The falsifiers held; my 85 to 90% confidence did not, so new calls ship with lower numbers, like the 1 in 3 above. Method: <a href="https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers">seven calls, seven falsifiers</a>. Same shape as Mogg, a dated YES or NO resolved by the world, but 20 calls in ten months, not 10 a day.</p></li></ul></section></div></div></section></div>
-<figure class="sb" aria-label="What colleagues say"><ul class="sb-list"><li class="sb-item"><blockquote class="sb-q" style="margin:0"><p class="sb-t">Zach is a ball of livewire energy who gets projects done with great velocity, humor and craft. He&#x27;s a great Swiss army knife to have in the team.</p></blockquote><p class="sb-by"><b>Gareth Kay</b><span>Vice President, Brand · Coinbase</span></p></li></ul><div class="sb-ctl"><button type="button" class="sb-btn" data-sb-prev aria-label="Previous quote">Prev</button><span class="sb-n" aria-live="polite"></span><button type="button" class="sb-btn" data-sb-next aria-label="Next quote">Next</button><button type="button" class="sb-btn" data-sb-pause aria-pressed="false">Pause</button><span class="sb-src"><a href="https://zachharris.xyz">More recommendations</a></span></div></figure>
+<div class="sl"><section class="sl-group" aria-labelledby="sl-overview-sections-1-blocks-1-0"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-1-blocks-1-0">Observed</h3></div><ul class="sl-rows"><li class="sl-row is-bull"><div class="sl-key"><span class="chip">Bull</span><span class="sl-sig">Transaction counts (leading, noisy)</span></div><p class="sl-ev"><a href="https://www.rzlt.io/blog/agentic-payments-2026-x402-explainer">x402 reported</a> over 165M agent transactions by April 2026, about half tests.</p></li><li class="sl-row is-bull"><div class="sl-key"><span class="chip">Bull</span><span class="sl-sig">Chain fee per payment (leading, partial)</span></div><p class="sl-ev">The <a href="https://www.growthepie.com/answers/are-ethereum-l2-fees-getting-cheaper">median L2 fee</a> fell from 20¢ in February 2024 to 0.06¢ in April 2026, cheap enough for machine-sized payments. Ramps are not counted; an agent&#x27;s float must get on-chain first.</p></li><li class="sl-row is-bear"><div class="sl-key"><span class="chip">Bear</span><span class="sl-sig">Volume with tests and wash trades removed</span></div><p class="sl-ev"><a href="https://nevermined.ai/blog/stablecoin-payments-ai-agents-statistics">Allium, via Nevermined</a>: about $1.6M a month of agent volume on the strictest filter.</p></li><li class="sl-row is-rules"><div class="sl-key"><span class="chip">Rules</span><span class="sl-sig">Regulatory calendar</span></div><p class="sl-ev">The <a href="https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-92.html">OCC stablecoin rule</a> takes effect 2027-01-18. A <a href="https://www.americanbanker.com/news/crypto-market-structure-bill-fails-in-senate-vote-49-50">procedural vote</a> on the market-structure bill failed 49 to 50 on 2026-09-15.</p></li><li class="sl-row is-rules"><div class="sl-key"><span class="chip">Rules</span><span class="sl-sig">Who owns distribution</span></div><p class="sl-ev">My read: the liability rule gets written where the loss lands. On cards that is Visa and Mastercard&#x27;s rulebook, pushed by issuers who eat the fraud. On-chain there is no rulebook yet. The call below counts only cards, because I can check them.</p></li></ul></section><section class="sl-group is-judgment" aria-labelledby="sl-overview-sections-1-blocks-1-1"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-1-blocks-1-1">My judgment</h3></div><ul class="sl-rows"><li class="sl-row is-trigger"><div class="sl-key"><span class="chip">Trigger</span><span class="sl-sig">Who pays when an agent exceeds its mandate</span></div><p class="sl-ev"><a href="https://kylelibra.substack.com/p/a-lot-of-what-people-think-about">Footnote 25 of Kyle&#x27;s stablecoin post</a>: crypto payments will have to address chargebacks and fraud liability &quot;to some extent to be viable.&quot; For agents, I think that starts with a record of what the user told the agent. It is <a href="https://worldpay.com/en/insights/articles/agentic-commerce-liability-is-still-being-written">unsettled</a> today; the first network rule requiring an intent record decides it.</p></li><li class="sl-row is-my-call"><div class="sl-key"><span class="chip">My call</span><span class="sl-sig">Enter small, before the rule</span></div><p class="sl-ev">Volume is the lagging bet; the liability rule is the leading one. My read: 1 in 3 that Visa, Mastercard or a top-10 US card issuer has a rule in effect by 2027-06-30 requiring a record of what the user told the agent. Announcements without an effective date do not count. I will post the outcome either way.</p></li><li class="sl-row is-if-i-m-wrong"><div class="sl-key"><span class="chip">If I&#x27;m wrong</span><span class="sl-sig">The other 2 in 3</span></div><p class="sl-ev">No network rule by mid-2027, and about three weeks spent. ARCS records human decisions this way today; it does not yet do signed agent mandates.</p></li></ul></section><section class="sl-group is-judgment" aria-labelledby="sl-overview-sections-1-blocks-1-2"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-1-blocks-1-2">How I tested the call, 2026-11-10</h3></div><ul class="sl-rows"><li class="sl-row is-wording"><div class="sl-key"><span class="chip">Wording</span><span class="sl-sig">The odds moved with the wording</span></div><p class="sl-ev">My estimate swung from about 1 in 4 to about 3 in 5 depending on the rule&#x27;s wording, so I wrote the resolution rule above before picking a number. The inputs were my judgment, not data; the simulation is on request. The base rate of a network rule drives most of the remaining spread; I re-mark at each Visa and Mastercard rules release.</p></li><li class="sl-row is-conflict"><div class="sl-key"><span class="chip">Conflict</span><span class="sl-sig">I build the thing that would benefit</span></div><p class="sl-ev">So I wrote the kill rule so the rulebooks settle it, not me; anyone can check, Gravity included.</p></li></ul></section><section class="sl-group is-judgment" aria-labelledby="sl-overview-sections-1-blocks-1-3"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-1-blocks-1-3">How I could read it wrong</h3></div><ul class="sl-rows"><li class="sl-row is-false-positive"><div class="sl-key"><span class="chip gold">False positive</span><span class="sl-sig">Counts read as adoption</span></div><p class="sl-ev">Tests and self-dealing loops inflate the count; I discount the half that is tests.</p></li><li class="sl-row is-false-negative"><div class="sl-key"><span class="chip gold">False negative</span><span class="sl-sig">Agent commerce on card rails</span></div><p class="sl-ev">Visa and Mastercard run agent payments on tokenized cards (<a href="https://www.pymnts.com/credit-cards/2026/cards-make-their-case-in-an-agentic-world/">PYMNTS</a>). None of it shows on-chain, so on-chain volume undercounts agent demand.</p></li><li class="sl-row is-undercount"><div class="sl-key"><span class="chip gold">Undercount</span><span class="sl-sig">Untested</span></div><p class="sl-ev">An operator&#x27;s agents paying its own services look like wash trades, so the strict filter may drop real use. Not tested.</p></li><li class="sl-row is-overtaken"><div class="sl-key"><span class="chip gold">Overtaken</span><span class="sl-sig">Someone else closes the gap</span></div><p class="sl-ev">If spend-rule vendors start logging what the agent expected next to what happened, the gap closes without me.</p></li></ul></section></div></div></section>
+<section class="tb-fold" id="receipts"><h2 class="tb-h2"><button type="button" class="tb-fold-btn" aria-expanded="true" aria-controls="receipts-body"><span><span class="tb-fold-t">Receipts</span><span class="tb-tag">Running work, open to check.</span></span></button></h2><div class="tb-fold-body" id="receipts-body"><div class="sl"><section class="sl-group" aria-labelledby="sl-overview-sections-2-blocks-0-0"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-2-blocks-0-0">In the trenches</h3></div><ul class="sl-rows"><li class="sl-row is-running"><div class="sl-key"><span class="chip cyan status">Running</span><span class="sl-sig">Commit history</span></div><p class="sl-ev">Built solo since April and run in production. <a href="https://status.arcs.care">The status page</a> counts every commit live, straight from the repository.</p></li><li class="sl-row is-running"><div class="sl-key"><span class="chip cyan status">Running</span><span class="sl-sig">RFP-O-Matic</span></div><p class="sl-ev">Cites the clause or says the document is silent. <a href="https://good.arcs.care/rfp-engine">Four short videos</a> and <a href="https://github.com/flashesofbrilliance/rfp-engine">source</a>.</p></li><li class="sl-row is-running"><div class="sl-key"><span class="chip cyan status">Running</span><span class="sl-sig">ARCS</span></div><p class="sl-ev"><a href="https://app.arcs.care">The tool these records come from</a>: you ask a question; it writes a dated record. <a href="https://status.arcs.care">11 saved decisions from outside users, 0 outcomes closed</a>; 5 people behind them, from a production read on request.</p></li></ul></section><section class="sl-group" aria-labelledby="sl-overview-sections-2-blocks-0-1"><div class="sl-gh"><h3 class="section-label" id="sl-overview-sections-2-blocks-0-1">In public</h3></div><ul class="sl-rows"><li class="sl-row is-kills"><div class="sl-key"><span class="chip cyan">Kills</span><span class="sl-sig">My own kill rate</span></div><p class="sl-ev"><a href="https://status.arcs.care/beliefs">51 beliefs overturned since June</a>, about 10 a month, dated on a public timeline; the belief and test behind each on request. For example, &quot;a green production build means the database works&quot;, killed 2026-06-03 by the first real query against prod. 20 changed the rulebook.</p></li><li class="sl-row is-proof"><div class="sl-key"><span class="chip cyan">Proof</span><span class="sl-sig">Don&#x27;t trust, verify</span></div><p class="sl-ev"><a href="https://zach.md/proof">37 claims about my work</a>, 28 link to a public record, 8 are on request, and the 1 I cannot show yet is named.</p></li><li class="sl-row is-essays"><div class="sl-key"><span class="chip cyan">Essays</span><span class="sl-sig">Notes from the Trenches</span></div><p class="sl-ev"><a href="https://good.arcs.care/blog/nftt">36 field notes</a>, each written from a dated record, failures included.</p></li><li class="sl-row is-calls"><div class="sl-key"><span class="chip cyan">Calls</span><span class="sl-sig">Falsifiable predictions, scored</span></div><p class="sl-ev">20 dated calls in my LinkedIn articles since January (ledger on request). 9 resolved: 2 hit (1 weakly), 1 partly, 6 missed. 9 open, 2 unverified. The falsifiers held; my 85 to 90% confidence did not, so new calls carry lower numbers, like the 1 in 3 above. Method: <a href="https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers">seven calls, seven falsifiers</a>.</p></li></ul></section></div></div></section></div>
 </div>
 </div>
 </section>
@@ -588,6 +840,8 @@ a:active { color: var(--text); }
 
   /* jumps: clear the sticky head (meta strip and nav) by 12px; respect reduced motion */
   var nav = document.querySelector('.tb-head') || document.querySelector('.tb-navwrap');
+  if (nav && window.IntersectionObserver) { var sent = document.createElement('div'); sent.setAttribute('aria-hidden', 'true'); nav.parentNode.insertBefore(sent, nav);
+    new IntersectionObserver(function (es) { nav.classList.toggle('is-stuck', !es[0].isIntersecting); }).observe(sent); }
   function cover() { return nav ? nav.getBoundingClientRect().height : 0; }
   function jumpTo(el, how) { if (!el) return; var y = el.getBoundingClientRect().top + scrollY - cover() - 12; scrollTo({ top: Math.max(0, y), behavior: how || (reduce() ? 'auto' : 'smooth') }); }
   var booting = true; addEventListener('load', function () { setTimeout(function () { booting = false; }, 0); });
@@ -635,6 +889,5 @@ a:active { color: var(--text); }
   syncExpand();
 })();
 </script>
-<script>function sbInit(f,o){o=o||{};var items=[].slice.call(f.querySelectorAll('.sb-item'));if(items.length<1)return;var rm=o.still||matchMedia('(prefers-reduced-motion: reduce)').matches;var i=0,timer=0,typing=0,paused=false,hold=false;var n=f.querySelector('.sb-n'),pb=f.querySelector('[data-sb-pause]');f.classList.add('is-live');function next(){clearTimeout(timer);if(rm||paused||hold||items.length<2)return;timer=setTimeout(function(){show(i+1,true)},o.dwell||6500)}function show(k,type){clearTimeout(timer);clearInterval(typing);i=(k+items.length)%items.length;items.forEach(function(it,j){it.classList.toggle('is-off',j!==i);if(j!==i)it.setAttribute('aria-hidden','true');else it.removeAttribute('aria-hidden')});if(n)n.textContent=(i+1)+' / '+items.length;var t=items[i].querySelector('.sb-t');var full=t.getAttribute('data-full');if(!full){full=t.textContent;t.setAttribute('data-full',full)}if(rm||!type){t.textContent=full;t.classList.remove('is-typing');next();return}var c=0;t.innerHTML='<span class="sb-on"></span><span class="sb-off"></span>';var on=t.firstChild,off=t.lastChild;off.textContent=full;t.classList.add('is-typing');typing=setInterval(function(){c+=2;on.textContent=full.slice(0,c);off.textContent=full.slice(c);if(c>=full.length){clearInterval(typing);t.textContent=full;t.classList.remove('is-typing');next()}},o.speed||16)}var pv=f.querySelector('[data-sb-prev]'),nx=f.querySelector('[data-sb-next]');if(items.length<2){[pv,nx,pb,n].forEach(function(x){if(x)x.hidden=true})}if(pv)pv.addEventListener('click',function(){show(i-1,false)});if(nx)nx.addEventListener('click',function(){show(i+1,false)});if(pb){if(rm)pb.hidden=true;pb.addEventListener('click',function(){paused=!paused;pb.setAttribute('aria-pressed',String(paused));pb.textContent=paused?'Play':'Pause';if(paused)clearTimeout(timer);else next()})}f.addEventListener('mouseenter',function(){hold=true;clearTimeout(timer)});f.addEventListener('mouseleave',function(){hold=false;next()});f.addEventListener('focusin',function(){hold=true;clearTimeout(timer)});f.addEventListener('focusout',function(){hold=false;next()});show(0,true);return{show:show}};[].forEach.call(document.querySelectorAll('.sb'),function(f){sbInit(f,{still:true})});</script>
 </body>
 </html>

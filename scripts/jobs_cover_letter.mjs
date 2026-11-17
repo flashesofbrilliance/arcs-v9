@@ -13,6 +13,7 @@
 //   ... --questions q.txt   # also answer application questions (one per line)
 //   ... --waive-gauntlet "<reason>"   # Zach's explicit waiver, recorded in the gate print
 // Env: JOBS_PIPELINE_TOKEN, JOBS_BASE.
+import { aiPolicyFor, priorVerdict } from "./jobs_sources.mjs"
 import fs from "node:fs"; import path from "node:path"; import { execSync, spawnSync } from "node:child_process"
 const arg = (k, d) => { const i = process.argv.indexOf(k); return i >= 0 ? (process.argv[i + 1] ?? true) : d }
 const has = (k) => process.argv.includes(k)
@@ -23,8 +24,8 @@ const ICLOUD = process.env.ICLOUD_RESUMES || `${process.env.HOME}/Library/Mobile
 const SEED = fs.readFileSync("_ARTIFACTS/resume-blacksmith/cover-letter-blacksmith.md", "utf8")
 const strip = (h) => { const m = h.match(/<div class="show-more-less-html__markup[^"]*">([\s\S]*?)<\/div>/); const b = m ? m[1] : h; return b.replace(/<[^>]+>/g, "\n").replace(/&[a-z]+;/g, " ").replace(/\n\s*\n+/g, "\n\n").trim() }
 async function fetchJD(jobid, url) {
-  try { if (/^\d+$/.test(jobid)) { const x = await fetch(`https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/${jobid}`, { headers: { "user-agent": "Mozilla/5.0" } }); if (x.ok) { const t = strip(await x.text()); if (t.length > 200) return t } } } catch {}
-  try { if (url) { const x = await fetch(url, { headers: { "user-agent": "Mozilla/5.0" } }); if (x.ok) { const t = strip(await x.text()); if (t.length > 200) return t } } } catch {}
+  // linkedin.com is never fetched (robots.txt disallows all paths, 2026-11-16); a LinkedIn row needs its JD pasted or an ATS twin.
+  try { if (url && !/(^|\.)linkedin\.com\//i.test(url.replace(/^https?:\/\//, ""))) { const x = await fetch(url, { headers: { "user-agent": "Mozilla/5.0" } }); if (x.ok) { const t = strip(await x.text()); if (t.length > 200) return t } } } catch {}
   return null
 }
 // Run the prose gate; returns "READY" | "HELD". Never throws: a gate that cannot run HOLDS.
@@ -90,7 +91,14 @@ async function main() {
   else if (has("--pursue")) targets = rows.filter((r) => man[r.jobid] && r.band === "PURSUE")
   else { console.error("pass --jobid <id> or --pursue"); process.exit(2) }
   let ok = 0
-  for (const r of targets) { if (await one(r, man)) ok++ }
+  for (const r of targets) {
+    const pol = aiPolicyFor(r.company)
+    if (pol) { console.error(`${r.jobid}: REFUSED, ${r.company} forbids AI-drafted applications (${pol.source}). Zach drafts first; Claude may only refine.`); process.exitCode = 3; continue }
+    const prior = priorVerdict(r.company, r.title)
+    if (prior?.level === "block" && !process.argv.includes("--override-prior")) { console.error(`${r.jobid}: REFUSED, ${prior.reason} (runtime/specs/prior-applications.json; --override-prior on Zach's say-so)`); process.exitCode = 3; continue }
+    if (prior && prior.level !== "block") console.error(`${r.jobid}: NOTE ${prior.level}, ${prior.reason}`)
+    if (await one(r, man)) ok++
+  }
   console.log(`\ncovers written: ${ok}/${targets.length}`)
 }
 main().catch((e) => { console.error(e); process.exit(1) })

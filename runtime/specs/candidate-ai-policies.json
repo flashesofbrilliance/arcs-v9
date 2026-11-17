@@ -1,0 +1,24 @@
+{
+  "version": "2026-11-16",
+  "doc": "Employers whose published candidate-AI policy forbids AI-drafted application material. scripts/jobs_sources.mjs aiPolicyFor() reads this; forge_edit_from_seed.mjs and jobs_cover_letter.mjs refuse to generate a resume or cover letter for a matching company. Zach drafts first; Claude may only review and refine his draft. Add a company here when its careers page publishes such a rule (Zach, 2026-11-16).",
+  "policies": [
+    {
+      "company_pattern": "\\banthropic\\b",
+      "rule": "candidate-drafts-first",
+      "source": "https://www.anthropic.com/candidate-ai-guidance",
+      "source_updated": "2025-07-10",
+      "read": "2026-11-16",
+      "allowed": "Claude refines a resume or answer the candidate drafted first; interview prep and research.",
+      "not_allowed": "Claude writing the resume or application answers; Claude during take-homes or live interviews unless Anthropic says so.",
+      "generated_before_policy_known": {
+        "note": "Forge bundles generated before this rule was recorded. Do not submit them as written; Zach drafts his own resume and answers, then Claude may refine.",
+        "bundles": [
+          "forge-anthropic-forward-deployed-engineer (4452765916, lane apply)",
+          "forge-anthropic-applied-ai-architect-enterpris (4450524513, lane apply)",
+          "forge-anthropic-product-manager-research-code (4442928661)",
+          "Developer Education Lead (4438381969, forge built)"
+        ]
+      }
+    }
+  ]
+}

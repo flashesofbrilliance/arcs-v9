@@ -21,6 +21,12 @@
   warn (ratchet). Machines without the launcher skip cleanly and the seam is caught at the next
   machine that has it.
 
+## 2026-11-14 · a merge of main read main's rosetta-voice page as net-new debt
+- break: merging origin/main into PR 2219 was blocked by the ratchet on `public/rosetta-voice.html`, 23 findings vs 0 at HEAD. The page came in unchanged from main (6794efac, 943ea813); the branch never had it, so the ratchet's HEAD baseline was 0.
+- found by: the merge commit on claude/tabbed-brief-lockup.
+- repair: none to the page here; its 23 findings are open debt on main, owned by whoever next touches rosetta-voice (no live session owns it). The gate is fixed: on a merge commit, a page whose staged blob equals MERGE_HEAD's blob warns instead of blocking.
+- guard: the MERGE_HEAD blob check in `scripts/git-hooks/pre-commit`. A page edited during the merge still scores against HEAD as before. Not done: the 23 findings on rosetta-voice itself.
+
 ## 2026-10-26 · the MyAlly proposal page scored against the ARCS kit (palette waived, file-scoped)
 - break: the kintsugi ratchet blocked the MyAlly proposal page (new file, 14 findings vs 0 at HEAD): colors and corner radii outside DESIGN.md.
 - found by: the myally.arcs.care/proposal commit.
@@ -894,9 +900,58 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - **Repair:** Zach asked for the standard nav, hamburger and reading options on this page (2026-11-12), so the page carries the kit's light palette and frame. The file joins the two existing kit waivers rather than getting new ones.
 - **Guard:** the ratchet (the file scores 0 with the waivers; any new finding blocks) and `component_source_gate`, which now checks the page as template `recoil-twin` (5 of 5 kit signatures). The earlier open debt for this file stands: the generator-origin waivers (tiny-text, all-caps-body, radius, font-size) can be dropped once `scripts/recoil_brief.py`'s base CSS is off the page; the stack layout already sizes in rem on the kit ramp.
 
+## 2026-11-12 · tabbed brief moves to Inter, the design-system reference face (one waiver)
+
+- **Break:** the ratchet counted 4 findings against 0 at HEAD on `public/gravity-brief-beliefs.html`: 3 hairline border with a wide (16px) shadow blur on the new glass pieces, and 1 `overused-font` (primary font Inter).
+- **Root cause:** Zach ruled Inter semibold headlines, Inter loaded first from Google Fonts with SF Pro as fallback, and light glass with some depth (2026-11-12). The kit token stack leads with system-ui only to dodge this detector rule; DESIGN.md and the claude.ai/design reference both name Inter.
+- **Repair:** the lift shadow is cut to a 6px blur at source (`--lift` in `src/ui-kit/tabbed-brief/shell.css`). Inter stays per the ruling; `overused-font` is waived for `public/gravity-brief*.html` only.
+- **Guard:** the ratchet (the pages score 0 with the waiver; any new finding blocks). Open debt: decide whether the kit `_tokens.css` stack should lead with Inter for every page, and drop the per-page waiver then.
+
+## 2026-11-12 · tabbed brief masthead name in SF (one value waiver)
+
+- **Break:** the ratchet counted 1 `design-system-font` finding against 0 at HEAD: the masthead name uses SF Pro Display, which DESIGN.md does not declare.
+- **Root cause:** Zach ruled the masthead name (`.tb-name-main`) be set in the San Francisco system face rather than Inter (2026-11-12). SF is already the fallback in the Inter stack, so this names it first for one element.
+- **Repair:** none needed at source; the value `sf pro display` is waived for `public/gravity-brief*.html` only.
+- **Guard:** the ratchet (pages score 0 with the waiver; any new font finding blocks). Open debt: add SF as a named fallback face in DESIGN.md typography, then drop the waiver.
+
+## 2026-11-13 · kit 71 proof lockup (filed as 69, renumbered: three PRs claimed 69) (one size repaired at the source, specimen joins the kit colour waiver)
+
+- **Break:** the ratchet counted 8 findings against 0 at HEAD on the new `src/ui-kit/recoil-report/71-proof-lockup.html`: 6 `design-system-color` from the specimen's light chrome and 2 `design-system-font-size` (the figure at a literal 1.6rem, the print figure at 1.25rem).
+- **Root cause:** the figure size was copied from the rendered option Zach picked (A, 2026-11-13) as a literal, not as a ramp step. The colours come from the kit 39 light remap that every specimen carries.
+- **Repair:** the figure now reads `max(1.5rem, min(var(--fs-display), Ncqi))` (7cqi stacked, 4cqi 2 by 2, 3cqi four-up), so it never leaves the display step and lands near 1.6rem in the Gravity lane, so the picked look holds on a ramp token; print uses `--fs-headline`. The specimen joins the existing kit-specimen `design-system-color` waiver (39, 43 to 68, now 71), no new waiver.
+- **Guard:** the ratchet (the file scores 0; any new finding blocks) and `kit_primitive_sync --check` for every page that later marks block 71.
+
 ## 2026-11-13 · option board for the Gravity glass review (repaired at the source, one value waived)
 
 - **Break:** the ratchet counted 17 findings against 0 at HEAD on the new `_ARTIFACTS/option-board/gravity-glass.html`: 9 `gpt-thin-border-wide-shadow` (the glow options drew a 1px cyan border under a 16px bloom), 3 `tight-leading` (headline variants at 1.25), 1 `all-caps-body` (mono caps labels), 2 `design-system-font-size` (0.85rem and 1.3rem) and 2 `design-system-color` (a literal 50% black shadow and the glass sheen).
 - **Root cause:** the first spec hand-wrote variant CSS without the kit ramp, and drew the glow rim as a border.
 - **Repair:** in the spec and `src/ui-kit/option-board/board.css`: the rim became an inset 1px ring inside the shadow stack, leading 1.3, labels in sentence case at 0.02em, sizes on `--fs-body` and `--fs-headline`, the black drop removed. One value stays: `rgba(255, 255, 255, 0.06)`, the sheen in `--glass-surface` from the ARCS OS Design System artifact, which DESIGN.md does not list yet. It is waived for this one file, since showing that layer is the board's purpose.
 - **Guard:** the ratchet (the file scores 0 with the waiver; any new finding blocks) and the option-board generator self-test (this PR), which fails when the committed board drifts from its spec. Open: DESIGN.md should adopt or reject the glass layer; then drop the waiver.
+
+## 2026-11-13 · kit 73 braided lanes specimen (joins the kit 69 shell waiver)
+
+- **Break:** the ratchet counted 6 findings against 0 at HEAD on the new kit 73 specimen page (73-braided-lanes, added by PR 2266; filed as 72, renumbered 2026-11-15 after the week strip took 72 on main), all `design-system-color`: body, crumb, h1, section rule and the use/avoid headings.
+- **Root cause:** none in the organism. The six hits are the shared `kit_specimen.py` shell under `_tokens-light.css`, the kit's light palette, which DESIGN.md (dark only) does not define; kit 69 carries the same six and is already waived. The organism fragment and its preview score 0 anti-patterns, and public/belief-log.html dropped from 17 findings to 13.
+- **Repair:** the kit 69 shell waiver now names the 73 page too; no new rule or value waived.
+- **Guard:** the ratchet (the file scores 0 with the waiver; any new finding blocks). Open debt stands from kit 69: find why kits 64 and 68 score 0 with the same shell, or add the light palette to DESIGN.md and drop both waivers.
+
+## 2026-11-16 · arcs.care/case-study re-rendered on the kit (two scoped waivers, one page-local repair)
+
+- **Break:** the ratchet counted 5 `design-system-color` findings against 0 at HEAD on `public/case-study.html`, and the design-debt sweep counted 2 `all-caps-body`. The 2026-10-04 page was dark only and hand-styled; the re-render inlines the kit, which brings light mode.
+- **Root cause:** the colours are the kit 39 light remap and the kit 51 reading-options shadow, verbatim; DESIGN.md has no light palette (the open decision from 2026-10-08). The all-caps hits are kit label roles (27 eyebrow, 31 callout label in 53 read tone) that the detector reads as body because they sit in a `p` and a `b`, not a heading.
+- **Repair:** waivers for `design-system-color` and `all-caps-body`, scoped to this one file in `.impeccable/config.json`, added by hand. Brand gate BLOCK repaired on the page: kit 53's read-tone callout used `surface-2`, darker than the light ground (ledger: wells sit lighter than their ground), so the page sets it to `surface`. Page-local because the five gravity-brief pages carry the same block 53 and are held under PR 2283.
+- **Guard:** the ratchet (the page scores 0 with the waivers; any new finding blocks) and `kit_primitive_sync --check`. Open debt: none. Both closed 2026-11-16 at source: kit 53 `cr-read` now takes `surface` (copied into the five gravity-brief pages and the case study), kit 68 gained the `.spec.cards.is-3` three-up variant, and both page-local rules are gone. Kit 71's caption took `fs-body` in the same change, retiring the fifth type step.
+
+## 2026-11-16 · Louisville proposal moved onto kit 65 to 68 (repaired at the source, no waiver)
+
+- **Break:** the ratchet counted 4 `cramped-padding` findings against 0 at HEAD on `_ARTIFACTS/louisville-proposal/source.html`: `qpair`, `gg` and two `specrow` "children flush against border". The rendered page insets every one (16 to 24px on screen), and the kit specimen pages score 0 with the same blocks.
+- **Root cause:** two things together. The detector applies `@media print` rules as if always on, so it merges the screen box border with the print layout's zero side padding. And it does not read the `border: 0` shorthand in the print reset as clearing that border. Bisect: removing either the screen box rule or the print reset cleared each finding; writing the print reset as `border-width: 0` (65, 66) and `border-width: 1px 0 0; border-style: solid` (68 cards) cleared all four.
+- **Repair:** kit specs 65, 66 and 68 now write their print border resets as `border-width` longhands; identical render, PDF unchanged. The same print render found two real kit bugs, fixed in the same change: 65 printed with no column gap, and 68's cards print reset lost to the screen `:last-child` rule and stacked labels.
+- **Guard:** the ratchet (the page scores 0, no waiver) and `kit_primitive_sync --check`. Rule for kit print resets: use `border-width`, never the `border: 0` shorthand, until the detector reads it.
+
+## 2026-11-17 · edit-from-seed resumes: flat type hierarchy (repaired at the source, no waiver)
+
+- **Break:** the ratchet counted 1 `Flat type hierarchy` finding against 0 at HEAD on each of 11 new edit-from-seed resumes (`_ARTIFACTS/forge-*/resume-*.html`): body, h1, h2 and h3 all at 16px.
+- **Root cause:** `scripts/forge_edit_from_seed.mjs` edits the seed's ATS HTML (semantic h1/h2/h3) and swaps in `_PATTERNS/resume-print-base.css`, which styles class names only and has no heading rules, so every heading fell back to one size. The seeds' own PDFs never showed it because they render the class-based HTML.
+- **Repair:** `resume-print-base.css` gained a heading scale (body 12px, h3 14px, h2 17px, h1 24px; each step 1.2:1 or more); the 11 resumes carry the same rule, re-rendered, all still 2 pages, all score 0.
+- **Guard:** the ratchet (every new forge resume is checked at commit) plus the forge's own 2-page QC. Rule: any stylesheet swapped onto ATS HTML must style h1 to h3.
