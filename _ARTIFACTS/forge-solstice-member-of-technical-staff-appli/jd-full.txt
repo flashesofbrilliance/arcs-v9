@@ -1,0 +1,78 @@
+WHY YOU SHOULD JOIN US
+
+Solstice builds AI software that helps life sciences teams create, refine, and review pharmaceutical marketing content. We have worked with leading life sciences manufacturers and more than 50 pharma brands. Our backers include Transformation Capital, Twelve Below, Virtue, and the founders of Datavant, Commure, and Paradigm.
+
+Our customers need useful, polished content whose claims trace to approved evidence and whose output can withstand medical, legal, and regulatory review. You will work with real customer workflows and proprietary data, and see the features you build reach the people using them.
+
+
+ABOUT THE ROLE
+
+As a Member of Technical Staff in Applied AI, you will own complete AI features from the initial product problem through implementation, task evaluation, deployment, and ongoing operation. Your responsibility is to make a model-enabled workflow reliably accomplish something useful for a customer.
+
+That includes deciding how to retrieve and structure context, use models and tools, preserve evidence, handle uncertain or unsupported outputs, and involve a person when the system needs judgment. You will write production code, measure task quality, investigate failures, and improve the feature as customers use it.
+
+You will partner with ML engineers on model and data improvements, and with Fullstack AI engineers on the shared agent runtime, APIs, and product experiences. Your ownership is the behavior and quality of the complete AI capability, from inputs to an outcome the user can inspect and trust. You will work closely with VP of Engineering Jay and co-founders Aris and Yiwen.
+
+
+WHAT YOU'LL BE WORKING ON
+
+ - Build and operate AI capabilities for scientific content creation, evidence-grounded claims, review, and revision, taking each feature from product definition to production use.
+
+ - Design retrieval and context flows across prescribing information, clinical data, approved assets, style guides, and claim libraries. Preserve provenance through generation and verification.
+
+ - Shape model and tool behavior with clear contracts, appropriate prompts, structured outputs, and deliberate workflow or agent design.
+
+ - Make task quality measurable. Build representative evaluations, inspect failure cases, and connect offline checks with customer corrections and downstream review outcomes.
+
+ - Handle the difficult paths: incomplete evidence, malformed model output, failed tools, stale context, permission boundaries, and uncertainty that requires human review.
+
+ - Integrate the capability into production Python services and the product, with observability, regression checks, safe releases, and attention to quality, latency, and cost.
+
+ - Work with ML engineers when error analysis points to a model, representation, retrieval/ranking, or dataset improvement. Validate that the improvement helps the complete customer task.
+
+ - Iterate with product, design, and customer teams so generated assets are accurate, usable, and polished, and so users can understand and control the workflow.
+
+
+WHAT WE'RE LOOKING FOR
+
+ - Experience shipping and operating production AI or LLM features, with clear personal ownership of implementation, quality, and behavior after launch.
+
+ - Strong Python and practical backend engineering skills, including APIs, testing, data contracts, failure handling, and debugging production systems. Experience with FastAPI, Docker, and AWS is useful.
+
+ - Sound judgment about retrieval, context, tool use, workflow design, and model capabilities and limitations.
+
+ - Evidence of evaluating whether an AI system accomplishes the intended task, finding consequential failure modes, and using that evidence to improve it.
+
+ - The ability to connect model behavior to application behavior, including uncertainty, grounding, human review, and safe recovery.
+
+ - Product judgment and end-to-end ownership. You can turn an ambiguous customer need into a bounded feature and take it through release and iteration.
+
+ - Clear communication and a willingness to explain tradeoffs, seek feedback, and revise an approach when the evidence changes.
+
+Experience with scientific content, document-heavy workflows, or regulated enterprise products is useful. Healthcare or pharma experience is welcome but not required. We value strong fundamentals and demonstrated ownership of useful production systems.
+
+
+BENEFITS
+
+ - Health, dental, and vision insurance
+
+ - Ground-floor equity opportunity
+
+ - Visa sponsorship for O-1, H-1B, and TN visas
+
+ - Unlimited PTO
+
+ - 401(k) with a 4% company match
+
+ - In-office lunches five days a week
+
+ - Professional growth stipend
+
+ - Relocation support
+
+
+LOCATION AND COMPENSATION
+
+New York City. Full time. On-site.
+
+The base salary range is $200,000 to $300,000, plus equity, depending on experience and scope of responsibility.

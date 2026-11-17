@@ -203,15 +203,15 @@
     "key": "comp_level",
     "label": "Comp / level fit",
     "weight": 2,
-    "anchor0": "disclosed comp below senior/staff level \u2014 if comp is NOT stated in the JD, score 2 (neutral), never 0",
+    "anchor0": "the TOP of the disclosed range is below $180K base (judge a range by its maximum, never its minimum) \u2014 if comp is NOT stated in the JD, score 2 (neutral), never 0",
     "anchor3": "at / above target"
    },
    {
     "key": "logistics",
     "label": "Logistics",
     "weight": 2,
-    "anchor0": "on-site elsewhere",
-    "anchor3": "remote or NY-metro"
+    "anchor0": "on-site or hybrid outside NY metro, Fairfield County, New Haven and Boston",
+    "anchor3": "fully remote in the US, or NY metro, Fairfield County, New Haven or Boston (Zach, 2026-11-16)"
    },
    {
     "key": "warm_path",
@@ -235,6 +235,8 @@
    "grind-culture red flags in reviews"
   ],
   "scale": "0-3 per dimension, composite = sum(score*weight)/max",
+  "comp_floor_usd": 180000,
+  "comp_floor_note": "Zach, 2026-11-16: a role passes pay when the MAX of its posted USD range is at or above the floor; a range topping out below it is gated by src/lib/comp-screen.ts. No stated max (starting-at, non-USD, unstated) is never gated.",
   "bands": {
    "pursue": 0.7,
    "consider": 0.5

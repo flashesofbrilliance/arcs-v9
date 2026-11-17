@@ -138,3 +138,9 @@ Both agencies start at T0 (self-asserted). Before sending a CV or booking a call
 
 # Floor change (Zach, 2026-11-16)
 Base floor is now $180K (was $220K), matching Fonzi. Re-read of the holds above: Sayari FDE II ($160K to $180K, 0.88) and Footprint FDE ($170K to $205K, 0.84) now clear the floor and move to PURSUE. Runlayer (est $145K to $175K) stays under it. Jack & Jill has no minimum salary set; setting one there is an account change for Zach.
+
+# Pay screen by range maximum (Zach, 2026-11-16, evening)
+The floor stays $180K, but a role is judged by the TOP of its posted range: it passes when its max reaches $180K and is gated when the range tops out below it. "Starting at" pay, non-USD pay and unstated pay have no USD max and are never gated. Coded in src/lib/comp-screen.ts (unit tests in tests/unit/comp-screen.test.ts), applied by the scoring route, floor in runtime/specs/target-role-scan.json (rubric.comp_floor_usd).
+- Sayari FDE II ($160K to $180K): max equals the floor, passes, stays PURSUE.
+- Runlayer Deployment Strategist (est. $145K to $175K): max under the floor, fails.
+- Board: 97 open rows whose range tops out below $180K were set to PASS with the gate named, scores kept. Two rows whose max clears $180K but scored 0 on pay (Peregrine Deployment Strategist, $120K to $190K; Sola FDE, $120K to $200K) get re-scored once this merges and deploys.

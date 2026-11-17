@@ -1,0 +1,170 @@
+We are looking for a Senior Applied AI Engineer to join the Agent Runtime team behind Alwin, our new Agentic Automation Platform for audit and finance. Alwin agents run for long times, work through multi-step audit procedures over client evidence, and return finished work papers with every number traced back to source. Humans review and sign off.
+
+The runtime is the layer every agent depends on: the model access, the base system prompt and context, the tools (document extraction, retrieval, sandboxes, MCP integrations), the orchestration of agents and sub-agents, and the observability and evals that tell us whether an agent is performing to objective standards. You will own the applied AI half of that layer. Product teams build audit-specific agents on top of it; you decide how the base agent reasons, what tools it gets and at what abstraction, how it manages context over long horizons, and how we measure and hill-climb accuracy, speed and cost.
+
+This is a hands-on role in a small team with a large blast radius. Your work goes in front of hundreds of thousands of audit and finance professionals, and the problems are largely open: there is no playbook for production agents in a regulated domain, so you will help write it.
+
+ 
+
+
+ABOUT DATASNIPPER
+
+The hardest AI problems aren't about getting an answer fast. They're about getting one people can trust.
+
+We believe trust is essential to how society works. Every day, we rely on information that's been independently verified, from financial statements to the products we buy, to the sustainability claims companies make. Behind that trust are audit and finance professionals who examine evidence, verify information and hold organizations accountable.
+
+At DataSnipper, we build AI solutions that empower those professionals. By making evidence easier to trace and verify, we help them focus on the judgment and expertise that make their work so important.
+
+For our product and engineering team, this is where things get exciting. In audit, a plausible answer isn't good enough. Every output has to be explainable and traceable back to its source. We've just launched a brand new agentic platform, Alwin by DataSnipper. AI agents running in the cloud across hundreds of documents at once, reasoning across PDF, Word and Excel, with a full audit trail behind every step. There are lots of greenfield problems ahead, and real room to shape what we build and how we build it.
+
+And we build at scale. More than 600,000 professionals across 3,000+ organizations in 175 countries rely on DataSnipper, including Fortune 500 companies, government agencies and all Big Four audit firms. In 2025 alone, the DataSnipper platform delivered more than $1.4 billion in productivity savings to is customers. Backed by a $100 million Series B led by Index Ventures, at a $1 billion valuation, and as proud members of 1% for the Planet, we care about how we grow, not just how fast.
+
+If you want to build AI that professionals trust with work that really matters, this is your chance to help shape the future of audit and finance and do the best work of your career along the way.
+
+
+
+ 
+
+
+WHAT YOU WILL DO
+
+
+AGENT ENGINEERING
+
+ - Own the base agents: system prompt, context engineering, memory and state management for tasks that span many turns and hours of execution
+
+ - Design how agents use the tool layer, including document extraction, retrieval, code and file sandboxes, and MCP integrations, choosing the right level of abstraction so agents handle edge cases without wasting effort on mechanical steps
+
+ - Implement agentic patterns such as sub-agent composition, planning modes, human-in-the-loop gates, and model routing across multiple providers
+
+ - Ship end-to-end: from prototype with our audit domain experts, through evaluation, to production on Alwin
+
+ - Define and build automatic processes that improve the agent continuously over time
+
+ - Keep costs under control and implement cost-efficient approaches to AI-centric workflows
+
+
+EVALUATION & QUALITY
+
+ - Extract signal from long agent trajectories: attribute outcomes to specific reasoning steps and tool calls, classify failure modes, and turn them into fixes
+
+ - Hill-climb accuracy, latency and token cost, and make the trade-offs explicit for the teams building on the runtime
+
+
+RELIABILITY & COLLABORATION
+
+ - Instrument agent behaviour with our observability stack and use production traces to drive improvements
+
+ - Partner with Agent Experience teams, Document Intelligence and the AI Platform team to turn their needs into runtime capabilities that are self-service rather than a request queue
+
+ - Stay on the frontier: evaluate new models, techniques and agent patterns, and bring the ones that hold up into production
+
+ 
+
+
+WHAT YOU WILL BRING
+
+
+MUST-HAVE
+
+ - 5+ years of software engineering experience with strong, production-grade Python
+
+ - Experience shipping and operating an LLM-powered product in production: you have dealt with hallucinations, latency spikes, tool failures and cost explosions at scale, and can explain what broke and how you fixed it
+
+ - Hands-on experience building agentic systems: control loops, tool selection, planning versus execution, retries and fallbacks, not only prompt-and-parse pipelines
+
+ - Experience with evaluation: you have built datasets, run offline and online experiments, and used the results to make an AI system measurably better
+
+ - Fluency with LLM APIs and agent frameworks across more than one model provider
+
+ - Proficient with AI-assisted engineering and excited about working with coding agents daily
+
+ - Strong fundamentals in software architecture and system design, and a track record of reliable, well-tested delivery
+
+ - Excellent communication; you can work directly with auditors and product partners to define what "correct" means
+
+
+NICE-TO-HAVE
+
+ - Experience with Durable workflow engines or long-running background task systems
+
+ - Experience with RAG and retrieval pipelines over large, messy document corpora
+
+ - Document AI: VLMs, OCR, structured extraction and their metrics
+
+ - Sandboxed code execution, MCP, or multi-agent orchestration in production
+
+ - Domain experience in audit, accounting or fintech
+
+ - Familiarity with OWASP GenAI security practices and working in a regulated, privacy-sensitive environment
+
+ 
+
+
+WHAT WE EXPECT
+
+ - Ownership: You own work end-to-end, anticipate issues, and ensure high-quality delivery with minimal support. We expect you to influence the technical direction of the team.
+
+ - Growth Mindset: You encourage open feedback exchange and provide clear, balanced feedback that helps others grow
+
+ - Collaboration: You build strong cross-functional relationships and influence peers through expertise, data, and empathy
+
+ - Adaptability: You navigate ambiguity calmly, model positive behavior, and help peers adjust through clear communication
+
+ - Judgment: You exercise sound judgment in ambiguous situations, balance speed and accuracy, and adjust priorities proactively
+
+ 
+
+
+WHAT WE OFFER
+
+ - Excellent salary + stock participation plan
+
+ - Flexible paid time off
+
+ - Comprehensive medical and dental coverage
+
+ - 401K match
+
+ - Paid parental leave
+
+ - Company-sponsored lunch
+
+ - Hybrid mode of work (at least 3 days onsite in our New York City office)
+
+ - Being part of one of the fastest-growing scale-ups in the Netherlands
+
+ - Make an impact by disrupting the finance industry with us
+
+ - A flexible and growing organization with lots of opportunities to learn and develop
+
+ - International working environment, with a team of friendly and driven colleagues
+
+ - Access to OpenUp and Talkspace, the mental health and wellness platform
+
+ - Multiple social activities for team building 🤩
+   
+    
+
+
+RECRUITMENT STEPS
+
+ - Recruiter screen
+
+ - Hiring Manager interview
+
+ - Peer programming session
+
+ - System design interview
+
+ - Final interviews with Engineering leadership
+
+
+
+At DataSnipper, we believe great ideas come from different perspectives, experiences, and backgrounds. We are committed to building an inclusive workplace and providing every candidate with a fair and equitable hiring experience.
+
+Our hiring decisions are merit-based and grounded in the skills, experience, potential, and capabilities relevant to the role.
+
+We welcome applicants regardless of age, race, ethnicity, nationality, gender, gender identity or expression, sexual orientation, religion, disability, or any other characteristic that makes you, you.
+
+What matters to us is what you can bring to the role, the team, and DataSnipper. 🚀

@@ -330,6 +330,8 @@ function selftest() {
   t("employer index: verified boards for one ats only", JSON.stringify(indexSlugs(idx, "ashby")) === '["acme"]' && indexSlugs(null, "lever").length === 0)
   const hnKept = hn.filter((r) => locationOk(r.location, false, r.title))
   t("hn drops a header with an off-target city", hn.length === 2 && hnKept.length === 1)
+  t("location: Lahore and Manila dropped", !locationOk("Pakistan; Lahore, Pakistan") && !locationOk("Manila, Philippines"))
+  t("location: Boston and US remote kept, Cambridge UK and SF dropped", locationOk("Boston, MA") && locationOk("Cambridge, MA") && locationOk("Remote - US") && !locationOk("Cambridge, United Kingdom") && !locationOk("San Francisco, CA"))
   t("linkedin host never fetched", !fetchAllowed("https://www.linkedin.com/jobs/view/1/") && fetchAllowed("https://jobs.ashbyhq.com/x/1"))
   {
     const spec = { cooldown_days: 180, applications: [

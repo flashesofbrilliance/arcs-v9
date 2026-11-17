@@ -948,3 +948,10 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - **Root cause:** two things together. The detector applies `@media print` rules as if always on, so it merges the screen box border with the print layout's zero side padding. And it does not read the `border: 0` shorthand in the print reset as clearing that border. Bisect: removing either the screen box rule or the print reset cleared each finding; writing the print reset as `border-width: 0` (65, 66) and `border-width: 1px 0 0; border-style: solid` (68 cards) cleared all four.
 - **Repair:** kit specs 65, 66 and 68 now write their print border resets as `border-width` longhands; identical render, PDF unchanged. The same print render found two real kit bugs, fixed in the same change: 65 printed with no column gap, and 68's cards print reset lost to the screen `:last-child` rule and stacked labels.
 - **Guard:** the ratchet (the page scores 0, no waiver) and `kit_primitive_sync --check`. Rule for kit print resets: use `border-width`, never the `border: 0` shorthand, until the detector reads it.
+
+## 2026-11-17 · edit-from-seed resumes: flat type hierarchy (repaired at the source, no waiver)
+
+- **Break:** the ratchet counted 1 `Flat type hierarchy` finding against 0 at HEAD on each of 11 new edit-from-seed resumes (`_ARTIFACTS/forge-*/resume-*.html`): body, h1, h2 and h3 all at 16px.
+- **Root cause:** `scripts/forge_edit_from_seed.mjs` edits the seed's ATS HTML (semantic h1/h2/h3) and swaps in `_PATTERNS/resume-print-base.css`, which styles class names only and has no heading rules, so every heading fell back to one size. The seeds' own PDFs never showed it because they render the class-based HTML.
+- **Repair:** `resume-print-base.css` gained a heading scale (body 12px, h3 14px, h2 17px, h1 24px; each step 1.2:1 or more); the 11 resumes carry the same rule, re-rendered, all still 2 pages, all score 0.
+- **Guard:** the ratchet (every new forge resume is checked at commit) plus the forge's own 2-page QC. Rule: any stylesheet swapped onto ATS HTML must style h1 to h3.
