@@ -4,11 +4,13 @@
 
 Counts: agent 31 · command 18 · hook 3 · operator 46 · package 5 · script 332 · skill 28 · workflow 2 · total 465 · missing JTBD 1
 
-Install state: WIRED 629 · AVAILABLE-NOT-INSTALLED 0 · INSTALLED-UNUSED 1 · DUPLICATE 6 · BROKEN 0
+Install state: WIRED 629 · AVAILABLE-NOT-INSTALLED 0 · INSTALLED-UNUSED 2 · DUPLICATE 6 · BROKEN 0
 
-## install-state gaps (7)
+## install-state gaps (8)
 
 - **INSTALLED-UNUSED** [user:plugin] frontend-design@claude-plugins-official — project-scoped to /Users/zharris/arcs only  
+  fix: `claude plugin uninstall frontend-design@claude-plugins-official`
+- **INSTALLED-UNUSED** [user:plugin] frontend-design@claude-plugins-official — project-scoped to /Users/zharris/Claude/wt-reading-room-sync only  
   fix: `claude plugin uninstall frontend-design@claude-plugins-official`
 - **DUPLICATE** [multi:duplicate] impeccable — same name: repo:skill:impeccable | user:skill:impeccable  
   fix: `pick the canonical one; retire or point the other at it`
@@ -41,7 +43,7 @@ Install state: WIRED 629 · AVAILABLE-NOT-INSTALLED 0 · INSTALLED-UNUSED 1 · D
   `/honest-proposals-zach`
 - **impeccable** — Use when the user wants to design, redesign, shape, critique, audit, polish, clarify, distill, harden, optimize, adapt, animate, colorize, extract, or otherwise improve a frontend interface. Covers websites, landing pages, dashboards, produ  
   `/impeccable`
-- **meta-audit** — Run one epoch of the ARCS Meta-Audit (the Drift Sentry) over the full corpus and the live code — Recoil passes, a code-verified parity matrix, the BAR/COURT/LAB/KKL/FUN-HOUSE gauntlets, Chi/Ma/Wuwei, a stack-ranked next-move list, and an ap  
+- **meta-audit** — The master audit of all artifacts, modules and live code - a synthesis and recapitulation of where ARCS stands. Runs one epoch of the ARCS Meta-Audit (the Drift Sentry) over the full corpus and the live code — Recoil passes, a code-verified  
   `/meta-audit`
 - **nci-scoring** — Score a code change/commit/diff against the ARCS Commit-NCI rubric (ADR-035) and its thresholds. Use when the user asks to "score this," "what's the NCI," rate a diff/commit/PR before committing or merging, or references NCI, drift, or the   
   `/nci-scoring`
@@ -720,7 +722,7 @@ Install state: WIRED 629 · AVAILABLE-NOT-INSTALLED 0 · INSTALLED-UNUSED 1 · D
   `python3 scripts/risk_underwriter.py`
 - **rosetta_voice_build.py** — Build public/rosetta-voice.html (served at rosetta-shell.arcs.care/voice).  
   `python3 scripts/rosetta_voice_build.py`
-- **safe_merge.sh** — safe_merge.sh: the one way a session merges a PR in arcs-v9.  
+- **safe_merge.sh** — safe_merge.sh: the one way a session merges a pull request (PR) safely in arcs-v9.  
   `scripts/safe_merge.sh`
 - **sage_distillation_data.py** — scripts/sage_distillation_data.py — shared synthetic dataset for the SAGE  
   `python3 scripts/sage_distillation_data.py`

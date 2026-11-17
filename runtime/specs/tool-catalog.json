@@ -18,7 +18,7 @@
   "counts": {
    "WIRED": 629,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 1,
+   "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
@@ -29,6 +29,14 @@
     "kind": "plugin",
     "name": "frontend-design@claude-plugins-official",
     "why": "project-scoped to /Users/zharris/arcs only",
+    "fix": "claude plugin uninstall frontend-design@claude-plugins-official"
+   },
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "user",
+    "kind": "plugin",
+    "name": "frontend-design@claude-plugins-official",
+    "why": "project-scoped to /Users/zharris/Claude/wt-reading-room-sync only",
     "fix": "claude plugin uninstall frontend-design@claude-plugins-official"
    },
    {
@@ -150,7 +158,7 @@
    "kind": "skill",
    "name": "meta-audit",
    "path": ".claude/skills/meta-audit/SKILL.md",
-   "jtbd": "Run one epoch of the ARCS Meta-Audit (the Drift Sentry) over the full corpus and the live code — Recoil passes, a code-verified parity matrix, the BAR/COURT/LAB/KKL/FUN-HOUSE gauntlets, Chi/Ma/Wuwei, a stack-ranked next-move list, and an ap",
+   "jtbd": "The master audit of all artifacts, modules and live code - a synthesis and recapitulation of where ARCS stands. Runs one epoch of the ARCS Meta-Audit (the Drift Sentry) over the full corpus and the live code — Recoil passes, a code-verified",
    "invoke": "/meta-audit",
    "state": "WIRED"
   },
@@ -2806,7 +2814,7 @@
    "kind": "script",
    "name": "safe_merge.sh",
    "path": "scripts/safe_merge.sh",
-   "jtbd": "safe_merge.sh: the one way a session merges a PR in arcs-v9.",
+   "jtbd": "safe_merge.sh: the one way a session merges a pull request (PR) safely in arcs-v9.",
    "invoke": "scripts/safe_merge.sh",
    "state": "WIRED"
   },

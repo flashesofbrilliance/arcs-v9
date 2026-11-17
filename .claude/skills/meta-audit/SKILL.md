@@ -1,6 +1,6 @@
 ---
 name: meta-audit
-description: Run one epoch of the ARCS Meta-Audit (the Drift Sentry) over the full corpus and the live code — Recoil passes, a code-verified parity matrix, the BAR/COURT/LAB/KKL/FUN-HOUSE gauntlets, Chi/Ma/Wuwei, a stack-ranked next-move list, and an append-only Golden Inchworm log entry. Use to check where ARCS stands against its promised done-state and surface the highest-conviction next move; run when a new handoff, ROM candidate, or serializability epoch lands, or on the weekly cadence.
+description: The master audit of all artifacts, modules and live code - a synthesis and recapitulation of where ARCS stands. Runs one epoch of the ARCS Meta-Audit (the Drift Sentry) over the full corpus and the live code — Recoil passes, a code-verified parity matrix, the BAR/COURT/LAB/KKL/FUN-HOUSE gauntlets, Chi/Ma/Wuwei, a stack-ranked next-move list, and an append-only Golden Inchworm log entry. Use to check where ARCS stands against its promised done-state and surface the highest-conviction next move; run when a new handoff, ROM candidate, or serializability epoch lands, or on the weekly cadence.
 user-invocable: true
 ---
 

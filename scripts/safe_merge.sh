@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# safe_merge.sh: the one way a session merges a PR in arcs-v9.
+# safe_merge.sh: the one way a session merges a pull request (PR) safely in arcs-v9.
 #
 # Tuition (2026-10-20, one day of parallel sessions): a parent merged a child's PR before the
 # child's last push; a wait loop exited early and merged while Vercel was still PENDING (PR 1722);
