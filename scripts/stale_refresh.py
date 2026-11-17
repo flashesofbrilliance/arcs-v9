@@ -10,6 +10,8 @@ What one run does, in a throwaway worktree detached at a fresh origin/main (neve
   universe snapshot   universe_snapshot_emit.py            content emit after the lattice (it is an input), then --check
   seedbank            seedbank_drift_check.py --regenerate receipt-only; curation (repo coverage) = Zach
   jtbd graph          universe_jtbd_adapter.py --check     gate result, receipt-only
+  reading room        reading_room_sync.py                 re-renders surfaces, Chronicle, Almanac, Concordance,
+                                                           intake queue; then --check; cache is reported, never stamped
   night-moves         age of the newest dated digest       receipt-only; the synthesis needs a model
 Then: every changed path must be in ALLOW, or the run aborts with no PR. A clean diff opens ONE
 data-only PR on branch chore/stale-refresh-<date>; an open PR on that prefix means skip (no pile-up).
@@ -41,6 +43,14 @@ ALLOW = (
     "runtime/specs/universe/",
     "src/data/universe-field.json",
     "runtime/specs/knowledge-lattice-v1.json",
+    # reading_room_sync.py outputs (added 2026-11-17): renders only, no digest content
+    "_ARTIFACTS/atlas/atlas-almanac.html",
+    "_ARTIFACTS/atlas/chronicle.html",
+    "_ARTIFACTS/atlas/concordance.html",
+    "_ARTIFACTS/atlas/cache-manifest.json",
+    "_ARTIFACTS/atlas/intake-queue.json",
+    "runtime/specs/surface-catalog.json",
+    "runtime/warroom/surfaces.html",
 )
 NIGHT_MOVES_MAX_DAYS = 7  # weekly Sunday catch-up digest; same bar as the session-start hook (>= 8)
 
@@ -109,6 +119,8 @@ def run(repo: str, dry: bool) -> int:
             ("universe", ["python3", "scripts/universe_snapshot_emit.py"]),
             ("seedbank", ["python3", "scripts/seedbank_drift_check.py", "--regenerate"]),
             ("jtbd-graph", ["python3", "scripts/universe_jtbd_adapter.py", "--check"]),
+            # last: the Almanac embeds the cache manifest, and the surface catalog reads the repo as it now is
+            ("reading-room", ["python3", "scripts/reading_room_sync.py"]),
         ]
         for name, cmd in steps:
             rc, out = sh(cmd, wt, env)
@@ -126,6 +138,12 @@ def run(repo: str, dry: bool) -> int:
         if rc != 0:
             receipt["verdict"] = "ABORT: universe snapshot still stale after the regenerators"
             print("stale-refresh: ABORT, universe --check fails after regenerating (no PR):\n  " + out[-600:])
+            return 1
+        rc, out = sh(["python3", "scripts/reading_room_sync.py", "--check"], wt, env)
+        receipt["steps"]["reading-room-check"] = {"rc": rc, "out": out[-2000:]}
+        if rc != 0:
+            receipt["verdict"] = "ABORT: Reading Room renders still stale after reading_room_sync.py"
+            print("stale-refresh: ABORT, reading_room_sync --check fails after rendering (no PR):\n  " + out[-600:])
             return 1
 
         paths = changed_paths(wt)
@@ -163,7 +181,7 @@ def pr_body(r: dict, head: str, today: str) -> str:
     s = r["steps"]
     nm = s["night-moves"]
     lines = [
-        "Scheduled stale-snapshot refresh from origin/main at `%s` (%s). Data files only; no code." % (head, today),
+        "Scheduled stale-snapshot refresh from origin/main at `%s` (%s). Data and render files only; no code." % (head, today),
         "",
         "## What changed (mechanical)",
         *["- `%s`" % p for p in r["changed"]],
@@ -173,6 +191,7 @@ def pr_body(r: dict, head: str, today: str) -> str:
         "- lattice: " + pick(s["lattice"]["out"], r"DRIFT \[|advanced") + ". The epoch date and node statuses are hand-authored; re-author them by hand.",
         "- seedbank: " + pick(s["seedbank"]["out"], r"DRIFT \[") + ". Coverage gaps need a hand-written catalog row.",
         "- jtbd-graph `--check`: rc=%d, %s" % (s["jtbd-graph"]["rc"], pick(s["jtbd-graph"]["out"], r"--check: (PASS|FAIL)|exit 1|new finding")),
+        "- reading room: " + pick(s["reading-room"]["out"], r"^reading_room_sync: (cache|intake)") + ". Curating intake records into digests is judgment.",
         "- night-moves: newest dated digest %s (%s days)%s" % (nm["last"], nm["age_days"], ", synthesis needed" if nm["gap"] else ""),
         "",
         "Not run: `universe_snapshot_emit.py --refresh` (history epoch; pushes to main, human-gated).",
@@ -207,6 +226,9 @@ def self_test() -> int:
         ("code refused", outside_allow(["scripts/x.py"]) == ["scripts/x.py"]),
         ("prefix lookalike refused", outside_allow(["runtime/specs/universe-snapshot.json.bak"]) != []),
         ("seed file refused", outside_allow(["_SEEDS/index.jsonl"]) == ["_SEEDS/index.jsonl"]),
+        ("almanac render allowed", outside_allow(["_ARTIFACTS/atlas/atlas-almanac.html"]) == []),
+        ("surface catalog allowed", outside_allow(["runtime/specs/surface-catalog.json"]) == []),
+        ("atlas digest refused", outside_allow(["_ARTIFACTS/atlas/digest-adr.json"]) != []),
     ]
     for name, ok in cases:
         print(("✓ " if ok else "✖ ") + name)

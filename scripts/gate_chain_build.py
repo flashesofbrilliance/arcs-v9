@@ -59,7 +59,7 @@ SCRUB = [(r"myally", "client"), (r"counterpart\s+", "")]
 REVIEWED_SCOPES = {"pages": "pages", "compass": "compass", "nftt": "blog", "db": "database", "forge": "résumés",
                    "cruft-sweep": "cleanup", "handoff": "session notes", "universe": "stats", "design-system": "design",
                    "design": "design", "artifacts": "pages", "ui": "interface", "client": "client work",
-                   "share": "sharing", "recoil": "call reports", "scripts": "tooling"}
+                   "share": "sharing", "recoil": "call reports", "scripts": "tooling", "claims": "claims"}
 
 # Reviewed public words per chain: sha -> (what broke, what the fix did), each written from that commit's message,
 # no names. None withholds the chain from the page (it still counts). Add an entry before a new chain can ship.
@@ -95,6 +95,10 @@ PUBLIC = {
                  "Public views are an allow-list now, and a gate checks the signed-out page."),
     "a715c92e": ("Self-tests run from a commit hook wrote into the real repository's settings, so commits went out under a test identity.",
                  "All 17 self-tests drop git's environment first, and a gate checks for it."),
+    "1fb74fe4": ("Résumés and pages called a launch figure assets under management, a claim the record does not support.",
+                 "Corrected 391 files to say what was launched; a gate blocks the old phrasing on every commit."),
+    "38cc17ce": ("Older résumé bundles still carried claims that had since been corrected, in their pages and PDFs.",
+                 "Cleared 119 bundles and re-rendered the PDFs; a gate now reads every résumé, PDFs included, on each commit."),
 }
 
 
