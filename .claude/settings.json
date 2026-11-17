@@ -352,6 +352,15 @@
             "timeout": 5
           }
         ]
+      },
+      {
+        "matcher": "mcp__claude-in-chrome__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/chrome-tab-guard.py\""
+          }
+        ]
       }
     ]
   },
