@@ -1,0 +1,175 @@
+Get to Know Us
+
+Horizon3 is a fast-growing, remote cybersecurity company dedicated to the mission of enabling organizations to proactively find and fix and verify exploitable attack vectors before criminals exploit them. Our flagship product, the NodeZeroTM platform, delivers production-safe autonomous pentests and other key assessment operations that scale across the largest internal, external, cloud, and hybrid cloud environments. NodeZero has been adopted by organizations of all sizes, from small educational institutions to government agencies and Global 100 enterprises. It is used by ITOps/SecOps teams, consulting pentesters, and MSSPs and MSPs. 
+
+We are a fusion of former U.S. Special Operations cyber operators, startup engineers, and formerly frustrated cybersecurity practitioners. We're committed to helping solve our common security problems: ineffective security tools, false positives resulting in alert fatigue, blind spots, "checkbox” security culture, cybersecurity skills shortage, and the long lead time and expense of hiring outside consultants. Collectively, we are a team of learn it alls, committed to a culture of respect, collaboration, ownership, and results.
+
+
+
+Location: New York or San Francisco
+
+ 
+
+
+WHAT YOU’LL DO:
+
+We are seeking a Staff Product Manager to lead the strategy, development, and evolution of NodeZero’s Agentic Data Platform, including Database-as-a-Service (DBaaS), machine learning infrastructure, and the data services that power our next generation of cybersecurity capabilities.
+
+Every autonomous pentest NodeZero runs generates valuable insights into how real environments can be compromised, from hosts and identities to credentials, vulnerabilities, and attack paths. This role is responsible for turning that data into a scalable, reliable, and intelligent platform that enables product teams, machine learning engineers, and agentic systems to build differentiated security capabilities.
+
+You will own the vision and roadmap for NodeZero’s core data services, including managed relational, graph, and vector databases, the unified asset and attack graph, data APIs, and the infrastructure supporting traditional machine learning development and deployment. This includes training-ready datasets, feature stores, model training pipelines, deployment, monitoring, and governance.
+
+You will also own the financial and operational strategy behind the platform, ensuring infrastructure investments deliver measurable value through improved performance, scalability, cost efficiency, and business outcomes. You will partner closely with Engineering, Finance, and executive leadership to make investment decisions, manage platform economics, and prioritize capabilities that accelerate innovation across NodeZero.
+
+This role requires strong technical depth in data infrastructure, database architecture, machine learning platforms, and cloud services, combined with excellent product judgment and commercial awareness. You will balance architectural trade-offs, reliability, governance, and long-term scalability with the needs of engineering teams and the broader business.
+
+As a senior leader within Product, you will operate with high autonomy, influence executive direction, and serve as the product owner for foundational capabilities that enable innovation across NodeZero. You will define clear success metrics and ensure delivery against platform adoption, performance, reliability, cost efficiency, and business growth goals.
+
+
+
+
+KEY RESPONSIBILITIES:
+
+ - Data Platform Product Strategy: Define and execute the product vision and multi-quarter roadmap for NodeZero’s data services and machine learning platform. Determine which capabilities should be centralized, evaluate build-versus-buy decisions, and align platform investments with business priorities, customer outcomes, and long-term product differentiation.
+
+ - Database-as-a-Service (DBaaS) Ownership: Lead the evolution of managed relational, graph, and vector data services, including self-service provisioning, scaling, migrations, upgrades, and lifecycle management. Ensure data infrastructure delivers the reliability, performance, security, and flexibility required by internal teams and enterprise customers.
+
+ - Asset and Attack Graph Infrastructure: Own the product strategy for NodeZero’s unified asset and attack graph, including complex data relationships, multi-hop query performance, data freshness, consistency, and scalable access to offensive security intelligence.
+
+ - Data Architecture, APIs, and Integrations: Partner closely with Engineering to define scalable data models, query APIs, change-data-capture pipelines, event streams, schema governance, and platform abstractions that enable product, ML, and agent teams to build efficiently on shared infrastructure.
+
+ - Machine Learning Platform Strategy: Own the infrastructure supporting traditional machine learning workflows, including training pipelines, feature stores, experiment tracking, model registries, batch and real-time inference, deployment, monitoring, and evaluation standards. Enable teams to develop, deploy, and operate production ML models reliably.
+
+ - Training Data and Data Quality: Define capabilities for curated, versioned, and documented training datasets derived from pentest and platform data. Drive data quality, lineage, reproducibility, labeling pipelines, ground-truth collection, and consistent offline and online features that support classification, entity resolution, risk scoring, prioritization, and anomaly detection.
+
+ - Platform Reliability and Operational Excellence: Drive the capabilities required for high availability, scalability, disaster recovery, backup and restore, multi-region readiness, and operational resilience. Partner with Engineering to establish SLOs, data quality SLAs, observability, and performance metrics that ensure dependable platform services.
+
+ - Data Security and Governance: Define product requirements for tenant isolation, hierarchical multi-tenancy, data access controls, encryption, retention, deletion, and sensitive security artifact handling. Ensure training data and machine learning workflows support contractual requirements, customer consent, anonymization, auditability, and model governance.
+
+ - Infrastructure Cost and FinOps Strategy: Own the product requirements and business strategy for managing data and ML infrastructure costs. Develop investment business cases, evaluate total cost of ownership and ROI, partner with Finance on budgets and forecasts, and drive cost visibility, optimization, and accountability across teams, products, and tenants.
+
+ - Business Ownership and Commercial Strategy: Own the platform’s business performance, including its contribution to ARR, retention, expansion, and gross margin. Identify opportunities for pricing, packaging, monetization, and differentiated customer value. Evaluate market opportunities, competitive positioning, and investment priorities to support long-term growth.
+
+ - Platform Adoption and Customer Value: Drive adoption of shared data and ML capabilities across internal product and engineering teams, including migration from legacy solutions. Engage with customers and cross-functional stakeholders to understand requirements, improve activation and usage, and identify opportunities to deliver measurable customer value.
+
+ - Cross-Functional Leadership and Execution: Collaborate closely with Engineering, ML Engineering, Design, Finance, Sales, Marketing, Customer Success, and executive leadership to translate product strategy into clear requirements, architecture decisions, launch plans, and measurable outcomes. Drive alignment, resolve trade-offs, and ensure successful delivery and adoption.
+
+ - Performance and Metrics: Define and monitor KPIs including platform adoption, data availability, query performance, data freshness, model time-to-production, infrastructure reliability, cost per tenant, gross margin, retention, and revenue contribution. Lead regular business reviews and use operational, financial, and customer insights to guide prioritization and continuous improvement.
+
+
+
+
+WHAT YOU’LL BRING
+
+ - 8+ years of Product Management experience, including 4+ years building infrastructure, data, or machine learning platform products in B2B SaaS environments
+
+ - Deep technical understanding of production databases, including relational, graph, or similar systems, with the ability to engage engineers on replication, high availability, disaster recovery, indexing, and performance trade-offs
+
+ - Experience building or managing scalable data platforms, including data pipelines, data modeling, schema evolution, data contracts, APIs, and distributed data architectures
+
+ - Strong understanding of traditional machine learning infrastructure, including training data pipelines, feature stores, experiment tracking, model registries, batch and real-time inference, and production model monitoring
+
+ - Experience defining data governance and security requirements, including lineage, anonymization, retention, deletion, tenant isolation, and responsible handling of sensitive data in multi-tenant SaaS environments
+
+ - Demonstrated financial acumen, including developing infrastructure cost models, evaluating total cost of ownership and ROI, building investment business cases, and partnering with Finance on cloud infrastructure spending
+
+ - Proven experience driving adoption of internal platforms, including establishing shared services, enabling engineering teams, and successfully migrating users from existing solutions
+
+ - Strong product judgment in balancing technical constraints, architectural decisions, reliability, customer needs, infrastructure costs, and long-term platform investments
+
+ - Ability to work credibly and collaboratively with senior engineering leaders, data scientists, and ML engineers to define requirements, evaluate trade-offs, and guide complex technical initiatives
+
+ - Strong business orientation with experience connecting platform investments to customer value, operational efficiency, adoption, revenue growth, and financial performance
+
+ - Excellent communication and stakeholder management skills, including the ability to influence executives, present investment recommendations, and translate complex technical concepts into clear business outcomes
+
+ - Comfort operating at both strategic and tactical levels, from platform vision and business strategy to PRDs, technical requirements, architecture reviews, prioritization, and launch execution
+
+ - Data-driven decision-making skills with experience defining operational and business metrics and using insights to drive product improvements
+
+ - Experience working in Agile environments and leading cross-functional initiatives in fast-paced, evolving organizations
+
+
+
+
+PREFERRED QUALIFICATIONS:
+
+ - Previous experience as a database engineer, data engineer, ML engineer, Site Reliability Engineer (SRE), or technical founder
+
+ - Experience with security data platforms, including XDR, SIEM, exposure management, or offensive security products
+
+ - Hands-on familiarity with graph data modeling, entity resolution, vector databases, and semantic search
+
+ - Experience developing labeling pipelines, ground-truth datasets, or training data infrastructure
+
+ - Experience with FinOps practices, cloud infrastructure optimization, or FinOps certification
+
+ - Familiarity with MLOps technologies such as MLflow, Kubeflow, SageMaker, Vertex AI, Databricks, or Feast
+
+ - Understanding of generative AI data requirements, including embeddings, vector search, and fine-tuning datasets
+
+
+
+
+PREFERRED EDUCATION:
+
+ - Bachelor’s degree in Computer Science, Engineering, Data Science, or a related technical field
+
+ - An advanced degree in engineering, computer science, machine learning, or business is preferred
+
+If you are an experienced product manager with a passion for building scalable data infrastructure, enabling machine learning innovation, and turning complex technical capabilities into measurable business value, we encourage you to apply for this position.
+
+Join our team and play a vital role in transforming NodeZero’s unique offensive security intelligence into a powerful data and machine learning platform that enables the next generation of autonomous cybersecurity.
+
+
+
+
+TRAVEL REQUIRED:
+
+We are a fully remote company, and this job may require up to 25% travel to be successful.
+
+ 
+
+Perks of Horizon3
+
+ - Inclusive Team: We value diversity and promote an inclusive culture where everyone can thrive.
+
+ - Growth Opportunities: Be part of a dynamic and growing team with numerous career development opportunities.
+
+ - Innovative Culture: Work in a collaborative environment that encourages creativity and out-of-the-box thinking.
+
+ - Competitive Compensation: We offer competitive salary, equity and benefits. Our benefits include health, vision & dental insurance for you and your family, a flexible vacation policy, and generous parental leave.
+
+
+
+Compensation and Values
+
+At Horizon3, we believe that our people are our greatest asset, and our compensation philosophy reflects this core value. We are committed to fostering an environment where all employees feel valued, respected, and rewarded for their contributions. Our compensation structure is designed to be fair, competitive, and transparent, ensuring that every team member is recognized and compensated equitably across roles, levels, and locations.
+
+In accordance with various State’s transparency regulations, we provide the following salary range information for this position:
+
+ - Base salary range: $194,395 - $265,000. The exact salary will be determined based on the selected candidate’s location, qualifications, experience, and relevant skills.
+
+ - Additional compensation: All full-time roles are eligible for an equity package in the form of stock options.
+
+
+
+You Belong Here
+
+Horizon3 is not just an equal opportunity employer - we are a community that values diversity, equity, and inclusion as fundamental principles of our culture and success. We are dedicated to fostering a workplace where everyone feels welcome and respected, regardless of race, color, religion, sex, national origin, age, disability, veteran status, sexual orientation, gender identity or expression, genetic information, marital status, hair length or any other legally protected status by law.
+
+Our commitment to diversity and inclusion means we strive to attract, develop, and retain a workforce that reflects the varied communities we serve. We believe that diverse perspectives drive innovation and strengthen our ability to create cutting-edge cybersecurity solutions. At Horizon3, every team member is valued and supported in an environment that encourages personal and professional growth.
+
+We welcome candidates from all backgrounds and experiences, and we encourage all qualified individuals to apply. Come be a part of Horizon3, where your unique contributions are recognized, and your potential is limitless.
+
+
+
+Other Duties
+
+Please note this job description is not designed to cover or contain a comprehensive listing of activities, duties or responsibilities that are required of the employee. Duties, responsibilities, and activities may change at any time with or without notice. 
+
+
+
+Application Note
+
+In any materials you submit, you may redact or remove age-identifying information such as age, date of birth, or dates of school attendance or graduation. You will not be penalized for redacting or removing this information.

@@ -1,0 +1,325 @@
+Forward Deployed Product Manager @ Hebbia AI
+
+{"@context":"https://schema.org/","@type":"JobPosting","title":"Forward Deployed Product Manager","description":"
+About Hebbia
+
+The AI platform for investors and bankers that generates alpha and drives upside.
+
+Founded in 2020 by George Sivulka and backed by Peter Thiel and Andreessen Horowitz, Hebbia powers investment decisions for 40% of the world's largest asset managers. Our flagship product, Matrix, delivers industry-leading accuracy, speed, and transparency in AI-driven analysis. It is trusted to help manage over $30 trillion in assets globally.
+
+We deliver the intelligence that gives finance professionals a definitive edge. Our AI uncovers signals no human could see, surfaces hidden opportunities, and accelerates decisions with unmatched speed and conviction. We do not just streamline workflows. We transform how capital is deployed, how risk is managed, and how value is created across markets.
+
+Hebbia is not a tool. Hebbia is the competitive advantage that drives performance, alpha, and market leadership.
+
+The Role
+
+We are looking for a Forward-Deployed Product Manager to help financial institutions put AI to work in their own workflows. You will own customer engagements from identifying the right problem and agreeing on success through implementation, rollout, and measurable business impact. You will work directly with customers and engineers to build solutions using Hebbia's products and platform.
+
+You will be the product lead for your engagements, working with users, business sponsors, and technical teams to make decisions and keep delivery moving. This means spending time onsite, testing workflows with real data, and addressing constraints around integrations, permissions, and adoption. You should enjoy being accountable for a working solution and helping successful approaches become reusable across customers.
+
+Responsibilities
+
+Lead customer discovery to understand the business problem, current workflow, available data, and implementation constraints; agree on scope and measurable success criteria
+
+Work with sales and customer teams to assess new opportunities, shape a feasible first engagement, and identify where AI can deliver meaningful value
+
+Translate customer needs into requirements, workflow designs, prototypes, and delivery plans that engineers can build against
+
+Partner with engineers on integrations, data access, permissions, and AI behavior; make product decisions and resolve dependencies throughout implementation
+
+Lead the day-to-day delivery relationship with customer stakeholders, communicating progress, surfacing risks early, and managing changes to scope and priorities
+
+Validate solutions against representative customer tasks, define acceptance criteria, and resolve quality and reliability issues before rollout
+
+Own rollout, user enablement, and adoption; measure whether the deployed workflow delivers the agreed business outcome and address gaps
+
+Identify patterns across engagements and work with product and engineering teams to turn successful solutions into reusable capabilities and deployment practices
+
+Work onsite with customers and travel regularly for discovery, implementation, and rollout
+
+Who You Are
+
+Experience shipping software with engineering teams and independently leading customer implementations from discovery and scoping through launch and adoption
+
+Experience delivering for customers under pressure, navigating conflicting stakeholder priorities, and constructively challenging requests to protect quality and outcomes
+
+Technical fluency with APIs, integrations, and data systems, with the ability to investigate problems and make practical tradeoffs with engineers
+
+Strong product and commercial judgment: able to define a valuable first release, assess delivery effort, and make clear recommendations with incomplete information
+
+Clear communication with executives, end users, and engineers; able to explain technical constraints and build agreement on a practical plan
+
+Hands-on use of AI tools to build prototypes, analyze data, and investigate workflow problems
+
+Willingness to own the details of delivery, test the solution yourself, troubleshoot issues, and follow through until customers are using it successfully
+
+Comfortable traveling regularly and working onsite with customers, including multi-day visits during discovery and deployment
+
+Experience with enterprise software deployments, financial services workflows, or AI-powered applications is a strong plus
+
+Compensation
+
+The salary range for this role is $180,000 to $320,000. This range may be inclusive of several career levels at Hebbia and will be narrowed during the interview process based on the candidate’s experience and qualifications. Adjustments outside of this range may be considered for candidates whose qualifications significantly differ from those outlined in the job description.
+
+Life @ Hebbia
+
+PTO: Unlimited
+
+Insurance: Medical + Dental + Vision + 401K
+
+Eats: Catered lunch daily + DoorDash dinner credit if you ever need to stay late
+
+Parental leave policy: 3 months non-birthing parent, 4 months for birthing parent
+
+Fertility benefits: $15K lifetime benefit
+
+New hire equity grant: competitive equity package with unmatched upside potential
+
+#LI-Onsite
+","directApply":false,"identifier":{"@type":"PropertyValue","name":"Hebbia AI","value":"1485877b-157a-4a61-98b7-8701fca03380"},"datePosted":"2026-10-29","hiringOrganization":{"@type":"Organization","name":"Hebbia AI","sameAs":"https://www.hebbia.com/","logo":"https://app.ashbyhq.com/api/images/org-theme-logo/f6294fc2-9239-4d5c-beec-affb1fe2a840/2899bd63-276f-4ecf-aa47-c50c85334901/3d94dd8e-3a82-4a15-8bbc-acf148ede420.png"},"jobLocation":[{"@type":"Place","address":{"@type":"PostalAddress","addressLocality":"New York","addressRegion":"New York","addressCountry":"United States"}},{"@type":"Place","address":{"@type":"PostalAddress","addressLocality":"San Francisco","addressRegion":"California","addressCountry":"United States"}}],"employmentType":"FULL_TIME"}
+
+      .grecaptcha-badge {
+        visibility: hidden;
+      }
+
+      body > div > div:not([class]):has(> iframe[src*="/recaptcha/"]) {
+        box-sizing: content-box;
+      }
+
+      You need to enable JavaScript to run this app.
+
+        body {
+          overflow: hidden;
+        }
+
+        .center {
+          align-items: center;
+          display: flex;
+          flex-direction: column;
+          height: 100vh;
+          justify-content: center;
+          width: 100vw;
+        }
+
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        .fade-in {
+          animation-delay: 750ms;
+          animation-direction: normal;
+          animation-duration: 500ms;
+          animation-fill-mode: forwards;
+          animation-iteration-count: 1;
+          animation-name: fade-in;
+          animation-timing-function: ease-in-out;
+          opacity: 0;
+        }
+
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        .spinner {
+          animation-duration: var(--transitionDurationSlow, 600ms);
+          animation-iteration-count: infinite;
+          animation-name: spin;
+          animation-timing-function: linear;
+          border-color: var(--colorNeutral600Transparent, rgba(125, 134, 153, 0.25));
+          border-radius: 100%;
+          border-style: solid;
+          border-top-color: rgba(125, 134, 153, 0.9);
+          border-width: var(--borderWidthHeavy, 3px);
+          display: block;
+          height: var(--spacingXxlarge, 48px);
+          width: var(--spacingXxlarge, 48px);
+        }
+
+About Hebbia
+
+The AI platform for investors and bankers that generates alpha and drives upside.
+
+Founded in 2020 by George Sivulka and backed by Peter Thiel and Andreessen Horowitz, Hebbia powers investment decisions for 40% of the world's largest asset managers. Our flagship product, Matrix, delivers industry-leading accuracy, speed, and transparency in AI-driven analysis. It is trusted to help manage over $30 trillion in assets globally.
+
+We deliver the intelligence that gives finance professionals a definitive edge. Our AI uncovers signals no human could see, surfaces hidden opportunities, and accelerates decisions with unmatched speed and conviction. We do not just streamline workflows. We transform how capital is deployed, how risk is managed, and how value is created across markets.
+
+Hebbia is not a tool. Hebbia is the competitive advantage that drives performance, alpha, and market leadership.
+
+The Role
+
+We are looking for a Forward-Deployed Product Manager to help financial institutions put AI to work in their own workflows. You will own customer engagements from identifying the right problem and agreeing on success through implementation, rollout, and measurable business impact. You will work directly with customers and engineers to build solutions using Hebbia's products and platform.
+
+You will be the product lead for your engagements, working with users, business sponsors, and technical teams to make decisions and keep delivery moving. This means spending time onsite, testing workflows with real data, and addressing constraints around integrations, permissions, and adoption. You should enjoy being accountable for a working solution and helping successful approaches become reusable across customers.
+
+Responsibilities
+
+Lead customer discovery to understand the business problem, current workflow, available data, and implementation constraints; agree on scope and measurable success criteria
+
+Work with sales and customer teams to assess new opportunities, shape a feasible first engagement, and identify where AI can deliver meaningful value
+
+Translate customer needs into requirements, workflow designs, prototypes, and delivery plans that engineers can build against
+
+Partner with engineers on integrations, data access, permissions, and AI behavior; make product decisions and resolve dependencies throughout implementation
+
+Lead the day-to-day delivery relationship with customer stakeholders, communicating progress, surfacing risks early, and managing changes to scope and priorities
+
+Validate solutions against representative customer tasks, define acceptance criteria, and resolve quality and reliability issues before rollout
+
+Own rollout, user enablement, and adoption; measure whether the deployed workflow delivers the agreed business outcome and address gaps
+
+Identify patterns across engagements and work with product and engineering teams to turn successful solutions into reusable capabilities and deployment practices
+
+Work onsite with customers and travel regularly for discovery, implementation, and rollout
+
+Who You Are
+
+Experience shipping software with engineering teams and independently leading customer implementations from discovery and scoping through launch and adoption
+
+Experience delivering for customers under pressure, navigating conflicting stakeholder priorities, and constructively challenging requests to protect quality and outcomes
+
+Technical fluency with APIs, integrations, and data systems, with the ability to investigate problems and make practical tradeoffs with engineers
+
+Strong product and commercial judgment: able to define a valuable first release, assess delivery effort, and make clear recommendations with incomplete information
+
+Clear communication with executives, end users, and engineers; able to explain technical constraints and build agreement on a practical plan
+
+Hands-on use of AI tools to build prototypes, analyze data, and investigate workflow problems
+
+Willingness to own the details of delivery, test the solution yourself, troubleshoot issues, and follow through until customers are using it successfully
+
+Comfortable traveling regularly and working onsite with customers, including multi-day visits during discovery and deployment
+
+Experience with enterprise software deployments, financial services workflows, or AI-powered applications is a strong plus
+
+Compensation
+
+The salary range for this role is $180,000 to $320,000. This range may be inclusive of several career levels at Hebbia and will be narrowed during the interview process based on the candidate’s experience and qualifications. Adjustments outside of this range may be considered for candidates whose qualifications significantly differ from those outlined in the job description.
+
+Life @ Hebbia
+
+PTO: Unlimited
+
+Insurance: Medical + Dental + Vision + 401K
+
+Eats: Catered lunch daily + DoorDash dinner credit if you ever need to stay late
+
+Parental leave policy: 3 months non-birthing parent, 4 months for birthing parent
+
+Fertility benefits: $15K lifetime benefit
+
+New hire equity grant: competitive equity package with unmatched upside potential
+
+#LI-Onsite
+      // A Vite manifest key: the entry's HTML filename relative to the build root.
+      // Single-entry apps leave entryHtml unset.
+      const ENTRY_KEY = "index.html";
+      fetch("https://cdn.ashbyprd.com/frontend_non_user/56e3abb91667643f4bf63b5f1cf57e2359c682bc/.vite/manifest.json").then(function (res) { return res.json() }).then(function (manifest) {
+        const entryData = manifest[ENTRY_KEY];
+        if (entryData == null) {
+          throw new Error("Vite manifest is missing entry: " + ENTRY_KEY);
+        }
+
+        // Walk the entry's static imports transitively. Both the CSS and the JS a
+        // page needs can sit on shared chunks rather than on the entry record, and
+        // the manifest lists only each chunk's direct imports -- so reading the
+        // entry alone silently drops stylesheets and preloads. Depth-first
+        // post-order puts a dependency's CSS ahead of its importer's, which is the
+        // cascade order Vite uses in the HTML it generates for the same entry.
+        const chunks = [];
+        const visited = {};
+        function collectChunks(key) {
+          if (visited[key] === true) {
+            return;
+          }
+          visited[key] = true;
+          const chunk = manifest[key];
+          if (chunk == null) {
+            return;
+          }
+          (chunk.imports ?? []).forEach(collectChunks);
+          chunks.push(chunk);
+        }
+        collectChunks(ENTRY_KEY);
+
+        // css[] holds output paths, not digests, but every manifest record carries
+        // an integrity for its own file -- so a stylesheet Vite emitted as its own
+        // record can be matched by path. The entry's CSS has no record and loads
+        // unhashed.
+        const integrityByFile = {};
+        Object.keys(manifest).forEach(function (key) {
+          const record = manifest[key];
+          if (record != null && record.file != null && record.integrity != null) {
+            integrityByFile[record.file] = record.integrity;
+          }
+        });
+
+        const sheets = [];
+        const seenSheets = {};
+        chunks.forEach(function (chunk) {
+          (chunk.css ?? []).forEach(function (sheet) {
+            if (seenSheets[sheet] === true) {
+              return;
+            }
+            seenSheets[sheet] = true;
+            sheets.push(sheet);
+          });
+        });
+
+        let bundleLoaded = false;
+        function loadBundle() {
+          if (bundleLoaded === true) {
+            return;
+          }
+
+          const el = document.createElement("script");
+          el.setAttribute("type", "module");
+          el.setAttribute("crossorigin", "");
+          el.setAttribute("integrity", entryData.integrity);
+          el.setAttribute("src", "https://cdn.ashbyprd.com/frontend_non_user/56e3abb91667643f4bf63b5f1cf57e2359c682bc/" + entryData.file);
+          document.head.appendChild(el);
+          bundleLoaded = true;
+        }
+
+        chunks.forEach(function (chunk) {
+          const preload = document.createElement("link");
+          preload.rel = "modulepreload";
+          preload.href = "https://cdn.ashbyprd.com/frontend_non_user/56e3abb91667643f4bf63b5f1cf57e2359c682bc/" + chunk.file;
+          // Carry the SRI hash on the preload too: Chrome/Firefox reuse the
+          // preloaded bytes for the integrity-bearing script tag, so an integrity-less
+          // preload silently bypasses the SRI check. Without it here, SRI is never
+          // enforced on the code-split chunks (the bulk of the app), in any browser.
+          preload.setAttribute("integrity", chunk.integrity);
+          preload.setAttribute("crossorigin", "");
+          document.head.appendChild(preload);
+        });
+
+        if (sheets.length > 0) {
+          const loadedSheets = [];
+          sheets.forEach(function (sheet) {
+            const link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.type = "text/css";
+            link.href = "https://cdn.ashbyprd.com/frontend_non_user/56e3abb91667643f4bf63b5f1cf57e2359c682bc/" + sheet;
+            link.media = "all";
+            const sheetIntegrity = integrityByFile[sheet];
+            if (sheetIntegrity != null) {
+              link.setAttribute("integrity", sheetIntegrity);
+              // SRI on a cross-origin stylesheet requires CORS mode; the CDN sends
+              // access-control-allow-origin: *.
+              link.setAttribute("crossorigin", "");
+            }
+            link.onload = function () {
+              loadedSheets.push(sheet);
+              if (loadedSheets.length === sheets.length) {
+                loadBundle();
+              }
+            };
+            link.onerror = loadBundle;
+            document.head.insertBefore(link, document.getElementById("vite-preload"));
+          });
+        } else {
+          loadBundle();
+        }
+      });

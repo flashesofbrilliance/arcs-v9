@@ -1,0 +1,311 @@
+Forward Deployed Agent Engineer @ Cogent Security
+
+{"@context":"https://schema.org/","@type":"JobPosting","title":"Forward Deployed Agent Engineer","description":"
+About Cogent Security
+
+Cogent is an Applied AI Lab building the next generation of AI agents for cybersecurity. AI has fundamentally changed how attacks happen, allowing malicious actors to operate at unprecedented speed and scale. Our AI Taskforce assesses petabytes of enterprise data to remediate these issues before critical breaches occur.
+
+To stay at the cutting edge, we blend frontier research with real-world execution. Alongside our core product work, Cogent Research serves as our applied AI lab - providing the research needed to make agentic security workflows a reality.
+
+Since coming out of stealth, Cogent has experienced rapid growth. We partner with Fortune 500 companies to secure some of the most complex production environments in the world. We're backed by Greylock and our team includes people from:
+
+Top universities like Stanford, Berkeley, Penn, Duke, Carnegie Mellon, and Waterloo
+
+High-growth companies like Scale AI, Databricks, Stripe, Tesla, and Coinbase
+
+Cybersecurity leaders from Wiz, Abnormal AI, and Zscaler
+
+Research labs like DeepMind and SAIL
+
+About the Role
+
+We're hiring a Forward Deployed Agent Engineer to design, build, and deploy mission-critical AI agents that operate in complex customer environments and drive measurable security outcomes. This is a highly cross-functional, forward-deployed role - you'll work directly with customers to understand their needs, adapt our platform to their environment, and continuously iterate on solutions that scale to millions of real-world events.
+
+You'll own projects end-to-end: from initial implementation and data onboarding, to deploying in production, to integrating feedback into our core agent platform. Your work will directly shape how our agents detect threats, triage incidents, and automate security workflows for Fortune 500 organizations.
+
+This role is built for engineers who thrive in high-impact environments, love solving hard technical problems, and want to see the tangible results of their work in the field.
+
+What You'll Do
+
+Design   Deploy AI Agents
+ - build security-focused AI agents that reason over large datasets, interact with security systems, and handle complex real-world workflows
+
+Own Implementations End-to-End
+ - lead technical delivery for new and existing customers, from data ingestion and transformation pipelines to configuration, workflow design, and feature extension
+
+Integrate the Latest Models at Scale
+ - experiment with, evaluate, and integrate the latest text, voice, and multi-modal models into production environments
+
+Adapt to Diverse Environments
+ - work directly with customer security teams to integrate our agents with their tools, processes, and data sources
+
+Drive Platform Evolution
+ - identify cross-customer trends and translate field insights into platform improvements and new capabilities
+
+Solve Complex Technical Problems
+ - debug deep in the stack, investigate edge cases, and ensure our agents meet enterprise-grade reliability and performance standards
+
+What We're Looking For
+
+2+ years of professional software engineering experience, ideally in high-velocity or customer-facing environments
+
+Proficiency in Python and TypeScript, with strong skills in asynchronous programming and building robust data integrations
+
+Strong debugging and systems thinking abilities; comfortable tracing issues across multiple layers of a stack
+
+Clear communication skills, with the ability to translate between technical and non-technical contexts
+
+Thrive in ambiguity, take ownership end-to-end, and prioritize customer outcomes over output
+
+Nice to Have
+
+Experience with multi-modal AI models, enterprise SaaS, security operations, or behavioral analytics
+
+Familiarity with large-scale data ingestion, transformation pipelines, and real-time processing
+
+For California Based Applicants
+
+The standard base salary range for this position is $100,000 - $300,000 annually. Compensation offered will be determined by factors such as location, job level, job-related knowledge, skills, and experience. Certain roles may be eligible for variable compensation, equity, and benefits.
+
+We are committed to building an inclusive and diverse company. We do not discriminate based on gender, ethnicity, sexual orientation, religion, civil or family status, age, disability, or race.
+
+","directApply":true,"identifier":{"@type":"PropertyValue","name":"Cogent Security","value":"e038692d-ca5c-4df4-8ea2-b472c2a6d99b"},"datePosted":"2026-09-14","hiringOrganization":{"@type":"Organization","name":"Cogent Security","sameAs":"https://cogent.security"},"jobLocation":{"@type":"Place","address":{"@type":"PostalAddress","addressLocality":"San Francisco","addressRegion":"California","addressCountry":"United States"}},"employmentType":"FULL_TIME","jobLocationType":"TELECOMMUTE","applicantLocationRequirements":{"@type":"Country","name":"United States"}}
+
+      .grecaptcha-badge {
+        visibility: hidden;
+      }
+
+      body > div > div:not([class]):has(> iframe[src*="/recaptcha/"]) {
+        box-sizing: content-box;
+      }
+
+      You need to enable JavaScript to run this app.
+
+        body {
+          overflow: hidden;
+        }
+
+        .center {
+          align-items: center;
+          display: flex;
+          flex-direction: column;
+          height: 100vh;
+          justify-content: center;
+          width: 100vw;
+        }
+
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        .fade-in {
+          animation-delay: 750ms;
+          animation-direction: normal;
+          animation-duration: 500ms;
+          animation-fill-mode: forwards;
+          animation-iteration-count: 1;
+          animation-name: fade-in;
+          animation-timing-function: ease-in-out;
+          opacity: 0;
+        }
+
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        .spinner {
+          animation-duration: var(--transitionDurationSlow, 600ms);
+          animation-iteration-count: infinite;
+          animation-name: spin;
+          animation-timing-function: linear;
+          border-color: var(--colorNeutral600Transparent, rgba(125, 134, 153, 0.25));
+          border-radius: 100%;
+          border-style: solid;
+          border-top-color: rgba(125, 134, 153, 0.9);
+          border-width: var(--borderWidthHeavy, 3px);
+          display: block;
+          height: var(--spacingXxlarge, 48px);
+          width: var(--spacingXxlarge, 48px);
+        }
+
+About Cogent Security
+
+Cogent is an Applied AI Lab building the next generation of AI agents for cybersecurity. AI has fundamentally changed how attacks happen, allowing malicious actors to operate at unprecedented speed and scale. Our AI Taskforce assesses petabytes of enterprise data to remediate these issues before critical breaches occur.
+
+To stay at the cutting edge, we blend frontier research with real-world execution. Alongside our core product work, Cogent Research serves as our applied AI lab - providing the research needed to make agentic security workflows a reality.
+
+Since coming out of stealth, Cogent has experienced rapid growth. We partner with Fortune 500 companies to secure some of the most complex production environments in the world. We're backed by Greylock and our team includes people from:
+
+Top universities like Stanford, Berkeley, Penn, Duke, Carnegie Mellon, and Waterloo
+
+High-growth companies like Scale AI, Databricks, Stripe, Tesla, and Coinbase
+
+Cybersecurity leaders from Wiz, Abnormal AI, and Zscaler
+
+Research labs like DeepMind and SAIL
+
+About the Role
+
+We're hiring a Forward Deployed Agent Engineer to design, build, and deploy mission-critical AI agents that operate in complex customer environments and drive measurable security outcomes. This is a highly cross-functional, forward-deployed role - you'll work directly with customers to understand their needs, adapt our platform to their environment, and continuously iterate on solutions that scale to millions of real-world events.
+
+You'll own projects end-to-end: from initial implementation and data onboarding, to deploying in production, to integrating feedback into our core agent platform. Your work will directly shape how our agents detect threats, triage incidents, and automate security workflows for Fortune 500 organizations.
+
+This role is built for engineers who thrive in high-impact environments, love solving hard technical problems, and want to see the tangible results of their work in the field.
+
+What You'll Do
+
+Design   Deploy AI Agents
+ - build security-focused AI agents that reason over large datasets, interact with security systems, and handle complex real-world workflows
+
+Own Implementations End-to-End
+ - lead technical delivery for new and existing customers, from data ingestion and transformation pipelines to configuration, workflow design, and feature extension
+
+Integrate the Latest Models at Scale
+ - experiment with, evaluate, and integrate the latest text, voice, and multi-modal models into production environments
+
+Adapt to Diverse Environments
+ - work directly with customer security teams to integrate our agents with their tools, processes, and data sources
+
+Drive Platform Evolution
+ - identify cross-customer trends and translate field insights into platform improvements and new capabilities
+
+Solve Complex Technical Problems
+ - debug deep in the stack, investigate edge cases, and ensure our agents meet enterprise-grade reliability and performance standards
+
+What We're Looking For
+
+2+ years of professional software engineering experience, ideally in high-velocity or customer-facing environments
+
+Proficiency in Python and TypeScript, with strong skills in asynchronous programming and building robust data integrations
+
+Strong debugging and systems thinking abilities; comfortable tracing issues across multiple layers of a stack
+
+Clear communication skills, with the ability to translate between technical and non-technical contexts
+
+Thrive in ambiguity, take ownership end-to-end, and prioritize customer outcomes over output
+
+Nice to Have
+
+Experience with multi-modal AI models, enterprise SaaS, security operations, or behavioral analytics
+
+Familiarity with large-scale data ingestion, transformation pipelines, and real-time processing
+
+For California Based Applicants
+
+The standard base salary range for this position is $100,000 - $300,000 annually. Compensation offered will be determined by factors such as location, job level, job-related knowledge, skills, and experience. Certain roles may be eligible for variable compensation, equity, and benefits.
+
+We are committed to building an inclusive and diverse company. We do not discriminate based on gender, ethnicity, sexual orientation, religion, civil or family status, age, disability, or race.
+
+      // A Vite manifest key: the entry's HTML filename relative to the build root.
+      // Single-entry apps leave entryHtml unset.
+      const ENTRY_KEY = "index.html";
+      fetch("https://cdn.ashbyprd.com/frontend_non_user/2cfe474f1604241ec612e96822deb79c512d7cd6/.vite/manifest.json").then(function (res) { return res.json() }).then(function (manifest) {
+        const entryData = manifest[ENTRY_KEY];
+        if (entryData == null) {
+          throw new Error("Vite manifest is missing entry: " + ENTRY_KEY);
+        }
+
+        // Walk the entry's static imports transitively. Both the CSS and the JS a
+        // page needs can sit on shared chunks rather than on the entry record, and
+        // the manifest lists only each chunk's direct imports -- so reading the
+        // entry alone silently drops stylesheets and preloads. Depth-first
+        // post-order puts a dependency's CSS ahead of its importer's, which is the
+        // cascade order Vite uses in the HTML it generates for the same entry.
+        const chunks = [];
+        const visited = {};
+        function collectChunks(key) {
+          if (visited[key] === true) {
+            return;
+          }
+          visited[key] = true;
+          const chunk = manifest[key];
+          if (chunk == null) {
+            return;
+          }
+          (chunk.imports ?? []).forEach(collectChunks);
+          chunks.push(chunk);
+        }
+        collectChunks(ENTRY_KEY);
+
+        // css[] holds output paths, not digests, but every manifest record carries
+        // an integrity for its own file -- so a stylesheet Vite emitted as its own
+        // record can be matched by path. The entry's CSS has no record and loads
+        // unhashed.
+        const integrityByFile = {};
+        Object.keys(manifest).forEach(function (key) {
+          const record = manifest[key];
+          if (record != null && record.file != null && record.integrity != null) {
+            integrityByFile[record.file] = record.integrity;
+          }
+        });
+
+        const sheets = [];
+        const seenSheets = {};
+        chunks.forEach(function (chunk) {
+          (chunk.css ?? []).forEach(function (sheet) {
+            if (seenSheets[sheet] === true) {
+              return;
+            }
+            seenSheets[sheet] = true;
+            sheets.push(sheet);
+          });
+        });
+
+        let bundleLoaded = false;
+        function loadBundle() {
+          if (bundleLoaded === true) {
+            return;
+          }
+
+          const el = document.createElement("script");
+          el.setAttribute("type", "module");
+          el.setAttribute("crossorigin", "");
+          el.setAttribute("integrity", entryData.integrity);
+          el.setAttribute("src", "https://cdn.ashbyprd.com/frontend_non_user/2cfe474f1604241ec612e96822deb79c512d7cd6/" + entryData.file);
+          document.head.appendChild(el);
+          bundleLoaded = true;
+        }
+
+        chunks.forEach(function (chunk) {
+          const preload = document.createElement("link");
+          preload.rel = "modulepreload";
+          preload.href = "https://cdn.ashbyprd.com/frontend_non_user/2cfe474f1604241ec612e96822deb79c512d7cd6/" + chunk.file;
+          // Carry the SRI hash on the preload too: Chrome/Firefox reuse the
+          // preloaded bytes for the integrity-bearing script tag, so an integrity-less
+          // preload silently bypasses the SRI check. Without it here, SRI is never
+          // enforced on the code-split chunks (the bulk of the app), in any browser.
+          preload.setAttribute("integrity", chunk.integrity);
+          preload.setAttribute("crossorigin", "");
+          document.head.appendChild(preload);
+        });
+
+        if (sheets.length > 0) {
+          const loadedSheets = [];
+          sheets.forEach(function (sheet) {
+            const link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.type = "text/css";
+            link.href = "https://cdn.ashbyprd.com/frontend_non_user/2cfe474f1604241ec612e96822deb79c512d7cd6/" + sheet;
+            link.media = "all";
+            const sheetIntegrity = integrityByFile[sheet];
+            if (sheetIntegrity != null) {
+              link.setAttribute("integrity", sheetIntegrity);
+              // SRI on a cross-origin stylesheet requires CORS mode; the CDN sends
+              // access-control-allow-origin: *.
+              link.setAttribute("crossorigin", "");
+            }
+            link.onload = function () {
+              loadedSheets.push(sheet);
+              if (loadedSheets.length === sheets.length) {
+                loadBundle();
+              }
+            };
+            link.onerror = loadBundle;
+            document.head.insertBefore(link, document.getElementById("vite-preload"));
+          });
+        } else {
+          loadBundle();
+        }
+      });
