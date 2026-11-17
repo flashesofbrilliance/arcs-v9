@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 5,
-  "script": 331,
+  "script": 332,
   "skill": 28,
   "workflow": 2
  },
- "total": 464,
+ "total": 465,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 628,
+   "WIRED": 629,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 1,
    "DUPLICATE": 6,
@@ -2744,6 +2744,14 @@
    "path": "scripts/resume_ats_render.py",
    "jtbd": "resume_ats_render — turn a designed ARCS resume into an ATS-safe companion.",
    "invoke": "python3 scripts/resume_ats_render.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "resume_claim_gate.py",
+   "path": "scripts/resume_claim_gate.py",
+   "jtbd": "resume_claim_gate: block resume claims Zach has corrected from coming back into forge resume bundles.",
+   "invoke": "python3 scripts/resume_claim_gate.py",
    "state": "WIRED"
   },
   {
