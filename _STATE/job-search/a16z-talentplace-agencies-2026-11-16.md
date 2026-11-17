@@ -36,3 +36,6 @@ The core pitch is the same in every note (who you are, what you want, where); on
 
 ## Also worth a look
 1st10 (the first ten engineers at startups; more engineering than product), Zearch and Thira Partners (executive search for AI companies), Whispered (unlisted executive roles), Venture Talent Partners (tagged AI apps and agents, no description), Calibre One (boutique with a New York office).
+
+## Status, 2026-11-16 evening
+All 10 agencies above are shared, each with its note (checked on the Already shared tab). Zach separately shared 021 Sales, Artemis, Arnold Partners and Thrively, with no notes. On the companies page, 11 are shared with notes: Adaptive Security, Roebling, Temporal, Hippocratic AI, EarnIn, Hercules, Calder, aka, OpenRouter, Stuut and Gamma. The dashboard showed 45 profile views at the time.
