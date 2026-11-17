@@ -124,46 +124,50 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.150.0 (2026-11-17)
+# Handoff — v3.151.0 (2026-11-17)
 
 ## Goal / true north
-Clear the 2026-11-17 repo fix queue: merge only what Zach approved, park the rest as reviewable PRs, keep main's gates green.
+Clear the 2026-11-17 repo fix queue: merge only what Zach approved, keep main's gates green, leave nothing parked without a reason.
 
 ## What changed
 - PR #2340 merged (44e26e57): 11-16 night-moves digest; receipt 2026-11-17--night-moves-digest-pr2340--ZH.
-- PR #2341 merged (41126776): reading_room_sync on main, stale-refresh wiring, project_mirror.sh; gate chain public words for 1fb74fe4 and 38cc17ce (Zach's Pair A each), claims scope reviewed; receipt 2026-11-17--reading-room-sync-pr2341--ZH.
-- PR #2342 opened (ready): meta-audit and safe_merge descriptions carry the user's words; recall fixtures 3/3 incl. a new safe_merge one; DONE row project-mirror-nightly fixes main's ORPHAN-TOOL failure.
-- PR #2343 opened (draft): triage cliffs fated on Zach's answers; row triage-cliffs-2026-11-19-20 DONE inside it.
-- PR #2323 rebased onto main; description now explains why #2293's merge commit is not on main (2293 retargeted onto 2290's branch 14 min after 2290 merged, then merged there).
-- PR #2272: commented @dependabot rebase; its gauntlet-log axe failure was already fixed on main in de2ad62a.
-- G53 applied: branch.autoSetupMerge removed from .git/config (global true now governs). git worktree prune cleared six dead entries (night-moves 11-13, 11-14 and four scratchpad ones). ~/Claude/wt-reading-room-sync removed.
+- PR #2341 merged (41126776): reading_room_sync on main, stale-refresh wiring, project_mirror.sh; gate chain public words for 1fb74fe4 and 38cc17ce (Zach's Pair A each); receipt 2026-11-17--reading-room-sync-pr2341--ZH.
+- PR #2342 merged (59a24f3a): meta-audit and safe_merge descriptions carry the user's words (recall fixtures 3/3, one new); DONE row project-mirror-nightly fixed main's jtbd-graph ORPHAN-TOOL failure; receipt 2026-11-17--prior-art-recall-pr2342--ZH.
+- PR #2343 merged (32ac856f): 11-19/11-20 triage cliffs fated on Zach's answers, row triage-cliffs-2026-11-19-20 DONE; receipt 2026-11-17--triage-cliffs-pr2343--ZH.
+- PR #2344 merged (24df7530): handoff v3.150.0; receipt 2026-11-17--handoff-v3-150-pr2344--ZH.
+- PR #2323 merged (5f273852): re-land of #2293; its description records why #2293's merge commit never reached main (retargeted onto #2290's branch 14 minutes after #2290 merged); receipt 2026-11-17--good-cruft-claims-reland-pr2323--ZH.
+- PR #2335 merged (27b72d26), then PR #2338 rebased and merged (44bcf73a); #2338's forge-bundles.json and forge-cost-ledger.jsonl were resolved by replaying each commit's own writes (bundle upsert, ledger append), verified equal to main plus #2338's 30 bundles; receipts 2026-11-17--jobs-pay-screen-pr2335--ZH and 2026-11-17--forge-six-fresh-roles-pr2338--ZH.
+- PR #2272: commented @dependabot rebase; its axe failure (gauntlet-log) was already fixed on main in de2ad62a.
+- G53 applied: branch.autoSetupMerge removed from .git/config. git worktree prune cleared six dead entries; temp worktrees under ~/Claude removed.
 
 ## Current state
-- main fails universe_jtbd_adapter --check (ORPHAN-TOOL project_mirror.sh) until #2342 merges; #2343's CI depends on that.
-- Step 4 needed no PR: all 19 jobs-pipeline commits (incl. the board defaults, Boston/NYC boards and job-search records) are already in #2335.
-- #2335 is the agreed first-lander over #2338, but neither has merge approval; #2338 rebases and regenerates the forge ledger and bundles after #2335 lands.
-- prl-phase-1-2 ORPHAN-JOB hold renewed to 2026-12-01 (Zach asked 2027-02-01; the gate caps holds at 14 days).
+- The fix queue has nothing left to merge. Open PRs: 2272 (waits on Dependabot's rebase), 2248, 2068.
+- jtbd-graph --check passes on main.
+- prl-phase-1-2 is DONE; its ORPHAN-JOB hold was renewed to 2026-12-01 (Zach asked 2027-02-01; the gate caps holds at 14 days).
+- Worktree unruffled-moser-c1595d still holds #2338's branch at its pre-rebase head (clean, behind).
 
 ## Decisions made
-- Zach, 2026-11-17: merge #2341 and #2340 only; #2335 lands before #2338; keep the stripe plugin; apply G53; leave sharp-turing parked.
-- Zach, 2026-11-17: good-agent-files, agent-readable-arcs-hosts, prl-phase-1-2 DONE; nftt-every-mistake-became-a-gate and paid-brief-first-dollar re-dated 12-01; proposal_construction.py gets a DONE row.
+- Zach, 2026-11-17: merge #2340 and #2341 in step 0; later "go ahead" on #2342, #2343, #2344, #2323, #2335 then #2338.
+- Zach, 2026-11-17: keep the stripe plugin; apply G53; leave sharp-turing (next-step detector, floor-light) parked.
+- Zach, 2026-11-17: good-agent-files, agent-readable-arcs-hosts, prl-phase-1-2 DONE; nftt-every-mistake-became-a-gate and paid-brief-first-dollar re-dated to 2026-12-01; proposal_construction.py got a DONE row.
 
 ## Open decisions (waiting on Zach)
-1. Zach: merge #2342 (restores main's jtbd-graph gate), then #2343.
-2. Zach: merge go for #2335, then #2338 rebase plus regenerate.
-3. Zach: review #2323; watch #2272 after Dependabot's rebase.
+1. Zach: #2272 after Dependabot's rebase; check its fe-smoke result.
+2. Zach: nftt-every-mistake-became-a-gate (LinkedIn teaser) and paid-brief-first-dollar (STRIPE_PAYMENT_LINK, prod migration) fall due 2026-12-01.
 
 ## Open (other)
-1. prl-phase-1-2 hold falls due 2026-12-01 again; a tool atom for the Zapier/Tidio work would end the renewals.
+1. The prl-phase-1-2 hold falls due 2026-12-01; a tool atom for the Zapier/Tidio work would end the renewals.
+2. Possible guard: refuse a merge when the PR's base branch already merged (the #2293 failure).
 
 ## Next action
-Merge #2342 with scripts/safe_merge.sh so main's jtbd-graph gate is green again.
+Next session: follow the boot block; then check #2272 once Dependabot has rebased it.
 
 ## Cold-start recipe
-- gh pr list --state open
+- Read the boot block the session-start hook prints.
+- gh pr list --state open; python3 scripts/approvals_ledger.py
 - python3 scripts/universe_jtbd_adapter.py --check
 - python3 scripts/backlog_graph.py --top 15
 
 Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
 
-> Molted from `_HANDOFFS/fragments/20261117T214513Z--claude-handoff-2026-11-17-fix-queue.md` (branch `claude/handoff-2026-11-17-fix-queue`, head `41126776`).
+> Molted from `_HANDOFFS/fragments/20261117T220159Z--claude-handoff-2026-11-17-after-merges.md` (branch `claude/handoff-2026-11-17-after-merges`, head `44bcf73a`).
