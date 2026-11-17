@@ -124,50 +124,46 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.149.0 (2026-11-16)
-
-> The same day as v3.148.0, the second half of the paperwork pass. The 11-17 CI cliff is defused (32 triage holds and one blocker re-dated, PR 2318). Zach's dreaming picks are built (due-soon warning, kit_sync_refresh, bash 3.2 and file:// guard hooks, ship_docs title, PR 2319) and the five draft PRs are closed. The main checkout is on the new main, so the hooks run, and both were seen denying live. Every thread now starts with a boot block from scripts/daily_boot.py. The open edge is the next dated cliff (11-19 and 11-20), filed as a READY row, and Zach's small decision queue.
+# Handoff — v3.150.0 (2026-11-17)
 
 ## Goal / true north
-Keep the merge queue and the backlog honest, and give every thread the same boot so cadence does not depend on memory.
+Clear the 2026-11-17 repo fix queue: merge only what Zach approved, park the rest as reviewable PRs, keep main's gates green.
 
 ## What changed
-- PR #2318 merged (e4a5e36b): 32 JTBD triage holds and the anthropic-spend-monitor blocker re-dated from 11-16/11-17 to 11-30; receipt 2026-11-16--triage-holds-redate-pr2318--ZH.
-- PR #2319 merged (ae6976c3): TRIAGE-DUE-SOON warning, scripts/kit_sync_refresh.sh, bash 3.2 and file:// guard hooks, ship_docs title default; receipt 2026-11-16--dreaming-picks-build-pr2319--ZH.
-- Draft PRs #2221, #2260, #2267, #2276 (dreaming passes 10 to 13) and #2247 (night-moves 11-12) closed on Zach's ruling, picks applied.
-- Main checkout moved to origin/main (ae6976c3); both new hooks seen denying live.
-- Daily boot: scripts/daily_boot.py, called by the session-start hook (this PR).
-- Memories banked: ripe-is-not-done-read-each-loop-tag, git-rev-parse-short-takes-one-rev, plus notes on the axe-upgrade and long-inline-shell memories.
+- PR #2340 merged (44e26e57): 11-16 night-moves digest; receipt 2026-11-17--night-moves-digest-pr2340--ZH.
+- PR #2341 merged (41126776): reading_room_sync on main, stale-refresh wiring, project_mirror.sh; gate chain public words for 1fb74fe4 and 38cc17ce (Zach's Pair A each), claims scope reviewed; receipt 2026-11-17--reading-room-sync-pr2341--ZH.
+- PR #2342 opened (ready): meta-audit and safe_merge descriptions carry the user's words; recall fixtures 3/3 incl. a new safe_merge one; DONE row project-mirror-nightly fixes main's ORPHAN-TOOL failure.
+- PR #2343 opened (draft): triage cliffs fated on Zach's answers; row triage-cliffs-2026-11-19-20 DONE inside it.
+- PR #2323 rebased onto main; description now explains why #2293's merge commit is not on main (2293 retargeted onto 2290's branch 14 min after 2290 merged, then merged there).
+- PR #2272: commented @dependabot rebase; its gauntlet-log axe failure was already fixed on main in de2ad62a.
+- G53 applied: branch.autoSetupMerge removed from .git/config (global true now governs). git worktree prune cleared six dead entries (night-moves 11-13, 11-14 and four scratchpad ones). ~/Claude/wt-reading-room-sync removed.
 
 ## Current state
-- Every session now starts with a boot block: the first session of the day is told to run /scrum then the cruise-control sweep; every session gets today's one thing (now recoil-brian-ssot), and the claim-a-row, flip-DONE-in-the-feature-PR, archive-on-merge and 4-session rules.
-- Patent-filing chain composted (23 rows); backlog depth 6 waves.
-- Open PRs: 2312 status milestones, 2272 Dependabot (needs @dependabot rebase; its red fe-smoke predates the gauntlet-log fix), 2248 (one generated-file conflict; scripts/kit_sync_refresh.sh fixes it), 2214 (five real conflicts, owner resolves), 2222 (fe-smoke red), 2073 and 2068 drafts.
+- main fails universe_jtbd_adapter --check (ORPHAN-TOOL project_mirror.sh) until #2342 merges; #2343's CI depends on that.
+- Step 4 needed no PR: all 19 jobs-pipeline commits (incl. the board defaults, Boston/NYC boards and job-search records) are already in #2335.
+- #2335 is the agreed first-lander over #2338, but neither has merge approval; #2338 rebases and regenerates the forge ledger and bundles after #2335 lands.
+- prl-phase-1-2 ORPHAN-JOB hold renewed to 2026-12-01 (Zach asked 2027-02-01; the gate caps holds at 14 days).
 
 ## Decisions made
-- Zach, 2026-11-16: compost the patent-filing chain.
-- Zach, 2026-11-16: build the dreaming picks (T1b, T2, F1, N1, N2, L2); close the five drafts; L1 and Q1 not picked.
-- Zach, 2026-11-16: a daily boot sequence on every thread.
+- Zach, 2026-11-17: merge #2341 and #2340 only; #2335 lands before #2338; keep the stripe plugin; apply G53; leave sharp-turing parked.
+- Zach, 2026-11-17: good-agent-files, agent-readable-arcs-hosts, prl-phase-1-2 DONE; nftt-every-mistake-became-a-gate and paid-brief-first-dollar re-dated 12-01; proposal_construction.py gets a DONE row.
 
 ## Open decisions (waiting on Zach)
-1. Zach: row triage-cliffs-2026-11-19-20 (READY, trigger 2026-11-18): the prl-phase-1-2 hold expires 11-19 and five blocker dates fall due by 11-20.
-2. Zach: My Ally unpaid discovery over its 10 h cap: bill, box or stop.
-3. Zach: @dependabot rebase on 2272; retarget 2068 to main before review.
-4. Zach: confirm week 1 of the Gravity week plan; settle the Gravity date seams.
+1. Zach: merge #2342 (restores main's jtbd-graph gate), then #2343.
+2. Zach: merge go for #2335, then #2338 rebase plus regenerate.
+3. Zach: review #2323; watch #2272 after Dependabot's rebase.
 
 ## Open (other)
-1. Candidate agents: graduate cruise-control, chief-loki, scrum-master; compost or fold chief-bayesian, chief-conductor, claim-index-sme and the four idea-* seats (0 uses since 10-20).
-2. The 35 unaudited operators: adopt them as the first audit step of the core engine work.
+1. prl-phase-1-2 hold falls due 2026-12-01 again; a tool atom for the Zapier/Tidio work would end the renewals.
 
 ## Next action
-Next session: follow the boot block, then work triage-cliffs-2026-11-19-20 before 11-19.
+Merge #2342 with scripts/safe_merge.sh so main's jtbd-graph gate is green again.
 
 ## Cold-start recipe
-- Read the boot block the session-start hook prints.
-- gh pr list --state open; python3 scripts/approvals_ledger.py
+- gh pr list --state open
+- python3 scripts/universe_jtbd_adapter.py --check
 - python3 scripts/backlog_graph.py --top 15
-- python3 scripts/universe_jtbd_adapter.py --check (TRIAGE-DUE-SOON lines)
 
 Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
 
-> Molted from `_HANDOFFS/fragments/20261116T191053Z--claude-daily-boot.md` (branch `claude/daily-boot`, head `ae6976c3`).
+> Molted from `_HANDOFFS/fragments/20261117T214513Z--claude-handoff-2026-11-17-fix-queue.md` (branch `claude/handoff-2026-11-17-fix-queue`, head `41126776`).
