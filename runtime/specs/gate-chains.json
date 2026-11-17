@@ -1,9 +1,9 @@
 {
- "through": "113fa1c6",
- "through_date": "2026-11-16",
+ "through": "bde67c8d",
+ "through_date": "2026-11-17",
  "hook": "scripts/git-hooks/pre-commit",
- "gate_count": 96,
- "chain_count": 16,
+ "gate_count": 98,
+ "chain_count": 18,
  "weeks": [
   {
    "week": "2026-W35",
@@ -885,9 +885,48 @@
      "2026-11-16",
      "113fa1c6",
      "babel_fish_listeners.py"
+    ],
+    [
+     "2026-11-16",
+     "1fb74fe4",
+     "aum_claim_gate.py"
+    ],
+    [
+     "2026-11-17",
+     "38cc17ce",
+     "resume_claim_gate.py"
     ]
    ],
-   "chains": [],
+   "chains": [
+    {
+     "date": "2026-11-16",
+     "sha": "1fb74fe4",
+     "scope": "claims",
+     "subject": "fix(claims): Grayscale $7B is a launch figure, never AUM, plus gate",
+     "public": [
+      "Résumés and pages called a launch figure assets under management, a claim the record does not support.",
+      "Corrected 391 files to say what was launched; a gate blocks the old phrasing on every commit."
+     ],
+     "gates": [
+      "aum_claim_gate"
+     ],
+     "cite": "git show 1fb74fe4 -- scripts/git-hooks/pre-commit"
+    },
+    {
+     "date": "2026-11-17",
+     "sha": "38cc17ce",
+     "scope": "forge",
+     "subject": "fix(forge): clear corrected resume claims from 119 older bundles, gate them",
+     "public": [
+      "Older résumé bundles still carried claims that had since been corrected, in their pages and PDFs.",
+      "Cleared 119 bundles and re-rendered the PDFs; a gate now reads every résumé, PDFs included, on each commit."
+     ],
+     "gates": [
+      "resume_claim_gate"
+     ],
+     "cite": "git show 38cc17ce -- scripts/git-hooks/pre-commit"
+    }
+   ],
    "reversals": [
     [
      "F49",
@@ -897,7 +936,7 @@
   }
  ],
  "cites": {
-  "gates": "git log -p 113fa1c6 -- scripts/git-hooks/pre-commit (first commit whose added line names the script)",
+  "gates": "git log -p bde67c8d -- scripts/git-hooks/pre-commit (first commit whose added line names the script)",
   "chains": "a fix(...) commit among those that first wired a script",
   "reversals": "_STATE/falsification-ledger.jsonl ts, id and scope only"
  }
