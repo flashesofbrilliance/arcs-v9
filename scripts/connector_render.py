@@ -445,6 +445,16 @@ EXTERNAL_PAGES = {
         # its distribution row is keyed by the repo name, not the page slug
         "repo": "check-it-before-you-say-it",
     },
+    "cruft-sweep-skill": {
+        "slug": "cruft-sweep", "group": "skill", "name": "cruft-sweep-skill",
+        "line": "Survey and safely reclaim stale git worktrees. Every prune writes a verified bundle first, and a salvage check flags claims that exist nowhere else before anything is removed.",
+        "page": "", "repo": "cruft-sweep-skill",
+    },
+    "claims-skeptic-skill": {
+        "slug": "claims-skeptic", "group": "skill", "name": "claims-skeptic-skill",
+        "line": "An agent that checks each factual claim in a document against the live repository: verified with evidence, false with counter-evidence, or unverifiable with the check that would settle it.",
+        "page": "", "repo": "claims-skeptic-skill",
+    },
     "resume-tailor-skill": {
         "slug": "resume-tailor", "group": "skill", "name": "resume-tailor",
         "line": "Tailor a resume and cover letter to a role, graded by how checkable every line is.",
@@ -706,7 +716,7 @@ def render_gallery(ssot, blob):
   .card.compact .cbar{height:2px;}
   .card.compact .cbody{padding:13px 14px 4px;}
   .card.compact .cname{font-size:12.5px;}
-  .card.compact .cline{font-size:11.5px;margin-top:7px;}
+  .card.compact .cline{font-size:12px;margin-top:7px;}
   .card.compact .cfoot{padding:10px 14px;}
   .card{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.18));transition:.16s;}
   .card:hover{border-color:var(--border2);transform:translateY(-2px);}
