@@ -1,0 +1,3352 @@
+{
+ "generator": "scripts/gate_taxonomy_emit.py",
+ "ladder": {
+  "atoms": 129,
+  "molecules": 115,
+  "organisms": 12,
+  "templates": 6,
+  "pages": 1,
+  "primitives_with_evidence": [
+   "KINTSUGI"
+  ],
+  "templates_ruled": 0,
+  "molecules_with_operator": 0,
+  "molecules_with_adr": 20,
+  "protocols": 2
+ },
+ "atoms": [
+  {
+   "line": 60,
+   "verdict": "warn",
+   "script": "oracle.py",
+   "call": "echo \"  fix:  run 'python3 scripts/oracle.py next adr' for a fresh number, rename the file, commit _SEEDS/_oracle.json.\" >&2",
+   "message": "echo \"\u26a0 pre-commit(oracle-guard): ADR-$(printf '%03d' \"$n\") is above the committed oracle counter ($oracle_counter) \u2014 looks minted off-oracle. Not blocking, but verify with 'python3 scripts/oracle.py audit adr'.\" >&2",
+   "comment": "NB: do NOT `exit 0` here when $added is empty \u2014 later guards (wrap-class) must still run.",
+   "sha": "2c99533e",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 64,
+   "verdict": "block",
+   "script": "oracle.py",
+   "call": "echo \"\u26a0 pre-commit(oracle-guard): ADR-$(printf '%03d' \"$n\") is above the committed oracle counter ($oracle_counter) \u2014 looks minted off-oracle. Not blocking, but verify with 'python3 scripts/oracle.py ",
+   "message": "[ \"$fail\" -eq 1 ] && { echo \"\u2716 commit blocked: duplicate ADR number. (canon-collision-escalate: allocate via the oracle, don't reuse.)\" >&2; exit 1; }",
+   "comment": "NB: do NOT `exit 0` here when $added is empty \u2014 later guards (wrap-class) must still run.",
+   "sha": "2c99533e",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 83,
+   "verdict": "block",
+   "script": "artifact_wrap_lint.py",
+   "call": "if ! echo \"$html\" | tr '\\n' '\\0' | xargs -0 python3 scripts/artifact_wrap_lint.py; then",
+   "message": "echo \"\u2716 commit blocked: wrap-class violation in a NEW public/*.html (see above).\" >&2",
+   "comment": "wrap-class guard: reject NEWLY-ADDED public/*.html that carry the intermediate-width wrap-regression class (em-dash in rendered copy, or a per-role `max-width:NNch` on text). See scripts/artifact_wrap_lint.py and memory intermediate-width-wrap-regression-class.  ADDED-only, by design \u2014 mirrors the oracle guard above: a brand-new artifact (the recurrence population: each self-contained page re-auth",
+   "sha": "2c99533e",
+   "template": "lint",
+   "primitive_evidence": []
+  },
+  {
+   "line": 100,
+   "verdict": "block",
+   "script": "design_debt_sweep.py",
+   "call": "if ! python3 scripts/design_debt_sweep.py --check $dd; then",
+   "message": "echo \"\u2716 commit blocked: a served page's design debt went up (see above). Burn-down only goes down.\" >&2",
+   "comment": "design-debt ratchet (2026-10-08): every page surfaces.arcs.care serves has a committed per-page baseline in runtime/specs/design-debt-baseline.json (detector findings, visible em-dashes, wrap, tokens, template leaks, retired grey literals). A staged served page may only go DOWN on each. Done goal: all served pages clean except reasoned exemptions. Skips without python3; the detector column skips c",
+   "sha": "a01afc10",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 116,
+   "verdict": "block",
+   "script": "template_leak_lint.py",
+   "call": "if ! echo \"$tl\" | tr '\\n' '\\0' | xargs -0 python3 scripts/template_leak_lint.py; then",
+   "message": "echo \"\u2716 commit blocked: template code would render as visible text (see above).\" >&2",
+   "comment": "template-leak gate (2026-10-08): no static HTML may show unevaluated template code (`${...}`, a dangling `).join(`) as visible text. Found in the Claude Design Instrument Panel card, where JS template literals sat in plain HTML and rendered as code. The repo baseline was 0 leaks across every tracked .html, so ADDED and MODIFIED pages both block. Kintsugi seam: _PATTERNS/kintsugi-visual-grammar-sea",
+   "sha": "bac67125",
+   "template": "lint",
+   "primitive_evidence": [
+    "KINTSUGI"
+   ]
+  },
+  {
+   "line": 133,
+   "verdict": "block",
+   "script": "card_gutter_check.mjs",
+   "call": "echo \"$cg\" | tr '\\n' '\\0' | xargs -0 node scripts/card_gutter_check.mjs; rc=$?",
+   "message": "echo \"\u2716 commit blocked: dead right gutter inside a card in a NEW artifact (see above).\" >&2",
+   "comment": "card-gutter gate (headless sibling of the wrap lint): a NEW artifact whose text block inside a bordered card is >40px narrower than the card's inner width at 360/790/1280 (the dead right gutter static lint cannot see). Added-only, like the wrap lint. Skips cleanly when node or playwright is unavailable.",
+   "sha": "d1c1d6dd",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 151,
+   "verdict": "block",
+   "script": "nftt_meta_gate.py",
+   "call": "if ! echo \"$nftt\" | tr '\\n' '\\0' | xargs -0 python3 scripts/nftt_meta_gate.py; then",
+   "message": "echo \"\u2716 commit blocked: NFTT head-meta gap in a staged post (see above).\" >&2",
+   "comment": "NFTT head-meta gate: every blog-nftt-*.html post must carry the title '\u00b7 NFTT' suffix + a description meta + a robots meta (presence, not value -- noindex fragments stay noindex). nftt-gates.sh enforces this ONE FILE AT A TIME, so legacy posts predating the gate carried the gap for months (Frustration Gate, banked 2026-09-26). ADDED + MODIFIED, by design: a new post OR an edit to an existing one m",
+   "sha": "ce2b504b",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 168,
+   "verdict": "block",
+   "script": "connector_render.py",
+   "call": "if ! python3 scripts/connector_render.py --check >/dev/null 2>&1; then",
+   "message": "echo \"\u2716 commit blocked: a good.arcs.care page differs from its renderer.\" >&2",
+   "comment": "Generated-page drift gate (2026-10-03): good.arcs.care (+ its connector pages) and the NFTT index are RENDERED pages. Both once drifted far enough that a rebuild would have reverted live work (fixed e9085fd7). CI runs both --check steps, but CI can be down (Actions billing, 2026-09-30..10-03) and then nothing stopped a hand edit to the output. Fires only when a rendered page or one of its inputs i",
+   "sha": "d9599cd3",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 182,
+   "verdict": "block",
+   "script": "leak_check.sh",
+   "call": "bash scripts/leak_check.sh 2>&1 | grep -A3 \"LEAK\" >&2",
+   "message": "echo \"\u2716 commit blocked: internal text on a public page (scripts/leak_check.sh).\" >&2",
+   "comment": "External-surface leak check (2026-11-15): CI's gates job runs scripts/leak_check.sh, but only after a push. On 2026-11-14 an internal build-script path in public/rosetta-voice.html passed every local hook and was caught only by CI. Fires when a public page or the allow list is staged; ~2s; main is kept clean by CI, so a failure here is this commit's. Fix: remove the internal text, or add a narrow ",
+   "sha": "fb454b29",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 193,
+   "verdict": "block",
+   "script": "rewrite_shadow_check.py",
+   "call": "python3 scripts/rewrite_shadow_check.py 2>&1 | grep \"\u2716\" >&2",
+   "message": "echo \"\u2716 commit blocked: a host catch-all rewrite swallows one of that host's pages (scripts/rewrite_shadow_check.py).\" >&2",
+   "comment": "Rewrite shadow check (2026-11-15): rewrites chain, so a host catch-all can re-rewrite one of that host's own pages (rosetta-shell /voice served the landing page, live, 2026-11-14). Fires when next.config.ts is staged. Fix: add the destination file to the catch-all's negative lookahead.",
+   "sha": "1200ab58",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 203,
+   "verdict": "block",
+   "script": "babel_fish_listeners.py",
+   "call": "if ! python3 scripts/babel_fish_listeners.py --check >/dev/null 2>&1; then",
+   "message": "echo \"\u2716 commit blocked: Babel Fish's listener registry is stale. Run python3 scripts/babel_fish_listeners.py and re-stage.\" >&2",
+   "comment": "Babel Fish listener registry (2026-11-16): the artifact page embeds a registry generated from the operator registry, the LTE archetypes, CLAUDE.md's ROM primitives, the advisor agents and the imported Book of ARCS. Fires when any of them is staged. Fix: python3 scripts/babel_fish_listeners.py, re-stage.",
+   "sha": "113fa1c6",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 215,
+   "verdict": "block",
+   "script": "myally_hub_sync.py",
+   "call": "if ! python3 scripts/myally_hub_sync.py --check; then",
+   "message": "echo \"\u2716 commit blocked: the myally hub's Step 1 tab is stale against its engagement record.\" >&2",
+   "comment": "Engagement records (2026-11-06): the reply, agreement, Exhibit A and five-altitude page under _ARTIFACTS/engagements/<slug>/out/ render from one engagement.json. --check fails when a cited value moved and its outputs were not regenerated (names the field and every output citing it), or an output was hand-edited. Fix: edit the record, run scripts/engagement_render.py, re-stage. myally hub: the \"Lig",
+   "sha": "d83877d8",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 223,
+   "verdict": "block",
+   "script": "myally_primer_terms.py",
+   "call": "if ! python3 scripts/myally_primer_terms.py --check; then",
+   "message": "echo \"\u2716 commit blocked: the Primer and its copy in the hub disagree. Fix: python3 scripts/myally_primer_terms.py, re-stage.\" >&2",
+   "comment": "myally Primer: the hub's embedded copy and the hover definitions must match public/myally-primer.html.",
+   "sha": "fba8adda",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 230,
+   "verdict": "block",
+   "script": "myally_hub_crawl.py",
+   "call": "if ! python3 scripts/myally_hub_crawl.py; then",
+   "message": "echo \"\u2716 commit blocked: the myally hub crawl found a broken interaction (see above).\" >&2",
+   "comment": "myally hub interaction crawl (unit checks + headless clicks at 375/800/1280, about 12s).",
+   "sha": "1d101fee",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 237,
+   "verdict": "block",
+   "script": "engagement_render.py",
+   "call": "if ! python3 scripts/engagement_render.py --check; then",
+   "message": "echo \"\u2716 commit blocked: an engagement output is stale against its record (see above).\" >&2",
+   "comment": "myally hub interaction crawl (unit checks + headless clicks at 375/800/1280, about 12s).",
+   "sha": "008666fd",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 241,
+   "verdict": "block",
+   "script": "engagement_render.py",
+   "call": "if git diff --cached --name-only -- scripts/engagement_render.py | grep -q . && ! python3 scripts/engagement_render.py --self-test >/dev/null 2>&1; then",
+   "message": "echo \"\u2716 commit blocked: scripts/engagement_render.py --self-test failed.\" >&2",
+   "comment": "myally hub interaction crawl (unit checks + headless clicks at 375/800/1280, about 12s).",
+   "sha": "008666fd",
+   "template": "self-test",
+   "primitive_evidence": []
+  },
+  {
+   "line": 250,
+   "verdict": "block",
+   "script": "proposal_lint.py",
+   "call": "if ! python3 scripts/proposal_lint.py; then",
+   "message": "echo \"\u2716 commit blocked: a v1 engagement fails the honest-proposals lint (see above).\" >&2",
+   "comment": "Honest proposals (2026-11-08): every engagement-record-v1 record also passes scripts/proposal_lint.py (typed figures, sharing bans, full-build leak before the paid step, we/our voice, em-dash).",
+   "sha": "0c8c58af",
+   "template": "lint",
+   "primitive_evidence": []
+  },
+  {
+   "line": 254,
+   "verdict": "block",
+   "script": "proposal_lint.py",
+   "call": "if git diff --cached --name-only -- scripts/proposal_lint.py scripts/engagement_render.py | grep -q . && ! python3 scripts/proposal_lint.py --self-test >/dev/null 2>&1; then",
+   "message": "echo \"\u2716 commit blocked: scripts/proposal_lint.py --self-test failed.\" >&2",
+   "comment": "Honest proposals (2026-11-08): every engagement-record-v1 record also passes scripts/proposal_lint.py (typed figures, sharing bans, full-build leak before the paid step, we/our voice, em-dash).",
+   "sha": "0c8c58af",
+   "template": "self-test",
+   "primitive_evidence": []
+  },
+  {
+   "line": 264,
+   "verdict": "block",
+   "script": "backlog_status_check.py",
+   "call": "if ! python3 scripts/backlog_status_check.py --check --added; then",
+   "message": "echo \"\u2716 commit blocked: induced-backlog row(s) missing a valid state, or a new row missing route.tool / trigger (see FAIL lines above).\" >&2",
+   "comment": "Backlog state enum (2026-10-10): every _QUEUE/induced-backlog.jsonl row carries `state` from runtime/specs/backlog-status.json, prose in `status_note`, and RUNNING rows carry claimed_by + claimed_at. --added (2026-11-08): rows new vs HEAD also need route.tool + trigger (route at induction, execute at pickup).",
+   "sha": "9be72728",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 279,
+   "verdict": "block",
+   "script": "scratch_git_leak_gate.py",
+   "call": "if printf '%s\\n' $sg_staged | grep -qx scripts/scratch_git_leak_gate.py; then",
+   "message": "python3 scripts/scratch_git_leak_gate.py --self-test >/dev/null 2>&1 || { python3 scripts/scratch_git_leak_gate.py --self-test >&2 || true; echo \"\u2716 commit blocked: scratch_git_leak_gate.py --self-test failed.\" >&2; exit 1; }",
+   "comment": "Scratch-git leak gate (2026-11-12, gotcha 15): a staged script whose --self-test builds a scratch git repo is run under a worktree hook's env against a throwaway host repo; any write to the host's config or refs blocks. The tripwire at the top catches what reaches the real config; this names the script before it does.",
+   "sha": "a715c92e",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 282,
+   "verdict": "block",
+   "script": "scratch_git_leak_gate.py",
+   "call": "if [ -n \"$sg_run\" ] && ! python3 scripts/scratch_git_leak_gate.py $sg_run; then",
+   "message": "echo \"\u2716 commit blocked: a staged self-test writes to the repo that runs it (see above).\" >&2",
+   "comment": "Scratch-git leak gate (2026-11-12, gotcha 15): a staged script whose --self-test builds a scratch git repo is run under a worktree hook's env against a throwaway host repo; any write to the host's config or refs blocks. The tripwire at the top catches what reaches the real config; this names the script before it does.",
+   "sha": "a715c92e",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 292,
+   "verdict": "block",
+   "script": "backlog_merge_by_id.py",
+   "call": "python3 scripts/backlog_merge_by_id.py --self-test >&2 || true",
+   "message": "echo \"\u2716 commit blocked: scripts/backlog_merge_by_id.py --self-test failed (backlog merge driver or its .gitattributes line).\" >&2",
+   "comment": "Backlog merge driver (2026-11-12, gotcha 15): two throwaway branches in a temp repo prove the backlog fixture conflicts without the driver and merges clean by row id with it. ~2s; runs on every commit.",
+   "sha": "13dfde30",
+   "template": "self-test",
+   "primitive_evidence": []
+  },
+  {
+   "line": 301,
+   "verdict": "block",
+   "script": "approvals_ledger.py",
+   "call": "if ! python3 scripts/approvals_ledger.py --self-test >/dev/null || ! python3 .claude/hooks/cruise-control-bash-guard.py --self-test >/dev/null; then",
+   "message": "echo \"\u2716 commit blocked: approvals_ledger or cruise-control-bash-guard self-test failed (run each with --self-test).\" >&2",
+   "comment": "Read-only harness tools (2026-11-01): the approvals ledger and the cruise-control Bash guard each prove fail-on-bad / pass-on-good when they or the agent that loads the guard change.",
+   "sha": "8ccdfeac",
+   "template": "self-test",
+   "primitive_evidence": []
+  },
+  {
+   "line": 311,
+   "verdict": "block",
+   "script": "seed_lineage_check.py",
+   "call": "if ! python3 scripts/seed_lineage_check.py --check; then",
+   "message": "echo \"\u2716 commit blocked: a seed has no resolvable lineage pointer, or ancestry has a cycle (see PROBLEM lines above).\" >&2",
+   "comment": "Seed lineage (2026-10-17): every seed carries a resolvable pointer to its ancestry (a seed id, a commit that is an ancestor of HEAD, an ADR number or a repo path) and ancestry has no cycles. Ratchet over _SEEDS/lineage-baseline.json: today's debt is grandfathered, NEW seeds need a pointer.",
+   "sha": "1651dd6c",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 324,
+   "verdict": "block",
+   "script": "surface_catalog_emit.py",
+   "call": "if ! python3 scripts/surface_catalog_emit.py --check; then",
+   "message": "echo \"\u2716 commit blocked: the surface catalog is stale or misses a routed host (see above).\" >&2",
+   "comment": "Surface catalog (2026-10-07): runtime/specs/surface-catalog.json + runtime/warroom/surfaces.html are GENERATED from next.config.ts, src/proxy.ts and the src/app route tree. Fires when any of those is staged. Blocks when a host in next.config.ts is missing from the catalog, when the catalog differs from a fresh harvest (last-commit dates excluded), or when the page is not the render of the JSON. Fi",
+   "sha": "93b35eeb",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 333,
+   "verdict": "block",
+   "script": "hud_widget_isolation_gate.py",
+   "call": "if ! python3 scripts/hud_widget_isolation_gate.py --self-test >/dev/null; then",
+   "message": "echo \"\u2716 commit blocked: a HUD widget imports another widget (python3 scripts/hud_widget_isolation_gate.py).\" >&2",
+   "comment": "HUD widget isolation (2026-11-01): a widget importing another widget fails (imports are tokens and atoms only).",
+   "sha": "d3243b0b",
+   "template": "self-test",
+   "primitive_evidence": []
+  },
+  {
+   "line": 343,
+   "verdict": "block",
+   "script": "hud_widget_registry_emit.py",
+   "call": "if ! python3 scripts/hud_widget_registry_emit.py --check; then",
+   "message": "echo \"\u2716 commit blocked: the HUD widget registry is stale or a binding does not resolve (see above).\" >&2",
+   "comment": "HUD widget registry (2026-11-01): runtime/specs/hud-widgets.json is GENERATED by scripts/hud_widget_registry_emit.py. Fires when it, the emitter, or a file a widget reads is staged. Blocks on a stale registry or any binding (read path, symbol, prisma field, operator id, tool-catalog entry) that does not resolve.",
+   "sha": "fc344596",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 348,
+   "verdict": "block",
+   "script": "hud_widget_registry_emit.py",
+   "call": "if git diff --cached --name-only -- scripts/hud_widget_registry_emit.py | grep -q . && ! python3 scripts/hud_widget_registry_emit.py --self-test >/dev/null; then",
+   "message": "echo \"\u2716 commit blocked: python3 scripts/hud_widget_registry_emit.py --self-test fails.\" >&2",
+   "comment": "HUD widget registry (2026-11-01): runtime/specs/hud-widgets.json is GENERATED by scripts/hud_widget_registry_emit.py. Fires when it, the emitter, or a file a widget reads is staged. Blocks on a stale registry or any binding (read path, symbol, prisma field, operator id, tool-catalog entry) that does not resolve.",
+   "sha": "fc344596",
+   "template": "self-test",
+   "primitive_evidence": []
+  },
+  {
+   "line": 359,
+   "verdict": "block",
+   "script": "proof_emit.py",
+   "call": "if ! python3 scripts/proof_emit.py --check; then",
+   "message": "echo \"\u2716 commit blocked: the proof ledger is stale or a claim breaks the rules (see above).\" >&2",
+   "comment": "Proof ledger (2026-10-30): public/proof.html + public/proof-claims.json are GENERATED from runtime/specs/proof-claims.json (+ the falsification ledger and kit tokens). Blocks when either output is stale, or when a claim breaks the rules (status shown without a public url, unknown ledger id, em-dash). Fix: python3 scripts/proof_emit.py, re-stage. Never hand-edit the outputs.",
+   "sha": "e66ec453",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 369,
+   "verdict": "block",
+   "script": "good_agent_files_emit.py",
+   "call": "if ! python3 scripts/good_agent_files_emit.py --check; then",
+   "message": "echo \"\u2716 commit blocked: good.arcs.care agent files are stale (a post changed without the index).\" >&2",
+   "comment": "good.arcs.care agent files (2026-10-30): public/good-{llms,nftt-llms,til-llms,agents}.txt are GENERATED from the NFTT publish ledger and the post pages. Fires when a post, the ledger or the generator is staged.",
+   "sha": "6d602f21",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 382,
+   "verdict": "block",
+   "script": "universe_snapshot_emit.py",
+   "call": "if ! python3 scripts/universe_snapshot_emit.py --check; then",
+   "message": "echo \"\u2716 commit blocked: the universe snapshot content is stale (files named above).\" >&2",
+   "comment": "Universe snapshot (2026-10-08): runtime/specs/universe-snapshot.json, runtime/specs/universe/*.json and src/data/universe-field.json are GENERATED from the lattice + node map. Fires only when those inputs, the generator or the outputs are staged. --check compares CONTENT only: signature.frequency and the epoch stamp are an as-of reading refreshed by `--refresh` (oracle-serialized), never gated, so",
+   "sha": "8ef6dab3",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 393,
+   "verdict": "block",
+   "script": "seed_ledger_gate.py",
+   "call": "if ! python3 scripts/seed_ledger_gate.py; then",
+   "message": "echo \"\u2716 commit blocked: a new _SEEDS/index.jsonl row has no _SEEDS/ledger.jsonl row.\" >&2",
+   "comment": "Seed ledger gate (2026-10-17): a seed may not be born without a receipt. Fires only when _SEEDS/index.jsonl is staged. Every index row ADDED by the commit needs a ledger row in the same commit (15 seeds were planted inside two feature commits without one). See scripts/seed_ledger_gate.py.",
+   "sha": "e567cd70",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 400,
+   "verdict": "block",
+   "script": "nftt_index_build.mjs",
+   "call": "if ! node scripts/nftt_index_build.mjs --check >/dev/null 2>&1; then",
+   "message": "echo \"\u2716 commit blocked: public/blog-nftt-index.html differs from scripts/nftt_index_build.mjs.\" >&2",
+   "comment": "Seed ledger gate (2026-10-17): a seed may not be born without a receipt. Fires only when _SEEDS/index.jsonl is staged. Every index row ADDED by the commit needs a ledger row in the same commit (15 seeds were planted inside two feature commits without one). See scripts/seed_ledger_gate.py.",
+   "sha": "d9599cd3",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 415,
+   "verdict": "block",
+   "script": "nftt_published.py",
+   "call": "if [ -n \"$pub\" ] && ! python3 scripts/nftt_published.py --check; then",
+   "message": "echo \"\u2716 commit blocked: an NFTT post is missing its publish timestamp (see above).\" >&2",
+   "comment": "NFTT publish-timestamp gate (2026-10-04): every routed /blog/nftt/<slug> post carries its frozen publish time (article:published_time + a byline <time>) from runtime/specs/nftt-published.json. 32 posts shipped undated before anyone asked. Fires when a post, the proxy routes, or the ledger is staged. Fix: nftt_published.py derive (or derive --now <slug> for a new post), then stamp. See scripts/nftt",
+   "sha": "e6b54862",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 424,
+   "verdict": "block",
+   "script": "nftt_series.py",
+   "call": "if [ -n \"$ser\" ] && ! python3 scripts/nftt_series.py --check; then",
+   "message": "echo \"\u2716 commit blocked: a serialized NFTT part is missing or stale (see above).\" >&2",
+   "comment": "Same trigger shape for serialized parts (runtime/specs/nftt-series.json): a part whose series line or panel drifted from the SSOT blocks. Fix: python3 scripts/nftt_series.py stamp",
+   "sha": "d606f62d",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 443,
+   "verdict": "block",
+   "script": "analytics_coverage_gate.py",
+   "call": "if ! echo \"$newhtml\" | tr '\\n' '\\0' | xargs -0 python3 scripts/analytics_coverage_gate.py; then",
+   "message": "echo \"\u2716 commit blocked: a NEW public/*.html is missing the Vercel analytics snippet (see above).\" >&2",
+   "comment": "analytics-coverage gate (uncovered-new-page class, 2026-09-26): every served public/*.html must carry the Vercel Web Analytics snippet. leak_check.sh asserts this whole-tree, but only MID-CASCADE (after the internal-marker leak gate) with no commit-time check, so a NEW page ships uncovered unnoticed -- public/good-fears.html did, days after a 65-page coverage sweep. ADDED-only, by design (mirrors ",
+   "sha": "806296b0",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 463,
+   "verdict": "block",
+   "script": "page_gate.py",
+   "call": "if ! echo \"$pages\" | tr '\\n' '\\0' | xargs -0 python3 scripts/page_gate.py --static --no-wrap-lint; then",
+   "message": "echo \"\u2716 commit blocked: a NEW page is missing doctype / charset / viewport or carries mojibake (see above).\" >&2",
+   "comment": "page-gate (static): a NEW standalone page must declare <!doctype html>, a utf-8 charset inside the first 1024 bytes, and a viewport, and must carry no baked-in mojibake. Banked 2026-10-03: a _PROPOSALS/ draft cloned from the NFTT master (which has neither doctype nor charset) rendered \"No. 2 \u00c2\u00b7\" on a phone; 30 public pages lack a doctype. ADDED-only, by design (mirrors the wrap-class guard): legac",
+   "sha": "58e96443",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 477,
+   "verdict": "block",
+   "script": "proposal_build.py",
+   "call": "if ! python3 scripts/proposal_build.py --louisville --check; then",
+   "message": "echo \"\u2716 commit blocked: edit _ARTIFACTS/louisville-proposal/source.html, then rebuild with scripts/proposal_build.py --louisville\" >&2",
+   "comment": "proposal-build drift: a proposal's hosted page is GENERATED from its source by scripts/proposal_build.py. If either is staged, the hosted copy must match a fresh build, so a hand edit to public/ cannot be silently clobbered by the next regeneration (2026-11-06).",
+   "sha": "9dfaaab8",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 498,
+   "verdict": "block",
+   "script": "page_gate.py",
+   "call": "python3 scripts/page_gate.py $pdfs",
+   "message": "echo \"\u2716 commit blocked: a staged PDF failed the page gate (see above). Fix the source page and re-render.\" >&2",
+   "comment": "page-gate (pdf): any ADDED or CHANGED PDF under public/ or _ARTIFACTS/ must have pages, a real title, tags, embedded fonts, no em-dash or mojibake in its text, and only https:// or mailto: links. Banked 2026-11-06: the Louisville proposal PDF shipped with no gate looking at it. Skips cleanly (exit 2, not a block) on a machine without poppler; the next machine with it catches it.",
+   "sha": "9dfaaab8",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 514,
+   "verdict": "block",
+   "script": "tooltip_link_lint.py",
+   "call": "if ! echo \"$ttl\" | tr '\\n' '\\0' | xargs -0 python3 scripts/tooltip_link_lint.py; then",
+   "message": "echo \"\u2716 commit blocked: term-tooltip handler missing the closest('a') link-nav guard (see above).\" >&2",
+   "comment": "tooltip-link guard: a glossary `.term` tooltip whose click handler preventDefaults without a closest('a') guard silently blocks link navigation when a term sits inside an <a> (banked 2026-09-23). ADDED + MODIFIED, by design: the bug arrives via an edit to an existing tooltip page, not only a new one; the linter SKIPs non-tooltip pages so legacy files never false-fail. See scripts/tooltip_link_lint",
+   "sha": "7a5b7237",
+   "template": "lint",
+   "primitive_evidence": []
+  },
+  {
+   "line": 532,
+   "verdict": "block",
+   "script": "html_div_balance_lint.py",
+   "call": "if ! echo \"$divs\" | tr '\\n' '\\0' | xargs -0 python3 scripts/html_div_balance_lint.py; then",
+   "message": "echo \"\u2716 commit blocked: <div> imbalance in a staged page (see above) \u2014 an unclosed div collapses a sibling into a pinched column.\" >&2",
+   "comment": "div-balance guard: an unclosed <div> (e.g. a `.row` ending in </p> with no </div>) silently nests the next sibling inside it; when the parent lays children out in columns, the nested block renders as a pinched column instead of its own full-width row -- a visual regression the wrap-lint cannot see (nothing overflows). Banked 2026-09-23 (vico.html how-I-work section). ADDED + MODIFIED: the bug arri",
+   "sha": "6bd191f3",
+   "template": "lint",
+   "primitive_evidence": []
+  },
+  {
+   "line": 546,
+   "verdict": "block",
+   "script": "migration_rls_lint.py",
+   "call": "if ! python3 scripts/migration_rls_lint.py; then",
+   "message": "echo \"\u2716 commit blocked: a migration creates a table without enabling RLS (see above).\" >&2",
+   "comment": "migration-RLS guard: a Prisma migration that CREATEs a table without ENABLE ROW LEVEL SECURITY leaves it readable+writable with the public anon key over Supabase PostgREST. Tribune shipped that way (2026-09-06) and sat open for three weeks. Banked 2026-09-28.",
+   "sha": "e88ca1da",
+   "template": "lint",
+   "primitive_evidence": []
+  },
+  {
+   "line": 560,
+   "verdict": "block",
+   "script": "(inline shell)",
+   "call": "",
+   "message": "echo \"\u2716 commit blocked: recoil-report renderer output fails its design check (see above).\" >&2",
+   "comment": "recoil-report renderer design check (2026-10-30, backlog recoil-renderer-design-debt): every rendered report used to carry an em-dash title and ~23 detector findings (10px text, wide tracking on non-labels). Renders the bundled sample and fails on the whole class.",
+   "sha": "ead23f2f",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 575,
+   "verdict": "block",
+   "script": "(inline shell)",
+   "call": "",
+   "message": "echo \"\u2716 commit blocked: a renderer emits a retired grey (#64748b -> #8391a7, #475569 -> #7a8699).\" >&2",
+   "comment": "retired-grey guard (2026-10-30, debt renderers-carry-old-greys-and-sizes): #64748b and 475569 fail AA as text on the dark surfaces (scripts/design_debt_sweep.py RETIRED map). The served-page ratchet stops a regenerated page from regressing, but a renderer that still emits them re-seeds the debt. Block any staged script that carries them, except the two tools that name them on purpose (the sweep's ",
+   "sha": "af8f3fd3",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 589,
+   "verdict": "block",
+   "script": "gutter_consistency_lint.py",
+   "call": "if ! echo \"$gut\" | tr '\\n' '\\0' | xargs -0 python3 scripts/gutter_consistency_lint.py; then",
+   "message": "echo \"\u2716 commit blocked: header/footer gutter differs from body .pad (see above) \u2014 align them so the left edge is true.\" >&2",
+   "comment": "gutter-consistency guard: in the recoil-report page template, header/footer horizontal padding drifting from the body `.pad` gutter (44px vs 40px) indents every header/footer element a few px inward of the body -- a left edge that lies about its lane, invisible to the wrap-lint. Banked 2026-09-24 after it propagated to 6 sibling pages from one template. ADDED + MODIFIED; the linter SKIPs pages wit",
+   "sha": "595ffd9a",
+   "template": "lint",
+   "primitive_evidence": []
+  },
+  {
+   "line": 610,
+   "verdict": "block",
+   "script": "(inline shell)",
+   "call": "",
+   "message": "echo \"\u2716 commit blocked: informativeness ratchet \u2014 a NEW field went degenerate (see above).\" >&2",
+   "comment": "informativeness ratchet: when the audit corpus or the gate machinery is staged, block on NEW signal degeneracy beyond the committed baseline (operators/audit_service/informativeness_baseline.json). Pre-existing SAGE degeneracy is frozen; a field that carried information going constant blocks. Deterministic, stdlib-only. Skips cleanly if the gate or python3 is absent.",
+   "sha": "79bf6f51",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 628,
+   "verdict": "block",
+   "script": "integrity_gate.py",
+   "call": "if ! python3 scripts/integrity_gate.py --staged -q; then",
+   "message": "echo \"\u2716 commit blocked: a staged record cites something not on origin/main (DRIFTED-AT-BIRTH).\" >&2",
+   "comment": "integrity gate (ADR-075 GATE organ, Reading Room Phase 0): every ADR / commit sha / repo path cited by a staged record (_DECISIONS, _MEMORY, _SPECS, _CANON, _STATE, _SEEDS, _PATTERNS, root *.md) must exist on origin/main. See scripts/integrity_gate.py. BLOCKING since 2026-10-06 (Zach): a FAIL verdict rejects the commit. Failures that already existed are grandfathered in scripts/integrity_baseline.",
+   "sha": "1eb67058",
+   "template": "record-integrity",
+   "primitive_evidence": []
+  },
+  {
+   "line": 632,
+   "verdict": "warn",
+   "script": "integrity_gate.py",
+   "call": "if ! python3 scripts/integrity_gate.py --staged -q; then",
+   "message": "echo \"\u26a0 pre-commit(integrity-gate): bypassed by INTEGRITY_GATE_BLOCK=0.\" >&2",
+   "comment": "integrity gate (ADR-075 GATE organ, Reading Room Phase 0): every ADR / commit sha / repo path cited by a staged record (_DECISIONS, _MEMORY, _SPECS, _CANON, _STATE, _SEEDS, _PATTERNS, root *.md) must exist on origin/main. See scripts/integrity_gate.py. BLOCKING since 2026-10-06 (Zach): a FAIL verdict rejects the commit. Failures that already existed are grandfathered in scripts/integrity_baseline.",
+   "sha": "dc97fff3",
+   "template": "record-integrity",
+   "primitive_evidence": []
+  },
+  {
+   "line": 647,
+   "verdict": "block",
+   "script": "(inline shell)",
+   "call": "",
+   "message": "echo \"\u2716 commit blocked: a new per-element ch cap on text (maxWidth:\\\"NNch\\\") \u2014 use the shared px MEASURE instead.\" >&2",
+   "comment": "wrap-class gate for React/TS surfaces \u2014 the artifact_wrap_lint.py sibling for code, not just public/*.html (that gate is blind to .tsx, which is how a ch cap shipped on the jobs board 2026-09-08). Block a commit that ADDS a per-element `ch` cap on text (maxWidth: \"NNch\"); the rule is one shared px MEASURE. See the intermediate-width-wrap-regression class. Added-lines-only so legacy caps in untouch",
+   "sha": "b6ea1a71",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 664,
+   "verdict": "block",
+   "script": "req_reality_gate.py",
+   "call": "if ! echo \"$ssots\" | tr '\\n' '\\0' | xargs -0 python3 scripts/req_reality_gate.py; then",
+   "message": "echo \"\u2716 commit blocked: req_reality gate \u2014 a candidacy SSOT is GREEN on a req that is not real, or has no req_reality.\" >&2",
+   "comment": "req_reality gate (manufactured-role class: Fanatics Jul-2026, HypeLab Oct-2025). A staged recoil SSOT for a CANDIDACY must carry opportunity.req_reality (0..3) and may not render y_state GREEN at <=1 (no req => no GREEN). Added-or-modified files only; legacy-schema SSOTs warn, never block. Deterministic, stdlib-only. See scripts/req_reality_gate.py and _STATE/job-search/postmortem-fanatics.md.",
+   "sha": "d8596569",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 693,
+   "verdict": "block",
+   "script": "token_source_gate.py",
+   "call": "if ! python3 scripts/token_source_gate.py --pair $args; then",
+   "message": "echo \"\u2716 commit blocked: token-source gate \u2014 a NEW page re-authors the ARCS palette instead of inheriting _tokens.css (see above).\" >&2",
+   "comment": "token-source gate (re-authored-palette class, 2026-09-11): a staged single-file HTML surface that paints an ARCS signal hex in a custom property must inherit src/ui-kit/recoil-report/_tokens.css (linked, or inlined verbatim with its sentinel line), never re-declare the palette under its own names. Added-or-modified files; a file whose HEAD version already violated only WARNS (ratchet). Stdlib-only",
+   "sha": "1586a7ab",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 702,
+   "verdict": "block",
+   "script": "token_source_gate.py",
+   "call": "if [ -n \"$doc_tok\" ] && ! python3 scripts/token_source_gate.py --doc-ts; then",
+   "message": "echo \"\u2716 commit blocked: src/document/tokens.ts is generated. Edit _tokens.css or DOC_EXTRA, run python3 scripts/token_source_gate.py --doc-ts --write, re-stage.\" >&2",
+   "comment": "token-source gate (re-authored-palette class, 2026-09-11): a staged single-file HTML surface that paints an ARCS signal hex in a custom property must inherit src/ui-kit/recoil-report/_tokens.css (linked, or inlined verbatim with its sentinel line), never re-declare the palette under its own names. Added-or-modified files; a file whose HEAD version already violated only WARNS (ratchet). Stdlib-only",
+   "sha": "ba89224e",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 714,
+   "verdict": "block",
+   "script": "design_candidates.py",
+   "call": "if [ -n \"$dc\" ] && ! python3 scripts/design_candidates.py --check; then",
+   "message": "echo \"\u2716 commit blocked: design candidates (see above). Graduate an expired candidate into the kit or drop it; fix unknown ids and pages lists.\" >&2",
+   "comment": "Design candidates (2026-11-13): a trial lane for design-system changes not yet canon. Pages opt in with <!-- @arcs-candidate: id -->; the token, motion and component gates accept a live candidate's values on pages that declare it. Fails on an expired candidate, an unknown id, or a page outside its pages list. See scripts/design_candidates.py and runtime/specs/design-candidates.json.",
+   "sha": "df3cc420",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 727,
+   "verdict": "block",
+   "script": "motion_policy_gate.py",
+   "call": "if ! python3 scripts/motion_policy_gate.py $mpages; then",
+   "message": "echo \"\u2716 commit blocked: motion policy gate (see above). Edit the --mo-* tokens in src/ui-kit/recoil-report/_tokens.css and re-inline; do not hand-edit a page's copy.\" >&2",
+   "comment": "Motion policy gate (2026-10-16): pages that move read the --mo-* motion and safety tokens from src/ui-kit/recoil-report/_tokens.css (flash cap, pose rate, holds) and obey them. Stdlib-only. See scripts/motion_policy_gate.py and DESIGN.md \"Motion and safety\".",
+   "sha": "b256edc0",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 739,
+   "verdict": "block",
+   "script": "grammar_chips_emit.py",
+   "call": "if ! python3 scripts/grammar_chips_emit.py --check; then",
+   "message": "echo \"\u2716 commit blocked: chip grammar check (see above). Edit runtime/specs/grammar-chips.json, then run python3 scripts/grammar_chips_emit.py.\" >&2",
+   "comment": "Claim chip grammar (2026-10-30): runtime/specs/grammar-chips.json is the source; the JSX tokens and the specimen CSS are emitted from it. --check fails on drift, on a tone below its contrast floor, on a dark tone that differs from _tokens.css, on a reused glyph, and on status glyphs that differ from /proof.",
+   "sha": "2e616122",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 749,
+   "verdict": "exit",
+   "script": "phosphor_static_review.py",
+   "call": "if ! python3 scripts/phosphor_build.py --check || { [ -f scripts/phosphor_static_review.py ] && ! python3 scripts/phosphor_static_review.py; }; then",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "bbed234a",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 750,
+   "verdict": "block",
+   "script": "phosphor_build.py",
+   "call": "if ! python3 scripts/phosphor_build.py --check || { [ -f scripts/phosphor_static_review.py ] && ! python3 scripts/phosphor_static_review.py; }; then",
+   "message": "echo \"\u2716 commit blocked: _ARTIFACTS/phosphor.html is not what its sources build, or the static review found a defect. Edit _ARTIFACTS/phosphor-src/ and run python3 scripts/phosphor_build.py; see python3 scripts/phosphor_static_review.py.\" >&",
+   "comment": "Phosphor build (2026-10-17): _ARTIFACTS/phosphor.html is built from _ARTIFACTS/phosphor-src/ by scripts/phosphor_build.py. A commit that touches either side must leave them in agreement.",
+   "sha": "bbed234a",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 760,
+   "verdict": "exit",
+   "script": "inline_token_sync.py",
+   "call": "if ! python3 scripts/kit_primitive_sync.py --check || ! python3 scripts/inline_token_sync.py --check _ARTIFACTS/phosphor.html; then",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "2317eb74",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 761,
+   "verdict": "block",
+   "script": "kit_primitive_sync.py",
+   "call": "if ! python3 scripts/kit_primitive_sync.py --check || ! python3 scripts/inline_token_sync.py --check _ARTIFACTS/phosphor.html; then",
+   "message": "echo \"\u2716 commit blocked: a kit primitive and _ARTIFACTS/phosphor.html disagree. The kit is the source: copy the kit @prim block into the page.\" >&2",
+   "comment": "Kit primitive sync (2026-10-16): the Instrument Lab primitives promoted from Phosphor (kit 21 to 26, marked @prim blocks) must stay identical to the page. See scripts/kit_primitive_sync.py.",
+   "sha": "1fbb6295",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 770,
+   "verdict": "block",
+   "script": "kit_job_ratchet.py",
+   "call": "if ! python3 scripts/kit_job_ratchet.py; then",
+   "message": "echo \"\u2716 commit blocked: kit job coverage fell below its floor (see above).\" >&2",
+   "comment": "Kit job-coverage ratchet (2026-11-13): parts naming a backlog job may rise, never fall.",
+   "sha": "efd7ab45",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 780,
+   "verdict": "block",
+   "script": "kit_primitive_sync.py",
+   "call": "if ! python3 scripts/kit_primitive_sync.py --kit; then",
+   "message": "echo \"\u2716 commit blocked: a kit part's copy is stale or a part drifted from the design system (scripts/kit_primitive_sync.py --kit).\" >&2",
+   "comment": "Kit-internal sync + design-system parity (2026-11-13): when any kit part changes, every \"composed with\" copy must match its source part and every part in ds-parity.json must keep its design-system values.",
+   "sha": "57373cbc",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 809,
+   "verdict": "block",
+   "script": "component_source_gate.py",
+   "call": "if ! python3 scripts/component_source_gate.py --pair $cargs; then",
+   "message": "echo \"\u2716 commit blocked: component-source gate \u2014 an enrolled page does not snap into its ui-kit template (see above).\" >&2",
+   "comment": "component-source gate (visual twin of token-source, 2026-09-26): an ENROLLED single-file page (one carrying  <!-- @arcs-template: <name> --> ) must assemble from the registered ui-kit template in src/ui-kit/templates.json \u2014 tokens inherited, @arcs-mode matching the template's slop --mode, and the template's signature selectors present \u2014 not a bespoke redesign. Un-enrolled pages PASS (\"not enrolled",
+   "sha": "8595ed3e",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 824,
+   "verdict": "block",
+   "script": "delta_encoding_gate.py",
+   "call": "if ! python3 scripts/delta_encoding_gate.py $dfiles; then",
+   "message": "echo \"\u2716 commit blocked: delta-encoding gate. Route every belief change through pts() and set its .text beside its .dir.\" >&2",
+   "comment": "Delta-encoding gate (2026-10-27): in the recoil kit a belief change is never colour alone; the sign and the arrow carry it too (colour-blind safe). Scoped to src/ui-kit; see scripts/delta_encoding_gate.py.",
+   "sha": "82733978",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 833,
+   "verdict": "block",
+   "script": "kit_specimen.py",
+   "call": "if ! python3 scripts/kit_specimen.py --check; then",
+   "message": "echo \"\u2716 commit blocked: a kit specimen page differs from its spec. Edit the spec and run python3 scripts/kit_specimen.py --all.\" >&2",
+   "comment": "Kit specimen pages are generated (2026-10-28): a page must match its spec in src/ui-kit/specimens/.",
+   "sha": "8ed567ea",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 842,
+   "verdict": "block",
+   "script": "counterpart_onepager_build.py",
+   "call": "if ! python3 scripts/counterpart_onepager_build.py --check; then",
+   "message": "echo \"\u2716 commit blocked: a counterpart one-pager differs from its data. Edit the data JSON and run python3 scripts/counterpart_onepager_build.py.\" >&2",
+   "comment": "Counterpart one-pagers are generated (2026-11-04): each page must match its data file in _ARTIFACTS/counterpart-onepager/ rendered through the counterpart-onepager template, so a hand edit or a kit change that moves the page is caught.",
+   "sha": "81dc7d47",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 851,
+   "verdict": "block",
+   "script": "precall_brief_build.py",
+   "call": "if ! python3 scripts/precall_brief_build.py --check; then",
+   "message": "echo \"\u2716 commit blocked: the pre-call brief example differs from its data or is invalid. Run python3 scripts/precall_brief_build.py _ARTIFACTS/precall-brief/example.json.\" >&2",
+   "comment": "Pre-call briefs are generated (2026-11-06): the example must validate against the brief schema and match its built page, so a template, schema or kit token change that moves the page is caught. Real briefs stay in the gitignored private/ folder.",
+   "sha": "2609e239",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 858,
+   "verdict": "block",
+   "script": "tabbed_brief_build.py",
+   "call": "if ! python3 scripts/tabbed_brief_build.py --check; then",
+   "message": "echo \"\u2716 commit blocked: a tabbed-brief page differs from its data or template. Rebuild it with python3 scripts/tabbed_brief_build.py DATA.json -o PAGE.html.\" >&2",
+   "comment": "tabbed-brief: generated pages must match their data and the template (2026-11-09). Never hand-edit a generated page.",
+   "sha": "c8464a4c",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 867,
+   "verdict": "block",
+   "script": "kit_pull.py",
+   "call": "if ! python3 scripts/kit_pull.py manifest --check; then",
+   "message": "echo \"\u2716 commit blocked: the kit manifest is stale or hand-edited. Run python3 scripts/kit_pull.py manifest.\" >&2",
+   "comment": "Kit manifest is generated (2026-10-31): the parts, classes, fidelity states and gate flags in src/ui-kit/kit-manifest.json must match the kit files. Jobs and page usage may lag; kit fields may not.",
+   "sha": "0ffc7113",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 871,
+   "verdict": "block",
+   "script": "kit_pull.py",
+   "call": "if git diff --cached --name-only -- 'scripts/kit_pull.py' | grep -q . && ! python3 scripts/kit_pull.py --self-test >/dev/null; then",
+   "message": "echo \"\u2716 commit blocked: python3 scripts/kit_pull.py --self-test fails.\" >&2",
+   "comment": "Kit manifest is generated (2026-10-31): the parts, classes, fidelity states and gate flags in src/ui-kit/kit-manifest.json must match the kit files. Jobs and page usage may lag; kit fields may not.",
+   "sha": "0ffc7113",
+   "template": "self-test",
+   "primitive_evidence": []
+  },
+  {
+   "line": 882,
+   "verdict": "block",
+   "script": "gate_chain_build.py",
+   "call": "if ! python3 scripts/gate_chain_build.py --check; then",
+   "message": "echo \"\u2716 commit blocked: the gate-chain week strip is stale. Run python3 scripts/gate_chain_build.py.\" >&2",
+   "comment": "Gate chains (2026-11-13): the week strip on status.arcs.care/gauntlets (kit 72) is rebuilt from the hook's own git history, pinned at the hook commit recorded in runtime/specs/gate-chains.json. Block a stale or hand-edited output; when this hook changes, warn (only) that the strip is pinned behind it until scripts/gate_chain_build.py runs.",
+   "sha": "71cbaad4",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 887,
+   "verdict": "warn",
+   "script": "gate_chain_build.py",
+   "call": "echo \"\u2716 commit blocked: the gate-chain week strip is stale. Run python3 scripts/gate_chain_build.py.\" >&2",
+   "message": "echo \"\u26a0 the pre-commit hook changed: the gauntlet week strip stays pinned to the last hook commit until you run python3 scripts/gate_chain_build.py after this commit.\" >&2",
+   "comment": "Gate chains (2026-11-13): the week strip on status.arcs.care/gauntlets (kit 72) is rebuilt from the hook's own git history, pinned at the hook commit recorded in runtime/specs/gate-chains.json. Block a stale or hand-edited output; when this hook changes, warn (only) that the strip is pinned behind it until scripts/gate_chain_build.py runs.",
+   "sha": "71cbaad4",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 895,
+   "verdict": "block",
+   "script": "kit_periodic_table.py",
+   "call": "if ! python3 scripts/kit_periodic_table.py --check; then",
+   "message": "echo \"\u2716 commit blocked: the kit periodic table or its ledger is off. Run python3 scripts/kit_periodic_table.py (after kit_pull.py manifest); never edit a committed ledger line.\" >&2",
+   "comment": "Kit periodic table (2026-11-13): _ARTIFACTS/kit-periodic-table.html is generated from the manifest, templates, specimens and the append-only catalyst ledger src/ui-kit/kit-catalysts.jsonl. sentries.py flags an unsynced ledger.",
+   "sha": "30f08f55",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 927,
+   "verdict": "warn",
+   "script": "resume_ats_render.py",
+   "call": "if head -c 4000 \"$f\" | grep -q \"ATS-SAFE RENDER, generated by scripts/resume_ats_render.py\"; then",
+   "message": "echo \"\u26a0 pre-commit(kintsugi): could not parse detector output for $f. NOT silently passing: run '$IMP detect --json $f' by hand before you rely on this commit.\" >&2",
+   "comment": "kintsugi immune system (ROM #6, visual grammar): run the Impeccable design detector over staged single-file pages when the launcher is installed on this machine. NEW pages block on any finding (contrast, eyebrow, glow, ch caps, ...). MODIFIED pages whose HEAD version already carried findings only WARN (ratchet). Machines without the launcher skip cleanly; the seam is caught on the next machine tha",
+   "sha": "4206963b",
+   "template": "check",
+   "primitive_evidence": [
+    "KINTSUGI"
+   ]
+  },
+  {
+   "line": 936,
+   "verdict": "warn",
+   "script": "resume_ats_render.py",
+   "call": "if head -c 4000 \"$f\" | grep -q \"ATS-SAFE RENDER, generated by scripts/resume_ats_render.py\"; then",
+   "message": "echo \"\u26a0 pre-commit(kintsugi): $f carries $n design finding(s), unchanged from the merged branch. Not blocking (its debt, not this merge's).\" >&2",
+   "comment": "kintsugi immune system (ROM #6, visual grammar): run the Impeccable design detector over staged single-file pages when the launcher is installed on this machine. NEW pages block on any finding (contrast, eyebrow, glow, ch caps, ...). MODIFIED pages whose HEAD version already carried findings only WARN (ratchet). Machines without the launcher skip cleanly; the seam is caught on the next machine tha",
+   "sha": "b7460c8e",
+   "template": "check",
+   "primitive_evidence": [
+    "KINTSUGI"
+   ]
+  },
+  {
+   "line": 979,
+   "verdict": "block",
+   "script": "resume_ats_render.py",
+   "call": "if head -c 4000 \"$f\" | grep -q \"ATS-SAFE RENDER, generated by scripts/resume_ats_render.py\"; then",
+   "message": "echo \"\u2716 commit blocked: kintsugi immune system \u2014 $f has $n design finding(s), up from $hn in HEAD (net-new design debt).\" >&2",
+   "comment": "kintsugi immune system (ROM #6, visual grammar): run the Impeccable design detector over staged single-file pages when the launcher is installed on this machine. NEW pages block on any finding (contrast, eyebrow, glow, ch caps, ...). MODIFIED pages whose HEAD version already carried findings only WARN (ratchet). Machines without the launcher skip cleanly; the seam is caught on the next machine tha",
+   "sha": "14d8489b",
+   "template": "check",
+   "primitive_evidence": [
+    "KINTSUGI"
+   ]
+  },
+  {
+   "line": 986,
+   "verdict": "warn",
+   "script": "resume_ats_render.py",
+   "call": "if head -c 4000 \"$f\" | grep -q \"ATS-SAFE RENDER, generated by scripts/resume_ats_render.py\"; then",
+   "message": "echo \"\u26a0 pre-commit(kintsugi): $f carries $n design finding(s); HEAD had $hn. Not blocking (ratchet \u2014 pre-existing/frozen baseline). Book the seam in _PATTERNS/kintsugi-visual-grammar-seams.md.\" >&2",
+   "comment": "kintsugi immune system (ROM #6, visual grammar): run the Impeccable design detector over staged single-file pages when the launcher is installed on this machine. NEW pages block on any finding (contrast, eyebrow, glow, ch caps, ...). MODIFIED pages whose HEAD version already carried findings only WARN (ratchet). Machines without the launcher skip cleanly; the seam is caught on the next machine tha",
+   "sha": "14d8489b",
+   "template": "check",
+   "primitive_evidence": [
+    "KINTSUGI"
+   ]
+  },
+  {
+   "line": 1014,
+   "verdict": "block",
+   "script": "receipt_timing_gate.py",
+   "call": "if ! python3 scripts/receipt_timing_gate.py $create_files; then",
+   "message": "echo \"\u2716 commit blocked: receipt-timing gate \u2014 a Receipt create path is missing horizon/reviewDate or uses a blind T+7 reminderDate (see above).\" >&2",
+   "comment": "receipt-timing gate (outcome-loop blindness class, 2026-09-24): a Receipt create path must persist the canonical `horizon` + `reviewDate` and time its debrief by horizon, never a blind `Date.now() + N * 86400000`. Both create paths wrote window/reminderDate but never horizon/reviewDate (0/249 in prod), so the debrief timing engine was blind. This makes a NEW blind create path un-committable. Added",
+   "sha": "06c93e77",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1042,
+   "verdict": "block",
+   "script": "slop_lint.py",
+   "call": "if ! python3 scripts/slop_lint.py --pair \"${pairs[@]}\"; then",
+   "message": "echo \"\u2716 commit blocked: AI-slop cliche / em-dash in a customer-facing surface (see above).\" >&2",
+   "comment": "slop guard: a customer-facing surface (resume, candidate/marketing page, outbound artifact) that carries high-precision AI-slop cliches (delve, leverage, spearheaded, results-driven, proven track record, ...) or em-dashes reads as AI-generated -- the exact failure that got a designed resume refused by the recruiter for the Success Academy AI PM role (2026-09-25). The mechanical tier-A list + em-da",
+   "sha": "098b20e7",
+   "template": "lint",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1062,
+   "verdict": "block",
+   "script": "provenance_lint.py",
+   "call": "if ! echo \"$prov\" | tr '\\n' '\\0' | xargs -0 python3 scripts/provenance_lint.py; then",
+   "message": "echo \"\u2716 commit blocked: a quantified claim on an enrolled surface has no evidence-ledger entry (see above).\" >&2",
+   "comment": "provenance guard: FACTUAL fabrication twin of the slop guard. A quantified claim (dollars, percents, latency, \"N+\"/\"more than N\") on an ENROLLED customer surface must cite an evidence.jsonl ledger entry; an uncovered number blocks the commit. Root cause: a \"40+ demos / 75% pilot\" metric rode a resume from session scratch with no provenance in any vetted master (2026-09-25). Opt-in: a file with no ",
+   "sha": "098b20e7",
+   "template": "lint",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1073,
+   "verdict": "exit",
+   "script": "librarian_hook.py",
+   "call": "if [ -f scripts/librarian_hook.py ] && [ \"${LIBRARIAN_HOOK:-1}\" != \"0\" ] && command -v python3 >/dev/null 2>&1; then",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "0ace9a60",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1087,
+   "verdict": "block",
+   "script": "case_world_sync.py",
+   "call": "python3 scripts/case_world_sync.py --check >&2",
+   "message": "echo \"\u2716 commit blocked: a case-world page drifted from the kit (see above).\" >&2",
+   "comment": "case-world drift gate (AGENTS.md #13/#15): playable case pages carry the kit's Case World blocks verbatim (src/ui-kit/recoil-report/15-case-world.html). Block the commit if an enrolled page drifted or is half-enrolled. Fix by editing the kit and running python3 scripts/case_world_sync.py (never hand-edit a stamped block in a page).",
+   "sha": "274de016",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1102,
+   "verdict": "block",
+   "script": "case_evidence_lint.py",
+   "call": "python3 scripts/case_evidence_lint.py >&2",
+   "message": "echo \"\u2716 commit blocked: a case number lacks evidence or a quote no longer matches its source (see above).\" >&2",
+   "comment": "case-evidence gate: every number in a playable case traces to a ledger entry (<page>.evidence.jsonl), and every fact's quote is verified verbatim in its published source. Re-runs when a case page, a ledger, or a source post changes (editing a post can break a quote).",
+   "sha": "707a59ee",
+   "template": "lint",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1113,
+   "verdict": "advisory",
+   "script": "status_floor_emit.py",
+   "call": "sf_staged=$(git diff --cached --name-only -- public/status.html scripts/status_floor_emit.py 2>/dev/null || true)",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "1bdbce03",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1119,
+   "verdict": "advisory",
+   "script": "belief_log_emit.py",
+   "call": "bl_staged=$(git diff --cached --name-only -- _STATE/falsification-ledger.jsonl scripts/belief_log_emit.py 2>/dev/null || true)",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "6b6ae039",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1133,
+   "verdict": "advisory",
+   "script": "operator_registry_emit.py",
+   "call": "orx=$(git diff --cached --name-only -- operators/docs/PERIODIC-TABLE.md scripts/operator_registry_emit.py operators/OPERATOR-REGISTRY.json 'operators/*.py' 'operators/core/*.py' 2>/dev/null || true)",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "373fc292",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1147,
+   "verdict": "advisory",
+   "script": "operator_binding_emit.py",
+   "call": "sbm=$(git diff --cached --name-only -- runtime/specs/operator-binding-map.json runtime/specs/design-review-seats.json scripts/operator_binding_emit.py operators/OPERATOR-REGISTRY.json runtime/specs/to",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "bcf02d56",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1159,
+   "verdict": "advisory",
+   "script": "legend.py",
+   "call": "lg=$(git diff --cached --name-only -- runtime/specs/legend.jsonl runtime/specs/LEGEND.md scripts/legend.py 2>/dev/null || true)",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "17ea0d36",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1172,
+   "verdict": "exit",
+   "script": "altitude_canary.py",
+   "call": "if [ -f scripts/altitude_canary.py ] && command -v python3 >/dev/null 2>&1; then",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "fe962170",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1183,
+   "verdict": "advisory",
+   "script": "source_trust_emit.py",
+   "call": "st=$(git diff --cached --name-only -- _STATE/source-trust-events.jsonl runtime/specs/source-trust-sources.json runtime/specs/source-trust.json scripts/source_trust_emit.py 2>/dev/null || true)",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "5629c8dc",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1194,
+   "verdict": "advisory",
+   "script": "lore.py",
+   "call": "lo=$(git diff --cached --name-only -- runtime/specs/lore.jsonl runtime/specs/LORE.md scripts/lore.py 2>/dev/null || true)",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "69fc180c",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1206,
+   "verdict": "advisory",
+   "script": "tao_project.py",
+   "call": "tp=$(git diff --cached --name-only -- _CANON/tao-proverbs.jsonl runtime/tao/proverbs.json scripts/tao_project.py 2>/dev/null || true)",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "e5c602cc",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1218,
+   "verdict": "exit",
+   "script": "tao_coverage_check.py",
+   "call": "if [ -f scripts/tao_coverage_check.py ] && command -v python3 >/dev/null 2>&1; then",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "ef65e1e3",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1227,
+   "verdict": "advisory",
+   "script": "fates.py",
+   "call": "fr=$(git diff --cached --name-only -- runtime/specs/fates.json scripts/fates.py runtime/specs/lore.jsonl '_STATE/witness/*.jsonl' _STATE/falsification-ledger.jsonl operators/OPERATOR-REGISTRY.json run",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "604a2694",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1238,
+   "verdict": "advisory",
+   "script": "assumptions.py",
+   "call": "am=$(git diff --cached --name-only -- _STATE/assumptions.jsonl _STATE/assumptions.md scripts/assumptions.py 2>/dev/null || true)",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "5a471eba",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1285,
+   "verdict": "exit",
+   "script": "cruft_sweep.py",
+   "call": "if git diff --cached --name-only -- scripts/cruft_sweep.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "190e662b",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1294,
+   "verdict": "exit",
+   "script": "backlog_freshness.py",
+   "call": "if git diff --cached --name-only -- scripts/backlog_freshness.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "d9b44329",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1302,
+   "verdict": "exit",
+   "script": "backlog_ripeness.py",
+   "call": "if git diff --cached --name-only -- scripts/backlog_ripeness.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "4c4cfbd4",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1331,
+   "verdict": "exit",
+   "script": "open_loops.py",
+   "call": "if git diff --cached --name-only -- scripts/open_loops.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "933a21d1",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1341,
+   "verdict": "exit",
+   "script": "resume_location_gate.py",
+   "call": "if [ -f scripts/resume_location_gate.py ] && command -v python3 >/dev/null 2>&1; then",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "90743bf5",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1353,
+   "verdict": "exit",
+   "script": "public_claim_gate.py",
+   "call": "if [ -f scripts/public_claim_gate.py ] && command -v python3 >/dev/null 2>&1; then",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "47849d9b",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1372,
+   "verdict": "block",
+   "script": "null_userid_gate.py",
+   "call": "if ! echo \"$nu\" | tr '\\n' '\\0' | xargs -0 python3 scripts/null_userid_gate.py; then",
+   "message": "echo \"\u2716 commit blocked: unguarded session userId in a where filter (see above).\" >&2",
+   "comment": "Null-userId gate (2026-10-05): a userId taken from session?.user?.id must be guarded (`if (!userId)` -> 401) before it filters a Prisma `where`. Prisma reads null as \"every anonymous row\" and undefined as \"no filter\". Fires on staged src .ts/.tsx. See scripts/null_userid_gate.py.",
+   "sha": "9f84b7c3",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1381,
+   "verdict": "exit",
+   "script": "model_id_gate.py",
+   "call": "if command -v python3 >/dev/null 2>&1 && [ -f scripts/model_id_gate.py ]; then",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "afa2ca5c",
+   "template": "gate",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1400,
+   "verdict": "exit",
+   "script": "handoff_fold.py",
+   "call": "echo \"  fix: revert the CLAUDE.md edit, write a fragment ('python3 scripts/handoff_fold.py new'), then 'handoff_fold.py molt'.\" >&2",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "40343fd4",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1409,
+   "verdict": "exit",
+   "script": "held_exceptions.py",
+   "call": "if [ -n \"$held\" ] && [ -f scripts/held_exceptions.py ] && command -v python3 >/dev/null 2>&1; then",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "883b9325",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1417,
+   "verdict": "block",
+   "script": "agent_seed_gate.py",
+   "call": "if ! python3 scripts/agent_seed_gate.py --check; then",
+   "message": "echo \"\u2716 commit blocked: seed-agent ledger rule failed (see FAIL lines above).\" >&2",
+   "comment": "Seed-agent merge rule (2026-10-15): idea-*, chief-* and scenario-* agents enter as [CANDIDATE] and only merge as SURVIVED with >= 3 recorded uses; a tripped kill line must delete the spec. See scripts/agent_seed_gate.py.",
+   "sha": "566ee8e2",
+   "template": "derived-freshness",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1428,
+   "verdict": "block",
+   "script": "archive_move_gate.py",
+   "call": "if ! python3 scripts/archive_move_gate.py --staged; then",
+   "message": "echo \"\u2716 commit blocked: a moved or deleted file is still cited (see above).\" >&2",
+   "comment": "Archive-move gate (2026-10-18): a staged rename or delete must not leave a live citer of the old path. 4983bd57 and c42d4b68 archived four scripts without re-pointing the records that cite them; the integrity gate only reads staged records, so two night-moves digests failed unseen. See scripts/archive_move_gate.py. One-off bypass: ARCHIVE_MOVE_GATE=0 git commit ... (say why in the message). Skips ",
+   "sha": "f905adbd",
+   "template": "record-integrity",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1437,
+   "verdict": "exit",
+   "script": "universe_jtbd_adapter.py",
+   "call": "if [ -n \"$jg\" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/universe_jtbd_adapter.py ]; then",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "b59b255f",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1451,
+   "verdict": "block",
+   "script": "share_control_gate.py",
+   "call": "if ! python3 scripts/share_control_gate.py || ! python3 scripts/share_control_gate.py --self-test >/dev/null; then",
+   "message": "echo \"\u2716 commit blocked: a share control copies a gated URL (python3 scripts/share_control_gate.py).\" >&2",
+   "comment": "Share-control gate (2026-11-12, Frustration Gate): a share button on a gated page must emit a minted share path, never the page's own URL (four recurrences; see scripts/share_control_gate.py).",
+   "sha": "12822415",
+   "template": "self-test",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1461,
+   "verdict": "advisory",
+   "script": "recoil_public_share_render.mjs",
+   "call": "ps=$(git diff --cached --name-only -- runtime/recoil/public-shares.json src/lib/recoilPublicShare.ts scripts/recoil_public_share_gate.py scripts/recoil_public_share_render.mjs 'runtime/recoil/generate",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "b3b8dda8",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1464,
+   "verdict": "block",
+   "script": "recoil_public_share_gate.py",
+   "call": "if ! command -v node >/dev/null 2>&1 || ! python3 scripts/recoil_public_share_gate.py --staged || ! python3 scripts/recoil_public_share_gate.py --self-test >/dev/null; then",
+   "message": "echo \"\u2716 commit blocked: a public recoil share fails its signed-out render check (python3 scripts/recoil_public_share_gate.py --staged).\" >&2",
+   "comment": "public-share gate (Kintsugi seam 2026-11-12, PR 2194 exposed the Gasmi war room on a signed-out link; backlog recoil-public-share-gate). A staged public-shares.json, its projection, or a shared report's SSOT re-renders every share's signed-out payload with the real projection and blocks on any leak class or an entry without a gauntlet ref.",
+   "sha": "b3b8dda8",
+   "template": "self-test",
+   "primitive_evidence": [
+    "KINTSUGI"
+   ]
+  },
+  {
+   "line": 1475,
+   "verdict": "block",
+   "script": "aum_claim_gate.py",
+   "call": "if ! python3 scripts/aum_claim_gate.py --staged; then",
+   "message": "echo \"\u2716 commit blocked: the Grayscale \\$7B is a launch figure, not AUM (python3 scripts/aum_claim_gate.py --staged).\" >&2",
+   "comment": "Grayscale launch-figure gate (2026-11-16, Frustration Gate): the $7B is capital launched across 10 regulated products, never assets under management. Blocks the old phrasing in any staged file outside _ARCHIVE/. See scripts/aum_claim_gate.py (--self-test proves fail-on-bad, pass-on-good).",
+   "sha": "1fb74fe4",
+   "template": "record-integrity",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1485,
+   "verdict": "block",
+   "script": "resume_claim_gate.py",
+   "call": "if ! python3 scripts/resume_claim_gate.py --staged; then",
+   "message": "echo \"\u2716 commit blocked: a corrected resume claim is staged (python3 scripts/resume_claim_gate.py --staged).\" >&2",
+   "comment": "Corrected resume claims gate (2026-11-17, Frustration Gate): Squat \"$350M ARR\" is annual revenue, the unvetted Twill wording, and the $7B-as-assets-under-management line must not come back into forge resume bundles (_ARTIFACTS/forge-*/resume-*.html|txt). See scripts/resume_claim_gate.py (--self-test proves it).",
+   "sha": "38cc17ce",
+   "template": "record-integrity",
+   "primitive_evidence": []
+  },
+  {
+   "line": 1492,
+   "verdict": "exit",
+   "script": "ripple_ledger.py",
+   "call": "if [ -f scripts/ripple_ledger.py ] && command -v python3 >/dev/null 2>&1; then",
+   "message": "(the script's own exit code and output)",
+   "comment": "",
+   "sha": "9cd40581",
+   "template": "check",
+   "primitive_evidence": []
+  },
+  {
+   "line": 0,
+   "verdict": "ci-exit",
+   "script": "canon_propagation_check.py",
+   "call": "ci:advisory-gates.yml/advisory",
+   "message": "(exit code of the ci:advisory-gates.yml/advisory step)",
+   "comment": "",
+   "template": "check",
+   "primitive_evidence": [],
+   "sha": ""
+  },
+  {
+   "line": 0,
+   "verdict": "ci-exit",
+   "script": "lattice_drift_check.py",
+   "call": "ci:advisory-gates.yml/advisory",
+   "message": "(exit code of the ci:advisory-gates.yml/advisory step)",
+   "comment": "",
+   "template": "check",
+   "primitive_evidence": [],
+   "sha": ""
+  },
+  {
+   "line": 0,
+   "verdict": "ci-exit",
+   "script": "seedbank_drift_check.py",
+   "call": "ci:advisory-gates.yml/advisory",
+   "message": "(exit code of the ci:advisory-gates.yml/advisory step)",
+   "comment": "",
+   "template": "check",
+   "primitive_evidence": [],
+   "sha": ""
+  },
+  {
+   "line": 0,
+   "verdict": "ci-exit",
+   "script": "backlog_issue_sync.py",
+   "call": "ci:ci.yml/gates",
+   "message": "(exit code of the ci:ci.yml/gates step)",
+   "comment": "",
+   "template": "check",
+   "primitive_evidence": [],
+   "sha": ""
+  },
+  {
+   "line": 0,
+   "verdict": "ci-exit",
+   "script": "jtbd_graph_gates.py",
+   "call": "ci:ci.yml/gates",
+   "message": "(exit code of the ci:ci.yml/gates step)",
+   "comment": "",
+   "template": "gate",
+   "primitive_evidence": [],
+   "sha": ""
+  },
+  {
+   "line": 0,
+   "verdict": "ci-exit",
+   "script": "jtbd_graph_schema_check.py",
+   "call": "ci:ci.yml/gates",
+   "message": "(exit code of the ci:ci.yml/gates step)",
+   "comment": "",
+   "template": "check",
+   "primitive_evidence": [],
+   "sha": ""
+  },
+  {
+   "line": 0,
+   "verdict": "ci-exit",
+   "script": "reading_room_sync.py",
+   "call": "ci:ci.yml/gates",
+   "message": "(exit code of the ci:ci.yml/gates step)",
+   "comment": "",
+   "template": "check",
+   "primitive_evidence": [],
+   "sha": ""
+  },
+  {
+   "line": 0,
+   "verdict": "ci-exit",
+   "script": "classname_guard.py",
+   "call": "ci:ci.yml/smoke",
+   "message": "(exit code of the ci:ci.yml/smoke step)",
+   "comment": "",
+   "template": "gate",
+   "primitive_evidence": [],
+   "sha": ""
+  },
+  {
+   "line": 0,
+   "verdict": "ci-exit",
+   "script": "ledger_check.py",
+   "call": "ci:ci.yml/smoke",
+   "message": "(exit code of the ci:ci.yml/smoke step)",
+   "comment": "",
+   "template": "check",
+   "primitive_evidence": [],
+   "sha": ""
+  },
+  {
+   "line": 0,
+   "verdict": "ci-exit",
+   "script": "purpose_guard.py",
+   "call": "ci:ci.yml/smoke",
+   "message": "(exit code of the ci:ci.yml/smoke step)",
+   "comment": "",
+   "template": "gate",
+   "primitive_evidence": [],
+   "sha": ""
+  },
+  {
+   "line": 0,
+   "verdict": "ci-exit",
+   "script": "state_sync_check.py",
+   "call": "ci:ci.yml/smoke",
+   "message": "(exit code of the ci:ci.yml/smoke step)",
+   "comment": "",
+   "template": "check",
+   "primitive_evidence": [],
+   "sha": ""
+  },
+  {
+   "line": 0,
+   "verdict": "ci-exit",
+   "script": "smoke.sh",
+   "call": "ci:deploy-verify.yml/verify",
+   "message": "(exit code of the ci:deploy-verify.yml/verify step)",
+   "comment": "",
+   "template": "check",
+   "primitive_evidence": [],
+   "sha": ""
+  },
+  {
+   "line": 0,
+   "verdict": "ci-exit",
+   "script": "tripwire.sh",
+   "call": "ci:family-tripwire.yml/tripwire",
+   "message": "(exit code of the ci:family-tripwire.yml/tripwire step)",
+   "comment": "",
+   "template": "check",
+   "primitive_evidence": [],
+   "sha": ""
+  },
+  {
+   "line": 0,
+   "verdict": "ci-exit",
+   "script": "squash_merge_detector.py",
+   "call": "ci:no-squash.yml/detect",
+   "message": "(exit code of the ci:no-squash.yml/detect step)",
+   "comment": "",
+   "template": "check",
+   "primitive_evidence": [],
+   "sha": ""
+  },
+  {
+   "line": 0,
+   "verdict": "ci-exit",
+   "script": "security_review_gate.sh",
+   "call": "ci:security.yml/claude-security-review",
+   "message": "(exit code of the ci:security.yml/claude-security-review step)",
+   "comment": "",
+   "template": "gate",
+   "primitive_evidence": [],
+   "sha": ""
+  },
+  {
+   "line": 0,
+   "verdict": "ci-exit",
+   "script": "vercel_branch_pin_gate.py",
+   "call": "ci:vercel-branch-pin.yml/detect",
+   "message": "(exit code of the ci:vercel-branch-pin.yml/detect step)",
+   "comment": "",
+   "template": "gate",
+   "primitive_evidence": [],
+   "sha": ""
+  }
+ ],
+ "molecules": [
+  {
+   "molecule": "(inline shell)",
+   "atoms": 4,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": null,
+   "in_hook_now": false
+  },
+  {
+   "molecule": "agent_seed_gate.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-15",
+    "sha": "566ee8e2"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "altitude_canary.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-27",
+    "sha": "fe962170"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "analytics_coverage_gate.py",
+   "atoms": 1,
+   "templates": [
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-26",
+    "sha": "806296b0"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "approvals_ledger.py",
+   "atoms": 1,
+   "templates": [
+    "self-test"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-01",
+    "sha": "8ccdfeac"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "archive_move_gate.py",
+   "atoms": 1,
+   "templates": [
+    "record-integrity"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-18",
+    "sha": "f905adbd"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "arcs_models.py",
+   "atoms": 0,
+   "templates": [],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-05",
+    "sha": "afa2ca5c"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "artifact_wrap_lint.py",
+   "atoms": 1,
+   "templates": [
+    "lint"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-08-29",
+    "sha": "2c99533e"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "assumptions.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-27",
+    "sha": "5a471eba"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "aum_claim_gate.py",
+   "atoms": 1,
+   "templates": [
+    "record-integrity"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-16",
+    "sha": "1fb74fe4"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "babel_fish_listeners.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-16",
+    "sha": "113fa1c6"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "backlog_freshness.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-04",
+    "sha": "d9b44329"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "backlog_issue_sync.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [
+    "ADR-065"
+   ],
+   "primitive_evidence": [],
+   "wired": null,
+   "in_hook_now": false
+  },
+  {
+   "molecule": "backlog_merge_by_id.py",
+   "atoms": 1,
+   "templates": [
+    "self-test"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-12",
+    "sha": "13dfde30"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "backlog_ripeness.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-06",
+    "sha": "4c4cfbd4"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "backlog_status_check.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-10",
+    "sha": "ccdc4043"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "belief_log_emit.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-08-29",
+    "sha": "6b6ae039"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "canon_propagation_check.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": null,
+   "in_hook_now": false
+  },
+  {
+   "molecule": "card_gutter_check.mjs",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-06",
+    "sha": "d1c1d6dd"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "case_evidence_lint.py",
+   "atoms": 1,
+   "templates": [
+    "lint"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-26",
+    "sha": "707a59ee"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "case_world_sync.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-26",
+    "sha": "274de016"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "classname_guard.py",
+   "atoms": 1,
+   "templates": [
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": null,
+   "in_hook_now": false
+  },
+  {
+   "molecule": "component_source_gate.py",
+   "atoms": 1,
+   "templates": [
+    "gate"
+   ],
+   "adr": [
+    "ADR-009",
+    "ADR-082",
+    "ADR-083"
+   ],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-26",
+    "sha": "8595ed3e"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "connector_render.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [
+    "ADR-056"
+   ],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-03",
+    "sha": "d9599cd3"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "counterpart_onepager_build.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-04",
+    "sha": "81dc7d47"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "cruft_sweep.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-05",
+    "sha": "190e662b"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "delta_encoding_gate.py",
+   "atoms": 1,
+   "templates": [
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-27",
+    "sha": "82733978"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "design_candidates.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-13",
+    "sha": "df3cc420"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "design_debt_sweep.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-08",
+    "sha": "a01afc10"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "engagement_render.py",
+   "atoms": 2,
+   "templates": [
+    "derived-freshness",
+    "self-test"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-06",
+    "sha": "008666fd"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "fates.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [
+    "ADR-068"
+   ],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-27",
+    "sha": "604a2694"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "gate_chain_build.py",
+   "atoms": 2,
+   "templates": [
+    "derived-freshness",
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-14",
+    "sha": "71cbaad4"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "good_agent_files_emit.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-30",
+    "sha": "6d602f21"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "grammar_chips_emit.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-30",
+    "sha": "2e616122"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "gutter_consistency_lint.py",
+   "atoms": 1,
+   "templates": [
+    "lint"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-24",
+    "sha": "595ffd9a"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "handoff_fold.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [
+    "ADR-085"
+   ],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-06",
+    "sha": "c1be4cc7"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "held_exceptions.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-09",
+    "sha": "883b9325"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "html_div_balance_lint.py",
+   "atoms": 1,
+   "templates": [
+    "lint"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-23",
+    "sha": "6bd191f3"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "hud_widget_isolation_gate.py",
+   "atoms": 1,
+   "templates": [
+    "self-test"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-01",
+    "sha": "d3243b0b"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "hud_widget_registry_emit.py",
+   "atoms": 2,
+   "templates": [
+    "derived-freshness",
+    "self-test"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-01",
+    "sha": "fc344596"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "inline_token_sync.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-16",
+    "sha": "2317eb74"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "integrity_baseline.js",
+   "atoms": 0,
+   "templates": [],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-06",
+    "sha": "dc97fff3"
+   },
+   "in_hook_now": false
+  },
+  {
+   "molecule": "integrity_gate.py",
+   "atoms": 2,
+   "templates": [
+    "record-integrity"
+   ],
+   "adr": [
+    "ADR-006",
+    "ADR-020",
+    "ADR-075"
+   ],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-05",
+    "sha": "1eb67058"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "jtbd_graph_gates.py",
+   "atoms": 1,
+   "templates": [
+    "gate"
+   ],
+   "adr": [
+    "ADR-089"
+   ],
+   "primitive_evidence": [],
+   "wired": null,
+   "in_hook_now": false
+  },
+  {
+   "molecule": "jtbd_graph_schema_check.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": null,
+   "in_hook_now": false
+  },
+  {
+   "molecule": "kit_job_ratchet.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-13",
+    "sha": "efd7ab45"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "kit_periodic_table.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-13",
+    "sha": "30f08f55"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "kit_primitive_sync.py",
+   "atoms": 2,
+   "templates": [
+    "check",
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-16",
+    "sha": "1fbb6295"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "kit_pull.py",
+   "atoms": 2,
+   "templates": [
+    "derived-freshness",
+    "self-test"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-31",
+    "sha": "0ffc7113"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "kit_specimen.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-28",
+    "sha": "8ed567ea"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "lattice_drift_check.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": null,
+   "in_hook_now": false
+  },
+  {
+   "molecule": "leak_check.sh",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [
+    "ADR-032",
+    "ADR-036"
+   ],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-04",
+    "sha": "56e9b542"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "ledger_check.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [
+    "ADR-034"
+   ],
+   "primitive_evidence": [],
+   "wired": null,
+   "in_hook_now": false
+  },
+  {
+   "molecule": "legend.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-27",
+    "sha": "17ea0d36"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "librarian_hook.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [
+    "ADR-088"
+   ],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-17",
+    "sha": "0ace9a60"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "lore.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [
+    "ADR-044"
+   ],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-27",
+    "sha": "69fc180c"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "migration_rls_lint.py",
+   "atoms": 1,
+   "templates": [
+    "lint"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-28",
+    "sha": "e88ca1da"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "model_id_gate.py",
+   "atoms": 1,
+   "templates": [
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-05",
+    "sha": "afa2ca5c"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "motion_policy_gate.py",
+   "atoms": 1,
+   "templates": [
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-16",
+    "sha": "b256edc0"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "myally_hub_crawl.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-08",
+    "sha": "1d101fee"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "myally_hub_sync.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-08",
+    "sha": "d83877d8"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "myally_primer_terms.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-08",
+    "sha": "fba8adda"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "nftt_index_build.mjs",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-03",
+    "sha": "d9599cd3"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "nftt_index_layout.js",
+   "atoms": 0,
+   "templates": [],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-03",
+    "sha": "d9599cd3"
+   },
+   "in_hook_now": false
+  },
+  {
+   "molecule": "nftt_meta_gate.py",
+   "atoms": 1,
+   "templates": [
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-26",
+    "sha": "ce2b504b"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "nftt_published.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-04",
+    "sha": "e6b54862"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "nftt_series.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-04",
+    "sha": "d606f62d"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "null_userid_gate.py",
+   "atoms": 1,
+   "templates": [
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-05",
+    "sha": "9f84b7c3"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "open_loops.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-04",
+    "sha": "933a21d1"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "operator_binding_emit.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [
+    "ADR-089"
+   ],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-13",
+    "sha": "bcf02d56"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "operator_registry_emit.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-27",
+    "sha": "373fc292"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "oracle.py",
+   "atoms": 2,
+   "templates": [
+    "check"
+   ],
+   "adr": [
+    "ADR-024",
+    "ADR-033",
+    "ADR-067",
+    "ADR-069",
+    "ADR-070"
+   ],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-08-28",
+    "sha": "3ce06ec9"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "page_gate.py",
+   "atoms": 2,
+   "templates": [
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-03",
+    "sha": "58e96443"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "phosphor_build.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-17",
+    "sha": "71cb3d85"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "phosphor_static_review.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-17",
+    "sha": "bbed234a"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "precall_brief_build.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-06",
+    "sha": "2609e239"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "proof_emit.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-30",
+    "sha": "e66ec453"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "proposal_build.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-06",
+    "sha": "9dfaaab8"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "proposal_lint.py",
+   "atoms": 2,
+   "templates": [
+    "lint",
+    "self-test"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-08",
+    "sha": "0c8c58af"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "provenance_lint.py",
+   "atoms": 1,
+   "templates": [
+    "lint"
+   ],
+   "adr": [
+    "ADR-088"
+   ],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-26",
+    "sha": "098b20e7"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "public_claim_gate.py",
+   "atoms": 1,
+   "templates": [
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-17",
+    "sha": "47849d9b"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "purpose_guard.py",
+   "atoms": 1,
+   "templates": [
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": null,
+   "in_hook_now": false
+  },
+  {
+   "molecule": "reading_room_sync.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [
+    "ADR-075"
+   ],
+   "primitive_evidence": [],
+   "wired": null,
+   "in_hook_now": false
+  },
+  {
+   "molecule": "receipt_timing_gate.py",
+   "atoms": 1,
+   "templates": [
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-26",
+    "sha": "06c93e77"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "recoil_public_share_gate.py",
+   "atoms": 1,
+   "templates": [
+    "self-test"
+   ],
+   "adr": [],
+   "primitive_evidence": [
+    "KINTSUGI"
+   ],
+   "wired": {
+    "added": "2026-11-12",
+    "sha": "b3b8dda8"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "recoil_public_share_render.mjs",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-12",
+    "sha": "b3b8dda8"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "req_reality_gate.py",
+   "atoms": 1,
+   "templates": [
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-11",
+    "sha": "d8596569"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "resume_ats_render.py",
+   "atoms": 4,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [
+    "KINTSUGI"
+   ],
+   "wired": {
+    "added": "2026-10-06",
+    "sha": "436720a9"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "resume_claim_gate.py",
+   "atoms": 1,
+   "templates": [
+    "record-integrity"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-17",
+    "sha": "38cc17ce"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "resume_location_gate.py",
+   "atoms": 1,
+   "templates": [
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-05",
+    "sha": "90743bf5"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "rewrite_shadow_check.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-15",
+    "sha": "1200ab58"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "ripple_ledger.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-16",
+    "sha": "9cd40581"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "scratch_git_leak_gate.py",
+   "atoms": 2,
+   "templates": [
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-12",
+    "sha": "a715c92e"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "security_review_gate.sh",
+   "atoms": 1,
+   "templates": [
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": null,
+   "in_hook_now": false
+  },
+  {
+   "molecule": "seed_ledger_gate.py",
+   "atoms": 1,
+   "templates": [
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-17",
+    "sha": "e567cd70"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "seed_lineage_check.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-17",
+    "sha": "1651dd6c"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "seedbank_drift_check.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [
+    "ADR-052",
+    "ADR-055"
+   ],
+   "primitive_evidence": [],
+   "wired": null,
+   "in_hook_now": false
+  },
+  {
+   "molecule": "share_control_gate.py",
+   "atoms": 1,
+   "templates": [
+    "self-test"
+   ],
+   "adr": [
+    "ADR-037"
+   ],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-12",
+    "sha": "12822415"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "slop_lint.py",
+   "atoms": 1,
+   "templates": [
+    "lint"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-26",
+    "sha": "098b20e7"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "smoke.sh",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [
+    "ADR-016"
+   ],
+   "primitive_evidence": [],
+   "wired": null,
+   "in_hook_now": false
+  },
+  {
+   "molecule": "source_trust_emit.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-27",
+    "sha": "5629c8dc"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "squash_merge_detector.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": null,
+   "in_hook_now": false
+  },
+  {
+   "molecule": "state_sync_check.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": null,
+   "in_hook_now": false
+  },
+  {
+   "molecule": "status_floor_emit.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-29",
+    "sha": "1bdbce03"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "surface_catalog_emit.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-07",
+    "sha": "93b35eeb"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "tabbed_brief_build.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-11-09",
+    "sha": "c8464a4c"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "tao_coverage_check.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-27",
+    "sha": "ef65e1e3"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "tao_project.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [
+    "ADR-041",
+    "ADR-065"
+   ],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-28",
+    "sha": "e5c602cc"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "template_leak_lint.py",
+   "atoms": 1,
+   "templates": [
+    "lint"
+   ],
+   "adr": [],
+   "primitive_evidence": [
+    "KINTSUGI"
+   ],
+   "wired": {
+    "added": "2026-10-08",
+    "sha": "bac67125"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "token_source_gate.py",
+   "atoms": 2,
+   "templates": [
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-11",
+    "sha": "1586a7ab"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "tooltip_link_lint.py",
+   "atoms": 1,
+   "templates": [
+    "lint"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-09-23",
+    "sha": "7a5b7237"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "tripwire.sh",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": null,
+   "in_hook_now": false
+  },
+  {
+   "molecule": "universe_jtbd_adapter.py",
+   "atoms": 1,
+   "templates": [
+    "check"
+   ],
+   "adr": [
+    "ADR-089"
+   ],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-19",
+    "sha": "b59b255f"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "universe_snapshot_emit.py",
+   "atoms": 1,
+   "templates": [
+    "derived-freshness"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": {
+    "added": "2026-10-08",
+    "sha": "8ef6dab3"
+   },
+   "in_hook_now": true
+  },
+  {
+   "molecule": "vercel_branch_pin_gate.py",
+   "atoms": 1,
+   "templates": [
+    "gate"
+   ],
+   "adr": [],
+   "primitive_evidence": [],
+   "wired": null,
+   "in_hook_now": false
+  }
+ ],
+ "organisms": [
+  {
+   "organism": "pre-commit",
+   "molecules": [
+    "(inline shell)",
+    "agent_seed_gate.py",
+    "altitude_canary.py",
+    "analytics_coverage_gate.py",
+    "approvals_ledger.py",
+    "archive_move_gate.py",
+    "arcs_models.py",
+    "artifact_wrap_lint.py",
+    "assumptions.py",
+    "aum_claim_gate.py",
+    "babel_fish_listeners.py",
+    "backlog_freshness.py",
+    "backlog_merge_by_id.py",
+    "backlog_ripeness.py",
+    "backlog_status_check.py",
+    "belief_log_emit.py",
+    "card_gutter_check.mjs",
+    "case_evidence_lint.py",
+    "case_world_sync.py",
+    "component_source_gate.py",
+    "connector_render.py",
+    "counterpart_onepager_build.py",
+    "cruft_sweep.py",
+    "delta_encoding_gate.py",
+    "design_candidates.py",
+    "design_debt_sweep.py",
+    "engagement_render.py",
+    "fates.py",
+    "gate_chain_build.py",
+    "good_agent_files_emit.py",
+    "grammar_chips_emit.py",
+    "gutter_consistency_lint.py",
+    "handoff_fold.py",
+    "held_exceptions.py",
+    "html_div_balance_lint.py",
+    "hud_widget_isolation_gate.py",
+    "hud_widget_registry_emit.py",
+    "inline_token_sync.py",
+    "integrity_gate.py",
+    "kit_job_ratchet.py",
+    "kit_periodic_table.py",
+    "kit_primitive_sync.py",
+    "kit_pull.py",
+    "kit_specimen.py",
+    "leak_check.sh",
+    "legend.py",
+    "librarian_hook.py",
+    "lore.py",
+    "migration_rls_lint.py",
+    "model_id_gate.py",
+    "motion_policy_gate.py",
+    "myally_hub_crawl.py",
+    "myally_hub_sync.py",
+    "myally_primer_terms.py",
+    "nftt_index_build.mjs",
+    "nftt_meta_gate.py",
+    "nftt_published.py",
+    "nftt_series.py",
+    "null_userid_gate.py",
+    "open_loops.py",
+    "operator_binding_emit.py",
+    "operator_registry_emit.py",
+    "oracle.py",
+    "page_gate.py",
+    "phosphor_build.py",
+    "phosphor_static_review.py",
+    "precall_brief_build.py",
+    "proof_emit.py",
+    "proposal_build.py",
+    "proposal_lint.py",
+    "provenance_lint.py",
+    "public_claim_gate.py",
+    "receipt_timing_gate.py",
+    "recoil_public_share_gate.py",
+    "recoil_public_share_render.mjs",
+    "req_reality_gate.py",
+    "resume_ats_render.py",
+    "resume_claim_gate.py",
+    "resume_location_gate.py",
+    "rewrite_shadow_check.py",
+    "ripple_ledger.py",
+    "scratch_git_leak_gate.py",
+    "seed_ledger_gate.py",
+    "seed_lineage_check.py",
+    "share_control_gate.py",
+    "slop_lint.py",
+    "source_trust_emit.py",
+    "status_floor_emit.py",
+    "surface_catalog_emit.py",
+    "tabbed_brief_build.py",
+    "tao_coverage_check.py",
+    "tao_project.py",
+    "template_leak_lint.py",
+    "token_source_gate.py",
+    "tooltip_link_lint.py",
+    "universe_jtbd_adapter.py",
+    "universe_snapshot_emit.py"
+   ]
+  },
+  {
+   "organism": "ci:advisory-gates.yml/advisory",
+   "molecules": [
+    "canon_propagation_check.py",
+    "integrity_gate.py",
+    "lattice_drift_check.py",
+    "seedbank_drift_check.py"
+   ]
+  },
+  {
+   "organism": "ci:ci.yml/changes",
+   "molecules": [
+    "belief_log_emit.py"
+   ]
+  },
+  {
+   "organism": "ci:ci.yml/gates",
+   "molecules": [
+    "assumptions.py",
+    "backlog_issue_sync.py",
+    "backlog_status_check.py",
+    "belief_log_emit.py",
+    "connector_render.py",
+    "fates.py",
+    "held_exceptions.py",
+    "jtbd_graph_gates.py",
+    "jtbd_graph_schema_check.py",
+    "leak_check.sh",
+    "legend.py",
+    "lore.py",
+    "nftt_index_build.mjs",
+    "nftt_published.py",
+    "nftt_series.py",
+    "operator_registry_emit.py",
+    "reading_room_sync.py",
+    "rewrite_shadow_check.py",
+    "seed_lineage_check.py",
+    "source_trust_emit.py",
+    "status_floor_emit.py",
+    "surface_catalog_emit.py",
+    "universe_jtbd_adapter.py"
+   ]
+  },
+  {
+   "organism": "ci:ci.yml/smoke",
+   "molecules": [
+    "classname_guard.py",
+    "ledger_check.py",
+    "purpose_guard.py",
+    "state_sync_check.py"
+   ]
+  },
+  {
+   "organism": "ci:ci.yml/fe-smoke",
+   "molecules": [
+    "page_gate.py"
+   ]
+  },
+  {
+   "organism": "ci:deploy-verify.yml/verify",
+   "molecules": [
+    "smoke.sh"
+   ]
+  },
+  {
+   "organism": "ci:family-tripwire.yml/tripwire",
+   "molecules": [
+    "tripwire.sh"
+   ]
+  },
+  {
+   "organism": "ci:governance.yml/ledger",
+   "molecules": [
+    "ledger_check.py"
+   ]
+  },
+  {
+   "organism": "ci:no-squash.yml/detect",
+   "molecules": [
+    "squash_merge_detector.py"
+   ]
+  },
+  {
+   "organism": "ci:security.yml/claude-security-review",
+   "molecules": [
+    "security_review_gate.sh"
+   ]
+  },
+  {
+   "organism": "ci:vercel-branch-pin.yml/detect",
+   "molecules": [
+    "vercel_branch_pin_gate.py"
+   ]
+  }
+ ],
+ "templates": [
+  {
+   "template": "check",
+   "atoms": 49,
+   "molecules": 42,
+   "primitive_evidence": [
+    "KINTSUGI"
+   ],
+   "primitive_ruled": "UNRULED"
+  },
+  {
+   "template": "derived-freshness",
+   "atoms": 32,
+   "molecules": 32,
+   "primitive_evidence": [],
+   "primitive_ruled": "UNRULED"
+  },
+  {
+   "template": "gate",
+   "atoms": 24,
+   "molecules": 21,
+   "primitive_evidence": [],
+   "primitive_ruled": "UNRULED"
+  },
+  {
+   "template": "lint",
+   "atoms": 10,
+   "molecules": 10,
+   "primitive_evidence": [
+    "KINTSUGI"
+   ],
+   "primitive_ruled": "UNRULED"
+  },
+  {
+   "template": "self-test",
+   "atoms": 9,
+   "molecules": 9,
+   "primitive_evidence": [
+    "KINTSUGI"
+   ],
+   "primitive_ruled": "UNRULED"
+  },
+  {
+   "template": "record-integrity",
+   "atoms": 5,
+   "molecules": 4,
+   "primitive_evidence": [],
+   "primitive_ruled": "UNRULED"
+  }
+ ],
+ "pages": [
+  {
+   "page": "status.arcs.care/gauntlets (public/gauntlet-log.html)",
+   "renders": "molecules by week, reviewed chains",
+   "via": [
+    "scripts/gate_chain_build.py"
+   ]
+  }
+ ],
+ "operators": {},
+ "protocols": [
+  {
+   "protocol": "commit",
+   "organisms": [
+    "pre-commit"
+   ],
+   "evidence": "core.hooksPath runs scripts/git-hooks/pre-commit"
+  },
+  {
+   "protocol": "merge",
+   "organisms": [
+    "ci:advisory-gates.yml/advisory",
+    "ci:ci.yml/changes",
+    "ci:ci.yml/fe-smoke",
+    "ci:ci.yml/gates",
+    "ci:ci.yml/smoke",
+    "ci:deploy-verify.yml/verify",
+    "ci:family-tripwire.yml/tripwire",
+    "ci:governance.yml/ledger",
+    "ci:no-squash.yml/detect",
+    "ci:security.yml/claude-security-review",
+    "ci:vercel-branch-pin.yml/detect"
+   ],
+   "evidence": "scripts/safe_merge.sh refuses unless every check is SUCCESS"
+  }
+ ]
+}

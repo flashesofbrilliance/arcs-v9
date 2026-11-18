@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 5,
-  "script": 335,
+  "script": 337,
   "skill": 28,
   "workflow": 2
  },
- "total": 468,
+ "total": 470,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 632,
+   "WIRED": 634,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 1,
    "DUPLICATE": 6,
@@ -1572,10 +1572,26 @@
   },
   {
    "kind": "script",
+   "name": "gate_ladder_page.py",
+   "path": "scripts/gate_ladder_page.py",
+   "jtbd": "gate_ladder_page: render the gate ladder page (design spec, recommendation, plan) from data, never hand-typed counts.",
+   "invoke": "python3 scripts/gate_ladder_page.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "gate_shadow_eval.py",
    "path": "scripts/gate_shadow_eval.py",
    "jtbd": "gate_shadow_eval: did a gate's wrong answer reveal itself? A read-only shadow eval over main's history.",
    "invoke": "python3 scripts/gate_shadow_eval.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "gate_taxonomy_emit.py",
+   "path": "scripts/gate_taxonomy_emit.py",
+   "jtbd": "gate_taxonomy_emit: the gate system, built bottom-up, each layer derived from the one below (never declared).",
+   "invoke": "python3 scripts/gate_taxonomy_emit.py",
    "state": "WIRED"
   },
   {

@@ -1,0 +1,69 @@
+/* Layout only. Faces, sizes, colours and radii come from the kit (_tokens.css) and DESIGN.md's ramp:
+   display serif at --fs-display, headline --fs-headline, body --fs-body, label --fs-label (mono 700 caps).
+   The kit primitives (27 section label, 31 callout, 53 cold read) are extracted verbatim by the generator.
+   One column: the container's inner width IS --measure (the kit's 720px document), so prose, tables and cards share
+   one right edge; wide tables and the graph scroll inside their own box. */
+:root { --measure: 688px; }
+* { box-sizing: border-box; }
+::selection { background: var(--cyan-bg); color: var(--text); }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; margin: 0; }
+.wrap { max-width: calc(var(--measure) + 32px); margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+code { font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--text); overflow-wrap: anywhere; }
+strong { font-weight: 600; }
+p { margin: 0; }
+
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--border); }
+.toprow { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-block: 14px; flex-wrap: wrap; }
+.wordmark { font-family: var(--ds-font-display); font-size: var(--fs-headline); font-weight: 500; letter-spacing: 0.04em; }
+.meta { font-size: var(--fs-body); color: var(--text-secondary); }
+
+main { display: flex; flex-direction: column; gap: 56px; padding-block: 40px 88px; }
+section { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+section > p, .lede { max-width: none; }
+.section-label { margin: 0; }
+h1 { font-family: var(--ds-font-display); font-size: var(--fs-display); font-weight: 500; line-height: 1.1; letter-spacing: -0.01em; margin: 0; }
+h2 { font-family: var(--ds-font-sans); font-size: var(--fs-headline); font-weight: 600; line-height: 1.25; margin: 0; }
+h3 { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); line-height: 1.4; margin: 8px 0 0; }  /* label tier: never the body size */
+.hero { gap: 12px; }
+.lede { font-size: var(--fs-headline); line-height: 1.45; color: var(--text-secondary); }
+
+.ladders { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 12px; }
+.ladder { margin: 0; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); padding: 16px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.ladder ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.ladder li { max-width: none; display: grid; grid-template-columns: 6.5em 5.5em minmax(0, 1fr); gap: 12px; align-items: baseline; padding: 10px 0; }
+.ladder li + li { border-top: 1px solid var(--border); }
+.rung { font-weight: 600; }
+.n { font-family: var(--ds-font-mono); font-variant-numeric: tabular-nums; color: var(--green); white-space: nowrap; }
+.n.warn { color: var(--gold); }
+.from { color: var(--text-secondary); min-width: 0; }
+@media (max-width: 599px) { .ladder li { grid-template-columns: minmax(0, 1fr) auto; } .from { grid-column: 1 / -1; } }
+
+.scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); padding: 4px 8px; }
+.scroll:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+table { border-collapse: collapse; width: 100%; min-width: 600px; }
+th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+thead th { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+tbody tr:last-child td { border-bottom: 0; }
+td.num, th.num { text-align: right; font-family: var(--ds-font-mono); font-variant-numeric: tabular-nums; }
+.pill { display: inline-block; white-space: nowrap; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border: 1px solid var(--border); border-radius: var(--ds-r-badge); }
+.pill.hi { color: var(--green); border-color: var(--green); }
+.pill.mid { color: var(--gold); border-color: var(--gold); }
+.pill.lo { color: var(--red); border-color: var(--red); }
+
+.rules { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 10px; }
+.findings, .arms { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 12px; }
+.finding, .arm { border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); padding: 16px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.finding p, .arm p { max-width: none; }
+.arm h3 { margin: 0; }
+
+.graph { display: block; height: auto; }  /* drawn at its natural width; the .scroll box scrolls it */
+.graph text { font-family: var(--ds-font-mono); font-size: var(--fs-body); fill: var(--text); }
+.graph text.s { font-size: var(--fs-body); fill: var(--text-secondary); }
+.graph .col-label text { fill: var(--muted); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; }
+.graph .edges path { fill: none; stroke: var(--border); stroke-width: 1.5; }
+.graph .node rect { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
+.graph .node.done rect { stroke: var(--green); }
+.graph .node.held rect { stroke: var(--gold); }
+.graph .node.open rect { stroke: var(--cyan); }
+.foot { color: var(--text-secondary); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
