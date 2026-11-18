@@ -13,6 +13,7 @@ function withSharedIcons<T extends { source: string }>(rules: T[]): T[] {
 
 const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
+    "/status-live.html": ["./public/status.html"],
     // jobs.arcs.care: the rubric + trigger specs are read at request time; the scan HUD is served from _ARTIFACTS.
     "/api/jobs": ["./runtime/specs/*.json"],
     "/api/jobs/swipe": ["./runtime/specs/*.json"],
@@ -158,7 +159,9 @@ const nextConfig: NextConfig = {
         // Agent-readable files (2026-10-29): /llms.txt is the host's own; machine paths are excluded from the
         // catch-all so an unknown one 404s instead of answering with the HTML page (tests/unit/llms-routes.test.ts).
         { source: "/llms.txt", destination: "/status-llms.txt", has: [{ type: "host", value: "status.arcs.care" }] },
-        { source: "/:path((?!.*belief|.*gauntlet|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
+        // /status-live.html is a route handler (src/app/status-live.html/route.ts): status.html with the live
+        // pulse server-rendered, so readers that skip JavaScript see numbers, not "loading…" (2026-11-17).
+        { source: "/:path((?!.*belief|.*gauntlet|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)", destination: "/status-live.html", has: [{ type: "host", value: "status.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/resume-tailor.html", has: [{ type: "host", value: "resume-tailor.arcs.care" }] },
         { source: "/blog/nftt", destination: "/blog-nftt-index.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/blog/nftt/:slug/:tier(brief|full)", destination: "/blog-nftt-:slug-:tier.html", has: [{ type: "host", value: "good.arcs.care" }] },

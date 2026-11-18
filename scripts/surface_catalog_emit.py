@@ -370,6 +370,10 @@ def dest_file(destination):
         return "runtime/warroom/%s.html" % destination[len("/warroom/"):]
     if destination.startswith("/prep/"):
         return "runtime/warroom/%s.html" % destination[len("/prep/"):]
+    # A dotted destination can still be an app route (src/app/status-live.html/route.ts, 2026-11-17):
+    # leave it to the app-route pass, which gives the row that route's file and purpose.
+    if os.path.exists(os.path.join(APP_DIR, destination.lstrip("/"), "route.ts")):
+        return None
     if "." in os.path.basename(destination):
         return "public" + destination
     return None
