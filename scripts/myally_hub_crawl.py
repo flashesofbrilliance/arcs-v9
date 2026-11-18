@@ -41,6 +41,9 @@ def unit() -> list:
             fails.append(f"row {r['id']}: start {r['start']} len {r['len']} runs past {cols} columns")
         if r["kind"] == "ms" and r["len"] != 0:
             fails.append(f"row {r['id']}: a milestone has len 0")
+        pf = r.get("proof")
+        if pf is not None and (set(pf) != {"lead", "url", "label"} or not pf["url"].startswith("https://") or not pf["lead"].strip()):
+            fails.append(f"row {r['id']}: proof needs lead, an https url and a label")
     # "Your week" (step1_tree.week) summarizes rows by day: every id it cites must exist and start on that day,
     # so the plain sentence cannot drift from the grid it stands in for (2026-11-09).
     byid = {r["id"]: r for r in rows}
