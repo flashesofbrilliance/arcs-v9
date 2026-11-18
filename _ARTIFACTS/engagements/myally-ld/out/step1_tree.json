@@ -152,6 +152,19 @@
   },
   {
    "get": "",
+   "hours": 0,
+   "id": "w0f",
+   "kind": "req",
+   "label": "Call transcripts only with your yes",
+   "len": 1,
+   "note": "I'd like to transcribe our calls with Granola, so I can check what I predicted against what you actually said. I'll ask at the start of each call. If anyone says no, I take notes by hand instead.",
+   "parent": "w0",
+   "s2": "",
+   "s3": "",
+   "start": 0
+  },
+  {
+   "get": "",
    "hours": 4.25,
    "id": "w1",
    "kind": "phase",
@@ -339,8 +352,13 @@
    "kind": "phase",
    "label": "Rough ranges",
    "len": 1,
-   "note": "Rough ranges, each with its assumptions. Firm estimates are not part of this step.",
+   "note": "Each range comes with three things: what it relies on, what it can't see yet, and the date you'll know. So Kelly can show funders a number and its limits on the same page. Firm estimates are not part of this step.",
    "parent": null,
+   "proof": {
+    "label": "good.arcs.care/rfp-engine",
+    "lead": "Something I built on the same rule: it answers RFP questions with the clause behind it, says \"not covered\" when it can't find one, and publishes the ones it got wrong.",
+    "url": "https://good.arcs.care/rfp-engine"
+   },
    "s2": "",
    "s3": "",
    "start": 3
@@ -450,7 +468,7 @@
    "start": 4
   },
   {
-   "get": "All in plain language, so your team or any developer can act on it in Steps 2 and 3.",
+   "get": "The go or stop call comes with the same three things: what it relies on, what it can't see yet, and the date you'll know. All in plain language, so your team or any developer can act on it in Steps 2 and 3.",
    "hours": 0,
    "id": "w5d",
    "kind": "ms",
