@@ -206,6 +206,12 @@ def append_only(head_text, now_text):
     return new[:len(old)] == old
 
 
+def ledger_ok(parent_texts, now_text):
+    """Append-only against at least one parent. A normal commit has one (HEAD); a merge also has
+    MERGE_HEAD, whose ledger may carry this branch's lines reordered among newer ones."""
+    return any(append_only(t, now_text) for t in parent_texts)
+
+
 # ---------- sync from git ----------
 
 def clean(subj):
@@ -544,8 +550,11 @@ def build():
 
 def check():
     errs = validate(ledger())
-    head = subprocess.run(("git", "show", f"HEAD:{LEDGER}"), cwd=ROOT, capture_output=True, text=True)
-    if head.returncode == 0 and not append_only(head.stdout, read(LEDGER)):
+    refs = ["HEAD"]
+    if subprocess.run(("git", "rev-parse", "-q", "--verify", "MERGE_HEAD"), cwd=ROOT, capture_output=True).returncode == 0:
+        refs.append("MERGE_HEAD")  # a merge in progress: either parent's ledger may be the base
+    parents = [r.stdout for r in (subprocess.run(("git", "show", f"{ref}:{LEDGER}"), cwd=ROOT, capture_output=True, text=True) for ref in refs) if r.returncode == 0]
+    if parents and not ledger_ok(parents, read(LEDGER)):
         errs.append(f"{LEDGER} rewrote or reordered a committed line; the ledger is append-only (add a correcting line instead)")
     if not os.path.exists(p(OUT)) or read(OUT) != build():
         errs.append(f"{OUT} differs from what the manifest and ledger produce; run python3 scripts/kit_periodic_table.py")
@@ -564,6 +573,15 @@ def self_test():
     a = json.dumps(good)
     assert append_only(a + "\n", a + "\n" + a.replace('"a"', '"b"') + "\n")
     assert not append_only(a + "\n", a.replace('"t"', '"u"') + "\n")
+    # merge from main (PR 2248, a30eb252): branch has x,y; main carries x,z,y; the merge stages main's order
+    x, y, z = (a.replace('"a"', f'"{k}"') for k in "xyz")
+    branch, main_, merged = f"{x}\n{y}\n", f"{x}\n{z}\n{y}\n", f"{x}\n{z}\n{y}\n"
+    assert not append_only(branch, merged)  # the old HEAD-only check blocked this merge
+    assert ledger_ok([branch, main_], merged)  # either parent counts during a merge
+    assert not ledger_ok([branch], merged)  # a normal commit still checks HEAD only
+    xr, yr = (v.replace('"t"', '"u"') for v in (x, y))
+    assert not ledger_ok([branch], f"{xr}\n{y}\n")  # rewriting a committed line blocks
+    assert not ledger_ok([branch, main_], f"{x}\n{yr}\n{z}\n")  # a merge that rewrites a line still blocks
     assert earned({"reuse": 0}) == "grain" and earned({"reuse": 1}) == "degraded"
     assert earned({"reuse": 3, "near_duplicates": [{"jaccard": 1.0}]}) == "moire"
     assert earned({"reuse": 3, "near_duplicates": [{"jaccard": 0.9}]}) == "sharp"
@@ -573,7 +591,7 @@ def self_test():
     assert len(set(s.values())) == 2
     page = build()
     assert chr(0x2014) not in page.replace(read(TOKENS), "")  # the inlined token file is verbatim kit text
-    print("kit_periodic_table self-test: 12 checks pass")
+    print("kit_periodic_table self-test: 18 checks pass")
     return 0
 
 
