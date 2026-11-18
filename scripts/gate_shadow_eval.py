@@ -4,7 +4,8 @@
 Rules are pre-registered in _PATTERNS/2026-11-17-gate-shadow-eval-prereg.md (fixed before the first count):
   bypass event      a commit message records a gate override (--no-verify, INTEGRITY_GATE_BLOCK=0, --allow-hold,
                     or "bypass" near a gate name); the gate is attributed from the message
-  revealed FP       a bypass that landed, was not reverted, and whose gate script a LATER commit changed
+  fix-followed      a bypass that landed, was not reverted, and a LATER fix commit changed its gate (A4); a lead, not
+                    proof (A6): only a replay of the fixed gate on what was bypassed reveals the FP
   bypass-held       a bypass that landed and was not reverted, gate not corrected yet (counted, not classified)
   revealed FN       a commit without a bypass that a later commit reverted ("This reverts commit <sha>")
   unrevealed        everything else: a count, never called "correct" (the upper bound on inliers)
@@ -102,7 +103,9 @@ def classify(rows, changed_by, fixed_after):
             if is_reverted(sha):
                 kind = "bypass-reverted"
             else:
-                kind = "revealed-fp" if any(g != "unknown" and fixed_after(g, i) for g in gates) else "bypass-held"
+                # A6: a later fix to the gate is a lead, not proof; only a replay of the fixed gate on what was
+                # bypassed reveals the FP. Until a replay exists, an A4 match is "fix-followed".
+                kind = "fix-followed" if any(g != "unknown" and fixed_after(g, i) for g in gates) else "bypass-held"
             ev = {"kind": kind, "gates": gates}
         elif is_reverted(sha):
             ev = {"kind": "revealed-fn", "gates": []}
@@ -145,7 +148,7 @@ def main_run(rev, since):
     for e in events:
         counts[e["kind"]] = counts.get(e["kind"], 0) + 1
     counts["unrevealed"] = len(rows) - len(events)
-    return {"rev": rev, "since": since, "rules": "v2 (A1-A5)", "commits": len(rows), "counts": counts, "events": events}
+    return {"rev": rev, "since": since, "rules": "v3 (A1-A6)", "commits": len(rows), "counts": counts, "events": events}
 
 
 def self_test():
@@ -165,13 +168,13 @@ def self_test():
     edits = {"kit_periodic_table": [1], "integrity_gate": [7, 9]}
     fixed_after = lambda stem, i: any(j > i and rows[j][2].startswith("fix") for j in edits.get(stem, []))
     ev = {e["sha"][0]: e for e in classify(rows, lambda i: changed.get(i, set()), fixed_after)}
-    assert ev["a"]["kind"] == "revealed-fp" and ev["a"]["gates"] == ["kit_periodic_table"], ev["a"]
+    assert ev["a"]["kind"] == "fix-followed" and ev["a"]["gates"] == ["kit_periodic_table"], ev["a"]  # A6
     assert ev["c"]["kind"] == "bypass-held" and ev["c"]["gates"] == ["integrity_gate"], ev["c"]  # j is chore, not fix
     assert ev["d"]["kind"] == "revealed-fn", ev["d"]
     assert ev["i"]["kind"] == "revert-unlinked", ev["i"]
     for k in "befgh j".replace(" ", ""):
         assert k not in ev, (k, ev.get(k))
-    print("gate_shadow_eval: self-test ok (v1 rules + amendments A1-A5)")
+    print("gate_shadow_eval: self-test ok (v1 rules + amendments A1-A6)")
 
 
 def main():

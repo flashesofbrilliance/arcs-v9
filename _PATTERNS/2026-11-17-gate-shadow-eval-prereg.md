@@ -66,3 +66,16 @@ Reading four sampled messages showed the eval making the errors it was built to 
 ## Result, v2
 
 bypass-held 58 · revealed-fp 28 · revealed-fn 1 · revert-unlinked 5 · unrevealed 7,207. Same three predictions hold. Live test: the integrity gate fix in the same PR (a `fix(...)` commit to `scripts/integrity_gate.py`) should flip the `4b08bc94` bypass from bypass-held to revealed-fp when the eval reads the branch.
+
+## Amendment A6 (v3, 2026-11-17, after the live test)
+
+The live test flipped the two predicted bypasses (`94ac0182`, `4b08bc94`) but also two older integrity bypasses. A manual replay (the fixed gate run on each bypassed record) split them:
+
+| Bypass | Fixed gate on the bypassed record | Revealed by this fix? |
+|---|---|---|
+| `94ac0182` night-moves 11-16 digest | WARN (passes) | yes |
+| `4b08bc94` same digest via a merge | WARN (same record) | yes |
+| `8d456294` `_SEEDS` ledger cites | still FAIL | no, A4 over-claimed |
+| `1218fc33` files already on main, a moved file | different cause | no, A4 over-claimed |
+
+A6: a later fix to a gate is a lead, not proof. An A4 match is reported as `fix-followed`; `revealed-fp` needs a replay of the fixed gate on what was bypassed. No replay engine exists yet (backlog row `gate-shadow-eval-replay`), so v3 reports zero machine-revealed FPs and the two replayed by hand above.
