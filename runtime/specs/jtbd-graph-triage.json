@@ -75,23 +75,7 @@
   },
   {
    "rule": "ORPHAN-TOOL",
-   "id": "tool:script:orphanage.py",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
-   "row": "jtbd-standing-tools",
-   "added": "2026-11-16",
-   "resolve_by": "2026-11-30"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
    "id": "tool:script:ship_status.py",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
-   "row": "jtbd-standing-tools",
-   "added": "2026-11-16",
-   "resolve_by": "2026-11-30"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:script:dream_mine.py",
    "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
    "added": "2026-11-16",
@@ -109,14 +93,6 @@
    "rule": "ORPHAN-TOOL",
    "id": "tool:script:pre_prep_gate.py",
    "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
-   "row": "jtbd-standing-tools",
-   "added": "2026-11-16",
-   "resolve_by": "2026-11-30"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
-   "id": "tool:skill:dream",
-   "reason": "standing tool, used in sessions but no row's route.tool or runner names it; how standing tools earn a job edge is decided in this row; wrapper skill over the script (renewed 2026-11-16 on Zach's go; first added 2026-11-03)",
    "row": "jtbd-standing-tools",
    "added": "2026-11-16",
    "resolve_by": "2026-11-30"

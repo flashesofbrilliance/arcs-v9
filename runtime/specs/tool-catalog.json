@@ -7,30 +7,22 @@
   "hook": 3,
   "operator": 46,
   "package": 5,
-  "script": 334,
+  "script": 335,
   "skill": 28,
   "workflow": 2
  },
- "total": 467,
+ "total": 468,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 630,
+   "WIRED": 694,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 3,
-   "DUPLICATE": 6,
-   "BROKEN": 0
+   "INSTALLED-UNUSED": 1,
+   "DUPLICATE": 13,
+   "BROKEN": 1
   },
   "gaps": [
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "project_mirror.sh",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
    {
     "state": "INSTALLED-UNUSED",
     "surface": "user",
@@ -40,12 +32,28 @@
     "fix": "claude plugin uninstall frontend-design@claude-plugins-official"
    },
    {
-    "state": "INSTALLED-UNUSED",
+    "state": "BROKEN",
     "surface": "user",
     "kind": "plugin",
     "name": "frontend-design@claude-plugins-official",
-    "why": "project-scoped to /Users/zharris/Claude/wt-reading-room-sync only",
-    "fix": "claude plugin uninstall frontend-design@claude-plugins-official"
+    "why": "project scope path gone: /Users/zharris/Claude/wt-reading-room-sync",
+    "fix": ""
+   },
+   {
+    "state": "DUPLICATE",
+    "surface": "multi",
+    "kind": "duplicate",
+    "name": "deep-research",
+    "why": "same name: user:skill:deep-research | synced:skill:deep-research",
+    "fix": "pick the canonical one; retire or point the other at it"
+   },
+   {
+    "state": "DUPLICATE",
+    "surface": "multi",
+    "kind": "duplicate",
+    "name": "doc-coauthoring",
+    "why": "same name: user:skill:doc-coauthoring | synced:skill:doc-coauthoring",
+    "fix": "pick the canonical one; retire or point the other at it"
    },
    {
     "state": "DUPLICATE",
@@ -91,8 +99,48 @@
     "state": "DUPLICATE",
     "surface": "multi",
     "kind": "duplicate",
+    "name": "internal-comms",
+    "why": "same name: user:skill:internal-comms | synced:skill:internal-comms",
+    "fix": "pick the canonical one; retire or point the other at it"
+   },
+   {
+    "state": "DUPLICATE",
+    "surface": "multi",
+    "kind": "duplicate",
+    "name": "mcp-builder",
+    "why": "same name: user:skill:mcp-builder | synced:skill:mcp-builder",
+    "fix": "pick the canonical one; retire or point the other at it"
+   },
+   {
+    "state": "DUPLICATE",
+    "surface": "multi",
+    "kind": "duplicate",
     "name": "nci-scoring",
     "why": "same name: repo:skill:nci-scoring | synced:skill:nci-scoring",
+    "fix": "pick the canonical one; retire or point the other at it"
+   },
+   {
+    "state": "DUPLICATE",
+    "surface": "multi",
+    "kind": "duplicate",
+    "name": "skill-creator",
+    "why": "same name: user:skill:skill-creator | synced:skill:skill-creator",
+    "fix": "pick the canonical one; retire or point the other at it"
+   },
+   {
+    "state": "DUPLICATE",
+    "surface": "multi",
+    "kind": "duplicate",
+    "name": "theme-factory",
+    "why": "same name: synced:skill:theme-factory | user:skill:theme-factory",
+    "fix": "pick the canonical one; retire or point the other at it"
+   },
+   {
+    "state": "DUPLICATE",
+    "surface": "multi",
+    "kind": "duplicate",
+    "name": "web-artifacts-builder",
+    "why": "same name: synced:skill:web-artifacts-builder | user:skill:web-artifacts-builder",
     "fix": "pick the canonical one; retire or point the other at it"
    }
   ]
@@ -976,6 +1024,14 @@
    "path": "scripts/baseline-prod-migrations.sh",
    "jtbd": "Baseline the PRODUCTION database into Prisma migrate history (one-time).",
    "invoke": "scripts/baseline-prod-migrations.sh",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "bash_guard_measure.py",
+   "path": "scripts/bash_guard_measure.py",
+   "jtbd": "bash_guard_measure.py: score a Bash guard hook's verdict() against real past Bash calls.",
+   "invoke": "python3 scripts/bash_guard_measure.py",
    "state": "WIRED"
   },
   {
@@ -2432,7 +2488,7 @@
    "path": "scripts/project_mirror.sh",
    "jtbd": "project_mirror.sh: copy the context Claude Code loads in arcs-v9 (CLAUDE.md with the live handoff,",
    "invoke": "scripts/project_mirror.sh",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
