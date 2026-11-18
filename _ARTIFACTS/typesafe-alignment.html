@@ -160,15 +160,15 @@ footer p{font:400 .8rem/1.5 var(--mono); color:var(--muted); max-width:none;}
 <header>
   <p class="kicker">Internal · read 2026-11-17 · private</p>
   <h1>TypeSafe's manifesto and ARCS agree on how to build. They disagree on one thing, and the gap is where privacy lives.</h1>
-  <p class="lede">TypeSafe argues that today's models are smart enough, that AI should be a judgment primitive inside ordinary code, and that safety means parts you can inspect, test and constrain. ARCS already runs on those rules. The one place they part is the human: TypeSafe wants AI that runs with no one present, and ARCS will not let a machine overrule a person or touch their data without a declared door. This page maps the match, names the split, and lists the privacy carve-outs that any use of TypeSafe inside ARCS has to respect.</p>
-  <p class="meta">Sources: typesafe.ai/manifesto (read 2026-11-17 through a summarizing fetch) · _CANON/trust-contract.md v1.8 · _PROPOSALS/2026-10-16-typesafe-fit.json · TypeSafe legal pages as summarized 2026-10-16, not read in full</p>
+  <p class="lede">TypeSafe argues that today's models are smart enough, that AI should be a judgment primitive inside ordinary code, and that safety means parts you can inspect, test and constrain. ARCS already runs on those rules. The one place they part is the human: TypeSafe wants AI that runs with no one present, and ARCS will not let a machine overrule a person or touch their data without a declared door. This page maps the match, names the split, lists the privacy carve-outs that any use of TypeSafe inside ARCS has to respect, and maps their four question types and their state model onto the evals we already run.</p>
+  <p class="meta">Sources: typesafe.ai/manifesto (read 2026-11-17 through a summarizing fetch) · _CANON/trust-contract.md v1.8 · _PROPOSALS/2026-10-16-typesafe-fit.json · docs.typesafe.ai/primitives and /concepts/state (read 2026-11-17, summarized) · TypeSafe legal pages as summarized 2026-10-16, not read in full</p>
 </header>
 
 <section aria-labelledby="why">
   <p class="kicker" id="why">Why, what, why now</p>
   <div class="frame">
     <div><span class="lab">Why</span><p>Two teams reached the same engineering stance separately. Seeing the overlap tells us what we can borrow from TypeSafe's framing and where ARCS has to hold its own line.</p></div>
-    <div><span class="lab">What</span><p>A principle map (seven rows), the one split and how it reconciles, and nine privacy carve-outs with the source each one comes from.</p></div>
+    <div><span class="lab">What</span><p>A principle map (seven rows), the one split and how it reconciles, nine privacy carve-outs with their sources, and a map of seven of our evals onto TypeSafe's primitives, ending in one proposed build (S1).</p></div>
     <div><span class="lab">Why now</span><p>The manifesto is new, and the October TypeSafe fit proposal is still open: its four decisions (D1 to D4) are unanswered, and its agent send rule never reached CLAUDE.md.</p></div>
   </div>
 </section>
@@ -303,7 +303,7 @@ footer p{font:400 .8rem/1.5 var(--mono); color:var(--muted); max-width:none;}
   </div>
 
   <div class="ledger">
-    <div class="c"><span class="id">P1</span><div><h3>A state projector makes the carve-outs mechanical</h3><p>One function builds every TypeSafe state: it takes an allowlist of named fields, refuses any field not on it, swaps counterpart names for pseudonyms, and rejects text not tagged as already public. It is the same projection idea as recoil_brief.py --audience external, and it turns the D4 send rule from prose into a check that blocks. Filed as backlog row typesafe-state-projector.</p><span class="src">_QUEUE/induced-backlog.jsonl · fit proposal D4</span></div></div>
+    <div class="c"><span class="id">S1</span><div><h3>A state projector makes the carve-outs mechanical</h3><p>One function builds every TypeSafe state: it takes an allowlist of named fields, refuses any field not on it, swaps counterpart names for pseudonyms, and rejects text not tagged as already public. It is the same projection idea as recoil_brief.py --audience external, and it turns the D4 send rule from prose into a check that blocks. Filed as backlog row typesafe-state-projector.</p><span class="src">_QUEUE/induced-backlog.jsonl · fit proposal D4</span></div></div>
   </div>
 </section>
 
@@ -313,10 +313,10 @@ footer p{font:400 .8rem/1.5 var(--mono); color:var(--muted); max-width:none;}
     <div><h3>Before</h3><ul>
       <li>You answer D1 to D4 on the October proposal.</li>
       <li>If D2 is yes, I draft the questions for TypeSafe: zero data retention, a written confidentiality commitment for inputs, the subprocessor list, an MCP server. You send them.</li>
-      <li>If D4 is yes, add the public-text-only send rule.</li>
+      <li>If D4 is yes, build the state projector (S1, backlog row typesafe-state-projector) so the public-text-only rule is enforced in code, not only written down.</li>
     </ul></div>
     <div><h3>During</h3><ul>
-      <li>The pilot classifies public text only, against your 20 labels, with an 80% agreement bar.</li>
+      <li>The pilot classifies public text only, against your 20 labels, with an 80% agreement bar. The first eval is a claim check (Noul) on published NFTT posts, with each state built by the projector.</li>
       <li>Option order is reversed and a self-arguing claim is planted, so the known weak spots are tested.</li>
       <li>Results become a decision receipt.</li>
     </ul></div>
@@ -328,7 +328,7 @@ footer p{font:400 .8rem/1.5 var(--mono); color:var(--muted); max-width:none;}
 </section>
 
 <footer>
-  <p>How to read this page: the map shows what we share with TypeSafe, the callout shows the one disagreement, and the ledger is the list to check before any text goes to their API. Legal findings come from summarized pages; a lawyer should confirm them before anything private is sent.</p>
+  <p>How to read this page: the map shows what we share with TypeSafe, the callout shows the one disagreement, the carve-out ledger is the list to check before any text goes to their API, and the primitives section shows which of our evals could use it and which stay in code. Legal findings come from summarized pages; a lawyer should confirm them before anything private is sent.</p>
 </footer>
 </main>
 </body>
