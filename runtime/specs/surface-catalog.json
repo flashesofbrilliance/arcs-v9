@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 290,
+  "rows": 291,
   "hosts": 63,
   "by_kind": {
    "explorer": 15,
-   "status": 10,
+   "status": 9,
    "ledger": 3,
-   "product page": 234,
+   "product page": 236,
    "gated": 28
   },
   "next_config_hosts": 85,
   "proxy_hosts": 27,
-  "app_routes": 47,
+  "app_routes": 48,
   "missing_purpose": 21,
-  "unlisted": 92
+  "unlisted": 91
  },
  "retired_hosts": [
   "ahmed-ext.arcs.care",
@@ -85,7 +85,8 @@
   "public/myally-primer.html",
   "public/myally-proposal.html",
   "public/myally.html",
-  "public/resume-google-gtm.html"
+  "public/resume-google-gtm.html",
+  "public/status.html"
  ],
  "rows": [
   {
@@ -910,6 +911,26 @@
   },
   {
    "host": "app.arcs.care",
+   "path": "/status-live.html",
+   "catch_all": false,
+   "destination": "/status-live.html",
+   "file": "src/app/status-live.html/route.ts",
+   "kind": "product page",
+   "title": null,
+   "description": "status.arcs.care: public/status.html with the live pulse written into the HTML (src/lib/status-ssr.ts),",
+   "index": null,
+   "gate": null,
+   "declared_in": [
+    "src/app"
+   ],
+   "pattern": false,
+   "gate_file": null,
+   "unlisted": false,
+   "purpose": "status.arcs.care: public/status.html with the live pulse written into the HTML (src/lib/status-ssr.ts),",
+   "last_commit": null
+  },
+  {
+   "host": "app.arcs.care",
    "path": "/terms",
    "catch_all": false,
    "destination": "/terms",
@@ -1149,7 +1170,7 @@
    "unlisted": false,
    "purpose": "Building in public: the goods we've shipped, the lab in the kitchen, the playground you can try. One front door onto the ARCS flywheel.",
    "kind": "product page",
-   "last_commit": "2026-11-16"
+   "last_commit": "2026-11-17"
   },
   {
    "host": "chan.arcs.care",
@@ -1375,7 +1396,7 @@
    "unlisted": false,
    "purpose": "Open, MIT-licensed tools built for our own work and published. The tools are open; the ARCS intelligence that orchestrates them stays private.",
    "kind": "product page",
-   "last_commit": "2026-11-16"
+   "last_commit": "2026-11-17"
   },
   {
    "host": "good.arcs.care",
@@ -5286,21 +5307,21 @@
    "path": "/",
    "catch_all": true,
    "source": "/:path((?!.*belief|.*gauntlet|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
-   "destination": "/status.html",
+   "destination": "/status-live.html",
    "pattern": false,
-   "file": "public/status.html",
+   "file": "src/app/status-live.html/route.ts",
    "gate": null,
    "gate_file": null,
    "declared_in": [
     "next.config.ts"
    ],
-   "title": "ARCS: Day 0 to Today",
-   "description": "ARCS, built in the open since day zero: a live product that grades itself. Proof over promises, one commit at a time.",
-   "index": "noindex, nofollow",
-   "unlisted": true,
-   "purpose": "ARCS, built in the open since day zero: a live product that grades itself. Proof over promises, one commit at a time.",
-   "kind": "status",
-   "last_commit": "2026-11-16"
+   "title": null,
+   "description": "status.arcs.care: public/status.html with the live pulse written into the HTML (src/lib/status-ssr.ts),",
+   "index": null,
+   "unlisted": false,
+   "purpose": "status.arcs.care: public/status.html with the live pulse written into the HTML (src/lib/status-ssr.ts),",
+   "kind": "product page",
+   "last_commit": null
   },
   {
    "host": "status.arcs.care",
@@ -5340,7 +5361,7 @@
    "unlisted": false,
    "purpose": "The shape of the adversarial gauntlet record, every pre-ship pressure-test plotted in time, and the gates added week by week with the mistakes behind them. Cadence, scale and plain-word fixes; never what a run found.",
    "kind": "ledger",
-   "last_commit": "2026-11-16"
+   "last_commit": "2026-11-17"
   },
   {
    "host": "status.arcs.care",
@@ -5421,7 +5442,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-11-16"
+   "last_commit": "2026-11-17"
   },
   {
    "host": "todd-call.arcs.care",
