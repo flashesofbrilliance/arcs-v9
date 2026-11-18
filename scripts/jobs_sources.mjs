@@ -113,9 +113,13 @@ export const ADAPTERS = {
 
 async function getJSON(url, html = false) {
   const r = await fetch(url, { headers: html ? { ...UA, accept: "text/html" } : UA, signal: AbortSignal.timeout(20000) })
-  if (!r.ok) throw new Error(`${r.status} ${url}`)
+  if (!r.ok) throw Object.assign(new Error(`${r.status} ${url}`), { status: r.status })
   return html ? r.text() : r.json()
 }
+// Failed lookups that the callers below turn into null. A 404 is a normal miss (no such board or job); a throw or any
+// other status means the network or the API failed, and jobs_posting_liveness.mjs refuses to report "unknown" over it.
+export const netStats = { errors: 0 }
+const noteNetError = (e) => { if (e?.status !== 404) netStats.errors++ }
 async function latestHnStory() {
   const d = await getJSON(`https://hn.algolia.com/api/v1/search_by_date?${SPEC.hn.story_query}&hitsPerPage=5`)
   return (d.hits || []).find((h) => /who is hiring/i.test(h.title))?.objectID
@@ -171,7 +175,7 @@ export async function atsJD(r) {
     }
     if (src === "hn") { const d = await getJSON(`https://hn.algolia.com/api/v1/items/${rest}`); return text(d.text) }
     if (src === "yc") { const h = await getJSON(r.url, true); const t = text(h.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, "")); return t.length > 200 ? t : null }
-  } catch { return null }
+  } catch (e) { noteNetError(e); return null }
   return null
 }
 
@@ -212,7 +216,7 @@ async function boardRows(ats, slug) {
   const k = `${ats}:${slug}`
   if (!boardCache.has(k)) {
     let rows = null
-    try { const a = ADAPTERS[ats]; rows = a.normalize(await getJSON(a.url(slug)), slug) } catch { rows = null }
+    try { const a = ADAPTERS[ats]; rows = a.normalize(await getJSON(a.url(slug)), slug) } catch (e) { noteNetError(e); rows = null }
     boardCache.set(k, rows)
   }
   return boardCache.get(k)

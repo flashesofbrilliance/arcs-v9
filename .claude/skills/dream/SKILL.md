@@ -17,7 +17,13 @@ python3 scripts/dream_mine.py --days 7 --min-sessions 3      # transcripts, this
 python3 scripts/dream_mine.py --days 120 --min-sessions 5    # transcripts, long sleep
 python3 scripts/dream_mine.py --corpus --stale-days 45        # docs + project memory
 python3 scripts/orphanage.py --check                          # tools cited but stranded on branches
+python3 scripts/bash_guard_measure.py .claude/hooks/bash32-shape-guard.py --days 7   # guard vs real refusals
 ```
+
+The last line scores the bash 3.2 guard against the week's real Bash calls. When a bash 3.2 refusal
+cluster comes back, read its "missed" lines before calling it "already ruled": the first guard
+shipped on a guessed shape and caught 2 of 77 refusals (pass 15 ruling). Measure any new shape here
+before proposing it, and propose it only if it denies few calls that ran fine.
 
 With corpus mode, always run the orphanage check. A cited orphan with no row in
 `_QUEUE/orphanage.jsonl` gets `python3 scripts/orphanage.py --intake` and a recommended
