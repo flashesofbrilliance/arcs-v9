@@ -86,6 +86,21 @@ def foreign_lookup(sha: str, text: str) -> tuple[str, str] | None:
             return name, "FOUND" if rc == 0 else "ABSENT"
     return None
 ROOT_FILES = {"CLAUDE.md", "AGENTS.md", "WORLD.md", "MEMORY.md", "SKILL.md"}
+# A record may cite something on purpose that is NOT on main, and say so on the same line ("branch-only",
+# "a backup copy", "not merged"). Trusting that label would let a wrong one pass silently (an inlier), so the
+# label only downgrades FAIL to WARN when the cite really exists on some ref. Label without the thing = FAIL.
+OFF_MAIN_RE = re.compile(r"branch-only|off-main|not (?:yet )?(?:on|in) main|not (?:yet )?merged|never merged|unmerged"
+                         r"|on (?:the |a )?(?:\S+ )?branch\b|backup (?:copy|branch)", re.I)
+
+
+def declared_off_main(cite: str, text: str) -> bool:
+    return any(cite in line and OFF_MAIN_RE.search(line) for line in text.splitlines())
+
+
+def on_any_ref(cite: str, kind: str) -> str:
+    """Short sha of a commit on any ref that adds/holds the cite ('' if none). kind: path | script."""
+    spec = cite.rstrip("/") if kind == "path" else f":(glob)**/{cite}"
+    return sh("log", "--all", "-1", "--format=%h", "--", spec).strip()
 
 
 def sh(*args: str, stdin: str | None = None) -> str:
@@ -204,6 +219,8 @@ def gate(path: str, state: RefState, self_path: str | None = None) -> dict:
     for s, v in sorted(state.check_shas(shas).items()):
         if v == "OK":
             add("commit", s, "OK", f"ancestor of {state.ref}")
+        elif v == "UNMERGED" and declared_off_main(s, text):
+            add("commit", s, "WARN", f"declared off-main on its line; exists, not an ancestor of {state.ref}")
         elif v == "UNMERGED":
             add("commit", s, "FAIL", f"exists locally but is NOT an ancestor of {state.ref} (unmerged)")
         else:
@@ -227,6 +244,8 @@ def gate(path: str, state: RefState, self_path: str | None = None) -> dict:
             add("path", p, "OK", "on " + state.ref)
         elif p in ignored:
             add("path", p, "WARN", "gitignored — local-only by design, cannot be on main")
+        elif declared_off_main(p, text) and (where := on_any_ref(p, "path")):
+            add("path", p, "WARN", f"declared off-main on its line; found at {where}, not on {state.ref}")
         else:
             add("path", p, "FAIL", f"vapor: not on {state.ref}")
 
@@ -234,6 +253,8 @@ def gate(path: str, state: RefState, self_path: str | None = None) -> dict:
         hits = state.basenames.get(b)
         if hits or b in ROOT_FILES:
             add("script", b, "OK", ", ".join(sorted(hits)[:3]) if hits else "root")
+        elif declared_off_main(b, text) and (where := on_any_ref(b, "script")):
+            add("script", b, "WARN", f"declared off-main on its line; found at {where}, not on {state.ref}")
         else:
             add("script", b, "FAIL", f"vapor: no file named {b} anywhere on {state.ref}")
 

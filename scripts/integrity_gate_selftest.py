@@ -86,6 +86,28 @@ def main() -> int:
         head = subprocess.run(["git", "rev-parse", "--short=10", "HEAD"], cwd=root, capture_output=True, text=True).stdout.strip()
         v = verdicts(state, f"commit {head} and deadbeef1")
         check("SHA: merged commit OK, unknown not OK", v.get(head) == "OK" and v.get("deadbeef1") != "OK")
+        # declared off-main (2026-11-17, night-moves 11-16 false positive): a line that labels its cite as
+        # branch-only downgrades FAIL to WARN only when the cite really exists on some ref
+        run = lambda *a: subprocess.run(["git", *a], cwd=root, check=True, capture_output=True, text=True).stdout
+        main_ref = run("rev-parse", "--abbrev-ref", "HEAD").strip()
+        run("checkout", "-q", "-b", "side")
+        (root / "scripts").mkdir(exist_ok=True)
+        (root / "scripts/side_tool.py").write_text("x")
+        run("add", "-A")
+        run("-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "side")
+        side = run("rev-parse", "--short=10", "HEAD").strip()
+        run("checkout", "-q", main_ref)
+        state = ig.RefState(main_ref, set())
+        v = verdicts(state, "- `scripts/side_tool.py`: new, not yet catalogued (branch-only, side)")
+        check("labelled branch-only + exists on a branch -> WARN", v.get("scripts/side_tool.py") == "WARN")
+        v = verdicts(state, f"- side commit {side}, unmerged on the side branch")
+        check("labelled unmerged commit -> WARN", v.get(side) == "WARN")
+        v = verdicts(state, "- `scripts/side_tool.py`: the tool that does it")
+        check("same cite WITHOUT the label still FAILS", v.get("scripts/side_tool.py") == "FAIL")
+        v = verdicts(state, f"- landed in {side}")
+        check("unmerged commit WITHOUT the label still FAILS", v.get(side) == "FAIL")
+        v = verdicts(state, "- `scripts/ghost_tool.py` (branch-only)")
+        check("label on a cite that exists nowhere still FAILS", v.get("scripts/ghost_tool.py") == "FAIL")
     print("PASS" if not fails else f"FAILED: {fails}")
     return 1 if fails else 0
 
