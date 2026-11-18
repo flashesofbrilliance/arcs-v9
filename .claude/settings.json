@@ -320,6 +320,28 @@
             "command": "file=$(python3 -c \"import sys,json; print(json.load(sys.stdin).get('tool_input',{}).get('file_path',''))\" 2>/dev/null); if [[ \"$file\" == *schema.prisma ]]; then echo \"[prisma] Schema changed: run npm run db:migrate (named migration); db:push is dev-only\"; fi"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/commit-push-chain-nudge.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/commit-push-chain-nudge.py\"",
+            "timeout": 5
+          }
+        ]
       }
     ],
     "PreToolUse": [
