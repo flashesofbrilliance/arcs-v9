@@ -4,8 +4,11 @@
 # git-excluded folder, so the scheduled night-moves run can upload them to the claude.ai Project
 # "Getting Organized" (docs arcs-v9/*.md, replacing the 2026-10-23 copies). Zach, 2026-11-17: the Project should have the same
 # fresh intel as Claude Code. Read-only on the repo: it never checks out, commits or edits a tracked file.
+# STATE-BUNDLE.md (Zach, 2026-11-17) is one paste-ready file for harnesses with no repo access (a Perplexity
+# Space): the live handoff, open loops, approvals and the top of the backlog. _STATE/snapshot.json is left
+# out on purpose (it was a month stale); live git and deploy numbers come from app.arcs.care/api/pulse.
 #
-#   scripts/project_mirror.sh            write the five files, print their sizes
+#   scripts/project_mirror.sh            write the files, print their sizes
 #   scripts/project_mirror.sh --self-test  build into a temp dir and check every file is non-empty
 set -uo pipefail
 REPO="${ARCS_REPO:-/Users/zharris/arcs-v9}"
@@ -38,8 +41,32 @@ SINCE=$(date -v-2d +%F 2>/dev/null || date -d '2 days ago' +%F)
   echo "## Last 15 commits on main"
   git -C "$REPO" log -15 --format='- `%h` %s (%cs)' origin/main
 } > "$OUT/REPO-PULSE.md"
+MAIN_AT=$(git -C "$REPO" rev-parse --short HEAD)
+BL="$(mktemp)"; git -C "$REPO" show origin/main:_QUEUE/induced-backlog.jsonl > "$BL"
+{
+  hdr
+  echo "# ARCS state bundle"
+  echo
+  echo "For a harness with no repo access: paste under the audit prompt, or add to a Perplexity Space. Live git and deploy numbers come from https://app.arcs.care/api/pulse, not from this file."
+  [ "$MAIN_AT" = "$HEAD" ] || echo "Caution: the main checkout is at \`$MAIN_AT\`, not origin/main, so the open-loops section may lag."
+  echo
+  echo "## Handoff"
+  git -C "$REPO" show origin/main:CLAUDE.md | sed -n '/^# Handoff/,$p'
+  echo
+  echo "## Open loops"
+  python3 "$REPO/scripts/open_loops.py" 2>&1 || echo "- not checked (open_loops.py failed)"
+  echo
+  echo "## Approvals"
+  python3 "$REPO/scripts/approvals_ledger.py" 2>&1 || echo "- not checked (approvals_ledger.py failed)"
+  echo
+  echo "## Backlog top 10"
+  python3 "$REPO/scripts/backlog_graph.py" --file "$BL" --top 10 2>&1 || echo "- not checked (backlog_graph.py failed)"
+  echo
+  sed -n '/^## Open PRs/,$p' "$OUT/REPO-PULSE.md"
+} > "$OUT/STATE-BUNDLE.md"
+rm -f "$BL"
 if [ "${1:-}" = "--self-test" ]; then
-  bad=0; for f in CLAUDE.md AGENTS.md WORLD.md DESIGN.md PRODUCT.md SKILL.md MEMORY.md NIGHT-MOVES-latest.md REPO-PULSE.md; do [ -s "$OUT/$f" ] || { echo "empty: $f"; bad=1; }; done
+  bad=0; for f in CLAUDE.md AGENTS.md WORLD.md DESIGN.md PRODUCT.md SKILL.md MEMORY.md NIGHT-MOVES-latest.md REPO-PULSE.md STATE-BUNDLE.md; do [ -s "$OUT/$f" ] || { echo "empty: $f"; bad=1; }; done
   rm -rf "$OUT"; [ $bad = 0 ] && echo "project_mirror self-test: ok"; exit $bad
 fi
-for f in CLAUDE.md AGENTS.md WORLD.md DESIGN.md PRODUCT.md SKILL.md MEMORY.md NIGHT-MOVES-latest.md REPO-PULSE.md; do printf '%7d %s\n' "$(wc -c < "$OUT/$f")" "$OUT/$f"; done
+for f in CLAUDE.md AGENTS.md WORLD.md DESIGN.md PRODUCT.md SKILL.md MEMORY.md NIGHT-MOVES-latest.md REPO-PULSE.md STATE-BUNDLE.md; do printf '%7d %s\n' "$(wc -c < "$OUT/$f")" "$OUT/$f"; done
