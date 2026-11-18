@@ -247,6 +247,66 @@ footer p{font:400 .8rem/1.5 var(--mono); color:var(--muted); max-width:none;}
   </div>
 </section>
 
+<section aria-labelledby="prims">
+  <h2 id="prims">Primitives and state, mapped to our evals</h2>
+  <p>TypeSafe's API has four question types. Choice picks one of your options, Score places the input on your ordered levels, Noul asks a yes or no question, and Box locates something in an image. Every answer comes only from the options or levels you declared, which is our pre-registration rule enforced by the API. State is the content being judged, sent whole with each request as a string, a named-field object, an array or images; the docs describe no session, cache or reuse between requests.</p>
+  <div class="map" role="table" aria-label="ARCS eval to TypeSafe primitive">
+    <div class="row head" role="row"><div role="columnheader">Our eval</div><div role="columnheader">Primitive and why</div><div role="columnheader">Fit</div></div>
+
+    <div class="row" role="row">
+      <div role="cell"><h3>Slop rubric rows</h3><span class="src">scripts/slop_eval.py, 0 to 2 per row</span></div>
+      <div role="cell"><p>Score, one question per row. The rows are independent, so one request carries them all, and the probability spread replaces a single scale number.</p></div>
+      <div role="cell"><span class="pill same">fits</span></div>
+    </div>
+
+    <div class="row" role="row">
+      <div role="cell"><h3>Claim class</h3><span class="src">MODELED, JUDGMENT or ASSUMED</span></div>
+      <div role="cell"><p>Choice, plus a companion Noul asking whether any class fits. TypeSafe's docs say a companion Noul beats an "other" option.</p></div>
+      <div role="cell"><span class="pill same">fits</span></div>
+    </div>
+
+    <div class="row" role="row">
+      <div role="cell"><h3>Claim against its source</h3><span class="src">scripts/teardown_eval.py, scripts/claim_check.py</span></div>
+      <div role="cell"><p>Noul: does this excerpt support this claim? It fills the gap teardown_eval names in its own header, that true hallucination checks need a semantic judge.</p></div>
+      <div role="cell"><span class="pill same">fits</span></div>
+    </div>
+
+    <div class="row" role="row">
+      <div role="cell"><h3>0 to 5 anchors</h3><span class="src">NCI lenses, grade cards</span></div>
+      <div role="cell"><p>Score with our anchor wording as the levels. Thresholds are fixed on a labeled sample before use, since confidence has no published calibration.</p></div>
+      <div role="cell"><span class="pill same">fits</span></div>
+    </div>
+
+    <div class="row" role="row">
+      <div role="cell"><h3>Blocker typing, operator routing</h3><span class="src">keyword rules today</span></div>
+      <div role="cell"><p>Choice. Test with the options reversed, because the documented bias favors the first option.</p></div>
+      <div role="cell"><span class="pill near">test first</span></div>
+    </div>
+
+    <div class="row" role="row">
+      <div role="cell"><h3>Y-gate state</h3><span class="src">src/lib/ygate.ts</span></div>
+      <div role="cell"><p>None. The gate is arithmetic over the manifold, so it stays in code.</p></div>
+      <div role="cell"><span class="pill split">stays in code</span></div>
+    </div>
+
+    <div class="row" role="row">
+      <div role="cell"><h3>Layout edges</h3><span class="src">scripts/card_gutter_check.mjs</span></div>
+      <div role="cell"><p>None. Measuring the DOM is exact; Box would guess positions from a screenshot.</p></div>
+      <div role="cell"><span class="pill split">stays in code</span></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p>Score and Choice return a probability spread and a confidence value. That is the missing input for earned fidelity: a spread-out judgment renders at GRAIN and a confident one at SHARP, measured rather than self-reported. Noul returns no confidence, so a value near 0.5 means the model cannot tell, never a middle grade.</p>
+    <p>The state model divides the work cleanly. TypeSafe holds no conversation, so lineage and receipt history stay in ARCS: they judge, we remember. Holding nothing between requests is still not retention, though. The customer agreement governs what they keep, so state is exactly the text that leaves the machine, and C1 to C9 apply to every field of it, images included.</p>
+    <p>Their advice to keep related facts together pulls against C4. The answer is the smallest state that still allows the comparison: for a claim check, the claim and the cited excerpt, never the whole post and source. One more catch: slop_eval grades pages before they ship, and unshipped text is not public, so it stays on a local judge until it is published.</p>
+  </div>
+
+  <div class="ledger">
+    <div class="c"><span class="id">P1</span><div><h3>A state projector makes the carve-outs mechanical</h3><p>One function builds every TypeSafe state: it takes an allowlist of named fields, refuses any field not on it, swaps counterpart names for pseudonyms, and rejects text not tagged as already public. It is the same projection idea as recoil_brief.py --audience external, and it turns the D4 send rule from prose into a check that blocks. Filed as backlog row typesafe-state-projector.</p><span class="src">_QUEUE/induced-backlog.jsonl · fit proposal D4</span></div></div>
+  </div>
+</section>
+
 <section aria-labelledby="how">
   <h2 id="how">Before, during and after</h2>
   <div class="how">
