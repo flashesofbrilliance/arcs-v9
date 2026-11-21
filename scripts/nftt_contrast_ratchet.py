@@ -22,7 +22,8 @@ Usage:
   python3 scripts/nftt_contrast_ratchet.py <file.html> [...]     # exit 1 if any file EXCEEDS its baseline
   python3 scripts/nftt_contrast_ratchet.py --update-baseline     # re-snapshot all blog-nftt-*.html counts
   python3 scripts/nftt_contrast_ratchet.py --self-test           # fail-on-bad + pass-on-good
-Detector launcher: $IMPECCABLE or ~/.claude/skills/impeccable/scripts/impeccable; SKIPS (exit 0) if absent
+Detector launcher: $IMPECCABLE, else the repo's .claude/skills/impeccable/scripts/impeccable, else
+~/.claude/skills/impeccable/scripts/impeccable; SKIPS (exit 0) if absent
 (so machines without it stay committable, mirroring the kintsugi pre-commit block).
 """
 import os, sys, json, glob, subprocess
@@ -31,7 +32,9 @@ import os, sys, json, glob, subprocess
 # abspath(__file__) keeps the link while os.getcwd() resolves it, and the baseline key would miss.
 ROOT = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 BASELINE = os.path.join(ROOT, "_STATE", "nftt-contrast-baseline.json")
-IMP = os.environ.get("IMPECCABLE") or os.path.expanduser("~/.claude/skills/impeccable/scripts/impeccable")
+IMP = os.environ.get("IMPECCABLE") or next((p for p in (os.path.join(ROOT, ".claude/skills/impeccable/scripts/impeccable"),
+    os.path.expanduser("~/.claude/skills/impeccable/scripts/impeccable")) if os.access(p, os.X_OK)),
+    os.path.expanduser("~/.claude/skills/impeccable/scripts/impeccable"))
 
 def detector_available():
     return os.path.isfile(IMP) and os.access(IMP, os.X_OK)

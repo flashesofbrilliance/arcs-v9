@@ -20,9 +20,9 @@ python3 scripts/artifact_wrap_lint.py <f>      # one px --measure, full-width le
 python3 scripts/token_source_gate.py <f>       # _tokens.css inlined verbatim
 python3 scripts/motion_policy_gate.py <f>      # DESIGN.md motion and safety tokens
 node scripts/card_gutter_check.mjs <f>         # card edges, lane edges at 360/790/1280
-impeccable detect <f>                          # anti-patterns; prints nothing when clean
+.claude/skills/impeccable/scripts/impeccable detect <f>   # anti-patterns; prints nothing when clean
 ```
-`impeccable` may not be on PATH: use `npx --no-install impeccable` or the cached bin under `~/.npm/_npx/*/node_modules/.bin/impeccable`. Never install it. If a gate cannot run, say so under UNVERIFIED; a gate that did not run is not a pass.
+Use the repo's project install above (Impeccable 4.10, same version as the pinned dev dependency; it honors `.impeccable/config.json` waivers). If it is missing, use `node_modules/.bin/impeccable`. Never install it, and never use a user-level `~/.claude/skills/impeccable` copy, which may be a different version. If a gate cannot run, say so under UNVERIFIED; a gate that did not run is not a pass.
 
 Em-dash count in rendered text (outside the verbatim token block) must be 0:
 `python3 - <f>` stripping `<style>`/`<script>` and counting `—`.

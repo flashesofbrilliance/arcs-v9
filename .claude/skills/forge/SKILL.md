@@ -80,7 +80,7 @@ The generator runs the gates inline and **refuses to write on any FAIL**. It enf
 
 Then run the real detector + a browser look (screenshots are not enough — verify the render):
 ```bash
-node ~/.claude/skills/impeccable/scripts/detect.mjs public/<name>-receipt.html   # want: 0 anti-patterns
+.claude/skills/impeccable/scripts/impeccable detect public/<name>-receipt.html   # want: 0 anti-patterns
 python3 scripts/forge_counterpart.py --verify-only --file public/<name>-receipt.html
 ```
 The automated gates are the **FLOOR, not the ceiling.** They pass artifacts that still carry

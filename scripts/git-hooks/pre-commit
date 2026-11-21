@@ -903,7 +903,10 @@ fi
 # any finding (contrast, eyebrow, glow, ch caps, ...). MODIFIED pages whose HEAD version already
 # carried findings only WARN (ratchet). Machines without the launcher skip cleanly; the seam is
 # caught on the next machine that has it. Ledger: _PATTERNS/kintsugi-visual-grammar-seams.md
-IMP="$HOME/.claude/skills/impeccable/scripts/impeccable"
+# Prefer the repo's own project install (.claude/skills/impeccable, same version as the pinned
+# dev dependency); fall back to a user-level install for older checkouts.
+IMP="$(git rev-parse --show-toplevel)/.claude/skills/impeccable/scripts/impeccable"
+[ -x "$IMP" ] || IMP="$HOME/.claude/skills/impeccable/scripts/impeccable"
 if [ -x "$IMP" ] && command -v python3 >/dev/null 2>&1; then
   pages=$(git diff --cached --name-only --diff-filter=ACM -- '_ARTIFACTS/*.html' 'public/*.html' 'src/ui-kit/**/*.html' 2>/dev/null || true)
   if [ -n "$pages" ]; then
