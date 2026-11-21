@@ -35,7 +35,8 @@ ROOT = Path(__file__).resolve().parent.parent
 CATALOG = ROOT / "runtime" / "specs" / "surface-catalog.json"
 BASELINE = ROOT / "runtime" / "specs" / "design-debt-baseline.json"
 # The repo's own dev dependency first (impeccable, pinned in package.json), then the skill launcher.
-LAUNCHER = next((p for p in (ROOT / "node_modules/.bin/impeccable", Path.home() / ".claude/skills/impeccable/scripts/impeccable") if p.exists()),
+LAUNCHER = next((p for p in (ROOT / "node_modules/.bin/impeccable", ROOT / ".claude/skills/impeccable/scripts/impeccable",
+                            Path.home() / ".claude/skills/impeccable/scripts/impeccable") if p.exists()),
                 ROOT / "node_modules/.bin/impeccable")
 # Raised 2026-10-04 (DESIGN.md text-dimmed / text-muted): the old values fail WCAG AA on #020408.
 RETIRED = {"#64748b": "#8391a7", "#475569": "#7a8699"}

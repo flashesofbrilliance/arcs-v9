@@ -2,7 +2,7 @@
  "version": "0.1.0",
  "goal": "every served page clean except reasoned exemptions",
  "totals": {
-  "detector": 1910,
+  "detector": 1918,
   "emdash": 0,
   "wrap": 0,
   "tokens": 4,
@@ -1058,10 +1058,11 @@
    "retired_color": 0
   },
   "public/prl-status-atlas.html": {
-   "detector": 9,
+   "detector": 10,
    "rules": {
     "cramped-padding": 1,
     "design-system-font": 1,
+    "kicker-above-heading": 1,
     "wide-tracking": 7
    },
    "emdash": 0,
@@ -1071,10 +1072,11 @@
    "retired_color": 0
   },
   "public/prl-status-build.html": {
-   "detector": 2,
+   "detector": 3,
    "rules": {
     "cramped-padding": 1,
-    "design-system-font": 1
+    "design-system-font": 1,
+    "kicker-above-heading": 1
    },
    "emdash": 0,
    "wrap": 0,
@@ -1097,10 +1099,11 @@
    "retired_color": 0
   },
   "public/prl-status-crm.html": {
-   "detector": 5,
+   "detector": 6,
    "rules": {
     "cramped-padding": 3,
     "design-system-font": 1,
+    "kicker-above-heading": 1,
     "skipped-heading": 1
    },
    "emdash": 0,
@@ -1150,10 +1153,11 @@
    "retired_color": 0
   },
   "public/prl-status-tidio.html": {
-   "detector": 2,
+   "detector": 3,
    "rules": {
     "cramped-padding": 1,
-    "design-system-font": 1
+    "design-system-font": 1,
+    "kicker-above-heading": 1
    },
    "emdash": 0,
    "wrap": 0,
@@ -1162,10 +1166,11 @@
    "retired_color": 0
   },
   "public/prl-status-troubleshooting.html": {
-   "detector": 3,
+   "detector": 4,
    "rules": {
     "cramped-padding": 1,
     "design-system-font": 1,
+    "kicker-above-heading": 1,
     "skipped-heading": 1
    },
    "emdash": 0,
@@ -1661,10 +1666,11 @@
    "retired_color": 0
   },
   "public/todd-teardown.html": {
-   "detector": 13,
+   "detector": 15,
    "rules": {
     "all-caps-body": 6,
     "cramped-padding": 2,
+    "kicker-above-heading": 2,
     "tiny-text": 5
    },
    "emdash": 0,
@@ -1772,10 +1778,11 @@
    "retired_color": 0
   },
   "public/yuri.html": {
-   "detector": 10,
+   "detector": 11,
    "rules": {
     "all-caps-body": 1,
     "design-system-font": 3,
+    "kicker-above-heading": 1,
     "pulsing-dot": 1,
     "tiny-text": 2,
     "wide-tracking": 3
