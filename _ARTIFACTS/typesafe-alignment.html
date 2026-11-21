@@ -307,6 +307,17 @@ footer p{font:400 .8rem/1.5 var(--mono); color:var(--muted); max-width:none;}
   </div>
 </section>
 
+<section aria-labelledby="first-fit">
+  <h2 id="first-fit">First fit: the Repo Receipts Check</h2>
+  <p>good.arcs.care/audit/check scores how many recent commits explain themselves, and every score is a judgment about meaning approximated with a rule. A subject counts as specific if it has 15 characters and is not on a short list of words like "fix". A body counts as a reason if it has 20 characters. A link counts if the message contains a #123 or a ticket pattern. The page admits the gap itself: a good message is not proof the work happened as described.</p>
+  <div class="ledger">
+    <div class="c"><span class="id">S2</span><div><h3>Replace the length rules with typed judgments</h3><p>A Noul asks whether the body gives a reason or only restates the change. A second Noul asks whether the subject describes the diff, with the subject and a small diffstat as state, which closes the gap the page names. A Score grades the explanation on four levels, from no reason to a reason with a tradeoff, and a Choice labels agent or human when no trailer is present. All of it runs on public repos only, so C1 holds, and a 30-commit sample costs a fraction of a cent. Filed as backlog row typesafe-audit-check-tier.</p><span class="src">public/good-audit-check.html grade() · _QUEUE/induced-backlog.jsonl</span></div></div>
+  </div>
+  <div class="callout">
+    <p>Two costs come with it. The page calls GitHub straight from the browser today, so a TypeSafe call needs a small server route that holds the key and rate limits visitors. And the page promises that nothing is stored and the request goes from the browser straight to GitHub. That sentence stops being true, so it is rewritten in the same change, because the trust contract treats a claim that does not match the code as a defect.</p>
+  </div>
+</section>
+
 <section aria-labelledby="how">
   <h2 id="how">Before, during and after</h2>
   <div class="how">
