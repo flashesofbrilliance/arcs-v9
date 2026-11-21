@@ -1,6 +1,11 @@
 #!/bin/bash
 # ADR-039 deploy cost guardrail, versioned (was an un-versioned dashboard field that
 # regressed twice — see cost-leaks-ruin-vector-no-silent-toggle-regression memory).
+# Wired as vercel.json services.web.ignoreCommand, but as of 2026-11-21 Vercel does NOT run it: every build log
+# shows the project's dashboard "Ignored Build Step" (an old git diff with 9 excludes) instead. A top-level
+# ignoreCommand is rejected when `services` is used. Until the dashboard field is set to
+# `bash scripts/vercel-ignore-build.sh` (or cleared, if Vercel then falls back to the service field), this
+# script is the intended rule, not the live one.
 # Vercel semantics: exit 0 = skip build, exit 1 = run build. Default is BUILD (fail safe).
 # Test without git: `bash scripts/vercel-ignore-build.sh --paths <file> [<file>...]`.
 set -euo pipefail
@@ -32,6 +37,9 @@ SAFE_PATTERN='^(CLAUDE\.md|MEMORY\.md|AGENTS\.md|WORLD\.md|README\.md|\.gitignor
 # is added by hand because the concordance route reads a file that is not traced there.
 RUNTIME_GLOBS=$(grep -oE '"\./_ARTIFACTS/[^"]+"' next.config.ts 2>/dev/null | tr -d '"' | sed -e 's#^\./##' || true)
 RUNTIME_PATTERN='^_ARTIFACTS/atlas/'
+# scripts/ is otherwise safe, but the build itself runs scripts/vercel-migrate-deploy.sh (vercel.json
+# buildCommand) and this file is the ignore step, so a change to either must build (2026-11-21).
+RUNTIME_PATTERN="$RUNTIME_PATTERN|^scripts/vercel-"
 # while-read, not `for g in $RUNTIME_GLOBS`: an unquoted glob like forge-*/** expands
 # against the checkout and turned into a pattern too large for grep (2026-11-02).
 while IFS= read -r g; do
