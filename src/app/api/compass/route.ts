@@ -602,10 +602,11 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       scheduledAt.setUTCHours(14, 0, 0, 0)
       // Resend's scheduledAt supports a maximum of 30 days out. Beyond that,
       // the send call fails outright - silently, if not logged. Found via a
-      // real audit: 14 of 74 eligible receipts had reminderDate >30 days out,
-      // every one of which would have failed this way with zero visibility.
-      // No cron-based long-horizon scheduler exists yet (see arcs-session-state.md);
-      // for now just make the gap loud instead of silent.
+      // real audit: 14 of 74 eligible receipts had reminderDate >30 days out.
+      // Those are not lost: debriefSentAt stays null and the daily cron
+      // (api/cron/debrief, vercel.json 14:00 UTC) sends them once the
+      // reminderDate is inside the 30-day window. So this is a deferral, logged
+      // as info, not an error (it was read as a dropped email, 2026-11-20).
       const RESEND_MAX_SCHEDULE_DAYS = 30
       const daysOut = (scheduledAt.getTime() - Date.now()) / 86400000
       // Progressive disclosure: the first debrief a user ever gets is sent
@@ -620,7 +621,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       const eligible = isFirstDebrief || debriefUser?.debriefOptIn === true
 
       if (daysOut > RESEND_MAX_SCHEDULE_DAYS) {
-        console.error(`[EMAIL] debrief for receipt ${receipt.id} is ${Math.round(daysOut)} days out - exceeds Resend's ${RESEND_MAX_SCHEDULE_DAYS}-day scheduling limit, not attempting (would fail silently otherwise)`)
+        console.log(`[EMAIL] debrief for receipt ${receipt.id} is ${Math.round(daysOut)} days out - past Resend's ${RESEND_MAX_SCHEDULE_DAYS}-day scheduling limit, deferred to the daily debrief cron${eligible ? "" : " (user not opted in to repeat reminders, so the cron will skip it too)"}`)
       } else if (!eligible) {
         if (process.env.NODE_ENV !== "production") {
           console.log(`[EMAIL] debrief for receipt ${receipt.id} skipped - user has not opted in to repeat reminders`)
