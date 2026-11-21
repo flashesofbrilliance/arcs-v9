@@ -1,6 +1,8 @@
 #!/bin/bash
 # ADR-039 deploy cost guardrail, versioned (was an un-versioned dashboard field that
 # regressed twice — see cost-leaks-ruin-vector-no-silent-toggle-regression memory).
+# Wired as the TOP-LEVEL vercel.json ignoreCommand (2026-11-21). Under services.web it was never run:
+# Vercel kept running the old dashboard git-diff command, so docs-only commits outside its 9 excludes built.
 # Vercel semantics: exit 0 = skip build, exit 1 = run build. Default is BUILD (fail safe).
 # Test without git: `bash scripts/vercel-ignore-build.sh --paths <file> [<file>...]`.
 set -euo pipefail
@@ -32,6 +34,9 @@ SAFE_PATTERN='^(CLAUDE\.md|MEMORY\.md|AGENTS\.md|WORLD\.md|README\.md|\.gitignor
 # is added by hand because the concordance route reads a file that is not traced there.
 RUNTIME_GLOBS=$(grep -oE '"\./_ARTIFACTS/[^"]+"' next.config.ts 2>/dev/null | tr -d '"' | sed -e 's#^\./##' || true)
 RUNTIME_PATTERN='^_ARTIFACTS/atlas/'
+# scripts/ is otherwise safe, but the build itself runs scripts/vercel-migrate-deploy.sh (vercel.json
+# buildCommand) and this file is the ignore step, so a change to either must build (2026-11-21).
+RUNTIME_PATTERN="$RUNTIME_PATTERN|^scripts/vercel-"
 # while-read, not `for g in $RUNTIME_GLOBS`: an unquoted glob like forge-*/** expands
 # against the checkout and turned into a pattern too large for grep (2026-11-02).
 while IFS= read -r g; do
