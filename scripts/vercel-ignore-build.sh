@@ -1,8 +1,11 @@
 #!/bin/bash
 # ADR-039 deploy cost guardrail, versioned (was an un-versioned dashboard field that
 # regressed twice — see cost-leaks-ruin-vector-no-silent-toggle-regression memory).
-# Wired as the TOP-LEVEL vercel.json ignoreCommand (2026-11-21). Under services.web it was never run:
-# Vercel kept running the old dashboard git-diff command, so docs-only commits outside its 9 excludes built.
+# Wired as vercel.json services.web.ignoreCommand, but as of 2026-11-21 Vercel does NOT run it: every build log
+# shows the project's dashboard "Ignored Build Step" (an old git diff with 9 excludes) instead. A top-level
+# ignoreCommand is rejected when `services` is used. Until the dashboard field is set to
+# `bash scripts/vercel-ignore-build.sh` (or cleared, if Vercel then falls back to the service field), this
+# script is the intended rule, not the live one.
 # Vercel semantics: exit 0 = skip build, exit 1 = run build. Default is BUILD (fail safe).
 # Test without git: `bash scripts/vercel-ignore-build.sh --paths <file> [<file>...]`.
 set -euo pipefail
